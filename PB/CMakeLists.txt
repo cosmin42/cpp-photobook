@@ -36,9 +36,12 @@ add_subdirectory(third-party/googletest)
 add_subdirectory(common-components)
 add_subdirectory(third-party/exiv2)
 
-add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp)
+include_directories(${CMAKE_BINARY_DIR})
+
+add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp tests/TestExiv2.cpp)
 
 target_include_directories(pbtests PRIVATE include)
 target_include_directories(pbtests PRIVATE common-components/include)
+target_include_directories(pbtests PRIVATE third-party/exiv2/include)
 
-target_link_libraries(pbtests gtest gtest_main common-components)
+target_link_libraries(pbtests gtest gtest_main common-components exiv2lib)
