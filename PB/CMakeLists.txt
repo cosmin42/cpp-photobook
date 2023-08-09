@@ -35,9 +35,9 @@ set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 add_subdirectory(third-party/googletest)
 add_subdirectory(common-components)
 
-add_executable(PBTests tests/testLogLevel.cpp)
+add_executable(pbtests tests/testLogLevel.cpp)
 
-target_include_directories(PBTests PRIVATE include)
-target_include_directories(PBTests PRIVATE common-components/include)
+target_include_directories(pbtests PRIVATE include)
+target_include_directories(pbtests PRIVATE common-components/include)
 
-target_link_libraries(PBTests gtest gtest_main common-components)
+target_link_libraries(pbtests gtest gtest_main common-components)
