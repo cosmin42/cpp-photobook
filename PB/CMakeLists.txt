@@ -34,6 +34,7 @@ set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(third-party/googletest)
 add_subdirectory(common-components)
+add_subdirectory(third-party/exiv2)
 
 add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp)
 
