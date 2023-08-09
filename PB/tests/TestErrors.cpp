@@ -5,5 +5,5 @@
 using namespace PB;
 
 TEST(TestErrors, TestError) {
-    PB::Error()<<"Test description"<<PB::ErrorKind::Unknown;
+  PB::Error() << "Test description" << PB::ErrorKind::Unknown;
 }
