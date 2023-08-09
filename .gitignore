@@ -1,5 +1,6 @@
 build/*
 PB/build/*
+PB/common-components/build/*
 PB/include/config.h
 .vscode/*
 .commit-check.yml
