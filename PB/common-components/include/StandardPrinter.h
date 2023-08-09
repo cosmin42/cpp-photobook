@@ -6,8 +6,8 @@ namespace CC {
 
 class StandardPrinter final : public PB::Printer {
 public:
-  SpecificPrinter() = default;
-  ~SpecificPrinter() = default;
+  StandardPrinter() = default;
+  ~StandardPrinter() = default;
 
   void printDebug(const char *format, ...) override {
     va_list arglist;
