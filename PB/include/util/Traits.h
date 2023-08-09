@@ -1,9 +1,7 @@
 #pragma once
 
-namespace PB
-{
+namespace PB {
 
-template <typename T>
-struct PBValue;
+template <typename T> struct PBValue;
 
 }

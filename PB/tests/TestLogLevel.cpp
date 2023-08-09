@@ -1,4 +1,3 @@
 #include <gtest/gtest.h>
 
-TEST(TestLogLevel, TestLogLevel) {
-}
+TEST(TestLogLevel, TestLogLevel) {}
