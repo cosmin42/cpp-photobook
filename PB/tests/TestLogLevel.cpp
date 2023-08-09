@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <PBLog.h>
+#include <StandardPrinter.h>
 
 using namespace PB;
 
@@ -9,4 +10,8 @@ TEST(TestLogLevel, TestLogLevel) {
   ASSERT_EQ(PBValue<LogLevel>::Members<LogLevel::Warning>::name, "Warning");
 }
 
-TEST(TestLogLevel, TestPrinter) {}
+TEST(TestLogLevel, TestPrinter) {
+    CC::StandardPrinter standardPrinter;
+
+    standardPrinter.printDebug("Something\n");
+}
