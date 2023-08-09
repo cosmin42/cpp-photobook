@@ -2,9 +2,13 @@
 
 #include <string_view>
 
+#include <LogLevel.h>
+
 namespace PB
 {
-
-constexpr std::string_view sLogLevel = LogLevel::@LOG_LEVEL@;
+struct PBGlobals
+{
+    static constexpr std::string_view sLogLevel = LogLevel::@LOG_LEVEL@;
+};
 
 }
