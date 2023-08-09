@@ -1,5 +1,7 @@
 #pragma once
 
+#include <config.h>
+
 #include <LogLevel.h>
 
 namespace PB {
@@ -12,7 +14,7 @@ public:
   virtual void printError(const char *format, ...) = 0;
 
 protected:
-  constexpr LogLevel mLevel = LogLevel::None;
+  constexpr LogLevel mLevel = PBGlobals::sLogLevel;
 };
 
 } // namespace PB
