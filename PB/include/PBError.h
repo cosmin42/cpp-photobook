@@ -13,9 +13,13 @@ public:
 
   auto description() const -> std::string { return mDescription; }
 
-  auto operator<<(ErrorKind &kind) -> Error { mErrorKind = kind; }
+  auto operator<<(ErrorKind kind) -> Error {
+    mErrorKind = kind;
+    return *this;
+  }
   auto operator<<(std::string description) -> Error {
     mDescription = description;
+    return *this;
   }
 
 private:
