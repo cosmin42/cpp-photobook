@@ -14,7 +14,7 @@ public:
   virtual void printError(const char *format, ...) = 0;
 
 protected:
-  constexpr LogLevel mLevel = PBGlobals::sLogLevel;
+  static constexpr LogLevel mLevel = PBGlobals::sLogLevel;
 };
 
 } // namespace PB

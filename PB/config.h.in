@@ -6,7 +6,7 @@
 
 namespace PB {
 struct PBGlobals {
-  static constexpr std::string_view sLogLevel = LogLevel::@LOG_LEVEL @;
+  static constexpr PB::LogLevel sLogLevel = LogLevel::@LOG_LEVEL@;
 };
 
 } // namespace PB
