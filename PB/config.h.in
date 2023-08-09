@@ -4,11 +4,9 @@
 
 #include <LogLevel.h>
 
-namespace PB
-{
-struct PBGlobals
-{
-    static constexpr std::string_view sLogLevel = LogLevel::@LOG_LEVEL@;
+namespace PB {
+struct PBGlobals {
+  static constexpr std::string_view sLogLevel = LogLevel::@LOG_LEVEL @;
 };
 
-}
+} // namespace PB
