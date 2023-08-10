@@ -4,7 +4,7 @@
 
 namespace PB {
 
-class Error final {
+class [[nodiscard]] Error final {
 public:
   Error() = default;
   ~Error() = default;
