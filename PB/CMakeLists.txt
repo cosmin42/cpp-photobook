@@ -27,8 +27,13 @@ project(pblib)
 
 add_library(pblib SHARED
     include/PBLog.h
+    include/NodeData.h
     include/util/Traits.h
+
+    src/NodeData.cpp
 )
+
+target_include_directories(pblib PRIVATE include)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
