@@ -9,15 +9,17 @@ public:
   Error() = default;
   ~Error() = default;
 
-  auto kind() const -> ErrorKind { return mErrorKind; }
+  [[nodiscard]] auto kind() const noexcept -> ErrorKind { return mErrorKind; }
 
-  auto description() const -> std::string { return mDescription; }
+  [[nodiscard]] auto description() const noexcept -> std::string {
+    return mDescription;
+  }
 
-  auto operator<<(ErrorKind kind) -> Error {
+  auto operator<<(ErrorKind kind) noexcept -> Error {
     mErrorKind = kind;
     return *this;
   }
-  auto operator<<(std::string description) -> Error {
+  auto operator<<(std::string description) noexcept -> Error {
     mDescription = description;
     return *this;
   }
