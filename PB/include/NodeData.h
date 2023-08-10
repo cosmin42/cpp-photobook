@@ -13,14 +13,14 @@ public:
 
   ~NodeData() = default;
 
-  [[nodiscard]] auto name() const noexcept -> std::string;
-  [[nodiscard]] auto path() const noexcept -> std::filesystem::path;
+  [[nodiscard]] auto name() const -> std::string;
+  [[nodiscard]] auto path() const -> std::filesystem::path;
 
-  void setName(std::string &newName) noexcept;
-  void setName(std::string &&newName) noexcept;
+  void setName(std::string &newName);
+  void setName(std::string &&newName);
 
-  void setPath(std::filesystem::path &newPath) noexcept;
-  void setPath(std::filesystem::path &&newPath) noexcept;
+  void setPath(std::filesystem::path &newPath);
+  void setPath(std::filesystem::path &&newPath);
 
 private:
   std::string mName;
