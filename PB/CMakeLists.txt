@@ -5,7 +5,14 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 option(STATIC_CHECK "Statically check the program." OFF)
 option(LOG_LEVEL "Log level." OFF)
+option(PRINTER_TYPE "The printer type." OFF)
 
+# The default printer
+if (NOT PRINTER_TYPE)
+    set(PRINTER_TYPE StandardPrinter)
+endif()
+
+# The default log level
 if (NOT LOG_LEVEL)
     set(LOG_LEVEL None)
 endif()
