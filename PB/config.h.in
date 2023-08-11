@@ -3,5 +3,5 @@
 #include <common/LogLevel.h>
 
 namespace PB {
-  static constexpr PB::LogLevel sLogLevel = LogLevel::@LOG_LEVEL@;
+  constexpr PB::LogLevel sLogLevel = LogLevel::@LOG_LEVEL@;
 } // namespace PB
