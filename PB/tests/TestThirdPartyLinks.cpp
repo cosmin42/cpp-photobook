@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <exiv2/exiv2.hpp>
 #include <boost/uuid/uuid.hpp>
+#include <exiv2/exiv2.hpp>
 
 TEST(TestThirdPartyLinks, TestIncludeExiv2) {}
 

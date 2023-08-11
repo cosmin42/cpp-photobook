@@ -4,13 +4,8 @@
 
 #include <util/Traits.h>
 
-namespace PB
-{
-enum class ErrorKind
-{
-    Unknown,
-    FileNotFound
-};
+namespace PB {
+enum class ErrorKind { Unknown, FileNotFound };
 
 template <> struct PBValue<ErrorKind> {
   static constexpr std::string_view name = "ErrorKind";
@@ -25,4 +20,4 @@ template <> struct PBValue<ErrorKind> {
     static constexpr std::string_view name = "FileNotFound";
   };
 };
-}
+} // namespace PB

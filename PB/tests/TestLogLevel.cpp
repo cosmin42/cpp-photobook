@@ -5,13 +5,15 @@
 
 using namespace PB;
 
-TEST(TestLogLevel, TestLogLevel) {
+TEST(TestLogLevel, TestLogLevel)
+{
   ASSERT_EQ(PBValue<LogLevel>::name, "LogLevel");
   ASSERT_EQ(PBValue<LogLevel>::Members<LogLevel::Warning>::name, "Warning");
 }
 
-TEST(TestLogLevel, TestPrinter) {
-    CC::StandardPrinter standardPrinter;
+TEST(TestLogLevel, TestPrinter)
+{
+  CC::StandardPrinter standardPrinter;
 
-    standardPrinter.printDebug("Something\n");
+  standardPrinter.printDebug("Something\n");
 }

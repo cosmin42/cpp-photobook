@@ -1,3 +1,4 @@
 #include <DataTree.h>
 
-namespace PB {}
+namespace PB {
+}

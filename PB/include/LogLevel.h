@@ -34,4 +34,4 @@ template <> struct PBValue<LogLevel> {
   };
 };
 
-}
+} // namespace PB

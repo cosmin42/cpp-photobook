@@ -3,9 +3,13 @@
 namespace PB {
 
 FilesMap::FilesMap(const std::string &rootDirectory)
-    : mRootDirectory{rootDirectory} {}
+    : mRootDirectory{rootDirectory}
+{
+}
 
 FilesMap::FilesMap(const std::string &&rootDirectory)
-    : mRootDirectory{rootDirectory} {}
+    : mRootDirectory{rootDirectory}
+{
+}
 
 } // namespace PB
