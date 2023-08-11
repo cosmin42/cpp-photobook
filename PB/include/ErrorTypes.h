@@ -7,7 +7,7 @@
 namespace PB {
 enum class ErrorKind { Unknown, FileNotFound };
 
-template <> struct PBValue<ErrorKind> {
+template <> struct Value<ErrorKind> {
   static constexpr std::string_view name = "ErrorKind";
 
   template <ErrorKind E> struct Members;

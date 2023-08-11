@@ -8,7 +8,7 @@ namespace PB {
 
 enum class LogLevel { None, Debug, Info, Warning, Error };
 
-template <> struct PBValue<LogLevel> {
+template <> struct Value<LogLevel> {
   static constexpr std::string_view name = "LogLevel";
 
   template <LogLevel L> struct Members;

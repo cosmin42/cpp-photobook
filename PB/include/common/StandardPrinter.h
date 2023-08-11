@@ -18,7 +18,7 @@ public:
     va_start(arglist, format);
     printf(
         "[%s] ",
-        PB::PBValue<PB::LogLevel>::Members<PB::LogLevel::Debug>::name.data());
+        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Debug>::name.data());
     printf(format, arglist);
     va_end(arglist);
   }
@@ -30,7 +30,7 @@ public:
     va_list arglist;
     va_start(arglist, format);
     printf("[%s] ",
-           PB::PBValue<PB::LogLevel>::Members<PB::LogLevel::Info>::name.data());
+           PB::Value<PB::LogLevel>::Members<PB::LogLevel::Info>::name.data());
     printf(format, arglist);
     va_end(arglist);
   }
@@ -44,7 +44,7 @@ public:
     va_start(arglist, format);
     printf(
         "[%s] ",
-        PB::PBValue<PB::LogLevel>::Members<PB::LogLevel::Warning>::name.data());
+        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Warning>::name.data());
     printf(format, arglist);
     va_end(arglist);
   }
@@ -57,7 +57,7 @@ public:
     va_start(arglist, format);
     printf(
         "[%s] ",
-        PB::PBValue<PB::LogLevel>::Members<PB::LogLevel::Error>::name.data());
+        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Error>::name.data());
     printf(format, arglist);
     va_end(arglist);
   }
