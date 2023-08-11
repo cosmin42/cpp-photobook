@@ -13,6 +13,12 @@ public:
 
   explicit NodeData(std::string name, std::filesystem::path path);
 
+  NodeData(const NodeData &nodeData);
+  NodeData(const NodeData &&nodeData);
+
+  NodeData& operator=(const NodeData &nodeData);
+  NodeData& operator=(const NodeData &&nodeData);
+
   ~NodeData() = default;
 
   [[nodiscard]] auto name() const -> std::string;
