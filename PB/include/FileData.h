@@ -24,6 +24,8 @@ public:
   [[nodiscard]] auto name() const -> std::string;
   [[nodiscard]] auto path() const -> std::filesystem::path;
 
+  [[nodiscard]] auto id() const -> boost::uuids::uuid;
+
   void setName(std::string &newName);
   void setName(std::string &&newName);
 

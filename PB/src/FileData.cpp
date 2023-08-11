@@ -41,6 +41,11 @@ FileData &FileData::operator=(const FileData &&fileData)
   return mPath;
 }
 
+[[nodiscard]] auto FileData::id() const -> boost::uuids::uuid
+{
+  return mUUID;
+}
+
 void FileData::setName(std::string &newName) { mName = newName; }
 
 void FileData::setName(std::string &&newName) { mName = newName; }
