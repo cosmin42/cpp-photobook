@@ -11,6 +11,10 @@ public:
 
   void printDebug(const char *format, ...) const override
   {
+    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Debug)
+    {
+      return;
+    }
     va_list arglist;
     va_start(arglist, format);
     printf(
@@ -21,6 +25,10 @@ public:
   }
   void printInfo(const char *format, ...) const override
   {
+    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Info)
+    {
+      return;
+    }
     va_list arglist;
     va_start(arglist, format);
     printf("[%s] ",
@@ -30,6 +38,10 @@ public:
   }
   void printWarning(const char *format, ...) const override
   {
+    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Warning)
+    {
+      return;
+    }
     va_list arglist;
     va_start(arglist, format);
     printf(
@@ -40,6 +52,10 @@ public:
   }
   void printError(const char *format, ...) const override
   {
+    if constexpr (sLogLevel == LogLevel::None)
+    {
+      return;
+    }
     va_list arglist;
     va_start(arglist, format);
     printf(
