@@ -1,12 +1,7 @@
 #pragma once
 
-#include <string_view>
-
-#include <LogLevel.h>
+#include <common/LogLevel.h>
 
 namespace PB {
-struct PBGlobals {
   static constexpr PB::LogLevel sLogLevel = LogLevel::@LOG_LEVEL@;
-};
-
 } // namespace PB

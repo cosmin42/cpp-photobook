@@ -1,0 +1,8 @@
+#pragma once
+
+#include <common/@PRINTER_TYPE@.h>
+
+namsepace PB 
+{ 
+static const PB::Printer sPrinter = PB::@PRINTER_TYPE @();
+}
