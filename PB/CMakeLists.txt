@@ -28,6 +28,7 @@ project(pblib)
 add_library(pblib SHARED
     include/Config.h
     include/DataTree.h
+    include/Error.h
     include/FileMapper.h
     include/PBLog.h
     include/MetadataReader.h

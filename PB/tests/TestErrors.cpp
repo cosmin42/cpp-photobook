@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <PBError.h>
+#include <Error.h>
 
 using namespace PB;
 
