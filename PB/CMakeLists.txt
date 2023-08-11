@@ -13,7 +13,7 @@ endif()
 set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
 
 if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
-    configure_file(config.h.in ../include/config.h)
+    configure_file(Config.h.in ../include/Config.h)
 else()
     message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${LOG_LEVEL_STRING_LIST}" )
 endif()
@@ -26,6 +26,7 @@ endif()
 project(pblib)
 
 add_library(pblib SHARED
+    include/Config.h
     include/DataTree.h
     include/FileMapper.h
     include/PBLog.h
