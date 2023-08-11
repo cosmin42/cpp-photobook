@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <Log.h>
-#include <StandardPrinter.h>
+#include <common/Log.h>
+#include <common/StandardPrinter.h>
 
 using namespace PB;
 
@@ -13,7 +13,7 @@ TEST(TestLogLevel, TestLogLevel)
 
 TEST(TestLogLevel, TestPrinter)
 {
-  CC::StandardPrinter standardPrinter;
+  PB::StandardPrinter standardPrinter;
 
   standardPrinter.printDebug("Something\n");
 }
