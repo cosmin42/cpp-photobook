@@ -1,15 +1,16 @@
 #pragma once
 
-#include <Config.h>
+#include <common/Log.h>
 
 namespace PB {
 
-class StandardPrinter final : public PB::Log {
+class StandardPrinter final : public Log {
 public:
   StandardPrinter() = default;
   ~StandardPrinter() = default;
 
-  void printDebug(const char *format, ...) override {
+  void printDebug(const char *format, ...) const override
+  {
     va_list arglist;
     va_start(arglist, format);
     printf(
@@ -18,7 +19,8 @@ public:
     printf(format, arglist);
     va_end(arglist);
   }
-  void printInfo(const char *format, ...) override {
+  void printInfo(const char *format, ...) const override
+  {
     va_list arglist;
     va_start(arglist, format);
     printf("[%s] ",
@@ -26,7 +28,8 @@ public:
     printf(format, arglist);
     va_end(arglist);
   }
-  void printWarning(const char *format, ...) override {
+  void printWarning(const char *format, ...) const override
+  {
     va_list arglist;
     va_start(arglist, format);
     printf(
@@ -35,7 +38,8 @@ public:
     printf(format, arglist);
     va_end(arglist);
   }
-  void printError(const char *format, ...) override {
+  void printError(const char *format, ...) const override
+  {
     va_list arglist;
     va_start(arglist, format);
     printf(
@@ -44,8 +48,9 @@ public:
     printf(format, arglist);
     va_end(arglist);
   }
+
 private:
   static constexpr LogLevel mLevel = sLogLevel;
 };
 
-} // namespace CC
+} // namespace PB
