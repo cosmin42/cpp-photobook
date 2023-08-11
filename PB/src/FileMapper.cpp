@@ -69,7 +69,7 @@ FilesMap::wrap(const std::filesystem::path &path)
     FolderData folderData{path.filename().string(), path};
     return {folderData.id(), DataNode{folderData, std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
   }
-  printInfo("Skipping %s, not a directory or a file.",
+  printInfo("Skipping %s, not a directory or a file.\n",
             path.filename().string().c_str());
   return {boost::uuids::uuid(), std::nullopt};
 }

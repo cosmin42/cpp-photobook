@@ -14,3 +14,11 @@ TEST(TestFilesMap, TestConstructor)
 
   ASSERT_EQ(output, "[Debug] FilesMap ctr \x10\n");
 }
+
+
+TEST(TestFilesMap, TestSimpleCollection)
+{
+  FilesMap fileMapper("../../tests-data/Collecction");
+
+  fileMapper.map();
+}
