@@ -9,8 +9,9 @@
 
 namespace PB {
 typedef std::variant<FileData, FolderData> EitherFolderOrFile;
+
 struct DataNode {
-  EitherFolderOrFile                               data;
-  std::map<boost::uuids::uuid, EitherFolderOrFile> children;
+  EitherFolderOrFile                                      data;
+  std::map<boost::uuids::uuid, std::shared_ptr<DataNode>> children;
 };
 } // namespace PB
