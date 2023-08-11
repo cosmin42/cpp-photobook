@@ -54,5 +54,7 @@ add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp tests/TestThi
 target_include_directories(pbtests PRIVATE include)
 target_include_directories(pbtests PRIVATE common-components/include)
 target_include_directories(pbtests PRIVATE third-party/exiv2/include)
+target_include_directories(pbtests PRIVATE third-party/boost-extract)
+target_include_directories(pbtests PRIVATE third-party/boost-extract/libs/uuid/include)
 
 target_link_libraries(pbtests gtest gtest_main common-components exiv2lib)
