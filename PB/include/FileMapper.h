@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <DataTree.h>
+
 namespace PB {
 
 class FilesMap final {
@@ -11,6 +13,8 @@ public:
   explicit FilesMap(const std::string &&rootDirectory);
 
   ~FilesMap() = default;
+
+  auto map() const -> TreeNodeDataWrapper;
 
 private:
   const std::string mRootDirectory;

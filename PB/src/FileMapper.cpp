@@ -12,4 +12,9 @@ FilesMap::FilesMap(const std::string &&rootDirectory)
 {
 }
 
+auto FilesMap::map() const -> TreeNodeDataWrapper
+{
+    return TreeNodeDataWrapper();
+}
+
 } // namespace PB
