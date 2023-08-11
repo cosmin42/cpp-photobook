@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <PBLog.h>
+#include <Log.h>
 #include <StandardPrinter.h>
 
 using namespace PB;

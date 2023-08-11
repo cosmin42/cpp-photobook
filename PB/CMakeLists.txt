@@ -30,7 +30,7 @@ add_library(pblib SHARED
     include/DataTree.h
     include/Error.h
     include/FileMapper.h
-    include/PBLog.h
+    include/Log.h
     include/MetadataReader.h
     include/NodeData.h
     include/util/Traits.h
