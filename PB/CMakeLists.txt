@@ -50,14 +50,14 @@ add_library(pblib SHARED
     src/MetadataReader.cpp
 )
 
-target_include_directories(pblib PRIVATE include)
-target_include_directories(pblib PRIVATE third-party/boost-extract)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/uuid/include)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/detail/include)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/random/include)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/integer/include)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/tti/include)
-target_include_directories(pblib PRIVATE third-party/boost-extract/libs/function_types/include)
+target_include_directories(pblib PRIVATE include
+    third-party/boost-extract
+    third-party/boost-extract/libs/uuid/include
+    third-party/boost-extract/libs/detail/include
+    third-party/boost-extract/libs/random/include
+    third-party/boost-extract/libs/integer/include
+    third-party/boost-extract/libs/tti/include
+    third-party/boost-extract/libs/function_types/include)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -66,11 +66,19 @@ add_subdirectory(third-party/exiv2)
 
 include_directories(${CMAKE_BINARY_DIR})
 
-add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp tests/TestThirdPartyLinks.cpp)
+add_executable(pbtests tests/testLogLevel.cpp
+    tests/TestErrors.cpp
+    tests/TestThirdPartyLinks.cpp
+    tests/TestFilesMap.cpp)
 
-target_include_directories(pbtests PRIVATE include)
-target_include_directories(pbtests PRIVATE third-party/exiv2/include)
-target_include_directories(pbtests PRIVATE third-party/boost-extract)
-target_include_directories(pbtests PRIVATE third-party/boost-extract/libs/uuid/include)
+target_include_directories(pbtests PRIVATE include
+    third-party/exiv2/include
+    third-party/boost-extract
+    third-party/boost-extract/libs/uuid/include
+    third-party/boost-extract/libs/detail/include
+    third-party/boost-extract/libs/random/include
+    third-party/boost-extract/libs/integer/include
+    third-party/boost-extract/libs/tti/include
+    third-party/boost-extract/libs/function_types/include)
 
-target_link_libraries(pbtests gtest gtest_main exiv2lib)
+target_link_libraries(pbtests pblib gtest gtest_main exiv2lib)
