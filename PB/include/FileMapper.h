@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <DataTree.h>
+#include <DataNode.h>
 
 namespace PB {
 
@@ -14,7 +14,7 @@ public:
 
   ~FilesMap() = default;
 
-  auto map() const -> TreeNodeDataWrapper;
+  auto map() const -> EitherFolderOrFile;
 
 private:
   const std::string mRootDirectory;

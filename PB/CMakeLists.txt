@@ -27,18 +27,19 @@ project(pblib)
 
 add_library(pblib SHARED
     include/Config.h
-    include/DataTree.h
+    include/DataNode.h
     include/Error.h
     include/FileMapper.h
     include/Log.h
     include/MetadataReader.h
-    include/NodeData.h
+    include/FileData.h
+    include/FolderData.h
     include/util/Traits.h
 
-    src/DataTree.cpp
     src/FileMapper.cpp
+    src/FileData.cpp
+    src/FolderData.cpp
     src/MetadataReader.cpp
-    src/NodeData.cpp
 )
 
 target_include_directories(pblib PRIVATE include)

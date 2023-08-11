@@ -7,19 +7,19 @@
 
 namespace PB {
 
-class NodeData final {
+class FolderData final {
 public:
-  NodeData() = default;
+  FolderData() = default;
 
-  explicit NodeData(std::string name, std::filesystem::path path);
+  explicit FolderData(std::string name, std::filesystem::path path);
 
-  NodeData(const NodeData &nodeData);
-  NodeData(const NodeData &&nodeData);
+  FolderData(const FolderData &folderData);
+  FolderData(const FolderData &&folderData);
 
-  NodeData& operator=(const NodeData &nodeData);
-  NodeData& operator=(const NodeData &&nodeData);
+  FolderData& operator=(const FolderData &folderData);
+  FolderData& operator=(const FolderData &&folderData);
 
-  ~NodeData() = default;
+  ~FolderData() = default;
 
   [[nodiscard]] auto name() const -> std::string;
   [[nodiscard]] auto path() const -> std::filesystem::path;
