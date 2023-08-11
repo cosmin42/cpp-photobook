@@ -16,21 +16,21 @@ void printInfo(const char *format, ...)
 {
   va_list arglist;
   va_start(arglist, format);
-  sPrinter.printDebug(format, arglist);
+  sPrinter.printInfo(format, arglist);
   va_end(arglist);
 }
 void printWarning(const char *format, ...)
 {
   va_list arglist;
   va_start(arglist, format);
-  sPrinter.printDebug(format, arglist);
+  sPrinter.printWarning(format, arglist);
   va_end(arglist);
 }
 void printError(const char *format, ...)
 {
   va_list arglist;
   va_start(arglist, format);
-  sPrinter.printDebug(format, arglist);
+  sPrinter.printError(format, arglist);
   va_end(arglist);
 }
 
