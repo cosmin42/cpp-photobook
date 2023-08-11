@@ -3,7 +3,7 @@
 #include <common/@PRINTER_TYPE@.h>
 
 namespace PB {
-const @PRINTER_TYPE @sPrinter = PB::@PRINTER_TYPE @();
+const @PRINTER_TYPE@ sPrinter = PB::@PRINTER_TYPE@();
 
 void printDebug(const char *format, ...)
 {
