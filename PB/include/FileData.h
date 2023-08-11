@@ -2,6 +2,7 @@
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <filesystem>
 #include <string>
 
@@ -16,8 +17,8 @@ public:
   FileData(const FileData &fileData);
   FileData(const FileData &&fileData);
 
-  FileData& operator=(const FileData &fileData);
-  FileData& operator=(const FileData &&fileData);
+  FileData &operator=(const FileData &fileData);
+  FileData &operator=(const FileData &&fileData);
 
   ~FileData() = default;
 
@@ -31,6 +32,14 @@ public:
 
   void setPath(std::filesystem::path &newPath);
   void setPath(std::filesystem::path &&newPath);
+
+  operator std::string() const
+  {
+    std::string str =
+        "File: " + mPath.string() + "(" + boost::uuids::to_string(mUUID) + ")";
+
+    return str;
+  }
 
 private:
   boost::uuids::uuid    mUUID;

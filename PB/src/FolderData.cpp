@@ -43,7 +43,7 @@ FolderData &FolderData::operator=(const FolderData &&folderData)
 
 [[nodiscard]] auto FolderData::id() const -> boost::uuids::uuid
 {
-    return mUUID;
+  return mUUID;
 }
 
 void FolderData::setName(std::string &newName) { mName = newName; }

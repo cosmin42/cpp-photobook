@@ -2,6 +2,7 @@
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 #include <filesystem>
 #include <string>
 
@@ -16,14 +17,14 @@ public:
   FolderData(const FolderData &folderData);
   FolderData(const FolderData &&folderData);
 
-  FolderData& operator=(const FolderData &folderData);
-  FolderData& operator=(const FolderData &&folderData);
+  FolderData &operator=(const FolderData &folderData);
+  FolderData &operator=(const FolderData &&folderData);
 
   ~FolderData() = default;
 
   [[nodiscard]] auto name() const -> std::string;
   [[nodiscard]] auto path() const -> std::filesystem::path;
-  
+
   [[nodiscard]] auto id() const -> boost::uuids::uuid;
 
   void setName(std::string &newName);
@@ -31,6 +32,14 @@ public:
 
   void setPath(std::filesystem::path &newPath);
   void setPath(std::filesystem::path &&newPath);
+
+  operator std::string() const
+  {
+    std::string str = "Folder: " + mPath.string() + "(" +
+                      boost::uuids::to_string(mUUID) + ")";
+
+    return str;
+  }
 
 private:
   boost::uuids::uuid    mUUID;
