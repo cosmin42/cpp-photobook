@@ -14,10 +14,12 @@ public:
 
   ~FilesMap() = default;
 
-  auto map() const -> EitherFolderOrFile;
+  auto map() const -> std::shared_ptr<DataNode>;
 
 private:
   const std::string mRootDirectory;
+
+  static std::optional<EitherFolderOrFile> wrap(const std::filesystem::path& path);
 };
 
 } // namespace PB
