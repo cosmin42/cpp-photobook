@@ -3,7 +3,7 @@
 namespace PB {
 
 NodeData::NodeData(std::string name, std::filesystem::path path)
-    : mName{std::move(name)}, mPath{std::move(path)} {}
+    : mUUID{boost::uuids::random_generator()()}, mName{std::move(name)}, mPath{std::move(path)} {}
 
 [[nodiscard]] auto NodeData::name() const -> std::string {
   return mName;

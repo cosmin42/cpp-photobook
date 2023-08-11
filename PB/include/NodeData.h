@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <string>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 namespace PB {
 
@@ -23,6 +25,7 @@ public:
   void setPath(std::filesystem::path &&newPath);
 
 private:
+  boost::uuids::uuid mUUID;
   std::string mName;
   std::filesystem::path mPath;
 };
