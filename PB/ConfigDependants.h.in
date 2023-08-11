@@ -2,7 +2,36 @@
 
 #include <common/@PRINTER_TYPE@.h>
 
-namsepace PB 
-{ 
-static const PB::Printer sPrinter = PB::@PRINTER_TYPE @();
+namespace PB {
+const @PRINTER_TYPE @sPrinter = PB::@PRINTER_TYPE @();
+
+void printDebug(const char *format, ...)
+{
+  va_list arglist;
+  va_start(arglist, format);
+  sPrinter.printDebug(format, arglist);
+  va_end(arglist);
 }
+void printInfo(const char *format, ...)
+{
+  va_list arglist;
+  va_start(arglist, format);
+  sPrinter.printDebug(format, arglist);
+  va_end(arglist);
+}
+void printWarning(const char *format, ...)
+{
+  va_list arglist;
+  va_start(arglist, format);
+  sPrinter.printDebug(format, arglist);
+  va_end(arglist);
+}
+void printError(const char *format, ...)
+{
+  va_list arglist;
+  va_start(arglist, format);
+  sPrinter.printDebug(format, arglist);
+  va_end(arglist);
+}
+
+} // namespace PB
