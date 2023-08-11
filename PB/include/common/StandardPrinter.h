@@ -11,8 +11,7 @@ public:
 
   void printDebug(const char *format, ...) const override
   {
-    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Debug)
-    {
+    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Debug) {
       return;
     }
     va_list arglist;
@@ -25,8 +24,7 @@ public:
   }
   void printInfo(const char *format, ...) const override
   {
-    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Info)
-    {
+    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Info) {
       return;
     }
     va_list arglist;
@@ -38,8 +36,8 @@ public:
   }
   void printWarning(const char *format, ...) const override
   {
-    if constexpr (sLogLevel == LogLevel::None || sLogLevel > LogLevel::Warning)
-    {
+    if constexpr (sLogLevel == LogLevel::None ||
+                  sLogLevel > LogLevel::Warning) {
       return;
     }
     va_list arglist;
@@ -52,8 +50,7 @@ public:
   }
   void printError(const char *format, ...) const override
   {
-    if constexpr (sLogLevel == LogLevel::None)
-    {
+    if constexpr (sLogLevel == LogLevel::None) {
       return;
     }
     va_list arglist;
