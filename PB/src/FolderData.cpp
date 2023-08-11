@@ -41,6 +41,11 @@ FolderData &FolderData::operator=(const FolderData &&folderData)
   return mPath;
 }
 
+[[nodiscard]] auto FolderData::id() const -> boost::uuids::uuid
+{
+    return mUUID;
+}
+
 void FolderData::setName(std::string &newName) { mName = newName; }
 
 void FolderData::setName(std::string &&newName) { mName = newName; }
