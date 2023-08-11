@@ -19,7 +19,8 @@ public:
 private:
   const std::string mRootDirectory;
 
-  static std::optional<EitherFolderOrFile> wrap(const std::filesystem::path& path);
+  static std::pair<boost::uuids::uuid, std::optional<DataNode>>
+  wrap(const std::filesystem::path &path);
 };
 
 } // namespace PB

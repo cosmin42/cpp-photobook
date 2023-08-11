@@ -22,31 +22,56 @@ FilesMap::FilesMap(const std::string &&rootDirectory)
 auto FilesMap::map() const -> std::shared_ptr<DataNode>
 {
   std::filesystem::path     rootPath(mRootDirectory);
-  std::shared_ptr<DataNode> rootNode = std::make_shared<DataNode>();
 
-  auto data = wrap(rootPath);
+  auto [dataId, data] = wrap(rootPath);
 
   if (!data) {
     return nullptr;
   }
 
+  std::shared_ptr<DataNode> rootNode = std::make_shared<DataNode>(data.value()); 
 
+  std::queue<std::shared_ptr<DataNode>> nodesQueue;
+  nodesQueue.push(rootNode);
 
-  return nullptr;
+  while (!nodesQueue.empty()) {
+    auto currentNode = nodesQueue.front();
+    nodesQueue.pop();
+
+    std::visit(
+        overloaded{
+            [](FileData &) {},
+            [&nodesQueue, currentNode{currentNode}](FolderData &folderData) {
+              for (const auto &entry :
+                   std::filesystem::directory_iterator(folderData.path())) {
+                auto [dataId, data] = wrap(entry);
+                if (data) {
+                  auto     dataRef = std::make_shared<DataNode>(data.value());
+                  currentNode->children[dataId] = dataRef;
+                  nodesQueue.push(dataRef);
+                }
+              }
+            }},
+        currentNode->data);
+  }
+
+  return rootNode;
 }
 
-std::optional<EitherFolderOrFile>
+std::pair<boost::uuids::uuid, std::optional<DataNode>>
 FilesMap::wrap(const std::filesystem::path &path)
 {
   if (std::filesystem::is_regular_file(path)) {
-    return FileData{path.filename().string(), path};
+    FileData fileData{path.filename().string(), path};
+    return {fileData.id(), DataNode{fileData, std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
   }
   else if (std::filesystem::is_directory(path)) {
-    return FolderData{path.filename().string(), path};
+    FolderData folderData{path.filename().string(), path};
+    return {folderData.id(), DataNode{folderData, std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
   }
   printInfo("Skipping %s, not a directory or a file.",
             path.filename().string().c_str());
-  return std::nullopt;
+  return {boost::uuids::uuid(), std::nullopt};
 }
 
 } // namespace PB
