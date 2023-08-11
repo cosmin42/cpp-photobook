@@ -26,12 +26,14 @@ endif()
 project(pblib)
 
 add_library(pblib SHARED
+    include/DataTree.h
     include/FileMapper.h
     include/PBLog.h
     include/MetadataReader.h
     include/NodeData.h
     include/util/Traits.h
 
+    src/DataTree.cpp
     src/FileMapper.cpp
     src/MetadataReader.cpp
     src/NodeData.cpp
