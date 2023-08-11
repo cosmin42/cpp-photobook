@@ -49,7 +49,7 @@ add_subdirectory(third-party/exiv2)
 
 include_directories(${CMAKE_BINARY_DIR})
 
-add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp tests/TestExiv2.cpp)
+add_executable(pbtests tests/testLogLevel.cpp tests/TestErrors.cpp tests/TestThirdPartyLinks.cpp)
 
 target_include_directories(pbtests PRIVATE include)
 target_include_directories(pbtests PRIVATE common-components/include)
