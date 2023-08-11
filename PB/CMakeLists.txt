@@ -27,9 +27,11 @@ project(pblib)
 
 add_library(pblib SHARED
     include/PBLog.h
+    include/MetadataReader.h
     include/NodeData.h
     include/util/Traits.h
 
+    src/MetadataReader.cpp
     src/NodeData.cpp
 )
 
