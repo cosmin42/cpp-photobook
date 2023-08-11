@@ -1,20 +1,16 @@
 #pragma once
 
-#include <Config.h>
-
-#include <LogLevel.h>
+#include <common/LogLevel.h>
 
 namespace PB {
 
-class Printer {
+class Log {
 public:
   virtual void printDebug(const char *format, ...) = 0;
   virtual void printInfo(const char *format, ...) = 0;
   virtual void printWarning(const char *format, ...) = 0;
   virtual void printError(const char *format, ...) = 0;
 
-protected:
-  static constexpr LogLevel mLevel = PBGlobals::sLogLevel;
 };
 
 } // namespace PB

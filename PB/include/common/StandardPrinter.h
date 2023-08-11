@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Log.h>
+#include <Config.h>
 
-namespace CC {
+namespace PB {
 
-class StandardPrinter final : public PB::Printer {
+class StandardPrinter final : public PB::Log {
 public:
   StandardPrinter() = default;
   ~StandardPrinter() = default;
@@ -44,6 +44,8 @@ public:
     printf(format, arglist);
     va_end(arglist);
   }
+private:
+  static constexpr LogLevel mLevel = sLogLevel;
 };
 
 } // namespace CC
