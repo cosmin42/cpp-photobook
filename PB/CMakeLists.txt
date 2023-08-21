@@ -36,6 +36,7 @@ project(pblib)
 add_library(pblib SHARED
     include/common/Log.h
     ${CMAKE_BINARY_DIR}/include/Config.h
+    ${CMAKE_BINARY_DIR}/include/ConfigDependants.h
     include/DataNode.h
     include/Error.h
     include/FileMapper.h
