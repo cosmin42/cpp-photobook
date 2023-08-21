@@ -51,7 +51,7 @@ jobs:
       run: git submodule update --init --recursive
 
     - name: Install inih
-      run: sudo apt-get install -y libinih1
+      run: sudo apt-get install -y libinih1 libinih-dev
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
