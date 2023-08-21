@@ -58,7 +58,8 @@ target_include_directories(pblib PRIVATE include
     third-party/boost-extract/libs/random/include
     third-party/boost-extract/libs/integer/include
     third-party/boost-extract/libs/tti/include
-    third-party/boost-extract/libs/function_types/include)
+    third-party/boost-extract/libs/function_types/include
+    ${CMAKE_BINARY_DIR}/include)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
