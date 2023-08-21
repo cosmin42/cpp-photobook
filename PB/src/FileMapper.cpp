@@ -1,6 +1,5 @@
 #include <FileMapper.h>
 
-#include <optional>
 #include <queue>
 
 #include <ConfigDependants.h>
