@@ -5,33 +5,9 @@
 namespace PB {
 const @PRINTER_TYPE@ sPrinter = PB::@PRINTER_TYPE@();
 
-void printDebug(const char *format, ...)
-{
-  va_list arglist;
-  va_start(arglist, format);
-  sPrinter.printDebug(format, arglist);
-  va_end(arglist);
-}
-void printInfo(const char *format, ...)
-{
-  va_list arglist;
-  va_start(arglist, format);
-  sPrinter.printInfo(format, arglist);
-  va_end(arglist);
-}
-void printWarning(const char *format, ...)
-{
-  va_list arglist;
-  va_start(arglist, format);
-  sPrinter.printWarning(format, arglist);
-  va_end(arglist);
-}
-void printError(const char *format, ...)
-{
-  va_list arglist;
-  va_start(arglist, format);
-  sPrinter.printError(format, arglist);
-  va_end(arglist);
-}
+void printDebug(const char *format, ...);
+void printInfo(const char *format, ...);
+void printWarning(const char *format, ...);
+void printError(const char *format, ...);
 
 } // namespace PB

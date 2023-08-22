@@ -53,6 +53,7 @@ add_library(pblib STATIC
     include/FolderData.h
     include/util/Traits.h
 
+    src/ConfigDependants.cpp
     src/FileMapper.cpp
     src/FileData.cpp
     src/FolderData.cpp
