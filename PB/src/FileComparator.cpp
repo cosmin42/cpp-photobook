@@ -34,25 +34,52 @@ CustomComparator::extractPrefix(const std::string &input)
   }
 }
 
-std::array<std::string, CustomComparator::DAY_MONTH_YEAR_COUNT>
-CustomComparator::tokenizeDate(std::string const &blob)
+std::queue<std::string> CustomComparator::tokenizeDate(std::string const &blob)
 {
   auto tokensRanges = blob | std::views::split('.');
 
-  int                        count = 0;
-  std::array<std::string, 3> tokens;
+  int                     count = 0;
+  std::queue<std::string> tokensQueue;
 
   for (const auto &tokenRange : tokensRanges) {
     assert(count < DAY_MONTH_YEAR_COUNT);
-    tokens[count] = std::string(tokenRange.begin(), tokenRange.end());
+    tokensQueue.push(std::string(tokenRange.begin(), tokenRange.end()));
     count++;
   }
 
-  std::shift_right(tokens.begin(), tokens.end(), DAY_MONTH_YEAR_COUNT - count);
-  std::fill(tokens.begin(), tokens.begin() + (DAY_MONTH_YEAR_COUNT - count),
-            "");
+  return tokensQueue;
+}
 
-  return tokens;
+std::optional<std::chrono::year_month_day>
+CustomComparator::interpretTokens(std::queue<std::string> tokens)
+{
+  if (tokens.empty()) {
+    return std::nullopt;
+  }
+
+  std::chrono::day   day{0};
+  std::chrono::month month{0};
+  std::chrono::year  year{0};
+
+  auto &yearStr = tokens.front();
+  year = interpretToken<std::chrono::year>(yearStr);
+  tokens.pop();
+  if (tokens.empty()) {
+    std::chrono::year_month_day{year, month, day};
+  }
+
+  auto &monthStr = tokens.front();
+  month = interpretToken<std::chrono::month>(monthStr);
+  tokens.pop();
+  if (tokens.empty()) {
+    return std::chrono::year_month_day{year, month, day};
+  }
+
+  auto &dayStr = tokens.front();
+  day = interpretToken<std::chrono::day>(dayStr);
+  tokens.pop();
+
+  return std::chrono::year_month_day{year, month, day};
 }
 
 } // namespace PB
