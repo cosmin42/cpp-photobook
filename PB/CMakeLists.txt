@@ -55,7 +55,6 @@ add_library(pblib SHARED
 )
 
 target_include_directories(pblib PRIVATE include
-    third-party/magic_enum/include
     third-party/boost-extract
     third-party/boost-extract/libs/uuid/include
     third-party/boost-extract/libs/detail/include
@@ -63,6 +62,7 @@ target_include_directories(pblib PRIVATE include
     third-party/boost-extract/libs/integer/include
     third-party/boost-extract/libs/tti/include
     third-party/boost-extract/libs/function_types/include
+    third-party/magic_enum/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
@@ -70,7 +70,7 @@ set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 add_subdirectory(third-party/googletest)
 add_subdirectory(third-party/exiv2)
 
-include_directories(${${CMAKE_CURRENT_BINARY_DIR}})
+include_directories(${CMAKE_BINARY_DIR})
 
 if (LOG_LEVEL MATCHES Debug)
     add_executable(pbtests tests/testLogLevel.cpp
@@ -81,6 +81,7 @@ if (LOG_LEVEL MATCHES Debug)
     target_include_directories(pbtests PRIVATE include
         ${CMAKE_CURRENT_BINARY_DIR}/include
         third-party/exiv2/include
+        third-party/magic_enum/include
         third-party/boost-extract
         third-party/boost-extract/libs/uuid/include
         third-party/boost-extract/libs/detail/include

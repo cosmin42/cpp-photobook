@@ -2,6 +2,8 @@
 
 #include <common/Log.h>
 
+#include <magic_enum.hpp>
+
 namespace PB {
 
 class StandardPrinter final : public Log {
@@ -16,10 +18,11 @@ public:
     }
     va_list arglist;
     va_start(arglist, format);
-    printf(
-        "[%s] ",
-        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Debug>::name.data());
+
+    constexpr auto tag = magic_enum::enum_name(LogLevel::Debug);
+    printf("[%s] ", tag.data());
     printf(format, arglist);
+
     va_end(arglist);
   }
   void printInfo(const char *format, ...) const override
@@ -29,9 +32,11 @@ public:
     }
     va_list arglist;
     va_start(arglist, format);
-    printf("[%s] ",
-           PB::Value<PB::LogLevel>::Members<PB::LogLevel::Info>::name.data());
+
+    constexpr auto tag = magic_enum::enum_name(LogLevel::Info);
+    printf("[%s] ", tag.data());
     printf(format, arglist);
+
     va_end(arglist);
   }
   void printWarning(const char *format, ...) const override
@@ -42,10 +47,11 @@ public:
     }
     va_list arglist;
     va_start(arglist, format);
-    printf(
-        "[%s] ",
-        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Warning>::name.data());
+
+    constexpr auto tag = magic_enum::enum_name(LogLevel::Warning);
+    printf("[%s] ", tag.data());
     printf(format, arglist);
+
     va_end(arglist);
   }
   void printError(const char *format, ...) const override
@@ -55,10 +61,11 @@ public:
     }
     va_list arglist;
     va_start(arglist, format);
-    printf(
-        "[%s] ",
-        PB::Value<PB::LogLevel>::Members<PB::LogLevel::Error>::name.data());
+
+    constexpr auto tag = magic_enum::enum_name(LogLevel::Error);
+    printf("[%s] ", tag.data());
     printf(format, arglist);
+
     va_end(arglist);
   }
 
