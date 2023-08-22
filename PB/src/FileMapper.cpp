@@ -20,7 +20,7 @@ FilesMap::FilesMap(std::string &&rootDirectory)
 
 auto FilesMap::map() const -> std::shared_ptr<DataNode>
 {
-  assert(std::filesystem::exists(mRootDirectory), "The root folder is missing");
+  assert(std::filesystem::exists(mRootDirectory) && "The root folder is missing");
 
   std::filesystem::path     rootPath(mRootDirectory);
 
