@@ -6,3 +6,7 @@
 	path = PB/third-party/exiv2
 	url = https://github.com/Exiv2/exiv2.git
 	branch = v0.28.0
+[submodule "PB/third-party/magic_enum"]
+	path = PB/third-party/magic_enum
+	url = https://github.com/Neargye/magic_enum.git
+	branch = v0.9.3
