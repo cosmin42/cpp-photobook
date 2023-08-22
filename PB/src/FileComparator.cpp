@@ -1,7 +1,8 @@
 #include <FileComparator.h>
-
+#include <array>
 #include <cassert>
 #include <filesystem>
+#include <ranges>
 #include <regex>
 
 namespace PB {
@@ -19,7 +20,8 @@ CustomComparator::operator()(std::filesystem::path const &a,
   return std::strong_ordering::greater;
 }
 
-std::optional<std::string> CustomComparator::extractPrefix(const std::string &input)
+std::optional<std::string>
+CustomComparator::extractPrefix(const std::string &input)
 {
   std::regex  regexPattern(prefixRegex);
   std::smatch match;
@@ -30,6 +32,27 @@ std::optional<std::string> CustomComparator::extractPrefix(const std::string &in
   else {
     return std::nullopt;
   }
+}
+
+std::array<std::string, CustomComparator::DAY_MONTH_YEAR_COUNT>
+CustomComparator::tokenizeDate(std::string const &blob)
+{
+  auto tokensRanges = blob | std::views::split('.');
+
+  int                        count = 0;
+  std::array<std::string, 3> tokens;
+
+  for (const auto &tokenRange : tokensRanges) {
+    assert(count < DAY_MONTH_YEAR_COUNT);
+    tokens[count] = std::string(tokenRange.begin(), tokenRange.end());
+    count++;
+  }
+
+  std::shift_right(tokens.begin(), tokens.end(), DAY_MONTH_YEAR_COUNT - count);
+  std::fill(tokens.begin(), tokens.begin() + (DAY_MONTH_YEAR_COUNT - count),
+            "");
+
+  return tokens;
 }
 
 } // namespace PB
