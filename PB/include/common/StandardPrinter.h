@@ -1,7 +1,7 @@
 #pragma once
 
 
-#incldue <cstdarg>
+#include <cstdarg>
 
 #include <magic_enum.hpp>
 
