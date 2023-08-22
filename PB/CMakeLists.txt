@@ -59,7 +59,7 @@ add_library(pblib STATIC
     src/MetadataReader.cpp
 )
 
-target_include_directories(pblib PRIVATE include
+target_include_directories(pblib PUBLIC include
     third-party/boost-extract
     third-party/boost-extract/libs/uuid/include
     third-party/boost-extract/libs/detail/include
