@@ -49,7 +49,7 @@ add_library(pblib STATIC
     include/Error.h
     include/FileMapper.h
     include/MetadataReader.h
-    include/FileCOmparator.h
+    include/FileComparator.h
     include/FileData.h
     include/FolderData.h
     include/util/Traits.h
