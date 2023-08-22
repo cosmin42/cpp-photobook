@@ -3,6 +3,7 @@
 #include <FileData.h>
 #include <FolderData.h>
 #include <map>
+#include<regex>
 #include <util/Traits.h>
 #include <variant>
 
@@ -23,10 +24,14 @@ struct DataNode {
             [&str](const FileData &fileData) { str += std::string(fileData); },
             [&str](const FolderData &folderData) { str += std::string(folderData); }},
         data);
-
+    str += "\n";
+    std::string childrenStr;
     for (auto &[id, dataPointer]: children) {
-      str += dataPointer->operator std::string();
+      childrenStr += dataPointer->operator std::string();
     }
+    childrenStr = std::regex_replace(childrenStr, std::regex(R"(^)"), "  ");
+    str += childrenStr;
+    str = std::regex_replace(str, std::regex(R"(^)"), "  ");
     return str;
   }
 };
