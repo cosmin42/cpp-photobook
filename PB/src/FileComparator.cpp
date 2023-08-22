@@ -7,17 +7,48 @@
 
 namespace PB {
 
-const std::string CustomComparator::prefixRegex =
-    "^[[0-9]+(\.)][[0-9]+(\.)][0-9]+";
+const std::string CustomComparator::prefixRegex = "^([0-9]*.)?([0-9]*.)?[0-9]*";
 
 template <>
-std::strong_ordering
+bool CustomComparator::operator()(std::string const &a, std::string const &b)
+{
+  auto aPrefix = extractPrefix(a);
+  auto bPrefix = extractPrefix(b);
+
+  assert(aPrefix.has_value());
+  assert(bPrefix.has_value());
+
+  auto aTokens = tokenizeDate(aPrefix.value());
+  auto bTokens = tokenizeDate(bPrefix.value());
+
+  auto aDate = interpretTokens(aTokens);
+  auto bDate = interpretTokens(aTokens);
+
+  if (!aDate && !bDate) {
+    return true;
+  }
+  if (!aDate) {
+    return true;
+  }
+  if (!bDate) {
+    return false;
+  }
+
+  return aDate < bDate;
+}
+
+  template <>
+bool
 CustomComparator::operator()(std::filesystem::path const &a,
                              std::filesystem::path const &b)
 {
   assert(std::filesystem::exists(a) && "File doesn't exist.");
   assert(std::filesystem::exists(b) && "File doesn't exist.");
-  return std::strong_ordering::greater;
+
+  auto filenameA = a.filename().string();
+  auto filenameB = b.filename().string();
+
+  return operator()(filenameA, filenameB);
 }
 
 std::optional<std::string>
@@ -65,7 +96,7 @@ CustomComparator::interpretTokens(std::queue<std::string> tokens)
   year = interpretToken<std::chrono::year>(yearStr);
   tokens.pop();
   if (tokens.empty()) {
-    std::chrono::year_month_day{year, month, day};
+    return std::chrono::year_month_day{year, month, day};
   }
 
   auto &monthStr = tokens.front();

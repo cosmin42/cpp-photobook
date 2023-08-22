@@ -7,18 +7,18 @@
 #include <string>
 
 namespace PB {
+
 struct CustomComparator {
   static constexpr int DAY_MONTH_YEAR_COUNT = 3;
 
-  template <typename T> std::strong_ordering operator()(T const &, T const &);
+  template <typename T>
+  bool operator()(T const &, T const &);
 
   static std::optional<std::string> extractPrefix(std::string const &);
 
-  static std::queue<std::string>
-  tokenizeDate(std::string const &blob);
+  static std::queue<std::string> tokenizeDate(std::string const &blob);
 
-  template <typename T>
-  static T interpretToken(std::string const& s)
+  template <typename T> static T interpretToken(std::string const &s)
   {
     if (!s.empty() && T(std::stoi(s)).ok()) {
       return T(std::stoi(s));
