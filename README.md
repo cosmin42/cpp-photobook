@@ -1,3 +1,5 @@
+![Multi Platform Workflow](https://github.com/cosmin42/cpp-photobook/actions/workflows/cmake-multi-platform.yml/badge.svg)
+
 # Photobook cpp exercise
 
 This project should be able to generate a pdf photobook based on a folder structure filled with photos.
