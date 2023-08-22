@@ -12,17 +12,17 @@ FilesMap::FilesMap(const std::string &rootDirectory)
   printDebug("FilesMap ctr %s\n", rootDirectory.c_str());
 }
 
-FilesMap::FilesMap(std::string &&rootDirectory)
-    : mRootDirectory{rootDirectory}
+FilesMap::FilesMap(std::string &&rootDirectory) : mRootDirectory{rootDirectory}
 {
   printDebug("FilesMap ctr %s\n", rootDirectory.c_str());
 }
 
 auto FilesMap::map() const -> std::shared_ptr<DataNode>
 {
-  assert(std::filesystem::exists(mRootDirectory) && "The root folder is missing");
+  assert(std::filesystem::exists(mRootDirectory) &&
+         "The root folder is missing");
 
-  std::filesystem::path     rootPath(mRootDirectory);
+  std::filesystem::path rootPath(mRootDirectory);
 
   auto [dataId, data] = wrap(rootPath);
 
@@ -30,7 +30,7 @@ auto FilesMap::map() const -> std::shared_ptr<DataNode>
     return nullptr;
   }
 
-  std::shared_ptr<DataNode> rootNode = std::make_shared<DataNode>(data.value()); 
+  std::shared_ptr<DataNode> rootNode = std::make_shared<DataNode>(data.value());
 
   std::queue<std::shared_ptr<DataNode>> nodesQueue;
   nodesQueue.push(rootNode);
@@ -47,7 +47,7 @@ auto FilesMap::map() const -> std::shared_ptr<DataNode>
                    std::filesystem::directory_iterator(folderData.path())) {
                 auto [dataId, data] = wrap(entry);
                 if (data) {
-                  auto     dataRef = std::make_shared<DataNode>(data.value());
+                  auto dataRef = std::make_shared<DataNode>(data.value());
                   currentNode->children[dataId] = dataRef;
                   nodesQueue.push(dataRef);
                 }
@@ -64,11 +64,17 @@ FilesMap::wrap(const std::filesystem::path &path)
 {
   if (std::filesystem::is_regular_file(path)) {
     FileData fileData{path.filename().string(), path};
-    return {fileData.id(), DataNode{fileData, std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
+    return {
+        fileData.id(),
+        DataNode{fileData,
+                 std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
   }
   else if (std::filesystem::is_directory(path)) {
     FolderData folderData{path.filename().string(), path};
-    return {folderData.id(), DataNode{folderData, std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
+    return {
+        folderData.id(),
+        DataNode{folderData,
+                 std::map<boost::uuids::uuid, std::shared_ptr<DataNode>>()}};
   }
   printInfo("Skipping %s, not a directory or a file.\n",
             path.filename().string().c_str());

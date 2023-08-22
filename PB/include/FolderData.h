@@ -43,9 +43,9 @@ public:
 
 private:
   static const std::string directoryPrefix;
-  boost::uuids::uuid    mUUID;
-  std::string           mName;
-  std::filesystem::path mPath;
+  boost::uuids::uuid       mUUID;
+  std::string              mName;
+  std::filesystem::path    mPath;
 };
 
 } // namespace PB
