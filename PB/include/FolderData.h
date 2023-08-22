@@ -35,13 +35,14 @@ public:
 
   operator std::string() const
   {
-    std::string str = "Folder: " + mPath.string() + "(" +
+    std::string str = directoryPrefix + mPath.string() + "(" +
                       boost::uuids::to_string(mUUID) + ")";
 
     return str;
   }
 
 private:
+  static const std::string directoryPrefix;
   boost::uuids::uuid    mUUID;
   std::string           mName;
   std::filesystem::path mPath;

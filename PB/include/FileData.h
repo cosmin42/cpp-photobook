@@ -35,13 +35,14 @@ public:
 
   operator std::string() const
   {
-    std::string str =
-        "File: " + mPath.string() + "(" + boost::uuids::to_string(mUUID) + ")";
+    std::string str = filePrefix + mPath.string() + "(" +
+                      boost::uuids::to_string(mUUID) + ")";
 
     return str;
   }
 
 private:
+  static const std::string filePrefix;
   boost::uuids::uuid    mUUID;
   std::string           mName;
   std::filesystem::path mPath;

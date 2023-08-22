@@ -2,6 +2,8 @@
 
 namespace PB {
 
+const std::string FolderData::directoryPrefix = "D: ";
+
 FolderData::FolderData(std::string name, std::filesystem::path path)
     : mUUID{boost::uuids::random_generator()()}, mName{std::move(name)},
       mPath{std::move(path)}

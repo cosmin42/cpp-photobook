@@ -2,6 +2,8 @@
 
 namespace PB {
 
+const std::string FileData::filePrefix = "F: ";
+
 FileData::FileData(std::string name, std::filesystem::path path)
     : mUUID{boost::uuids::random_generator()()}, mName{std::move(name)},
       mPath{std::move(path)}
