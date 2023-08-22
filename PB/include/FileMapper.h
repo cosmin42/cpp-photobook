@@ -11,7 +11,7 @@ class FilesMap final {
 public:
   FilesMap() = delete;
   explicit FilesMap(const std::string &rootDirectory);
-  explicit FilesMap(const std::string &&rootDirectory);
+  explicit FilesMap(std::string &&rootDirectory);
 
   ~FilesMap() = default;
 

@@ -18,7 +18,7 @@ TEST(TestFilesMap, TestConstructor)
 
 TEST(TestFilesMap, TestSimpleCollection)
 {
-  FilesMap fileMapper("../../tests-data/Collecction");
+  FilesMap fileMapper("../../tests-data/Collection");
 
   fileMapper.map();
 }
