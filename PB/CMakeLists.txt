@@ -49,12 +49,14 @@ add_library(pblib STATIC
     include/Error.h
     include/FileMapper.h
     include/MetadataReader.h
+    include/FileCOmparator.h
     include/FileData.h
     include/FolderData.h
     include/util/Traits.h
 
     src/ConfigDependants.cpp
     src/FileMapper.cpp
+    src/FileComparator.cpp
     src/FileData.cpp
     src/FolderData.cpp
     src/MetadataReader.cpp
