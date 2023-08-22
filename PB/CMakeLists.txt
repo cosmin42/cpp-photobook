@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 
 set(CMAKE_CXX_FLAGS "-std=c++20")
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 option(STATIC_CHECK "Statically check the program." OFF)
 option(LOG_LEVEL "Log level." OFF)
@@ -20,6 +20,7 @@ endif()
 set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
 
 if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
+    message("Generating config files...")
     configure_file(Config.h.in ../include/Config.h)
     configure_file(ConfigDependants.h.in ../include/ConfigDependants.h)
 else()
@@ -33,10 +34,12 @@ endif()
 
 project(pblib)
 
+add_subdirectory(third-party/magic_enum)
+
 add_library(pblib SHARED
     include/common/Log.h
-    ${CMAKE_BINARY_DIR}/include/Config.h
-    ${CMAKE_BINARY_DIR}/include/ConfigDependants.h
+    include/Config.h
+    include/ConfigDependants.h
     include/DataNode.h
     include/Error.h
     include/FileMapper.h
@@ -52,6 +55,7 @@ add_library(pblib SHARED
 )
 
 target_include_directories(pblib PRIVATE include
+    third-party/magic_enum/include
     third-party/boost-extract
     third-party/boost-extract/libs/uuid/include
     third-party/boost-extract/libs/detail/include
