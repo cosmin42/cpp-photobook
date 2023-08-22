@@ -21,8 +21,8 @@ set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
 
 if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
     message("Generating config files...")
-    configure_file(Config.h.in ../include/Config.h)
-    configure_file(ConfigDependants.h.in ../include/ConfigDependants.h)
+    configure_file(Config.h.in include/Config.h)
+    configure_file(ConfigDependants.h.in include/ConfigDependants.h)
 else()
     message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${LOG_LEVEL_STRING_LIST}" )
 endif()
@@ -38,8 +38,8 @@ add_subdirectory(third-party/magic_enum)
 
 add_library(pblib SHARED
     include/common/Log.h
-    include/Config.h
-    include/ConfigDependants.h
+    ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h
+    ${CMAKE_CURRENT_BINARY_DIR}/include/ConfigDependants.h
     include/DataNode.h
     include/Error.h
     include/FileMapper.h
@@ -63,14 +63,14 @@ target_include_directories(pblib PRIVATE include
     third-party/boost-extract/libs/integer/include
     third-party/boost-extract/libs/tti/include
     third-party/boost-extract/libs/function_types/include
-    ${CMAKE_BINARY_DIR}/include)
+    ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(third-party/googletest)
 add_subdirectory(third-party/exiv2)
 
-include_directories(${CMAKE_BINARY_DIR})
+include_directories(${${CMAKE_CURRENT_BINARY_DIR}})
 
 if (LOG_LEVEL MATCHES Debug)
     add_executable(pbtests tests/testLogLevel.cpp
@@ -79,6 +79,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestFilesMap.cpp)
 
     target_include_directories(pbtests PRIVATE include
+        ${CMAKE_CURRENT_BINARY_DIR}/include
         third-party/exiv2/include
         third-party/boost-extract
         third-party/boost-extract/libs/uuid/include
