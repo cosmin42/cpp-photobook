@@ -47,7 +47,7 @@ jobs:
     - name: Fetch Submodules
       run: git submodule update --init --recursive
 
-    - name: Install inih
+    - if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install -y libinih1 libinih-dev
 
     - name: Set reusable strings
