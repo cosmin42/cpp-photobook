@@ -81,8 +81,7 @@ add_subdirectory(third-party/exiv2)
 include_directories(${CMAKE_BINARY_DIR})
 
 if (LOG_LEVEL MATCHES Debug)
-    add_executable(pbtests tests/testLogLevel.cpp
-        tests/TestErrors.cpp
+    add_executable(pbtests tests/TestErrors.cpp
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
