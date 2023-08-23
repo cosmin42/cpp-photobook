@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <optional>
 #include <string>
 
@@ -15,13 +16,11 @@ public:
 
   ~FilesMap() = default;
 
-  auto map() const -> std::shared_ptr<DataNode>;
+  auto map() const -> std::vector<std::filesystem::path>;
 
 private:
   const std::string mRootDirectory;
 
-  static std::pair<boost::uuids::uuid, std::optional<DataNode>>
-  wrap(const std::filesystem::path &path);
 };
 
 } // namespace PB
