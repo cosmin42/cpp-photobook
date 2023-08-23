@@ -22,5 +22,7 @@ TEST(TestFilesMap, TestSimpleCollection)
 {
   FilesMap fileMapper("../../tests-data/Collection");
 
-  fileMapper.map();
+  auto map = fileMapper.map();
+
+
 }
