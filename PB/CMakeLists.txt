@@ -55,6 +55,18 @@ add_library(pblib STATIC
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/MetadataReader.cpp
+
+    third-party/boost-extract/libs/program_options/src/parsers.cpp
+    third-party/boost-extract/libs/program_options/src/variables_map.cpp
+    third-party/boost-extract/libs/program_options/src/split.cpp
+    third-party/boost-extract/libs/program_options/src/convert.cpp
+    third-party/boost-extract/libs/program_options/src/value_semantic.cpp
+    third-party/boost-extract/libs/program_options/src/options_description.cpp
+    third-party/boost-extract/libs/program_options/src/cmdline.cpp
+    third-party/boost-extract/libs/program_options/src/positional_options.cpp
+    third-party/boost-extract/libs/program_options/src/winmain.cpp
+    third-party/boost-extract/libs/program_options/src/config_file.cpp
+    third-party/boost-extract/libs/program_options/src/utf8_codecvt_facet.cpp
 )
 
 target_include_directories(pblib PUBLIC include
@@ -65,6 +77,7 @@ target_include_directories(pblib PUBLIC include
     third-party/boost-extract/libs/integer/include
     third-party/boost-extract/libs/tti/include
     third-party/boost-extract/libs/function_types/include
+    third-party/boost-extract/libs/program_options/include
     third-party/magic_enum/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
