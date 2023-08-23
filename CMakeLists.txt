@@ -12,8 +12,8 @@ endif()
 
 add_subdirectory(PB)
 
-add_executable(PhotoBook main.cpp)
+add_executable(PhotoBook main.cpp src/ArgsHandler.cpp)
 
-target_include_directories(PhotoBook PUBLIC PB/include)
+target_include_directories(PhotoBook PUBLIC PB/include include)
 
 target_link_libraries(PhotoBook pblib)
