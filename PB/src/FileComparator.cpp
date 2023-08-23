@@ -7,7 +7,7 @@
 
 namespace PB {
 
-const std::string CustomComparator::prefixRegex = "^([0-9]*.)?([0-9]*.)?[0-9]*";
+const std::string CustomComparator::prefixRegex = "^([0-9]+\\.)?([0-9]+\\.)?[0-9]+\\.";
 
 template <>
 bool CustomComparator::operator()(std::string const &a, std::string const &b)
@@ -15,26 +15,50 @@ bool CustomComparator::operator()(std::string const &a, std::string const &b)
   auto aPrefix = extractPrefix(a);
   auto bPrefix = extractPrefix(b);
 
-  assert(aPrefix.has_value());
-  assert(bPrefix.has_value());
+  if (!aPrefix && !bPrefix)
+  {
+    return a < b;
+  }
+  else if (!aPrefix)
+  {
+    return false;
+  }
+  else if (!bPrefix)
+  {
+    return true;
+  }
 
   auto aTokens = tokenizeDate(aPrefix.value());
   auto bTokens = tokenizeDate(bPrefix.value());
 
   auto aDate = interpretTokens(aTokens);
-  auto bDate = interpretTokens(aTokens);
+  auto bDate = interpretTokens(bTokens);
 
+  // Alphabetical order
   if (!aDate && !bDate) {
-    return true;
+    return a < b;
   }
   if (!aDate) {
-    return true;
-  }
-  if (!bDate) {
     return false;
   }
+  if (!bDate) {
+    return true;
+  }
 
-  return aDate < bDate;
+  if (aDate.value().year() != bDate.value().year())
+  {
+    return aDate.value().year() < bDate.value().year();
+  }
+
+  if (aDate.value().month() != bDate.value().month()) {
+    return aDate.value().month() < bDate.value().month();
+  }
+
+  if (aDate.value().day() != bDate.value().day()) {
+    return aDate.value().day() < bDate.value().day();
+  }
+
+  return aDate.value() < bDate.value();
 }
 
   template <>
@@ -58,19 +82,24 @@ CustomComparator::extractPrefix(const std::string &input)
   std::smatch match;
 
   if (std::regex_search(input, match, regexPattern)) {
-    return match.str();
+    std::string result = match.str();
+    assert(result.length() > 0);
+
+    // Remove the last "."
+    result.pop_back();
+    return result;
   }
   else {
     return std::nullopt;
   }
 }
 
-std::queue<std::string> CustomComparator::tokenizeDate(std::string const &blob)
+std::stack<std::string> CustomComparator::tokenizeDate(std::string const &blob)
 {
   auto tokensRanges = blob | std::views::split('.');
 
   int                     count = 0;
-  std::queue<std::string> tokensQueue;
+  std::stack<std::string> tokensQueue;
 
   for (const auto &tokenRange : tokensRanges) {
     assert(count < DAY_MONTH_YEAR_COUNT);
@@ -82,7 +111,7 @@ std::queue<std::string> CustomComparator::tokenizeDate(std::string const &blob)
 }
 
 std::optional<std::chrono::year_month_day>
-CustomComparator::interpretTokens(std::queue<std::string> tokens)
+CustomComparator::interpretTokens(std::stack<std::string> tokens)
 {
   if (tokens.empty()) {
     return std::nullopt;
@@ -92,21 +121,21 @@ CustomComparator::interpretTokens(std::queue<std::string> tokens)
   std::chrono::month month{0};
   std::chrono::year  year{0};
 
-  auto &yearStr = tokens.front();
+  auto &yearStr = tokens.top();
   year = interpretToken<std::chrono::year>(yearStr);
   tokens.pop();
   if (tokens.empty()) {
     return std::chrono::year_month_day{year, month, day};
   }
 
-  auto &monthStr = tokens.front();
+  auto &monthStr = tokens.top();
   month = interpretToken<std::chrono::month>(monthStr);
   tokens.pop();
   if (tokens.empty()) {
     return std::chrono::year_month_day{year, month, day};
   }
 
-  auto &dayStr = tokens.front();
+  auto &dayStr = tokens.top();
   day = interpretToken<std::chrono::day>(dayStr);
   tokens.pop();
 

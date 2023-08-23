@@ -3,7 +3,7 @@
 #include <chrono>
 #include <compare>
 #include <optional>
-#include <queue>
+#include <stack>
 #include <string>
 
 namespace PB {
@@ -16,7 +16,7 @@ struct CustomComparator {
 
   static std::optional<std::string> extractPrefix(std::string const &);
 
-  static std::queue<std::string> tokenizeDate(std::string const &blob);
+  static std::stack<std::string> tokenizeDate(std::string const &blob);
 
   template <typename T> static T interpretToken(std::string const &s)
   {
@@ -27,7 +27,7 @@ struct CustomComparator {
   }
 
   static std::optional<std::chrono::year_month_day>
-  interpretTokens(std::queue<std::string> tokens);
+  interpretTokens(std::stack<std::string> tokens);
 
 private:
   static const std::string prefixRegex;
