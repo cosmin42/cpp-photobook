@@ -34,16 +34,11 @@ void ArgsHandler::handle(int argc, char *argv[]) const noexcept
     po::notify(vm);
 
     if (vm.count(HELP_PARAM_NAME)) {
-      std::stringstream strStream;
-      desc.print(strStream);
-      PB::printDebug("%s\n", strStream.str().c_str());
-
       mListener.handleHelpArgument();
     }
 
     if (vm.count(INPUT_PARAM_NAME)) {
       auto inputPath = vm[INPUT_PARAM_NAME].as<std::string>();
-      PB::printDebug("Input path set to %s\n", inputPath.c_str());
       mListener.handleInputArgument(inputPath);
     }
     else {
@@ -53,8 +48,6 @@ void ArgsHandler::handle(int argc, char *argv[]) const noexcept
 
     if (vm.count(OUTPUT_PARAM_NAME)) {
       auto outputPath = vm[OUTPUT_PARAM_NAME].as<std::string>();
-      PB::printDebug("Output path set to %s\n", outputPath.c_str());
-
       mListener.handleOutputArgument(outputPath);
     }
     else {
