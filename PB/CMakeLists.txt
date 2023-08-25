@@ -40,9 +40,9 @@ endif()
 project(pblib)
 
 find_package(OpenCV CONFIG REQUIRED)
+find_package(Boost REQUIRED program_options)
 
 add_subdirectory(third-party/magic_enum)
-add_subdirectory(third-party/boost-extract/libs/program_options)
 
 add_library(pblib STATIC
     include/common/Log.h
@@ -61,18 +61,10 @@ add_library(pblib STATIC
 )
 
 target_include_directories(pblib PUBLIC include
-    third-party/boost-extract
-    third-party/boost-extract/libs/uuid/include
-    third-party/boost-extract/libs/detail/include
-    third-party/boost-extract/libs/random/include
-    third-party/boost-extract/libs/integer/include
-    third-party/boost-extract/libs/tti/include
-    third-party/boost-extract/libs/function_types/include
-    third-party/boost-extract/libs/program_options/include
     third-party/magic_enum/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-target_link_libraries(pblib PRIVATE opencv_core)
+target_link_libraries(pblib PUBLIC opencv_core Boost::boost Boost::program_options)
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(third-party/googletest)
@@ -90,14 +82,7 @@ if (LOG_LEVEL MATCHES Debug)
     target_include_directories(pbtests PRIVATE include
         ${CMAKE_CURRENT_BINARY_DIR}/include
         third-party/exiv2/include
-        third-party/magic_enum/include
-        third-party/boost-extract
-        third-party/boost-extract/libs/uuid/include
-        third-party/boost-extract/libs/detail/include
-        third-party/boost-extract/libs/random/include
-        third-party/boost-extract/libs/integer/include
-        third-party/boost-extract/libs/tti/include
-        third-party/boost-extract/libs/function_types/include)
+        third-party/magic_enum/include)
 
     target_link_libraries(pbtests pblib gtest gtest_main exiv2lib)
 endif()
