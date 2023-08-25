@@ -2,6 +2,7 @@
 
 #include <opencv2/core.hpp>
 
+#include <filesystem>
 #include <vector>
 
 namespace PB {
@@ -13,7 +14,7 @@ public:
   ImageSetWriter &operator=(ImageSetWriter const &other) = delete;
   ~ImageSetWriter() = default;
 
-  void writeImages(std::vector<cv::Mat> const &images,
-                   std::string const          &path) const;
+  void writeImages(std::vector<cv::Mat> const  &images,
+                   std::filesystem::path const &path) const;
 };
 } // namespace PB
