@@ -1,0 +1,12 @@
+x64-osx/
+x64-osx/include/
+x64-osx/include/boost/
+x64-osx/include/boost/implicit_cast.hpp
+x64-osx/include/boost/polymorphic_cast.hpp
+x64-osx/include/boost/polymorphic_pointer_cast.hpp
+x64-osx/share/
+x64-osx/share/boost-conversion/
+x64-osx/share/boost-conversion/copyright
+x64-osx/share/boost-conversion/usage
+x64-osx/share/boost-conversion/vcpkg.spdx.json
+x64-osx/share/boost-conversion/vcpkg_abi_info.txt

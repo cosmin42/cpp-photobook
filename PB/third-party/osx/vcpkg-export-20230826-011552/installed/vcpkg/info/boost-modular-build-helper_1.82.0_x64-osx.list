@@ -1,0 +1,12 @@
+x64-osx/
+x64-osx/share/
+x64-osx/share/boost-build/
+x64-osx/share/boost-build/CMakeLists.txt
+x64-osx/share/boost-build/Jamroot.jam.in
+x64-osx/share/boost-build/boost-modular-build.cmake
+x64-osx/share/boost-build/nothing.bat
+x64-osx/share/boost-build/usage
+x64-osx/share/boost-build/user-config.jam.in
+x64-osx/share/boost-modular-build-helper/
+x64-osx/share/boost-modular-build-helper/vcpkg.spdx.json
+x64-osx/share/boost-modular-build-helper/vcpkg_abi_info.txt

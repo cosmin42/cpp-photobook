@@ -39,6 +39,8 @@ endif()
 
 project(pblib)
 
+find_package(OpenCV CONFIG REQUIRED)
+
 add_subdirectory(third-party/magic_enum)
 add_subdirectory(third-party/boost-extract/libs/program_options)
 
@@ -70,6 +72,7 @@ target_include_directories(pblib PUBLIC include
     third-party/magic_enum/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
+target_link_libraries(pblib PRIVATE opencv_core)
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 add_subdirectory(third-party/googletest)

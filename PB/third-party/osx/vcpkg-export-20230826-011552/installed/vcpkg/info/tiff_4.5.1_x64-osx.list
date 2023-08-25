@@ -1,0 +1,16 @@
+x64-osx/
+x64-osx/include/
+x64-osx/include/tiff.h
+x64-osx/include/tiffconf.h
+x64-osx/include/tiffio.h
+x64-osx/include/tiffvers.h
+x64-osx/lib/
+x64-osx/lib/libtiff.a
+x64-osx/lib/pkgconfig/
+x64-osx/lib/pkgconfig/libtiff-4.pc
+x64-osx/share/
+x64-osx/share/tiff/
+x64-osx/share/tiff/copyright
+x64-osx/share/tiff/vcpkg-cmake-wrapper.cmake
+x64-osx/share/tiff/vcpkg.spdx.json
+x64-osx/share/tiff/vcpkg_abi_info.txt

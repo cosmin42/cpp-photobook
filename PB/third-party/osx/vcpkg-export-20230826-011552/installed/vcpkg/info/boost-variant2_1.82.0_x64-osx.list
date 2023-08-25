@@ -1,0 +1,12 @@
+x64-osx/
+x64-osx/include/
+x64-osx/include/boost/
+x64-osx/include/boost/variant2.hpp
+x64-osx/include/boost/variant2/
+x64-osx/include/boost/variant2/variant.hpp
+x64-osx/share/
+x64-osx/share/boost-variant2/
+x64-osx/share/boost-variant2/copyright
+x64-osx/share/boost-variant2/usage
+x64-osx/share/boost-variant2/vcpkg.spdx.json
+x64-osx/share/boost-variant2/vcpkg_abi_info.txt

@@ -1,0 +1,10 @@
+x64-osx/
+x64-osx/include/
+x64-osx/include/boost/
+x64-osx/include/boost/array.hpp
+x64-osx/share/
+x64-osx/share/boost-array/
+x64-osx/share/boost-array/copyright
+x64-osx/share/boost-array/usage
+x64-osx/share/boost-array/vcpkg.spdx.json
+x64-osx/share/boost-array/vcpkg_abi_info.txt

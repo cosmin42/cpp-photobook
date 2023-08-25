@@ -1,0 +1,7 @@
+x64-osx/
+x64-osx/share/
+x64-osx/share/boost-uninstall/
+x64-osx/share/boost-uninstall/vcpkg.spdx.json
+x64-osx/share/boost-uninstall/vcpkg_abi_info.txt
+x64-osx/share/boost/
+x64-osx/share/boost/vcpkg-cmake-wrapper.cmake
