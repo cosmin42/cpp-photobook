@@ -50,6 +50,7 @@ add_library(pblib STATIC
     ${CMAKE_CURRENT_BINARY_DIR}/include/ConfigDependants.h
     include/Error.h
     include/FileMapper.h
+    include/ImageSetWriter.h
     include/MetadataReader.h
     include/FileComparator.h
     include/util/Traits.h
@@ -57,6 +58,7 @@ add_library(pblib STATIC
     src/ConfigDependants.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
+    src/ImageSetWriter.cpp
     src/MetadataReader.cpp
 )
 
