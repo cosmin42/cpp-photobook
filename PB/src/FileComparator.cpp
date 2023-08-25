@@ -7,24 +7,23 @@
 
 namespace PB {
 
-const std::string CustomComparator::prefixRegex = "^([0-9]+\\.)?([0-9]+\\.)?[0-9]+\\.";
+const std::string CustomComparator::prefixRegex =
+    "^([0-9]+\\.)?([0-9]+\\.)?[0-9]+\\.";
 
 template <>
-bool CustomComparator::operator()(std::string const &a, std::string const &b)
+auto CustomComparator::operator()(std::string const &a, std::string const &b)
+    -> bool
 {
   auto aPrefix = extractPrefix(a);
   auto bPrefix = extractPrefix(b);
 
-  if (!aPrefix && !bPrefix)
-  {
+  if (!aPrefix && !bPrefix) {
     return a < b;
   }
-  else if (!aPrefix)
-  {
+  else if (!aPrefix) {
     return false;
   }
-  else if (!bPrefix)
-  {
+  else if (!bPrefix) {
     return true;
   }
 
@@ -45,8 +44,7 @@ bool CustomComparator::operator()(std::string const &a, std::string const &b)
     return true;
   }
 
-  if (aDate.value().year() != bDate.value().year())
-  {
+  if (aDate.value().year() != bDate.value().year()) {
     return aDate.value().year() < bDate.value().year();
   }
 
@@ -61,10 +59,9 @@ bool CustomComparator::operator()(std::string const &a, std::string const &b)
   return aDate.value() < bDate.value();
 }
 
-  template <>
-bool
-CustomComparator::operator()(std::filesystem::path const &a,
-                             std::filesystem::path const &b)
+template <>
+auto CustomComparator::operator()(std::filesystem::path const &a,
+                                  std::filesystem::path const &b) -> bool
 {
   assert(std::filesystem::exists(a) && "File doesn't exist.");
   assert(std::filesystem::exists(b) && "File doesn't exist.");
@@ -75,8 +72,8 @@ CustomComparator::operator()(std::filesystem::path const &a,
   return operator()(filenameA, filenameB);
 }
 
-std::optional<std::string>
-CustomComparator::extractPrefix(const std::string &input)
+auto CustomComparator::extractPrefix(const std::string &input)
+    -> std::optional<std::string>
 {
   std::regex  regexPattern(prefixRegex);
   std::smatch match;
@@ -94,7 +91,8 @@ CustomComparator::extractPrefix(const std::string &input)
   }
 }
 
-std::stack<std::string> CustomComparator::tokenizeDate(std::string const &blob)
+auto CustomComparator::tokenizeDate(std::string const &blob)
+    -> std::stack<std::string>
 {
   auto tokensRanges = blob | std::views::split('.');
 
@@ -110,8 +108,8 @@ std::stack<std::string> CustomComparator::tokenizeDate(std::string const &blob)
   return tokensQueue;
 }
 
-std::optional<std::chrono::year_month_day>
-CustomComparator::interpretTokens(std::stack<std::string> tokens)
+auto CustomComparator::interpretTokens(std::stack<std::string> tokens)
+    -> std::optional<std::chrono::year_month_day>
 {
   if (tokens.empty()) {
     return std::nullopt;

@@ -11,14 +11,13 @@ namespace PB {
 struct CustomComparator {
   static constexpr int DAY_MONTH_YEAR_COUNT = 3;
 
-  template <typename T>
-  bool operator()(T const &, T const &);
+  template <typename T> auto operator()(T const &, T const &) -> bool;
 
-  static std::optional<std::string> extractPrefix(std::string const &);
+  static auto extractPrefix(std::string const &) -> std::optional<std::string>;
 
-  static std::stack<std::string> tokenizeDate(std::string const &blob);
+  static auto tokenizeDate(std::string const &blob) -> std::stack<std::string>;
 
-  template <typename T> static T interpretToken(std::string const &s)
+  template <typename T> static auto interpretToken(std::string const &s) -> T
   {
     if (!s.empty() && T(std::stoi(s)).ok()) {
       return T(std::stoi(s));
@@ -26,8 +25,8 @@ struct CustomComparator {
     return T{0};
   }
 
-  static std::optional<std::chrono::year_month_day>
-  interpretTokens(std::stack<std::string> tokens);
+  static auto interpretTokens(std::stack<std::string> tokens)
+      -> std::optional<std::chrono::year_month_day>;
 
 private:
   static const std::string prefixRegex;
