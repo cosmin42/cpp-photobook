@@ -3,5 +3,6 @@
 #include <common/LogLevel.h>
 
 namespace PB {
-  constexpr PB::LogLevel sLogLevel = LogLevel::@LOG_LEVEL@;
+  constexpr LogLevel         sLogLevel = LogLevel::@LOG_LEVEL@;
+  constexpr const char *sTempDirectory = "temporary_images";
 } // namespace PB
