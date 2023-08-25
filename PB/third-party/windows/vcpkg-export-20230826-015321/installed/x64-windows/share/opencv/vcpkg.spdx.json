@@ -1,0 +1,96 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/opencv-x64-windows-4.8.0-1a97b61b-357d-4125-9920-d93a89fbf355",
+  "name": "opencv:x64-windows@4.8.0 413695206e35aa65c9d6e11425bd384895a37c420f3898870808731919887742",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-9990a4c9026811a312cb2af78bf77f3d9d288416"
+    ],
+    "created": "2023-08-25T22:43:59Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "opencv",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "4.8.0",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg#ports/opencv",
+      "homepage": "https://github.com/opencv/opencv",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "Computer vision library",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "opencv:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "413695206e35aa65c9d6e11425bd384895a37c420f3898870808731919887742",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "Apache-2.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/opencv/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "df79f6ac816e9d5a977cbd6b51abf341fe5c11f3bf69b36a69a4a85349a99f03"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/opencv/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "34d954b28a3879515aaa085be9559d03c605cfa9f985b73a20944c6437ea564e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

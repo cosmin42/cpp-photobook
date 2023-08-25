@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/boost-any-x64-windows-1.82.0#2-4849e51c-9601-47d6-b97c-525ab050f776",
+  "name": "boost-any:x64-windows@1.82.0#2 4f0737bff21858e9713f94867e7945898666ebc36f14123d093bcb5ce4a7ca36",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-9990a4c9026811a312cb2af78bf77f3d9d288416"
+    ],
+    "created": "2023-08-25T22:35:25Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "boost-any",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "1.82.0#2",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg#ports/boost-any",
+      "homepage": "https://github.com/boostorg/any",
+      "licenseConcluded": "BSL-1.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "Boost any module",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "boost-any:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "4f0737bff21858e9713f94867e7945898666ebc36f14123d093bcb5ce4a7ca36",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "BSL-1.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-1",
+      "name": "boostorg/any",
+      "downloadLocation": "git+https://github.com/boostorg/any@boost-1.82.0",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "3d65777d2b2037e996199c56420f6de419661e6dc79a226d42860f526232b31a256c0ddccb605244d98b9fc854fef42134ffe9e20b138c8f2309984345d3fc86"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/boost-any/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "a860a989f443e658efe1461f9672b9c90da1b733a86154dcaa4f2719a9070c47"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/boost-any/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "db7abfe4b588ff416a0e2232898eac481ae971b256cfaf5b510e7a06a29cf6aa"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/boost-uuid-x64-windows-1.82.0#2-5cfae8dd-0075-414c-93d5-0e9fa51aa392",
+  "name": "boost-uuid:x64-windows@1.82.0#2 8caeeefe6077532fb01c41f957c35c8f78d31fc5fe3c3fbcb7a616ea727f8640",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-9990a4c9026811a312cb2af78bf77f3d9d288416"
+    ],
+    "created": "2023-08-25T22:37:13Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "boost-uuid",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "1.82.0#2",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg#ports/boost-uuid",
+      "homepage": "https://github.com/boostorg/uuid",
+      "licenseConcluded": "BSL-1.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "Boost uuid module",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "boost-uuid:x64-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "8caeeefe6077532fb01c41f957c35c8f78d31fc5fe3c3fbcb7a616ea727f8640",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "BSL-1.0",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-1",
+      "name": "boostorg/uuid",
+      "downloadLocation": "git+https://github.com/boostorg/uuid@boost-1.82.0",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "588c75f7b757a1754ef72bbe3290111e00b531b70be19d63100e996937194de17a571b6a5c6531c389f4db08ea74446911a9f349a3c51959b91d6a7012ec57b4"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/boost-uuid/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "673dfe1c48511ec3a862f98d4e1e442a415b9b47f9410ad9d5e567eb391b85c0"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./C:/Users/ionut/vcpkg/ports/boost-uuid/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "c752149289b60024322eb9d50967f2d5201f483319f249ac4ccb21f73f49d288"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}
