@@ -23,20 +23,20 @@ jobs:
       #
       # To add more build types (Release, Debug, RelWithDebInfo, etc.) customize the build_type list.
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         build_type: [Release]
         c_compiler: [clang, cl]
         include:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
-          - os: ubuntu-latest
+          - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: clang
-          - os: ubuntu-latest
+          - os: macos-latest
             c_compiler: cl
 
     steps:
@@ -51,8 +51,8 @@ jobs:
         version: latest
         platform: x64
 
-    - if: matrix.os == 'ubuntu-latest'
-      run: sudo apt-get install -y libinih1 libinih-dev
+    - if: matrix.os == 'macos-latest'
+      run: brew install inih
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -64,7 +64,7 @@ jobs:
     - name: Configure CMake (Ubuntu)
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'macos-latest'
       run: >
         cmake -B ${{ steps.strings.outputs.build-output-dir }}
         -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}"/PB/third-party/osx/vcpkg-export-20230826-011552/scripts/buildsystems/vcpkg.cmake"
