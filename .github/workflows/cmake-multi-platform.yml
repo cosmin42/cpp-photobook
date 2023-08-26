@@ -45,12 +45,6 @@ jobs:
     - name: Fetch Submodules
       run: git submodule update --init --recursive
 
-    - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1
-      with:
-        version: "16.0.6"
-        directory: ${{ runner.temp }}/llvm
-
     - if: matrix.os == 'macos-latest'
       run: brew install inih
 
