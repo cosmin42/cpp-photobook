@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 
-if (MSVC)
+if (WIN32)
     add_compile_options(/std:c++20)
     add_compile_options(/EHsc)
 else()
