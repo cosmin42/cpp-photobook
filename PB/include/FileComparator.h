@@ -15,7 +15,8 @@ struct CustomComparator {
 
   static auto extractPrefix(std::string const &) -> std::optional<std::string>;
 
-  static auto tokenizeDate(std::string const &blob) -> std::stack<std::string>;
+  static auto tokenizeDate(std::optional<std::string> blob)
+      -> std::stack<std::string>;
 
   template <typename T> static auto interpretToken(std::string const &s) -> T
   {

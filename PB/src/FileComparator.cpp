@@ -5,6 +5,8 @@
 #include <ranges>
 #include <regex>
 
+#include <util/Traits.h>
+
 namespace PB {
 
 const std::string CustomComparator::prefixRegex =
@@ -14,49 +16,24 @@ template <>
 auto CustomComparator::operator()(std::string const &a, std::string const &b)
     -> bool
 {
-  auto aPrefix = extractPrefix(a);
-  auto bPrefix = extractPrefix(b);
+  auto parsedA = PB::compose(PB::CustomComparator::interpretTokens,
+                             PB::CustomComparator::tokenizeDate,
+                             PB::CustomComparator::extractPrefix)(a);
 
-  if (!aPrefix && !bPrefix) {
+  auto parsedB = PB::compose(PB::CustomComparator::interpretTokens,
+                             PB::CustomComparator::tokenizeDate,
+                             PB::CustomComparator::extractPrefix)(b);
+
+  if (!parsedA && !parsedB) {
     return a < b;
   }
-  else if (!aPrefix) {
+  else if (!parsedA) {
     return false;
   }
-  else if (!bPrefix) {
+  else if (!parsedB) {
     return true;
   }
-
-  auto aTokens = tokenizeDate(aPrefix.value());
-  auto bTokens = tokenizeDate(bPrefix.value());
-
-  auto aDate = interpretTokens(aTokens);
-  auto bDate = interpretTokens(bTokens);
-
-  // Alphabetical order
-  if (!aDate && !bDate) {
-    return a < b;
-  }
-  if (!aDate) {
-    return false;
-  }
-  if (!bDate) {
-    return true;
-  }
-
-  if (aDate.value().year() != bDate.value().year()) {
-    return aDate.value().year() < bDate.value().year();
-  }
-
-  if (aDate.value().month() != bDate.value().month()) {
-    return aDate.value().month() < bDate.value().month();
-  }
-
-  if (aDate.value().day() != bDate.value().day()) {
-    return aDate.value().day() < bDate.value().day();
-  }
-
-  return aDate.value() < bDate.value();
+  return *parsedA < *parsedB;
 }
 
 template <>
@@ -91,10 +68,14 @@ auto CustomComparator::extractPrefix(const std::string &input)
   }
 }
 
-auto CustomComparator::tokenizeDate(std::string const &blob)
+auto CustomComparator::tokenizeDate(std::optional<std::string> blob)
     -> std::stack<std::string>
 {
-  auto tokensRanges = blob | std::views::split('.');
+  if (!blob) {
+    std::stack<std::string>();
+  }
+  auto extractStr = *blob;
+  auto tokensRanges = blob.value() | std::views::split('.');
 
   int                     count = 0;
   std::stack<std::string> tokensQueue;
