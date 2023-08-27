@@ -72,7 +72,7 @@ auto CustomComparator::tokenizeDate(std::optional<std::string> blob)
     -> std::stack<std::string>
 {
   if (!blob) {
-    std::stack<std::string>();
+    return std::stack<std::string>();
   }
 
   auto tokensRanges = blob.value() | std::views::split('.');
