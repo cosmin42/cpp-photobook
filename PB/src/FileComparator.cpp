@@ -74,7 +74,7 @@ auto CustomComparator::tokenizeDate(std::optional<std::string> blob)
   if (!blob) {
     std::stack<std::string>();
   }
-  auto extractStr = *blob;
+
   auto tokensRanges = blob.value() | std::views::split('.');
 
   int                     count = 0;
