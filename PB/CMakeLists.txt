@@ -66,6 +66,7 @@ add_library(pblib STATIC
     src/FileComparator.cpp
     src/ImageReader.cpp
     src/ImageSetWriter.cpp
+    src/Log.cpp
     src/MetadataReader.cpp
     src/PhotoBook.cpp
     src/util/Timer.cpp
