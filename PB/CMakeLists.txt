@@ -49,6 +49,7 @@ add_library(pblib STATIC
     ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/ConfigDependants.h
     include/Error.h
+    include/Enums.h
     include/FileMapper.h
     include/ImageReader.h
     include/ImageSetWriter.h
