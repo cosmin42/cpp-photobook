@@ -16,6 +16,13 @@ template <>
 auto CustomComparator::operator()(std::string const &a, std::string const &b)
     -> bool
 {
+  if (a.find(b) != std::string::npos) {
+    return false;
+  }
+  if (b.find(a) != std::string::npos) {
+    return true;
+  }
+
   auto parsedA = PB::compose(PB::CustomComparator::interpretTokens,
                              PB::CustomComparator::tokenizeDate,
                              PB::CustomComparator::extractPrefix)(a);
