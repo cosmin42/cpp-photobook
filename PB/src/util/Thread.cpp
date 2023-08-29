@@ -1,13 +1,16 @@
 #include <util/Thread.h>
 namespace PB {
-Thread::Thread(std::stop_token stopToken) : mToken(stopToken)
+Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken)
 {
-  mThread = std::jthread([this]() { run(); });
+  mThread = std::jthread([this](std::stop_token token) {
+    mCurrentToken = token;
+    run();
+  });
 }
 
 void Thread::run()
 {
-  while (!mToken.stop_requested()) {
+  while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     runNextTask();
   }
 }
@@ -24,11 +27,10 @@ void Thread::runNextTask() { getNextTask()(); }
 auto Thread::getNextTask() -> std::function<void()>
 {
   std::unique_lock exclusiveAccess(mTaskQueueAccess);
-  bool interrupted = mQueueNotEmptyCondition.wait(exclusiveAccess, mToken, [&mTasksQueue = mTasksQueue]() {
-    return !mTasksQueue.empty();
-  });
-  if (interrupted)
-  {
+  bool             interrupted = mQueueNotEmptyCondition.wait(
+      exclusiveAccess, mExternalToken,
+      [&mTasksQueue = mTasksQueue]() { return !mTasksQueue.empty(); });
+  if (interrupted) {
     return []() {};
   }
   auto f = mTasksQueue.front();

@@ -24,7 +24,8 @@ private:
   auto getNextTask() -> std::function<void()>;
 
   std::jthread                      mThread;
-  std::stop_token                   mToken;
+  std::stop_token                   mCurrentToken;
+  std::stop_token                   mExternalToken;
   std::queue<std::function<void()>> mTasksQueue;
   std::mutex                        mTaskQueueAccess;
   std::condition_variable_any       mQueueNotEmptyCondition;

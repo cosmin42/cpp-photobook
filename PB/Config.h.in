@@ -14,6 +14,8 @@ public:
 
   Log const &printer() { return mLogPrinter; }
 
+  std::stop_source sStopSource;
+
 private:
   Context() = default;
   Context(Context const &) = delete;
