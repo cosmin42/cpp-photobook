@@ -4,6 +4,7 @@
 
 #include <Error.h>
 #include <FileMapper.h>
+#include <GradualControllable.h>
 #include <ImageReader.h>
 
 namespace PB {
@@ -14,7 +15,7 @@ class PhotoBookListener {
   virtual void onError(Error error) = 0;
 };
 
-class PhotoBook final {
+class PhotoBook final : public GradualControllable {
 public:
   explicit PhotoBook(PhotoBookListener &listener);
   PhotoBook() = delete;
@@ -23,6 +24,7 @@ public:
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
 
+private:
   auto mapImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
 
@@ -30,7 +32,11 @@ public:
 
   void exportImage([[maybe_unused]] std::string const &path);
 
-private:
+  void doStart() override {}
+  void doStop() override {}
+  void doPause() override {}
+  void doResume() override {}
+
   PhotoBookListener      &mListener;
   std::optional<FilesMap> fileMapper;
 };
