@@ -1,7 +1,6 @@
 #include <Config.h>
 
-namespace PB
-{
+namespace PB {
 void Log::printDebug(const char *format, va_list arglist) const
 {
   if constexpr (Context::logLevel() == LogLevel::None ||
@@ -12,7 +11,7 @@ void Log::printDebug(const char *format, va_list arglist) const
   doPrintDebug(format, arglist);
 }
 
-void Log::printInfo(const char* format, va_list arglist) const
+void Log::printInfo(const char *format, va_list arglist) const
 {
   if constexpr (Context::logLevel() == LogLevel::None ||
                 Context::logLevel() > LogLevel::Info) {
@@ -22,7 +21,7 @@ void Log::printInfo(const char* format, va_list arglist) const
   doPrintInfo(format, arglist);
 }
 
-void Log::printWarning(const char* format, va_list arglist) const
+void Log::printWarning(const char *format, va_list arglist) const
 {
   if constexpr (Context::logLevel() == LogLevel::None ||
                 Context::logLevel() > LogLevel::Warning) {
@@ -32,7 +31,7 @@ void Log::printWarning(const char* format, va_list arglist) const
   doPrintWarning(format, arglist);
 }
 
-void Log::printError(const char* format, va_list arglist) const
+void Log::printError(const char *format, va_list arglist) const
 {
   if constexpr (Context::logLevel() == LogLevel::None) {
     return;
@@ -40,7 +39,6 @@ void Log::printError(const char* format, va_list arglist) const
 
   doPrintError(format, arglist);
 }
-
 
 void printDebug(const char *format, ...)
 {
@@ -70,4 +68,10 @@ void printError(const char *format, ...)
   Context::inst().printer().printError(format, arglist);
   va_end(arglist);
 }
+
+void TimerPrinter::operator()(double duration)
+{
+  printDebug("Duration: %ld", duration);
 }
+
+} // namespace PB

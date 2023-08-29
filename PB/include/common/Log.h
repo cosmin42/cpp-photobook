@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdarg>
 #include <common/LogLevel.h>
+#include <cstdarg>
 
 namespace PB {
 
@@ -28,5 +28,9 @@ void printDebug(const char *format, ...);
 void printInfo(const char *format, ...);
 void printWarning(const char *format, ...);
 void printError(const char *format, ...);
+
+struct TimerPrinter {
+  void operator()(double duration);
+};
 
 } // namespace PB
