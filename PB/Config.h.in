@@ -26,6 +26,4 @@ private:
   @PRINTER_TYPE@ mLogPrinter;
 };
 
-const @PRINTER_TYPE@ sPrinter = PB::@PRINTER_TYPE@();
-
 } // namespace PB
