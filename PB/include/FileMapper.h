@@ -10,16 +10,18 @@ class FilesMap final {
 public:
   FilesMap() = delete;
   explicit FilesMap(const std::string &rootDirectory);
-  FilesMap(FilesMap const &) = delete;
+  FilesMap(FilesMap const &);
   FilesMap(FilesMap &&) = delete;
-  FilesMap &operator=(FilesMap const &) = delete;
+  FilesMap &operator=(FilesMap const &);
 
   ~FilesMap() = default;
 
   auto map() const -> std::vector<std::filesystem::path>;
 
+  void setRootDirectory(std::string const &newRootDir);
+
 private:
-  const std::string mRootDirectory;
+  std::string mRootDirectory;
 
 };
 

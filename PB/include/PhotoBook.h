@@ -3,6 +3,7 @@
 #include <string>
 
 #include <Error.h>
+#include <FileMapper.h>
 
 namespace PB {
 class PhotoBookListener {
@@ -26,6 +27,7 @@ public:
   void exportIntermediaryImages([[maybe_unused]] std::string const &path);
 
 private:
-  PhotoBookListener &mListener;
+  PhotoBookListener      &mListener;
+  std::optional<FilesMap> fileMapper;
 };
 } // namespace PB

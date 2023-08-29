@@ -13,9 +13,14 @@ FilesMap::FilesMap(const std::string &rootDirectory)
   printDebug("FilesMap ctr %s\n", rootDirectory.c_str());
 }
 
-FilesMap::FilesMap(std::string &&rootDirectory) : mRootDirectory{rootDirectory}
+FilesMap::FilesMap(FilesMap const &other) : mRootDirectory(other.mRootDirectory)
 {
-  printDebug("FilesMap ctr %s\n", rootDirectory.c_str());
+}
+
+FilesMap &FilesMap::operator=(FilesMap const &other)
+{
+  mRootDirectory = other.mRootDirectory;
+  return *this;
 }
 
 auto FilesMap::map() const -> std::vector<std::filesystem::path>
@@ -41,8 +46,7 @@ auto FilesMap::map() const -> std::vector<std::filesystem::path>
             std::filesystem::is_regular_file(entry)) {
           pathsQueue.push(entry);
         }
-        else
-        {
+        else {
           printDebug("Skipped invalid file");
         }
       }
@@ -52,6 +56,11 @@ auto FilesMap::map() const -> std::vector<std::filesystem::path>
   std::sort(allPaths.begin(), allPaths.end(), CustomComparator());
 
   return allPaths;
+}
+
+void FilesMap::setRootDirectory(std::string const& newRootDir)
+{
+  mRootDirectory = newRootDir;
 }
 
 } // namespace PB
