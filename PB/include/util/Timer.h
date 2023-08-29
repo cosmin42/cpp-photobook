@@ -7,23 +7,24 @@ namespace PB {
 
 template <typename CloseFunction> class Timer final {
 public:
-  Timer() : mStart(std::chrono::high_resolution_clock::now()) {}
+  Timer() : mStart(std::chrono::system_clock::now()) {}
   Timer(Timer const &) = delete;
   Timer(Timer &&) = delete;
   Timer &operator=(Timer const &) = delete;
-  ~Timer() { CloseFunction(elapsed()); }
+  ~Timer() { CloseFunction::onClose(elapsed()); }
 
-  void reset() { mStart = std::chrono::high_resolution_clock::now(); }
+  void reset() { mStart = std::chrono::system_clock::now(); }
 
   double elapsed() const
   {
-    const auto end = std::chrono::high_resolution_clock::now();
-    const std::chrono::duration<double> elapsedTime = end - mStart;
+    const auto                          end = std::chrono::system_clock::now();
+    const std::chrono::duration<double> elapsedTime =
+        std::chrono::duration_cast<std::chrono::microseconds>(end - mStart);
     return elapsedTime.count();
   }
 
 private:
-  std::chrono::time_point<std::chrono::high_resolution_clock> mStart;
+  std::chrono::time_point<std::chrono::system_clock> mStart;
 };
 
 typedef Timer<TimerPrinter> TimerWithPrint;

@@ -69,9 +69,9 @@ void printError(const char *format, ...)
   va_end(arglist);
 }
 
-void TimerPrinter::operator()(double duration)
+void TimerPrinter::onClose(double duration)
 {
-  printDebug("Duration: %ld", duration);
+  printDebug("Duration: %f seconds", duration);
 }
 
 } // namespace PB

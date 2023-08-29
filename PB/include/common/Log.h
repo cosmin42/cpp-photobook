@@ -30,7 +30,7 @@ void printWarning(const char *format, ...);
 void printError(const char *format, ...);
 
 struct TimerPrinter {
-  void operator()(double duration);
+  static void onClose(double duration);
 };
 
 } // namespace PB
