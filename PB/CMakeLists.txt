@@ -50,6 +50,7 @@ add_library(pblib STATIC
     include/Error.h
     include/Enums.h
     include/FileMapper.h
+    include/GradualControllable.h
     include/ImageReader.h
     include/ImageSetWriter.h
     include/MetadataReader.h
@@ -61,6 +62,7 @@ add_library(pblib STATIC
     src/Config.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
+    src/GradualControllable.cpp
     src/ImageReader.cpp
     src/ImageSetWriter.cpp
     src/Log.cpp
