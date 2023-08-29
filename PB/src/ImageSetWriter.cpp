@@ -2,7 +2,7 @@
 
 #include <opencv2/imgcodecs.hpp>
 
-#include <ConfigDependants.h>
+#include <Config.h>
 
 namespace PB {
 void ImageSetWriter::writeImages(std::vector<cv::Mat> const  &image,

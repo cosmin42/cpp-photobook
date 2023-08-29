@@ -2,7 +2,7 @@
 
 #include <queue>
 
-#include <ConfigDependants.h>
+#include <Config.h>
 #include <FileComparator.h>
 
 namespace PB {

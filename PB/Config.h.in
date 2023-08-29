@@ -1,8 +1,36 @@
 #pragma once
 
-#include <common/LogLevel.h>
+#include <common/Log.h>
+#include <util/Timer.h>
+#include <common/@PRINTER_TYPE@.h>
 
 namespace PB {
-  constexpr LogLevel         sLogLevel = LogLevel::@LOG_LEVEL@;
-  constexpr const char *sTempDirectory = "temporary_images";
+  
+class Context final {
+public:
+  static constexpr Context &inst() { return sContext; }
+
+  static constexpr LogLevel logLevel() { return LogLevel::@LOG_LEVEL@; }
+
+  Log const &printer() { return mLogPrinter; }
+
+private:
+  Context() = default;
+  Context(Context const &) = delete;
+  Context(Context &&) = delete;
+  Context &operator=(Context const &) = delete;
+  ~Context() = default;
+
+  static Context sContext;
+
+  @PRINTER_TYPE@ mLogPrinter;
+};
+
+const @PRINTER_TYPE@ sPrinter = PB::@PRINTER_TYPE@();
+
+void printDebug(const char *format, ...);
+void printInfo(const char *format, ...);
+void printWarning(const char *format, ...);
+void printError(const char *format, ...);
+
 } // namespace PB

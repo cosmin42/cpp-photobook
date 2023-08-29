@@ -2,7 +2,7 @@
 
 #include <opencv2/imgcodecs.hpp>
 
-#include <ConfigDependants.h>
+#include <Config.h>
 
 namespace PB {
 auto ImageReader::read(std::filesystem::path const &path)
