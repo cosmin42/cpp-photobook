@@ -10,7 +10,9 @@ class FilesMap final {
 public:
   FilesMap() = delete;
   explicit FilesMap(const std::string &rootDirectory);
-  explicit FilesMap(std::string &&rootDirectory);
+  FilesMap(FilesMap const &) = delete;
+  FilesMap(FilesMap &&) = delete;
+  FilesMap &operator=(FilesMap const &) = delete;
 
   ~FilesMap() = default;
 
