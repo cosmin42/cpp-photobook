@@ -1,7 +1,6 @@
 build/*
 PB/build/*
 PB/include/Config.h
-PB/include/ConfigDependants.h
 .vscode/*
 .commit-check.yml
 windows/EasyPhotoBook/EasyPhotoBook/obj/*
