@@ -11,7 +11,16 @@ public:
   Timer(Timer const &) = delete;
   Timer(Timer &&) = delete;
   Timer &operator=(Timer const &) = delete;
-  ~Timer() { CloseFunction(); }
+  ~Timer() { CloseFunction(elapsed()); }
+
+  void reset() { mStart = std::chrono::high_resolution_clock::now(); }
+
+  double elapsed() const
+  {
+    const auto end = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double> elapsedTime = end - mStart;
+    return elapsedTime.count();
+  }
 
 private:
   std::chrono::time_point<std::chrono::high_resolution_clock> mStart;
