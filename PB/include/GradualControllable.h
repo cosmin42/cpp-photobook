@@ -28,6 +28,7 @@ public:
   void stop();
   void pause();
   void resume();
+  void finish();
 
   bool isStopped() const;
   bool isPaused() const;
@@ -40,6 +41,9 @@ private:
   virtual void doStop() = 0;
   virtual void doPause() = 0;
   virtual void doResume() = 0;
+  virtual void doFinish() = 0;
+
+  void wait();
 
   bool mStopped = true;
   bool mPaused = false;

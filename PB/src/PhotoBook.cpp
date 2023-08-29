@@ -56,7 +56,6 @@ void PhotoBook::doStart()
   else {
     mListener.onError(Error() << ErrorKind::InputOutputFilesNotSet);
   }
-  stop();
 }
 
 } // namespace PB
