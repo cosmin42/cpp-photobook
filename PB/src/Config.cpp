@@ -1,6 +1,5 @@
 #include <Config.h>
 
-namespace PB
-{
+namespace PB {
 Context Context::sContext;
 }

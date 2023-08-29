@@ -1,8 +1,7 @@
 #pragma once
 #include <PhotoBook.h>
 
-namespace BL
-{
+namespace BL {
 class MainActivity final : public PB::PhotoBookListener {
 public:
   MainActivity() = default;
@@ -16,4 +15,4 @@ public:
   void onProgressUpdate() override {}
   void onError(PB::Error error) override {}
 };
-}
+} // namespace BL
