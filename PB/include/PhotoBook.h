@@ -33,6 +33,7 @@ private:
   void doStop() override {}
   void doPause() override {}
   void doResume() override {}
+  void doFinish() override {}
 
   std::optional<FilesMap>      fileMapper = std::nullopt;
 
