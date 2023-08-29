@@ -45,6 +45,7 @@ add_subdirectory(third-party/magic_enum)
 
 add_library(pblib STATIC
     include/common/Log.h
+    include/common/${PRINTER_TYPE}.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h
     include/Error.h
     include/Enums.h
