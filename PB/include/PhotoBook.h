@@ -22,7 +22,7 @@ public:
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
 
-  auto loadImages([[maybe_unused]] std::string const &root)
+  auto mapImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
 
   void exportImage([[maybe_unused]] std::string const &path);

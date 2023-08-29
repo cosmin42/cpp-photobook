@@ -3,7 +3,7 @@
 namespace PB {
 PhotoBook::PhotoBook(PhotoBookListener &listener) : mListener(listener) {}
 
-auto PhotoBook::loadImages(std::string const &root)
+auto PhotoBook::mapImages(std::string const &root)
     -> std::vector<std::filesystem::path>
 {
   if (!fileMapper) {
