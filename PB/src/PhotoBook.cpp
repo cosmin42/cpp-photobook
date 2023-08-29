@@ -44,4 +44,13 @@ auto PhotoBook::loadImage(std::string const &path) -> std::optional<cv::Mat>
 }
 
 void PhotoBook::exportImage(std::string const &path) {}
+
+void PhotoBook::doStart()
+{
+  if (mInputPath && mOutputPath) {
+    mImagesMapCache = fileMapper->map();
+  }
+  stop();
+}
+
 } // namespace PB

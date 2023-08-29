@@ -30,7 +30,6 @@ public:
   void setOutputPath(std::string const &path);
 
 
-
 private:
   auto mapImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
@@ -39,7 +38,7 @@ private:
 
   void exportImage([[maybe_unused]] std::string const &path);
 
-  void doStart() override {}
+  void doStart() override;
   void doStop() override {}
   void doPause() override {}
   void doResume() override {}
@@ -49,5 +48,7 @@ private:
 
   std::optional<Path> mInputPath = std::nullopt;
   std::optional<Path> mOutputPath = std::nullopt;
+
+  std::vector<std::filesystem::path> mImagesMapCache;
 };
 } // namespace PB
