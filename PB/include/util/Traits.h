@@ -25,4 +25,6 @@ auto compose(HeadFn &&f, TailFn &&...tailF)
   };
 }
 
+typedef std::filesystem::path Path;
+
 } // namespace PB

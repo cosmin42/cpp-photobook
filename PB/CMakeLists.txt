@@ -56,6 +56,7 @@ add_library(pblib STATIC
     include/MetadataReader.h
     include/FileComparator.h
     include/PhotoBook.h
+    include/util/FileInfo.h
     include/util/Timer.h
     include/util/Traits.h
 
@@ -68,6 +69,7 @@ add_library(pblib STATIC
     src/Log.cpp
     src/MetadataReader.cpp
     src/PhotoBook.cpp
+    src/util/FileInfo.cpp
     src/util/Timer.cpp
 )
 
