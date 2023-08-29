@@ -27,7 +27,6 @@ set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
 if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
     message("Generating config files...")
     configure_file(Config.h.in include/Config.h)
-    configure_file(ConfigDependants.h.in include/ConfigDependants.h)
 else()
     message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${LOG_LEVEL_STRING_LIST}" )
 endif()
@@ -47,8 +46,6 @@ add_subdirectory(third-party/magic_enum)
 add_library(pblib STATIC
     include/common/Log.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h
-    ${CMAKE_CURRENT_BINARY_DIR}/include/ConfigDependants.h
-    include/Context.h
     include/Error.h
     include/Enums.h
     include/FileMapper.h
@@ -60,8 +57,6 @@ add_library(pblib STATIC
     include/util/Timer.h
     include/util/Traits.h
 
-    src/Context.cpp
-    src/ConfigDependants.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/ImageReader.cpp

@@ -1,4 +1,5 @@
 #include <PBArgsListener.h>
+#include <Config.h>
 
 namespace BL {
 void PBArgsListener::handleInputArgument(std::string inputPath) const
