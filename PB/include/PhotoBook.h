@@ -25,7 +25,7 @@ public:
   auto loadImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
 
-  void exportIntermediaryImages([[maybe_unused]] std::string const &path);
+  void exportImage([[maybe_unused]] std::string const &path);
 
 private:
   PhotoBookListener      &mListener;

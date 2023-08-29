@@ -16,5 +16,5 @@ auto PhotoBook::loadImages(std::string const &root)
   return fileMapper->map();
 }
 
-void PhotoBook::exportIntermediaryImages(std::string const &path) {}
+void PhotoBook::exportImage(std::string const &path) {}
 } // namespace PB
