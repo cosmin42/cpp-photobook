@@ -12,7 +12,7 @@ endif()
 
 add_subdirectory(PB)
 
-add_executable(PhotoBook main.cpp src/ArgsHandler.cpp src/PBArgsListener.cpp)
+add_executable(PhotoBook main.cpp include/MainActivity.h src/ArgsHandler.cpp src/PBArgsListener.cpp)
 
 target_include_directories(PhotoBook PUBLIC PB/include include)
 
