@@ -24,4 +24,9 @@ private:
   virtual void doPrintError(const char *format, va_list arglist) const = 0;
 };
 
+void printDebug(const char *format, ...);
+void printInfo(const char *format, ...);
+void printWarning(const char *format, ...);
+void printError(const char *format, ...);
+
 } // namespace PB
