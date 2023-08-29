@@ -58,6 +58,7 @@ add_library(pblib STATIC
     include/PhotoBook.h
     include/util/FileInfo.h
     include/util/Timer.h
+    include/util/Thread.h
     include/util/Traits.h
 
     src/Config.cpp
@@ -71,6 +72,7 @@ add_library(pblib STATIC
     src/PhotoBook.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
+    src/util/Thread.cpp
 )
 
 target_include_directories(pblib PUBLIC include
