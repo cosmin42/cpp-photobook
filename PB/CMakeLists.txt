@@ -57,6 +57,7 @@ add_library(pblib STATIC
     include/util/Timer.h
     include/util/Traits.h
 
+    src/Config.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/ImageReader.cpp
