@@ -16,5 +16,9 @@ auto PhotoBook::mapImages(std::string const &root)
   return fileMapper->map();
 }
 
+auto PhotoBook::loadImage(std::string const &path) -> std::optional<cv::Mat> {
+  return ImageReader::defaultRead()(path);
+}
+
 void PhotoBook::exportImage(std::string const &path) {}
 } // namespace PB

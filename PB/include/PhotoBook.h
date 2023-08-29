@@ -4,6 +4,7 @@
 
 #include <Error.h>
 #include <FileMapper.h>
+#include <ImageReader.h>
 
 namespace PB {
 class PhotoBookListener {
@@ -24,6 +25,8 @@ public:
 
   auto mapImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
+
+  auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
 
   void exportImage([[maybe_unused]] std::string const &path);
 
