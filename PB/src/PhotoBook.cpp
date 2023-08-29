@@ -8,8 +8,7 @@ void PhotoBook::setInputPath(std::string const &path)
 {
   PB::Path fsPath = path;
   auto     result = FileInfo::validInputRootPath(fsPath);
-  std::visit(overloaded{[inputPath = &mInputPath](
-                            PB::Path const &path) mutable { inputPath = path; },
+  std::visit(overloaded{[this](PB::Path const &path) { mInputPath = path; },
                         [mListener = &mListener](Error error) {
                           mListener->onError(error);
                         }},
@@ -19,12 +18,11 @@ void PhotoBook::setOutputPath(std::string const &path)
 {
   PB::Path fsPath = path;
   auto     result = FileInfo::validOutputRootPath(fsPath);
-  std::visit(overloaded{[inputPath = &mInputPath](
-                            PB::Path const &path) mutable { inputPath = path; },
-                        [mListener = &mListener](Error error) {
-                          mListener->onError(error);
-                        }},
-             result);
+  std::visit(
+      overloaded{
+          [this](PB::Path const &path) mutable { mOutputPath = path; },
+          [mListener = &mListener](Error error) { mListener->onError(error); }},
+      result);
 }
 
 auto PhotoBook::mapImages(std::string const &root)

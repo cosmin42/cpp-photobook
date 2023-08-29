@@ -29,6 +29,8 @@ public:
   void setInputPath(std::string const &path);
   void setOutputPath(std::string const &path);
 
+
+
 private:
   auto mapImages([[maybe_unused]] std::string const &root)
       -> std::vector<std::filesystem::path>;
@@ -43,9 +45,9 @@ private:
   void doResume() override {}
 
   PhotoBookListener      &mListener;
-  std::optional<FilesMap> fileMapper;
+  std::optional<FilesMap> fileMapper = std::nullopt;
 
-  std::filesystem::path mInputPath;
-  std::filesystem::path mOutputPath;
+  std::optional<Path> mInputPath = std::nullopt;
+  std::optional<Path> mOutputPath = std::nullopt;
 };
 } // namespace PB
