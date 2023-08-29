@@ -1,5 +1,6 @@
 #pragma once
 #include <ArgsHandler.h>
+#include <MainActivity.h>
 
 namespace BL {
 class PBArgsListener final : public ArgsHandlerListener {
