@@ -8,7 +8,9 @@
 #include <ImageReader.h>
 
 namespace PB {
+
 class PhotoBookListener {
+public:
   virtual void onFinished() = 0;
   virtual void onStarted() = 0;
   virtual void onProgressUpdate() = 0;
@@ -23,6 +25,9 @@ public:
   PhotoBook(PhotoBook &&) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
+
+  void setInputPath(std::string const &path);
+  void setOutputPath(std::string const &path);
 
 private:
   auto mapImages([[maybe_unused]] std::string const &root)
@@ -39,5 +44,8 @@ private:
 
   PhotoBookListener      &mListener;
   std::optional<FilesMap> fileMapper;
+
+  std::filesystem::path mInputPath;
+  std::filesystem::path mOutputPath;
 };
 } // namespace PB

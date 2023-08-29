@@ -5,5 +5,5 @@
 #include <util/Traits.h>
 
 namespace PB {
-enum class ErrorKind { Unknown, FileNotFound };
+enum class ErrorKind { Unknown, InvalidFile, FileDoesNotExist , NotADirectory};
 } // namespace PB
