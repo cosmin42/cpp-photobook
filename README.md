@@ -19,6 +19,3 @@ The tests are generated only when ```LOG_LEVEL=Debug```
 ## Static analysis
 CMake with ```STATIC_CHECK=true```
 
-## Boost modules
-The boost uuid module is extracted using [bcp](https://www.boost.org/doc/libs/1_82_0/tools/bcp/doc/html/index.html) tool.
-```bcp --namespace-alias detail uuid random integer tti function_types```
