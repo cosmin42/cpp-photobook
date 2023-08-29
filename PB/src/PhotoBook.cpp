@@ -2,7 +2,10 @@
 #include <util/FileInfo.h>
 
 namespace PB {
-PhotoBook::PhotoBook(PhotoBookListener &listener) : mListener(listener) {}
+PhotoBook::PhotoBook(GradualControllableListener &listener)
+    : GradualControllable(listener)
+{
+}
 
 void PhotoBook::setInputPath(std::string const &path)
 {
@@ -49,6 +52,9 @@ void PhotoBook::doStart()
 {
   if (mInputPath && mOutputPath) {
     mImagesMapCache = fileMapper->map();
+  }
+  else {
+    mListener.onError(Error() << ErrorKind::InputOutputFilesNotSet);
   }
   stop();
 }

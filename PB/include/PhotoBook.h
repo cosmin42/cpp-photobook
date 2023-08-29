@@ -9,17 +9,9 @@
 
 namespace PB {
 
-class PhotoBookListener {
-public:
-  virtual void onFinished() = 0;
-  virtual void onStarted() = 0;
-  virtual void onProgressUpdate() = 0;
-  virtual void onError(Error error) = 0;
-};
-
 class PhotoBook final : public GradualControllable {
 public:
-  explicit PhotoBook(PhotoBookListener &listener);
+  explicit PhotoBook(GradualControllableListener &listener);
   PhotoBook() = delete;
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&) = delete;
@@ -28,7 +20,6 @@ public:
 
   void setInputPath(std::string const &path);
   void setOutputPath(std::string const &path);
-
 
 private:
   auto mapImages([[maybe_unused]] std::string const &root)
@@ -43,8 +34,7 @@ private:
   void doPause() override {}
   void doResume() override {}
 
-  PhotoBookListener      &mListener;
-  std::optional<FilesMap> fileMapper = std::nullopt;
+  std::optional<FilesMap>      fileMapper = std::nullopt;
 
   std::optional<Path> mInputPath = std::nullopt;
   std::optional<Path> mOutputPath = std::nullopt;

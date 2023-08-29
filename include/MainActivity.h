@@ -2,7 +2,7 @@
 #include <PhotoBook.h>
 
 namespace BL {
-class MainActivity final : public PB::PhotoBookListener {
+class MainActivity final : public PB::GradualControllableListener {
 public:
   MainActivity() : mPhotoBook(*this) {}
   MainActivity(MainActivity const &) = delete;
@@ -11,7 +11,11 @@ public:
   ~MainActivity() = default;
 
   void onFinished() override {}
+  void onStopped() override {}
   void onStarted() override {}
+  void onPaused() override {}
+  void onResumed() override {}
+
   void onProgressUpdate() override {}
   void onError(PB::Error error) override {}
 
