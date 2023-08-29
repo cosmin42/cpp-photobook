@@ -9,12 +9,20 @@
 namespace PB {
 class ImageReader final {
 public:
-  ImageReader() = default;
+  ImageReader() = delete;
   ImageReader(ImageReader const &) = delete;
   ImageReader(ImageReader &&) = delete;
   ImageReader &operator=(ImageReader const &other) = delete;
-  ~ImageReader() = default;
+  ~ImageReader() = delete;
 
-  auto read(std::filesystem::path const &path) -> std::optional<cv::Mat>;
+  static auto defaultRead() -> auto
+  {
+    return [](std::filesystem::path const &path) -> std::optional<cv::Mat> {
+      return read(path);
+    };
+  }
+
+private:
+  static auto read(std::filesystem::path const &path) -> std::optional<cv::Mat>;
 };
 } // namespace PB
