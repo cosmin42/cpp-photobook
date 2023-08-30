@@ -60,6 +60,7 @@ CMake with ```STATIC_CHECK=true```, it will use clang-tidy.
 
 ## Troubleshoot
 The known to work vcpkg version: ```2023.08.09``` 
+
 The known to work packages versions:
 ```
 boost-program-options:x64-windows                 1.82.0#2
@@ -79,4 +80,4 @@ The vcpkg-export folder contains the release version of the lbraries. This way t
 In order to install the libraries release version only modify the x64-windows triplet adding ```set(VCPKG_BUILD_TYPE release)```
 
 #### Exporting vcpkg packages
-```vcpkg export raw --x-all-installed```
+```vcpkg export --raw --x-all-installed```
