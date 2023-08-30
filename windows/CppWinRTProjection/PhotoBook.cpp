@@ -3,6 +3,9 @@
 
 namespace winrt::CppWinRTProjection::implementation {
 
+void PhotoBook::setInputPath(const winrt::hstring inputPath) {}
+void PhotoBook::setOutputPath(const winrt::hstring outputPath) {}
+
 GradualControllableListener::GradualControllableListener(
     CppWinRTProjection::GradualControllableListener const &parent)
     : mParent(parent)
@@ -18,6 +21,10 @@ void GradualControllableListener::onResumed() { mParent.OnResumed(); }
 void GradualControllableListener::onProgressUpdate()
 {
   mParent.OnProgressUpdate();
+}
+
+void GradualControllableListener::onError(PB::Error) {
+
 }
 
 } // namespace winrt::CppWinRTProjection::implementation
