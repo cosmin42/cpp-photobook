@@ -5,36 +5,39 @@
 #include <pb/PhotoBook.h>
 
 namespace winrt::CppWinRTProjection::implementation {
+
+class GradualControllableListener;
+
+struct PhotoBook : PhotoBookT<PhotoBook> {
+  explicit PhotoBook(
+      const CppWinRTProjection::GradualControllableListener &listener)
+      : mPhotoBook(listener)
+  {
+  }
+
+private:
+  CppWinRTProjection::PhotoBook mPhotoBook;
+};
+
 class GradualControllableListener final
     : public PB::GradualControllableListener {
 public:
+  GradualControllableListener() = delete;
   explicit GradualControllableListener(
-      const CppWinRTProjection::GradualControllableListener &parent)
-      : mParent(parent)
-  {
-  }
+      const CppWinRTProjection::GradualControllableListener &parent);
 
-  void onFinished() {}
-  void onStopped() {}
-  void OnStarted() {}
-  void OnPaused() {}
-  void OnResumed() {}
+  ~GradualControllableListener() = default;
 
-  void OnProgressUpdate() {}
+  void onFinished() override;
+  void onStopped() override {}
+  void onStarted() override {}
+  void onPaused() override {}
+  void onResumed() override {}
 
+  void onProgressUpdate() {}
 
 private:
   CppWinRTProjection::GradualControllableListener mParent;
-};
-
-struct PhotoBook : PhotoBookT<PhotoBook> {
-  explicit PhotoBook(GradualControllableListener const &listener) : mPhotoBook(listener)
-  {
-
-  }
-
-private:
-  PB::PhotoBook mPhotoBook;
 };
 } // namespace winrt::CppWinRTProjection::implementation
 
