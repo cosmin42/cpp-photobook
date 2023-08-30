@@ -1,5 +1,14 @@
 namespace CppWinRTProjection {
-[default_interface] runtimeclass PhotoBook {
-  PhotoBook();
-}
-}
+
+interface GradualControllableListener {
+  void OnFinished();
+  void OnStopped();
+  void OnStarted();
+  void OnPaused();
+  void OnResumed();
+
+  void OnProgressUpdate();
+};
+
+[default_interface] runtimeclass PhotoBook { PhotoBook(); }
+} // namespace CppWinRTProjection
