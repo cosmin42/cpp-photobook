@@ -29,12 +29,12 @@ public:
   ~GradualControllableListener() = default;
 
   void onFinished() override;
-  void onStopped() override {}
-  void onStarted() override {}
-  void onPaused() override {}
-  void onResumed() override {}
+  void onStopped() override;
+  void onStarted() override;
+  void onPaused() override;
+  void onResumed() override;
 
-  void onProgressUpdate() {}
+  void onProgressUpdate() override;
 
 private:
   CppWinRTProjection::GradualControllableListener mParent;
