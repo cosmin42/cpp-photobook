@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include <Error.h>
-#include <FileMapper.h>
-#include <GradualControllable.h>
-#include <ImageReader.h>
+#include <pb/Error.h>
+#include <pb/FileMapper.h>
+#include <pb/GradualControllable.h>
+#include <pb/ImageReader.h>
 
 namespace PB {
 

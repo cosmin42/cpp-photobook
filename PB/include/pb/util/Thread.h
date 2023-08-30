@@ -6,7 +6,7 @@
 #include <queue>
 #include <thread>
 
-#include <Config.h>
+#include <pb/Config.h>
 
 namespace PB {
 class Thread final {

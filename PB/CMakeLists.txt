@@ -26,7 +26,7 @@ set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
 
 if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
     message("Generating config files...")
-    configure_file(Config.h.in include/Config.h)
+    configure_file(Config.h.in include/pb/Config.h)
 else()
     message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${LOG_LEVEL_STRING_LIST}" )
 endif()
@@ -44,22 +44,22 @@ find_package(Boost REQUIRED program_options)
 add_subdirectory(third-party/magic_enum)
 
 add_library(pblib STATIC
-    include/common/Log.h
-    include/common/${PRINTER_TYPE}.h
-    ${CMAKE_CURRENT_BINARY_DIR}/include/Config.h
-    include/Error.h
-    include/Enums.h
-    include/FileMapper.h
-    include/GradualControllable.h
-    include/ImageReader.h
-    include/ImageSetWriter.h
-    include/MetadataReader.h
-    include/FileComparator.h
-    include/PhotoBook.h
-    include/util/FileInfo.h
-    include/util/Timer.h
-    include/util/Thread.h
-    include/util/Traits.h
+    include/pb/common/Log.h
+    include/pb/common/${PRINTER_TYPE}.h
+    ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
+    include/pb/Error.h
+    include/pb/Enums.h
+    include/pb/FileMapper.h
+    include/pb/GradualControllable.h
+    include/pb/ImageReader.h
+    include/pb/ImageSetWriter.h
+    include/pb/MetadataReader.h
+    include/pb/FileComparator.h
+    include/pb/PhotoBook.h
+    include/pb/util/FileInfo.h
+    include/pb/util/Timer.h
+    include/pb/util/Thread.h
+    include/pb/util/Traits.h
 
     src/Config.cpp
     src/FileMapper.cpp

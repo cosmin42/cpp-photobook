@@ -1,8 +1,8 @@
-#include <ImageReader.h>
+#include <pb/ImageReader.h>
 
 #include <opencv2/imgcodecs.hpp>
 
-#include <Config.h>
+#include <pb/Config.h>
 
 namespace PB {
 auto ImageReader::read(std::filesystem::path const &path)

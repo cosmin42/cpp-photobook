@@ -1,8 +1,8 @@
 #pragma once
 
-#include <common/Log.h>
-#include <util/Timer.h>
-#include <common/@PRINTER_TYPE@.h>
+#include <pb/common/Log.h>
+#include <pb/util/Timer.h>
+#include <pb/common/@PRINTER_TYPE@.h>
 
 namespace PB {
   

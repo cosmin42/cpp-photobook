@@ -1,8 +1,8 @@
-#include <ImageSetWriter.h>
+#include <pb/ImageSetWriter.h>
 
 #include <opencv2/imgcodecs.hpp>
 
-#include <Config.h>
+#include <pb/Config.h>
 
 namespace PB {
 void ImageSetWriter::writeImages(std::vector<cv::Mat> const  &image,

@@ -1,5 +1,5 @@
-#include <PhotoBook.h>
-#include <util/FileInfo.h>
+#include <pb/PhotoBook.h>
+#include <pb/util/FileInfo.h>
 
 namespace PB {
 PhotoBook::PhotoBook(GradualControllableListener &listener)
