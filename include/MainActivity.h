@@ -1,5 +1,5 @@
 #pragma once
-#include <PhotoBook.h>
+#include <pb/PhotoBook.h>
 
 namespace BL {
 class MainActivity final : public PB::GradualControllableListener {

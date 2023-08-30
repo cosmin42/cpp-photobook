@@ -1,8 +1,8 @@
 #include <memory>
 
 #include <PBArgsListener.h>
-#include <PhotoBook.h>
-#include <util/Timer.h>
+#include <pb/PhotoBook.h>
+#include <pb/util/Timer.h>
 
 auto main(int argc, char *argv[]) -> int
 {
