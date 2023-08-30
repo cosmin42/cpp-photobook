@@ -5,17 +5,42 @@
 This project should be able to generate a pdf photobook based on a folder structure filled with photos.
 
 ## Build and Run
-Create a ```build``` folder
-```cmake -DPRINTER_TYPE=StandardPrinter -DLOG_LEVEL=Debug ..```
 
-```make -j8```
+[Install vcpkg.](https://vcpkg.io/en/getting-started.html)
 
-```./PhotoBook```
+### Windows
+Install the required packages using vcpkg:
+```vcpkg install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows  expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2::x64-windows gtest::x64-windows```
+
+Go to ```cpp-photobook\PB```
+
+Run ```cmake -B [build directory] -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake -DLOG_LEVEL=Debug```
+
+Open the solution file from ```cpp-photobook\windows\PhotoBookUI```
+
+
+### macOS
+
+```./vcpkg install boost-program-options:x64-osx opencv:x64-osx boost-uuid:x64-osx  expat:x64-osx brotli:x64-osx inih:x64-osx magic-enum:x64-osx exiv2::x64-osx gtest::x64-osx```
+
+Go to ```cpp-photobook```
+
+```cmake -B [build directory] -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake -DLOG_LEVEL=Debug```
+
+```cmake --build [build directory]```
+
+Run ```./PhotoBook``` from the build folder.
+
+
 
 ## Tests
 The tests are generated only when ```LOG_LEVEL=Debug```
-```./pbtests```
+
+macOS: ```./pbtests``` on macOS.
+
+Windows: Run the pbtests projects in the solution file.
+
 
 ## Static analysis
-CMake with ```STATIC_CHECK=true```
+CMake with ```STATIC_CHECK=true```, it will use clang-tidy.
 
