@@ -28,9 +28,13 @@ private:
 };
 
 struct PhotoBook : PhotoBookT<PhotoBook> {
-  explicit PhotoBook(PB::GradualControllableListener const &) {}
+  explicit PhotoBook(GradualControllableListener const &listener) : mPhotoBook(listener)
+  {
+
+  }
 
 private:
+  PB::PhotoBook mPhotoBook;
 };
 } // namespace winrt::CppWinRTProjection::implementation
 

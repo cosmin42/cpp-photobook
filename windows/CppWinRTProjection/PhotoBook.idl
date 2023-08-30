@@ -10,5 +10,7 @@ interface GradualControllableListener {
   void OnProgressUpdate();
 };
 
-[default_interface] runtimeclass PhotoBook { PhotoBook(); }
+[default_interface] runtimeclass PhotoBook {
+  PhotoBook(GradualControllableListener listener);
+}
 } // namespace CppWinRTProjection
