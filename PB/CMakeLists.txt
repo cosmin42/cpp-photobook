@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.27)
 
+project(PhotoBookLib)
+
+option(STATIC_CHECK "Statically check the program." OFF)
+option(LOG_LEVEL "Log level." OFF)
+option(PRINTER_TYPE "The printer type." OFF)
+
 if (WIN32)
     add_compile_options(/std:c++20)
     add_compile_options(/EHsc)
@@ -7,10 +13,6 @@ else()
     set(CMAKE_CXX_FLAGS "-std=c++20")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
-
-option(STATIC_CHECK "Statically check the program." OFF)
-option(LOG_LEVEL "Log level." OFF)
-option(PRINTER_TYPE "The printer type." OFF)
 
 # The default printer
 if (NOT PRINTER_TYPE)
@@ -22,13 +24,13 @@ if (NOT LOG_LEVEL)
     set(LOG_LEVEL None)
 endif()
 
-set(LOG_LEVEL_STRING_LIST None Debug Info Warning Error)
+set(EXISTING_LOG_LEVELS None Debug Info Warning Error)
 
-if (LOG_LEVEL IN_LIST LOG_LEVEL_STRING_LIST)
+if (LOG_LEVEL IN_LIST EXISTING_LOG_LEVELS)
     message("Generating config files...")
     configure_file(Config.h.in include/pb/Config.h)
 else()
-    message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${LOG_LEVEL_STRING_LIST}" )
+    message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${EXISTING_LOG_LEVELS}" )
 endif()
 
 if (STATIC_CHECK)
@@ -36,12 +38,15 @@ if (STATIC_CHECK)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
 endif()
 
-project(pblib)
-
-find_package(OpenCV CONFIG REQUIRED)
 find_package(Boost REQUIRED program_options)
+find_package(exiv2 CONFIG REQUIRED)
+if (LOG_LEVEL MATCHES Debug)
+    find_package(GTest CONFIG REQUIRED)
+endif()
+find_package(magic_enum CONFIG REQUIRED)
+find_package(OpenCV CONFIG REQUIRED)
 
-add_subdirectory(third-party/magic_enum)
+include_directories(${CMAKE_BINARY_DIR})
 
 add_library(pblib STATIC
     include/pb/common/Log.h
@@ -72,20 +77,19 @@ add_library(pblib STATIC
     src/PhotoBook.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
-    src/util/Thread.cpp
-)
+    src/util/Thread.cpp)
 
-target_include_directories(pblib PUBLIC include
-    third-party/magic_enum/include
+target_include_directories(pblib PUBLIC
+    include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-target_link_libraries(pblib PUBLIC opencv_core Boost::boost Boost::program_options)
+target_link_libraries(pblib PUBLIC
+    opencv_core
+    Boost::boost
+    Boost::program_options
+    exiv2lib)
+
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
-
-add_subdirectory(third-party/googletest)
-add_subdirectory(third-party/exiv2)
-
-include_directories(${CMAKE_BINARY_DIR})
 
 if (LOG_LEVEL MATCHES Debug)
     add_executable(pbtests 
@@ -94,10 +98,13 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
-    target_include_directories(pbtests PRIVATE include
-        ${CMAKE_CURRENT_BINARY_DIR}/include
-        third-party/exiv2/include
-        third-party/magic_enum/include)
+    target_include_directories(pbtests PRIVATE
+        include
+        ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-    target_link_libraries(pbtests pblib gtest gtest_main exiv2lib)
+    target_link_libraries(pbtests
+        exiv2lib
+        GTest::gtest GTest::gtest_main
+        magic_enum::magic_enum
+        pblib)
 endif()
