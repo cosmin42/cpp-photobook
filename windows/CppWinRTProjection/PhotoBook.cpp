@@ -9,13 +9,15 @@ GradualControllableListener::GradualControllableListener(
 {
 }
 
-void GradualControllableListener::onFinished() {}
+void GradualControllableListener::onFinished() { mParent.OnFinished(); }
+void GradualControllableListener::onStopped() { mParent.OnStopped(); }
+void GradualControllableListener::onStarted() { mParent.OnStarted(); }
+void GradualControllableListener::onPaused() { mParent.OnPaused(); }
+void GradualControllableListener::onResumed() { mParent.OnResumed(); }
 
-void GradualControllableListener::onStopped() {}
-void GradualControllableListener::onStarted() {}
-void GradualControllableListener::onPaused() {}
-void GradualControllableListener::onResumed() {}
-
-void GradualControllableListener::onProgressUpdate() {}
+void GradualControllableListener::onProgressUpdate()
+{
+  mParent.OnProgressUpdate();
+}
 
 } // namespace winrt::CppWinRTProjection::implementation
