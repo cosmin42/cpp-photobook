@@ -20,3 +20,4 @@ windows/CppWinRTProjection/Generated\ Files/*
 windows/CppProjection/obj/*
 windows/CppProjection/bin/*
 windows/PhotobookUI/bin/*
+osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
