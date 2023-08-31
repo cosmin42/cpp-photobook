@@ -21,7 +21,7 @@ endif()
 
 # The default log level
 if (NOT LOG_LEVEL)
-    set(LOG_LEVEL None)
+    set(LOG_LEVEL Debug)
 endif()
 
 set(EXISTING_LOG_LEVELS None Debug Info Warning Error)
