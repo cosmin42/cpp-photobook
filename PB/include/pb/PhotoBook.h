@@ -33,9 +33,10 @@ private:
   void doResume() override {}
   void doFinish() override {}
 
-  std::vector<Path>   mMediaFolders;
+  std::unordered_map<Path, MediaMapper>   mMediaFolders;
   std::optional<Path> mOutputPath = std::nullopt;
 
   std::vector<std::filesystem::path> mImagesMapCache;
+
 };
 } // namespace PB
