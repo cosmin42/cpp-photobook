@@ -9,9 +9,9 @@ namespace PhotobookUI
             InitializeComponent();
         }
 
-        private void OnNewProjectClicked(object sender, EventArgs e)
+        private async void OnNewProjectClicked(object sender, EventArgs e)
         {
-            App.Current.MainPage = new TableContentPage();
+            await Navigation.PushAsync(new TableContentPage());
         }
 
         public void OnFinished()
