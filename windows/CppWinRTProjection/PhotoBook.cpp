@@ -1,19 +1,21 @@
 ﻿#include "PhotoBook.h"
 #include "PhotoBook.g.cpp"
 
+#include <string>
+
 #include <Converter.h>
 
 namespace winrt::CppWinRTProjection::implementation {
 
-void PhotoBook::setInputPath(const winrt::hstring inputPath)
+void PhotoBook::AddMedia(const winrt::hstring mediaPath)
 {
-  std::string inputPathNative = NativePB::Converter()(inputPath);
-  mPhotoBook.setInputPath(inputPathNative);
+  std::string inputPathNative = NativePB::Converter()(mediaPath);
+  mPhotoBook.addMedia(inputPathNative);
 }
 void PhotoBook::setOutputPath(const winrt::hstring outputPath)
 {
   std::string outputPathNative = NativePB::Converter()(outputPath);
-  mPhotoBook.setInputPath(outputPathNative);
+  mPhotoBook.setOutputPath(outputPathNative);
 }
 
 GradualControllableListener::GradualControllableListener(

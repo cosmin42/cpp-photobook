@@ -26,7 +26,7 @@ public partial class TableContentPage : ContentPage, CppWinRTProjection.GradualC
 
             if (result != null)
             {
-                photoBook.setInputPath(result.Folder.Path);
+                photoBook.AddMedia(result.Folder.Path);
             }
             else
             {

@@ -35,7 +35,7 @@ struct PhotoBook : PhotoBookT<PhotoBook> {
   {
   }
 
-  void setInputPath(const winrt::hstring inputPath);
+  void AddMedia(const winrt::hstring inputPath);
   void setOutputPath(const winrt::hstring outputPath);
 
 private:
