@@ -12,7 +12,7 @@ public:
   explicit MediaMapper(std::filesystem::path const &root,
                        std::function<void()>        onFinish);
   MediaMapper(MediaMapper const &other) : Thread(other) {}
-  MediaMapper(MediaMapper &&other) : Thread(other) {}
+  MediaMapper(MediaMapper &&other) noexcept : Thread(other) {}
   MediaMapper &operator=(MediaMapper const &) { return *this; }
   ~MediaMapper() = default;
 

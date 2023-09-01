@@ -1,12 +1,9 @@
 #pragma once
 
-#include <condition_variable>
 #include <functional>
-#include <mutex>
 #include <queue>
+#include <stop_token>
 #include <thread>
-
-#include <pb/Config.h>
 
 namespace PB {
 class Thread {
