@@ -9,19 +9,15 @@
 #include <pb/Config.h>
 
 namespace PB {
-class Thread final {
+class Thread {
 public:
   explicit Thread(std::stop_token stopToken);
-  ~Thread() = default;
+  virtual ~Thread() = default;
 
-  void post(std::function<void()> f);
+  virtual void executeSingleTask() = 0;
 
 private:
   void run();
-
-  void runNextTask();
-
-  auto getNextTask() -> std::function<void()>;
 
   std::jthread                      mThread;
   std::stop_token                   mCurrentToken;

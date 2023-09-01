@@ -12,30 +12,8 @@ Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken)
 void Thread::run()
 {
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
-    runNextTask();
+    executeSingleTask();
   }
 }
 
-void Thread::post(std::function<void()> f)
-{
-  std::scoped_lock exclusiveAccess(mTaskQueueAccess);
-  mTasksQueue.push(f);
-  mQueueNotEmptyCondition.notify_one();
-}
-
-void Thread::runNextTask() { getNextTask()(); }
-
-auto Thread::getNextTask() -> std::function<void()>
-{
-  std::unique_lock exclusiveAccess(mTaskQueueAccess);
-  bool             interrupted = mQueueNotEmptyCondition.wait(
-      exclusiveAccess, mExternalToken,
-      [&mTasksQueue = mTasksQueue]() { return !mTasksQueue.empty(); });
-  if (interrupted) {
-    return []() {};
-  }
-  auto f = mTasksQueue.front();
-  mTasksQueue.pop();
-  return f;
-}
 } // namespace PB
