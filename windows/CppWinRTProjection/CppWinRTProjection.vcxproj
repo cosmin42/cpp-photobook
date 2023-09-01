@@ -110,6 +110,7 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDIr)..\..\PB\include;$(SolutionDIr)..\..\PB\build;$(SolutionDIr)..\..\PB\include\build\include;$(SolutionDIr)..\..\PB\third-party\magic_enum\include;$(VcpkgRoot)\installed\$(VcpkgPlatformTarget)-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp20</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
