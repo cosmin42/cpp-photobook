@@ -6,6 +6,7 @@
     <ActiveDebugProfile>Android Emulator</ActiveDebugProfile>
     <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
     <DefaultDevice>pixel_5_-_api_33</DefaultDevice>
+    <DeployOptionalPackages>True</DeployOptionalPackages>
   </PropertyGroup>
   <ItemGroup>
     <MauiXaml Update="App.xaml">
