@@ -15,20 +15,37 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <HorizontalStackLayout
+        <Grid
             Grid.Row="0"
             Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+            
             <Button
+                BackgroundColor="#004C35"
                 Clicked="OnBackClicked"
                 CornerRadius="0"
-                HorizontalOptions="Center"
+                HorizontalOptions="Start"
                 Grid.Column="0"
                 Grid.Row="0"
                 SemanticProperties.Hint="Back"
                 Text="Back"
                 VerticalOptions="Center"
                 x:Name="BackButton"/>
-        </HorizontalStackLayout>
+            <Label
+                Grid.Column="1"
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                TextColor="#FFF"
+                Text="Photobook"
+                VerticalOptions="Center"/>
+        </Grid>
 
 
         <Grid
@@ -39,8 +56,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
 
             <Border
@@ -82,14 +99,14 @@
         <Grid
             Grid.Row="2"
             Grid.Column="0">
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Border
                 Stroke="#004C35"
                 StrokeThickness="1"
