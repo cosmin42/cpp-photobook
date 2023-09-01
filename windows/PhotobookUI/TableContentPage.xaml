@@ -70,10 +70,16 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="4,4,4,4" />
                 </Border.StrokeShape>
+                <Button
+                    BackgroundColor="#004C35"
+                    Clicked="OnAddMediaClicked"
+                    CornerRadius="4"
+                    HorizontalOptions="Center"
+                    SemanticProperties.Hint="Back"
+                    Text="Add Media"
+                    VerticalOptions="Center"
+                    x:Name="AddMediaButton"/>
 
-                <Label
-                    TextColor="#FFF"
-                   Text="Here will be the loaded files" />
             </Border>
 
             <Border
