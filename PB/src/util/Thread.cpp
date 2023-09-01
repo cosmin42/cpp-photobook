@@ -9,6 +9,8 @@ Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken)
   });
 }
 
+void Thread::stop() { mCurrentToken.stop_requested(); }
+
 void Thread::run()
 {
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {

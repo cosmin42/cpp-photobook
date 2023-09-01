@@ -16,6 +16,9 @@ public:
 
   virtual void executeSingleTask() = 0;
 
+protected:
+  void stop();
+
 private:
   void run();
 
