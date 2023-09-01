@@ -8,7 +8,11 @@ public:
   Converter() = default;
   ~Converter() = default;
 
-  template <typename T> auto operator()(T object);
+  std::string operator()(const winrt::hstring& object)
+  {
+    std::string result = winrt::to_string(object);
+    return result;
+  }
 
 private:
   Converter(Converter const &) = delete;

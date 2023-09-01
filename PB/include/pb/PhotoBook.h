@@ -18,7 +18,7 @@ public:
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
 
-  void setInputPath(std::string const &path);
+  void addMedia(std::string const &path);
   void setOutputPath(std::string const &path);
 
 private:

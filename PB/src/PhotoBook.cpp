@@ -7,7 +7,7 @@ PhotoBook::PhotoBook(GradualControllableListener &listener)
 {
 }
 
-void PhotoBook::setInputPath(std::string const &path)
+void PhotoBook::addMedia(std::string const &path)
 {
   PB::Path fsPath = path;
   auto     result = FileInfo::validInputRootPath(fsPath);
