@@ -3,8 +3,16 @@
 
 namespace winrt::CppWinRTProjection::implementation {
 
-void PhotoBook::setInputPath(const winrt::hstring inputPath) {}
-void PhotoBook::setOutputPath(const winrt::hstring outputPath) {}
+void PhotoBook::setInputPath(const winrt::hstring inputPath)
+{
+  std::string inputPathNative = winrt::to_string(inputPath);
+  mPhotoBook.setInputPath(inputPathNative);
+}
+void PhotoBook::setOutputPath(const winrt::hstring outputPath)
+{
+  std::string outputPathNative = winrt::to_string(outputPath);
+  mPhotoBook.setInputPath(outputPathNative);
+}
 
 GradualControllableListener::GradualControllableListener(
     CppWinRTProjection::GradualControllableListener const &parent)
@@ -23,8 +31,6 @@ void GradualControllableListener::onProgressUpdate()
   mParent.OnProgressUpdate();
 }
 
-void GradualControllableListener::onError(PB::Error) {
-
-}
+void GradualControllableListener::onError(PB::Error) {}
 
 } // namespace winrt::CppWinRTProjection::implementation
