@@ -37,7 +37,7 @@ private:
 
   std::optional<FilesMap>      fileMapper = std::nullopt;
 
-  std::optional<Path> mInputPath = std::nullopt;
+  std::vector<Path>   mMediaFolders;
   std::optional<Path> mOutputPath = std::nullopt;
 
   std::vector<std::filesystem::path> mImagesMapCache;
