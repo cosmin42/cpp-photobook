@@ -1,5 +1,7 @@
 #include <pb/util/Thread.h>
 
+#include <pb/Config.h>
+
 namespace PB {
 Thread::Thread(std::stop_token stopToken, std::function<void()> onFinish)
     : mExternalToken(stopToken), mFinish(onFinish)

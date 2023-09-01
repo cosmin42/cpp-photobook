@@ -11,6 +11,7 @@ MediaMapper::MediaMapper(std::filesystem::path const &root,
                          std::function<void()>        onFinish)
     : Thread(Context::inst().sStopSource.get_token())
 {
+  printDebug("MediaMapper constructor.\n");
   mRecursiveIterator = std::filesystem::recursive_directory_iterator(
       root, std::filesystem::directory_options::skip_permission_denied);
 }
