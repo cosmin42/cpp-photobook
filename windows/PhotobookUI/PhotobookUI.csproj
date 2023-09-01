@@ -53,4 +53,10 @@
 	  <ProjectReference Include="..\CppProjection\CppProjection.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="TableContentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
