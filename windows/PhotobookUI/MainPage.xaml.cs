@@ -11,7 +11,7 @@ namespace PhotobookUI
 
         private void OnNewProjectClicked(object sender, EventArgs e)
         {
-
+            App.Current.MainPage = new TableContentPage();
         }
 
         public void OnFinished()
