@@ -2,18 +2,109 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PhotobookUI.TableContentPage"
-             Title="TableContentPage">
-    <HorizontalStackLayout>
-    <VerticalStackLayout >
-        <Button
-            x:Name="BackButton"
-            Text="Back"
-            SemanticProperties.Hint="Back"
-            Clicked="OnBackClicked"
-            CornerRadius="0"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+             Title="TableContentPage"
+             BackgroundColor="#001C13">
 
-    </VerticalStackLayout>
-    </HorizontalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Grid.Column="0">
+            <Button
+                Clicked="OnBackClicked"
+                CornerRadius="0"
+                HorizontalOptions="Center"
+                Grid.Column="0"
+                Grid.Row="0"
+                SemanticProperties.Hint="Back"
+                Text="Back"
+                VerticalOptions="Center"
+                x:Name="BackButton"/>
+        </HorizontalStackLayout>
+
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Stroke="#004C35"
+                StrokeThickness="1"
+                Padding="16,8"
+                HorizontalOptions="Fill"
+                Grid.Row="0"
+                Grid.Column="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4,4,4,4" />
+                </Border.StrokeShape>
+
+                <Label
+                    TextColor="#FFF"
+                   Text="Here will be the loaded files" />
+            </Border>
+
+            <Border
+                Stroke="#004C35"
+                StrokeThickness="1"
+                Padding="16,8"
+                HorizontalOptions="Fill"
+                Grid.Row="0"
+                Grid.Column="1">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4,4,4,4" />
+                </Border.StrokeShape>
+
+                <GraphicsView
+                      HeightRequest="300"
+                      WidthRequest="400" />
+            </Border>
+
+        </Grid>
+
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Border
+                Stroke="#004C35"
+                StrokeThickness="1"
+                Padding="16,8"
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalOptions="Fill">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4,4,4,4" />
+                </Border.StrokeShape>
+            </Border>
+
+        </Grid>
+    </Grid>
+
+
 </ContentPage>

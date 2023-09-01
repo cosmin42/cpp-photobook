@@ -20,9 +20,7 @@
                 BackgroundColor="#004C35"
                 HeightRequest="120"
                 WidthRequest="120"
-                FontSize="Large">
- 
-            </Button>
+                FontSize="Large" />
         </HorizontalStackLayout>
     </ScrollView>
 
