@@ -2,8 +2,8 @@
 
 #include <algorithm>
 
-#include <FileComparator.h>
-#include <util/Traits.h>
+#include <pb/FileComparator.h>
+#include <pb/util/Traits.h>
 
 using namespace PB;
 

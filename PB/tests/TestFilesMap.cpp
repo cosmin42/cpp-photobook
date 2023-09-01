@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <Error.h>
+#include <pb/Error.h>
 
-#include <FileMapper.h>
+#include <pb/FileMapper.h>
 
 using namespace PB;
 

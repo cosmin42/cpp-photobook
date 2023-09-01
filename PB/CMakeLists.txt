@@ -103,6 +103,8 @@ if (LOG_LEVEL MATCHES Debug)
         ${CMAKE_CURRENT_BINARY_DIR}/include)
 
     target_link_libraries(pbtests
+        Boost::boost
+        Boost::program_options
         exiv2lib
         GTest::gtest GTest::gtest_main
         magic_enum::magic_enum
