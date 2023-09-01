@@ -1,7 +1,9 @@
 #include <pb/util/Thread.h>
 
 namespace PB {
-Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken)
+Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken) {}
+
+void Thread::start()
 {
   mThread = std::jthread([this](std::stop_token token) {
     mCurrentToken = token;
@@ -9,7 +11,7 @@ Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken)
   });
 }
 
-void Thread::stop() { mCurrentToken.stop_requested(); }
+void Thread::stop() { this->mThread.request_stop(); }
 
 void Thread::run()
 {

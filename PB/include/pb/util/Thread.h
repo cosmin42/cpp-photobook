@@ -14,6 +14,8 @@ public:
   explicit Thread(std::stop_token stopToken);
   virtual ~Thread() = default;
 
+  void start();
+
   virtual void executeSingleTask() = 0;
 
 protected:
