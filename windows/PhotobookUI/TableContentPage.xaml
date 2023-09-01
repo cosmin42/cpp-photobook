@@ -6,13 +6,13 @@
     <HorizontalStackLayout>
     <VerticalStackLayout >
         <Button
-                    x:Name="BackButton"
-                    Text="Backxyz"
-                    SemanticProperties.Hint="Back"
-                    Clicked="OnBackClicked"
-                    CornerRadius="0"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"/>
+            x:Name="BackButton"
+            Text="Back"
+            SemanticProperties.Hint="Back"
+            Clicked="OnBackClicked"
+            CornerRadius="0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
 
     </VerticalStackLayout>
     </HorizontalStackLayout>
