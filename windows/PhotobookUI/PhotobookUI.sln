@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CppProjection", "..\CppProjection\CppProjection.csproj", "{767F16F6-229A-4EEE-8D3B-920C9EF4094C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppWinRTProjection", "..\CppWinRTProjection\CppWinRTProjection.vcxproj", "{1F75779E-ED59-452F-AFAB-0F8A11BBAF52}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D898E61-5742-370E-B025-DDAB686B7B27} = {4D898E61-5742-370E-B025-DDAB686B7B27}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8DEDB1BF-F03E-4A13-B413-78E53EEA60DB}"
 	ProjectSection(SolutionItems) = preProject
