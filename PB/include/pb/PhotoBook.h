@@ -22,8 +22,6 @@ public:
   void setOutputPath(std::string const &path);
 
 private:
-  auto mapImages([[maybe_unused]] std::string const &root)
-      -> std::vector<std::filesystem::path>;
 
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
 
@@ -34,8 +32,6 @@ private:
   void doPause() override {}
   void doResume() override {}
   void doFinish() override {}
-
-  std::optional<FilesMap>      fileMapper = std::nullopt;
 
   std::vector<Path>   mMediaFolders;
   std::optional<Path> mOutputPath = std::nullopt;
