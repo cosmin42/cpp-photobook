@@ -7,39 +7,30 @@
 
 namespace PB {
 
-auto mapImages(std::filesystem::path const &root)
-    -> std::vector<std::filesystem::path>
+MediaMapper::MediaMapper(std::filesystem::path const &root)
+    : Thread(Context::inst().sStopSource.get_token())
 {
-  assert(std::filesystem::exists(root) && "The root folder is missing");
+  mRecursiveIterator = std::filesystem::recursive_directory_iterator(
+      root, std::filesystem::directory_options::skip_permission_denied);
+}
 
-  std::filesystem::path rootPath(root);
-
-  std::vector<std::filesystem::path> allPaths;
-  std::queue<std::filesystem::path>  pathsQueue;
-  pathsQueue.push(root);
-
-  while (!pathsQueue.empty()) {
-    auto currentPath = pathsQueue.front();
-    pathsQueue.pop();
-
-    allPaths.push_back(currentPath);
-    if (std::filesystem::is_directory(currentPath)) {
-      for (const auto &entry :
-           std::filesystem::directory_iterator(currentPath)) {
-        if (std::filesystem::is_directory(entry) ||
-            std::filesystem::is_regular_file(entry)) {
-          pathsQueue.push(entry);
-        }
-        else {
-          printDebug("Skipped invalid file");
-        }
-      }
+void MediaMapper::executeSingleTask()
+{
+  if (mRecursiveIterator == std::filesystem::end(mRecursiveIterator)) {
+    stop();
+  }
+  else {
+    auto path = mRecursiveIterator->path();
+    if (std::filesystem::is_directory(path) ||
+        std::filesystem::is_regular_file(path)) {
+      mPaths.push_back(path);
     }
   }
+}
 
-  std::sort(allPaths.begin(), allPaths.end(), CustomComparator());
-
-  return allPaths;
+auto MediaMapper::paths() -> std::vector<std::filesystem::path> &
+{
+  return mPaths;
 }
 
 } // namespace PB
