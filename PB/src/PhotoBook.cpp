@@ -13,11 +13,11 @@ void PhotoBook::addMedia(std::string const &path)
   auto     result = FileInfo::validInputRootPath(fsPath);
   std::visit(
       overloaded{
-          [this](PB::Path const &path) { mMediaFolders.push_back(path); },
-                        [mListener = &mListener](Error error) {
-                          mListener->onError(error);
-                        }},
-             result);
+          [this](PB::Path const &path) {
+            mMediaFolders.insert({path, MediaMapper(path, []() {})});
+          },
+          [mListener = &mListener](Error error) { mListener->onError(error); }},
+      result);
 }
 void PhotoBook::setOutputPath(std::string const &path)
 {
@@ -37,9 +37,6 @@ auto PhotoBook::loadImage(std::string const &path) -> std::optional<cv::Mat>
 
 void PhotoBook::exportImage(std::string const &path) {}
 
-void PhotoBook::doStart()
-{
-  
-}
+void PhotoBook::doStart() {}
 
 } // namespace PB
