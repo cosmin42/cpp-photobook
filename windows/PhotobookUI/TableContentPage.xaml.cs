@@ -1,13 +1,16 @@
 using CommunityToolkit.Maui.Storage;
+using CppWinRTProjection;
 using System.Diagnostics;
 
 namespace PhotobookUI;
 
 public partial class TableContentPage : ContentPage, CppWinRTProjection.GradualControllableListener
 {
+    private PhotoBook photoBook;
     public TableContentPage()
     {
         InitializeComponent();
+        photoBook = new PhotoBook(this);
     }
 
     private async void OnBackClicked(object sender, EventArgs e)
@@ -17,13 +20,13 @@ public partial class TableContentPage : ContentPage, CppWinRTProjection.GradualC
 
     private async void OnAddMediaClicked(object sender, EventArgs e)
     {
-
         try
         {
-            var result = await FolderPicker.PickAsync(CancellationToken.None);
+            FolderPickerResult result = await FolderPicker.PickAsync(CancellationToken.None);
 
             if (result != null)
             {
+                photoBook.setInputPath(result.Folder.Path);
             }
             else
             {
