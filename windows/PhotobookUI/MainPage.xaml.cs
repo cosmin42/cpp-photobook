@@ -2,7 +2,7 @@
 
 namespace PhotobookUI
 {
-    public partial class MainPage : ContentPage, CppWinRTProjection.GradualControllableListener
+    public partial class MainPage
     {
         public MainPage()
         {
@@ -14,34 +14,6 @@ namespace PhotobookUI
             await Navigation.PushAsync(new TableContentPage());
         }
 
-        public void OnFinished()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnPaused()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnProgressUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnResumed()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnStarted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnStopped()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

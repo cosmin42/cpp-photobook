@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace PhotobookUI;
 
-public partial class TableContentPage : ContentPage
+public partial class TableContentPage : ContentPage, CppWinRTProjection.GradualControllableListener
 {
     public TableContentPage()
     {
@@ -36,6 +36,36 @@ public partial class TableContentPage : ContentPage
         }
 
         Debug.WriteLine("Add Media clicked.");
+    }
+
+    public void OnFinished()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnPaused()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnProgressUpdate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnResumed()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnStarted()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnStopped()
+    {
+        throw new NotImplementedException();
     }
 
 }
