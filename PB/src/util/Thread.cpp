@@ -1,7 +1,10 @@
 #include <pb/util/Thread.h>
 
 namespace PB {
-Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken) {}
+Thread::Thread(std::stop_token stopToken, std::function<void()> onFinish)
+    : mExternalToken(stopToken), mFinish(onFinish)
+{
+}
 
 void Thread::start()
 {
@@ -11,13 +14,14 @@ void Thread::start()
   });
 }
 
-void Thread::stop() { this->mThread.request_stop(); }
+void Thread::stop() { this->mThread.request_stop();}
 
 void Thread::run()
 {
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     executeSingleTask();
   }
+  mFinish();
 }
 
 } // namespace PB
