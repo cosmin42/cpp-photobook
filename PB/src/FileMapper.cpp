@@ -7,32 +7,16 @@
 
 namespace PB {
 
-FilesMap::FilesMap(const std::string &rootDirectory)
-    : mRootDirectory{rootDirectory}
+auto mapImages(std::filesystem::path const &root)
+    -> std::vector<std::filesystem::path>
 {
-  printDebug("FilesMap ctr %s\n", rootDirectory.c_str());
-}
+  assert(std::filesystem::exists(root) && "The root folder is missing");
 
-FilesMap::FilesMap(FilesMap const &other) : mRootDirectory(other.mRootDirectory)
-{
-}
-
-FilesMap &FilesMap::operator=(FilesMap const &other)
-{
-  mRootDirectory = other.mRootDirectory;
-  return *this;
-}
-
-auto FilesMap::map() const -> std::vector<std::filesystem::path>
-{
-  assert(std::filesystem::exists(mRootDirectory) &&
-         "The root folder is missing");
-
-  std::filesystem::path rootPath(mRootDirectory);
+  std::filesystem::path rootPath(root);
 
   std::vector<std::filesystem::path> allPaths;
   std::queue<std::filesystem::path>  pathsQueue;
-  pathsQueue.push(mRootDirectory);
+  pathsQueue.push(root);
 
   while (!pathsQueue.empty()) {
     auto currentPath = pathsQueue.front();
@@ -56,11 +40,6 @@ auto FilesMap::map() const -> std::vector<std::filesystem::path>
   std::sort(allPaths.begin(), allPaths.end(), CustomComparator());
 
   return allPaths;
-}
-
-void FilesMap::setRootDirectory(std::string const& newRootDir)
-{
-  mRootDirectory = newRootDir;
 }
 
 } // namespace PB
