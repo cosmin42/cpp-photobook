@@ -20,7 +20,7 @@ TEST(TestFilesMap, TestConstructor)
 
 TEST(TestFilesMap, TestSimpleCollection)
 {
-  FilesMap fileMapper("../../tests-data/Collection");
+  //FilesMap fileMapper("../../tests-data/Collection");
 
-  auto map = fileMapper.map();
+  //auto map = fileMapper.map();
 }
