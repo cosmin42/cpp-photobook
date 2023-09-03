@@ -9,34 +9,29 @@
 
 namespace PB {
 
-class PhotoBook final : public GradualControllable {
+class PhotoBook final {
 public:
-  explicit PhotoBook(GradualControllableListener &listener);
-  PhotoBook() = delete;
+  PhotoBook() = default;
   PhotoBook(PhotoBook const &) = delete;
-  PhotoBook(PhotoBook &&) = delete;
+  PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
 
   void addMedia(std::string const &path);
   void setOutputPath(std::string const &path);
 
-private:
+  void
+  setPhotoBookListener(std::shared_ptr<GradualControllableListener> listener);
 
+private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
 
   void exportImage([[maybe_unused]] std::string const &path);
 
-  void doStart() override;
-  void doStop() override {}
-  void doPause() override {}
-  void doResume() override {}
-  void doFinish() override {}
+  std::shared_ptr<GradualControllableListener> mListener;
 
-  std::unordered_map<Path, MediaMapper>   mMediaFolders;
-  std::optional<Path> mOutputPath = std::nullopt;
-
-  std::vector<std::filesystem::path> mImagesMapCache;
-
+  std::unordered_map<Path, MediaMapper> mMediaFolders;
+  std::optional<Path>                   mOutputPath = std::nullopt;
+  std::vector<std::filesystem::path>    mImagesMapCache;
 };
 } // namespace PB
