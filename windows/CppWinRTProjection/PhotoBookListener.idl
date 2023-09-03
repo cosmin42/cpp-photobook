@@ -1,0 +1,12 @@
+
+namespace CppWinRTProjection {
+interface PhotoBookListener {
+  void OnFinished();
+  void OnStopped();
+  void OnStarted();
+  void OnPaused();
+  void OnResumed();
+
+  void OnProgressUpdate();
+}
+} // namespace CppWinRTProjection
