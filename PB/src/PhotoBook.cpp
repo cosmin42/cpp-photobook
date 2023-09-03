@@ -1,4 +1,5 @@
 #include <pb/PhotoBook.h>
+#include <pb/common/Log.h>
 #include <pb/util/FileInfo.h>
 
 namespace PB {
@@ -9,6 +10,7 @@ void PhotoBook::addMedia(std::string const &path)
   auto     result = FileInfo::validInputRootPath(fsPath);
   std::visit(
       overloaded{[this](PB::Path const &path) {
+                   printDebug("Add media %s\n", path.c_str());
                    mMediaFolders.insert({path, MediaMapper(path, []() {})});
                  },
                  [this](Error error) { mListener->onError(error); }},
