@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotoBook.idl" />
+    <Midl Include="PhotoBookListener.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CppWinRTProjection.def" />
