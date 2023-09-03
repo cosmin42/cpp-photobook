@@ -10,18 +10,19 @@ namespace winrt::CppWinRTProjection::implementation {
 void PhotoBook::AddMedia(const winrt::hstring mediaPath)
 {
   std::string inputPathNative = NativePB::Converter()(mediaPath);
-  mPhotoBook.addMedia(inputPathNative);
+  mPhotoBook->addMedia(inputPathNative);
 }
 void PhotoBook::setOutputPath(const winrt::hstring outputPath)
 {
   std::string outputPathNative = NativePB::Converter()(outputPath);
-  mPhotoBook.setOutputPath(outputPathNative);
+  //mPhotoBook.setOutputPath(outputPathNative);
 }
 
 GradualControllableListener::GradualControllableListener(
-    CppWinRTProjection::GradualControllableListener const &parent)
+    CppWinRTProjection::PhotoBookListener const &parent)
     : mParent(parent)
 {
+  
 }
 
 void GradualControllableListener::onFinished() { mParent.OnFinished(); }

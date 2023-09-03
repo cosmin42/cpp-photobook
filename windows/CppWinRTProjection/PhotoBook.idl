@@ -1,18 +1,13 @@
+import "PhotoBookListener.idl";
+
 namespace CppWinRTProjection {
 
-interface GradualControllableListener {
-  void OnFinished();
-  void OnStopped();
-  void OnStarted();
-  void OnPaused();
-  void OnResumed();
-
-  void OnProgressUpdate();
-};
-
-[default_interface] runtimeclass PhotoBook {
-  PhotoBook(GradualControllableListener listener);
+runtimeclass PhotoBook
+{
+  PhotoBook();
   void AddMedia(String path);
   void setOutputPath(String path);
+
+  void SetListener(PhotoBookListener listener);
 }
 } // namespace CppWinRTProjection

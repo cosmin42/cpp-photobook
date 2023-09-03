@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <memory>
+
 #include "PhotoBook.g.h"
 
 #include <pb/PhotoBook.h>
@@ -9,8 +11,12 @@ class GradualControllableListener final
     : public PB::GradualControllableListener {
 public:
   GradualControllableListener() = delete;
+  GradualControllableListener(GradualControllableListener const &) = delete;
+  GradualControllableListener(GradualControllableListener &&) = delete;
+  GradualControllableListener &
+  operator=(GradualControllableListener const &) = delete;
   explicit GradualControllableListener(
-      const CppWinRTProjection::GradualControllableListener &parent);
+      CppWinRTProjection::PhotoBookListener const &parent);
 
   ~GradualControllableListener() = default;
 
@@ -25,22 +31,25 @@ public:
   void onError(PB::Error) override;
 
 private:
-  CppWinRTProjection::GradualControllableListener mParent;
+  CppWinRTProjection::PhotoBookListener mParent;
 };
 
 struct PhotoBook : PhotoBookT<PhotoBook> {
-  explicit PhotoBook(
-      const CppWinRTProjection::GradualControllableListener &listener)
-      : mListener(listener), mPhotoBook(mListener)
-  {
-  }
+
+  PhotoBook() = default;
+  ~PhotoBook() = default;
 
   void AddMedia(const winrt::hstring inputPath);
   void setOutputPath(const winrt::hstring outputPath);
 
+  void SetListener(const CppWinRTProjection::PhotoBookListener &listener)
+  {
+    mListener = std::make_shared<GradualControllableListener>(listener);
+  }
+
 private:
-  GradualControllableListener mListener;
-  PB::PhotoBook               mPhotoBook;
+  std::shared_ptr<GradualControllableListener> mListener;
+  std::shared_ptr<PB::PhotoBook>               mPhotoBook;
 };
 
 } // namespace winrt::CppWinRTProjection::implementation
