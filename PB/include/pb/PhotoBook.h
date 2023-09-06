@@ -11,7 +11,7 @@ namespace PB {
 
 class PhotoBook final {
 public:
-  PhotoBook() = default;
+  PhotoBook(){};
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;

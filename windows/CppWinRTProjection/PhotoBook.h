@@ -5,6 +5,7 @@
 #include "PhotoBook.g.h"
 
 #include <pb/PhotoBook.h>
+#include <pb/common/Log.h>
 
 namespace winrt::CppWinRTProjection::implementation {
 class GradualControllableListener final
@@ -36,7 +37,7 @@ private:
 
 struct PhotoBook : PhotoBookT<PhotoBook> {
 
-  PhotoBook() = default;
+  PhotoBook() { PB::printDebug("PhotoBook constructor\n"); }
   ~PhotoBook() = default;
 
   void AddMedia(const winrt::hstring inputPath);
