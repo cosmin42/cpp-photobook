@@ -10,20 +10,24 @@ Thread::Thread(std::stop_token stopToken, std::function<void()> onFinish)
 
 void Thread::start()
 {
+  printDebug("Starting thread\n");
   mThread = std::jthread([this](std::stop_token token) {
     mCurrentToken = token;
     run();
   });
 }
 
-void Thread::stop() { this->mThread.request_stop();}
+void Thread::stop()
+{
+  this->mThread.request_stop();
+  printDebug("Ending thread\n");
+}
 
 void Thread::run()
 {
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     executeSingleTask();
   }
-  
 }
 
 } // namespace PB
