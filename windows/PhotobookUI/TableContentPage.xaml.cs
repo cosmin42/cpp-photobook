@@ -11,9 +11,7 @@ public partial class TableContentPage : ContentPage
     {
         InitializeComponent();
         UIPhotoBookListener photoBookListener = new UIPhotoBookListener();
-        photoBook = new PhotoBook();
-
-        photoBook.SetListener(photoBookListener);
+        photoBook = new PhotoBook(photoBookListener);
     }
 
     private async void OnBackClicked(object sender, EventArgs e)

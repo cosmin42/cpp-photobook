@@ -4,10 +4,8 @@ namespace CppWinRTProjection {
 
 runtimeclass PhotoBook
 {
-  PhotoBook();
+  PhotoBook(PhotoBookListener listener);
   void AddMedia(String path);
   void setOutputPath(String path);
-
-  void SetListener(PhotoBookListener listener);
 }
 } // namespace CppWinRTProjection

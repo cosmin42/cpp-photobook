@@ -11,7 +11,7 @@ namespace PB {
 
 class PhotoBook final {
 public:
-  PhotoBook(){};
+  PhotoBook(GradualControllableListener &listener) : mListener(listener){};
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
@@ -20,15 +20,12 @@ public:
   void addMedia(std::string const &path);
   void setOutputPath(std::string const &path);
 
-  void
-  setPhotoBookListener(std::shared_ptr<GradualControllableListener> listener);
-
 private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
 
   void exportImage([[maybe_unused]] std::string const &path);
 
-  std::shared_ptr<GradualControllableListener> mListener;
+  GradualControllableListener &mListener;
 
   std::unordered_map<Path, MediaMapper> mMediaFolders;
   std::optional<Path>                   mOutputPath = std::nullopt;

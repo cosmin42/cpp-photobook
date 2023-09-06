@@ -37,20 +37,19 @@ private:
 
 struct PhotoBook : PhotoBookT<PhotoBook> {
 
-  PhotoBook() { PB::printDebug("PhotoBook constructor\n"); }
+  PhotoBook(CppWinRTProjection::PhotoBookListener const &listener)
+      : mListener(listener), mPhotoBook(mListener)
+  {
+    PB::printDebug("PhotoBook constructor\n");
+  }
   ~PhotoBook() = default;
 
   void AddMedia(const winrt::hstring inputPath);
   void setOutputPath(const winrt::hstring outputPath);
 
-  void SetListener(const CppWinRTProjection::PhotoBookListener &listener)
-  {
-    mListener = std::make_shared<GradualControllableListener>(listener);
-  }
-
 private:
-  std::shared_ptr<GradualControllableListener> mListener;
-  std::shared_ptr<PB::PhotoBook>               mPhotoBook;
+  GradualControllableListener mListener;
+  PB::PhotoBook               mPhotoBook;
 };
 
 } // namespace winrt::CppWinRTProjection::implementation

@@ -10,7 +10,7 @@ namespace winrt::CppWinRTProjection::implementation {
 void PhotoBook::AddMedia(const winrt::hstring mediaPath)
 {
   std::string inputPathNative = NativePB::Converter()(mediaPath);
-  mPhotoBook->addMedia(inputPathNative);
+  mPhotoBook.addMedia(inputPathNative);
 }
 void PhotoBook::setOutputPath(const winrt::hstring outputPath)
 {
