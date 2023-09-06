@@ -2,7 +2,13 @@
 
 #include <pb/common/Log.h>
 #include <pb/util/Timer.h>
+#if __has_include(<pb/common/@PRINTER_TYPE@.h>)
+
 #include <pb/common/@PRINTER_TYPE@.h>
+
+#else
+#warning "@PRINTER_TYPE@ doesn't exist"
+#endif
 
 namespace PB {
   
