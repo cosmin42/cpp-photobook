@@ -13,10 +13,12 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="PhotoBook.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="ScheduableWinRT.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Converter.h" />
+    <ClInclude Include="ScheduableWinRT.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotoBook.idl" />
