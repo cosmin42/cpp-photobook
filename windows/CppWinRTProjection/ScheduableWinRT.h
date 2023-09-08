@@ -5,7 +5,7 @@
 #include <winrt/Windows.UI.Core.h>
 
 namespace winrt::CppWinRTProjection::implementation {
-class WinRTMainThread final : PB::Scheduable {
+class WinRTMainThread final : public PB::Scheduable {
 public:
   void post(std::function<void()>) override;
 
