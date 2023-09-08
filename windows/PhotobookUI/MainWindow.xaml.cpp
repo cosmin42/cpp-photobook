@@ -23,6 +23,6 @@ namespace winrt::PhotobookUI::implementation
     void MainWindow::addProjectClick(IInspectable const &,
                                      RoutedEventArgs const &)
     {
-        myButton().Content(box_value(L"Clicked"));
+        addProjectButton().Content(box_value(L"Clicked"));
     }
 }
