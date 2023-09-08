@@ -20,17 +20,21 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Debug);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           ret = vsprintf(buffer, format, arglist);
+    /*
+    auto      len = _vscprintf(format, arglist);
+    auto ret = vsprintf_s(buffer, len, format, arglist);
 
     assert(ret >= 0);
 
     OutputDebugStringA(("[" + std::string(tag) + "] " + buffer).c_str());
+    */
   }
   void doPrintInfo(const char *format, va_list arglist) const override
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Info);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           ret = vsprintf(buffer, format, arglist);
+    auto           len = _vscprintf(format, arglist);
+    auto           ret = vsprintf_s(buffer, len, format, arglist);
 
     assert(ret >= 0);
 
@@ -40,7 +44,8 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Warning);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           ret = vsprintf(buffer, format, arglist);
+    auto           len = _vscprintf(format, arglist);
+    auto           ret = vsprintf_s(buffer, len, format, arglist);
 
     assert(ret >= 0);
 
@@ -50,7 +55,8 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Error);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           ret = vsprintf(buffer, format, arglist);
+    auto           len = _vscprintf(format, arglist);
+    auto           ret = vsprintf_s(buffer, len, format, arglist);
 
     assert(ret >= 0);
 
