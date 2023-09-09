@@ -24,6 +24,7 @@ using namespace Microsoft::UI::Xaml;
 using namespace Windows::Storage;
 using namespace Windows::Foundation;
 using namespace Windows::Storage::Pickers;
+using namespace Microsoft::UI::Dispatching;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -75,7 +76,8 @@ void TableContentPage::onError(PB::Error error) {}
 
 void TableContentPage::post(std::function<void()> f)
 {
-
+  MainWindow::sMainthreadDispatcher.TryEnqueue(DispatcherQueuePriority::Normal,
+                                               [f{std::move(f)}]() { f(); });
 }
 
 } // namespace winrt::PhotobookUI::implementation
