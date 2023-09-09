@@ -9,6 +9,7 @@ namespace winrt::PhotobookUI::implementation
 {
     struct MainWindow : MainWindowT<MainWindow>
     {
+        static HWND sMainWindowhandle;
         MainWindow();
     };
 }

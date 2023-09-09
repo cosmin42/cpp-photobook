@@ -13,14 +13,23 @@ using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
 
+#include <microsoft.ui.xaml.window.h>
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::PhotobookUI::implementation
 {
+
+    HWND MainWindow::sMainWindowhandle = 0x0;
+
     MainWindow::MainWindow()
     {
         InitializeComponent();
+
+        auto windowNative{this->try_as<::IWindowNative>()};
+        winrt::check_bool(windowNative);
+        windowNative->get_WindowHandle(&sMainWindowhandle);
     }
 
 }
