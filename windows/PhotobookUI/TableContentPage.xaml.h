@@ -9,8 +9,8 @@
 
 namespace winrt::PhotobookUI::implementation {
 struct TableContentPage : TableContentPageT<TableContentPage>,
-                          public PB::GradualControllableListener,
-                          public PB ::Scheduable{
+                          public PB::GradualControllableListener
+{
   TableContentPage();
 
   void

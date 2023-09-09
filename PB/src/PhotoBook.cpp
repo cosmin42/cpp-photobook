@@ -13,7 +13,7 @@ void PhotoBook::addMedia(std::string const &path)
                    printDebug("Add media %s\n", path.string().c_str());
                    mMediaFolders.insert({path, MediaMapper(path, []() {})});
                  },
-                 [this](Error error) { mListener.onError(error); }},
+                 [this](Error error) { mListener.doError(error); }},
       result);
 
   mMediaFolders.at(fsPath).start();
@@ -24,7 +24,7 @@ void PhotoBook::setOutputPath(std::string const &path)
   auto     result = FileInfo::validOutputRootPath(fsPath);
   std::visit(
       overloaded{[this](PB::Path const &path) mutable { mOutputPath = path; },
-                 [this](Error error) { mListener.onError(error); }},
+                 [this](Error error) { mListener.doError(error); }},
       result);
 }
 
