@@ -5,9 +5,12 @@
 
 #include "TableContentPage.g.h"
 #include <pb/PhotoBook.h>
+#include <pb/Scheduable.h>
+
 namespace winrt::PhotobookUI::implementation {
 struct TableContentPage : TableContentPageT<TableContentPage>,
-                          public PB::GradualControllableListener {
+                          public PB::GradualControllableListener,
+                          public PB ::Scheduable{
   TableContentPage();
 
   void
@@ -25,6 +28,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void onProgressUpdate() override;
   void onError(PB::Error error) override;
+
+  void post(std::function<void()>) override;
 
 private:
   winrt::fire_and_forget fireFolderPicker(HWND hWnd);

@@ -73,4 +73,9 @@ void TableContentPage::onProgressUpdate() {}
 
 void TableContentPage::onError(PB::Error error) {}
 
+void TableContentPage::post(std::function<void()> f)
+{
+
+}
+
 } // namespace winrt::PhotobookUI::implementation
