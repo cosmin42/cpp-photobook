@@ -197,6 +197,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PB\build\pblib.vcxproj">
+      <Project>{4d898e61-5742-370e-b025-ddab686b7b27}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if
