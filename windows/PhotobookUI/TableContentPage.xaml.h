@@ -27,7 +27,11 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onError(PB::Error error) override;
 
 private:
+  winrt::fire_and_forget fireFolderPicker(HWND hWnd);
+
   PB::PhotoBook mPhotoBook;
+  Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
+      mFolderAsync;
 };
 } // namespace winrt::PhotobookUI::implementation
 

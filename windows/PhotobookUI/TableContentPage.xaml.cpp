@@ -7,7 +7,11 @@
 #include "TableContentPage.g.cpp"
 #endif
 
+#include <coroutine>
+
 #include "FirstPage.xaml.h"
+#include "MainWindow.xaml.h"
+#include <Shobjidl.h>
 
 #include <winrt/Windows.Storage.Pickers.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
@@ -30,28 +34,23 @@ TableContentPage::TableContentPage() : mPhotoBook(*this)
   InitializeComponent();
 }
 
+winrt::fire_and_forget TableContentPage::fireFolderPicker(HWND hWnd)
+{
+  Windows::Storage::Pickers::FolderPicker folderPicker;
+
+  auto initializeWithWindow{folderPicker.as<::IInitializeWithWindow>()};
+  initializeWithWindow->Initialize(hWnd);
+
+  folderPicker.FileTypeFilter().Append(L"*");
+  auto folder{co_await folderPicker.PickSingleFolderAsync()};
+
+  mPhotoBook.addMedia(NativePB::Converter()(folder.Path()));
+}
+
 void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
                                                RoutedEventArgs const &)
 {
-  FolderPicker folderPicker;
-  folderPicker.SuggestedStartLocation(PickerLocationId::ComputerFolder);
-  folderPicker.FileTypeFilter().Append(L"*");
-
-  Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder> folderAsync =
-      folderPicker.PickSingleFolderAsync();
-
-  folderAsync.Completed(
-      [this](Windows::Foundation::IAsyncOperation<
-                 Windows::Storage::StorageFolder> const &asyncOp,
-             Windows::Foundation::AsyncStatus const      asyncStatus) {
-        if (asyncStatus == Windows::Foundation::AsyncStatus::Completed) {
-      StorageFolder folder = asyncOp.GetResults();
-          mPhotoBook.addMedia(NativePB::Converter()(folder.Path()));
-    }
-    else {
-          PB::printDebug("Folder Not selected");
-    }
-  });
+  fireFolderPicker(MainWindow::sMainWindowhandle);
 }
 
 void TableContentPage::onBackClicked(IInspectable const &,
