@@ -76,8 +76,10 @@ void TableContentPage::onError(PB::Error error) {}
 
 void TableContentPage::post(std::function<void()> f)
 {
-  MainWindow::sMainthreadDispatcher.TryEnqueue(DispatcherQueuePriority::Normal,
+  bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(DispatcherQueuePriority::Normal,
                                                [f{std::move(f)}]() { f(); });
+
+  assert(success);
 }
 
 } // namespace winrt::PhotobookUI::implementation
