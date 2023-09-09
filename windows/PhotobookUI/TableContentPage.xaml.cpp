@@ -30,4 +30,40 @@ void TableContentPage::onBackClicked(IInspectable const &,
 {
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
+
+void TableContentPage::onFinished()
+{
+
+}
+
+void TableContentPage::onStopped()
+{
+
+}
+
+void TableContentPage::onStarted()
+{
+
+}
+
+void TableContentPage::onPaused()
+{
+
+}
+
+void TableContentPage::onResumed()
+{
+
+}
+
+void TableContentPage::onProgressUpdate()
+{
+
+}
+
+void TableContentPage::onError(PB::Error error)
+{
+
+}
+
 } // namespace winrt::PhotobookUI::implementation
