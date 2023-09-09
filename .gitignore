@@ -16,6 +16,7 @@ windows/PhotobookUI/obj/*
 windows/PhotobookUI/_build/*
 windows/PhotobookUI/.vs/*
 windows/PhotobookUI/Generated\ Files/*
+windows/PhotobookUI/enc_temp_folder/*
 windows/CppWinRTProjection/x64/*
 windows/CppWinRTProjection/Generated\ Files/*
 windows/CppProjection/obj/*
