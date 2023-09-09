@@ -14,6 +14,10 @@ namespace winrt::PhotobookUI::implementation
         void onAddMediaButtonClicked(
             Windows::Foundation::IInspectable const    &sender,
             Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+        void onBackClicked(
+            Windows::Foundation::IInspectable const    &sender,
+            Microsoft::UI::Xaml::RoutedEventArgs const &args);
     };
 }
 

@@ -7,6 +7,10 @@
 #include "TableContentPage.g.cpp"
 #endif
 
+#include "FirstPage.xaml.h"
+
+#include <winrt/Windows.UI.Xaml.Interop.h>
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -23,5 +27,11 @@ namespace winrt::PhotobookUI::implementation
     void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
                                                    RoutedEventArgs const &)
     {
+    }
+
+    void TableContentPage::onBackClicked(IInspectable const &,
+                                                   RoutedEventArgs const &)
+    {
+      Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
     }
 }

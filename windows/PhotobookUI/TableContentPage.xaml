@@ -8,7 +8,109 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="AddMediaButton" Click="onAddMediaButtonClicked">Add Media</Button>
-    </StackPanel>
+    <Grid Background="#001C13">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Background="#004C35"
+                Click="onBackClicked"
+                CornerRadius="0"
+                Grid.Column="0"
+                Grid.Row="0"
+                Content="Back"
+                x:Name="BackButton"
+                Foreground="#FFFFFF"/>
+            <TextBlock
+                Grid.Column="1"
+                Grid.Row="0"
+                Foreground="#FFFFFF"
+                Text="Photobook"
+                HorizontalAlignment="Center"/>
+        </Grid>
+
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border
+                BorderBrush="#004C35"
+                BorderThickness="1"
+                Padding="16,8"
+                Grid.Row="0"
+                Grid.Column="0">
+                <Button
+                    Background="#004C35"
+                    Click="onAddMediaButtonClicked"
+                    CornerRadius="4"
+                    Content="Add Media"
+                    x:Name="AddMediaButton"
+                    Foreground="#FFFFFF"
+                    HorizontalAlignment="Center"/>
+
+            </Border>
+
+            <Border
+                BorderBrush="#004C35"
+                BorderThickness="1"
+                Padding="16,8"
+                Grid.Row="0"
+                Grid.Column="1">
+                <GridView
+                      Height="300"
+                      Width="400" />
+            </Border>
+
+        </Grid>
+
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border
+                BorderBrush="#004C35"
+                BorderThickness="1"
+                Padding="16,8"
+                Grid.Row="0"
+                Grid.Column="0">
+
+            </Border>
+
+        </Grid>
+    </Grid>
 </Page>
