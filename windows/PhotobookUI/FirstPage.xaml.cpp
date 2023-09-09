@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
-#include "TableContentPage.xaml.h"
-#if __has_include("TableContentPage.g.cpp")
-#include "TableContentPage.g.cpp"
+#include "FirstPage.xaml.h"
+#if __has_include("FirstPage.g.cpp")
+#include "FirstPage.g.cpp"
 #endif
 
 using namespace winrt;
@@ -13,15 +13,18 @@ using namespace Microsoft::UI::Xaml;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
+#include <winrt/Windows.UI.Xaml.Interop.h>
+
 namespace winrt::PhotobookUI::implementation
 {
-    TableContentPage::TableContentPage()
+    FirstPage::FirstPage()
     {
         InitializeComponent();
     }
 
-    void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
-                                                   RoutedEventArgs const &)
+    void FirstPage::addProjectClick(IInspectable const &,
+                                     RoutedEventArgs const &)
     {
+        MainFrame().Navigate(winrt::xaml_typename<TableContentPage>());
     }
-}
+    }

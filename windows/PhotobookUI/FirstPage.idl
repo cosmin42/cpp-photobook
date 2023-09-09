@@ -4,8 +4,8 @@
 namespace PhotobookUI
 {
     [default_interface]
-    runtimeclass TableContentPage : Microsoft.UI.Xaml.Controls.Page
+    runtimeclass FirstPage : Microsoft.UI.Xaml.Controls.Page
     {
-        TableContentPage();
+        FirstPage();
     }
 }

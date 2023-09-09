@@ -8,21 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid
-        Background="#001C13">
-        <!-- Use a Grid to center the button -->
-        <Grid
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <Button
-                x:Name="addProjectButton"
-                Click="addProjectClick"
-                Background="#004C35"
-                Foreground="#FFFFFF"
-                Width="100"
-                Height="100">
-                +
-            </Button>
-        </Grid>
-    </Grid>
+    <ScrollViewer>
+        <Frame x:Name="MainFrame" />
+    </ScrollViewer>
 </Window>

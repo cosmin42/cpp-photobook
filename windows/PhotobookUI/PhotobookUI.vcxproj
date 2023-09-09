@@ -107,6 +107,10 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FirstPage.xaml.h">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -114,12 +118,26 @@
     <ClInclude Include="MainWindow.xaml.h">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="TableContentPage.xaml.h">
+      <DependentUpon>TableContentPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
+    <Page Include="FirstPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml" />
+    <Page Include="TableContentPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FirstPage.xaml.cpp">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -130,15 +148,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="TableContentPage.xaml.cpp">
+      <DependentUpon>TableContentPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl">
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
+    <Midl Include="FirstPage.idl">
+      <DependentUpon>FirstPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
     <Midl Include="MainWindow.idl">
       <SubType>Code</SubType>
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="TableContentPage.idl">
+      <DependentUpon>TableContentPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Midl>
   </ItemGroup>
   <ItemGroup>

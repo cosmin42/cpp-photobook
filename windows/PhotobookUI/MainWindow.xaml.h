@@ -10,9 +10,6 @@ namespace winrt::PhotobookUI::implementation
     struct MainWindow : MainWindowT<MainWindow>
     {
         MainWindow();
-
-        void addProjectClick(Windows::Foundation::IInspectable const    &sender,
-                             Microsoft::UI::Xaml::RoutedEventArgs const &args);
     };
 }
 

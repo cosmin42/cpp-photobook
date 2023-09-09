@@ -5,6 +5,7 @@
 
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
+#include "FirstPage.xaml.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -41,8 +42,22 @@ App::App()
 /// Invoked when the application is launched.
 /// </summary>
 /// <param name="e">Details about the launch request and process.</param>
-void App::OnLaunched(LaunchActivatedEventArgs const&)
+void App::OnLaunched(LaunchActivatedEventArgs const& e)
 {
     window = make<MainWindow>();
+
+    Frame rootFrame = Frame();
+    rootFrame.NavigationFailed({this, &App::OnNavigationFailed});
+    rootFrame.Navigate(xaml_typename<PhotobookUI::FirstPage>(),
+                       box_value(e.Arguments()));
+
+    window.Content(rootFrame);
     window.Activate();
+}
+
+void App::OnNavigationFailed(IInspectable const &,
+                             NavigationFailedEventArgs const &e)
+{
+    throw hresult_error(E_FAIL, hstring(L"Failed to load Page ") +
+                                    e.SourcePageType().Name);
 }
