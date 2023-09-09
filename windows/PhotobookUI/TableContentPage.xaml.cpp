@@ -17,21 +17,17 @@ using namespace Microsoft::UI::Xaml;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace winrt::PhotobookUI::implementation
+namespace winrt::PhotobookUI::implementation {
+TableContentPage::TableContentPage() { InitializeComponent(); }
+
+void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
+                                               RoutedEventArgs const &)
 {
-    TableContentPage::TableContentPage()
-    {
-        InitializeComponent();
-    }
-
-    void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
-                                                   RoutedEventArgs const &)
-    {
-    }
-
-    void TableContentPage::onBackClicked(IInspectable const &,
-                                                   RoutedEventArgs const &)
-    {
-      Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
-    }
 }
+
+void TableContentPage::onBackClicked(IInspectable const &,
+                                     RoutedEventArgs const &)
+{
+  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+}
+} // namespace winrt::PhotobookUI::implementation

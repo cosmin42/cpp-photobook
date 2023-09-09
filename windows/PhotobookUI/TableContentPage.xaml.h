@@ -5,25 +5,20 @@
 
 #include "TableContentPage.g.h"
 
-namespace winrt::PhotobookUI::implementation
-{
-    struct TableContentPage : TableContentPageT<TableContentPage>
-    {
-        TableContentPage();
+namespace winrt::PhotobookUI::implementation {
+struct TableContentPage : TableContentPageT<TableContentPage> {
+  TableContentPage();
 
-        void onAddMediaButtonClicked(
-            Windows::Foundation::IInspectable const    &sender,
-            Microsoft::UI::Xaml::RoutedEventArgs const &args);
+  void
+  onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
+                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-        void onBackClicked(
-            Windows::Foundation::IInspectable const    &sender,
-            Microsoft::UI::Xaml::RoutedEventArgs const &args);
-    };
-}
+  void onBackClicked(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+};
+} // namespace winrt::PhotobookUI::implementation
 
-namespace winrt::PhotobookUI::factory_implementation
-{
-    struct TableContentPage : TableContentPageT<TableContentPage, implementation::TableContentPage>
-    {
-    };
-}
+namespace winrt::PhotobookUI::factory_implementation {
+struct TableContentPage
+    : TableContentPageT<TableContentPage, implementation::TableContentPage> {};
+} // namespace winrt::PhotobookUI::factory_implementation
