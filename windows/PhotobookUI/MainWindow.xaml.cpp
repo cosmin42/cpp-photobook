@@ -7,11 +7,13 @@
 #include "MainWindow.g.cpp"
 #endif
 
+#include <winrt/Windows.ApplicationModel.Core.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Microsoft::UI::Xaml::Controls;
+using namespace Windows::UI::Core;
 
 #include <microsoft.ui.xaml.window.h>
 
@@ -22,6 +24,11 @@ namespace winrt::PhotobookUI::implementation
 {
 
     HWND MainWindow::sMainWindowhandle = 0x0;
+
+    winrt::Microsoft::UI::Dispatching::DispatcherQueue
+        MainWindow::sMainthreadDispatcher =
+        winrt::Microsoft::UI::Dispatching::DispatcherQueue::
+            GetForCurrentThread();
 
     MainWindow::MainWindow()
     {
