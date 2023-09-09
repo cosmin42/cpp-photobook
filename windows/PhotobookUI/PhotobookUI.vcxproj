@@ -109,6 +109,7 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Converter.h" />
     <ClInclude Include="FirstPage.xaml.h">
       <DependentUpon>FirstPage.xaml</DependentUpon>
       <SubType>Code</SubType>

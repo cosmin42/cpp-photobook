@@ -27,6 +27,7 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onError(PB::Error error) override;
 
 private:
+  PB::PhotoBook mPhotoBook;
 };
 } // namespace winrt::PhotobookUI::implementation
 
