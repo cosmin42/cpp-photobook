@@ -25,6 +25,6 @@ namespace winrt::PhotobookUI::implementation
     void FirstPage::addProjectClick(IInspectable const &,
                                      RoutedEventArgs const &)
     {
-        MainFrame().Navigate(winrt::xaml_typename<TableContentPage>());
+        Frame().Navigate(winrt::xaml_typename<TableContentPage>());
     }
     }

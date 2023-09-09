@@ -9,7 +9,6 @@
     mc:Ignorable="d">
     <Grid
         Background="#001C13">
-        <Frame x:Name="MainFrame" />
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
