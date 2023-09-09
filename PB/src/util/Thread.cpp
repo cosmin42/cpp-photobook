@@ -28,6 +28,9 @@ void Thread::run()
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     executeSingleTask();
   }
+  if (mCurrentToken.stop_requested()) {
+    mFinish();
+  }
 }
 
 } // namespace PB
