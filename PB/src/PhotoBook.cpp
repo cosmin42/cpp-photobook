@@ -11,7 +11,7 @@ void PhotoBook::addMedia(std::string const &path)
   std::visit(
       overloaded{[this](PB::Path const &path) {
                    printDebug("Add media %s\n", path.string().c_str());
-                   mMediaFolders.insert({path, MediaMapper(path, []() {})});
+                   mMediaFolders.insert({path, MediaMapper(path, mListener)});
                  },
                  [this](Error error) { mListener.doError(error); }},
       result);

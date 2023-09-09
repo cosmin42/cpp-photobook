@@ -8,8 +8,8 @@
 namespace PB {
 
 MediaMapper::MediaMapper(std::filesystem::path const &root,
-                         std::function<void()>        onFinish)
-    : Thread(Context::inst().sStopSource.get_token())
+                         GradualControllableListener &listener)
+    : Thread(Context::inst().sStopSource.get_token()), mListener(listener)
 {
   printDebug("MediaMapper constructor.\n");
   mRecursiveIterator = std::filesystem::recursive_directory_iterator(

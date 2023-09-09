@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <vector>
 
+#include <pb/GradualControllable.h>
 #include <pb/util/Thread.h>
 
 namespace PB {
@@ -10,9 +11,17 @@ namespace PB {
 class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(std::filesystem::path const &root,
-                       std::function<void()>        onFinish);
-  MediaMapper(MediaMapper const &other) : Thread(other) {}
-  MediaMapper(MediaMapper &&other) noexcept : Thread(other) {}
+                       GradualControllableListener &listener);
+  MediaMapper(MediaMapper const &other)
+      : Thread(other), mListener(other.mListener)
+  {
+  }
+
+  MediaMapper(MediaMapper &&other) noexcept
+      : Thread(other), mListener(other.mListener)
+  {
+  }
+
   MediaMapper &operator=(MediaMapper const &) { return *this; }
   ~MediaMapper() = default;
 
@@ -22,8 +31,9 @@ public:
 
 private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
+  std::vector<std::filesystem::path>            mPaths;
 
-  std::vector<std::filesystem::path> mPaths;
+  GradualControllableListener &mListener;
 };
 
 } // namespace PB
