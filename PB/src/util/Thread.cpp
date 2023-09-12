@@ -3,8 +3,8 @@
 #include <pb/Config.h>
 
 namespace PB {
-Thread::Thread(std::stop_token stopToken, std::function<void()> onFinish)
-    : mExternalToken(stopToken), mFinish(onFinish)
+Thread::Thread(std::stop_token stopToken)
+    : mExternalToken(stopToken)
 {
 }
 

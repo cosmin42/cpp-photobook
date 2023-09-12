@@ -8,10 +8,18 @@
 namespace PB {
 class Thread {
 public:
-  explicit Thread(
-      std::stop_token stopToken, std::function<void()> finish = []() {});
-  Thread(Thread const &other) { mExternalToken = other.mExternalToken; }
-  Thread(Thread &&other) noexcept { mExternalToken = other.mExternalToken; }
+  explicit Thread(std::stop_token stopToken);
+
+  Thread(Thread const &other)
+  {
+    mExternalToken = other.mExternalToken;
+    mFinish = other.mFinish;
+  }
+  Thread(Thread &&other) noexcept
+  {
+    mExternalToken = other.mExternalToken;
+    mFinish = other.mFinish;
+  }
   virtual ~Thread() = default;
 
   void start();
@@ -21,13 +29,13 @@ public:
 protected:
   void stop();
 
+  std::function<void()> mFinish = nullptr;
+
 private:
   void run();
 
-  std::jthread    mThread;
   std::stop_token mCurrentToken;
   std::stop_token mExternalToken;
-
-  std::function<void()> mFinish;
+  std::jthread    mThread;
 };
 } // namespace PB
