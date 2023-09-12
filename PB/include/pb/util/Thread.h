@@ -32,7 +32,7 @@ protected:
   std::function<void()> mFinish = nullptr;
 
 private:
-  void run();
+  void run(std::stop_token token);
 
   std::stop_token mCurrentToken;
   std::stop_token mExternalToken;

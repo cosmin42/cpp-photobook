@@ -12,8 +12,7 @@ void Thread::start()
 {
   printDebug("Starting thread\n");
   mThread = std::jthread([this](std::stop_token token) {
-    mCurrentToken = token;
-    run();
+    run(token);
   });
 }
 
@@ -23,8 +22,9 @@ void Thread::stop()
   printDebug("Ending thread\n");
 }
 
-void Thread::run()
+void Thread::run(std::stop_token token)
 {
+  mCurrentToken = token;
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     executeSingleTask();
   }
