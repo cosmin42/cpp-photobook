@@ -30,7 +30,7 @@ using namespace Microsoft::UI::Dispatching;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::PhotobookUI::implementation {
-TableContentPage::TableContentPage() : mPhotoBook(*this)
+TableContentPage::TableContentPage() : mPhotoBook(mListener)
 {
   InitializeComponent();
 }
@@ -60,24 +60,25 @@ void TableContentPage::onBackClicked(IInspectable const &,
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
-void TableContentPage::onFinished() {}
+void PhotoBookListener::onFinished() {
+}
 
-void TableContentPage::onStopped() {}
+void PhotoBookListener::onStopped() {}
 
-void TableContentPage::onStarted() {}
+void PhotoBookListener::onStarted() {}
 
-void TableContentPage::onPaused() {}
+void PhotoBookListener::onPaused() {}
 
-void TableContentPage::onResumed() {}
+void PhotoBookListener::onResumed() {}
 
-void TableContentPage::onProgressUpdate() {}
+void PhotoBookListener::onProgressUpdate() {}
 
-void TableContentPage::onError(PB::Error error) {}
+void PhotoBookListener::onError(PB::Error error) {}
 
-void TableContentPage::post(std::function<void()> f)
+void PhotoBookListener::post( std::function<void()> f)
 {
-  bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(DispatcherQueuePriority::Normal,
-                                               [f{std::move(f)}]() { f(); });
+  bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
+      DispatcherQueuePriority::Normal, [f{f}]() { f(); });
 
   assert(success);
 }

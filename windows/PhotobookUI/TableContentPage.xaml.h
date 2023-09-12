@@ -8,18 +8,10 @@
 #include <pb/Scheduable.h>
 
 namespace winrt::PhotobookUI::implementation {
-struct TableContentPage : TableContentPageT<TableContentPage>,
-                          public PB::GradualControllableListener
-{
-  TableContentPage();
-
-  void
-  onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
-                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
-
-  void onBackClicked(Windows::Foundation::IInspectable const    &sender,
-                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
-
+class PhotoBookListener final : public PB::GradualControllableListener {
+public:
+  PhotoBookListener() {}
+  ~PhotoBookListener() {}
   void onFinished() override;
   void onStopped() override;
   void onStarted() override;
@@ -30,11 +22,25 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onError(PB::Error error) override;
 
   void post(std::function<void()>) override;
+};
+
+struct TableContentPage : TableContentPageT<TableContentPage> {
+  TableContentPage();
+  ~TableContentPage() = default;
+
+  void
+  onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
+                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void onBackClicked(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
 private:
   winrt::fire_and_forget fireFolderPicker(HWND hWnd);
 
-  PB::PhotoBook mPhotoBook;
+  PhotoBookListener mListener{};
+  PB::PhotoBook     mPhotoBook;
+
   Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
       mFolderAsync;
 };
