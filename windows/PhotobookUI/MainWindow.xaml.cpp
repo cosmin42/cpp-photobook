@@ -26,13 +26,14 @@ namespace winrt::PhotobookUI::implementation
     HWND MainWindow::sMainWindowhandle = 0x0;
 
     winrt::Microsoft::UI::Dispatching::DispatcherQueue
-        MainWindow::sMainthreadDispatcher =
-        winrt::Microsoft::UI::Dispatching::DispatcherQueue::
-            GetForCurrentThread();
+        MainWindow::sMainthreadDispatcher = nullptr;
 
     MainWindow::MainWindow()
     {
         InitializeComponent();
+
+        sMainthreadDispatcher = winrt::Microsoft::UI::Dispatching::
+            DispatcherQueue::GetForCurrentThread();
 
         auto windowNative{this->try_as<::IWindowNative>()};
         winrt::check_bool(windowNative);
