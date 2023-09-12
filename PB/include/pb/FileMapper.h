@@ -13,12 +13,14 @@ public:
   explicit MediaMapper(std::filesystem::path const &root,
                        GradualControllableListener &listener);
   MediaMapper(MediaMapper const &other)
-      : Thread(other), mListener(other.mListener)
+      : Thread(other), mRecursiveIterator(other.mRecursiveIterator),
+        mListener(other.mListener)
   {
   }
 
   MediaMapper(MediaMapper &&other) noexcept
-      : Thread(other), mListener(other.mListener)
+      : Thread(other), mRecursiveIterator(other.mRecursiveIterator),
+        mListener(other.mListener)
   {
   }
 

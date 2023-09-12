@@ -27,6 +27,7 @@ void MediaMapper::executeSingleTask()
         std::filesystem::is_regular_file(path)) {
       mPaths.push_back(path);
     }
+    mRecursiveIterator++;
   }
 }
 
