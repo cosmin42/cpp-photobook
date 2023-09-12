@@ -29,7 +29,7 @@ void Thread::run(std::stop_token token)
     executeSingleTask();
   }
   if (mCurrentToken.stop_requested()) {
-    mFinish();
+    finish();
   }
 }
 

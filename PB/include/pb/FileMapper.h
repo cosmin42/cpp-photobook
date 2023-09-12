@@ -29,6 +29,8 @@ public:
 
   auto paths() -> std::vector<std::filesystem::path> &;
 
+  void finish() override;
+
 private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   std::vector<std::filesystem::path>            mPaths;

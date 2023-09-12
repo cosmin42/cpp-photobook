@@ -13,12 +13,10 @@ public:
   Thread(Thread const &other)
   {
     mExternalToken = other.mExternalToken;
-    mFinish = other.mFinish;
   }
   Thread(Thread &&other) noexcept
   {
     mExternalToken = other.mExternalToken;
-    mFinish = other.mFinish;
   }
   virtual ~Thread() = default;
 
@@ -26,10 +24,10 @@ public:
 
   virtual void executeSingleTask() = 0;
 
+  virtual void finish() = 0;
+
 protected:
   void stop();
-
-  std::function<void()> mFinish = nullptr;
 
 private:
   void run(std::stop_token token);

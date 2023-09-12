@@ -12,7 +12,6 @@ MediaMapper::MediaMapper(std::filesystem::path const &root,
     : Thread(Context::inst().sStopSource.get_token()), mListener(listener)
 {
   printDebug("MediaMapper constructor.\n");
-  mFinish = [this]() { mListener.doFinish(); };
   mRecursiveIterator = std::filesystem::recursive_directory_iterator(
       root, std::filesystem::directory_options::skip_permission_denied);
 }
@@ -35,5 +34,7 @@ auto MediaMapper::paths() -> std::vector<std::filesystem::path> &
 {
   return mPaths;
 }
+
+void MediaMapper::finish() { mListener.doFinish(); }
 
 } // namespace PB
