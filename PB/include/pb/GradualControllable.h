@@ -7,35 +7,13 @@ namespace PB {
 class GradualControllableListener : public Scheduable {
 
 public:
-  void doFinish()
-  {
-    post([this]() { onFinished(); });
-  }
-
-  void doStop()
-  {
-    post([this]() { onStopped(); });
-  }
-  void doStart()
-  {
-    post([this]() { onStarted(); });
-  }
-  void doPause()
-  {
-    post([this]() { onPaused(); });
-  }
-  void doResume()
-  {
-    post([this]() { onResumed(); });
-  }
-  void doProgressUpdate()
-  {
-    post([this]() { onProgressUpdate(); });
-  }
-  void doError(Error error)
-  {
-    post([this, error{error}]() { onError(error); });
-  }
+  void doFinish();
+  void doStop();
+  void doStart();
+  void doPause();
+  void doResume();
+  void doProgressUpdate();
+  void doError(Error error);
 
 private:
   virtual void onFinished() = 0;
