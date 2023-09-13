@@ -61,7 +61,8 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <ListView Name="MediaListView">
+                <ListView Name="MediaListView"
+                          SelectionChanged="onFoldersSelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid VerticalAlignment="Center">
@@ -75,7 +76,6 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
                 <Border
                     BorderBrush="#004C35"
                     BorderThickness="1"

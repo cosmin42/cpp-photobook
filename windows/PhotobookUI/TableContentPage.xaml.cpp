@@ -81,6 +81,12 @@ void TableContentPage::onFinished()
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
 }
 
+void TableContentPage::onFoldersSelectionChanged(
+    ::winrt::Windows::Foundation::IInspectable const                        &p0,
+    ::winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const &p1)
+{
+}
+
 void TableContentPage::onStopped() {}
 
 void TableContentPage::onStarted() {}

@@ -23,6 +23,11 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onBackClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onFoldersSelectionChanged(
+      ::winrt::Windows::Foundation::IInspectable const &p0,
+      ::winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const
+          &p1);
+
   void onFinished() override;
   void onStopped() override;
   void onStarted() override;
@@ -37,8 +42,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 private:
   auto fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
 
-  PB::PhotoBook                                    mPhotoBook;
-  IObservableVector<winrt::hstring>                mediaListItemsCollection;
+  PB::PhotoBook                     mPhotoBook;
+  IObservableVector<winrt::hstring> mediaListItemsCollection;
   winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
       mFolderAsync;
 };
