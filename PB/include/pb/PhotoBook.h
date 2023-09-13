@@ -20,6 +20,8 @@ public:
   void addMedia(std::string const &path);
   void setOutputPath(std::string const &path);
 
+  auto rootPaths() const -> std::vector<Path>;
+
 private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
 

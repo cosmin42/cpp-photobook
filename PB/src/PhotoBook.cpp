@@ -33,6 +33,15 @@ auto PhotoBook::loadImage(std::string const &path) -> std::optional<cv::Mat>
   return ImageReader::defaultRead()(path);
 }
 
+auto PhotoBook::rootPaths() const -> std::vector<Path> {
+  std::vector<Path> result;
+  for (auto& [key, value] : mMediaFolders)
+  {
+    result.push_back(key);
+  }
+  return result;
+}
+
 void PhotoBook::exportImage(std::string const &path) {}
 
 } // namespace PB
