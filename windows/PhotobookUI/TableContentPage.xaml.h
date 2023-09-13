@@ -8,7 +8,6 @@
 #include <pb/Scheduable.h>
 
 using namespace winrt::Windows::Foundation::Collections;
-using namespace winrt::Windows::Foundation;
 
 namespace winrt::PhotobookUI::implementation {
 
@@ -40,7 +39,8 @@ private:
 
   PB::PhotoBook                                    mPhotoBook;
   IObservableVector<winrt::hstring>                mediaListItemsCollection;
-  IAsyncOperation<Windows::Storage::StorageFolder> mFolderAsync;
+  winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
+      mFolderAsync;
 };
 } // namespace winrt::PhotobookUI::implementation
 

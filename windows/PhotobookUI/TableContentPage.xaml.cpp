@@ -22,7 +22,6 @@
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 using namespace Windows::Storage;
-using namespace Windows::Foundation;
 using namespace Windows::Storage::Pickers;
 using namespace Microsoft::UI::Dispatching;
 
