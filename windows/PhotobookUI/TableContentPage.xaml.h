@@ -7,24 +7,13 @@
 #include <pb/PhotoBook.h>
 #include <pb/Scheduable.h>
 
+using namespace winrt::Windows::Foundation::Collections;
+using namespace winrt::Windows::Foundation;
+
 namespace winrt::PhotobookUI::implementation {
-class PhotoBookListener final : public PB::GradualControllableListener {
-public:
-  PhotoBookListener() {}
-  ~PhotoBookListener() {}
-  void onFinished() override;
-  void onStopped() override;
-  void onStarted() override;
-  void onPaused() override;
-  void onResumed() override;
 
-  void onProgressUpdate() override;
-  void onError(PB::Error error) override;
-
-  void post(std::function<void()>) override;
-};
-
-struct TableContentPage : TableContentPageT<TableContentPage> {
+struct TableContentPage : TableContentPageT<TableContentPage>,
+                          public PB::GradualControllableListener {
   TableContentPage();
   ~TableContentPage() = default;
 
@@ -35,14 +24,23 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onBackClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onFinished() override;
+  void onStopped() override;
+  void onStarted() override;
+  void onPaused() override;
+  void onResumed() override;
+
+  void onProgressUpdate() override;
+  void onError(PB::Error error) override;
+
+  void post(std::function<void()>) override;
+
 private:
-  winrt::fire_and_forget fireFolderPicker(HWND hWnd);
+  auto fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
 
-  PhotoBookListener mListener{};
-  PB::PhotoBook     mPhotoBook;
-
-  Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
-      mFolderAsync;
+  PB::PhotoBook                                    mPhotoBook;
+  IObservableVector<winrt::hstring>                mediaListItemsCollection;
+  IAsyncOperation<Windows::Storage::StorageFolder> mFolderAsync;
 };
 } // namespace winrt::PhotobookUI::implementation
 

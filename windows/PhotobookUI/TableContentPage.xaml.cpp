@@ -30,12 +30,15 @@ using namespace Microsoft::UI::Dispatching;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::PhotobookUI::implementation {
-TableContentPage::TableContentPage() : mPhotoBook(mListener)
+TableContentPage::TableContentPage() : mPhotoBook(std::ref(*this))
 {
   InitializeComponent();
+
+  mediaListItemsCollection =
+      winrt::single_threaded_observable_vector<winrt::hstring>();
 }
 
-winrt::fire_and_forget TableContentPage::fireFolderPicker(HWND hWnd)
+auto TableContentPage::fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget
 {
   Windows::Storage::Pickers::FolderPicker folderPicker;
 
@@ -60,22 +63,36 @@ void TableContentPage::onBackClicked(IInspectable const &,
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
-void PhotoBookListener::onFinished() {
+void TableContentPage::onFinished()
+{
+  mediaListItemsCollection.Clear();
+  auto rootFolders = mPhotoBook.rootPaths();
+  for (auto &path : rootFolders)
+    mediaListItemsCollection.Append(
+        winrt::to_hstring(path.filename().string()));
+  this->MediaListView().ItemsSource(mediaListItemsCollection);
+
+  if (!rootFolders.empty()) {
+    this->AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
+  }
+  else {
+    this->AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
+  }
 }
 
-void PhotoBookListener::onStopped() {}
+void TableContentPage::onStopped() {}
 
-void PhotoBookListener::onStarted() {}
+void TableContentPage::onStarted() {}
 
-void PhotoBookListener::onPaused() {}
+void TableContentPage::onPaused() {}
 
-void PhotoBookListener::onResumed() {}
+void TableContentPage::onResumed() {}
 
-void PhotoBookListener::onProgressUpdate() {}
+void TableContentPage::onProgressUpdate() {}
 
-void PhotoBookListener::onError(PB::Error error) {}
+void TableContentPage::onError(PB::Error error) {}
 
-void PhotoBookListener::post( std::function<void()> f)
+void TableContentPage::post(std::function<void()> f)
 {
   bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
