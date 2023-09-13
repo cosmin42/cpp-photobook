@@ -69,14 +69,16 @@ void TableContentPage::onFinished()
   for (auto &path : rootFolders)
     mediaListItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
-  this->MediaListView().ItemsSource(mediaListItemsCollection);
+  MediaListView().ItemsSource(mediaListItemsCollection);
 
   if (!rootFolders.empty()) {
-    this->AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
+    AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
   }
   else {
-    this->AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
+    AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
   }
+
+  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
 }
 
 void TableContentPage::onStopped() {}
@@ -87,7 +89,10 @@ void TableContentPage::onPaused() {}
 
 void TableContentPage::onResumed() {}
 
-void TableContentPage::onProgressUpdate() {}
+void TableContentPage::onProgressUpdate()
+{
+  StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
+}
 
 void TableContentPage::onError(PB::Error error) {}
 
