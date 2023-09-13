@@ -82,8 +82,9 @@ void TableContentPage::onFinished()
 }
 
 void TableContentPage::onFoldersSelectionChanged(
-    ::winrt::Windows::Foundation::IInspectable const                        &p0,
-    ::winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const &p1)
+    [[maybe_unused]]  ::winrt::Windows::Foundation::IInspectable const       &object,
+    [[maybe_unused]]  ::winrt::Microsoft::UI::Xaml::Controls::
+        SelectionChangedEventArgs const &eventArgs)
 {
 }
 

@@ -24,9 +24,9 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void onFoldersSelectionChanged(
-      ::winrt::Windows::Foundation::IInspectable const &p0,
-      ::winrt::Microsoft::UI::Xaml::Controls::SelectionChangedEventArgs const
-          &p1);
+      [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+          SelectionChangedEventArgs const &);
 
   void onFinished() override;
   void onStopped() override;
