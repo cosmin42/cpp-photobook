@@ -29,6 +29,7 @@ void MediaMapper::executeSingleTask()
     }
     mRecursiveIterator++;
   }
+  mListener.doProgressUpdate();
 }
 
 auto MediaMapper::paths() -> std::vector<std::filesystem::path> &
