@@ -62,7 +62,8 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <ListView Name="MediaListView"
-                          SelectionChanged="onFoldersSelectionChanged">
+                          SelectionChanged="onFoldersSelectionChanged"
+                          SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid VerticalAlignment="Center">
