@@ -36,6 +36,7 @@ public:
                    },
                    [this](Error error) { mListener.onError(error); }},
         result);
+    mMediaFolderPaths.push_back(fsPath);
     mMediaFolders.at(fsPath)->start();
   }
 
@@ -49,13 +50,13 @@ public:
         result);
   }
 
-  auto rootPaths() const -> std::vector<Path>
+  auto rootPaths() const -> std::vector<Path> { return mMediaFolderPaths; }
+
+  std::shared_ptr<MediaMapper<TaskManageableType>> mediaMapper(unsigned index)
   {
-    std::vector<Path> result;
-    for (auto &[key, value] : mMediaFolders) {
-      result.push_back(key);
-    }
-    return result;
+    assert(index < mMediaFolderPaths.size());
+
+    return mMediaFolderPaths.at(index);
   }
 
 private:
@@ -70,6 +71,7 @@ private:
 
   std::unordered_map<Path, std::shared_ptr<MediaMapper<TaskManageableType>>>
                                      mMediaFolders;
+  std::vector<Path>                  mMediaFolderPaths;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;
 };
