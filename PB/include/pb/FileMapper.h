@@ -15,7 +15,7 @@ template <typename T, typename Content>
   requires RandomAccessibleConcept<T, Content>
 class CircularIterator final {
 public:
-  explicit CircularIterator(T const &container) { mContainer = container; }
+  explicit CircularIterator(T const &container) : mContainer(container) {}
 
   CircularIterator(CircularIterator const &other)
       : mContainer(other.mContainer), mIndex(other.mIndex)
@@ -38,7 +38,7 @@ public:
 
   auto current() const -> Content { return mContainer.access(mIndex); }
 
-  CircularIterator &&operator++()
+  CircularIterator &operator++()
   {
     if (mContainer.size() == 0) {
       return *this;
@@ -47,7 +47,7 @@ public:
     mIndex %= mContainer.size();
   }
 
-  CircularIterator &&operator--()
+  CircularIterator &operator--()
   {
     if (mContainer.size() == 0) {
       return *this;
@@ -119,6 +119,11 @@ public:
       return std::filesystem::path();
     }
     return mPaths.at(index);
+  }
+
+  auto iterator()
+  {
+    return CircularIterator<MediaMapper<T>, Path>(*this);
   }
 
 private:
