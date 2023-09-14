@@ -71,7 +71,7 @@ void TableContentPage::onGalleryLeft(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   if (mCurrentGalleryIterator) {
-    mCurrentGalleryIterator->operator--();
+    mCurrentGalleryIterator->previous();
     auto                     path = mCurrentGalleryIterator->current();
     GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
   }
@@ -81,7 +81,7 @@ void TableContentPage::onGalleryRight(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  mCurrentGalleryIterator->operator++();
+  mCurrentGalleryIterator->next();
   auto                     path = mCurrentGalleryIterator->current();
   GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
 }

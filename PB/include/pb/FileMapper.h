@@ -38,7 +38,7 @@ public:
 
   auto current() const -> Content { return mContainer.access(mIndex); }
 
-  CircularIterator &operator++()
+  CircularIterator &next()
   {
     if (mContainer.size() == 0) {
       return *this;
@@ -48,7 +48,7 @@ public:
     return *this;
   }
 
-  CircularIterator &operator--()
+  CircularIterator &previous()
   {
     if (mContainer.size() == 0) {
       return *this;
