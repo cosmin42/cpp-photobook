@@ -18,15 +18,47 @@ public:
   PhotoBook &operator=(PhotoBook const &) = delete;
   ~PhotoBook() = default;
 
-  void addMedia(std::string const &path);
-  void setOutputPath(std::string const &path);
+  void addMedia(std::string const &path)
+  {
+    PB::Path fsPath = path;
+    auto     result = FileInfo::validInputRootPath(fsPath);
+    std::visit(
+        overloaded{[this](PB::Path const &path) {
+                     printDebug("Add media %s\n", path.string().c_str());
+                     mMediaFolders.insert({path, MediaMapper(path, mListener)});
+                   },
+                   [this](Error error) { mListener.doError(error); }},
+        result);
 
-  auto rootPaths() const -> std::vector<Path>;
+    mMediaFolders.at(fsPath).start();
+  }
+
+  void setOutputPath(std::string const &path)
+  {
+    PB::Path fsPath = path;
+    auto     result = FileInfo::validOutputRootPath(fsPath);
+    std::visit(
+        overloaded{[this](PB::Path const &path) mutable { mOutputPath = path; },
+                   [this](Error error) { mListener.doError(error); }},
+        result);
+  }
+
+  auto rootPaths() const -> std::vector<Path>
+  {
+    std::vector<Path> result;
+    for (auto &[key, value] : mMediaFolders) {
+      result.push_back(key);
+    }
+    return result;
+  }
 
 private:
-  auto loadImage(std::string const &path) -> std::optional<cv::Mat>;
+  auto loadImage(std::string const &path) -> std::optional<cv::Mat>
+  {
+    return ImageReader::defaultRead()(path);
+  }
 
-  void exportImage([[maybe_unused]] std::string const &path);
+  void exportImage([[maybe_unused]] std::string const &path) {}
 
   GradualControllableListener &mListener;
 
