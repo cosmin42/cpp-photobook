@@ -15,7 +15,7 @@ template <typename T, typename Content>
   requires RandomAccessibleConcept<T, Content>
 class CircularIterator final {
 public:
-  explicit CircularIterator(T const &container) : mContainer(container) {}
+  explicit CircularIterator(T &container) : mContainer(container) {}
 
   CircularIterator(CircularIterator const &other)
       : mContainer(other.mContainer), mIndex(other.mIndex)
@@ -60,7 +60,7 @@ public:
   }
 
 private:
-  T const &mContainer;
+  T       &mContainer;
   unsigned mIndex = 0;
 };
 

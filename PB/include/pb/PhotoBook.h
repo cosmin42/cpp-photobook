@@ -56,7 +56,11 @@ public:
   {
     assert(index < mMediaFolderPaths.size());
 
-    return mMediaFolderPaths.at(index);
+    auto& key = mMediaFolderPaths.at(index);
+
+    assert(mMediaFolders.contains(key));
+
+    return mMediaFolders.at(key);
   }
 
 private:

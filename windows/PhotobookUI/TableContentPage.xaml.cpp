@@ -127,8 +127,13 @@ void TableContentPage::onFoldersSelectionChanged(
         SelectionChangedEventArgs const &eventArgs)
 {
   auto index = MediaListView().SelectedIndex();
-  mediaListItemsCollection.GetAt(index);
-
+  auto mediaMapper = mPhotoBook.mediaMapper(index);
+  if (mediaMapper) {
+    mCurrentGalleryIterator = mediaMapper->iterator();
+  }
+  else {
+    PB::printError("Media mapper doesn't exist on selection.\n");
+  }
 }
 
 void TableContentPage::onStopped() {}

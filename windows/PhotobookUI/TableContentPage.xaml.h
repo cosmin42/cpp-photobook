@@ -65,6 +65,9 @@ private:
   IObservableVector<winrt::hstring> mediaListItemsCollection;
   winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
       mFolderAsync;
+  std::optional<
+      PB::CircularIterator<PB::MediaMapper<PhotoBookListener>, PB::Path>>
+      mCurrentGalleryIterator = std::nullopt;
 };
 } // namespace winrt::PhotobookUI::implementation
 
