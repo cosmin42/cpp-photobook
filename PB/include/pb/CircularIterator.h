@@ -1,6 +1,8 @@
 #pragma once
 
-#include <pb/util/Concepts.h>
+#include <vector>
+
+#include <pb/util/Traits.h>
 
 namespace PB {
 
