@@ -29,7 +29,26 @@ using namespace Microsoft::UI::Dispatching;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::PhotobookUI::implementation {
-TableContentPage::TableContentPage() : mPhotoBook(std::ref(*this))
+
+PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
+{
+}
+void PhotoBookListener::onFinished() { mParent.onFinished(); }
+void PhotoBookListener::onStopped() { mParent.onStopped(); }
+void PhotoBookListener::onStarted() { mParent.onStarted(); }
+void PhotoBookListener::onPaused() { mParent.onPaused(); }
+void PhotoBookListener::onResumed() { mParent.onResumed(); }
+
+void PhotoBookListener::onProgressUpdate() { mParent.onProgressUpdate(); }
+void PhotoBookListener::onError(PB::Error error) { mParent.onError(error); }
+
+void PhotoBookListener::post(std::function<void()> f)
+{
+  mParent.post(std::forward<std::function<void()>>(f));
+}
+
+TableContentPage::TableContentPage()
+    : mListener(std::ref(*this)), mPhotoBook(mListener)
 {
   InitializeComponent();
 
@@ -82,8 +101,8 @@ void TableContentPage::onFinished()
 }
 
 void TableContentPage::onFoldersSelectionChanged(
-    [[maybe_unused]]  ::winrt::Windows::Foundation::IInspectable const       &object,
-    [[maybe_unused]]  ::winrt::Microsoft::UI::Xaml::Controls::
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &object,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &eventArgs)
 {
 }

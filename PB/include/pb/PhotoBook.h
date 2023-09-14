@@ -4,7 +4,6 @@
 
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
-#include <pb/GradualControllable.h>
 #include <pb/ImageReader.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
@@ -13,9 +12,9 @@
 
 namespace PB {
 
-class PhotoBook final {
+template <TaskManageableConcept TaskManageableType> class PhotoBook final {
 public:
-  PhotoBook(GradualControllableListener &listener) : mListener(listener){};
+  PhotoBook(TaskManageableType &listener) : mListener(listener){};
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
@@ -28,10 +27,10 @@ public:
     std::visit(overloaded{[this](PB::Path const &path) {
                             printDebug("Add media %s\n", path.string().c_str());
                             mMediaFolders.insert(
-                                {path, MediaMapper<GradualControllableListener>(
+                                {path, MediaMapper<TaskManageableType>(
                                            path, mListener)});
                           },
-                          [this](Error error) { mListener.doError(error); }},
+                          [this](Error error) { mListener.onError(error); }},
                result);
 
     mMediaFolders.at(fsPath).start();
@@ -64,9 +63,9 @@ private:
 
   void exportImage([[maybe_unused]] std::string const &path) {}
 
-  GradualControllableListener &mListener;
+  TaskManageableType &mListener;
 
-  std::unordered_map<Path, MediaMapper<GradualControllableListener>>
+  std::unordered_map<Path, MediaMapper<TaskManageableType>>
                                      mMediaFolders;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;

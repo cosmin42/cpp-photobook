@@ -11,8 +11,27 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct TableContentPage : TableContentPageT<TableContentPage>,
-                          public PB::GradualControllableListener {
+struct TableContentPage;
+
+class PhotoBookListener {
+public:
+  explicit PhotoBookListener(TableContentPage &parent);
+  void onFinished();
+  void onStopped();
+  void onStarted();
+  void onPaused();
+  void onResumed();
+
+  void onProgressUpdate();
+  void onError(PB::Error error);
+
+  void post(std::function<void()> f);
+
+private:
+  TableContentPage &mParent;
+};
+
+struct TableContentPage : TableContentPageT<TableContentPage> {
   TableContentPage();
   ~TableContentPage() = default;
 
@@ -28,21 +47,21 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
 
-  void onFinished() override;
-  void onStopped() override;
-  void onStarted() override;
-  void onPaused() override;
-  void onResumed() override;
+  void onFinished();
+  void onStopped();
+  void onStarted();
+  void onPaused();
+  void onResumed();
 
-  void onProgressUpdate() override;
-  void onError(PB::Error error) override;
+  void onProgressUpdate();
+  void onError(PB::Error error);
 
-  void post(std::function<void()>) override;
+  void post(std::function<void()>);
 
 private:
-  auto fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
-
-  PB::PhotoBook                     mPhotoBook;
+  auto              fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
+  PhotoBookListener mListener;
+  PB::PhotoBook<PhotoBookListener>  mPhotoBook;
   IObservableVector<winrt::hstring> mediaListItemsCollection;
   winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
       mFolderAsync;

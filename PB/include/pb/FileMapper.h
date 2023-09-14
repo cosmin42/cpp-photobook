@@ -50,12 +50,12 @@ public:
       }
       mRecursiveIterator++;
     }
-    mListener.doProgressUpdate();
+    mListener.onProgressUpdate();
   }
 
   auto paths() -> std::vector<std::filesystem::path> & { return mPaths; }
 
-  void finish() override { mListener.doFinish(); }
+  void finish() override { mListener.onFinished(); }
 
 private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
