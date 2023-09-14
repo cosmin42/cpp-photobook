@@ -31,27 +31,31 @@ public:
 
   static auto defaultRead() -> auto
   {
-    return [](std::filesystem::path const &path) -> std::optional<cv::Mat> {
+    return [](std::filesystem::path const &path) -> std::shared_ptr<cv::Mat> {
       return read(path);
     };
   }
 
+  void
+  loadBuffer([[maybe_unused]] CircularIterator<MediaMapper<T>, Path> iterator)
+  {
+  }
+
 private:
-  static auto read(std::filesystem::path const &path) -> std::optional<cv::Mat>
+  static auto read(std::filesystem::path const &path)
+      -> std::shared_ptr<cv::Mat>
   {
     cv::Mat image = cv::imread(path.string(), cv::IMREAD_COLOR);
 
     if (image.empty()) {
       printDebug("Image %s could not be read", path.string().c_str());
-      return std::nullopt;
+      return nullptr;
     }
 
-    return image;
+    return std::make_shared<cv::Mat>(image);
   }
 
   std::map<Path, std::shared_ptr<cv::Mat>> mBuffer;
   std::vector<Path>                        mBufferIndex;
-
-  std::optional<CircularIterator<MediaMapper<T>, Path>> mIterator;
 };
 } // namespace PB
