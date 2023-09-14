@@ -2,24 +2,30 @@
 #include <pb/PhotoBook.h>
 
 namespace BL {
-class MainActivity final : public PB::GradualControllableListener {
+
+class PhotoBookListener
+{
 public:
-  MainActivity() : mPhotoBook(*this) {}
+  void onFinished() {}
+  void onStopped() {}
+  void onStarted() {}
+  void onPaused() {}
+  void onResumed() {}
+
+  void onProgressUpdate() {}
+  void onError(PB::Error error) {}
+};
+
+class MainActivity final {
+public:
+  MainActivity() : mPhotoBook(mPhotoBookListener) {}
   MainActivity(MainActivity const &) = delete;
   MainActivity(MainActivity &&) = delete;
   MainActivity &operator=(MainActivity const &) = delete;
   ~MainActivity() = default;
 
-  void onFinished() override {}
-  void onStopped() override {}
-  void onStarted() override {}
-  void onPaused() override {}
-  void onResumed() override {}
-
-  void onProgressUpdate() override {}
-  void onError(PB::Error error) override {}
-
 private:
-  PB::PhotoBook mPhotoBook;
+  PhotoBookListener           mPhotoBookListener;
+  PB::PhotoBook<PhotoBookListener> mPhotoBook;
 };
 } // namespace BL
