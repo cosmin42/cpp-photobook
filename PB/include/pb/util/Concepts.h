@@ -34,6 +34,17 @@ concept TaskManageableConcept = requires(T t) {
   } -> std::same_as<void>;
 };
 
+template <typename T, typename MonoidType>
+concept RandomAccessibleConcept = requires(T t, unsigned index) {
+  {
+    t.size()
+  } -> std::same_as<unsigned>;
+
+  {
+    t.access(index)
+  } -> std::same_as<MonoidType>;
+};
+
 template <template <typename> typename ContainerType,
           typename MonoidUnderlayingType>
 concept CircularIteratorConcept =

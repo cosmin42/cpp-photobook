@@ -12,12 +12,9 @@
 
 namespace PB {
 
-template <template <typename> typename ContainerType,
-          typename MonoidUnderlayingType>
-  requires CircularIteratorConcept<ContainerType, MonoidUnderlayingType>
-class PhotoBookCircularIterator {};
-
-template <TaskManageableConcept TaskManageableType> class PhotoBook final {
+template <typename TaskManageableType>
+  requires TaskManageableConcept<TaskManageableType>
+class PhotoBook final {
 public:
   PhotoBook(TaskManageableType &listener) : mListener(listener){};
   PhotoBook(PhotoBook const &) = delete;

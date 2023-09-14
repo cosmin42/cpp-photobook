@@ -7,14 +7,42 @@
 #include <pb/FileComparator.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Thread.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 
-template <TaskManageableConcept TaskManageableType>
+template <typename T, typename Content>
+  requires RandomAccessibleConcept<T, Content>
+class CircularIterator final {
+public:
+  explicit CircularIterator(T const &container) { mContainer = container; }
+
+  auto current() -> Content { return mContainer.access(mIndex); }
+
+  CircularIterator &operator++()
+  {
+    mIndex++;
+    mIndex %= mContainer.size();
+  }
+
+  CircularIterator &operator--()
+  {
+    if (mIndex == 0) {
+      mIndex = mContainer.size();
+      mIndex--;
+    }
+  }
+
+private:
+  T const &mContainer;
+  unsigned mIndex = 0;
+};
+
+template <typename T>
+  requires TaskManageableConcept<T>
 class MediaMapper final : public Thread {
 public:
-  explicit MediaMapper(std::filesystem::path const &root,
-                       TaskManageableType          &listener)
+  explicit MediaMapper(std::filesystem::path const &root, T &listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener)
   {
     printDebug("MediaMapper constructor.\n");
@@ -57,11 +85,21 @@ public:
 
   void finish() override { mListener.onFinished(); }
 
+  auto size() -> unsigned { return mPaths.size(); }
+
+  auto access(unsigned index) -> Path
+  {
+    if (index >= mPaths.size()) {
+      return std::filesystem::path();
+    }
+    return mPaths.at(index);
+  }
+
 private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   std::vector<std::filesystem::path>            mPaths;
 
-  TaskManageableType &mListener;
+  T &mListener;
 };
 
 } // namespace PB
