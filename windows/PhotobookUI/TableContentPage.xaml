@@ -130,7 +130,8 @@
                         Content="Left"
                         x:Name="GalleryLeftButton"
                         Foreground="#FFFFFF"
-                        HorizontalAlignment="Right"/>
+                        HorizontalAlignment="Right"
+                        IsEnabled="False"/>
 
                     <Button
                         Background="#004C35"
@@ -140,7 +141,8 @@
                         Grid.Row="1"
                         Content="Right"
                         x:Name="GalleryRightButton"
-                        Foreground="#FFFFFF"/>
+                        Foreground="#FFFFFF"
+                        IsEnabled="False"/>
 
                 </Grid>
 
