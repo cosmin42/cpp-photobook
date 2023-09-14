@@ -32,44 +32,6 @@ using namespace Microsoft::UI::Dispatching;
 
 namespace winrt::PhotobookUI::implementation {
 
-PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
-{
-}
-void PhotoBookListener::onFinished()
-{
-  post([this]() { mParent.onFinished(); });
-}
-void PhotoBookListener::onStopped()
-{
-  post([this]() { mParent.onStopped(); });
-}
-void PhotoBookListener::onStarted()
-{
-  post([this]() { mParent.onStarted(); });
-}
-void PhotoBookListener::onPaused()
-{
-  post([this]() { mParent.onPaused(); });
-}
-void PhotoBookListener::onResumed()
-{
-  post([this]() { mParent.onResumed(); });
-}
-
-void PhotoBookListener::onProgressUpdate()
-{
-  post([this]() { mParent.onProgressUpdate(); });
-}
-void PhotoBookListener::onError(PB::Error error)
-{
-  post([error{error}, this]() { mParent.onError(error); });
-}
-
-void PhotoBookListener::post(std::function<void()> f)
-{
-  mParent.post(std::forward<std::function<void()>>(f));
-}
-
 TableContentPage::TableContentPage()
     : mListener(std::ref(*this)), mPhotoBook(mListener)
 {
@@ -105,8 +67,8 @@ void TableContentPage::onBackClicked(IInspectable const &,
 }
 
 void TableContentPage::onGalleryLeft(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   if (mCurrentGalleryIterator) {
     mCurrentGalleryIterator->operator--();
@@ -114,8 +76,8 @@ void TableContentPage::onGalleryLeft(
 }
 
 void TableContentPage::onGalleryRight(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mCurrentGalleryIterator->operator++();
 }
@@ -151,13 +113,11 @@ void TableContentPage::onFoldersSelectionChanged(
     GalleryLeftButton().IsEnabled(true);
     GalleryRightButton().IsEnabled(true);
 
-    if (mediaMapper->size() > 0)
-    {
+    if (mediaMapper->size() > 0) {
       auto path = mCurrentGalleryIterator->current();
       GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
     }
-    else
-    {
+    else {
       auto path = mPhotoBook.getByIndex(index);
       assert(path.has_value());
       GalleryMainText().Text(winrt::to_hstring(path->filename().string()));

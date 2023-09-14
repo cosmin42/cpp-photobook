@@ -45,6 +45,7 @@ public:
     }
     mIndex++;
     mIndex %= mContainer.size();
+    return *this;
   }
 
   CircularIterator &operator--()
@@ -111,7 +112,7 @@ public:
 
   void finish() override { mListener.onFinished(); }
 
-  [[nodiscard]] auto size() const -> unsigned { return mPaths.size(); }
+  [[nodiscard]] auto size() const -> unsigned { return (unsigned)mPaths.size(); }
 
   auto access(unsigned index) const -> Path
   {

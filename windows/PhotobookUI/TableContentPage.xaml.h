@@ -6,30 +6,11 @@
 #include "TableContentPage.g.h"
 #include <pb/PhotoBook.h>
 #include <pb/Scheduable.h>
+#include <PhotoBookListener.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
-
-struct TableContentPage;
-
-class PhotoBookListener {
-public:
-  explicit PhotoBookListener(TableContentPage &parent);
-  void onFinished();
-  void onStopped();
-  void onStarted();
-  void onPaused();
-  void onResumed();
-
-  void onProgressUpdate();
-  void onError(PB::Error error);
-
-  void post(std::function<void()> f);
-
-private:
-  TableContentPage &mParent;
-};
 
 struct TableContentPage : TableContentPageT<TableContentPage> {
   TableContentPage();
