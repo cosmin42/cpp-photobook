@@ -5,16 +5,16 @@
 
 #include <pb/Config.h>
 #include <pb/FileComparator.h>
-#include <pb/GradualControllable.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Thread.h>
 
 namespace PB {
 
+template <TaskManageableConcept TaskManageableType>
 class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(std::filesystem::path const &root,
-                       GradualControllableListener &listener)
+                       TaskManageableType          &listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener)
   {
     printDebug("MediaMapper constructor.\n");
@@ -61,7 +61,7 @@ private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   std::vector<std::filesystem::path>            mPaths;
 
-  GradualControllableListener &mListener;
+  TaskManageableType &mListener;
 };
 
 } // namespace PB

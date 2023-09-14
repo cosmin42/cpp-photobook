@@ -5,10 +5,11 @@
 
 namespace PB {
 template <typename T>
-concept TaskManageable = requires(T t) {
+concept TaskManageableConcept = requires(T t) {
   {
     t.onFinished()
   } -> std::same_as<void>;
+
   {
     t.onStopped()
   } -> std::same_as<void>;

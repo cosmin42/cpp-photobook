@@ -15,7 +15,6 @@ public:
   void doProgressUpdate();
   void doError(Error error);
 
-private:
   virtual void onFinished() = 0;
   virtual void onStopped() = 0;
   virtual void onStarted() = 0;
