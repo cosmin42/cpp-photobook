@@ -108,12 +108,16 @@ void TableContentPage::onGalleryLeft(
     Windows::Foundation::IInspectable const    &sender,
     Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  if (mCurrentGalleryIterator) {
+    mCurrentGalleryIterator->operator--();
+  }
 }
 
 void TableContentPage::onGalleryRight(
     Windows::Foundation::IInspectable const    &sender,
     Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  mCurrentGalleryIterator->operator++();
 }
 
 void TableContentPage::onFinished()
