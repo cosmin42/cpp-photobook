@@ -33,4 +33,24 @@ concept TaskManageableConcept = requires(T t) {
     t.onError(PB::Error())
   } -> std::same_as<void>;
 };
-}
+
+template <typename CircularIterator, typename MonoidUnderlayingType>
+concept CircularIteratorConcept = requires(CircularIterator t) {
+  {
+    t.empty()
+  } -> std::same_as<bool>;
+
+  {
+    t++
+  } -> std::same_as<CircularIterator>;
+
+  {
+    t--
+  } -> std::same_as<CircularIterator>;
+
+  {
+    *t
+  } -> std::same_as<MonoidUnderlayingType>;
+};
+
+} // namespace PB
