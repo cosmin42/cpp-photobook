@@ -45,9 +45,16 @@ public:
       stop();
     }
     else {
-      auto path = mRecursiveIterator->path();
-      if (std::filesystem::is_directory(path) ||
-          std::filesystem::is_regular_file(path)) {
+      auto      path = mRecursiveIterator->path();
+      auto bool isDirectory = std::filesystem::is_directory(path);
+      auto bool isRegularFile = std::filesystem::is_regular_file(path);
+
+      if (isRegularFile && fileValidator())
+      {
+        mPaths.push_back(path);
+      }
+
+      if (isDirectory) {
         mPaths.push_back(path);
       }
       mRecursiveIterator++;
@@ -78,6 +85,8 @@ public:
   }
 
 private:
+  bool fileValidator(Path path) const { return true; }
+
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   std::vector<std::filesystem::path>            mPaths;
 
