@@ -32,7 +32,7 @@ public:
                      printDebug("Add media %s\n", path.string().c_str());
                      auto mapperPtr =
                          std::make_shared<MediaMapper<TaskManageableType>>(
-                             MediaMapper<TaskManageableType>(path, mListener));
+                             path, mListener);
                      mMediaFolders.insert({path, mapperPtr});
                    },
                    [this](Error error) { mListener.onError(error); }},
@@ -53,15 +53,15 @@ public:
 
   auto rootPaths() const -> std::vector<Path> { return mMediaFolderPaths; }
 
-  std::shared_ptr<MediaMapper<TaskManageableType>> mediaMapper(unsigned index)
+  auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
     assert(index < mMediaFolderPaths.size());
 
-    auto& key = mMediaFolderPaths.at(index);
+    auto &key = mMediaFolderPaths.at(index);
 
-    assert(mMediaFolders.contains(key));
+    assert(mMediaData.contains(key));
 
-    return mMediaFolders.at(key);
+    return mMediaData.at(key);
   }
 
   std::optional<Path> getByIndex(unsigned index)
@@ -82,6 +82,7 @@ private:
 
   std::unordered_map<Path, std::shared_ptr<MediaMapper<TaskManageableType>>>
                                      mMediaFolders;
+  std::unordered_map<Path, MediaMap> mMediaData;
   std::vector<Path>                  mMediaFolderPaths;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;
