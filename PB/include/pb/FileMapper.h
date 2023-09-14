@@ -117,8 +117,6 @@ public:
     mListener.onProgressUpdate();
   }
 
-  auto paths() -> std::vector<std::filesystem::path> & { return mPaths; }
-
   void finish() override { mListener.onFinished(); }
 
   auto map() const -> MediaMap { return mMap; }

@@ -3,59 +3,78 @@
 #include <pb/util/Concepts.h>
 
 namespace PB {
-template <typename T, typename Content>
-  requires RandomAccessibleConcept<T, Content>
+
 class CircularIterator final {
 public:
-  explicit CircularIterator(T &container) : mContainer(container) {}
+  CircularIterator() = default;
+
+  explicit CircularIterator(std::vector<Path> &container)
+      : mBeginIterator(container.begin()), mEndIterator(container.end()),
+        mSize((unsigned)container.size())
+  {
+  }
 
   CircularIterator(CircularIterator const &other)
-      : mContainer(other.mContainer), mIndex(other.mIndex)
+      : mBeginIterator(other.mBeginIterator), mEndIterator(other.mEndIterator),
+        mIndex(other.mIndex), mSize(other.mSize)
   {
   }
 
   CircularIterator(CircularIterator &&other)
-      : mContainer(other.mContainer), mIndex(other.mIndex)
+      : mBeginIterator(other.mBeginIterator), mEndIterator(other.mEndIterator),
+        mIndex(other.mIndex), mSize(other.mSize)
   {
   }
 
   CircularIterator &operator=(CircularIterator const &other)
   {
+    mBeginIterator = other.mBeginIterator;
+    mEndIterator = other.mEndIterator;
     mIndex = other.mIndex;
-    mContainer = other.mContainer;
+    mSize = other.mSize;
     return *this;
   }
 
   ~CircularIterator() = default;
 
-  auto current() const -> Content { return mContainer.access(mIndex); }
+  auto current() const -> std::optional<Path>
+  {
+    if (mSize == 0) {
+      return std::nullopt;
+    }
+    return *(mBeginIterator + mIndex);
+  }
 
   CircularIterator &next()
   {
-    if (mContainer.size() == 0) {
+    if (mSize == 0) {
       return *this;
     }
     mIndex++;
-    mIndex %= mContainer.size();
+    mIndex %= mSize;
     return *this;
   }
 
   CircularIterator &previous()
   {
-    if (mContainer.size() == 0) {
+    if (mSize == 0) {
       return *this;
     }
     if (mIndex == 0) {
-      mIndex = mContainer.size();
+      mIndex = mSize;
     }
     mIndex--;
     return *this;
   }
 
-  auto size() -> unsigned { return mContainer.size(); }
+  auto size() -> unsigned { return mSize; }
+
+  auto valid() const -> bool { return mSize > 0; }
 
 private:
-  T       &mContainer;
-  unsigned mIndex = 0;
+  std::vector<Path>::iterator mBeginIterator;
+  std::vector<Path>::iterator mEndIterator;
+  unsigned                    mIndex = 0;
+  unsigned                    mSize = 0;
 };
 } // namespace PB

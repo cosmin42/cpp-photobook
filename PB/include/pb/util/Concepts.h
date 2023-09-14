@@ -42,7 +42,7 @@ concept RandomAccessibleConcept = requires(T t, unsigned index) {
 
   {
     t.access(index)
-  } -> std::same_as<MonoidType>;
+  } -> std::same_as<std::optional<MonoidType>>;
 };
 
 } // namespace PB
