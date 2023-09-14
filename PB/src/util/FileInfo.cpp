@@ -1,5 +1,6 @@
 #include <pb/Error.h>
 #include <pb/util/FileInfo.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 
