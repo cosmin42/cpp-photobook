@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <set>
 #include <vector>
 
 #include <pb/CircularIterator.h>
@@ -45,12 +46,11 @@ public:
       stop();
     }
     else {
-      auto      path = mRecursiveIterator->path();
-      auto bool isDirectory = std::filesystem::is_directory(path);
-      auto bool isRegularFile = std::filesystem::is_regular_file(path);
+      auto path = mRecursiveIterator->path();
+      bool isDirectory = std::filesystem::is_directory(path);
+      bool isRegularFile = std::filesystem::is_regular_file(path);
 
-      if (isRegularFile && fileValidator())
-      {
+      if (isRegularFile && fileValidator(path)) {
         mPaths.push_back(path);
       }
 
@@ -85,7 +85,22 @@ public:
   }
 
 private:
-  bool fileValidator(Path path) const { return true; }
+
+  bool fileValidator(Path path) const
+  {
+    static const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
+                                                               "png"};
+    // TODO: C++23 to be replaced with ends with
+    std::string pathStr = path.string();
+    for (auto &extension : sValidFileExtensions) {
+      bool endsWith =
+          std::equal(extension.rbegin(), extension.rend(), pathStr.rbegin());
+      if (endsWith) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   std::vector<std::filesystem::path>            mPaths;
