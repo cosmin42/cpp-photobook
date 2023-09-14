@@ -52,9 +52,9 @@ public:
     return mPaths.at(index);
   }
 
-  [[nodiscard]] auto iterator()
+  [[nodiscard]] auto iterator() -> std::optional<CircularIterator>
   {
-    return CircularIterator<MediaMap, Path>(*this);
+    return CircularIterator(mPaths);
   }
 
 private:
