@@ -71,8 +71,10 @@ void TableContentPage::onGalleryLeft(
 {
   if (mCurrentGalleryIterator) {
     mCurrentGalleryIterator->previous();
-    auto                     path = mCurrentGalleryIterator->current();
-    GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
+    auto path = mCurrentGalleryIterator->current();
+    assert(path.has_value());
+
+    GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
   }
 }
 
@@ -81,8 +83,9 @@ void TableContentPage::onGalleryRight(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mCurrentGalleryIterator->next();
-  auto                     path = mCurrentGalleryIterator->current();
-  GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
+  auto path = mCurrentGalleryIterator->current();
+  assert(path.has_value());
+  GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
 }
 
 void TableContentPage::onFinished()
@@ -111,17 +114,20 @@ void TableContentPage::onFoldersSelectionChanged(
 {
   PB::printDebug("Folder selected\n");
   auto index = MediaListView().SelectedIndex();
-  auto mediaMapper = mPhotoBook.mediaMapper(index);
-  if (mediaMapper) {
-    mCurrentGalleryIterator = mediaMapper->iterator();
-    GalleryLeftButton().IsEnabled(true);
-    GalleryRightButton().IsEnabled(true);
 
-    PB::printDebug("Folder selected, size %d\n", mediaMapper->size());
+  auto mediaMap = mPhotoBook.mediaMap(index);
 
-    if (mediaMapper->size() > 0) {
+  if (mediaMap) {
+    mCurrentGalleryIterator = mediaMap->iterator();
+    if (mCurrentGalleryIterator) {
+      GalleryLeftButton().IsEnabled(true);
+      GalleryRightButton().IsEnabled(true);
+
+      PB::printDebug("Folder selected, size %d\n", mediaMap->size());
+
       auto path = mCurrentGalleryIterator->current();
-      GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
+      assert(path.has_value());
+      GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
     }
     else {
       auto path = mPhotoBook.getByIndex(index);
