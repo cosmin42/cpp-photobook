@@ -1,6 +1,10 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable : 5054)
+#pragma warning(disable : 4127)
 #include <opencv2/core.hpp>
+#pragma warning(pop)
 
 #include <filesystem>
 #include <vector>
