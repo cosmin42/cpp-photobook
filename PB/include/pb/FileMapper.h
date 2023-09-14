@@ -36,7 +36,7 @@ public:
 
   ~CircularIterator() = default;
 
-  auto current() -> Content { return mContainer.access(mIndex); }
+  auto current() const -> Content { return mContainer.access(mIndex); }
 
   CircularIterator &operator++()
   {
@@ -104,9 +104,9 @@ public:
 
   void finish() override { mListener.onFinished(); }
 
-  auto size() -> unsigned { return mPaths.size(); }
+  auto size() const -> unsigned { return mPaths.size(); }
 
-  auto access(unsigned index) -> Path
+  auto access(unsigned index) const -> Path
   {
     if (index >= mPaths.size()) {
       return std::filesystem::path();
