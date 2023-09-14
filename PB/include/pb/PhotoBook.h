@@ -63,6 +63,12 @@ public:
     return mMediaFolders.at(key);
   }
 
+  std::optional<Path> getByIndex(unsigned index)
+  {
+    assert(index < mMediaFolderPaths.size());
+    return mMediaFolderPaths.at(index);
+  }
+
 private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>
   {

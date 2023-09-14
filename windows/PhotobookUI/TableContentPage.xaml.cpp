@@ -150,6 +150,18 @@ void TableContentPage::onFoldersSelectionChanged(
     mCurrentGalleryIterator = mediaMapper->iterator();
     GalleryLeftButton().IsEnabled(true);
     GalleryRightButton().IsEnabled(true);
+
+    if (mediaMapper->size() > 0)
+    {
+      auto path = mCurrentGalleryIterator->current();
+      GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
+    }
+    else
+    {
+      auto path = mPhotoBook.getByIndex(index);
+      assert(path.has_value());
+      GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
+    }
   }
   else {
     PB::printError("Media mapper doesn't exist on selection.\n");
