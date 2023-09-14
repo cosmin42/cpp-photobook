@@ -72,14 +72,18 @@ void TableContentPage::onGalleryLeft(
 {
   if (mCurrentGalleryIterator) {
     mCurrentGalleryIterator->operator--();
+    auto                     path = mCurrentGalleryIterator->current();
+    GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
   }
 }
 
 void TableContentPage::onGalleryRight(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mCurrentGalleryIterator->operator++();
+  auto                     path = mCurrentGalleryIterator->current();
+  GalleryMainText().Text(winrt::to_hstring(path.filename().string()));
 }
 
 void TableContentPage::onFinished()
@@ -106,12 +110,15 @@ void TableContentPage::onFoldersSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &eventArgs)
 {
+  PB::printDebug("Folder selected\n");
   auto index = MediaListView().SelectedIndex();
   auto mediaMapper = mPhotoBook.mediaMapper(index);
   if (mediaMapper) {
     mCurrentGalleryIterator = mediaMapper->iterator();
     GalleryLeftButton().IsEnabled(true);
     GalleryRightButton().IsEnabled(true);
+
+    PB::printDebug("Folder selected, size %d\n", mediaMapper->size());
 
     if (mediaMapper->size() > 0) {
       auto path = mCurrentGalleryIterator->current();
