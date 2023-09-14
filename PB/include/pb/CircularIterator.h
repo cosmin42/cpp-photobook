@@ -52,6 +52,8 @@ public:
     return *this;
   }
 
+  auto size() -> unsigned { return mContainer.size(); }
+
 private:
   T       &mContainer;
   unsigned mIndex = 0;
