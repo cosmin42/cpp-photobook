@@ -4,9 +4,13 @@
 #pragma once
 
 #include "TableContentPage.g.h"
+#include <PhotoBookListener.h>
 #include <pb/PhotoBook.h>
 #include <pb/Scheduable.h>
-#include <PhotoBookListener.h>
+
+#include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
+#include <winrt/Microsoft.Graphics.Canvas.UI.h>
+#include <winrt/Microsoft.Graphics.Canvas.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -27,7 +31,14 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
-                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
+                             UI::Xaml::CanvasControl const &sender,
+                         [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
+                             UI::Xaml::CanvasDrawEventArgs const &args)
+  {
+  }
 
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,

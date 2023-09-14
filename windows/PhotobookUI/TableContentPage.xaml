@@ -6,6 +6,7 @@
     xmlns:local="using:PhotobookUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d">
 
     <Grid Background="#001C13">
@@ -105,14 +106,22 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="10*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock
+                    <Grid
                         Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                        <canvas:CanvasControl Draw="CanvasControlDraw" ClearColor="#004400"/>
+                    </Grid>
+
+                    <TextBlock
+                        Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         x:Name="GalleryMainText"
@@ -126,7 +135,7 @@
                         Click="onGalleryLeft"
                         CornerRadius="0"
                         Grid.Column="0"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Content="Left"
                         x:Name="GalleryLeftButton"
                         Foreground="#FFFFFF"
@@ -138,7 +147,7 @@
                         Click="onGalleryRight"
                         CornerRadius="0"
                         Grid.Column="1"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Content="Right"
                         x:Name="GalleryRightButton"
                         Foreground="#FFFFFF"
