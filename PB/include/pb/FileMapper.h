@@ -17,6 +17,25 @@ class CircularIterator final {
 public:
   explicit CircularIterator(T const &container) { mContainer = container; }
 
+  CircularIterator(CircularIterator const &other)
+      : mContainer(other.mContainer), mIndex(other.mIndex)
+  {
+  }
+
+  CircularIterator(CircularIterator &&other)
+      : mContainer(other.mContainer), mIndex(other.mIndex)
+  {
+  }
+
+  CircularIterator &operator=(CircularIterator const &other)
+  {
+    mIndex = other.mIndex;
+    mContainer = other.mContainer;
+    return *this;
+  }
+
+  ~CircularIterator() = default;
+
   auto current() -> Content { return mContainer.access(mIndex); }
 
   CircularIterator &operator++()
