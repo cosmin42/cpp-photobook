@@ -13,6 +13,70 @@
 
 namespace PB {
 
+class MediaMap final {
+public:
+  MediaMap() = default;
+
+  explicit MediaMap(std::vector<std::filesystem::path> &paths)
+  {
+    mPaths.reserve(paths.size());
+    std::copy(paths.begin(), paths.end(), paths.begin());
+  }
+
+  ~MediaMap() = default;
+
+  void add(std::filesystem::path &path)
+  {
+    bool isDirectory = std::filesystem::is_directory(path);
+    bool isRegularFile = std::filesystem::is_regular_file(path);
+
+    if (isRegularFile && validEndtry(path)) {
+      mPaths.push_back(path);
+    }
+
+    if (isDirectory) {
+      mPaths.push_back(path);
+    }
+  }
+
+  [[nodiscard]] auto size() const -> unsigned
+  {
+    return (unsigned)mPaths.size();
+  }
+
+  auto access(unsigned index) const -> std::optional<Path>
+  {
+    if (index >= mPaths.size()) {
+      return std::nullopt;
+    }
+    return mPaths.at(index);
+  }
+
+  [[nodiscard]] auto iterator()
+  {
+    return CircularIterator<MediaMap, Path>(*this);
+  }
+
+private:
+  bool validEndtry(Path path) const
+  {
+    static const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
+                                                               "png"};
+    // TODO: C++23 to be replaced with ends with
+    std::string pathStr = path.string();
+    for (auto &extension : sValidFileExtensions) {
+      bool endsWith =
+          std::equal(extension.rbegin(), extension.rend(), pathStr.rbegin());
+      if (endsWith) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  std::vector<std::filesystem::path> mPaths;
+};
+
 template <typename T>
   requires TaskManageableConcept<T>
 class MediaMapper final : public Thread {
@@ -47,16 +111,7 @@ public:
     }
     else {
       auto path = mRecursiveIterator->path();
-      bool isDirectory = std::filesystem::is_directory(path);
-      bool isRegularFile = std::filesystem::is_regular_file(path);
-
-      if (isRegularFile && fileValidator(path)) {
-        mPaths.push_back(path);
-      }
-
-      if (isDirectory) {
-        mPaths.push_back(path);
-      }
+      mMap.add(path);
       mRecursiveIterator++;
     }
     mListener.onProgressUpdate();
@@ -66,46 +121,12 @@ public:
 
   void finish() override { mListener.onFinished(); }
 
-  [[nodiscard]] auto size() const -> unsigned
-  {
-    return (unsigned)mPaths.size();
-  }
-
-  auto access(unsigned index) const -> Path
-  {
-    if (index >= mPaths.size()) {
-      return std::filesystem::path();
-    }
-    return mPaths.at(index);
-  }
-
-  [[nodiscard]] auto iterator()
-  {
-    return CircularIterator<MediaMapper<T>, Path>(*this);
-  }
+  auto map() const -> MediaMap { return mMap; }
 
 private:
-
-  bool fileValidator(Path path) const
-  {
-    static const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
-                                                               "png"};
-    // TODO: C++23 to be replaced with ends with
-    std::string pathStr = path.string();
-    for (auto &extension : sValidFileExtensions) {
-      bool endsWith =
-          std::equal(extension.rbegin(), extension.rend(), pathStr.rbegin());
-      if (endsWith) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
-  std::vector<std::filesystem::path>            mPaths;
-
-  T &mListener;
+  MediaMap                                      mMap;
+  T                                            &mListener;
 };
 
 } // namespace PB
