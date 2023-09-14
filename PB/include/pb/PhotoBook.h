@@ -4,6 +4,7 @@
 
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
+#include <pb/Gallery.h>
 #include <pb/ImageReader.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>

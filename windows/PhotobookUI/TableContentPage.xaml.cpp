@@ -35,10 +35,9 @@ namespace winrt::PhotobookUI::implementation {
 TableContentPage::TableContentPage()
     : mListener(std::ref(*this)), mPhotoBook(mListener)
 {
-  InitializeComponent();
-
   mediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
+  InitializeComponent();
 }
 
 auto TableContentPage::fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget
