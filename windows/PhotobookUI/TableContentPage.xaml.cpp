@@ -126,6 +126,9 @@ void TableContentPage::onFoldersSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &eventArgs)
 {
+  auto index = MediaListView().SelectedIndex();
+  mediaListItemsCollection.GetAt(index);
+
 }
 
 void TableContentPage::onStopped() {}
