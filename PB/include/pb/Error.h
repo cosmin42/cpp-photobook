@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include <pb/ErrorTypes.h>
 
 namespace PB {

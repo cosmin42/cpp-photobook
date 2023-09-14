@@ -6,6 +6,7 @@
 #include <pb/FileMapper.h>
 #include <pb/GradualControllable.h>
 #include <pb/ImageReader.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 
