@@ -38,18 +38,25 @@ public:
 
   auto current() const -> Content { return mContainer.access(mIndex); }
 
-  CircularIterator &operator++()
+  CircularIterator &&operator++()
   {
+    if (mContainer.size() == 0) {
+      return *this;
+    }
     mIndex++;
     mIndex %= mContainer.size();
   }
 
-  CircularIterator &operator--()
+  CircularIterator &&operator--()
   {
+    if (mContainer.size() == 0) {
+      return *this;
+    }
     if (mIndex == 0) {
       mIndex = mContainer.size();
-      mIndex--;
     }
+    mIndex--;
+    return *this;
   }
 
 private:
