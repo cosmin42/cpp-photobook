@@ -104,6 +104,18 @@ void TableContentPage::onBackClicked(IInspectable const &,
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
+void TableContentPage::onGalleryLeft(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
+void TableContentPage::onGalleryRight(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
 void TableContentPage::onFinished()
 {
   mediaListItemsCollection.Clear();

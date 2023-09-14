@@ -42,6 +42,12 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onBackClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onGalleryLeft(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::

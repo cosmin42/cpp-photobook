@@ -100,11 +100,51 @@
                 Padding="16,8"
                 Grid.Row="0"
                 Grid.Column="1">
-                <GridView
-                      Height="300"
-                      Width="400" />
-            </Border>
 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        x:Name="GalleryMainText"
+                        Foreground="#FFFFFF"
+                        Text="No text"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+
+                    <Button
+                        Background="#004C35"
+                        Click="onGalleryLeft"
+                        CornerRadius="0"
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Content="Left"
+                        x:Name="GalleryLeftButton"
+                        Foreground="#FFFFFF"
+                        HorizontalAlignment="Right"/>
+
+                    <Button
+                        Background="#004C35"
+                        Click="onGalleryRight"
+                        CornerRadius="0"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Content="Right"
+                        x:Name="GalleryRightButton"
+                        Foreground="#FFFFFF"/>
+
+                </Grid>
+
+            </Border>
         </Grid>
 
 
