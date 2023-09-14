@@ -21,8 +21,7 @@ public:
     constexpr auto tag = magic_enum::enum_name(LogLevel::Debug);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
 
-    auto      len = _vscprintf(format, arglist);
-    auto ret = vsprintf_s(buffer, len, format, arglist);
+    auto ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
     assert(ret >= 0);
 
@@ -32,8 +31,7 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Info);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           len = _vscprintf(format, arglist);
-    auto           ret = vsprintf_s(buffer, len, format, arglist);
+    auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
     assert(ret >= 0);
 
@@ -43,8 +41,7 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Warning);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           len = _vscprintf(format, arglist);
-    auto           ret = vsprintf_s(buffer, len, format, arglist);
+    auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
     assert(ret >= 0);
 
@@ -54,8 +51,7 @@ public:
   {
     constexpr auto tag = magic_enum::enum_name(LogLevel::Error);
     char           buffer[MAX_PRINT_BUFFER_SIZE];
-    auto           len = _vscprintf(format, arglist);
-    auto           ret = vsprintf_s(buffer, len, format, arglist);
+    auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
     assert(ret >= 0);
 
