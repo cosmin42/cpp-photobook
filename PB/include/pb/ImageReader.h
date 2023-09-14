@@ -36,10 +36,7 @@ public:
     };
   }
 
-  void
-  loadBuffer([[maybe_unused]] CircularIterator<MediaMapper<T>, Path> iterator)
-  {
-  }
+  void loadBuffer([[maybe_unused]] CircularIterator iterator) {}
 
 private:
   static auto read(std::filesystem::path const &path)
