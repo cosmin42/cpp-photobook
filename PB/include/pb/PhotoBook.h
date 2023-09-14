@@ -12,6 +12,11 @@
 
 namespace PB {
 
+template <template <typename> typename ContainerType,
+          typename MonoidUnderlayingType>
+  requires CircularIteratorConcept<ContainerType, MonoidUnderlayingType>
+class PhotoBookCircularIterator {};
+
 template <TaskManageableConcept TaskManageableType> class PhotoBook final {
 public:
   PhotoBook(TaskManageableType &listener) : mListener(listener){};
@@ -65,8 +70,7 @@ private:
 
   TaskManageableType &mListener;
 
-  std::unordered_map<Path, MediaMapper<TaskManageableType>>
-                                     mMediaFolders;
+  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMediaFolders;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;
 };
