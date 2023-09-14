@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+// clang-format off
 #include "pch.h"
 #include "TableContentPage.xaml.h"
 #if __has_include("TableContentPage.g.cpp")
 #include "TableContentPage.g.cpp"
 #endif
+// clang-format on
 
 #include <coroutine>
 
