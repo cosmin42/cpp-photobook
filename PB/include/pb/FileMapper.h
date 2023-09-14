@@ -111,7 +111,7 @@ public:
 
   void finish() override { mListener.onFinished(); }
 
-  auto size() const -> unsigned { return mPaths.size(); }
+  [[nodiscard]] auto size() const -> unsigned { return mPaths.size(); }
 
   auto access(unsigned index) const -> Path
   {
@@ -121,7 +121,7 @@ public:
     return mPaths.at(index);
   }
 
-  auto iterator()
+  [[nodiscard]] auto iterator()
   {
     return CircularIterator<MediaMapper<T>, Path>(*this);
   }

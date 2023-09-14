@@ -26,16 +26,17 @@ public:
   {
     PB::Path fsPath = path;
     auto     result = FileInfo::validInputRootPath(fsPath);
-    std::visit(overloaded{[this](PB::Path const &path) {
-                            printDebug("Add media %s\n", path.string().c_str());
-                            mMediaFolders.insert(
-                                {path, MediaMapper<TaskManageableType>(
-                                           path, mListener)});
-                          },
-                          [this](Error error) { mListener.onError(error); }},
-               result);
-
-    mMediaFolders.at(fsPath).start();
+    std::visit(
+        overloaded{[this](PB::Path const &path) {
+                     printDebug("Add media %s\n", path.string().c_str());
+                     auto mapperPtr =
+                         std::make_shared<MediaMapper<TaskManageableType>>(
+                             MediaMapper<TaskManageableType>(path, mListener));
+                     mMediaFolders.insert({path, mapperPtr});
+                   },
+                   [this](Error error) { mListener.onError(error); }},
+        result);
+    mMediaFolders.at(fsPath)->start();
   }
 
   void setOutputPath(std::string const &path)
@@ -67,7 +68,8 @@ private:
 
   TaskManageableType &mListener;
 
-  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMediaFolders;
+  std::unordered_map<Path, std::shared_ptr<MediaMapper<TaskManageableType>>>
+                                     mMediaFolders;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;
 };
