@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <pb/GradualControllable.h>
+#include <pb/util/Concepts.h>
 #include <pb/util/Thread.h>
 
 namespace PB {
