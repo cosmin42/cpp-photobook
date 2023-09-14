@@ -33,14 +33,35 @@ namespace winrt::PhotobookUI::implementation {
 PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
 {
 }
-void PhotoBookListener::onFinished() { mParent.onFinished(); }
-void PhotoBookListener::onStopped() { mParent.onStopped(); }
-void PhotoBookListener::onStarted() { mParent.onStarted(); }
-void PhotoBookListener::onPaused() { mParent.onPaused(); }
-void PhotoBookListener::onResumed() { mParent.onResumed(); }
+void PhotoBookListener::onFinished()
+{
+  post([this]() { mParent.onFinished(); });
+}
+void PhotoBookListener::onStopped()
+{
+  post([this]() { mParent.onStopped(); });
+}
+void PhotoBookListener::onStarted()
+{
+  post([this]() { mParent.onStarted(); });
+}
+void PhotoBookListener::onPaused()
+{
+  post([this]() { mParent.onPaused(); });
+}
+void PhotoBookListener::onResumed()
+{
+  post([this]() { mParent.onResumed(); });
+}
 
-void PhotoBookListener::onProgressUpdate() { mParent.onProgressUpdate(); }
-void PhotoBookListener::onError(PB::Error error) { mParent.onError(error); }
+void PhotoBookListener::onProgressUpdate()
+{
+  post([this]() { mParent.onProgressUpdate(); });
+}
+void PhotoBookListener::onError(PB::Error error)
+{
+  post([error{error}, this]() { mParent.onError(error); });
+}
 
 void PhotoBookListener::post(std::function<void()> f)
 {
