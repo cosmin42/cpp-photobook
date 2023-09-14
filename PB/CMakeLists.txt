@@ -61,6 +61,7 @@ add_library(pblib STATIC
     include/pb/ImageSetWriter.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
+    include/pb/Gallery.h
     include/pb/PhotoBook.h
     include/pb/Scheduable.h
     include/pb/util/Concepts.h
