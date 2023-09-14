@@ -45,25 +45,4 @@ concept RandomAccessibleConcept = requires(T t, unsigned index) {
   } -> std::same_as<MonoidType>;
 };
 
-template <template <typename> typename ContainerType,
-          typename MonoidUnderlayingType>
-concept CircularIteratorConcept =
-    requires(ContainerType<MonoidUnderlayingType> t) {
-      {
-        t.empty()
-      } -> std::same_as<bool>;
-
-      {
-        t++
-      } -> std::same_as<ContainerType<MonoidUnderlayingType>>;
-
-      {
-        t--
-      } -> std::same_as<ContainerType<MonoidUnderlayingType>>;
-
-      {
-        *t
-      } -> std::same_as<MonoidUnderlayingType>;
-    };
-
 } // namespace PB
