@@ -30,9 +30,13 @@ public:
     std::visit(
         overloaded{[this](PB::Path const &path) {
                      printDebug("Add media %s\n", path.string().c_str());
+                     mListeners.insert(
+                         {path, MediaMapListener<TaskManageableType>(
+                                    std::ref(*this))});
+                     auto listener = mListeners.at(path);
                      auto mapperPtr =
                          std::make_shared<MediaMapper<TaskManageableType>>(
-                             path, mListener);
+                             path, listener);
                      mMediaFolders.insert({path, mapperPtr});
                    },
                    [this](Error error) { mListener.onError(error); }},
@@ -70,19 +74,25 @@ public:
     return mMediaFolderPaths.at(index);
   }
 
+  void onNewMediaMap(Path &path, MediaMap &newMediaMap)
+  {
+    mMediaData.insert({path, newMediaMap});
+  }
+
 private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>
   {
     return ImageReader::defaultRead()(path);
   }
 
-  void exportImage([[maybe_unused]] std::string const &path) {}
+  // void exportImage([[maybe_unused]] std::string const &path) {}
 
   TaskManageableType &mListener;
 
   std::unordered_map<Path, std::shared_ptr<MediaMapper<TaskManageableType>>>
-                                     mMediaFolders;
-  std::unordered_map<Path, MediaMap> mMediaData;
+                                                                 mMediaFolders;
+  std::unordered_map<Path, MediaMap>                             mMediaData;
+  std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
   std::vector<Path>                  mMediaFolderPaths;
   std::optional<Path>                mOutputPath = std::nullopt;
   std::vector<std::filesystem::path> mImagesMapCache;
