@@ -59,6 +59,8 @@ add_library(pblib STATIC
     include/pb/GradualControllable.h
     include/pb/ImageReader.h
     include/pb/ImageSetWriter.h
+    include/pb/MediaMap.h
+    include/pb/MediaMapListener.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
     include/pb/Gallery.h
@@ -77,6 +79,7 @@ add_library(pblib STATIC
     src/ImageReader.cpp
     src/ImageSetWriter.cpp
     src/Log.cpp
+    src/MediaMapListener.cpp
     src/MetadataReader.cpp
     src/PhotoBook.cpp
     src/util/FileInfo.cpp
