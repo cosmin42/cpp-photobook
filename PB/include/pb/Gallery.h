@@ -1,10 +1,15 @@
 #pragma once
+
+#include <pb/GalleryListener.h>
+
 namespace PB {
-class Gallery final {
+
+template <typename T> class Gallery final {
 public:
-  Gallery() = default;
+  Gallery(GalleryListener<T> &listener) : mListener(listener) {}
   ~Gallery() = default;
 
 private:
+  GalleryListener<T> &mListener;
 };
 } // namespace PB

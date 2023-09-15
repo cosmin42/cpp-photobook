@@ -56,6 +56,7 @@ add_library(pblib STATIC
     include/pb/Error.h
     include/pb/Enums.h
     include/pb/FileMapper.h
+    include/pb/GalleryListener.h
     include/pb/GradualControllable.h
     include/pb/ImageReader.h
     include/pb/ImageSetWriter.h
