@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pb/DataManager.h>
+#include <pb/Error.h>
 #include <pb/GalleryListener.h>
 
 namespace PB {
@@ -9,7 +11,56 @@ public:
   Gallery(GalleryListener<T> &listener) : mListener(listener) {}
   ~Gallery() = default;
 
+  void selectIndex(int newIndex)
+  {
+    mSelectedFolderIndex = newIndex;
+
+    auto map = mediaMap(0);
+
+    if (map) {
+      mCurrentIterator = map->iterator();
+    }
+    else {
+      mCurrentIterator = std::nullopt;
+    }
+  }
+
+  void navigateLeft()
+  {
+    if (mCurrentIterator) {
+      mCurrentIterator = mCurrentIterator->previous();
+    }
+  }
+  void navigateRight() {
+    if (mCurrentIterator) {
+      mCurrentIterator = mCurrentIterator->next();
+    }
+  }
+
 private:
+  auto mediaMap(unsigned index) -> std::optional<MediaMap>
+  {
+    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+    if (index >= mediaIndexedByType.size()) {
+      return std::nullopt;
+    }
+
+    auto &key = mediaIndexedByType.at(index);
+
+    auto &mediaData = Context::inst().data().mediaData();
+    if (!mediaData.contains(key)) {
+      return std::nullopt;
+    }
+
+    return mediaData.at(key);
+  }
+
   GalleryListener<T> &mListener;
+
+  int mSelectedFolderIndex = -1;
+
+  int mGalleryIndex = -1;
+
+  std::optional<CircularIterator> mCurrentIterator;
 };
 } // namespace PB

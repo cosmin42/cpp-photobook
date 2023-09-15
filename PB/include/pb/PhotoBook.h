@@ -18,7 +18,11 @@ template <typename TaskManageableType>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook final {
 public:
-  PhotoBook(TaskManageableType &listener) : mParent(listener){};
+  PhotoBook(TaskManageableType &listener)
+      : mParent(listener), mGalleryListener(std::ref(*this)),
+        mGallery(mGalleryListener)
+  {
+  }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
@@ -60,12 +64,12 @@ public:
 
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
-    auto& mediaIndexedByType = Context::inst().data().mediaIndexedByType();
-                                  assert(index < mediaIndexedByType.size());
+    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+    assert(index < mediaIndexedByType.size());
 
     auto &key = mediaIndexedByType.at(index);
 
-    auto& mediaData = Context::inst().data().mediaData();
+    auto &mediaData = Context::inst().data().mediaData();
     assert(mediaData.contains(key));
 
     return mediaData.at(key);
@@ -73,7 +77,7 @@ public:
 
   std::optional<Path> getByIndex(unsigned index)
   {
-    auto& mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
 
     assert(index < mediaIndexedByType.size());
     return mediaIndexedByType.at(index);
@@ -100,5 +104,8 @@ private:
   std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
+
+  GalleryListener<TaskManageableType> mGalleryListener;
+  Gallery<TaskManageableType>         mGallery;
 };
 } // namespace PB

@@ -14,7 +14,26 @@ public:
   explicit MediaMap(std::vector<std::filesystem::path> &paths)
   {
     mPaths.reserve(paths.size());
-    std::copy(paths.begin(), paths.end(), paths.begin());
+    std::copy(paths.begin(), paths.end(), mPaths.begin());
+  }
+
+  MediaMap(MediaMap const &other)
+  {
+    mPaths.reserve(other.mPaths.size());
+    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
+  }
+
+  MediaMap(MediaMap &&other) noexcept
+  {
+    mPaths.reserve(other.mPaths.size());
+    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
+  }
+
+  MediaMap &operator=(MediaMap const &other)
+  {
+    mPaths.reserve(other.mPaths.size());
+    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
+    return *this;
   }
 
   ~MediaMap() = default;
