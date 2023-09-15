@@ -28,21 +28,19 @@ public:
     PB::Path fsPath = path;
     auto     result = FileInfo::validInputRootPath(fsPath);
     std::visit(
-        overloaded{[this](PB::Path const &path) {
-                     printDebug("Add media %s\n", path.string().c_str());
-                     mListeners.insert(
-                         {path, MediaMapListener<TaskManageableType>(
-                                    std::ref(*this))});
-                     auto listener = mListeners.at(path);
-                     auto mapperPtr =
-                         std::make_shared<MediaMapper<TaskManageableType>>(
-                             path, listener);
-                     mMediaFolders.insert({path, mapperPtr});
-                   },
-                   [this](Error error) { mListener.onError(error); }},
+        overloaded{
+            [this](PB::Path const &path) {
+              printDebug("Add media %s\n", path.string().c_str());
+              mListeners.insert({path, MediaMapListener<TaskManageableType>(
+                                           std::ref(*this))});
+              auto listener = mListeners.at(path);
+              mMediaFolders.insert(
+                  {path, MediaMapper<TaskManageableType>(path, listener)});
+            },
+            [this](Error error) { mListener.onError(error); }},
         result);
     mMediaFolderPaths.push_back(fsPath);
-    mMediaFolders.at(fsPath)->start();
+    mMediaFolders.at(fsPath).start();
   }
 
   void setOutputPath(std::string const &path)
@@ -77,6 +75,9 @@ public:
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
   {
     mMediaData.insert({path, newMediaMap});
+
+    mListeners.erase(path);
+    mMediaFolders.erase(path);
   }
 
 private:
@@ -89,8 +90,8 @@ private:
 
   TaskManageableType &mListener;
 
-  std::unordered_map<Path, std::shared_ptr<MediaMapper<TaskManageableType>>>
-                                                                 mMediaFolders;
+  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMediaFolders;
+
   std::unordered_map<Path, MediaMap>                             mMediaData;
   std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
   std::vector<Path>                  mMediaFolderPaths;
