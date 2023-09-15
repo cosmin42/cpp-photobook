@@ -36,11 +36,13 @@ public:
         overloaded{
             [this](PB::Path const &path) {
               printDebug("Add media %s\n", path.string().c_str());
-              mListeners.insert({path, MediaMapListener<TaskManageableType>(
-                                           std::ref(*this))});
+
+              auto ptr = std::make_shared<MediaMapListener<TaskManageableType>>(
+                  std::ref(*this));
+              mListeners.insert({path, ptr});
               auto listener = mListeners.at(path);
-              mMappingJobs.insert(
-                  {path, MediaMapper<TaskManageableType>(path, listener)});
+              mMappingJobs.emplace(
+                  path, MediaMapper<TaskManageableType>(path, listener));
             },
             [this](Error error) { mParent.onError(error); }},
         result);
@@ -75,8 +77,9 @@ public:
     auto& mediaData = Context::inst().data().mediaData();
     mediaData.insert({path, newMediaMap});
 
-    mMappingJobs.erase(path);
-    mListeners.erase(path);
+    mParent.onFinished();
+    //mMappingJobs.erase(path);
+    //mListeners.erase(path);
   }
 
   Gallery<TaskManageableType> &gallery() { return mGallery; }
@@ -90,7 +93,7 @@ private:
   // void exportImage([[maybe_unused]] std::string const &path) {}
 
   TaskManageableType                                            &mParent;
-  std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
+  std::unordered_map<Path, std::shared_ptr<MediaMapListener<TaskManageableType>>> mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
 
