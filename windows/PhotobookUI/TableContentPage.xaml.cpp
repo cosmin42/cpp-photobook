@@ -115,6 +115,10 @@ void TableContentPage::onFoldersSelectionChanged(
   PB::printDebug("Folder selected\n");
   auto index = MediaListView().SelectedIndex();
 
+  auto &gallery = mPhotoBook.gallery();
+
+  gallery.selectIndex(index);
+
   auto mediaMap = mPhotoBook.mediaMap(index);
 
   if (mediaMap) {
@@ -130,7 +134,7 @@ void TableContentPage::onFoldersSelectionChanged(
       GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
     }
     else {
-      auto path = mPhotoBook.getByIndex(index);
+      auto path = gallery.folderName();
       assert(path.has_value());
       GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
     }
