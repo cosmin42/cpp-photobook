@@ -13,27 +13,30 @@ public:
 
   explicit MediaMap(std::vector<std::filesystem::path> &paths)
   {
-    mPaths.reserve(paths.size());
-    std::copy(paths.begin(), paths.end(), mPaths.begin());
+    for (auto &val : paths) {
+      mPaths.push_back(val);
+    }
   }
 
   MediaMap(MediaMap const &other)
   {
-    mPaths.reserve(other.mPaths.size());
-    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
+    for (auto &val : other.mPaths) {
+      mPaths.push_back(val);
+    }
   }
 
   MediaMap(MediaMap &&other) noexcept
   {
-    mPaths.reserve(other.mPaths.size());
-    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
+    for (auto &val : other.mPaths) {
+      mPaths.push_back(val);
+    }
   }
 
   MediaMap &operator=(MediaMap const &other)
   {
-    mPaths.reserve(other.mPaths.size());
-    std::copy(other.mPaths.begin(), other.mPaths.end(), mPaths.begin());
-    return *this;
+    for (auto &val : other.mPaths) {
+      mPaths.push_back(val);
+    }
   }
 
   ~MediaMap() = default;
@@ -77,6 +80,10 @@ private:
                                                                "png"};
     // TODO: C++23 to be replaced with ends with
     std::string pathStr = path.string();
+
+    std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     for (auto &extension : sValidFileExtensions) {
       bool endsWith =
           std::equal(extension.rbegin(), extension.rend(), pathStr.rbegin());
