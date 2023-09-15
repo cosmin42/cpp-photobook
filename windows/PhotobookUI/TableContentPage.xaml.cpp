@@ -119,28 +119,20 @@ void TableContentPage::onFoldersSelectionChanged(
 
   gallery.selectIndex(index);
 
-  auto mediaMap = mPhotoBook.mediaMap(index);
+  auto rootName = gallery.folderName();
+  auto itemPath = gallery.selectedItem();
 
-  if (mediaMap) {
-    mCurrentGalleryIterator = mediaMap->iterator();
-    if (mCurrentGalleryIterator) {
-      GalleryLeftButton().IsEnabled(true);
-      GalleryRightButton().IsEnabled(true);
+  GalleryLeftButton().IsEnabled(itemPath.has_value());
+  GalleryRightButton().IsEnabled(itemPath.has_value());
 
-      PB::printDebug("Folder selected, size %d\n", mediaMap->size());
-
-      auto path = mCurrentGalleryIterator->current();
-      assert(path.has_value());
-      GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
-    }
-    else {
-      auto path = gallery.folderName();
-      assert(path.has_value());
-      GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
-    }
+  if (itemPath) {
+    GalleryMainText().Text(winrt::to_hstring(itemPath->filename().string()));
+  }
+  else if (rootName) {
+    GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));
   }
   else {
-    PB::printError("Media mapper doesn't exist on selection.\n");
+    GalleryMainText().Text(winrt::to_hstring("Nothing sleected."));
   }
 }
 

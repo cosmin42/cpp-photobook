@@ -47,6 +47,14 @@ public:
     return mediaIndexedByType.at(mSelectedFolderIndex);
   }
 
+  auto selectedItem() -> std::optional<Path>
+  {
+    if (mCurrentIterator) {
+      return mCurrentIterator->current();
+    }
+    return std::nullopt;
+  }
+
 private:
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
@@ -67,10 +75,8 @@ private:
 
   GalleryListener<T> &mListener;
 
-  int mSelectedFolderIndex = -1;
-
-  int mGalleryIndex = -1;
-
+  int                             mSelectedFolderIndex = -1;
+  int                             mGalleryIndex = -1;
   std::optional<CircularIterator> mCurrentIterator;
 };
 } // namespace PB
