@@ -75,14 +75,6 @@ public:
     return mediaData.at(key);
   }
 
-  std::optional<Path> getByIndex(unsigned index)
-  {
-    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
-
-    assert(index < mediaIndexedByType.size());
-    return mediaIndexedByType.at(index);
-  }
-
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
   {
     auto& mediaData = Context::inst().data().mediaData();
