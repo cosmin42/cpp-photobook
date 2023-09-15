@@ -17,7 +17,7 @@ template <typename TaskManageableType>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook final {
 public:
-  PhotoBook(TaskManageableType &listener) : mListener(listener){};
+  PhotoBook(TaskManageableType &listener) : mParent(listener){};
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
@@ -37,9 +37,9 @@ public:
               mMappingJobs.insert(
                   {path, MediaMapper<TaskManageableType>(path, listener)});
             },
-            [this](Error error) { mListener.onError(error); }},
+            [this](Error error) { mParent.onError(error); }},
         result);
-    mMediaFolderPaths.push_back(fsPath);
+    mMediaIndexedByPath.push_back(fsPath);
     mMappingJobs.at(fsPath).start();
   }
 
@@ -47,19 +47,18 @@ public:
   {
     PB::Path fsPath = path;
     auto     result = FileInfo::validOutputRootPath(fsPath);
-    std::visit(
-        overloaded{[this](PB::Path const &path) mutable { mOutputPath = path; },
-                   [this](Error error) { mListener.doError(error); }},
-        result);
+    std::visit(overloaded{[this](PB::Path const &) mutable {},
+                          [this](Error error) { mParent.doError(error); }},
+               result);
   }
 
-  auto rootPaths() const -> std::vector<Path> { return mMediaFolderPaths; }
+  auto rootPaths() const -> std::vector<Path> { return mMediaIndexedByPath; }
 
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
-    assert(index < mMediaFolderPaths.size());
+    assert(index < mMediaIndexedByPath.size());
 
-    auto &key = mMediaFolderPaths.at(index);
+    auto &key = mMediaIndexedByPath.at(index);
 
     assert(mMediaData.contains(key));
 
@@ -68,8 +67,8 @@ public:
 
   std::optional<Path> getByIndex(unsigned index)
   {
-    assert(index < mMediaFolderPaths.size());
-    return mMediaFolderPaths.at(index);
+    assert(index < mMediaIndexedByPath.size());
+    return mMediaIndexedByPath.at(index);
   }
 
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
@@ -77,7 +76,7 @@ public:
     mMediaData.insert({path, newMediaMap});
 
     mMappingJobs.erase(path);
-    mListeners.erase(path); 
+    mListeners.erase(path);
   }
 
 private:
@@ -88,14 +87,11 @@ private:
 
   // void exportImage([[maybe_unused]] std::string const &path) {}
 
-  TaskManageableType &mListener;
+  TaskManageableType                                            &mParent;
+  std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
-
-  std::unordered_map<Path, MediaMap>                             mMediaData;
-  std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
-  std::vector<Path>                  mMediaFolderPaths;
-  std::optional<Path>                mOutputPath = std::nullopt;
-  std::vector<std::filesystem::path> mImagesMapCache;
+  std::unordered_map<Path, MediaMap>                        mMediaData;
+  std::vector<Path>                                         mMediaIndexedByPath;
 };
 } // namespace PB
