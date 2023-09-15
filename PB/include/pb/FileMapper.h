@@ -17,7 +17,7 @@ namespace PB {
 template <typename TaskManageableType> class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(std::filesystem::path const          &root,
-                       MediaMapListener<TaskManageableType> &listener)
+                       std::shared_ptr<MediaMapListener<TaskManageableType>> listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener),
         mRoot(root)
   {
@@ -27,19 +27,22 @@ public:
   }
 
   MediaMapper(MediaMapper const &other)
-      : Thread(other), mRecursiveIterator(other.mRecursiveIterator),
-        mListener(other.mListener), mRoot(other.mRoot)
+      : Thread(other), mMap(other.mMap), mListener(other.mListener),
+        mRecursiveIterator(other.mRecursiveIterator), mRoot(other.mRoot)
   {
+    printDebug("Copy MediaMapper\n");
   }
 
   MediaMapper(MediaMapper &&other) noexcept
-      : Thread(other), mRecursiveIterator(other.mRecursiveIterator),
-        mListener(other.mListener), mRoot(other.mRoot)
+      : Thread(std::move(other)), mMap(other.mMap), mListener(other.mListener),
+        mRecursiveIterator(other.mRecursiveIterator), mRoot(other.mRoot)
   {
+    printDebug("Move MediaMapper\n");
   }
 
-  MediaMapper &operator=(MediaMapper const &) { return *this; }
-  ~MediaMapper() = default;
+  MediaMapper &operator=(MediaMapper const &other) = delete;
+
+  ~MediaMapper() { printDebug("Destroying MediaMapper\n"); }
 
   void executeSingleTask() override
   {
@@ -51,17 +54,18 @@ public:
       mMap.add(path);
       mRecursiveIterator++;
     }
-    mListener.onProgressUpdate();
+    mListener->onProgressUpdate();
   }
 
-  void finish() override { mListener.onFinished(mMap, mRoot); }
+  void finish() override { mListener->onFinished(mMap, mRoot); }
 
   auto map() const -> MediaMap { return mMap; }
 
 private:
+  MediaMap                              mMap;
+  std::shared_ptr<MediaMapListener<TaskManageableType>> mListener;
+
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
-  MediaMap                                      mMap;
-  MediaMapListener<TaskManageableType>         &mListener;
   Path                                          mRoot;
 };
 
