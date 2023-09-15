@@ -31,10 +31,20 @@ public:
       mCurrentIterator = mCurrentIterator->previous();
     }
   }
-  void navigateRight() {
+  void navigateRight()
+  {
     if (mCurrentIterator) {
       mCurrentIterator = mCurrentIterator->next();
     }
+  }
+
+  auto folderName() -> std::optional<Path>
+  {
+    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+
+    assert(mSelectedFolderIndex < mediaIndexedByType.size() &&
+           mSelectedFolderIndex > -1);
+    return mediaIndexedByType.at(mSelectedFolderIndex);
   }
 
 private:
