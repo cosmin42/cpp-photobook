@@ -15,6 +15,7 @@ template <typename T>
 class MediaMapListener final {
 public:
   explicit MediaMapListener(PhotoBook<T> &parent) : mParent(parent) {}
+  ~MediaMapListener() = default;
   void onFinished(MediaMap &newMediaMap, Path &path)
   {
     mParent.onNewMediaMap(path, newMediaMap);
