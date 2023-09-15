@@ -85,12 +85,14 @@ public:
 
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
   {
-    auto mediaData = Context::inst().data().mediaData();
+    auto& mediaData = Context::inst().data().mediaData();
     mediaData.insert({path, newMediaMap});
 
     mMappingJobs.erase(path);
     mListeners.erase(path);
   }
+
+  Gallery<TaskManageableType> &gallery() { return mGallery; }
 
 private:
   auto loadImage(std::string const &path) -> std::optional<cv::Mat>
