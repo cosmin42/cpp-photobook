@@ -1,5 +1,7 @@
 #pragma once
+
 #include <concepts>
+#include <optional>
 
 #include <pb/Error.h>
 
@@ -32,17 +34,6 @@ concept TaskManageableConcept = requires(T t) {
   {
     t.onError(PB::Error())
   } -> std::same_as<void>;
-};
-
-template <typename T, typename MonoidType>
-concept RandomAccessibleConcept = requires(T t, unsigned index) {
-  {
-    t.size()
-  } -> std::same_as<unsigned>;
-
-  {
-    t.access(index)
-  } -> std::same_as<std::optional<MonoidType>>;
 };
 
 } // namespace PB
