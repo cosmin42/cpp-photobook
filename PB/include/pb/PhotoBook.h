@@ -34,13 +34,13 @@ public:
               mListeners.insert({path, MediaMapListener<TaskManageableType>(
                                            std::ref(*this))});
               auto listener = mListeners.at(path);
-              mMediaFolders.insert(
+              mMappingJobs.insert(
                   {path, MediaMapper<TaskManageableType>(path, listener)});
             },
             [this](Error error) { mListener.onError(error); }},
         result);
     mMediaFolderPaths.push_back(fsPath);
-    mMediaFolders.at(fsPath).start();
+    mMappingJobs.at(fsPath).start();
   }
 
   void setOutputPath(std::string const &path)
@@ -76,8 +76,8 @@ public:
   {
     mMediaData.insert({path, newMediaMap});
 
-    mListeners.erase(path);
-    mMediaFolders.erase(path);
+    mMappingJobs.erase(path);
+    mListeners.erase(path); 
   }
 
 private:
@@ -90,7 +90,7 @@ private:
 
   TaskManageableType &mListener;
 
-  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMediaFolders;
+  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
 
   std::unordered_map<Path, MediaMap>                             mMediaData;
   std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
