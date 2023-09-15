@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
@@ -39,7 +40,7 @@ public:
             },
             [this](Error error) { mParent.onError(error); }},
         result);
-    mMediaIndexedByPath.push_back(fsPath);
+    Context::inst().data().mediaIndexedByType().push_back(fsPath);
     mMappingJobs.at(fsPath).start();
   }
 
@@ -52,28 +53,36 @@ public:
                result);
   }
 
-  auto rootPaths() const -> std::vector<Path> { return mMediaIndexedByPath; }
+  auto rootPaths() const -> std::vector<Path>
+  {
+    return Context::inst().data().mediaIndexedByType();
+  }
 
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
-    assert(index < mMediaIndexedByPath.size());
+    auto& mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+                                  assert(index < mediaIndexedByType.size());
 
-    auto &key = mMediaIndexedByPath.at(index);
+    auto &key = mediaIndexedByType.at(index);
 
-    assert(mMediaData.contains(key));
+    auto& mediaData = Context::inst().data().mediaData();
+    assert(mediaData.contains(key));
 
-    return mMediaData.at(key);
+    return mediaData.at(key);
   }
 
   std::optional<Path> getByIndex(unsigned index)
   {
-    assert(index < mMediaIndexedByPath.size());
-    return mMediaIndexedByPath.at(index);
+    auto& mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+
+    assert(index < mediaIndexedByType.size());
+    return mediaIndexedByType.at(index);
   }
 
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
   {
-    mMediaData.insert({path, newMediaMap});
+    auto mediaData = Context::inst().data().mediaData();
+    mediaData.insert({path, newMediaMap});
 
     mMappingJobs.erase(path);
     mListeners.erase(path);
@@ -91,7 +100,5 @@ private:
   std::unordered_map<Path, MediaMapListener<TaskManageableType>> mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
-  std::unordered_map<Path, MediaMap>                        mMediaData;
-  std::vector<Path>                                         mMediaIndexedByPath;
 };
 } // namespace PB

@@ -53,6 +53,7 @@ add_library(pblib STATIC
     include/pb/common/Log.h
     include/pb/common/${PRINTER_TYPE}.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
+    include/pb/DataManager.h
     include/pb/Error.h
     include/pb/Enums.h
     include/pb/FileMapper.h

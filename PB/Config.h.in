@@ -10,6 +10,8 @@
 #warning "@PRINTER_TYPE@ doesn't exist"
 #endif
 
+#include <pb/DataManager.h>
+
 namespace PB {
   
 class Context final {
@@ -22,12 +24,16 @@ public:
 
   std::stop_source sStopSource;
 
+  DataManager& data() { return mDataManager;}
+
 private:
   Context() = default;
   Context(Context const &) = delete;
   Context(Context &&) = delete;
   Context &operator=(Context const &) = delete;
   ~Context() = default;
+
+  DataManager mDataManager;
 
   static Context sContext;
 
