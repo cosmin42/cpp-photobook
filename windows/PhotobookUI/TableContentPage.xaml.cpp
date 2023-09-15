@@ -91,7 +91,7 @@ void TableContentPage::onGalleryRight(
 void TableContentPage::onFinished()
 {
   mediaListItemsCollection.Clear();
-  auto rootFolders = mPhotoBook.rootPaths();
+  auto rootFolders = mPhotoBook.gallery().foldersList();
   for (auto &path : rootFolders)
     mediaListItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));

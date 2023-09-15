@@ -57,11 +57,6 @@ public:
                result);
   }
 
-  auto rootPaths() const -> std::vector<Path>
-  {
-    return Context::inst().data().mediaIndexedByType();
-  }
-
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
     auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();

@@ -55,6 +55,11 @@ public:
     return std::nullopt;
   }
 
+  auto foldersList() -> std::vector<Path>
+  {
+    return Context::inst().data().mediaIndexedByType();
+  }
+
 private:
   auto mediaMap(unsigned index) -> std::optional<MediaMap>
   {
