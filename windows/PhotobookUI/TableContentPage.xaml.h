@@ -58,6 +58,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
 private:
   auto              fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
+
+  void updateGalleryLabel();
+
   PhotoBookListener mListener;
   PB::PhotoBook<PhotoBookListener>  mPhotoBook;
   IObservableVector<winrt::hstring> mediaListItemsCollection;

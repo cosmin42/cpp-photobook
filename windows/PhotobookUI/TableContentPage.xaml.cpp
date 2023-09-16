@@ -69,23 +69,18 @@ void TableContentPage::onGalleryLeft(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  if (mCurrentGalleryIterator) {
-    mCurrentGalleryIterator->previous();
-    auto path = mCurrentGalleryIterator->current();
-    assert(path.has_value());
+  mPhotoBook.gallery().navigateLeft();
 
-    GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
-  }
+  updateGalleryLabel();
 }
 
 void TableContentPage::onGalleryRight(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  mCurrentGalleryIterator->next();
-  auto path = mCurrentGalleryIterator->current();
-  assert(path.has_value());
-  GalleryMainText().Text(winrt::to_hstring(path->filename().string()));
+  mPhotoBook.gallery().navigateRight();
+
+  updateGalleryLabel();
 }
 
 void TableContentPage::onFinished()
@@ -115,25 +110,9 @@ void TableContentPage::onFoldersSelectionChanged(
   PB::printDebug("Folder selected\n");
   auto index = MediaListView().SelectedIndex();
 
-  auto &gallery = mPhotoBook.gallery();
+  mPhotoBook.gallery().selectIndex(index);
 
-  gallery.selectIndex(index);
-
-  auto rootName = gallery.folderName();
-  auto itemPath = gallery.selectedItem();
-
-  GalleryLeftButton().IsEnabled(itemPath.has_value());
-  GalleryRightButton().IsEnabled(itemPath.has_value());
-
-  if (itemPath) {
-    GalleryMainText().Text(winrt::to_hstring(itemPath->filename().string()));
-  }
-  else if (rootName) {
-    GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));
-  }
-  else {
-    GalleryMainText().Text(winrt::to_hstring("Nothing sleected."));
-  }
+  updateGalleryLabel();
 }
 
 void TableContentPage::onStopped() {}
@@ -157,6 +136,27 @@ void TableContentPage::post(std::function<void()> f)
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
 
   assert(success);
+}
+
+void TableContentPage::updateGalleryLabel()
+{
+  auto &gallery = mPhotoBook.gallery();
+
+  auto itemPath = gallery.selectedItem();
+  auto rootName = gallery.folderName();
+
+  GalleryLeftButton().IsEnabled(itemPath.has_value());
+  GalleryRightButton().IsEnabled(itemPath.has_value());
+
+  if (itemPath) {
+    GalleryMainText().Text(winrt::to_hstring(itemPath->filename().string()));
+  }
+  else if (rootName) {
+    GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));
+  }
+  else {
+    GalleryMainText().Text(winrt::to_hstring("Nothing sleected."));
+  }
 }
 
 } // namespace winrt::PhotobookUI::implementation
