@@ -13,6 +13,7 @@ public:
 
   explicit MediaMap(std::vector<std::filesystem::path> &paths)
   {
+    mPaths.clear();
     for (auto &val : paths) {
       mPaths.push_back(val);
     }
@@ -20,6 +21,7 @@ public:
 
   MediaMap(MediaMap const &other)
   {
+    mPaths.clear();
     for (auto &val : other.mPaths) {
       mPaths.push_back(val);
     }
@@ -27,6 +29,7 @@ public:
 
   MediaMap(MediaMap &&other) noexcept
   {
+    mPaths.clear();
     for (auto &val : other.mPaths) {
       mPaths.push_back(val);
     }
@@ -34,6 +37,7 @@ public:
 
   MediaMap &operator=(MediaMap const &other)
   {
+    mPaths.clear();
     for (auto &val : other.mPaths) {
       mPaths.push_back(val);
     }
