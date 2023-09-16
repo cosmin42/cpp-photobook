@@ -117,7 +117,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2">
-                        <canvas:CanvasControl Draw="CanvasControlDraw" ClearColor="#004400"/>
+                        <canvas:CanvasControl Draw="CanvasControlDraw" x:Name="GalleryCanvas" ClearColor="#004400"/>
                     </Grid>
 
                     <TextBlock

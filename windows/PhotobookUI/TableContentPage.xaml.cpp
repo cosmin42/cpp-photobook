@@ -23,9 +23,11 @@
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
+using namespace Windows::Foundation;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Pickers;
 using namespace Microsoft::UI::Dispatching;
+using namespace Microsoft::Graphics::Canvas;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -81,6 +83,44 @@ void TableContentPage::onGalleryRight(
   mPhotoBook.gallery().navigateRight();
 
   updateGalleryLabel();
+}
+
+void TableContentPage::CanvasControlDraw(
+    [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
+        CanvasControl const &sender,
+    [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
+        CanvasDrawEventArgs const &args)
+{
+  auto session = args.DrawingSession();
+
+  cv::Mat inputImage = cv::imread("image_path.jpg");
+
+  auto device = CanvasDevice::GetSharedDevice();
+
+  winrt::array_view<uint8_t const> view_name((uint8_t *)inputImage.data,
+                                             (uint32_t)inputImage.size.dims());
+
+  const auto format =
+      Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized;
+
+  // auto
+  // CanvasBitmap::CreateFromBytes(winrt::Microsoft::Graphics::Canvas::ICanvasResourceCreator
+  // const
+  //                              &resourceCreator,
+  //     array_view<uint8_t const> bytes, int32_t widthInPixels,
+  //     int32_t heightInPixels,
+  //     winrt::Windows::Graphics::DirectX::DirectXPixelFormat const &format,
+  //     float dpi)
+
+  winrt::Microsoft::Graphics::Canvas::ICanvasResourceCreator const &resource =
+      device;
+
+  auto bitmap =
+      winrt::Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
+          resource, view_name, (int32_t)inputImage.cols,
+          (int32_t)inputImage.rows, format);
+
+  session.DrawImage(bitmap);
 }
 
 void TableContentPage::onFinished()

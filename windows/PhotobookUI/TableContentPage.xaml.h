@@ -3,14 +3,14 @@
 
 #pragma once
 
+#include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
+#include <winrt/Microsoft.Graphics.Canvas.UI.h>
+#include <winrt/Microsoft.Graphics.Canvas.h>
+
 #include "TableContentPage.g.h"
 #include <PhotoBookListener.h>
 #include <pb/PhotoBook.h>
 #include <pb/Scheduable.h>
-
-#include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
-#include <winrt/Microsoft.Graphics.Canvas.UI.h>
-#include <winrt/Microsoft.Graphics.Canvas.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -36,9 +36,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasControl const &sender,
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
-                             UI::Xaml::CanvasDrawEventArgs const &args)
-  {
-  }
+                             UI::Xaml::CanvasDrawEventArgs const &args);
 
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
@@ -57,11 +55,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void post(std::function<void()>);
 
 private:
-  auto              fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
+  auto fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
 
   void updateGalleryLabel();
 
-  PhotoBookListener mListener;
+  PhotoBookListener                 mListener;
   PB::PhotoBook<PhotoBookListener>  mPhotoBook;
   IObservableVector<winrt::hstring> mediaListItemsCollection;
   winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
