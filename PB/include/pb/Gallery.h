@@ -8,17 +8,19 @@ namespace PB {
 
 template <typename T> class Gallery final {
 public:
-  Gallery(GalleryListener<T> &listener) : mListener(listener) {}
+  Gallery(GalleryListener<T> &listener) : mListener(listener)
+  {
+  }
   ~Gallery() = default;
 
   void selectIndex(int newIndex)
   {
     mSelectedFolderIndex = newIndex;
 
-    auto map = mediaMap(0);
+    mCurrentMap = mediaMap(0);
 
-    if (map) {
-      mCurrentIterator = map->iterator();
+    if (mCurrentMap) {
+      mCurrentIterator = mCurrentMap->iterator();
     }
     else {
       mCurrentIterator = std::nullopt;
@@ -49,7 +51,7 @@ public:
 
   auto selectedItem() -> std::optional<Path>
   {
-    if (mCurrentIterator) {
+    if (mCurrentIterator.has_value()) {
       return mCurrentIterator->current();
     }
     return std::nullopt;
@@ -82,6 +84,7 @@ private:
 
   int                             mSelectedFolderIndex = -1;
   int                             mGalleryIndex = -1;
+  std::optional<MediaMap>         mCurrentMap;
   std::optional<CircularIterator> mCurrentIterator;
 };
 } // namespace PB

@@ -37,6 +37,7 @@ public:
     for (auto &val : other.mPaths) {
       mPaths.push_back(val);
     }
+    return *this;
   }
 
   ~MediaMap() = default;

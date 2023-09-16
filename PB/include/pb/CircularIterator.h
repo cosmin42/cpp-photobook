@@ -2,13 +2,16 @@
 
 #include <vector>
 
+#include <pb/common/Log.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 
 class CircularIterator final {
 public:
-  CircularIterator() = default;
+  CircularIterator()
+  {
+  }
 
   explicit CircularIterator(std::vector<Path> &container)
       : mBeginIterator(container.begin()), mEndIterator(container.end()),
@@ -22,7 +25,7 @@ public:
   {
   }
 
-  CircularIterator(CircularIterator &&other)
+  CircularIterator(CircularIterator &&other) noexcept
       : mBeginIterator(other.mBeginIterator), mEndIterator(other.mEndIterator),
         mIndex(other.mIndex), mSize(other.mSize)
   {
@@ -39,12 +42,14 @@ public:
 
   ~CircularIterator() = default;
 
-  auto current() const -> std::optional<Path>
+  auto current() -> std::optional<Path>
   {
     if (mSize == 0) {
       return std::nullopt;
     }
-    return *(mBeginIterator + mIndex);
+    auto tmpIterator = mBeginIterator;
+    std::advance(tmpIterator, mIndex);
+    return *tmpIterator;
   }
 
   CircularIterator &next()
@@ -69,7 +74,7 @@ public:
     return *this;
   }
 
-  auto size() -> unsigned { return mSize; }
+  auto size() const -> unsigned { return mSize; }
 
   auto valid() const -> bool { return mSize > 0; }
 
