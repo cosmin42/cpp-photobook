@@ -17,7 +17,7 @@ public:
   {
     mSelectedFolderIndex = newIndex;
 
-    mCurrentMap = mediaMap(0);
+    mCurrentMap = mediaMap(mSelectedFolderIndex);
 
     if (mCurrentMap) {
       mCurrentIterator = mCurrentMap->iterator();

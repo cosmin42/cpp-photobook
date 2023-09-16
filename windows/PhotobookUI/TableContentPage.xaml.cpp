@@ -107,8 +107,9 @@ void TableContentPage::onFoldersSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &eventArgs)
 {
-  PB::printDebug("Folder selected\n");
   auto index = MediaListView().SelectedIndex();
+
+  PB::printDebug("Index selected %d\n", index);
 
   mPhotoBook.gallery().selectIndex(index);
 
