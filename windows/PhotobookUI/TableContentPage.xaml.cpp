@@ -91,6 +91,7 @@ void TableContentPage::CanvasControlDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasDrawEventArgs const &args)
 {
+  /*
   auto session = args.DrawingSession();
 
   cv::Mat inputImage = cv::imread("image_path.jpg");
@@ -121,6 +122,7 @@ void TableContentPage::CanvasControlDraw(
           (int32_t)inputImage.rows, format);
 
   session.DrawImage(bitmap);
+  */
 }
 
 void TableContentPage::onFinished()
