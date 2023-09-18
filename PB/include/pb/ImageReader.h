@@ -86,13 +86,7 @@ public:
       return nullptr;
     }
 
-    auto x = img->cols;
-    auto y = img->rows;
-
     cv::resize(*img, *img, cv::Size(width, height), 0, 0, cv::INTER_AREA);
-
-    auto z = img->cols;
-    auto t = img->rows;
 
     return img;
   }

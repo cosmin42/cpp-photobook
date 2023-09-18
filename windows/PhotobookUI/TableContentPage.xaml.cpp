@@ -96,7 +96,7 @@ void TableContentPage::CanvasControlDraw(
   auto &gallery = mPhotoBook.gallery();
 
   auto itemPath = gallery.selectedItem();
-  if (!itemPath.has_value() || PB::MediaMap::validImagePath(*itemPath)) {
+  if (!itemPath.has_value() || !PB::MediaMap::validImagePath(*itemPath)) {
     return;
   }
 
@@ -199,6 +199,7 @@ void TableContentPage::updateGalleryLabel()
   else {
     GalleryMainText().Text(winrt::to_hstring("Nothing sleected."));
   }
+  GalleryCanvas().Invalidate();
 }
 
 void TableContentPage::onAddToTableClicked(
