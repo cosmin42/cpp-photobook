@@ -103,7 +103,10 @@ public:
   }
 
 private:
-  // void exportImage([[maybe_unused]] std::string const &path) {}
+  void exportImage([[maybe_unused]] std::string const &path)
+  {
+    PB::printDebug("Export image to %s", path.c_str());
+  }
 
   std::string mProjectName;
 

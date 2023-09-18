@@ -238,6 +238,8 @@ void TableContentPage::onExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  fireFolderPicker(MainWindow::sMainWindowhandle,
+                   [this](std::string path) { mPhotoBook.addMedia(path); });
 }
 
 } // namespace winrt::PhotobookUI::implementation
