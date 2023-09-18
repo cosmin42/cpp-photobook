@@ -78,10 +78,10 @@ public:
     return CircularIterator(mPaths);
   }
 
-  static bool validImagePath(Path path)
+  static bool validImagePath(Path const& path)
   {
-    const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
-                                                               "png"};
+    const std::set<std::string> sValidFileExtensions = {".jpg", ".jpeg",
+                                                               ".png"};
 
     std::string extensionStr = path.extension().string();
     std::transform(extensionStr.begin(), extensionStr.end(),
