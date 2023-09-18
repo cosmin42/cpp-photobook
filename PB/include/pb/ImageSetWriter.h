@@ -60,7 +60,6 @@ private:
   Path makePath(Path path, int counter)
   {
     const std::string prefix = "image_";
-    ;
     std::string fileNameStr = prefix + std::to_string(counter) + ".jpg";
     std::filesystem::path file(fileNameStr);
     path = path / file;

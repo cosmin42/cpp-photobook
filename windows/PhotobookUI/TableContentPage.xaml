@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Grid Background="#001C13">
@@ -23,13 +24,13 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10*"/>
             </Grid.ColumnDefinitions>
 
             <Button
@@ -41,8 +42,23 @@
                 Content="Back"
                 x:Name="BackButton"
                 Foreground="#FFFFFF"/>
+
+            <winui:MenuBar VerticalAlignment="Top" Grid.Column="1" Grid.Row="0">
+                <winui:MenuBarItem Background="#FF3A3A3A" Title="File" CornerRadius="0">
+                    <MenuFlyoutItem Text="New" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="Save" />
+                    <MenuFlyoutItem Text="Save As" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="Export" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Text="Exit" />
+                </winui:MenuBarItem>
+
+            </winui:MenuBar>
+
             <TextBlock
-                Grid.Column="1"
+                Grid.Column="2"
                 Grid.Row="0"
                 Foreground="#FFFFFF"
                 Text="Photobook"
