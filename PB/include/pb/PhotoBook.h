@@ -27,7 +27,9 @@ public:
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
-  ~PhotoBook() { printDebug("Photobook destructed.\n"); }
+  ~PhotoBook() { printDebug("Photobook destructed.\n");
+    Context::inst().data().clear();
+  }
 
   void addMedia(std::string const &path)
   {
