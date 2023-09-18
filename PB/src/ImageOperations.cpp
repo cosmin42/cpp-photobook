@@ -1,16 +1,16 @@
 #include <pb/ImageOperations.h>
 
 namespace PB::Process {
-auto resize(int32_t width, int32_t height)
+auto resize(cv::Size size)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
-  auto f = [width{width}, height{height}](
+  auto f = [size{size}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
     if (!image) {
       return nullptr;
     }
 
-    cv::resize(*image, *image, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+    cv::resize(*image, *image, size, 0, 0, cv::INTER_AREA);
 
     return image;
   };

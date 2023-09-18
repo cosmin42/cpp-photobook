@@ -89,11 +89,11 @@ public:
     return mImageReader.read(path);
   }
 
-  auto loadGalleryImage(std::string const &path, int32_t width, int32_t height)
+  auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>
   {
     auto image = mImageReader.read(path);
-    return Process::resize(width, height)(image);
+    return Process::resize(size)(image);
   }
 
 private:

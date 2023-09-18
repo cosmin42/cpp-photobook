@@ -106,8 +106,8 @@ void TableContentPage::CanvasControlDraw(
 
   std::shared_ptr<cv::Mat> image = nullptr;
   if (PB::MediaMap::validImagePath(*itemPath)) {
-    image = mPhotoBook.loadGalleryImage(itemPath->string(), portviewWidth,
-                                        portviewHeight);
+    image = mPhotoBook.loadGalleryImage(itemPath->string(),
+                                        {portviewWidth, portviewHeight});
   }
   else {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
