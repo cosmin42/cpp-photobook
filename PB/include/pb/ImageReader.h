@@ -53,7 +53,8 @@ public:
 
     assert(currentPath.has_value());
 
-    std::shared_ptr<cv::Mat> inputImage = std::make_shared<cv::Mat>(cv::imread(*currentPath, cv::IMREAD_COLOR));
+    std::shared_ptr<cv::Mat> inputImage =
+        std::make_shared<cv::Mat>(cv::imread(*currentPath, cv::IMREAD_COLOR));
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
@@ -65,6 +66,11 @@ public:
     cv::merge(matChannels, *inputImage);
 
     mBuffer[*currentPath] = inputImage;
+  }
+
+  void isCached(Path path) const->bool
+  {
+    return mBuffer.find(path) != mBuffer.end();
   }
 
 private:
