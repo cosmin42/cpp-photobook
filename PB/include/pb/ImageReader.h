@@ -65,6 +65,7 @@ public:
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
+    assert(matChannels == 3);
 
     cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
     alpha = cv::Scalar(255);
