@@ -51,7 +51,7 @@ public:
     bool isDirectory = std::filesystem::is_directory(path);
     bool isRegularFile = std::filesystem::is_regular_file(path);
 
-    if (isRegularFile && validEndtry(path)) {
+    if (isRegularFile && validImagePath(path)) {
       mPaths.push_back(path);
     }
 
@@ -78,26 +78,20 @@ public:
     return CircularIterator(mPaths);
   }
 
-private:
-  bool validEndtry(Path path) const
+  static bool validImagePath(Path path)
   {
-    static const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
+    const std::set<std::string> sValidFileExtensions = {"jpg", "jpeg",
                                                                "png"};
-    // TODO: C++23 to be replaced with ends with
-    std::string pathStr = path.string();
 
-    std::transform(pathStr.begin(), pathStr.end(), pathStr.begin(),
+    std::string extensionStr = path.extension().string();
+    std::transform(extensionStr.begin(), extensionStr.end(),
+                   extensionStr.begin(),
                    [](unsigned char c) { return (char)std::tolower(c); });
 
-    for (auto &extension : sValidFileExtensions) {
-      bool endsWith =
-          std::equal(extension.rbegin(), extension.rend(), pathStr.rbegin());
-      if (endsWith) {
-        return true;
-      }
-    }
-    return false;
+    return sValidFileExtensions.contains(extensionStr);
   }
+
+private:
 
   std::vector<std::filesystem::path> mPaths;
 };
