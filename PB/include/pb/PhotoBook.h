@@ -102,12 +102,12 @@ public:
     return Process::resize(size, true)(image);
   }
 
-private:
   void exportImage([[maybe_unused]] std::string const &path)
   {
     PB::printDebug("Export image to %s", path.c_str());
   }
 
+private:
   std::string mProjectName;
 
   Settings mSettings;
