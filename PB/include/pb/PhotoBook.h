@@ -93,7 +93,7 @@ public:
       -> std::shared_ptr<cv::Mat>
   {
     auto image = mImageReader.read(path);
-    return Process::resize(size)(image);
+    return Process::resize(size, true)(image);
   }
 
 private:

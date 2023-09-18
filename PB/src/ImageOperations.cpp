@@ -1,11 +1,32 @@
 #include <pb/ImageOperations.h>
 
 namespace PB::Process {
-auto resize(cv::Size size)
+auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
-  auto f = [size{size}](
-               std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
+  auto fKeppAspectRation =
+      [size{size}](std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
+    if (!image) {
+      return nullptr;
+    }
+
+    auto &[width, height] = size;
+
+    cv::Size ratio = {image->cols / width, image->rows / height};
+    auto     maxRatio = std::max(ratio.width, ratio.height);
+
+    if (maxRatio < 1) {
+      return image;
+    }
+    cv::Size newSize = {image->cols / maxRatio, image->rows / maxRatio};
+
+    cv::resize(*image, *image, newSize, 0, 0, cv::INTER_AREA);
+
+    return image;
+  };
+
+  auto f =
+      [size{size}](std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
     if (!image) {
       return nullptr;
     }
@@ -15,6 +36,9 @@ auto resize(cv::Size size)
     return image;
   };
 
+  if (keepAspectRatio) {
+    return fKeppAspectRation;
+  }
   return f;
 }
 
@@ -57,8 +81,7 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
         cv::getTextSize(text, cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1.0, 0);
 
     cv::putText(*image, text, offset - (size / 2),
-                cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0,
-                color, 1, cv::LINE_AA);
+                cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, color, 1, cv::LINE_AA);
     return image;
   };
 

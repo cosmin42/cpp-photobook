@@ -11,7 +11,7 @@
 #include <pb/Geometry.h>
 
 namespace PB::Process {
-auto resize(cv::Size size)
+auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
 auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
