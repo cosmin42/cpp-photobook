@@ -15,12 +15,18 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
+enum class ExportType { PDF, JPG_COLLECTION };
+
 class ImageSetWriter final {
 public:
-  ImageSetWriter() = default;
+  ImageSetWriter() : mExportType(ExportType::JPG_COLLECTION){};
+
+  explicit ImageSetWriter(ExportType type) : mExportType(type) {}
+
   ImageSetWriter(ImageSetWriter const &) = delete;
   ImageSetWriter(ImageSetWriter &&) = delete;
   ImageSetWriter &operator=(ImageSetWriter const &other) = delete;
+
   ~ImageSetWriter() = default;
 
   template <template <typename> typename T>
@@ -60,10 +66,12 @@ private:
   Path makePath(Path path, int counter)
   {
     const std::string prefix = "image_";
-    std::string fileNameStr = prefix + std::to_string(counter) + ".jpg";
+    std::string       fileNameStr = prefix + std::to_string(counter) + ".jpg";
     std::filesystem::path file(fileNameStr);
     path = path / file;
     return path;
   }
+
+  ExportType mExportType;
 };
 } // namespace PB
