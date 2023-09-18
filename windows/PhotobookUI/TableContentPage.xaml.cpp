@@ -52,7 +52,9 @@ auto TableContentPage::fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget
   folderPicker.FileTypeFilter().Append(L"*");
   auto folder{co_await folderPicker.PickSingleFolderAsync()};
 
-  mPhotoBook.addMedia(NativePB::Converter()(folder.Path()));
+  if (folder) {
+    mPhotoBook.addMedia(NativePB::Converter()(folder.Path()));
+  }
 }
 
 void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
@@ -114,9 +116,8 @@ void TableContentPage::CanvasControlDraw(
                                           {255, 0, 0})();
 
     image =
-        PB::Process::addText({portviewWidth / 2, portviewHeight/2},
-                             itemPath->filename().string(),
-                                 {0, 255, 0})(image);
+        PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
+                             itemPath->filename().string(), {0, 255, 0})(image);
   }
 
   auto device = CanvasDevice::GetSharedDevice();
@@ -216,7 +217,7 @@ void TableContentPage::updateGalleryLabel()
 
 void TableContentPage::onAddToTableClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
-    [[maybe_unused]]  Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
