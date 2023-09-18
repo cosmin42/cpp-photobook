@@ -46,6 +46,9 @@ endif()
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 
+
+include(third-party/windows/pdfium/PDFiumConfig.cmake)
+
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(pblib STATIC
@@ -94,6 +97,7 @@ add_library(pblib STATIC
 
 target_include_directories(pblib PUBLIC
     include
+    third-party/windows/pdfium/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 target_link_libraries(pblib PUBLIC
