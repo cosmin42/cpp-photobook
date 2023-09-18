@@ -96,7 +96,7 @@ void TableContentPage::CanvasControlDraw(
   auto &gallery = mPhotoBook.gallery();
 
   auto itemPath = gallery.selectedItem();
-  if (!itemPath.has_value() || !PB::MediaMap::validImagePath(*itemPath)) {
+  if (!itemPath.has_value()) {
     return;
   }
 
@@ -104,8 +104,18 @@ void TableContentPage::CanvasControlDraw(
 
   int32_t portviewHeight = GalleryCanvas().ActualHeight();
 
-  auto image = mPhotoBook.loadGalleryImage(itemPath->string(), portviewWidth,
-                                           portviewHeight);
+  std::shared_ptr<cv::Mat> image = nullptr;
+  if (PB::MediaMap::validImagePath(*itemPath)) {
+    image = mPhotoBook.loadGalleryImage(itemPath->string(), portviewWidth,
+                                        portviewHeight);
+  }
+  else {
+    image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
+                                          {255, 0, 0})();
+
+    image = PB::Process::addText({0, 100}, itemPath->filename().string(),
+                                 {0, 255, 0})(image);
+  }
 
   auto device = CanvasDevice::GetSharedDevice();
 
