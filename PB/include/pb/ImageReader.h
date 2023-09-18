@@ -22,7 +22,7 @@ template <typename T>
 class ImageReader final {
 public:
   // How many images are loaded beside the main one
-  static constexpr unsigned sBufferSize = 3 * 2;
+  static constexpr unsigned sBufferSize = 0 * 2;
   ImageReader() = default;
   ImageReader(ImageReader const &) = delete;
   ImageReader(ImageReader &&) = delete;
