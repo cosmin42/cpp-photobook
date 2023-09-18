@@ -58,8 +58,10 @@ add_library(pblib STATIC
     include/pb/Enums.h
     include/pb/FileMapper.h
     include/pb/GalleryListener.h
+    include/pb/Geometry.h
     include/pb/GradualControllable.h
     include/pb/ImageReader.h
+    include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
     include/pb/MediaMap.h
     include/pb/MediaMapListener.h
@@ -79,6 +81,7 @@ add_library(pblib STATIC
     src/FileComparator.cpp
     src/GradualControllable.cpp
     src/ImageReader.cpp
+    src/ImageOperations.cpp
     src/ImageSetWriter.cpp
     src/Log.cpp
     src/MediaMapListener.cpp
