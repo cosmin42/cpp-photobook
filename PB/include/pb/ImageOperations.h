@@ -20,4 +20,7 @@ auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
 auto singleColorImage(int32_t width, int32_t height, Vec3i color)
     -> std::function<std::shared_ptr<cv::Mat>()>;
 
+auto addText(cv::Point offset, std::string const &text, cv::Scalar color)
+    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
+
 } // namespace PB::Process
