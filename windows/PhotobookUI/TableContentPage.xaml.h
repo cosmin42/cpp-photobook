@@ -33,6 +33,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
+                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasControl const &sender,
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::

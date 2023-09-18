@@ -66,8 +66,8 @@
                           SelectionChanged="onFoldersSelectionChanged"
                           SelectionMode="Single">
                     <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid VerticalAlignment="Center">
+                        <DataTemplate x:Name="DataTemplateName">
+                            <Grid VerticalAlignment="Center" x:Name="GridListName">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
@@ -77,7 +77,8 @@
                                     Grid.Column="0"
                                     Background="#004C35"
                                     Content="+"
-                                    x:Name="AddToTable"
+                                    Click="onAddToTableClicked"
+                                    x:Name="AddToTableButton"
                                     Foreground="#FFFFFF"/>
                                 <Image Grid.Column="1" x:Name="folderImage" Source="Assets/folderIcon.png" Width="64" Height="64" HorizontalAlignment="Left"/>
                                 <TextBlock Grid.Column="2" Text="{Binding}" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center"/>

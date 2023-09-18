@@ -202,4 +202,10 @@ void TableContentPage::updateGalleryLabel()
   }
 }
 
+void TableContentPage::onAddToTableClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
 } // namespace winrt::PhotobookUI::implementation
