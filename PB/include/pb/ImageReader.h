@@ -18,6 +18,7 @@
 
 #include <pb/Config.h>
 #include <pb/FileMapper.h>
+#include <pb/ImageOperations.h>
 
 namespace PB {
 
@@ -77,18 +78,6 @@ public:
   auto isCached(Path const &path) const -> bool
   {
     return mBuffer.find(path) != mBuffer.end();
-  }
-
-  static auto resize(std::shared_ptr<cv::Mat> img, int32_t width,
-                     int32_t height) -> std::shared_ptr<cv::Mat>
-  {
-    if (!img) {
-      return nullptr;
-    }
-
-    cv::resize(*img, *img, cv::Size(width, height), 0, 0, cv::INTER_AREA);
-
-    return img;
   }
 
 private:
