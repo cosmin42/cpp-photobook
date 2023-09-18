@@ -34,8 +34,18 @@ using namespace Microsoft::Graphics::Canvas;
 
 namespace winrt::PhotobookUI::implementation {
 
+PB::Settings const TableContentPage::settings()
+{
+
+  auto winFolderPath =
+      Windows::ApplicationModel::Package::Current().InstalledPath();
+
+  const PB::Settings settings = {winrt::to_string(winFolderPath)};
+
+  return settings;
+}
 TableContentPage::TableContentPage()
-    : mListener(std::ref(*this)), mPhotoBook(mListener)
+    : mListener(std::ref(*this)), mPhotoBook(settings(), mListener)
 {
   mediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();

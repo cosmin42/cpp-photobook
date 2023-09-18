@@ -7,6 +7,7 @@
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
+#include <pb/Settings.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -18,16 +19,18 @@ template <typename TaskManageableType>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook final {
 public:
-  PhotoBook(TaskManageableType &listener)
-      : mParent(listener), mGalleryListener(std::ref(*this)),
-        mGallery(mGalleryListener)
+  PhotoBook(Settings const settings, TaskManageableType &listener)
+      : mSettings(settings), mParent(listener),
+        mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
   {
-    printDebug("Photobook created.\n");
+    printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
-  ~PhotoBook() { printDebug("Photobook destructed.\n");
+  ~PhotoBook()
+  {
+    printDebug("Photobook destructed.\n");
     Context::inst().data().clear();
   }
 
@@ -101,6 +104,8 @@ public:
 
 private:
   // void exportImage([[maybe_unused]] std::string const &path) {}
+
+  Settings mSettings;
 
   TaskManageableType &mParent;
   std::unordered_map<Path,
