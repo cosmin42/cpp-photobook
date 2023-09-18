@@ -48,12 +48,16 @@ auto singleColorImage(int32_t width, int32_t height, Vec3i color)
   return f;
 }
 
-auto addText(cv::Point offset, std::string const &text, cv::Scalar color)
+auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
   auto f = [offset{offset}, text{text}, color{color}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    cv::putText(*image, text, offset, cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0,
+    auto size =
+        cv::getTextSize(text, cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1.0, 0);
+
+    cv::putText(*image, text, offset - (size / 2),
+                cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0,
                 color, 1, cv::LINE_AA);
     return image;
   };

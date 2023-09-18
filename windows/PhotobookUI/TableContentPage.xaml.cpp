@@ -113,7 +113,9 @@ void TableContentPage::CanvasControlDraw(
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 0, 0})();
 
-    image = PB::Process::addText({0, 100}, itemPath->filename().string(),
+    image =
+        PB::Process::addText({portviewWidth / 2, portviewHeight/2},
+                             itemPath->filename().string(),
                                  {0, 255, 0})(image);
   }
 
