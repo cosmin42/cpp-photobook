@@ -100,9 +100,9 @@ void TableContentPage::CanvasControlDraw(
     return;
   }
 
-  int32_t portviewWidth = GalleryCanvas().ActualWidth();
+  int32_t portviewWidth = std::floor(GalleryCanvas().ActualWidth());
 
-  int32_t portviewHeight = GalleryCanvas().ActualHeight();
+  int32_t portviewHeight = std::floor(GalleryCanvas().ActualHeight());
 
   std::shared_ptr<cv::Mat> image = nullptr;
   if (PB::MediaMap::validImagePath(*itemPath)) {
@@ -215,8 +215,8 @@ void TableContentPage::updateGalleryLabel()
 }
 
 void TableContentPage::onAddToTableClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]]  Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 

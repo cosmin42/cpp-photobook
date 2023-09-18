@@ -66,6 +66,9 @@ public:
 
     auto actualBufferSize = std::min(sBufferSize, iterator.size());
 
+    //Unused
+    (void)actualBufferSize;
+
     std::vector<Path> toBeDeleted;
 
     auto currentPath = iterator.current();
