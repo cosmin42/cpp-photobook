@@ -37,6 +37,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onExportClicked(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
@@ -62,7 +65,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void post(std::function<void()>);
 
 private:
-  auto fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget;
+  auto fireFolderPicker(HWND hWnd, std::function<void(std::string)> onSuccess)
+      -> winrt::fire_and_forget;
 
   void updateGalleryLabel();
 

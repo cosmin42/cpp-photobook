@@ -52,7 +52,9 @@ TableContentPage::TableContentPage()
   InitializeComponent();
 }
 
-auto TableContentPage::fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget
+auto TableContentPage::fireFolderPicker(
+    HWND hWnd, std::function<void(std::string)> onSuccess)
+    -> winrt::fire_and_forget
 {
   Windows::Storage::Pickers::FolderPicker folderPicker;
 
@@ -63,14 +65,15 @@ auto TableContentPage::fireFolderPicker(HWND hWnd) -> winrt::fire_and_forget
   auto folder{co_await folderPicker.PickSingleFolderAsync()};
 
   if (folder) {
-    mPhotoBook.addMedia(NativePB::Converter()(folder.Path()));
+    onSuccess(NativePB::Converter()(folder.Path()));
   }
 }
 
 void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
                                                RoutedEventArgs const &)
 {
-  fireFolderPicker(MainWindow::sMainWindowhandle);
+  fireFolderPicker(MainWindow::sMainWindowhandle,
+                   [this](std::string path) { mPhotoBook.addMedia(path); });
 }
 
 void TableContentPage::onBackClicked(IInspectable const &,
@@ -226,6 +229,12 @@ void TableContentPage::updateGalleryLabel()
 }
 
 void TableContentPage::onAddToTableClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
+void TableContentPage::onExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {

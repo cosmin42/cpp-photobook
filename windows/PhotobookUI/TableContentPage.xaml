@@ -50,7 +50,8 @@
                     <MenuFlyoutItem Text="Save" />
                     <MenuFlyoutItem Text="Save As" />
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Text="Export" />
+                    <MenuFlyoutItem Text="Export"
+                        Click="onExportClicked"/>
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Text="Exit" />
                 </winui:MenuBarItem>
@@ -64,7 +65,6 @@
                 Text="Photobook"
                 HorizontalAlignment="Center"/>
         </Grid>
-
 
         <Grid
             Grid.Row="1"

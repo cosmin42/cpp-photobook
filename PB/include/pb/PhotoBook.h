@@ -105,6 +105,8 @@ public:
 private:
   // void exportImage([[maybe_unused]] std::string const &path) {}
 
+  std::string mProjectName;
+
   Settings mSettings;
 
   TaskManageableType &mParent;
