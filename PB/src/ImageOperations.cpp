@@ -18,6 +18,23 @@ auto resize(int32_t width, int32_t height)
   return f;
 }
 
+auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
+    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
+{
+  auto f = [offset{offset}, source{source}](
+               std::shared_ptr<cv::Mat> dest) -> std::shared_ptr<cv::Mat> {
+    auto [left, top] = offset;
+
+    cv::Rect roi(left, top, source->cols, source->rows);
+
+    source->copyTo((*dest)(roi));
+
+    return dest;
+  };
+
+  return f;
+}
+
 auto singleColorImage(int32_t width, int32_t height, Vec3i color)
     -> std::function<std::shared_ptr<cv::Mat>()>
 {

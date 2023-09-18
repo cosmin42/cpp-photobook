@@ -12,7 +12,10 @@
 
 namespace PB::Process {
 auto resize(int32_t width, int32_t height)
-    -> std::function<void(std::shared_ptr<cv::Mat>)>;
+    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
+
+auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
+    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
 auto singleColorImage(int32_t width, int32_t height, Vec3i color)
     -> std::function<std::shared_ptr<cv::Mat>()>;
