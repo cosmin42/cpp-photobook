@@ -91,38 +91,6 @@ void TableContentPage::CanvasControlDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasDrawEventArgs const &args)
 {
-  /*
-  auto session = args.DrawingSession();
-
-  cv::Mat inputImage = cv::imread("image_path.jpg");
-
-  auto device = CanvasDevice::GetSharedDevice();
-
-  winrt::array_view<uint8_t const> view_name((uint8_t *)inputImage.data,
-                                             (uint32_t)inputImage.size.dims());
-
-  const auto format =
-      Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized;
-
-  // auto
-  // CanvasBitmap::CreateFromBytes(winrt::Microsoft::Graphics::Canvas::ICanvasResourceCreator
-  // const
-  //                              &resourceCreator,
-  //     array_view<uint8_t const> bytes, int32_t widthInPixels,
-  //     int32_t heightInPixels,
-  //     winrt::Windows::Graphics::DirectX::DirectXPixelFormat const &format,
-  //     float dpi)
-
-  winrt::Microsoft::Graphics::Canvas::ICanvasResourceCreator const &resource =
-      device;
-
-  auto bitmap =
-      winrt::Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
-          resource, view_name, (int32_t)inputImage.cols,
-          (int32_t)inputImage.rows, format);
-
-  session.DrawImage(bitmap);
-  */
 }
 
 void TableContentPage::onFinished()
