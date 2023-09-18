@@ -22,11 +22,12 @@ public:
       : mParent(listener), mGalleryListener(std::ref(*this)),
         mGallery(mGalleryListener)
   {
+    printDebug("Photobook created.\n");
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
   PhotoBook &operator=(PhotoBook const &) = delete;
-  ~PhotoBook() = default;
+  ~PhotoBook() { printDebug("Photobook destructed.\n"); }
 
   void addMedia(std::string const &path)
   {
