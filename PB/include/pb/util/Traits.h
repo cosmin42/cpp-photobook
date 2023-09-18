@@ -28,4 +28,6 @@ auto compose(HeadFn &&f, TailFn &&...tailF)
 
 typedef std::filesystem::path Path;
 
+template <typename T> void Unused(T &&) {}
+
 } // namespace PB
