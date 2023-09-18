@@ -91,6 +91,37 @@ void TableContentPage::CanvasControlDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasDrawEventArgs const &args)
 {
+  auto session = args.DrawingSession();
+
+  auto &gallery = mPhotoBook.gallery();
+
+  auto itemPath = gallery.selectedItem();
+  if (!itemPath.has_value() || PB::MediaMap::validImagePath(*itemPath)) {
+    return;
+  }
+
+  int32_t portviewWidth = GalleryCanvas().ActualWidth();
+
+  int32_t portviewHeight = GalleryCanvas().ActualHeight();
+
+  auto image = mPhotoBook.loadGalleryImage(itemPath->string(), portviewWidth,
+                                           portviewHeight);
+
+  auto device = CanvasDevice::GetSharedDevice();
+
+  winrt::array_view<uint8_t const> view_name(
+      (uint8_t *)image->data, (uint32_t)(image->total() * image->elemSize()));
+
+  const auto format =
+      Microsoft::Graphics::DirectX::DirectXPixelFormat::B8G8R8A8UIntNormalized;
+
+  auto bitmap =
+      winrt::Microsoft::Graphics::Canvas::CanvasBitmap::CreateFromBytes(
+          device, view_name, (int32_t)image->cols, (int32_t)image->rows,
+          (winrt::Windows::Graphics::DirectX::DirectXPixelFormat const &)
+              format);
+
+  session.DrawImage(bitmap);
 }
 
 void TableContentPage::onFinished()
