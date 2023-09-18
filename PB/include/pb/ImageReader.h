@@ -20,8 +20,6 @@
 
 namespace PB {
 
-template <typename T>
-  requires TaskManageableConcept<T>
 class ImageReader final {
 public:
   // How many images are loaded beside the main one
@@ -32,11 +30,20 @@ public:
   ImageReader &operator=(ImageReader const &other) = delete;
   ~ImageReader() = default;
 
-  static auto defaultRead() -> auto
+  auto read(std::filesystem::path const &path) -> std::shared_ptr<cv::Mat>
   {
-    return [](std::filesystem::path const &path) -> std::shared_ptr<cv::Mat> {
-      return read(path);
-    };
+    if (isCached(path)) {
+      return mBuffer.at(path);
+    }
+
+    cv::Mat image = cv::imread(path.string(), cv::IMREAD_COLOR);
+
+    if (image.empty()) {
+      printDebug("Image %s could not be read", path.string().c_str());
+      return nullptr;
+    }
+
+    return std::make_shared<cv::Mat>(image);
   }
 
   void loadBuffer([[maybe_unused]] CircularIterator iterator)
@@ -53,8 +60,8 @@ public:
 
     assert(currentPath.has_value());
 
-    std::shared_ptr<cv::Mat> inputImage =
-        std::make_shared<cv::Mat>(cv::imread(*currentPath, cv::IMREAD_COLOR));
+    std::shared_ptr<cv::Mat> inputImage = std::make_shared<cv::Mat>(
+        cv::imread(currentPath->string(), cv::IMREAD_COLOR));
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
@@ -68,25 +75,12 @@ public:
     mBuffer[*currentPath] = inputImage;
   }
 
-  void isCached(Path path) const->bool
+  auto isCached(Path const &path) const->bool
   {
     return mBuffer.find(path) != mBuffer.end();
   }
 
 private:
-  static auto read(std::filesystem::path const &path)
-      -> std::shared_ptr<cv::Mat>
-  {
-    cv::Mat image = cv::imread(path.string(), cv::IMREAD_COLOR);
-
-    if (image.empty()) {
-      printDebug("Image %s could not be read", path.string().c_str());
-      return nullptr;
-    }
-
-    return std::make_shared<cv::Mat>(image);
-  }
-
   std::map<Path, std::shared_ptr<cv::Mat>> mBuffer;
   std::vector<Path>                        mBufferIndex;
 };
