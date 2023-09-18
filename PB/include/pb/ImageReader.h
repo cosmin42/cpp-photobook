@@ -37,14 +37,24 @@ public:
       return mBuffer.at(path);
     }
 
-    cv::Mat image = cv::imread(path.string(), cv::IMREAD_COLOR);
+    return loadImage(path);
+  }
 
-    if (image.empty()) {
-      printDebug("Image %s could not be read", path.string().c_str());
-      return nullptr;
-    }
+  auto loadImage(Path const &path) -> std::shared_ptr<cv::Mat>
+  {
+    std::shared_ptr<cv::Mat> inputImage =
+        std::make_shared<cv::Mat>(cv::imread(path.string(), cv::IMREAD_COLOR));
 
-    return std::make_shared<cv::Mat>(image);
+    std::vector<cv::Mat> matChannels;
+    cv::split(*inputImage, matChannels);
+    assert(matChannels.size() == 3);
+
+    cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
+    alpha = cv::Scalar(255);
+    matChannels.push_back(alpha);
+
+    cv::merge(matChannels, *inputImage);
+    return inputImage;
   }
 
   void loadBuffer([[maybe_unused]] CircularIterator iterator)
@@ -61,20 +71,7 @@ public:
 
     assert(currentPath.has_value());
 
-    std::shared_ptr<cv::Mat> inputImage = std::make_shared<cv::Mat>(
-        cv::imread(currentPath->string(), cv::IMREAD_COLOR));
-
-    std::vector<cv::Mat> matChannels;
-    cv::split(*inputImage, matChannels);
-    assert(matChannels.size() == 3);
-
-    cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
-    alpha = cv::Scalar(255);
-    matChannels.push_back(alpha);
-
-    cv::merge(matChannels, *inputImage);
-
-    mBuffer[*currentPath] = inputImage;
+    mBuffer[*currentPath] = loadImage(*currentPath);
   }
 
   auto isCached(Path const &path) const -> bool
@@ -89,7 +86,14 @@ public:
       return nullptr;
     }
 
-    cv::resize(*img, *img, cv::Size(width, height), 0, 0, cv::INTER_CUBIC);
+    auto x = img->cols;
+    auto y = img->rows;
+
+    cv::resize(*img, *img, cv::Size(width, height), 0, 0, cv::INTER_AREA);
+
+    auto z = img->cols;
+    auto t = img->rows;
+
     return img;
   }
 
