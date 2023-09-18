@@ -239,7 +239,7 @@ void TableContentPage::onExportClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   fireFolderPicker(MainWindow::sMainWindowhandle,
-                   [this](std::string path) { mPhotoBook.exportImage(path); });
+                   [this](std::string path) { mPhotoBook.exportAlbum(path); });
 }
 
 } // namespace winrt::PhotobookUI::implementation

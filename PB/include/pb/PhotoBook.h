@@ -102,7 +102,7 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportImage([[maybe_unused]] std::string const &path)
+  void exportAlbum([[maybe_unused]] std::string const &path)
   {
     PB::printDebug("Export image to %s", path.c_str());
   }
