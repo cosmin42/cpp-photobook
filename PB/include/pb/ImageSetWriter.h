@@ -29,6 +29,17 @@ public:
 
   ~ImageSetWriter() = default;
 
+  template <typename T>
+  void exportJPGCollection(T const &images, Path path,
+                           std::string const &projectName)
+  {
+    path = path / Path(projectName);
+    if (!std::filesystem::create_directories(path)) {
+      // on error
+    }
+    writeImages(writeImages);
+  }
+
   template <template <typename> typename T>
   void writeImages(T<std::shared_ptr<cv::Mat>> const &images, Path folder) const
   {
