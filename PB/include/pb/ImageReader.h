@@ -13,6 +13,7 @@
 #pragma warning(disable : 4127)
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
 #include <pb/Config.h>
@@ -65,7 +66,7 @@ public:
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
-    assert(matChannels == 3);
+    assert(matChannels.size() == 3);
 
     cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
     alpha = cv::Scalar(255);
@@ -76,9 +77,20 @@ public:
     mBuffer[*currentPath] = inputImage;
   }
 
-  auto isCached(Path const &path) const->bool
+  auto isCached(Path const &path) const -> bool
   {
     return mBuffer.find(path) != mBuffer.end();
+  }
+
+  static auto resize(std::shared_ptr<cv::Mat> img, int32_t width,
+                     int32_t height) -> std::shared_ptr<cv::Mat>
+  {
+    if (!img) {
+      return nullptr;
+    }
+
+    cv::resize(*img, *img, cv::Size(width, height), 0, 0, cv::INTER_CUBIC);
+    return img;
   }
 
 private:
