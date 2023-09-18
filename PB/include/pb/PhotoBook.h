@@ -84,11 +84,12 @@ public:
 
   Gallery<TaskManageableType> &gallery() { return mGallery; }
 
-private:
-  auto loadImage(std::string const &path) -> std::optional<cv::Mat>
+  auto loadImage(std::string const& path) -> std::shared_ptr<cv::Mat>
   {
-    return ImageReader::defaultRead()(path);
+    return mImageReader.read(path);
   }
+
+private:
 
   // void exportImage([[maybe_unused]] std::string const &path) {}
 
@@ -99,5 +100,7 @@ private:
 
   GalleryListener<TaskManageableType> mGalleryListener;
   Gallery<TaskManageableType>         mGallery;
+
+  ImageReader mImageReader;
 };
 } // namespace PB
