@@ -70,6 +70,7 @@ add_library(pblib STATIC
     include/pb/Gallery.h
     include/pb/PhotoBook.h
     include/pb/Scheduable.h
+    include/pb/Settings.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
     include/pb/util/Timer.h
