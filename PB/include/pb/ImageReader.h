@@ -1,5 +1,8 @@
 #pragma once
 
+#define NOMINMAX
+
+#include <algorithm>
 #include <filesystem>
 #include <map>
 #include <optional>
@@ -22,7 +25,7 @@ template <typename T>
 class ImageReader final {
 public:
   // How many images are loaded beside the main one
-  static constexpr unsigned sBufferSize = 0 * 2;
+  static constexpr unsigned sBufferSize = 0 * 2 + 1;
   ImageReader() = default;
   ImageReader(ImageReader const &) = delete;
   ImageReader(ImageReader &&) = delete;
@@ -36,7 +39,33 @@ public:
     };
   }
 
-  void loadBuffer([[maybe_unused]] CircularIterator iterator) {}
+  void loadBuffer([[maybe_unused]] CircularIterator iterator)
+  {
+    if (!iterator.valid()) {
+      return;
+    }
+
+    auto actualBufferSize = std::min(sBufferSize, iterator.size());
+
+    std::vector<Path> toBeDeleted;
+
+    auto currentPath = iterator.current();
+
+    assert(currentPath.has_value());
+
+    std::shared_ptr<cv::Mat> inputImage = std::make_shared<cv::Mat>(cv::imread(*currentPath, cv::IMREAD_COLOR));
+
+    std::vector<cv::Mat> matChannels;
+    cv::split(*inputImage, matChannels);
+
+    cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
+    alpha = cv::Scalar(255);
+    matChannels.push_back(alpha);
+
+    cv::merge(matChannels, *inputImage);
+
+    mBuffer[*currentPath] = inputImage;
+  }
 
 private:
   static auto read(std::filesystem::path const &path)
