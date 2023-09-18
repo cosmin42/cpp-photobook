@@ -33,18 +33,18 @@ public:
     PB::Path fsPath = path;
     auto     result = FileInfo::validInputRootPath(fsPath);
     std::visit(
-        overloaded{
-            [this](PB::Path const &path) {
-              printDebug("Add media %s\n", path.string().c_str());
+        overloaded{[this](PB::Path const &path) {
+                     printDebug("Add media %s\n", path.string().c_str());
 
-              auto ptr = std::make_shared<MediaMapListener<TaskManageableType>>(
-                  std::ref(*this));
-              mListeners.insert({path, ptr});
-              auto listener = mListeners.at(path);
-              mMappingJobs.emplace(
-                  path, MediaMapper<TaskManageableType>(path, listener));
-            },
-            [this](Error error) { mParent.onError(error); }},
+                     auto ptr =
+                         std::make_shared<MediaMapListener<TaskManageableType>>(
+                             std::ref(*this));
+                     mListeners.insert({path, ptr});
+                     auto listener = mListeners.at(path);
+                     mMappingJobs.emplace(
+                         path, MediaMapper<TaskManageableType>(path, listener));
+                   },
+                   [this](Error error) { mParent.onError(error); }},
         result);
     Context::inst().data().mediaIndexedByType().push_back(fsPath);
     mMappingJobs.at(fsPath).start();
@@ -74,27 +74,34 @@ public:
 
   void onNewMediaMap(Path &path, MediaMap &newMediaMap)
   {
-    auto& mediaData = Context::inst().data().mediaData();
+    auto &mediaData = Context::inst().data().mediaData();
     mediaData.insert({path, newMediaMap});
 
     mParent.onFinished();
-    //mMappingJobs.erase(path);
-    //mListeners.erase(path);
+    // mMappingJobs.erase(path);
+    // mListeners.erase(path);
   }
 
   Gallery<TaskManageableType> &gallery() { return mGallery; }
 
-  auto loadImage(std::string const& path) -> std::shared_ptr<cv::Mat>
+  auto loadImage(std::string const &path) -> std::shared_ptr<cv::Mat>
   {
     return mImageReader.read(path);
   }
 
-private:
+  auto loadGalleryImage(std::string const &path, int32_t width,
+                     int32_t height) -> std::shared_ptr<cv::Mat>
+  {
+    return ImageReader::resize(mImageReader.read(path), width, height);
+  }
 
+private:
   // void exportImage([[maybe_unused]] std::string const &path) {}
 
-  TaskManageableType                                            &mParent;
-  std::unordered_map<Path, std::shared_ptr<MediaMapListener<TaskManageableType>>> mListeners;
+  TaskManageableType &mParent;
+  std::unordered_map<Path,
+                     std::shared_ptr<MediaMapListener<TaskManageableType>>>
+      mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
 
