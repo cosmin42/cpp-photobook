@@ -10,13 +10,6 @@
 #warning "@PRINTER_TYPE@ doesn't exist"
 #endif
 
-#if __has_include(<pb/common/@STORAGE_TYPE@.h>)
-#include <pb/common/@STORAGE_TYPE@.h>
-#else
-#warning "@STORAGE_TYPE@ doesn't exist"
-#endif
-
-
 #include <pb/DataManager.h>
 
 namespace PB {
@@ -33,8 +26,6 @@ public:
 
   DataManager& data() { return mDataManager;}
 
-  Persistence<@STORAGE_TYPE@>& persistence() { return mPersistence; }
-
 private:
   Context() = default;
   Context(Context const &) = delete;
@@ -47,8 +38,6 @@ private:
   static Context sContext;
 
   @PRINTER_TYPE@ mLogPrinter;
-
-  Persistence<@STORAGE_TYPE@> mPersistence;
 };
 
 } // namespace PB

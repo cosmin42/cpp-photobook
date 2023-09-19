@@ -6,19 +6,14 @@
 #include <string>
 
 #include <pb/Error.h>
-#include <pb/StorageListener.h>
 
 namespace PB {
 
 class WinrtStorage final {
 public:
   WinrtStorage() = default;
-  ~WinrtStorage() = default;
 
-  void addListener(std::shared_ptr<StorageListener> listener)
-  {
-    mParent = listener;
-  }
+  ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
   std::optional<Error> write(Map<std::string, std::string> const &map)
@@ -26,16 +21,22 @@ public:
     return std::nullopt;
   }
 
-  void load()
+  void setObserver(std::function<void(std::optional<Error>)> f)
   {
-    if (!mParent) {
-      return;
-    }
-    std::unordered_map<std::string, std::string> m;
-    mParent->onLoaded<std::unordered_map>(m);
+    mOnLoaded = f;
   }
 
+  void load()
+  {
+    if (mOnLoaded) {
+      mOnLoaded(std::nullopt);
+    }
+  }
+
+  std::unordered_map<std::string, std::string> &data() { return mData; }
+
 private:
-  std::shared_ptr<StorageListener> mParent = nullptr;
+  std::function<void(std::optional<Error>)>    mOnLoaded;
+  std::unordered_map<std::string, std::string> mData;
 };
 } // namespace PB

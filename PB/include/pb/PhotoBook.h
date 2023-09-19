@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include <pb/common/WinrtStorage.h>
 #include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
@@ -111,6 +112,8 @@ private:
   std::string mProjectName;
 
   Settings mSettings;
+
+  Persistence<TaskManageableType, PB::WinrtStorage> mPersistence;
 
   TaskManageableType &mParent;
   std::unordered_map<Path,
