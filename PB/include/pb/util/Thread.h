@@ -10,14 +10,9 @@ class Thread {
 public:
   explicit Thread(std::stop_token stopToken);
 
-  Thread(Thread const &other)
-  {
-    mExternalToken = other.mExternalToken;
-  }
-  Thread(Thread &&other) noexcept
-  {
-    mExternalToken = other.mExternalToken;
-  }
+  Thread(Thread const &other) { mExternalToken = other.mExternalToken; }
+  Thread(Thread &&other) noexcept { mExternalToken = other.mExternalToken; }
+  Thread &operator=(Thread const &) = delete;
   virtual ~Thread() = default;
 
   void start();
