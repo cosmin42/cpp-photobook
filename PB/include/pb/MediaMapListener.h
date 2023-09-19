@@ -6,15 +6,15 @@
 
 namespace PB {
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class MediaMapListener final {
 public:
-  explicit MediaMapListener(PhotoBook<PhotoBookType, T> &parent)
+  explicit MediaMapListener(PhotoBook<PhotoBookType, PersistenceType> &parent)
       : mParent(parent)
   {
   }
@@ -32,6 +32,6 @@ public:
   void onError(PB::Error error) { mParent.onError(error); }
 
 private:
-  PhotoBook<PhotoBookType, T> &mParent;
+  PhotoBook<PhotoBookType, PersistenceType> &mParent;
 };
 } // namespace PB

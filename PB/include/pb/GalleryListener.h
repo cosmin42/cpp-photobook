@@ -4,18 +4,21 @@
 #include <pb/util/Concepts.h>
 
 namespace PB {
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class GalleryListener final {
 public:
-  GalleryListener(PhotoBook<PhotoBookType, T> &parent) : mParent(parent) {}
+  GalleryListener(PhotoBook<PhotoBookType, PersistenceType> &parent)
+      : mParent(parent)
+  {
+  }
   ~GalleryListener() = default;
 
 private:
-  PhotoBook<PhotoBookType, T> &mParent;
+  PhotoBook<PhotoBookType, PersistenceType> &mParent;
 };
 } // namespace PB

@@ -9,7 +9,7 @@
 
 namespace PB {
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class Persistence final {
 public:
@@ -19,7 +19,7 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  void addListener(StorageListener<PhotoBookType, T> &listener)
+  void addListener(StorageListener<PhotoBookType, PersistenceType> &listener)
   {
     mPersistence.setObserver([&listener](std::optional<Error> out) {
       if (out) {
@@ -35,7 +35,7 @@ public:
 
 private:
   std::unordered_map<std::string, std::string> mCache;
-  T                                            mPersistence;
+  PersistenceType                              mPersistence;
 };
 
 } // namespace PB

@@ -6,11 +6,11 @@
 
 namespace PB {
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class Gallery final {
 public:
-  Gallery(GalleryListener<PhotoBookType, T> &listener)
+  Gallery(GalleryListener<PhotoBookType, PersistenceType> &listener)
       : mListener(listener)
   {
   }
@@ -83,7 +83,7 @@ private:
     return mediaData.at(key);
   }
 
-  GalleryListener<PhotoBookType, T> &mListener;
+  GalleryListener<PhotoBookType, PersistenceType> &mListener;
 
   int                             mSelectedFolderIndex = -1;
   int                             mGalleryIndex = -1;

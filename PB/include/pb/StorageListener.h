@@ -7,15 +7,18 @@
 
 namespace PB {
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
-template <typename PhotoBookType, typename T>
+template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class StorageListener final {
 public:
-  StorageListener(PhotoBook<PhotoBookType, T> &parent) : mParent(parent) {}
+  StorageListener(PhotoBook<PhotoBookType, PersistenceType> &parent)
+      : mParent(parent)
+  {
+  }
   ~StorageListener() = default;
 
   void onLoaded() { mParent.onPersistenceLoaded(); }
@@ -23,6 +26,6 @@ public:
   void onError(Error err) { mParent.onError(err); }
 
 private:
-  PhotoBook<PhotoBookType, T> &mParent;
+  PhotoBook<PhotoBookType, PersistenceType> &mParent;
 };
 } // namespace PB
