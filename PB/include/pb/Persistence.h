@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 namespace PB {
+
 template <typename T> class Persistence final {
 public:
   Persistence() = default;
@@ -10,13 +11,14 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  void write() {}
-  void load() {}
+  void write() { mPersistence.write<std::unordered_map>(mCache); }
+  void load() { mPersistence.load(); }
 
   std::unordered_map<std::string, std::string> &cache() { return mCache; }
 
 private:
   std::unordered_map<std::string, std::string> mCache;
+
   T                                            mPersistence;
 };
 
