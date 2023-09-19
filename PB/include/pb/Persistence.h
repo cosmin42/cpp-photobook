@@ -9,8 +9,8 @@
 
 namespace PB {
 
-template <typename TaskManageableType, typename T>
-  requires TaskManageableConcept<TaskManageableType>
+template <typename PhotoBookType, typename T>
+  requires TaskManageableConcept<PhotoBookType>
 class Persistence final {
 public:
   Persistence() = default;
@@ -19,7 +19,7 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  void addListener(StorageListener<TaskManageableType, T> &listener)
+  void addListener(StorageListener<PhotoBookType, T> &listener)
   {
     mPersistence.setObserver([&listener](std::optional<Error> out) {
       if (out) {

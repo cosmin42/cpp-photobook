@@ -6,11 +6,11 @@
 
 namespace PB {
 
-template <typename TaskManageableType, typename T>
-  requires TaskManageableConcept<TaskManageableType>
+template <typename PhotoBookType, typename T>
+  requires TaskManageableConcept<PhotoBookType>
 class Gallery final {
 public:
-  Gallery(GalleryListener<TaskManageableType, T> &listener)
+  Gallery(GalleryListener<PhotoBookType, T> &listener)
       : mListener(listener)
   {
   }
@@ -83,7 +83,7 @@ private:
     return mediaData.at(key);
   }
 
-  GalleryListener<TaskManageableType, T> &mListener;
+  GalleryListener<PhotoBookType, T> &mListener;
 
   int                             mSelectedFolderIndex = -1;
   int                             mGalleryIndex = -1;

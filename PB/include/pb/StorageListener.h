@@ -7,15 +7,15 @@
 
 namespace PB {
 
-template <typename TaskManageableType, typename T>
-  requires TaskManageableConcept<TaskManageableType>
+template <typename PhotoBookType, typename T>
+  requires TaskManageableConcept<PhotoBookType>
 class PhotoBook;
 
-template <typename TaskManageableType, typename T>
-  requires TaskManageableConcept<TaskManageableType>
+template <typename PhotoBookType, typename T>
+  requires TaskManageableConcept<PhotoBookType>
 class StorageListener final {
 public:
-  StorageListener(PhotoBook<TaskManageableType, T> &parent) : mParent(parent) {}
+  StorageListener(PhotoBook<PhotoBookType, T> &parent) : mParent(parent) {}
   ~StorageListener() = default;
 
   void onLoaded() { mParent.onPersistenceLoaded(); }
@@ -23,6 +23,6 @@ public:
   void onError(Error err) { mParent.onError(err); }
 
 private:
-  PhotoBook<TaskManageableType, T> &mParent;
+  PhotoBook<PhotoBookType, T> &mParent;
 };
 } // namespace PB
