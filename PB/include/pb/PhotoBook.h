@@ -16,7 +16,7 @@
 namespace PB {
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class PhotoBook final {
 public:
   PhotoBook(Settings const settings, PhotoBookType &listener)

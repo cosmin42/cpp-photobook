@@ -5,11 +5,11 @@
 
 namespace PB {
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class GalleryListener final {
 public:
   GalleryListener(PhotoBook<PhotoBookType, T> &parent) : mParent(parent) {}

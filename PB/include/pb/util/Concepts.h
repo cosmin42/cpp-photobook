@@ -7,7 +7,7 @@
 
 namespace PB {
 template <typename T>
-concept TaskManageableConcept = requires(T t) {
+concept PhotoBookConcept = requires(T t) {
   {
     t.onFinished()
   } -> std::same_as<void>;

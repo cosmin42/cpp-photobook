@@ -10,7 +10,7 @@
 namespace PB {
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class Persistence final {
 public:
   Persistence() = default;

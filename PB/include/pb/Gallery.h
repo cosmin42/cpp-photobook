@@ -7,7 +7,7 @@
 namespace PB {
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class Gallery final {
 public:
   Gallery(GalleryListener<PhotoBookType, T> &listener)

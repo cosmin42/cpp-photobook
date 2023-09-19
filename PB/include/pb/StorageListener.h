@@ -8,11 +8,11 @@
 namespace PB {
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class StorageListener final {
 public:
   StorageListener(PhotoBook<PhotoBookType, T> &parent) : mParent(parent) {}

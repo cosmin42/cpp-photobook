@@ -7,11 +7,11 @@
 namespace PB {
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class PhotoBook;
 
 template <typename PhotoBookType, typename T>
-  requires TaskManageableConcept<PhotoBookType>
+  requires PhotoBookConcept<PhotoBookType>
 class MediaMapListener final {
 public:
   explicit MediaMapListener(PhotoBook<PhotoBookType, T> &parent)
