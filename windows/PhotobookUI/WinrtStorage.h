@@ -22,7 +22,7 @@ public:
   ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
-  std::optional<Error> write(Map<std::string, std::string> const &map)
+  std::optional<Error> write([[maybe_unused]] Map<std::string, std::string> const &map)
   {
     /*
     std::string rawData;
