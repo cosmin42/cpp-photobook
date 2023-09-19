@@ -27,8 +27,9 @@ public:
   }
 
 private:
-  ErrorKind mErrorKind = ErrorKind::Unknown;
   std::string mDescription;
+  ErrorKind mErrorKind = ErrorKind::Unknown;
+  uint8_t padding[4];
 };
 
 } // namespace PB
