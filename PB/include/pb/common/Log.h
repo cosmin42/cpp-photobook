@@ -9,6 +9,8 @@ class Context;
 
 class Log {
 public:
+  virtual ~Log() = default;
+
   void printDebug(const char *format, va_list arglist) const;
 
   void printInfo(const char *format, va_list arglist) const;
