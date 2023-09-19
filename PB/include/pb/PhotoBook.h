@@ -21,9 +21,9 @@ template <typename TaskManageableType>
 class PhotoBook final {
 public:
   PhotoBook(Settings const settings, TaskManageableType &listener)
-      : mSettings(settings),
-        mStorageListener(std::ref(*this)), mParent(listener),
-        mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
+      : mSettings(settings), mParent(listener),
+        mStorageListener(std::ref(*this)), mGalleryListener(std::ref(*this)),
+        mGallery(mGalleryListener)
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
   }
@@ -116,14 +116,13 @@ public:
 private:
   std::string mProjectName;
 
-  Settings                                          mSettings;
-  StorageListener<TaskManageableType>               mStorageListener;
-  Persistence<TaskManageableType, PB::WinrtStorage> mPersistence;
+  Settings mSettings;
 
   TaskManageableType &mParent;
-  std::unordered_map<Path,
-                     std::shared_ptr<MediaMapListener<TaskManageableType>>>
-      mListeners;
+
+  StorageListener<TaskManageableType>               mStorageListener;
+  Persistence<TaskManageableType, PB::WinrtStorage> mPersistence;
+  std::unordered_map<Path, std::shared_ptr<MediaMapListener<TaskManageableType>>> mListeners;
 
   std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
 

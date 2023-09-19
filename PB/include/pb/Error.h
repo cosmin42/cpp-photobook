@@ -13,6 +13,7 @@ public:
       : mDescription(other.mDescription), mErrorKind(mErrorKind)
   {
   }
+
   Error(Error &&other) noexcept
       : mDescription(other.mDescription), mErrorKind(mErrorKind)
   {
