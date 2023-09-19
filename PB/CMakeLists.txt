@@ -5,10 +5,12 @@ project(PhotoBookLib)
 option(STATIC_CHECK "Statically check the program." OFF)
 option(LOG_LEVEL "Log level." OFF)
 option(PRINTER_TYPE "The printer type." OFF)
+option(STORAGE_TYPE "The persistence platform." OFF)
 
 if (WIN32)
     add_compile_options(/std:c++20)
     add_compile_options(/EHsc)
+    add_compile_options(/Wall)
 else()
     set(CMAKE_CXX_FLAGS "-std=c++20")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -22,6 +24,11 @@ endif()
 # The default log level
 if (NOT LOG_LEVEL)
     set(LOG_LEVEL Debug)
+endif()
+
+# The default storage type
+if (NOT STORAGE_TYPE)
+    set(STORAGE_TYPE WinrtStorage)
 endif()
 
 set(EXISTING_LOG_LEVELS None Debug Info Warning Error)
@@ -55,6 +62,7 @@ add_library(pblib STATIC
     include/pb/CircularIterator.h
     include/pb/common/Log.h
     include/pb/common/${PRINTER_TYPE}.h
+    include/pb/common/${STORAGE_TYPE}.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
     include/pb/Error.h
