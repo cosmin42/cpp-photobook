@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include <boost/uuid/uuid.hpp>
+
 #include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
@@ -25,6 +27,9 @@ public:
         mGallery(mGalleryListener)
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
+    boost::uuids::uuid newUUID = boost::uuids::random_generator()();
+    mPersistence.cache()["project-name"] = std::string(newUUID);
+    mPersistence.write();
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
@@ -35,7 +40,7 @@ public:
     Context::inst().data().clear();
   }
 
-  void onPersistenceLoaded() {}
+  void onPersistenceLoaded() { printDebug("Persistence loaded.\n"); }
 
   void onError(Error error) { mParent.onError(error); }
 
