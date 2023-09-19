@@ -1,14 +1,21 @@
 #pragma once
 
 #include <pb/common/Log.h>
+#include <pb/Persistence.h>
 #include <pb/util/Timer.h>
+
 #if __has_include(<pb/common/@PRINTER_TYPE@.h>)
-
 #include <pb/common/@PRINTER_TYPE@.h>
-
 #else
 #warning "@PRINTER_TYPE@ doesn't exist"
 #endif
+
+#if __has_include(<pb/common/@STORAGE_TYPE@.h>)
+#include <pb/common/@STORAGE_TYPE@.h>
+#else
+#warning "@STORAGE_TYPE@ doesn't exist"
+#endif
+
 
 #include <pb/DataManager.h>
 
@@ -26,6 +33,8 @@ public:
 
   DataManager& data() { return mDataManager;}
 
+  Persistence<@STORAGE_TYPE@>& persistence() { return mPersistence; }
+
 private:
   Context() = default;
   Context(Context const &) = delete;
@@ -38,6 +47,8 @@ private:
   static Context sContext;
 
   @PRINTER_TYPE@ mLogPrinter;
+
+  Persistence<@STORAGE_TYPE@> mPersistence;
 };
 
 } // namespace PB

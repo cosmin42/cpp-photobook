@@ -10,10 +10,10 @@
 
 namespace PB {
 
-class WinRTStorage final {
+class WinrtStorage final {
 public:
-  WinRTStorage() = default;
-  ~WinRTStorage() = default;
+  WinrtStorage() = default;
+  ~WinrtStorage() = default;
 
   void addListener(std::shared_ptr<StorageListener> listener)
   {
