@@ -18,12 +18,9 @@ public:
   StorageListener(PhotoBook<TaskManageableType> &parent) : mParent(parent) {}
   ~StorageListener() = default;
 
-  template <template <typename, typename> typename Map>
-  void onLoaded(Map<std::string, std::string> &map)
-  {
-  }
+  void onLoaded() { mParent.onPersistenceLoaded(); }
 
-  void onError(Error err) {}
+  void onError(Error err) { mParent.onError(err); }
 
 private:
   PhotoBook<TaskManageableType> &mParent;

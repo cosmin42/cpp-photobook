@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include <pb/common/WinrtStorage.h>
 #include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
@@ -10,6 +9,7 @@
 #include <pb/ImageReader.h>
 #include <pb/Settings.h>
 #include <pb/common/Log.h>
+#include <pb/common/WinrtStorage.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
@@ -21,7 +21,8 @@ template <typename TaskManageableType>
 class PhotoBook final {
 public:
   PhotoBook(Settings const settings, TaskManageableType &listener)
-      : mSettings(settings), mParent(listener),
+      : mSettings(settings),
+        mStorageListener(std::ref(*this)), mParent(listener),
         mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
@@ -34,6 +35,10 @@ public:
     printDebug("Photobook destructed.\n");
     Context::inst().data().clear();
   }
+
+  void onPersistenceLoaded() {}
+
+  void onError(Error error) { mParent.onError(error); }
 
   void addMedia(std::string const &path)
   {
@@ -111,8 +116,8 @@ public:
 private:
   std::string mProjectName;
 
-  Settings mSettings;
-
+  Settings                                          mSettings;
+  StorageListener<TaskManageableType>               mStorageListener;
   Persistence<TaskManageableType, PB::WinrtStorage> mPersistence;
 
   TaskManageableType &mParent;
