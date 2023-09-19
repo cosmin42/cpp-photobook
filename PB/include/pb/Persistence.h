@@ -22,9 +22,9 @@ public:
   void addListener(StorageListener<TaskManageableType> &listener)
   {
     mPersistence.setObserver([&listener](std::optional<Error> out) {
-      if (out)
-          {
-      listener.
+      if (out) {
+        listener.onError();
+      }
     });
   }
 
