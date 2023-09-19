@@ -9,14 +9,13 @@
 #include <pb/ImageReader.h>
 #include <pb/Settings.h>
 #include <pb/common/Log.h>
-#include <pb/common/WinrtStorage.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 
-template <typename TaskManageableType>
+template <typename TaskManageableType, typename T>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook final {
 public:
@@ -49,12 +48,12 @@ public:
                      printDebug("Add media %s\n", path.string().c_str());
 
                      auto ptr =
-                         std::make_shared<MediaMapListener<TaskManageableType>>(
+                         std::make_shared<MediaMapListener<TaskManageableType, T>>(
                              std::ref(*this));
                      mListeners.insert({path, ptr});
                      auto listener = mListeners.at(path);
                      mMappingJobs.emplace(
-                         path, MediaMapper<TaskManageableType>(path, listener));
+                         path, MediaMapper<TaskManageableType, T>(path, listener));
                    },
                    [this](Error error) { mParent.onError(error); }},
         result);
@@ -94,7 +93,7 @@ public:
     // mListeners.erase(path);
   }
 
-  Gallery<TaskManageableType> &gallery() { return mGallery; }
+  Gallery<TaskManageableType, T> &gallery() { return mGallery; }
 
   auto loadImage(std::string const &path) -> std::shared_ptr<cv::Mat>
   {
@@ -120,14 +119,16 @@ private:
 
   TaskManageableType &mParent;
 
-  StorageListener<TaskManageableType>               mStorageListener;
-  Persistence<TaskManageableType, PB::WinrtStorage> mPersistence;
-  std::unordered_map<Path, std::shared_ptr<MediaMapListener<TaskManageableType>>> mListeners;
+  StorageListener<TaskManageableType, T> mStorageListener;
+  Persistence<TaskManageableType, T>     mPersistence;
+  std::unordered_map<Path,
+                     std::shared_ptr<MediaMapListener<TaskManageableType, T>>>
+      mListeners;
 
-  std::unordered_map<Path, MediaMapper<TaskManageableType>> mMappingJobs;
+  std::unordered_map<Path, MediaMapper<TaskManageableType, T>> mMappingJobs;
 
-  GalleryListener<TaskManageableType> mGalleryListener;
-  Gallery<TaskManageableType>         mGallery;
+  GalleryListener<TaskManageableType, T> mGalleryListener;
+  Gallery<TaskManageableType, T>         mGallery;
 
   ImageReader mImageReader;
 };

@@ -10,11 +10,8 @@
 #include <ranges>
 #include <string>
 
+#include <pb/Config.h>
 #include <pb/Error.h>
-
-using namespace winrt;
-using namespace Windows::Foundation;
-using namespace Windows::Storage;
 
 namespace PB {
 
@@ -27,6 +24,7 @@ public:
   template <template <typename, typename> typename Map>
   std::optional<Error> write(Map<std::string, std::string> const &map)
   {
+    /*
     std::string rawData;
 
     for (auto &[key, value] : map) {
@@ -36,6 +34,7 @@ public:
     hstring winData = winrt::to_hstring(rawData);
 
     saveDataToFileAsync(winData);
+    */
     return std::nullopt;
   }
 
@@ -46,6 +45,7 @@ public:
 
   void load()
   {
+    /*
     auto        winData = loadDataFromFileAsync();
     std::string rawData = winrt::to_string(winData.as<winrt::hstring>());
 
@@ -59,7 +59,7 @@ public:
         pair.clear();
       }
     }
-
+    */
     if (mOnLoaded) {
       mOnLoaded(std::nullopt);
     }
@@ -68,25 +68,32 @@ public:
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
 private:
-  IAsyncAction saveDataToFileAsync(const hstring &data)
+  auto saveDataToFileAsync(const winrt::hstring &data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
-    hstring fileName = winrt::to_hstring(Context::inst().persistentFileName());
-    StorageFolder folder = ApplicationData::Current().LocalFolder();
-    StorageFile   file = co_await folder.CreateFileAsync(
-        fileName, CreationCollisionOption::ReplaceExisting);
-    co_await FileIO::WriteTextAsync(file, data);
+    winrt::hstring fileName =
+        winrt::to_hstring(Context::inst().persistentFileName());
+    winrt::Windows::Storage::StorageFolder folder =
+        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+    winrt::Windows::Storage::StorageFile file = co_await folder.CreateFileAsync(
+        fileName,
+        winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
+    co_await winrt::Windows::Storage::FileIO::WriteTextAsync(file, data);
   }
 
-  IAsyncOperation<hstring> loadDataFromFileAsync()
+  auto loadDataFromFileAsync() -> winrt::fire_and_forget
   {
     PB::printDebug("Loading data.\n");
-    hstring fileName = winrt::to_hstring(Context::inst().persistentFileName());
-    StorageFolder folder = ApplicationData::Current().LocalFolder();
-    StorageFile   file = co_await folder.GetFileAsync(fileName);
-    hstring       data = co_await FileIO::ReadTextAsync(file);
-    co_return data;
+    winrt::hstring fileName =
+        winrt::to_hstring(Context::inst().persistentFileName());
+    winrt::Windows::Storage::StorageFolder folder =
+        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+    winrt::Windows::Storage::StorageFile file =
+        co_await folder.GetFileAsync(fileName);
+    winrt::hstring data =
+        co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file);
   }
+
   std::function<void(std::optional<Error>)>    mOnLoaded;
   std::unordered_map<std::string, std::string> mData;
 };

@@ -19,7 +19,7 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  void addListener(StorageListener<TaskManageableType> &listener)
+  void addListener(StorageListener<TaskManageableType, T> &listener)
   {
     mPersistence.setObserver([&listener](std::optional<Error> out) {
       if (out) {

@@ -4,18 +4,18 @@
 #include <pb/util/Concepts.h>
 
 namespace PB {
-template <typename TaskManageableType>
+template <typename TaskManageableType, typename T>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook;
 
-template <typename T>
-  requires TaskManageableConcept<T>
+template <typename TaskManageableType, typename T>
+  requires TaskManageableConcept<TaskManageableType>
 class GalleryListener final {
 public:
-  GalleryListener(PhotoBook<T> &parent) : mParent(parent) {}
+  GalleryListener(PhotoBook<TaskManageableType, T> &parent) : mParent(parent) {}
   ~GalleryListener() = default;
 
 private:
-  PhotoBook<T> &mParent;
+  PhotoBook<TaskManageableType, T> &mParent;
 };
 } // namespace PB

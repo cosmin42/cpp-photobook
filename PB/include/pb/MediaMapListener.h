@@ -6,15 +6,18 @@
 
 namespace PB {
 
-template <typename TaskManageableType>
+template <typename TaskManageableType, typename T>
   requires TaskManageableConcept<TaskManageableType>
 class PhotoBook;
 
-template <typename T>
-  requires TaskManageableConcept<T>
+template <typename TaskManageableType, typename T>
+  requires TaskManageableConcept<TaskManageableType>
 class MediaMapListener final {
 public:
-  explicit MediaMapListener(PhotoBook<T> &parent) : mParent(parent) {}
+  explicit MediaMapListener(PhotoBook<TaskManageableType, T> &parent)
+      : mParent(parent)
+  {
+  }
   ~MediaMapListener() = default;
   void onFinished(MediaMap &newMediaMap, Path &path)
   {
@@ -29,6 +32,6 @@ public:
   void onError(PB::Error error) { mParent.onError(error); }
 
 private:
-  PhotoBook<T> &mParent;
+  PhotoBook<TaskManageableType, T> &mParent;
 };
 } // namespace PB
