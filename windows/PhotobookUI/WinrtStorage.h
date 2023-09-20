@@ -67,6 +67,22 @@ private:
     return std::nullopt;
   }
 
+  template <template <typename, typename> typename Map>
+  std::variant<std::string, Error> serialize(Map<std::string, std::string> const &map)
+  {
+    std::string rawData;
+
+    for (auto &[key, value] : map) {
+      if (key.find("\n") != std::string::npos ||
+          value.find("\n") != std::string::npos) {
+        return Error() << ErrorKind::InvalidPersistenceMap;
+      }
+      rawData = key + "\n" + value + "\n";
+      if (key.)
+    }
+    return rawData;
+  }
+
   auto saveDataToFileAsync(const winrt::hstring &data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
