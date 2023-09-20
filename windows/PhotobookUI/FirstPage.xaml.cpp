@@ -39,6 +39,7 @@ void FirstPage::onPersistenceDataLoaded()
 {
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
+    PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }
 }
 

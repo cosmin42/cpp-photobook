@@ -19,11 +19,15 @@ public:
 
   template <typename T> void addListener(T &listener)
   {
-    mPersistence.setObserver([&listener](std::optional<Error> out) {
+    mPersistence.setObserver([&listener, this](std::optional<Error> out) {
       if (out) {
         listener.onError(out.value());
       }
       else {
+        mCache.clear();
+        auto& cacheRef = mPersistence.data();
+        mCache.insert(cacheRef.begin(), cacheRef.end());
+        cacheRef.clear();
         listener.onLoaded();
       }
     });

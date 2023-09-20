@@ -55,6 +55,10 @@ private:
     std::vector<std::string> pair;
     for (const auto &tokenRange : tokensRanges) {
       auto newStr = std::string(tokenRange.begin(), tokenRange.end());
+      if (newStr.empty())
+      {
+        continue;
+      }
       pair.push_back(newStr);
       if (pair.size() == 2) {
         mData[pair.at(0)] = pair.at(1);
