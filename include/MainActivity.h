@@ -1,4 +1,5 @@
 #pragma once
+
 #include <pb/PhotoBook.h>
 
 namespace BL {
@@ -21,11 +22,18 @@ public:
   ~PlatformSpecificPersistence() = default;
 
   template <template <typename, typename> typename Map>
-  void write([[maybe_unused]] Map<std::string, std::string> const &map)
+  void write(Map<std::string, std::string> const &map)
   {
   }
 
   void load() {}
+
+  void setObserver(std::function<void(std::optional<PB::Error>)> f) {}
+
+  std::unordered_map<std::string, std::string> &data() { return mData; }
+
+private:
+  std::unordered_map<std::string, std::string> mData;
 };
 
 class MainActivity final {
@@ -37,8 +45,8 @@ public:
   ~MainActivity() = default;
 
 private:
-  PB::Settings                     mSettings;
-  PhotoBookListener                mPhotoBookListener;
+  PB::Settings      mSettings;
+  PhotoBookListener mPhotoBookListener;
   PB::PhotoBook<PhotoBookListener, PlatformSpecificPersistence> mPhotoBook;
 };
 } // namespace BL
