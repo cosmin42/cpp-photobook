@@ -10,9 +10,20 @@
     <Grid
         Background="#001C13">
         <Grid
+            x:Name="ProjectsGridName"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <Button
+                Grid.Row="0"
+                Grid.Column="0"
                 x:Name="addProjectButton"
                 Click="addProjectClick"
                 Background="#004C35"
@@ -21,8 +32,11 @@
                 Height="100">
                 +
             </Button>
-            <ListView Name="ProjectsListView"
-              SelectionMode="None">
+            <ListView
+                Grid.Row="0"
+                Grid.Column="1"
+                Name="ProjectsListView"
+                SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid VerticalAlignment="Center">
