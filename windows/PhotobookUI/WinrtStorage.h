@@ -82,7 +82,7 @@ private:
           value.find("\n") != std::string::npos) {
         return Error() << ErrorKind::InvalidPersistenceMap;
       }
-      rawData = key + "\n" + value + "\n";
+      rawData = rawData + key + "\n" + value + "\n";
     }
     return rawData;
   }
