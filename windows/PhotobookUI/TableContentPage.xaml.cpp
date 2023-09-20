@@ -16,7 +16,10 @@
 #include <Shobjidl.h>
 
 #include <winrt/Windows.Storage.Pickers.h>
+#include <winrt/Windows.UI.Popups.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
+
+#include <microsoft.ui.xaml.window.h>
 
 #include <Converter.h>
 #include <pb/common/Log.h>
@@ -66,6 +69,34 @@ auto TableContentPage::fireFolderPicker(
 
   if (folder) {
     onSuccess(NativePB::Converter()(folder.Path()));
+  }
+}
+
+auto TableContentPage::fireSaveFilePicker(
+    HWND                                                      hWnd,
+    std::function<void(std::variant<std::string, PB::Error>)> onReturn)
+    -> winrt::fire_and_forget
+{
+  Windows::Storage::Pickers::FileSavePicker fileSavePicker;
+
+  auto initializeWithWindow{fileSavePicker.as<::IInitializeWithWindow>()};
+  initializeWithWindow->Initialize(hWnd);
+
+  auto plainTextExtensions = winrt::single_threaded_vector<winrt::hstring>();
+  plainTextExtensions.Append(winrt::param::hstring(L".photobook"));
+
+  fileSavePicker.SuggestedStartLocation(PickerLocationId::DocumentsLibrary);
+  fileSavePicker.FileTypeChoices().Insert(L"Text File", plainTextExtensions);
+  fileSavePicker.DefaultFileExtension(L".photobook");
+  fileSavePicker.SuggestedFileName(L"Untitled");
+
+  auto filename{co_await fileSavePicker.PickSaveFileAsync()};
+
+  if (filename) {
+    onReturn(NativePB::Converter()(filename.Path()));
+  }
+  else {
+    onReturn(PB::Error() << PB::ErrorKind::CannotSaveFile);
   }
 }
 
@@ -252,8 +283,17 @@ void TableContentPage::onContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  mPhotoBook.savePhotoBook();
-  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+  fireSaveFilePicker(MainWindow::sMainWindowhandle,
+                     [this](std::variant<std::string, PB::Error> result) {
+                       if (std::holds_alternative<std::string>(result)) {
+                         mPhotoBook.savePhotoBook();
+                         Frame().Navigate(
+                             winrt::xaml_typename<PhotobookUI::FirstPage>());
+                       }
+                       else {
+                         onError(std::get<PB::Error>(result));
+                       }
+                     });
 }
 
 void TableContentPage::onContentDialogDiscardClicked(
