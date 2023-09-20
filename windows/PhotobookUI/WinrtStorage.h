@@ -23,7 +23,7 @@ public:
   ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
-  void write([[maybe_unused]] Map<std::string, std::string> const &map)
+  void write(Map<std::string, std::string> const &map)
   {
     auto dataOrError = serialize<Map>(map);
     if (std::holds_alternative<Error>(dataOrError))
