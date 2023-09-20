@@ -208,6 +208,23 @@
 
             </Border>
 
+            <ContentDialog
+                Title="TITLE"
+                x:Name="ProjectExitDialog"
+                PrimaryButtonText="Save"
+                SecondaryButtonText="Discard"
+                CloseButtonText = "Cancel"
+                PrimaryButtonClick="onContentDialogSaveClicked"
+                SecondaryButtonClick="onContentDialogDiscardClicked"
+                CloseButtonClick="onContentDialogCancelClicked">
+
+                <!-- Content of the ContentDialog -->
+                <StackPanel>
+                    <TextBlock Text="This is a simple ContentDialog in WinUI 3." Margin="0,0,0,10"/>
+                    <TextBox PlaceholderText="Enter something..."/>
+                </StackPanel>
+            </ContentDialog>
+
         </Grid>
         <TextBlock
             Grid.Row="3"
@@ -217,4 +234,5 @@
             Text="Status: Idle"
             HorizontalAlignment="Left"/>
     </Grid>
+
 </Page>

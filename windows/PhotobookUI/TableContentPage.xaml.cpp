@@ -76,11 +76,15 @@ void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
                    [this](std::string path) { mPhotoBook.addMedia(path); });
 }
 
+auto TableContentPage::projectExitDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await ProjectExitDialog().ShowAsync();
+}
+
 void TableContentPage::onBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-
-  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+  projectExitDialogDisplay();
 }
 
 void TableContentPage::onGalleryLeft(
@@ -241,5 +245,30 @@ void TableContentPage::onExportClicked(
 {
   fireFolderPicker(MainWindow::sMainWindowhandle,
                    [this](std::string path) { mPhotoBook.exportAlbum(path); });
+}
+
+void TableContentPage::onContentDialogSaveClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+  mPhotoBook.savePhotoBook();
+  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+}
+
+void TableContentPage::onContentDialogDiscardClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+  mPhotoBook.discardPhotoBook();
+  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+}
+
+void TableContentPage::onContentDialogCancelClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
 }
 } // namespace winrt::PhotobookUI::implementation

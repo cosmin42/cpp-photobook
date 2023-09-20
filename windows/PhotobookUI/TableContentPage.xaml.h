@@ -50,10 +50,27 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasDrawEventArgs const &args);
 
+  auto projectExitDialogDisplay() -> winrt::fire_and_forget;
+
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
+
+  void onContentDialogSaveClicked(
+      Windows::Foundation::IInspectable const &sender,
+      Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
+          &args);
+
+  void onContentDialogDiscardClicked(
+      Windows::Foundation::IInspectable const &sender,
+      Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
+          &args);
+
+  void onContentDialogCancelClicked(
+      Windows::Foundation::IInspectable const &sender,
+      Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
+          &args);
 
   void onFinished();
   void onStopped();
