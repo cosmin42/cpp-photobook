@@ -9,6 +9,7 @@
 #include <optional>
 #include <ranges>
 #include <string>
+#include <variant>
 
 #include <pb/Config.h>
 #include <pb/Error.h>
@@ -22,10 +23,17 @@ public:
   ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
-  void
-  write([[maybe_unused]] Map<std::string, std::string> const &map)
+  void write([[maybe_unused]] Map<std::string, std::string> const &map)
   {
-    auto rawData = serialize(map);
+    auto dataOrError = serialize<Map>(map);
+    if (std::holds_alternative<Error>(dataOrError))
+    {
+      if (mOnLoaded) {
+        mOnLoaded(std::get<Error>(dataOrError));
+      }
+      return;
+    }
+    auto rawData = std::get<std::string>(dataOrError);
     auto winData = winrt::to_hstring(rawData);
 
     saveDataToFileAsync(winData);
