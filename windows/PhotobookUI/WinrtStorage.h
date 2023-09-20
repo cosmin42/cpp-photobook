@@ -46,8 +46,6 @@ public:
 
   void load() { loadDataFromFileAsync(); }
 
-  void onDataLoaded([[maybe_unused]] winrt::hstring winData) {}
-
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
 private:
