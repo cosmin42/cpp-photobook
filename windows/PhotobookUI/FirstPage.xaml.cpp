@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-#include "FirstPage.xaml.h"
+// clang-format off
 #include "pch.h"
+#include "FirstPage.xaml.h"
+
 #if __has_include("FirstPage.g.cpp")
 #include "FirstPage.g.cpp"
 #endif
+// clang-format on
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -16,9 +19,10 @@ using namespace Microsoft::UI::Xaml;
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 namespace winrt::PhotobookUI::implementation {
-FirstPage::FirstPage()
+FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
 {
   InitializeComponent();
+  mPersistence.load();
 }
 
 void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)

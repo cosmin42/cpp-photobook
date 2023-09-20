@@ -11,6 +11,8 @@
 
 namespace winrt::PhotobookUI::implementation {
 
+struct FirstPage;
+
 class AppPersistence final {
 public:
   AppPersistence(FirstPage &parent) : mParent(parent) {}
@@ -30,6 +32,7 @@ struct FirstPage : FirstPageT<FirstPage> {
   void addProjectClick(Windows::Foundation::IInspectable const    &sender,
                        Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  AppPersistence                    mPersistenceListener;
   PB::Persistence<PB::WinrtStorage> mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
