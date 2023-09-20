@@ -26,8 +26,7 @@ class PhotoBook final {
 public:
   PhotoBook(Settings const settings, PhotoBookType &listener)
       : mSettings(settings), mParent(listener),
-        mStorageListener(std::ref(*this)), mGalleryListener(std::ref(*this)),
-        mGallery(mGalleryListener)
+        mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
 
@@ -140,8 +139,7 @@ private:
 
   PhotoBookType &mParent;
 
-  StorageListener<PhotoBookType, PersistenceType> mStorageListener;
-  Persistence<PersistenceType>                    mPersistence;
+  Persistence<PersistenceType> mPersistence;
 
   std::unordered_map<
       Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
