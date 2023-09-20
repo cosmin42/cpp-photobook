@@ -3,6 +3,8 @@
 #include <string>
 
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 #include <pb/DataManager.h>
 #include <pb/Error.h>
@@ -28,7 +30,7 @@ public:
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
     boost::uuids::uuid newUUID = boost::uuids::random_generator()();
-    mPersistence.cache()["project-name"] = std::string(newUUID);
+    mPersistence.cache()["project-name"] = boost::uuids::to_string(newUUID);
     mPersistence.write();
   }
   PhotoBook(PhotoBook const &) = delete;
