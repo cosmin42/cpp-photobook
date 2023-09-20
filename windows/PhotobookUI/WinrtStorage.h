@@ -22,7 +22,8 @@ public:
   ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
-  std::optional<Error> write([[maybe_unused]] Map<std::string, std::string> const &map)
+  std::optional<Error>
+  write([[maybe_unused]] Map<std::string, std::string> const &map)
   {
     /*
     std::string rawData;
@@ -65,14 +66,30 @@ public:
     }
   }
 
-  void onDataLoaded([[maybe_unused]] winrt::hstring winData)
-  {
-
-  }
+  void onDataLoaded([[maybe_unused]] winrt::hstring winData) {}
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
 private:
+  std::optional<Error> parseData(std::string const & rawData)
+  {
+    auto                     tokensRanges = rawData | std::views::split('\n');
+    std::vector<std::string> pair;
+    for (const auto &tokenRange : tokensRanges) {
+      auto newStr = std::string(tokenRange.begin(), tokenRange.end());
+      pair.push_back(newStr);
+      if (pair.size() == 2) {
+        mData[pair.at(0)] = pair.at(1);
+        pair.clear();
+      }
+    }
+    if (pair.size() == 1)
+    {
+      return Error() << ErrorKind::CorruptPersistenceFile;
+    }
+    return std::nullopt;
+  }
+
   auto saveDataToFileAsync(const winrt::hstring &data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
