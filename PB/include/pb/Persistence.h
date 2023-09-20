@@ -23,6 +23,9 @@ public:
       if (out) {
         listener.onError(out.value());
       }
+      else {
+        listener.onLoaded();
+      }
     });
   }
 
