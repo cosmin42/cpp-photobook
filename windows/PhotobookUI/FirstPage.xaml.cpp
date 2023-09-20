@@ -27,8 +27,14 @@ FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
 {
   mProjectsList = winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();
-  mPersistence.addListener<AppPersistence>(mPersistenceListener);
-  mPersistence.load();
+  mPersistence.load([this](std::optional<PB::Error> maybeError) {
+    if (maybeError) {
+      onError(maybeError.value());
+    }
+    else {
+      onPersistenceDataLoaded();
+    }
+  });
 }
 
 void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)

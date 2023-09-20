@@ -32,7 +32,7 @@ public:
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
     boost::uuids::uuid newUUID = boost::uuids::random_generator()();
     mPersistence.cache()[boost::uuids::to_string(newUUID)] = "project-name";
-    mPersistence.write();
+    mPersistence.write([](std::optional<Error>) {});
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;

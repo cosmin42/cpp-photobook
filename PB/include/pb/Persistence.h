@@ -18,25 +18,6 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  template <typename T> void addListener(T &listener)
-  {
-    mPersistence.setObserver([&listener, this](std::optional<Error> out) {
-      if (out) {
-        listener.onError(out.value());
-      }
-      else {
-        mCache.clear();
-        auto &cacheRef = mPersistence.data();
-        mCache.insert(cacheRef.begin(), cacheRef.end());
-        cacheRef.clear();
-        listener.onLoaded();
-      }
-    });
-  }
-
-  void write() { mPersistence.write<std::unordered_map>(mCache); }
-  void load() { mPersistence.load(); }
-
   void write(std::function<void(std::optional<Error>)> f)
   {
     mPersistence.setObserver([f{f}](std::optional<Error> out) {
