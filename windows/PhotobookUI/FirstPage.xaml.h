@@ -18,9 +18,9 @@ public:
   AppPersistence(FirstPage &parent) : mParent(parent) {}
   ~AppPersistence() = default;
 
-  void onLoaded() {}
+  void onLoaded();
 
-  void onError(PB::Error err) {}
+  void onError(PB::Error err);
 
 private:
   FirstPage &mParent;
@@ -31,6 +31,9 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void addProjectClick(Windows::Foundation::IInspectable const    &sender,
                        Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void onPersistenceDataLoaded();
+  void onError(PB::Error err);
 
   AppPersistence                    mPersistenceListener;
   PB::Persistence<PB::WinrtStorage> mPersistence;
