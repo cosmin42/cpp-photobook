@@ -7,6 +7,7 @@
     <Page Include="MainWindow.xaml" />
     <Page Include="TableContentPage.xaml" />
     <Page Include="FirstPage.xaml" />
+    <Page Include="ExitProjectDialog.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />

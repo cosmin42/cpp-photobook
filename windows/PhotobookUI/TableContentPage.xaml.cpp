@@ -79,6 +79,7 @@ void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
 void TableContentPage::onBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
+
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
@@ -241,5 +242,4 @@ void TableContentPage::onExportClicked(
   fireFolderPicker(MainWindow::sMainWindowhandle,
                    [this](std::string path) { mPhotoBook.exportAlbum(path); });
 }
-
 } // namespace winrt::PhotobookUI::implementation

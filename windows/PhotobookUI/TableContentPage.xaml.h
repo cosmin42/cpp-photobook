@@ -13,7 +13,6 @@
 #include <pb/Scheduable.h>
 #include <pb/Settings.h>
 
-
 #include <WinrtStorage.h>
 
 using namespace winrt::Windows::Foundation::Collections;
@@ -73,9 +72,9 @@ private:
 
   void updateGalleryLabel();
 
-  PhotoBookListener                 mListener;
+  PhotoBookListener                                  mListener;
   PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
-  IObservableVector<winrt::hstring> mediaListItemsCollection;
+  IObservableVector<winrt::hstring>                  mediaListItemsCollection;
   winrt::Windows::Foundation::IAsyncOperation<Windows::Storage::StorageFolder>
                                       mFolderAsync;
   std::optional<PB::CircularIterator> mCurrentGalleryIterator = std::nullopt;

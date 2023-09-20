@@ -117,6 +117,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Converter.h" />
+    <ClInclude Include="ExitProjectDialog.xaml.h">
+      <DependentUpon>ExitProjectDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
     <ClInclude Include="FirstPage.xaml.h">
       <DependentUpon>FirstPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -137,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
+    <Page Include="ExitProjectDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FirstPage.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -146,6 +153,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ExitProjectDialog.xaml.cpp">
+      <DependentUpon>ExitProjectDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
     <ClCompile Include="FirstPage.xaml.cpp">
       <DependentUpon>FirstPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -170,6 +181,10 @@
     <Midl Include="App.idl">
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
+    </Midl>
+    <Midl Include="ExitProjectDialog.idl">
+      <DependentUpon>ExitProjectDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Midl>
     <Midl Include="FirstPage.idl">
       <DependentUpon>FirstPage.xaml</DependentUpon>
