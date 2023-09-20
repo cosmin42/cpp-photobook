@@ -5,6 +5,8 @@
 
 #include "FirstPage.g.h"
 
+#include <WinrtStorage.h>
+
 #include <pb/Persistence.h>
 
 namespace winrt::PhotobookUI::implementation {
@@ -27,6 +29,8 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void addProjectClick(Windows::Foundation::IInspectable const    &sender,
                        Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  PB::Persistence<PB::WinrtStorage> mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
 
