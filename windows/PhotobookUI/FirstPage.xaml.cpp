@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-#include "pch.h"
 #include "FirstPage.xaml.h"
+#include "pch.h"
 #if __has_include("FirstPage.g.cpp")
 #include "FirstPage.g.cpp"
 #endif
@@ -15,16 +15,14 @@ using namespace Microsoft::UI::Xaml;
 
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
-namespace winrt::PhotobookUI::implementation
+namespace winrt::PhotobookUI::implementation {
+FirstPage::FirstPage()
 {
-    FirstPage::FirstPage()
-    {
-        InitializeComponent();
-    }
+  InitializeComponent();
+}
 
-    void FirstPage::addProjectClick(IInspectable const &,
-                                     RoutedEventArgs const &)
-    {
-        Frame().Navigate(winrt::xaml_typename<TableContentPage>());
-    }
-    }
+void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
+{
+  Frame().Navigate(winrt::xaml_typename<TableContentPage>());
+}
+} // namespace winrt::PhotobookUI::implementation
