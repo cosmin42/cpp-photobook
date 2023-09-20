@@ -30,6 +30,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void onExportClicked(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void onBackClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
@@ -39,18 +42,13 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void onExportClicked(Windows::Foundation::IInspectable const    &sender,
-                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
-
-  void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
-                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
-
   void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasControl const &sender,
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasDrawEventArgs const &args);
 
-  auto projectExitDialogDisplay() -> winrt::fire_and_forget;
+  void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
+                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
@@ -71,6 +69,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       Windows::Foundation::IInspectable const &sender,
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
           &args);
+
+  auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
   void onStopped();
