@@ -19,7 +19,7 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
-  void addListener(StorageListener<PhotoBookType, PersistenceType> &listener)
+  template <typename T> void addListener(T &listener)
   {
     mPersistence.setObserver([&listener](std::optional<Error> out) {
       if (out) {
