@@ -5,20 +5,31 @@
 
 #include "FirstPage.g.h"
 
-namespace winrt::PhotobookUI::implementation
-{
-    struct FirstPage : FirstPageT<FirstPage>
-    {
-        FirstPage();
+#include <pb/Persistence.h>
 
-        void addProjectClick(Windows::Foundation::IInspectable const    &sender,
-                             Microsoft::UI::Xaml::RoutedEventArgs const &args);
-    };
-}
+namespace winrt::PhotobookUI::implementation {
 
-namespace winrt::PhotobookUI::factory_implementation
-{
-    struct FirstPage : FirstPageT<FirstPage, implementation::FirstPage>
-    {
-    };
-}
+class AppPersistence final {
+public:
+  AppPersistence(FirstPage &parent) : mParent(parent) {}
+  ~AppPersistence() = default;
+
+  void onLoaded() {}
+
+  void onError(PB::Error err) {}
+
+private:
+  FirstPage &mParent;
+};
+
+struct FirstPage : FirstPageT<FirstPage> {
+  FirstPage();
+
+  void addProjectClick(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+};
+} // namespace winrt::PhotobookUI::implementation
+
+namespace winrt::PhotobookUI::factory_implementation {
+struct FirstPage : FirstPageT<FirstPage, implementation::FirstPage> {};
+} // namespace winrt::PhotobookUI::factory_implementation
