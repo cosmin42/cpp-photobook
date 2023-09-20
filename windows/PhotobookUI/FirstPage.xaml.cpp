@@ -26,6 +26,7 @@ void AppPersistence::onError(PB::Error err) { mParent.onError(err); }
 FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
 {
   InitializeComponent();
+  mPersistence.addListener<AppPersistence>(mPersistenceListener);
   mPersistence.load();
 }
 

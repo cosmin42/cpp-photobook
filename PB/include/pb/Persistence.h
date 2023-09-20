@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -8,14 +9,22 @@
 
 namespace PB {
 
-template <typename PersistenceType>
-class Persistence final {
+template <typename PersistenceType> class Persistence final {
 public:
   Persistence() = default;
   Persistence(Persistence const &) = delete;
   Persistence(Persistence &&) noexcept = delete;
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
+
+  template <typename T> void addListener(T &listener)
+  {
+    mPersistence.setObserver([&listener](std::optional<Error> out) {
+      if (out) {
+        listener.onError(out.value());
+      }
+    });
+  }
 
   void write() { mPersistence.write<std::unordered_map>(mCache); }
   void load() { mPersistence.load(); }
