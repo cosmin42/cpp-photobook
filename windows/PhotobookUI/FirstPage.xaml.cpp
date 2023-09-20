@@ -19,11 +19,7 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::PhotobookUI::implementation {
 
-void AppPersistence::onLoaded() { mParent.onPersistenceDataLoaded(); }
-
-void AppPersistence::onError(PB::Error err) { mParent.onError(err); }
-
-FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
+FirstPage::FirstPage()
 {
   mProjectsList = winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();

@@ -13,21 +13,6 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct FirstPage;
-
-class AppPersistence final {
-public:
-  AppPersistence(FirstPage &parent) : mParent(parent) {}
-  ~AppPersistence() = default;
-
-  void onLoaded();
-
-  void onError(PB::Error err);
-
-private:
-  FirstPage &mParent;
-};
-
 struct FirstPage : FirstPageT<FirstPage> {
   FirstPage();
 
@@ -39,7 +24,6 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   IObservableVector<winrt::hstring> mProjectsList;
 
-  AppPersistence                    mPersistenceListener;
   PB::Persistence<PB::WinrtStorage> mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
