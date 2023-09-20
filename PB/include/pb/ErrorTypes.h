@@ -1,5 +1,5 @@
 #pragma once
 
 namespace PB {
-enum class ErrorKind { Unknown, InvalidFile, FileDoesNotExist , NotADirectory, InputOutputFilesNotSet, CorruptPersistenceFile};
+enum class ErrorKind { Unknown, InvalidFile, FileDoesNotExist , NotADirectory, InputOutputFilesNotSet, CorruptPersistenceFile, InvalidPersistenceMap};
 } // namespace PB
