@@ -31,10 +31,11 @@
                             </Grid.ColumnDefinitions>
                             <Button
                                 Grid.Column="0"
-                                Background="#004C35"
                                 Content="{Binding}"
-                                x:Name="Project"
-                                Foreground="#FFFFFF"/>
+                                Background="#004C35"
+                                Foreground="#FFFFFF"
+                                Width="100"
+                                Height="100"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
