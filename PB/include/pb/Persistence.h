@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -25,7 +26,7 @@ public:
       }
       else {
         mCache.clear();
-        auto& cacheRef = mPersistence.data();
+        auto &cacheRef = mPersistence.data();
         mCache.insert(cacheRef.begin(), cacheRef.end());
         cacheRef.clear();
         listener.onLoaded();
@@ -35,6 +36,21 @@ public:
 
   void write() { mPersistence.write<std::unordered_map>(mCache); }
   void load() { mPersistence.load(); }
+
+  void load(std::function<void(std::optional<Error>)> f)
+  {
+    mPersistence.setObserver([f{f}, this](std::optional<Error> out) {
+      if (!out) {
+        mCache.clear();
+        auto &cacheRef = mPersistence.data();
+        mCache.insert(cacheRef.begin(), cacheRef.end());
+        cacheRef.clear();
+      }
+      f(out);
+    });
+
+    mPersistence.load();
+  }
 
   std::unordered_map<std::string, std::string> &cache() { return mCache; }
 
