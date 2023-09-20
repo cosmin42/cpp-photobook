@@ -39,8 +39,10 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
 void FirstPage::onPersistenceDataLoaded()
 {
+  mProjectsList.Clear();
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
+    mProjectsList.Append(winrt::to_hstring(key));
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }
 }
