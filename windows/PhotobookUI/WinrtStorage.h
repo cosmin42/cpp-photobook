@@ -22,29 +22,21 @@ public:
   ~WinrtStorage() = default;
 
   template <template <typename, typename> typename Map>
-  std::optional<Error>
+  void
   write([[maybe_unused]] Map<std::string, std::string> const &map)
   {
-    /*
-    std::string rawData;
-
-    for (auto &[key, value] : map) {
-      rawData = key + "\n" + value + "\n";
-    }
-
-    hstring winData = winrt::to_hstring(rawData);
+    auto rawData = serialize(map);
+    auto winData = winrt::to_hstring(rawData);
 
     saveDataToFileAsync(winData);
-    */
-    return std::nullopt;
   }
+
+  void load() { loadDataFromFileAsync(); }
 
   void setObserver(std::function<void(std::optional<Error>)> f)
   {
     mOnLoaded = f;
   }
-
-  void load() { loadDataFromFileAsync(); }
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
@@ -68,7 +60,8 @@ private:
   }
 
   template <template <typename, typename> typename Map>
-  std::variant<std::string, Error> serialize(Map<std::string, std::string> const &map)
+  std::variant<std::string, Error>
+  serialize(Map<std::string, std::string> const &map)
   {
     std::string rawData;
 
@@ -78,12 +71,11 @@ private:
         return Error() << ErrorKind::InvalidPersistenceMap;
       }
       rawData = key + "\n" + value + "\n";
-      if (key.)
     }
     return rawData;
   }
 
-  auto saveDataToFileAsync(const winrt::hstring &data) -> winrt::fire_and_forget
+  auto saveDataToFileAsync(const winrt::hstring data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
     winrt::hstring fileName =
