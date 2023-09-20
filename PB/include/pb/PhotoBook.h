@@ -30,9 +30,17 @@ public:
         mGallery(mGalleryListener)
   {
     printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
-    boost::uuids::uuid newUUID = boost::uuids::random_generator()();
-    mPersistence.cache()[boost::uuids::to_string(newUUID)] = "project-name";
-    mPersistence.write([](std::optional<Error>) {});
+
+    mPersistence.load([this](std::optional<Error> maybeError) {
+      if (maybeError) {
+        onError(maybeError.value());
+      }
+      else {
+        boost::uuids::uuid newUUID = boost::uuids::random_generator()();
+        mPersistence.cache()[boost::uuids::to_string(newUUID)] = "project-name";
+        mPersistence.write([](std::optional<Error>) {});
+      }
+    });
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
