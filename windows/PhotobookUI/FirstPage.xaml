@@ -21,6 +21,24 @@
                 Height="100">
                 +
             </Button>
+            <ListView Name="ProjectsListView"
+              SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Grid.Column="0"
+                                Background="#004C35"
+                                Content="{Binding}"
+                                x:Name="Project"
+                                Foreground="#FFFFFF"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Page>
