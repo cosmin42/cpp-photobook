@@ -44,34 +44,14 @@ public:
     mOnLoaded = f;
   }
 
-  void load()
-  {
-    /*
-    auto        winData = loadDataFromFileAsync();
-    std::string rawData = winrt::to_string(winData.as<winrt::hstring>());
-
-    auto                     tokensRanges = rawData | std::views::split('\n');
-    std::vector<std::string> pair;
-    for (const auto &tokenRange : tokensRanges) {
-      auto newStr = std::string(tokenRange.begin(), tokenRange.end());
-      pair.push_back(newStr);
-      if (pair.size() == 2) {
-        mData[pair.at(0)] = pair.at(1);
-        pair.clear();
-      }
-    }
-    */
-    if (mOnLoaded) {
-      mOnLoaded(std::nullopt);
-    }
-  }
+  void load() { loadDataFromFileAsync(); }
 
   void onDataLoaded([[maybe_unused]] winrt::hstring winData) {}
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
 private:
-  std::optional<Error> parseData(std::string const & rawData)
+  std::optional<Error> parseData(std::string const &rawData)
   {
     auto                     tokensRanges = rawData | std::views::split('\n');
     std::vector<std::string> pair;
@@ -83,8 +63,7 @@ private:
         pair.clear();
       }
     }
-    if (pair.size() == 1)
-    {
+    if (pair.size() == 1) {
       return Error() << ErrorKind::CorruptPersistenceFile;
     }
     return std::nullopt;
@@ -114,6 +93,12 @@ private:
         co_await folder.GetFileAsync(fileName);
     winrt::hstring data =
         co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file);
+
+    std::string rawData = winrt::to_string(data);
+    auto        maybeError = parseData(rawData);
+    if (mOnLoaded) {
+      mOnLoaded(maybeError);
+    }
   }
 
   std::function<void(std::optional<Error>)>    mOnLoaded;
