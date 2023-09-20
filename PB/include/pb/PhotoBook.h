@@ -120,6 +120,10 @@ public:
     PB::printDebug("Export image to %s", path.c_str());
   }
 
+  void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
+
+  void savePhotoBook() { PB::printDebug("Save Photobook\n"); }
+
 private:
   std::string mProjectName;
 
