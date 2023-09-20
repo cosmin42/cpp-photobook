@@ -37,6 +37,14 @@ public:
   void write() { mPersistence.write<std::unordered_map>(mCache); }
   void load() { mPersistence.load(); }
 
+  void write(std::function<void(std::optional<Error>)> f)
+  {
+    mPersistence.setObserver([f{f}](std::optional<Error> out) {
+      f(out);
+    });
+    mPersistence.write<std::unordered_map>(mCache);
+  }
+
   void load(std::function<void(std::optional<Error>)> f)
   {
     mPersistence.setObserver([f{f}, this](std::optional<Error> out) {
