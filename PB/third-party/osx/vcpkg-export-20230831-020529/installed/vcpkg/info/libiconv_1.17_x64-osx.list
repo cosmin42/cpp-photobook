@@ -1,7 +1,0 @@
-x64-osx/
-x64-osx/share/
-x64-osx/share/iconv/
-x64-osx/share/iconv/vcpkg-cmake-wrapper.cmake
-x64-osx/share/libiconv/
-x64-osx/share/libiconv/vcpkg.spdx.json
-x64-osx/share/libiconv/vcpkg_abi_info.txt

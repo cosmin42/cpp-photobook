@@ -1,9 +1,0 @@
-x64-osx/
-x64-osx/share/
-x64-osx/share/opencv/
-x64-osx/share/opencv/OpenCVConfig-version.cmake
-x64-osx/share/opencv/OpenCVConfig.cmake
-x64-osx/share/opencv/OpenCVModules-release.cmake
-x64-osx/share/opencv/OpenCVModules.cmake
-x64-osx/share/opencv/vcpkg.spdx.json
-x64-osx/share/opencv/vcpkg_abi_info.txt

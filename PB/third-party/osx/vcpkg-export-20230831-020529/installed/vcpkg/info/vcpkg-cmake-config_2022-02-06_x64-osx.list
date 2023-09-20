@@ -1,8 +1,0 @@
-x64-osx/
-x64-osx/share/
-x64-osx/share/vcpkg-cmake-config/
-x64-osx/share/vcpkg-cmake-config/copyright
-x64-osx/share/vcpkg-cmake-config/vcpkg-port-config.cmake
-x64-osx/share/vcpkg-cmake-config/vcpkg.spdx.json
-x64-osx/share/vcpkg-cmake-config/vcpkg_abi_info.txt
-x64-osx/share/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
