@@ -3,8 +3,7 @@
 
 namespace BL {
 
-class PhotoBookListener
-{
+class PhotoBookListener final {
 public:
   void onFinished() {}
   void onStopped() {}
@@ -16,6 +15,19 @@ public:
   void onError(PB::Error error) {}
 };
 
+class PlatformSpecificPersistence final {
+public:
+  PlatformSpecificPersistence() = default;
+  ~PlatformSpecificPersistence() = default;
+
+  template <template <typename, typename> typename Map>
+  void write([[maybe_unused]] Map<std::string, std::string> const &map)
+  {
+  }
+
+  void load() {}
+};
+
 class MainActivity final {
 public:
   MainActivity() : mSettings(), mPhotoBook(mSettings, mPhotoBookListener) {}
@@ -25,8 +37,8 @@ public:
   ~MainActivity() = default;
 
 private:
-  PB::Settings                         mSettings;
-  PhotoBookListener           mPhotoBookListener;
-  PB::PhotoBook<PhotoBookListener> mPhotoBook;
+  PB::Settings                     mSettings;
+  PhotoBookListener                mPhotoBookListener;
+  PB::PhotoBook<PhotoBookListener, PlatformSpecificPersistence> mPhotoBook;
 };
 } // namespace BL
