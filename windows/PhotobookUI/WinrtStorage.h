@@ -26,8 +26,7 @@ public:
   void write(Map<std::string, std::string> const &map)
   {
     auto dataOrError = serialize<Map>(map);
-    if (std::holds_alternative<Error>(dataOrError))
-    {
+    if (std::holds_alternative<Error>(dataOrError)) {
       if (mOnLoaded) {
         mOnLoaded(std::get<Error>(dataOrError));
       }
@@ -55,8 +54,7 @@ private:
     std::vector<std::string> pair;
     for (const auto &tokenRange : tokensRanges) {
       auto newStr = std::string(tokenRange.begin(), tokenRange.end());
-      if (newStr.empty())
-      {
+      if (newStr.empty()) {
         continue;
       }
       pair.push_back(newStr);
@@ -107,6 +105,15 @@ private:
         winrt::to_hstring(Context::inst().persistentFileName());
     winrt::Windows::Storage::StorageFolder folder =
         winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+
+    auto result = co_await folder.TryGetItemAsync(fileName);
+
+    if (!result) {
+      winrt::Windows::Storage::StorageFile file =
+          co_await folder.CreateFileAsync(
+              fileName, winrt::Windows::Storage::CreationCollisionOption::
+                            ReplaceExisting);
+    }
     winrt::Windows::Storage::StorageFile file =
         co_await folder.GetFileAsync(fileName);
     winrt::hstring data =
