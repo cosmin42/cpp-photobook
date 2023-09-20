@@ -25,6 +25,8 @@ void AppPersistence::onError(PB::Error err) { mParent.onError(err); }
 
 FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
 {
+  mProjectsList =
+      winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();
   mPersistence.addListener<AppPersistence>(mPersistenceListener);
   mPersistence.load();

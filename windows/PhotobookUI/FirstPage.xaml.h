@@ -9,6 +9,8 @@
 
 #include <pb/Persistence.h>
 
+using namespace winrt::Windows::Foundation::Collections;
+
 namespace winrt::PhotobookUI::implementation {
 
 struct FirstPage;
@@ -34,6 +36,8 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void onPersistenceDataLoaded();
   void onError(PB::Error err);
+
+  IObservableVector<winrt::hstring> mProjectsList;
 
   AppPersistence                    mPersistenceListener;
   PB::Persistence<PB::WinrtStorage> mPersistence;
