@@ -25,8 +25,7 @@ void AppPersistence::onError(PB::Error err) { mParent.onError(err); }
 
 FirstPage::FirstPage() : mPersistenceListener(std::ref(*this))
 {
-  mProjectsList =
-      winrt::single_threaded_observable_vector<winrt::hstring>();
+  mProjectsList = winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();
   mPersistence.addListener<AppPersistence>(mPersistenceListener);
   mPersistence.load();
@@ -45,6 +44,8 @@ void FirstPage::onPersistenceDataLoaded()
     mProjectsList.Append(winrt::to_hstring(key));
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }
+
+  ProjectsListView().ItemsSource(mProjectsList);
 }
 
 void FirstPage::onError(PB::Error err)
