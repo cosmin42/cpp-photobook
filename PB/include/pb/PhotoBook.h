@@ -12,6 +12,7 @@
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
 #include <pb/Settings.h>
+#include <pb/StorageListener.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -132,7 +133,7 @@ private:
   PhotoBookType &mParent;
 
   StorageListener<PhotoBookType, PersistenceType> mStorageListener;
-  Persistence<PhotoBookType, PersistenceType>     mPersistence;
+  Persistence<PersistenceType>                    mPersistence;
 
   std::unordered_map<
       Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
