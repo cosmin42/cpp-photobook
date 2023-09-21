@@ -10,11 +10,9 @@ This project should be able to generate a pdf photobook based on a folder struct
 
 ### Windows
 Install the required packages using vcpkg:
-```vcpkg install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows  expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows```
+```install-prerequisites.bat```
 
-Go to ```cpp-photobook\PB```
-
-Run ```cmake -B [build directory] -S . -DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake -DLOG_LEVEL=Debug```
+Run ```build-pblib.bat```
 
 Open the solution file from ```cpp-photobook\windows\PhotoBookUI```
 
