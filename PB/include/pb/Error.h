@@ -10,12 +10,12 @@ class [[nodiscard]] Error final {
 public:
   Error() = default;
   Error(Error const &other)
-      : mDescription(other.mDescription), mErrorKind(mErrorKind)
+      : mDescription(other.mDescription), mErrorKind(ErrorKind::Unknown)
   {
   }
 
   Error(Error &&other) noexcept
-      : mDescription(other.mDescription), mErrorKind(mErrorKind)
+      : mDescription(other.mDescription), mErrorKind(ErrorKind::Unknown)
   {
   }
 
@@ -48,7 +48,7 @@ public:
 private:
   std::string mDescription = "";
   ErrorKind   mErrorKind = ErrorKind::Unknown;
-  uint8_t     padding[4];
+  [[maybe_unused]] uint8_t     padding[4];
 };
 
 } // namespace PB
