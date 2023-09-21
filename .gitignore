@@ -24,3 +24,4 @@ windows/CppProjection/bin/*
 windows/PhotobookUI/bin/*
 osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
 vcpkg/*
+vcpkg
