@@ -20,7 +20,7 @@ public:
 
   static constexpr LogLevel logLevel() { return LogLevel::@LOG_LEVEL@; }
 
-  static constexpr const char* persistentFile() { return "persistent.txt"; }
+  static constexpr const char* persistentFileName() { return "persistent.txt"; }
 
   Log const &printer() { return mLogPrinter; }
 
