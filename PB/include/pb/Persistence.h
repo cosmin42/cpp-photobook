@@ -23,7 +23,7 @@ public:
     mPersistence.setObserver([f{f}](std::optional<Error> out) {
       f(out);
     });
-    mPersistence.write<std::unordered_map>(mCache);
+    mPersistence.template write<std::unordered_map>(mCache);
   }
 
   void load(std::function<void(std::optional<Error>)> f)
