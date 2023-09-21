@@ -1,4 +1,5 @@
 #pragma once
+#include <stop_token>
 
 #include <pb/common/Log.h>
 #include <pb/Persistence.h>

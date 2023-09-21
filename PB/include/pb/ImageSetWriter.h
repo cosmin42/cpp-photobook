@@ -37,7 +37,7 @@ public:
     if (!std::filesystem::create_directories(path)) {
       // on error
     }
-    writeImages(writeImages);
+    writeImages(images);
   }
 
   template <template <typename> typename T>
@@ -54,7 +54,7 @@ public:
 
   template <template <typename, typename> typename T>
   void writeImages(T<Path, std::shared_ptr<cv::Mat>> const &images,
-                   Path const                              &folder) const
+                   Path                                     folder) const
   {
     int counter = 0;
     for (auto [key, value] : images) {
@@ -74,7 +74,7 @@ private:
     }
   }
 
-  Path makePath(Path path, int counter)
+  Path makePath(Path path, int counter) const
   {
     const std::string prefix = "image_";
     std::string       fileNameStr = prefix + std::to_string(counter) + ".jpg";
