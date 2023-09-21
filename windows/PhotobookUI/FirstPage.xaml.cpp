@@ -56,8 +56,9 @@ void FirstPage::onError(PB::Error err)
 }
 
 void FirstPage::OnListViewRightTapped(
-    winrt::Windows::Foundation::IInspectable const &,
-    winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &e)
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]]  winrt::Microsoft::UI::Xaml::Input::
+        RightTappedRoutedEventArgs const &e)
 {
 }
 
