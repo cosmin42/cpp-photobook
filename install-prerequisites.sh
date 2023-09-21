@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -d "vcpkg" ];
+then
+    echo "vcpkg directory already exists."
+else
+	git clone https://github.com/microsoft/vcpkg.git
+    cd vcpkg
+    git checkout 2023.08.09
+    ./bootstrap-vcpkg.sh
+    ./vcpkg install boost-program-options:x64-osx boost-uuid:x64-osx brotli:x64-osx opencv:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx
+    ./vcpkg integrate install
+    cd ..
+fi
