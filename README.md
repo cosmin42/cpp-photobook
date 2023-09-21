@@ -19,26 +19,14 @@ Open the solution file from ```cpp-photobook\windows\PhotoBookUI```
 
 ### macOS
 
-The default macOS clang compiler does not support the latest c++ features so llvm is needed.
+g++-13 compiler is needed.
+Install the required packages using vcpkg:
+```./install-prerequisites.sh```
 
-```brew install llvm```
+Run ```build-pblib.sh```
 
-Add LLVM to path:
-```export PATH=/usr/local/Cellar/llvm/16.0.6/bin:$PATH```
-
-```./vcpkg install boost-program-options:x64-osx opencv:x64-osx boost-uuid:x64-osx  expat:x64-osx brotli:x64-osx inih:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx```
-
-Go to ```cpp-photobook```
-
-```
-cmake -B [build directory] -S . \
--DCMAKE_TOOLCHAIN_FILE=[path to vcpkg]/scripts/buildsystems/vcpkg.cmake \
--DLOG_LEVEL=Debug \
--DCMAKE_C_COMPILER=clang \
--DCMAKE_CXX_COMPILER=clang++
-```
-
-```cmake --build [build directory]```
+Go to PB/build
+Run ```make -j4```
 
 Run ```./PhotoBook``` from the build folder.
 
