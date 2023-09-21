@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+#include <winrt/Microsoft.UI.Xaml.Input.h>
+
 #include "FirstPage.g.h"
 
 #include <WinrtStorage.h>
@@ -21,6 +24,10 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void onPersistenceDataLoaded();
   void onError(PB::Error err);
+
+  void OnListViewRightTapped(
+      winrt::Windows::Foundation::IInspectable const &,
+      winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
 
   IObservableVector<winrt::hstring> mProjectsList;
 

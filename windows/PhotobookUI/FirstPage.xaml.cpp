@@ -54,4 +54,11 @@ void FirstPage::onError(PB::Error err)
 {
   PB::printError("Error occured on the first page.\n");
 }
+
+void FirstPage::OnListViewRightTapped(
+    winrt::Windows::Foundation::IInspectable const &,
+    winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &e)
+{
+}
+
 } // namespace winrt::PhotobookUI::implementation

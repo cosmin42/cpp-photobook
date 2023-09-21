@@ -36,6 +36,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Name="ProjectsListView"
+                RightTapped="OnListViewRightTapped"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
