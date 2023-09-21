@@ -58,7 +58,7 @@ public:
     return inputImage;
   }
 
-  void loadBuffer([[maybe_unused]] CircularIterator iterator)
+  void loadBuffer(CircularIterator iterator)
   {
     if (!iterator.valid()) {
       return;

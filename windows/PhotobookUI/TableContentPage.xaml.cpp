@@ -139,8 +139,8 @@ void TableContentPage::onGalleryRight(
 void TableContentPage::CanvasControlDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasControl const &sender,
-    [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
-        CanvasDrawEventArgs const &args)
+    winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const
+        &args)
 {
   auto session = args.DrawingSession();
 
@@ -206,9 +206,9 @@ void TableContentPage::onFinished()
 }
 
 void TableContentPage::onFoldersSelectionChanged(
-    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &object,
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
-        SelectionChangedEventArgs const &eventArgs)
+        SelectionChangedEventArgs const &)
 {
   auto index = MediaListView().SelectedIndex();
 
@@ -271,17 +271,17 @@ void TableContentPage::onAddToTableClicked(
 }
 
 void TableContentPage::onExportClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
   fireFolderPicker(MainWindow::sMainWindowhandle,
                    [this](std::string path) { mPhotoBook.exportAlbum(path); });
 }
 
 void TableContentPage::onContentDialogSaveClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-        ContentDialogButtonClickEventArgs const &args)
+        ContentDialogButtonClickEventArgs const &)
 {
   fireSaveFilePicker(MainWindow::sMainWindowhandle,
                      [this](std::variant<std::string, PB::Error> result) {
@@ -297,18 +297,18 @@ void TableContentPage::onContentDialogSaveClicked(
 }
 
 void TableContentPage::onContentDialogDiscardClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-        ContentDialogButtonClickEventArgs const &args)
+        ContentDialogButtonClickEventArgs const &)
 {
   mPhotoBook.discardPhotoBook();
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
 void TableContentPage::onContentDialogCancelClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-        ContentDialogButtonClickEventArgs const &args)
+        ContentDialogButtonClickEventArgs const &)
 {
 }
 } // namespace winrt::PhotobookUI::implementation
