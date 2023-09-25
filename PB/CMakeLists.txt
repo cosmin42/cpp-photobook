@@ -76,6 +76,7 @@ add_library(pblib STATIC
     include/pb/Gallery.h
     include/pb/Persistence.h
     include/pb/PhotoBook.h
+    include/pb/Project.h
     include/pb/Scheduable.h
     include/pb/Settings.h
     include/pb/StorageListener.h
