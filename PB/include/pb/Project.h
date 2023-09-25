@@ -12,6 +12,17 @@ struct ProjectDetails {
   boost::uuids::uuid uuid;
   std::string        name;
   Path               parentDirectory;
+
+  operator std::unordered_map<std::string, std::string>()
+  {
+    std::unordered_map<std::string, std::string> result;
+
+    result["project-uuid"] = boost::uuids::to_string(uuid);
+    result["project-name"] = name;
+    result["project-path"] = parentDirectory.string();
+
+    return result;
+  }
 };
 
 template <typename PersistenceType> class Project final {
