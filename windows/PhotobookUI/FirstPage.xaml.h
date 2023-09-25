@@ -11,6 +11,7 @@
 #include <WinrtStorage.h>
 
 #include <pb/Persistence.h>
+#include <pb/Project.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -32,6 +33,7 @@ struct FirstPage : FirstPageT<FirstPage> {
   IObservableVector<winrt::hstring> mProjectsList;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
+  PB::ProjectsSet<PB::WinrtStorage> detectedProjects;
 };
 } // namespace winrt::PhotobookUI::implementation
 
