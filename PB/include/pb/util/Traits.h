@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 #include <utility>
 
 namespace PB {
@@ -29,5 +30,15 @@ auto compose(HeadFn &&f, TailFn &&...tailF)
 typedef std::filesystem::path Path;
 
 template <typename T> void Unused(T &&) {}
+
+template <template <typename, typename> typename M, typename KeyType,
+          typename ValueType>
+std::optional<ValueType> mapGet(M<KeyType, ValueType> &&map, KeyType &&value)
+{
+  if (map.find(value) == map.end()) {
+    return std::nullopt;
+  }
+  return map.at(value);
+}
 
 } // namespace PB
