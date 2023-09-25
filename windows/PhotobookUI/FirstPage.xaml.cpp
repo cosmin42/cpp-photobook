@@ -9,6 +9,8 @@
 #endif
 // clang-format on
 
+#include <fstream>
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -38,6 +40,10 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
   auto newProject = detectedProjects.create();
 
   auto [uuidStr, path] = newProject.locationData();
+
+  std::ofstream ofs(path + "\\" + uuidStr + ".photobook");
+  ofs << "";
+  ofs.close();
 
   auto newUUIDWin = winrt::to_hstring(uuidStr);
   auto boxed = winrt::box_value(newUUIDWin);
