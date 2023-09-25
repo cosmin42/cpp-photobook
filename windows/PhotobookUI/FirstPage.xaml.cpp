@@ -39,8 +39,10 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
   auto newUUID = boost::uuids::to_string(newProject.details().uuid);
   auto newUUIDWin = winrt::to_hstring(newUUID);
+  auto boxed = winrt::box_value(newUUIDWin);
+
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(),
-                   winrt::box_value(newUUIDWin));
+                   boxed);
 }
 
 void FirstPage::onPersistenceDataLoaded()
@@ -62,7 +64,7 @@ void FirstPage::onError(PB::Error err)
 
 void FirstPage::OnListViewRightTapped(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
-    [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
+    [[maybe_unused]]  winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
 {
 }
