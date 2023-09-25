@@ -273,7 +273,7 @@ void TableContentPage::onAddToTableClicked(
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
-  std::string uuid =
+  std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 }
 
