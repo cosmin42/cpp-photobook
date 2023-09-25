@@ -40,4 +40,17 @@ public:
 private:
   ProjectDetails mProjectDetails;
 };
+
+template <typename PersistenceType> class ProjectsSet {
+public:
+  void create()
+  {
+    Project<PersistenceType> newProject;
+    mSet[newProject.details().uuid] = newProject;
+  }
+
+private:
+  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>> mSet;
+};
+
 } // namespace PB
