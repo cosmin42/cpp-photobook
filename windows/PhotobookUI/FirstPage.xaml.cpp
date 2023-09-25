@@ -37,12 +37,17 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = detectedProjects.create();
 
-  auto newUUID = boost::uuids::to_string(newProject.details().uuid);
-  auto newUUIDWin = winrt::to_hstring(newUUID);
+  auto [uuidStr, path] = newProject.locationData();
+
+  auto newUUIDWin = winrt::to_hstring(uuidStr);
   auto boxed = winrt::box_value(newUUIDWin);
 
-  Frame().Navigate(winrt::xaml_typename<TableContentPage>(),
-                   boxed);
+  mPersistence.cache()[uuidStr] = path;
+  mPersistence.write([](std::optional<PB::Error>) {
+    PB::printError("Error writing into peristence.\n");
+  });
+
+  Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
 }
 
 void FirstPage::onPersistenceDataLoaded()
@@ -64,7 +69,7 @@ void FirstPage::onError(PB::Error err)
 
 void FirstPage::OnListViewRightTapped(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
-    [[maybe_unused]]  winrt::Microsoft::UI::Xaml::Input::
+    [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
 {
 }
