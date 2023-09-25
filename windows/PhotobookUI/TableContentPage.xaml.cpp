@@ -270,8 +270,15 @@ void TableContentPage::onAddToTableClicked(
 {
 }
 
+void TableContentPage::OnNavigatedTo(
+    Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
+{
+  std::string uuid =
+      winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
+}
+
 void TableContentPage::onExportClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const    &,
+    [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
   fireFolderPicker(MainWindow::sMainWindowhandle,

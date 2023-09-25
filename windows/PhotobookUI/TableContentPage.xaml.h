@@ -50,11 +50,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
-  {
-    std::string uuid =
-        winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
-  }
+  void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
   void onFoldersSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
