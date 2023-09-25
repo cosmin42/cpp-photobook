@@ -49,6 +49,11 @@ public:
     mSet[newProject.details().uuid] = newProject;
   }
 
+  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>> &set()
+  {
+    return mSet;
+  }
+
 private:
   std::unordered_map<boost::uuids::uuid, Project<PersistenceType>> mSet;
 };
