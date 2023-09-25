@@ -41,12 +41,14 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
   auto [uuidStr, path] = newProject.locationData();
 
-  std::ofstream ofs(path + "\\" + uuidStr + ".photobook");
+  auto fullPath = path + "\\" + uuidStr + ".photobook";
+
+  std::ofstream ofs(fullPath);
   ofs << "";
   ofs.close();
 
-  auto newUUIDWin = winrt::to_hstring(uuidStr);
-  auto boxed = winrt::box_value(newUUIDWin);
+  auto newPathWin = winrt::to_hstring(fullPath);
+  auto boxed = winrt::box_value(newPathWin);
 
   mPersistence.cache()[uuidStr] = path;
   mPersistence.write([](std::optional<PB::Error>) {
