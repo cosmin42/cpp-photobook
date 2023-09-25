@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/functional/hash.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -26,7 +27,7 @@ struct ProjectDetails {
 };
 
 static std::variant<ProjectDetails, Error>
-convert(std::unordered_map<std::string, std::string> const& map)
+convert(std::unordered_map<std::string, std::string> const &map)
 {
   ProjectDetails projectDetails;
 
@@ -92,19 +93,31 @@ private:
 
 template <typename PersistenceType> class ProjectsSet {
 public:
-  void create()
+  Project<PersistenceType> create()
   {
     Project<PersistenceType> newProject;
     mSet[newProject.details().uuid] = newProject;
+    return newProject;
   }
 
-  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>> &set()
+  std::optional<Error>
+  load(std::unordered_map<std::string, std::string> const &map)
+  {
+    for (auto &[uuid, path] : map) {
+    }
+  }
+
+  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>,
+                     boost::hash<boost::uuids::uuid>> &
+  set()
   {
     return mSet;
   }
 
 private:
-  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>> mSet;
+  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>,
+                     boost::hash<boost::uuids::uuid>>
+      mSet;
 };
 
 } // namespace PB
