@@ -45,6 +45,14 @@ public:
     mOnLoaded = f;
   }
 
+  static std::string localFolder()
+  {
+    winrt::Windows::Storage::StorageFolder folder =
+        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+
+    return winrt::to_string(folder.Path());
+  }
+
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
 private:
