@@ -83,6 +83,11 @@ public:
     mProjectDetails.name = "Untitled";
     mProjectDetails.parentDirectory = PersistenceType::localFolder();
   }
+
+  explicit Project(ProjectDetails const &projectDetails) : mProjectDetails(projectDetails)
+  {
+  }
+
   ~Project() = default;
 
   ProjectDetails &details() { return mProjectDetails; }
