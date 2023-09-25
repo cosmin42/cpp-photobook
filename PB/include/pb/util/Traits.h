@@ -31,9 +31,9 @@ typedef std::filesystem::path Path;
 
 template <typename T> void Unused(T &&) {}
 
-template <template <typename, typename> typename M, typename KeyType,
-          typename ValueType>
-std::optional<ValueType> mapGet(M<KeyType, ValueType> &&map, KeyType &&value)
+template <template <typename...> typename M, typename KeyType,
+          typename ValueType, typename...>
+std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map, KeyType &&value)
 {
   if (map.find(value) == map.end()) {
     return std::nullopt;
