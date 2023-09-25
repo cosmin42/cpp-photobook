@@ -14,12 +14,13 @@ struct ProjectDetails {
   Path               parentDirectory;
 };
 
-class Project final {
+template <typename PersistenceType> class Project final {
 public:
   Project()
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name = "Untitled";
+    mProjectDetails.parentDirectory = PersistenceType::localFolder();
   }
   ~Project() = default;
 
