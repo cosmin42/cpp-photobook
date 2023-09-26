@@ -55,9 +55,10 @@ public:
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
 
-private:
-  std::optional<Error> parseData(std::string const &rawData)
+  std::variant<std::unordered_map<std::string, std::string>, Error>
+  parseData(std::string const &rawData)
   {
+    std::unordered_map<std::string, std::string> parsed;
     auto                     tokensRanges = rawData | std::views::split('\n');
     std::vector<std::string> pair;
     for (const auto &tokenRange : tokensRanges) {
@@ -67,15 +68,17 @@ private:
       }
       pair.push_back(newStr);
       if (pair.size() == 2) {
-        mData[pair.at(0)] = pair.at(1);
+        parsed[pair.at(0)] = pair.at(1);
         pair.clear();
       }
     }
     if (pair.size() == 1) {
       return Error() << ErrorKind::CorruptPersistenceFile;
     }
-    return std::nullopt;
+    return parsed;
   }
+
+private:
 
   template <template <typename, typename> typename Map>
   std::variant<std::string, Error>
@@ -128,9 +131,16 @@ private:
         co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file);
 
     std::string rawData = winrt::to_string(data);
-    auto        maybeError = parseData(rawData);
+    auto        responseOrError = parseData(rawData);
     if (mOnLoaded) {
-      mOnLoaded(maybeError);
+      if (std::holds_alternative<Error>(responseOrError)) {
+        mOnLoaded(std::get<Error>(responseOrError));
+      }
+      else {
+        auto &newData = std::get<std::unordered_map<std::string, std::string>>(
+            responseOrError);
+        mData.insert(newData.begin(), newData.end());
+      }
     }
   }
 
