@@ -29,6 +29,20 @@ public:
         mCache, [f{f}](std::optional<Error> out) { f(out); });
   }
 
+  void write(std::string directory, std::string fileName, std::function<void(std::optional<Error>)> f)
+  {
+    mPersistence.template write<std::unordered_map>(
+        directory, fileName, mCache, [f{f}](std::optional<Error> out) { f(out); });
+  }
+
+  void write(Path directory, Path fileName,
+             std::function<void(std::optional<Error>)> f)
+  {
+    mPersistence.template write<std::unordered_map>(
+        directory, fileName, mCache,
+        [f{f}](std::optional<Error> out) { f(out); });
+  }
+
   void load(std::function<void(std::optional<Error>)> f)
   {
     mPersistence.setObserver([f{f}, this](std::optional<Error> out) {
