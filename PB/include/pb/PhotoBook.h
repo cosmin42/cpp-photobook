@@ -162,6 +162,13 @@ public:
         mProject.details().name;
     mPersistence.write([](std::optional<Error>) {});
 
+    std::ofstream ofs(newPath.string());
+    for (auto &[key, value] : mProject.details().operator std::unordered_map<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, std::allocator<std::pair<const std::string, std::string>>>()) {
+      ofs << key << "\n" << value << "\n";
+    }
+
+    ofs.close();
+
     PB::printDebug("Save Photobook %s\n", newName.c_str());
   }
 
