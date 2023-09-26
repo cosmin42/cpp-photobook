@@ -275,6 +275,8 @@ void TableContentPage::OnNavigatedTo(
 {
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
+
+  mPhotoBook.loadProject(PB::Path(fullPath));
 }
 
 void TableContentPage::onExportClicked(

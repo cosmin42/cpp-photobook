@@ -11,6 +11,7 @@
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
+#include <pb/Project.h>
 #include <pb/Settings.h>
 #include <pb/StorageListener.h>
 #include <pb/common/Log.h>
@@ -34,11 +35,6 @@ public:
       if (maybeError) {
         onError(maybeError.value());
       }
-      else {
-        boost::uuids::uuid newUUID = boost::uuids::random_generator()();
-        mPersistence.cache()[boost::uuids::to_string(newUUID)] = "project-name";
-        mPersistence.write([](std::optional<Error>) {});
-      }
     });
   }
   PhotoBook(PhotoBook const &) = delete;
@@ -48,6 +44,32 @@ public:
   {
     printDebug("Photobook destructed.\n");
     Context::inst().data().clear();
+  }
+
+  void loadProject(Path const &path)
+  {
+    mPersistence.load(
+        path,
+        [this](std::variant<std::unordered_map<std::string, std::string>, Error>
+                   mapOrError) {
+          if (std::holds_alternative<Error>(mapOrError)) {
+          }
+          else {
+            auto &map = std::get<std::unordered_map<std::string, std::string>>(
+                mapOrError);
+
+            auto projectDetailsOrError = PB::convert(map);
+
+            if (std::holds_alternative<Error>(projectDetailsOrError)) {
+            }
+            else {
+              auto &projectDetails =
+                  std::get<ProjectDetails>(projectDetailsOrError);
+
+              mProject = Project<PersistenceType>(projectDetails);
+            }
+          }
+        });
   }
 
   void onPersistenceLoaded() { printDebug("Persistence loaded.\n"); }
@@ -133,13 +155,13 @@ public:
   void savePhotoBook() { PB::printDebug("Save Photobook\n"); }
 
 private:
-  std::string mProjectName;
-
   Settings mSettings;
 
   PhotoBookType &mParent;
 
   Persistence<PersistenceType> mPersistence;
+
+  Project<PersistenceType> mProject;
 
   std::unordered_map<
       Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
