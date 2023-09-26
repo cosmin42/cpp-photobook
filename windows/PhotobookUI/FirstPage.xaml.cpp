@@ -39,12 +39,18 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = detectedProjects.create();
 
+  auto serializedProject =
+      std::unordered_map<std::string, std::string>(newProject.details());
+
   auto [uuidStr, path] = newProject.locationData();
 
   auto fullPath = path + "\\" + uuidStr + ".photobook";
 
   std::ofstream ofs(fullPath);
-  ofs << "";
+  for (auto &[key, value] : serializedProject) {
+    ofs << key << "\n" << value << "\n";
+  }
+
   ofs.close();
 
   auto newPathWin = winrt::to_hstring(fullPath);
