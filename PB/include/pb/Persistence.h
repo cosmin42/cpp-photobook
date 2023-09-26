@@ -82,6 +82,7 @@ private:
 template <> class Persistence<void> final {
 public:
   Persistence() = default;
+  explicit Persistence(Path const &path) : mLocalFile(path) {}
   Persistence(Persistence const &) = delete;
   Persistence(Persistence &&) noexcept = delete;
   Persistence &operator=(Persistence const &) = delete;
