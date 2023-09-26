@@ -5,8 +5,10 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <variant>
 
 #include <pb/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 
@@ -39,6 +41,20 @@ public:
     });
 
     mPersistence.load();
+  }
+
+  void
+  load(Path path,
+       std::function<void(
+           std::variant<std::unordered_map<std::string, std::string>, Error>)>
+           f)
+  {
+    std::ifstream     t(path);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+
+    auto parsedMapOrError = mPersistence.parseData(buffer.str());
+    f(parsedMapOrError);
   }
 
   std::unordered_map<std::string, std::string> &cache() { return mCache; }
