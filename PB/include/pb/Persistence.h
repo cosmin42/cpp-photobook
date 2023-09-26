@@ -13,7 +13,7 @@
 
 namespace PB {
 
-template <typename PersistenceType> class Persistence final {
+template <typename PersistenceType = void> class Persistence final {
 public:
   Persistence() = default;
   Persistence(Persistence const &) = delete;
@@ -29,10 +29,12 @@ public:
         mCache, [f{f}](std::optional<Error> out) { f(out); });
   }
 
-  void write(std::string directory, std::string fileName, std::function<void(std::optional<Error>)> f)
+  void write(std::string directory, std::string fileName,
+             std::function<void(std::optional<Error>)> f)
   {
     mPersistence.template write<std::unordered_map>(
-        directory, fileName, mCache, [f{f}](std::optional<Error> out) { f(out); });
+        directory, fileName, mCache,
+        [f{f}](std::optional<Error> out) { f(out); });
   }
 
   void write(Path directory, Path fileName,
@@ -75,6 +77,57 @@ public:
 private:
   std::unordered_map<std::string, std::string> mCache;
   PersistenceType                              mPersistence;
+};
+
+template <> class Persistence<void> final {
+public:
+  Persistence() = default;
+  Persistence(Persistence const &) = delete;
+  Persistence(Persistence &&) noexcept = delete;
+  Persistence &operator=(Persistence const &) = delete;
+  ~Persistence() = default;
+
+  Persistence &setLocalFolder(Path const &path)
+  {
+    mLocalFile = path;
+    return *this;
+  }
+
+  void write(std::function<void(std::optional<Error>)> f)
+  {
+
+    write(mLocalFile, f);
+  }
+
+  void write(std::string path,
+             std::function<void(std::optional<Error>)> f)
+  {
+    write(Path(path), f);
+  }
+
+  void write(Path path, std::function<void(std::optional<Error>)> f)
+  {
+    std::ofstream ofs(path.string());
+
+    if (!ofs.is_open())
+    {
+      f(Error() << ErrorKind::FileDoesNotExist);
+      return;
+    }
+
+    for (auto &[key, value] : mCache) {
+      ofs << key << "\n" << value << "\n";
+    }
+    ofs.close();
+
+    f(std::nullopt);
+  }
+
+  std::unordered_map<std::string, std::string> &cache() { return mCache; }
+
+private:
+  std::unordered_map<std::string, std::string> mCache;
+  Path                                         mLocalFile;
 };
 
 } // namespace PB
