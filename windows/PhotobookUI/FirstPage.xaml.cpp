@@ -44,7 +44,7 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
   auto [uuidStr, path] = newProject.locationData();
 
-  auto fullPath = path + "\\" + uuidStr;
+  auto fullPath = path + "\\" + newProject.details().name;
 
   std::ofstream ofs(fullPath);
   for (auto &[key, value] : serializedProject) {

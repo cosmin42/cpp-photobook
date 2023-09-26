@@ -155,6 +155,7 @@ public:
   void savePhotoBook(std::string const &newName)
   {
     Path newPath = newName;
+    Path oldPath = mProject.details().parentDirectory / mProject.details().name;
     mProject.details().name = newPath.filename().string();
     mProject.details().parentDirectory = newPath.parent_path();
 
@@ -168,6 +169,8 @@ public:
     }
 
     ofs.close();
+
+    std::filesystem::remove(oldPath);
 
     PB::printDebug("Save Photobook %s\n", newName.c_str());
   }
