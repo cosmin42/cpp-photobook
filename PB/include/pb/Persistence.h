@@ -122,6 +122,11 @@ public:
     f(std::nullopt);
   }
 
+  void load(std::function<void(std::optional<Error>)> f)
+  {
+    load(mLocalFile, f);
+  }
+
   void load(Path path, std::function<void(std::optional<Error>)> f)
   {
     std::ifstream file(path);
