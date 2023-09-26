@@ -20,7 +20,6 @@ using namespace winrt::Windows::Storage;
 
 class WinrtStorage final {
 public:
-
   static std::string localFolder()
   {
     StorageFolder folder = ApplicationData::Current().LocalFolder();
@@ -30,12 +29,13 @@ public:
 
   template <template <typename, typename> typename Map>
   void write(Path directory, Path fileName,
-             Map<std::string, std::string> const &map)
+             Map<std::string, std::string> const      &map,
+             std::function<void(std::optional<Error>)> onFinish)
   {
     auto dataOrError = serialize<Map>(map);
     if (std::holds_alternative<Error>(dataOrError)) {
-      if (mOnLoaded) {
-        mOnLoaded(std::get<Error>(dataOrError));
+      if (onFinish) {
+        onFinish(std::get<Error>(dataOrError));
       }
       return;
     }
@@ -50,15 +50,18 @@ public:
 
   template <template <typename, typename> typename Map>
   void write(std::string const &directory, std::string const &fileName,
-             Map<std::string, std::string> const &map)
+             Map<std::string, std::string> const      &map,
+             std::function<void(std::optional<Error>)> onFinish)
   {
-    write<Map>(Path(directory), Path(fileName), map);
+    write<Map>(Path(directory), Path(fileName), map, onFinish);
   }
 
   template <template <typename, typename> typename Map>
-  void write(Map<std::string, std::string> const &map)
+  void write(Map<std::string, std::string> const      &map,
+             std::function<void(std::optional<Error>)> onFinish)
   {
-    write<Map>(localFolder(), Context::inst().persistentFileName(), map);
+    write<Map>(localFolder(), Context::inst().persistentFileName(), map,
+               onFinish);
   }
 
   void load() { loadDataFromFileAsync(); }
