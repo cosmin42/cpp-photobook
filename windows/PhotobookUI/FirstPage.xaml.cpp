@@ -9,8 +9,6 @@
 #endif
 // clang-format on
 
-#include <fstream>
-
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -46,20 +44,22 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
   auto fullPath = path + "\\" + newProject.details().name;
 
-  std::ofstream ofs(fullPath);
-  for (auto &[key, value] : serializedProject) {
-    ofs << key << "\n" << value << "\n";
-  }
+  PB::Persistence<void> newProjectPersistence(fullPath);
 
-  ofs.close();
+  newProjectPersistence.cache().insert(serializedProject.begin(),
+                                       serializedProject.end());
 
-  auto newPathWin = winrt::to_hstring(fullPath);
-  auto boxed = winrt::box_value(newPathWin);
+  newProjectPersistence.write([](std::optional<PB::Error>) {
+    PB::printError("Error writing into peristence.\n");
+  });
 
   mPersistence.cache()[uuidStr] = path;
   mPersistence.write([](std::optional<PB::Error>) {
     PB::printError("Error writing into peristence.\n");
   });
+
+  auto newPathWin = winrt::to_hstring(fullPath);
+  auto boxed = winrt::box_value(newPathWin);
 
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
 }

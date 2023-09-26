@@ -49,7 +49,7 @@ public:
   void loadProject(Path const &path)
   {
     Persistence<void> projectPersistence(path);
-    projectPersistence.load([&projectPersistence](
+    projectPersistence.load([this, &projectPersistence](
                                 std::optional<Error> maybeError) {
       if (!maybeError) {
         auto projectDetailsOrError = PB::convert(projectPersistence.cache());
@@ -157,18 +157,12 @@ public:
         mProject.details().name;
     mPersistence.write([](std::optional<Error>) {});
 
-    std::ofstream ofs(newPath.string());
-    for (auto &[key, value] :
-         mProject.details()
-             .
-             operator std::unordered_map<
-                 std::string, std::string, std::hash<std::string>,
-                 std::equal_to<std::string>,
-                 std::allocator<std::pair<const std::string, std::string>>>()) {
-      ofs << key << "\n" << value << "\n";
-    }
+    auto projectDetailsMap =
+        std::unordered_map<std::string, std::string>(mProject.details());
 
-    ofs.close();
+    Persistence<void> persistence(newPath);
+    persistence.cache().insert(projectDetailsMap.begin(),
+                               projectDetailsMap.end());
 
     std::filesystem::remove(oldPath);
 
