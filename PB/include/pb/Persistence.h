@@ -21,11 +21,11 @@ public:
   Persistence &operator=(Persistence const &) = delete;
   ~Persistence() = default;
 
+  static std::string localFolder() { return PersistenceType::localFolder(); }
+
   void write(std::function<void(std::optional<Error>)> f)
   {
-    mPersistence.setObserver([f{f}](std::optional<Error> out) {
-      f(out);
-    });
+    mPersistence.setObserver([f{f}](std::optional<Error> out) { f(out); });
     mPersistence.template write<std::unordered_map>(mCache);
   }
 
