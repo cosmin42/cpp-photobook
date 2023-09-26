@@ -22,8 +22,24 @@ public:
 
   ~WinrtStorage() = default;
 
+  static std::string localFolder()
+  {
+    winrt::Windows::Storage::StorageFolder folder =
+        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+
+    return winrt::to_string(folder.Path());
+  }
+
   template <template <typename, typename> typename Map>
-  void write(Map<std::string, std::string> const &map)
+  void write(std::string const &directory, std::string const &fileName,
+             Map<std::string, std::string> const &map)
+  {
+    write<Map>(Path(directory), Path(fileName), map);
+  }
+
+  template <template <typename, typename> typename Map>
+  void write(Path directory, Path fileName,
+             Map<std::string, std::string> const &map)
   {
     auto dataOrError = serialize<Map>(map);
     if (std::holds_alternative<Error>(dataOrError)) {
@@ -35,7 +51,16 @@ public:
     auto rawData = std::get<std::string>(dataOrError);
     auto winData = winrt::to_hstring(rawData);
 
-    saveDataToFileAsync(winData);
+    winrt::hstring directoryWinStr = winrt::to_hstring(directory.string());
+    winrt::hstring fileNameWinStr = winrt::to_hstring(fileName.string());
+
+    saveDataToFileAsync(directoryWinStr, fileNameWinStr, winData);
+  }
+
+  template <template <typename, typename> typename Map>
+  void write(Map<std::string, std::string> const &map)
+  {
+    write<Map>(localFolder(), Context::inst().persistentFileName(), map);
   }
 
   void load() { loadDataFromFileAsync(); }
@@ -43,14 +68,6 @@ public:
   void setObserver(std::function<void(std::optional<Error>)> f)
   {
     mOnLoaded = f;
-  }
-
-  static std::string localFolder()
-  {
-    winrt::Windows::Storage::StorageFolder folder =
-        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
-
-    return winrt::to_string(folder.Path());
   }
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
@@ -79,7 +96,6 @@ public:
   }
 
 private:
-
   template <template <typename, typename> typename Map>
   std::variant<std::string, Error>
   serialize(Map<std::string, std::string> const &map)
@@ -96,13 +112,14 @@ private:
     return rawData;
   }
 
-  auto saveDataToFileAsync(const winrt::hstring data) -> winrt::fire_and_forget
+  auto saveDataToFileAsync(const winrt::hstring directory,
+                           const winrt::hstring fileName,
+                           const winrt::hstring data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
-    winrt::hstring fileName =
-        winrt::to_hstring(Context::inst().persistentFileName());
     winrt::Windows::Storage::StorageFolder folder =
-        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+        co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(
+            directory);
     winrt::Windows::Storage::StorageFile file = co_await folder.CreateFileAsync(
         fileName,
         winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
