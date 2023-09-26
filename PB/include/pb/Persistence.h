@@ -45,7 +45,7 @@ public:
 
   void load(std::function<void(std::optional<Error>)> f)
   {
-    mPersistence.setObserver([f{f}, this](std::optional<Error> out) {
+    mPersistence.load([f{f}, this](std::optional<Error> out) {
       if (!out) {
         mCache.clear();
         auto &cacheRef = mPersistence.data();
@@ -54,8 +54,6 @@ public:
       }
       f(out);
     });
-
-    mPersistence.load();
   }
 
   void

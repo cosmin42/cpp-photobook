@@ -64,11 +64,9 @@ public:
                onFinish);
   }
 
-  void load() { loadDataFromFileAsync(); }
-
-  void setObserver(std::function<void(std::optional<Error>)> f)
+  void load(std::function<void(std::optional<Error>)> onFinished)
   {
-    mOnLoaded = f;
+    loadDataFromFileAsync(onFinished);
   }
 
   std::unordered_map<std::string, std::string> &data() { return mData; }
@@ -125,7 +123,9 @@ private:
     co_await FileIO::WriteTextAsync(file, data);
   }
 
-  auto loadDataFromFileAsync() -> winrt::fire_and_forget
+  auto
+  loadDataFromFileAsync(std::function<void(std::optional<Error>)> onFinished)
+      -> winrt::fire_and_forget
   {
     PB::printDebug("Loading data.\n");
     winrt::hstring fileName =
@@ -143,9 +143,9 @@ private:
 
     std::string rawData = winrt::to_string(data);
     auto        responseOrError = parseData(rawData);
-    if (mOnLoaded) {
+    if (onFinished) {
       if (std::holds_alternative<Error>(responseOrError)) {
-        mOnLoaded(std::get<Error>(responseOrError));
+        onFinished(std::get<Error>(responseOrError));
       }
       else {
         auto &newData = std::get<std::unordered_map<std::string, std::string>>(
@@ -155,7 +155,6 @@ private:
     }
   }
 
-  std::function<void(std::optional<Error>)>    mOnLoaded;
   std::unordered_map<std::string, std::string> mData;
 };
 } // namespace PB
