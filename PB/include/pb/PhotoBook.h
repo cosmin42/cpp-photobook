@@ -48,28 +48,22 @@ public:
 
   void loadProject(Path const &path)
   {
-    mPersistence.load(
-        path,
-        [this](std::variant<std::unordered_map<std::string, std::string>, Error>
-                   mapOrError) {
-          if (std::holds_alternative<Error>(mapOrError)) {
-          }
-          else {
-            auto &map = std::get<std::unordered_map<std::string, std::string>>(
-                mapOrError);
+    Persistence<void> projectPersistence(path);
+    projectPersistence.load([&projectPersistence](
+                                std::optional<Error> maybeError) {
+      if (!maybeError) {
+        auto projectDetailsOrError = PB::convert(projectPersistence.cache());
 
-            auto projectDetailsOrError = PB::convert(map);
+        if (std::holds_alternative<Error>(projectDetailsOrError)) {
+        }
+        else {
+          auto &projectDetails =
+              std::get<ProjectDetails>(projectDetailsOrError);
 
-            if (std::holds_alternative<Error>(projectDetailsOrError)) {
-            }
-            else {
-              auto &projectDetails =
-                  std::get<ProjectDetails>(projectDetailsOrError);
-
-              mProject = Project<PersistenceType>(projectDetails);
-            }
-          }
-        });
+          mProject = Project<PersistenceType>(projectDetails);
+        }
+      }
+    });
   }
 
   void onPersistenceLoaded() { printDebug("Persistence loaded.\n"); }
@@ -164,7 +158,13 @@ public:
     mPersistence.write([](std::optional<Error>) {});
 
     std::ofstream ofs(newPath.string());
-    for (auto &[key, value] : mProject.details().operator std::unordered_map<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, std::allocator<std::pair<const std::string, std::string>>>()) {
+    for (auto &[key, value] :
+         mProject.details()
+             .
+             operator std::unordered_map<
+                 std::string, std::string, std::hash<std::string>,
+                 std::equal_to<std::string>,
+                 std::allocator<std::pair<const std::string, std::string>>>()) {
       ofs << key << "\n" << value << "\n";
     }
 
