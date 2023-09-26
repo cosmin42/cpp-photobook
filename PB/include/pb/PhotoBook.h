@@ -152,7 +152,18 @@ public:
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
-  void savePhotoBook() { PB::printDebug("Save Photobook\n"); }
+  void savePhotoBook(std::string const &newName)
+  {
+    Path newPath = newName;
+    mProject.details().name = newPath.filename().string();
+    mProject.details().parentDirectory = newPath.parent_path();
+
+    mPersistence.cache()[boost::uuids::to_string(mProject.details().uuid)] =
+        mProject.details().name;
+    mPersistence.write([](std::optional<Error>) {});
+
+    PB::printDebug("Save Photobook %s\n", newName.c_str());
+  }
 
 private:
   Settings mSettings;

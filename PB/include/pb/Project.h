@@ -80,7 +80,7 @@ public:
   Project()
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
-    mProjectDetails.name = "Untitled";
+    mProjectDetails.name = "Untitled.photobook";
     mProjectDetails.parentDirectory = PersistenceType::localFolder();
   }
 
