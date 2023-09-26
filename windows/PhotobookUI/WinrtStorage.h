@@ -16,25 +16,16 @@
 
 namespace PB {
 
+using namespace winrt::Windows::Storage;
+
 class WinrtStorage final {
 public:
-  WinrtStorage() {}
-
-  ~WinrtStorage() = default;
 
   static std::string localFolder()
   {
-    winrt::Windows::Storage::StorageFolder folder =
-        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+    StorageFolder folder = ApplicationData::Current().LocalFolder();
 
     return winrt::to_string(folder.Path());
-  }
-
-  template <template <typename, typename> typename Map>
-  void write(std::string const &directory, std::string const &fileName,
-             Map<std::string, std::string> const &map)
-  {
-    write<Map>(Path(directory), Path(fileName), map);
   }
 
   template <template <typename, typename> typename Map>
@@ -55,6 +46,13 @@ public:
     winrt::hstring fileNameWinStr = winrt::to_hstring(fileName.string());
 
     saveDataToFileAsync(directoryWinStr, fileNameWinStr, winData);
+  }
+
+  template <template <typename, typename> typename Map>
+  void write(std::string const &directory, std::string const &fileName,
+             Map<std::string, std::string> const &map)
+  {
+    write<Map>(Path(directory), Path(fileName), map);
   }
 
   template <template <typename, typename> typename Map>
@@ -117,13 +115,11 @@ private:
                            const winrt::hstring data) -> winrt::fire_and_forget
   {
     PB::printDebug("Saving data.\n");
-    winrt::Windows::Storage::StorageFolder folder =
-        co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(
-            directory);
-    winrt::Windows::Storage::StorageFile file = co_await folder.CreateFileAsync(
-        fileName,
-        winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
-    co_await winrt::Windows::Storage::FileIO::WriteTextAsync(file, data);
+    StorageFolder folder =
+        co_await StorageFolder::GetFolderFromPathAsync(directory);
+    StorageFile file = co_await folder.CreateFileAsync(
+        fileName, CreationCollisionOption::ReplaceExisting);
+    co_await FileIO::WriteTextAsync(file, data);
   }
 
   auto loadDataFromFileAsync() -> winrt::fire_and_forget
@@ -131,21 +127,16 @@ private:
     PB::printDebug("Loading data.\n");
     winrt::hstring fileName =
         winrt::to_hstring(Context::inst().persistentFileName());
-    winrt::Windows::Storage::StorageFolder folder =
-        winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+    StorageFolder folder = ApplicationData::Current().LocalFolder();
 
     auto result = co_await folder.TryGetItemAsync(fileName);
 
     if (!result) {
-      winrt::Windows::Storage::StorageFile file =
-          co_await folder.CreateFileAsync(
-              fileName, winrt::Windows::Storage::CreationCollisionOption::
-                            ReplaceExisting);
+      StorageFile file = co_await folder.CreateFileAsync(
+          fileName, CreationCollisionOption::ReplaceExisting);
     }
-    winrt::Windows::Storage::StorageFile file =
-        co_await folder.GetFileAsync(fileName);
-    winrt::hstring data =
-        co_await winrt::Windows::Storage::FileIO::ReadTextAsync(file);
+    StorageFile    file = co_await folder.GetFileAsync(fileName);
+    winrt::hstring data = co_await FileIO::ReadTextAsync(file);
 
     std::string rawData = winrt::to_string(data);
     auto        responseOrError = parseData(rawData);
