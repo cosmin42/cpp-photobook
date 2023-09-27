@@ -13,7 +13,6 @@
 #include <pb/ImageReader.h>
 #include <pb/Project.h>
 #include <pb/Settings.h>
-#include <pb/StorageListener.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>

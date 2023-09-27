@@ -64,8 +64,6 @@ add_library(pblib STATIC
     include/pb/Enums.h
     include/pb/FileMapper.h
     include/pb/GalleryListener.h
-    include/pb/Geometry.h
-    include/pb/GradualControllable.h
     include/pb/ImageReader.h
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
@@ -74,12 +72,10 @@ add_library(pblib STATIC
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
     include/pb/Gallery.h
-    include/pb/Persistence.h
+    include/pb/persistence/Persistence.h
     include/pb/PhotoBook.h
     include/pb/Project.h
-    include/pb/Scheduable.h
     include/pb/Settings.h
-    include/pb/StorageListener.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
     include/pb/util/Timer.h
@@ -89,7 +85,6 @@ add_library(pblib STATIC
     src/Config.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
-    src/GradualControllable.cpp
     src/ImageReader.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
