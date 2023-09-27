@@ -10,7 +10,6 @@
 #include "TableContentPage.g.h"
 #include <PhotoBookListener.h>
 #include <pb/PhotoBook.h>
-#include <pb/Scheduable.h>
 #include <pb/Settings.h>
 
 #include <WinrtStorage.h>
