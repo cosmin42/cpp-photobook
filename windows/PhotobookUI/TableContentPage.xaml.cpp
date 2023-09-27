@@ -178,11 +178,15 @@ void TableContentPage::CanvasControlDraw(
 
 void TableContentPage::onFinished()
 {
+  mediaListNative.clear();
   mediaListItemsCollection.Clear();
   auto rootFolders = mPhotoBook.gallery().foldersList();
-  for (auto &path : rootFolders)
+  for (auto &path : rootFolders) {
+    mediaListNative.push_back(path.filename().string());
     mediaListItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
+  }
+
   MediaListView().ItemsSource(mediaListItemsCollection);
 
   if (!rootFolders.empty()) {
@@ -256,8 +260,19 @@ void TableContentPage::updateGalleryLabel()
 
 void TableContentPage::onAddToTableClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &e)
 {
+  auto clickedElement = e.OriginalSource()
+                            .as<FrameworkElement>()
+                            .DataContext()
+                            .as<winrt::hstring>();
+
+  auto it = std::find(mediaListNative.begin(), mediaListNative.end(),
+                      winrt::to_string(clickedElement));
+
+  if (it != mediaListNative.end()) {
+    int index = it - mediaListNative.begin();
+  }
 }
 
 void TableContentPage::OnNavigatedTo(
