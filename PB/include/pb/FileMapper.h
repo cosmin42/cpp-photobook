@@ -18,7 +18,7 @@ template <typename PhotoBookType, typename T>
 class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(
-      std::filesystem::path const                             &root,
+      std::filesystem::path const                        &root,
       std::shared_ptr<MediaMapListener<PhotoBookType, T>> listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener),
         mRoot(root)
@@ -64,7 +64,7 @@ public:
   auto map() const -> MediaMap { return mMap; }
 
 private:
-  MediaMap                                              mMap;
+  MediaMap                                            mMap;
   std::shared_ptr<MediaMapListener<PhotoBookType, T>> mListener;
 
   std::filesystem::recursive_directory_iterator mRecursiveIterator;

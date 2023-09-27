@@ -8,8 +8,6 @@
 #include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
-#include <pb/Geometry.h>
-
 namespace PB::Process {
 auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
