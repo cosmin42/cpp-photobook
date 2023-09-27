@@ -2,31 +2,12 @@
 
 #include <string>
 
-#include <pb/ErrorTypes.h>
+#include <pb/Enums.h>
 
 namespace PB {
 
 class [[nodiscard]] Error final {
 public:
-  Error() = default;
-  Error(Error const &other)
-      : mDescription(other.mDescription), mErrorCode(ErrorCode::Unknown)
-  {
-  }
-
-  Error(Error &&other) noexcept
-      : mDescription(other.mDescription), mErrorCode(ErrorCode::Unknown)
-  {
-  }
-
-  Error &operator=(Error const &other)
-  {
-    mDescription = other.mDescription;
-    mErrorCode = other.mErrorCode;
-    return *this;
-  }
-  ~Error() = default;
-
   [[nodiscard]] auto kind() const noexcept -> ErrorCode { return mErrorCode; }
 
   [[nodiscard]] auto description() const noexcept -> std::string
