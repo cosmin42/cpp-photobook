@@ -10,7 +10,7 @@
 
 #include <WinrtStorage.h>
 
-#include <pb/Persistence.h>
+#include <pb/persistence/Persistence.h>
 #include <pb/Project.h>
 
 using namespace winrt::Windows::Foundation::Collections;

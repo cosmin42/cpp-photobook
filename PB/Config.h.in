@@ -2,7 +2,7 @@
 #include <stop_token>
 
 #include <pb/common/Log.h>
-#include <pb/Persistence.h>
+#include <pb/persistence/Persistence.h>
 #include <pb/util/Timer.h>
 
 #if __has_include(<pb/common/@PRINTER_TYPE@.h>)
