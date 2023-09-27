@@ -15,7 +15,7 @@ auto resize(cv::Size size, bool keepAspectRatio)
 auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
-auto singleColorImage(int32_t width, int32_t height, Vec3i color)
+auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>()>;
 
 auto addText(cv::Size offset, std::string const &text, cv::Scalar color)

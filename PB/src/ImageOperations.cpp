@@ -59,14 +59,13 @@ auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
   return f;
 }
 
-auto singleColorImage(int32_t width, int32_t height, Vec3i color)
+auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>()>
 {
   auto f = [width{width}, height{height},
             color{color}]() -> std::shared_ptr<cv::Mat> {
-    auto &[r, g, b] = color;
     return std::make_shared<cv::Mat>(height, width, CV_8UC4,
-                                     cv::Scalar(r, g, b));
+                                    color);
   };
 
   return f;
