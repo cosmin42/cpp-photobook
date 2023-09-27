@@ -1,8 +1,5 @@
 #pragma once
 
-
-
-
 #include <magic_enum.hpp>
 
 #include <pb/common/Log.h>
