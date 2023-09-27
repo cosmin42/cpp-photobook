@@ -6,11 +6,8 @@
 
 namespace PB {
 
-class DataManager {
+class DataManager final{
 public:
-  DataManager() = default;
-  ~DataManager() = default;
-
   std::unordered_map<Path, MediaMap> &mediaData() { return mMediaData; }
   std::vector<Path> &mediaIndexedByType() { return mMediaIndexedByPath; }
 
