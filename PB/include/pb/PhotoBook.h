@@ -24,8 +24,8 @@ template <typename PhotoBookType, typename PersistenceType>
 class PhotoBook final {
 public:
   PhotoBook(PhotoBookType &listener)
-      : mParent(listener),
-        mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
+      : mParent(listener), mGalleryListener(std::ref(*this)),
+        mGallery(mGalleryListener)
   {
     printDebug("Photobook created.\n");
 
@@ -60,6 +60,10 @@ public:
 
           mProject = Project<PersistenceType>(projectDetails);
         }
+      }
+      else
+      {
+        PB::printError("Error loading project.\n");
       }
     });
   }
@@ -153,7 +157,11 @@ public:
 
     mPersistence.cache()[boost::uuids::to_string(mProject.details().uuid)] =
         mProject.details().name;
-    mPersistence.write([](std::optional<Error>) {});
+    mPersistence.write([](std::optional<Error> maybeError) {
+      if (maybeError) {
+        PB::printError("Error saving.\n");
+      }
+    });
 
     auto projectDetailsMap =
         std::unordered_map<std::string, std::string>(mProject.details());

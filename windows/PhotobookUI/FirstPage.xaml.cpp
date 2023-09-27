@@ -49,13 +49,17 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
   newProjectPersistence.cache().insert(serializedProject.begin(),
                                        serializedProject.end());
 
-  newProjectPersistence.write([](std::optional<PB::Error>) {
-    PB::printError("Error writing into peristence.\n");
+  newProjectPersistence.write([](std::optional<PB::Error> maybeError) {
+    if (maybeError) {
+      PB::printError("Error writing into peristence.\n");
+    }
   });
 
   mPersistence.cache()[uuidStr] = path;
-  mPersistence.write([](std::optional<PB::Error>) {
-    PB::printError("Error writing into peristence.\n");
+  mPersistence.write([](std::optional<PB::Error> maybeError) {
+    if (maybeError) {
+      PB::printError("Error writing into peristence.\n");
+    }
   });
 
   auto newPathWin = winrt::to_hstring(fullPath);

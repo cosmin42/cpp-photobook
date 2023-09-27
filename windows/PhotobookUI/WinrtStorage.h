@@ -46,6 +46,7 @@ public:
     winrt::hstring fileNameWinStr = winrt::to_hstring(fileName.string());
 
     saveDataToFileAsync(directoryWinStr, fileNameWinStr, winData);
+    onFinish(std::nullopt);
   }
 
   template <template <typename, typename> typename Map>
@@ -151,6 +152,7 @@ private:
         auto &newData = std::get<std::unordered_map<std::string, std::string>>(
             responseOrError);
         mData.insert(newData.begin(), newData.end());
+        onFinished(std::nullopt);
       }
     }
   }
