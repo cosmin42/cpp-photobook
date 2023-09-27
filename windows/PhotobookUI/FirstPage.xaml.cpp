@@ -94,11 +94,11 @@ void FirstPage::OnListViewRightTapped(
         RightTappedRoutedEventArgs const &e)
 {
     
-  auto x = e.OriginalSource()
+  auto clickedElement = e.OriginalSource()
                .as<FrameworkElement>()
                .DataContext()
                .as<winrt::hstring>();
-  std::string projectName = winrt::to_string(x);
+  std::string projectName = winrt::to_string(clickedElement);
 
   auto it = std::find(mNativeProjectList.begin(), mNativeProjectList.end(),
                       projectName);
@@ -108,7 +108,6 @@ void FirstPage::OnListViewRightTapped(
 
     PB::printDebug("Index clicked: %d", index);
   }
-  
 }
 
 } // namespace winrt::PhotobookUI::implementation
