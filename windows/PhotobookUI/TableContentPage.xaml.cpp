@@ -96,7 +96,7 @@ auto TableContentPage::fireSaveFilePicker(
     onReturn(NativePB::Converter()(filename.Path()));
   }
   else {
-    onReturn(PB::Error() << PB::ErrorKind::CannotSaveFile);
+    onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);
   }
 }
 

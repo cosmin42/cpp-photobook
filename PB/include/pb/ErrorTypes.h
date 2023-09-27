@@ -1,7 +1,7 @@
 #pragma once
 
 namespace PB {
-enum class ErrorKind {
+enum class ErrorCode {
   Unknown,
   InvalidFile,
   FileDoesNotExist,

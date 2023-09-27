@@ -89,7 +89,7 @@ public:
       }
     }
     if (pair.size() == 1) {
-      return Error() << ErrorKind::CorruptPersistenceFile;
+      return Error() << ErrorCode::CorruptPersistenceFile;
     }
     return parsed;
   }
@@ -104,7 +104,7 @@ private:
     for (auto &[key, value] : map) {
       if (key.find("\n") != std::string::npos ||
           value.find("\n") != std::string::npos) {
-        return Error() << ErrorKind::InvalidPersistenceMap;
+        return Error() << ErrorCode::InvalidPersistenceMap;
       }
       rawData = rawData + key + "\n" + value + "\n";
     }

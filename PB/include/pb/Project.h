@@ -35,21 +35,21 @@ convert(std::unordered_map<std::string, std::string> const &map)
       map, std::string("project-uuid"));
 
   if (!projectUUID) {
-    return Error() << ErrorKind::InvalidProjectDescription;
+    return Error() << ErrorCode::InvalidProjectDescription;
   }
 
   auto projectName = PB::mapGet<std::unordered_map, std::string, std::string>(
       map, std::string("project-name"));
 
   if (!projectName) {
-    return Error() << ErrorKind::InvalidProjectDescription;
+    return Error() << ErrorCode::InvalidProjectDescription;
   }
 
   auto projectPath = PB::mapGet<std::unordered_map, std::string, std::string>(
       map, std::string("project-path"));
 
   if (!projectPath) {
-    return Error() << ErrorKind::InvalidProjectDescription;
+    return Error() << ErrorCode::InvalidProjectDescription;
   }
 
   boost::uuids::uuid newUUID;
@@ -59,13 +59,13 @@ convert(std::unordered_map<std::string, std::string> const &map)
     newUUID = gen(*projectUUID);
   }
   catch (...) {
-    return Error() << ErrorKind::InvalidUUID;
+    return Error() << ErrorCode::InvalidUUID;
   }
 
   Path newPath = *projectPath;
 
   if (!std::filesystem::exists(newPath)) {
-    return Error() << ErrorKind::ProjectPathDoesNotExist;
+    return Error() << ErrorCode::ProjectPathDoesNotExist;
   }
 
   projectDetails.uuid = newUUID;

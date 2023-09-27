@@ -12,7 +12,7 @@ auto FileInfo::fileExists(std::variant<std::filesystem::path, Error> monoidPath)
   }
   auto& path = std::get<std::filesystem::path>(monoidPath);
   if (!std::filesystem::exists(path)) {
-    return Error() << ErrorKind::FileDoesNotExist;
+    return Error() << ErrorCode::FileDoesNotExist;
   }
   return monoidPath;
 }
@@ -28,7 +28,7 @@ auto FileInfo::isDirectory(
   if (std::filesystem::is_directory(path)) {
     return monoidPath;
   }
-  return Error() << ErrorKind::NotADirectory;
+  return Error() << ErrorCode::NotADirectory;
 }
 
 auto FileInfo::validInputRootPath(std::filesystem::path const &path)

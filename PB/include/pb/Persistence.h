@@ -110,7 +110,7 @@ public:
     std::ofstream ofs(path.string());
 
     if (!ofs.is_open()) {
-      f(Error() << ErrorKind::FileDoesNotExist);
+      f(Error() << ErrorCode::FileDoesNotExist);
       return;
     }
 
@@ -131,7 +131,7 @@ public:
   {
     std::ifstream file(path);
     if (!file.is_open()) {
-      f(Error() << ErrorKind::FileDoesNotExist);
+      f(Error() << ErrorCode::FileDoesNotExist);
       return;
     }
     std::stringstream buffer;
@@ -170,7 +170,7 @@ private:
       }
     }
     if (pair.size() == 1) {
-      return Error() << ErrorKind::CorruptPersistenceFile;
+      return Error() << ErrorCode::CorruptPersistenceFile;
     }
     return parsed;
   }

@@ -10,33 +10,33 @@ class [[nodiscard]] Error final {
 public:
   Error() = default;
   Error(Error const &other)
-      : mDescription(other.mDescription), mErrorKind(ErrorKind::Unknown)
+      : mDescription(other.mDescription), mErrorCode(ErrorCode::Unknown)
   {
   }
 
   Error(Error &&other) noexcept
-      : mDescription(other.mDescription), mErrorKind(ErrorKind::Unknown)
+      : mDescription(other.mDescription), mErrorCode(ErrorCode::Unknown)
   {
   }
 
   Error &operator=(Error const &other)
   {
     mDescription = other.mDescription;
-    mErrorKind = other.mErrorKind;
+    mErrorCode = other.mErrorCode;
     return *this;
   }
   ~Error() = default;
 
-  [[nodiscard]] auto kind() const noexcept -> ErrorKind { return mErrorKind; }
+  [[nodiscard]] auto kind() const noexcept -> ErrorCode { return mErrorCode; }
 
   [[nodiscard]] auto description() const noexcept -> std::string
   {
     return mDescription;
   }
 
-  auto operator<<(ErrorKind kind) noexcept -> Error
+  auto operator<<(ErrorCode kind) noexcept -> Error
   {
-    mErrorKind = kind;
+    mErrorCode = kind;
     return *this;
   }
   auto operator<<(std::string description) noexcept -> Error
@@ -47,7 +47,7 @@ public:
 
 private:
   std::string mDescription = "";
-  ErrorKind   mErrorKind = ErrorKind::Unknown;
+  ErrorCode   mErrorCode = ErrorCode::Unknown;
   [[maybe_unused]] uint8_t     padding[4];
 };
 
