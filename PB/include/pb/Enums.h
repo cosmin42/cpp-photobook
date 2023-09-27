@@ -1,7 +1,6 @@
 #pragma once
 
-namespace PB
-{
+namespace PB {
 enum class ErrorCode {
   Unknown,
   InvalidFile,
@@ -15,4 +14,6 @@ enum class ErrorCode {
   InvalidProjectDescription,
   ProjectPathDoesNotExist
 };
-}
+
+enum class LogLevel { None, Debug, Info, Warning, Error };
+} // namespace PB

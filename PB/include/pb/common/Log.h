@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/common/LogLevel.h>
+#include <pb/Enums.h>
 #include <cstdarg>
 
 namespace PB {
