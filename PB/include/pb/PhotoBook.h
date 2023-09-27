@@ -12,7 +12,6 @@
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
 #include <pb/Project.h>
-#include <pb/Settings.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -24,11 +23,11 @@ template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class PhotoBook final {
 public:
-  PhotoBook(Settings const settings, PhotoBookType &listener)
-      : mSettings(settings), mParent(listener),
+  PhotoBook(PhotoBookType &listener)
+      : mParent(listener),
         mGalleryListener(std::ref(*this)), mGallery(mGalleryListener)
   {
-    printDebug("Photobook created. %s\n", settings.projectFolder.c_str());
+    printDebug("Photobook created.\n");
 
     mPersistence.load([this](std::optional<Error> maybeError) {
       if (maybeError) {
@@ -169,8 +168,6 @@ public:
   }
 
 private:
-  Settings mSettings;
-
   PhotoBookType &mParent;
 
   Persistence<PersistenceType> mPersistence;

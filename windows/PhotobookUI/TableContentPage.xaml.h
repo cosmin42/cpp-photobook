@@ -10,7 +10,6 @@
 #include "TableContentPage.g.h"
 #include <PhotoBookListener.h>
 #include <pb/PhotoBook.h>
-#include <pb/Settings.h>
 
 #include <WinrtStorage.h>
 
@@ -19,9 +18,6 @@ using namespace winrt::Windows::Foundation::Collections;
 namespace winrt::PhotobookUI::implementation {
 
 struct TableContentPage : TableContentPageT<TableContentPage> {
-
-  static PB::Settings const settings();
-
   TableContentPage();
   ~TableContentPage() = default;
 
