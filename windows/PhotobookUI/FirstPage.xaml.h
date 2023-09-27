@@ -31,6 +31,7 @@ struct FirstPage : FirstPageT<FirstPage> {
       winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
 
   IObservableVector<winrt::hstring> mProjectsList;
+  std::vector<std::string>          mNativeProjectList;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
   PB::ProjectsSet<PB::WinrtStorage> detectedProjects;

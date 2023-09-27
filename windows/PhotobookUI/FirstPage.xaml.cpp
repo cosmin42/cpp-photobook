@@ -70,10 +70,13 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
 void FirstPage::onPersistenceDataLoaded()
 {
+  mNativeProjectList.clear();
   mProjectsList.Clear();
+
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
     mProjectsList.Append(winrt::to_hstring(key));
+    mNativeProjectList.push_back(key);
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }
 
@@ -86,10 +89,26 @@ void FirstPage::onError(PB::Error err)
 }
 
 void FirstPage::OnListViewRightTapped(
-    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const & arg,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
 {
+    
+  auto x = e.OriginalSource()
+               .as<FrameworkElement>()
+               .DataContext()
+               .as<winrt::hstring>();
+  std::string projectName = winrt::to_string(x);
+
+  auto it = std::find(mNativeProjectList.begin(), mNativeProjectList.end(),
+                      projectName);
+  if (it != mNativeProjectList.end())
+  {
+    int index = it - mNativeProjectList.begin();
+
+    PB::printDebug("Index clicked: %d", index);
+  }
+  
 }
 
 } // namespace winrt::PhotobookUI::implementation
