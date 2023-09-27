@@ -4,7 +4,7 @@
 #include <set>
 #include <vector>
 
-#include <pb/CircularIterator.h>
+#include <pb/util/CircularIterator.h>
 #include <pb/Config.h>
 #include <pb/FileComparator.h>
 #include <pb/MediaMapListener.h>

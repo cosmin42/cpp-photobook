@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 
-#include <pb/CircularIterator.h>
+#include <pb/util/CircularIterator.h>
 #include <pb/util/Traits.h>
 namespace PB {
 class MediaMap final {

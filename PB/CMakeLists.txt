@@ -55,7 +55,7 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(pblib STATIC
-    include/pb/CircularIterator.h
+    include/pb/util/CircularIterator.h
     include/pb/common/Log.h
     include/pb/common/${PRINTER_TYPE}.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
