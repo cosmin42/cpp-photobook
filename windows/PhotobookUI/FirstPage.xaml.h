@@ -11,8 +11,8 @@
 
 #include <WinrtStorage.h>
 
-#include <pb/persistence/Persistence.h>
 #include <pb/Project.h>
+#include <pb/persistence/Persistence.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -29,14 +29,17 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void OnListViewRightTapped(
       winrt::Windows::Foundation::IInspectable const &,
-      winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
+      winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const&);
 
-  IObservableVector<ProjectItem>
-                           mProjectsList;
+  void onDeleteClick(
+      [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
+
+  IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
 
-  std::optional<unsigned> mLastClickedIndex = std::nullopt;
+  std::optional<int> mLastClickedIndex = std::nullopt;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
   PB::ProjectsSet<PB::WinrtStorage> detectedProjects;

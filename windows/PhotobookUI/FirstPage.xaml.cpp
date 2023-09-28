@@ -27,6 +27,10 @@ FirstPage::FirstPage()
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem firstItem;
   firstItem.Text(winrt::to_hstring("Delete"));
 
+  firstItem.Click([this](IInspectable const &obj, RoutedEventArgs const &e) {
+    onDeleteClick(obj, e);
+  });
+
   mMenuFlyout.Items().Append(firstItem);
 
   mPersistence.load([this](std::optional<PB::Error> maybeError) {
@@ -112,12 +116,26 @@ void FirstPage::OnListViewRightTapped(
       });
 
   if (it != mProjectsList.end()) {
-    mLastClickedIndex = it - mProjectsList.begin();
+    mLastClickedIndex = (int)(it - mProjectsList.begin());
 
     PB::printDebug("Index clicked: %d", mLastClickedIndex);
 
     mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
   }
+}
+
+void FirstPage::onDeleteClick(
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
+{
+  if (mLastClickedIndex) {
+    std::string lastClickedKey =
+        winrt::to_string(mProjectsList.GetAt(*mLastClickedIndex).Name());
+    mProjectsList.RemoveAt(*mLastClickedIndex);
+    mPersistence.cache().erase(lastClickedKey);
+    mPersistence.write([](std::optional<PB::Error>) {});
+  }
+  mLastClickedIndex = std::nullopt;
 }
 
 } // namespace winrt::PhotobookUI::implementation
