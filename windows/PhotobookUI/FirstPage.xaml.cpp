@@ -70,14 +70,13 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
 
 void FirstPage::onPersistenceDataLoaded()
 {
-  mNativeProjectList.clear();
   mProjectsList.Clear();
 
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
-    mProjectsList.Append(ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
+    mProjectsList.Append(
+        ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
 
-    mNativeProjectList.push_back(key);
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }
 
@@ -100,12 +99,14 @@ void FirstPage::OnListViewRightTapped(
                             .DataContext()
                             .as<winrt::hstring>();
 
-  std::string projectName = winrt::to_string(clickedElement);
+  auto it = std::find_if(
+      mProjectsList.begin(), mProjectsList.end(),
+      [clickedElement{clickedElement}](ProjectItem const &projectItem) {
+        return clickedElement == projectItem.Name();
+      });
 
-  auto it = std::find(mNativeProjectList.begin(), mNativeProjectList.end(),
-                      projectName);
-  if (it != mNativeProjectList.end()) {
-    int index = it - mNativeProjectList.begin();
+  if (it != mProjectsList.end()) {
+    int index = it - mProjectsList.begin();
 
     PB::printDebug("Index clicked: %d", index);
   }

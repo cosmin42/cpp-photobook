@@ -33,7 +33,6 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   IObservableVector<ProjectItem>
                            mProjectsList;
-  std::vector<std::string>          mNativeProjectList;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
   PB::ProjectsSet<PB::WinrtStorage> detectedProjects;
