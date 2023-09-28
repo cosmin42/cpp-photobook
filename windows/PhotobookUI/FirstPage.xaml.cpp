@@ -89,21 +89,21 @@ void FirstPage::onError(PB::Error err)
 }
 
 void FirstPage::OnListViewRightTapped(
-    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const & arg,
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &arg,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
 {
-    
+
   auto clickedElement = e.OriginalSource()
-               .as<FrameworkElement>()
-               .DataContext()
-               .as<winrt::hstring>();
+                            .as<FrameworkElement>()
+                            .DataContext()
+                            .as<winrt::hstring>();
+
   std::string projectName = winrt::to_string(clickedElement);
 
   auto it = std::find(mNativeProjectList.begin(), mNativeProjectList.end(),
                       projectName);
-  if (it != mNativeProjectList.end())
-  {
+  if (it != mNativeProjectList.end()) {
     int index = it - mNativeProjectList.begin();
 
     PB::printDebug("Index clicked: %d", index);
