@@ -5,21 +5,17 @@
 
 #include "MainWindow.g.h"
 
-namespace winrt::PhotobookUI::implementation
-{
-    struct MainWindow : MainWindowT<MainWindow>
-    {
-        static HWND sMainWindowhandle;
+namespace winrt::PhotobookUI::implementation {
+struct MainWindow : MainWindowT<MainWindow> {
+  static HWND sMainWindowhandle;
 
-        static winrt::Microsoft::UI::Dispatching::DispatcherQueue sMainthreadDispatcher;
+  static winrt::Microsoft::UI::Dispatching::DispatcherQueue
+      sMainthreadDispatcher;
 
-        MainWindow();
-    };
-}
+  MainWindow();
+};
+} // namespace winrt::PhotobookUI::implementation
 
-namespace winrt::PhotobookUI::factory_implementation
-{
-    struct MainWindow : MainWindowT<MainWindow, implementation::MainWindow>
-    {
-    };
-}
+namespace winrt::PhotobookUI::factory_implementation {
+struct MainWindow : MainWindowT<MainWindow, implementation::MainWindow> {};
+} // namespace winrt::PhotobookUI::factory_implementation

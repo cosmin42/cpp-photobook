@@ -29,11 +29,11 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void OnListViewRightTapped(
       winrt::Windows::Foundation::IInspectable const &,
-      winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const&);
+      winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
 
   void onDeleteClick(
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
-      [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const&);
+      [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &);
 
   IObservableVector<ProjectItem> mProjectsList;
 
