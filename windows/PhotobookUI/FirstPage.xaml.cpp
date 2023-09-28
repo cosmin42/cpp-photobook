@@ -21,7 +21,7 @@ namespace winrt::PhotobookUI::implementation {
 
 FirstPage::FirstPage()
 {
-  mProjectsList = winrt::single_threaded_observable_vector<winrt::hstring>();
+  mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
   mPersistence.load([this](std::optional<PB::Error> maybeError) {
     if (maybeError) {
@@ -75,7 +75,8 @@ void FirstPage::onPersistenceDataLoaded()
 
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
-    mProjectsList.Append(winrt::to_hstring(key));
+    mProjectsList.Append(ProjectItem(winrt::to_hstring(key)));
+
     mNativeProjectList.push_back(key);
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
   }

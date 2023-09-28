@@ -7,7 +7,7 @@
 #include <winrt/Microsoft.UI.Xaml.Input.h>
 
 #include "FirstPage.g.h"
-#include "ProjectItem.h"
+#include "ProjectItem.g.h"
 
 #include <WinrtStorage.h>
 
@@ -31,7 +31,8 @@ struct FirstPage : FirstPageT<FirstPage> {
       winrt::Windows::Foundation::IInspectable const &,
       winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
 
-  IObservableVector<winrt::hstring> mProjectsList;
+  IObservableVector<ProjectItem>
+                           mProjectsList;
   std::vector<std::string>          mNativeProjectList;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
