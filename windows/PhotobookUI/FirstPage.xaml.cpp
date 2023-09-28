@@ -139,15 +139,35 @@ void FirstPage::OnDeleteClicked(
 }
 
 void FirstPage::OpenProjectClicked(
-    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const&,
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
-    TappedRoutedEventArgs const& e)
+        TappedRoutedEventArgs const &e)
 {
   auto clickedElement = e.OriginalSource()
                             .as<FrameworkElement>()
                             .DataContext()
                             .as<winrt::hstring>();
-}
 
+  auto it = std::find_if(
+      mProjectsList.begin(), mProjectsList.end(),
+      [clickedElement{clickedElement}](ProjectItem const &projectItem) {
+        return clickedElement == projectItem.Name();
+      });
+
+  if (it != mProjectsList.end()) {
+    auto index = (it - mProjectsList.begin());
+
+    assert(index >= 0);
+
+    PB::printDebug("Index clicked: %d", mLastClickedIndex);
+    auto key = mProjectsList.GetAt(index).Name();
+    auto location = mPersistence.cache()[winrt::to_string(key)];
+
+    auto locationWin = winrt::to_hstring(location);
+    auto boxed = winrt::box_value(locationWin);
+
+    Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
+  }
+}
 
 } // namespace winrt::PhotobookUI::implementation
