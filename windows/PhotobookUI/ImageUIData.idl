@@ -1,0 +1,8 @@
+
+namespace PhotobookUI {
+runtimeclass ImageUIData
+{
+  ImageUIData(String fullPath);
+  String FullPath { get; };
+}
+} // namespace PhotobookUI
