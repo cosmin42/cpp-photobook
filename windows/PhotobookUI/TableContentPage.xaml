@@ -181,17 +181,12 @@
                         x:Name="GalleryRightButton"
                         Foreground="#FFFFFF"
                         IsEnabled="False"/>
-
                 </Grid>
-
             </Border>
         </Grid>
-
-
         <Grid
             Grid.Row="2"
             Grid.Column="0">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -202,10 +197,36 @@
             <Border
                 BorderBrush="#004C35"
                 BorderThickness="1"
-                Padding="16,8"
-                Grid.Row="0"
-                Grid.Column="0">
+                Padding="16,8">
 
+                <Grid
+                    Grid.Row="2"
+                    Grid.Column="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListView
+                          x:Name="StagedListView"
+                          Grid.Row="0"
+                          Grid.Column="0"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                          ScrollViewer.IsHorizontalRailEnabled="True" />
+
+                    <ListView
+                          x:Name="UnstagedListView"
+                          Grid.Row="1"
+                          Grid.Column="0"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                          ScrollViewer.IsHorizontalRailEnabled="True" />
+                </Grid>
             </Border>
 
             <ContentDialog
