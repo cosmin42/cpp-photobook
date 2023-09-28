@@ -41,7 +41,14 @@ TableContentPage::TableContentPage()
 {
   mMediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
+  mStagingImageCollection =
+      winrt::single_threaded_observable_vector<winrt::hstring>();
+  mUnstagedImageCollection =
+      winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();
+
+  StagedListView().ItemsSource(mStagingImageCollection);
+  UnstagedListView().ItemsSource(mUnstagedImageCollection);
 }
 
 auto TableContentPage::fireFolderPicker(

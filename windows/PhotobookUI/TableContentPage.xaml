@@ -211,7 +211,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <ListView
@@ -223,10 +223,21 @@
                             ScrollViewer.IsHorizontalRailEnabled="True"
                             AllowDrop="True"
                             CanDragItems="True"
-                            CanReorderItems="False">
+                            CanReorderItems="False"
+                            HorizontalAlignment="Left">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding}" Width="20" Height="10" />
+                                <Image Source="{Binding}" Width="120" Height="80" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -240,10 +251,11 @@
                             ScrollViewer.IsHorizontalRailEnabled="True"
                             AllowDrop="True"
                             CanDragItems="True"
-                            CanReorderItems="False">
+                            CanReorderItems="False"
+                            HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding}" Width="20" Height="10" />
+                                <Image Source="{Binding}" Width="50" Height="20" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
