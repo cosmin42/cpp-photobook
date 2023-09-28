@@ -10,6 +10,8 @@
 
 namespace winrt::PhotobookUI::implementation {
 
-winrt::hstring ProjectItem::name() { return winrt::to_hstring(mName); }
+ProjectItem::ProjectItem(winrt::hstring itemName) : mName(itemName) {}
 
-} // namespace winrt::Bookstore::implementation
+winrt::hstring ProjectItem::Name() { return mName; }
+
+} // namespace winrt::PhotobookUI::implementation

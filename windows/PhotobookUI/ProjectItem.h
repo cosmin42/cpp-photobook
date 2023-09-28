@@ -4,12 +4,11 @@
 
 namespace winrt::PhotobookUI::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
-  winrt::hstring name();
-
-  void setName(std::string const &name) { mName = name; }
+  ProjectItem(winrt::hstring itemName);
+  winrt::hstring Name();
 
 private:
-  std::string mName;
+  winrt::hstring mName;
 };
 } // namespace winrt::PhotobookUI::implementation
 namespace winrt::PhotobookUI::factory_implementation {
