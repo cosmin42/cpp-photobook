@@ -21,12 +21,14 @@ public:
   PlatformSpecificPersistence() = default;
   ~PlatformSpecificPersistence() = default;
 
+  static std::string localFolder() { return "."; }
+
   template <template <typename, typename> typename Map>
   void write(Map<std::string, std::string> const &map)
   {
   }
 
-  void load() {}
+  void load(std::function<void(std::optional<PB::Error>)>) {}
 
   void setObserver(std::function<void(std::optional<PB::Error>)> f) {}
 
@@ -38,7 +40,7 @@ private:
 
 class MainActivity final {
 public:
-  MainActivity(): mPhotoBook(mPhotoBookListener) {}
+  MainActivity() : mPhotoBook(mPhotoBookListener) {}
   MainActivity(MainActivity const &) = delete;
   MainActivity(MainActivity &&) = delete;
   MainActivity &operator=(MainActivity const &) = delete;
