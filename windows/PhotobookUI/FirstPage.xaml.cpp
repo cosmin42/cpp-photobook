@@ -138,4 +138,16 @@ void FirstPage::OnDeleteClicked(
   mLastClickedIndex = std::nullopt;
 }
 
+void FirstPage::OpenProjectClicked(
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const&,
+    [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
+    TappedRoutedEventArgs const& e)
+{
+  auto clickedElement = e.OriginalSource()
+                            .as<FrameworkElement>()
+                            .DataContext()
+                            .as<winrt::hstring>();
+}
+
+
 } // namespace winrt::PhotobookUI::implementation

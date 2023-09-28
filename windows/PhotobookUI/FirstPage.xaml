@@ -37,6 +37,7 @@
                 Grid.Column="1"
                 Name="ProjectsListView"
                 RightTapped="OnListViewRightTapped"
+                Tapped="OpenProjectClicked"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:ProjectItem">

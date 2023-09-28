@@ -35,6 +35,11 @@ struct FirstPage : FirstPageT<FirstPage> {
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &);
 
+  void OpenProjectClicked(
+      [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
+          TappedRoutedEventArgs const &);
+
   IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
