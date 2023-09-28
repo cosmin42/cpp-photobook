@@ -91,6 +91,7 @@ add_library(pblib STATIC
     src/MediaMapListener.cpp
     src/MetadataReader.cpp
     src/PhotoBook.cpp
+    src/Project.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
     src/util/Thread.cpp)
