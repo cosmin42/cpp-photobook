@@ -21,7 +21,6 @@
 
 #include <microsoft.ui.xaml.window.h>
 
-#include <Converter.h>
 #include <pb/common/Log.h>
 
 using namespace winrt;

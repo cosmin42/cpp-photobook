@@ -21,17 +21,17 @@ namespace winrt::PhotobookUI::implementation {
 struct FirstPage : FirstPageT<FirstPage> {
   FirstPage();
 
-  void addProjectClick(Windows::Foundation::IInspectable const    &sender,
+  void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                        Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void onPersistenceDataLoaded();
-  void onError(PB::Error err);
+  void OnPersistenceDataLoaded();
+  void OnError(PB::Error err);
 
   void OnListViewRightTapped(
       winrt::Windows::Foundation::IInspectable const &,
       winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs const &);
 
-  void onDeleteClick(
+  void OnDeleteClicked(
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &);
 

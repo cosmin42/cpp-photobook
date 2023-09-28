@@ -28,22 +28,22 @@ FirstPage::FirstPage()
   firstItem.Text(winrt::to_hstring("Delete"));
 
   firstItem.Click([this](IInspectable const &obj, RoutedEventArgs const &e) {
-    onDeleteClick(obj, e);
+    OnDeleteClicked(obj, e);
   });
 
   mMenuFlyout.Items().Append(firstItem);
 
   mPersistence.load([this](std::optional<PB::Error> maybeError) {
     if (maybeError) {
-      onError(maybeError.value());
+      OnError(maybeError.value());
     }
     else {
-      onPersistenceDataLoaded();
+      OnPersistenceDataLoaded();
     }
   });
 }
 
-void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
+void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = detectedProjects.create();
 
@@ -78,7 +78,7 @@ void FirstPage::addProjectClick(IInspectable const &, RoutedEventArgs const &)
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
 }
 
-void FirstPage::onPersistenceDataLoaded()
+void FirstPage::OnPersistenceDataLoaded()
 {
   mProjectsList.Clear();
 
@@ -93,7 +93,7 @@ void FirstPage::onPersistenceDataLoaded()
   ProjectsListView().ItemsSource(mProjectsList);
 }
 
-void FirstPage::onError(PB::Error err)
+void FirstPage::OnError(PB::Error err)
 {
   PB::printError("Error occured on the first page.\n");
 }
@@ -124,7 +124,7 @@ void FirstPage::OnListViewRightTapped(
   }
 }
 
-void FirstPage::onDeleteClick(
+void FirstPage::OnDeleteClicked(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
 {

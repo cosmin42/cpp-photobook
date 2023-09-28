@@ -25,7 +25,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 x:Name="addProjectButton"
-                Click="addProjectClick"
+                Click="AddProjectClicked"
                 Background="#004C35"
                 Foreground="#FFFFFF"
                 Width="100"
