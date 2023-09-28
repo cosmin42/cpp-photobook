@@ -155,7 +155,7 @@ void FirstPage::OpenProjectClicked(
       });
 
   if (it != mProjectsList.end()) {
-    auto index = (it - mProjectsList.begin());
+    auto index = (int)(it - mProjectsList.begin());
 
     assert(index >= 0);
 
