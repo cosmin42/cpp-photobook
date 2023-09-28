@@ -129,6 +129,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="PhotoBookListener.h" />
+    <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="TableContentPage.xaml.h">
       <DependentUpon>TableContentPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -161,6 +162,7 @@
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotoBookListener.cpp" />
+    <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="TableContentPage.xaml.cpp">
       <DependentUpon>TableContentPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -179,6 +181,7 @@
       <SubType>Code</SubType>
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Midl>
+    <Midl Include="ProjectItem.idl" />
     <Midl Include="TableContentPage.idl">
       <DependentUpon>TableContentPage.xaml</DependentUpon>
       <SubType>Code</SubType>
