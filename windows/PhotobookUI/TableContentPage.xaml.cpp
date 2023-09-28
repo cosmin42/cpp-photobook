@@ -39,7 +39,7 @@ namespace winrt::PhotobookUI::implementation {
 TableContentPage::TableContentPage()
     : mListener(std::ref(*this)), mPhotoBook(mListener)
 {
-  mediaListItemsCollection =
+  mMediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   InitializeComponent();
 }
@@ -177,16 +177,16 @@ void TableContentPage::CanvasControlDraw(
 
 void TableContentPage::onFinished()
 {
-  mediaListNative.clear();
-  mediaListItemsCollection.Clear();
+  mMediaListNative.clear();
+  mMediaListItemsCollection.Clear();
   auto rootFolders = mPhotoBook.gallery().foldersList();
   for (auto &path : rootFolders) {
-    mediaListNative.push_back(path.filename().string());
-    mediaListItemsCollection.Append(
+    mMediaListNative.push_back(path.filename().string());
+    mMediaListItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
   }
 
-  MediaListView().ItemsSource(mediaListItemsCollection);
+  MediaListView().ItemsSource(mMediaListItemsCollection);
 
   if (!rootFolders.empty()) {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
@@ -266,11 +266,11 @@ void TableContentPage::onAddToTableClicked(
                             .DataContext()
                             .as<winrt::hstring>();
 
-  auto it = std::find(mediaListNative.begin(), mediaListNative.end(),
+  auto it = std::find(mMediaListNative.begin(), mMediaListNative.end(),
                       winrt::to_string(clickedElement));
 
-  if (it != mediaListNative.end()) {
-    int index = (int)(it - mediaListNative.begin());
+  if (it != mMediaListNative.end()) {
+    int index = (int)(it - mMediaListNative.begin());
     PB::Unused(index);
   }
 }

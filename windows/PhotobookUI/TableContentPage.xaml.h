@@ -93,8 +93,8 @@ private:
 
   PhotoBookListener                                  mListener;
   PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
-  IObservableVector<winrt::hstring>                  mediaListItemsCollection;
-  std::vector<std::string>                           mediaListNative;
+  IObservableVector<winrt::hstring>                  mMediaListItemsCollection;
+  std::vector<std::string>                           mMediaListNative;
 
   std::optional<PB::CircularIterator> mCurrentGalleryIterator = std::nullopt;
 };
