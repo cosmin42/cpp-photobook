@@ -7,6 +7,7 @@
 #include <winrt/Microsoft.UI.Xaml.Input.h>
 
 #include "FirstPage.g.h"
+#include "ProjectItem.h"
 
 #include <WinrtStorage.h>
 
