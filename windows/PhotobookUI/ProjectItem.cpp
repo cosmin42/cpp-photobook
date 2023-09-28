@@ -17,4 +17,6 @@ ProjectItem::ProjectItem(winrt::hstring itemName, winrt::hstring fullPath)
 
 winrt::hstring ProjectItem::Name() { return mName; }
 
+winrt::hstring ProjectItem::FullPath() { return mFullPath; }
+
 } // namespace winrt::PhotobookUI::implementation

@@ -4,5 +4,6 @@ runtimeclass ProjectItem
 {
   ProjectItem(String itemName, String fullPath);
   String Name { get; };
+  String FullPath { get; };
 }
 } // namespace PhotobookUI

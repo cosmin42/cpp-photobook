@@ -5,9 +5,9 @@
 namespace winrt::PhotobookUI::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
   ProjectItem(winrt::hstring itemName, winrt::hstring fullPath);
-  winrt::hstring Name();
 
-  winrt::hstring fullPath() { return mFullPath; }
+  winrt::hstring Name();
+  winrt::hstring FullPath();
 
 private:
   winrt::hstring mName;
