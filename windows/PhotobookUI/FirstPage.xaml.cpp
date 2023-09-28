@@ -23,6 +23,12 @@ FirstPage::FirstPage()
 {
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
+
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem firstItem;
+  firstItem.Text(winrt::to_hstring("Delete"));
+
+  mMenuFlyout.Items().Append(firstItem);
+
   mPersistence.load([this](std::optional<PB::Error> maybeError) {
     if (maybeError) {
       onError(maybeError.value());
@@ -109,6 +115,8 @@ void FirstPage::OnListViewRightTapped(
     int index = it - mProjectsList.begin();
 
     PB::printDebug("Index clicked: %d", index);
+
+    mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
   }
 }
 
