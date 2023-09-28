@@ -51,19 +51,7 @@
                                 Background="#004C35"
                                 Foreground="#FFFFFF"
                                 Width="100"
-                                Height="100">
-                                <Button.Flyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="EditButton" Text="Edit"/>
-                                        <MenuFlyoutItem x:Name="DeleteButton" Text="Delete"/>
-                                        <MenuFlyoutSubItem Text="OtherItems">
-                                            <MenuFlyoutItem Text="Inside1"/>
-                                            <MenuFlyoutItem Text="Inside2"/>
-                                            <MenuFlyoutItem Text="Inside3"/>
-                                        </MenuFlyoutSubItem>
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>
+                                Height="100" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
