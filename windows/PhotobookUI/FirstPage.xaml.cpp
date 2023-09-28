@@ -45,7 +45,7 @@ FirstPage::FirstPage()
 
 void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
-  auto newProject = detectedProjects.create();
+  auto newProject = PB::ProjectsSet<PB::WinrtStorage>().create();
 
   auto serializedProject =
       std::unordered_map<std::string, std::string>(newProject.details());

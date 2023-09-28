@@ -22,7 +22,7 @@ struct FirstPage : FirstPageT<FirstPage> {
   FirstPage();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
-                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+                         Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void OnPersistenceDataLoaded();
   void OnError(PB::Error err);
@@ -42,7 +42,6 @@ struct FirstPage : FirstPageT<FirstPage> {
   std::optional<int> mLastClickedIndex = std::nullopt;
 
   PB::Persistence<PB::WinrtStorage> mPersistence;
-  PB::ProjectsSet<PB::WinrtStorage> detectedProjects;
 };
 } // namespace winrt::PhotobookUI::implementation
 
