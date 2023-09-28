@@ -157,6 +157,7 @@ public:
 
     mCentralPersistence
         .cache()[boost::uuids::to_string(mProject.details().uuid)] =
+        mProject.details().parentDirectory.string() + "\\" +
         mProject.details().name;
     mCentralPersistence.write([](std::optional<Error> maybeError) {
       if (maybeError) {

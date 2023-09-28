@@ -65,7 +65,7 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
     }
   });
 
-  mCentralPersistence.cache()[uuidStr] = path;
+  mCentralPersistence.cache()[uuidStr] = fullPath;
   mCentralPersistence.write([](std::optional<PB::Error> maybeError) {
     if (maybeError) {
       PB::printError("Error writing into peristence.\n");
