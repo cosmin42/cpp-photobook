@@ -58,7 +58,7 @@ auto TableContentPage::fireFolderPicker(
   auto folder{co_await folderPicker.PickSingleFolderAsync()};
 
   if (folder) {
-    onSuccess(NativePB::Converter()(folder.Path()));
+    onSuccess(winrt::to_string(folder.Path()));
   }
 }
 
@@ -83,7 +83,7 @@ auto TableContentPage::fireSaveFilePicker(
   auto filename{co_await fileSavePicker.PickSaveFileAsync()};
 
   if (filename) {
-    onReturn(NativePB::Converter()(filename.Path()));
+    onReturn(winrt::to_string(filename.Path()));
   }
   else {
     onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);
