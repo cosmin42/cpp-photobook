@@ -112,9 +112,9 @@ void FirstPage::OnListViewRightTapped(
       });
 
   if (it != mProjectsList.end()) {
-    int index = it - mProjectsList.begin();
+    mLastClickedIndex = it - mProjectsList.begin();
 
-    PB::printDebug("Index clicked: %d", index);
+    PB::printDebug("Index clicked: %d", mLastClickedIndex);
 
     mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
   }
