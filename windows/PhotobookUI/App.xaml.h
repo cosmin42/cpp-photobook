@@ -16,6 +16,6 @@ struct App : AppT<App> {
       Microsoft::UI::Xaml::Navigation::NavigationFailedEventArgs const &);
 
 private:
-  winrt::Microsoft::UI::Xaml::Window window{nullptr};
+  winrt::Microsoft::UI::Xaml::Window mWindow{nullptr};
 };
 } // namespace winrt::PhotobookUI::implementation

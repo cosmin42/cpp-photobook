@@ -44,15 +44,15 @@ App::App()
 /// <param name="e">Details about the launch request and process.</param>
 void App::OnLaunched(LaunchActivatedEventArgs const& e)
 {
-    window = make<MainWindow>();
+    mWindow = make<MainWindow>();
 
     Frame rootFrame = Frame();
     rootFrame.NavigationFailed({this, &App::OnNavigationFailed});
     rootFrame.Navigate(xaml_typename<PhotobookUI::FirstPage>(),
                        box_value(e.Arguments()));
 
-    window.Content(rootFrame);
-    window.Activate();
+    mWindow.Content(rootFrame);
+    mWindow.Activate();
 }
 
 void App::OnNavigationFailed(IInspectable const &,
