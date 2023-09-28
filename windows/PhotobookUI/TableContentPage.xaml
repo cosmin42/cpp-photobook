@@ -223,7 +223,13 @@
                             ScrollViewer.IsHorizontalRailEnabled="True"
                             AllowDrop="True"
                             CanDragItems="True"
-                            CanReorderItems="False" />
+                            CanReorderItems="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Width="20" Height="10" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
                     <ListView
                             x:Name="UnstagedListView"
@@ -234,7 +240,13 @@
                             ScrollViewer.IsHorizontalRailEnabled="True"
                             AllowDrop="True"
                             CanDragItems="True"
-                            CanReorderItems="False" />
+                            CanReorderItems="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Width="20" Height="10" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </Border>
 
