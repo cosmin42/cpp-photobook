@@ -29,7 +29,7 @@ public:
   {
     printDebug("Photobook created.\n");
 
-    mPersistence.load([this](std::optional<Error> maybeError) {
+    mCentralPersistence.load([this](std::optional<Error> maybeError) {
       if (maybeError) {
         onError(maybeError.value());
       }
@@ -155,9 +155,10 @@ public:
     mProject.details().name = newPath.filename().string();
     mProject.details().parentDirectory = newPath.parent_path();
 
-    mPersistence.cache()[boost::uuids::to_string(mProject.details().uuid)] =
+    mCentralPersistence
+        .cache()[boost::uuids::to_string(mProject.details().uuid)] =
         mProject.details().name;
-    mPersistence.write([](std::optional<Error> maybeError) {
+    mCentralPersistence.write([](std::optional<Error> maybeError) {
       if (maybeError) {
         PB::printError("Error saving.\n");
       }
@@ -178,7 +179,7 @@ public:
 private:
   PhotoBookType &mParent;
 
-  Persistence<PersistenceType> mPersistence;
+  Persistence<PersistenceType> mCentralPersistence;
 
   Project<PersistenceType> mProject;
 

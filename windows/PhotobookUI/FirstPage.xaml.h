@@ -46,7 +46,7 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   std::optional<int> mLastClickedIndex = std::nullopt;
 
-  PB::Persistence<PB::WinrtStorage> mPersistence;
+  PB::Persistence<PB::WinrtStorage> mCentralPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
 

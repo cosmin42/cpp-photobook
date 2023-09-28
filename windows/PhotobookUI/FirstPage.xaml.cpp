@@ -33,7 +33,7 @@ FirstPage::FirstPage()
 
   mMenuFlyout.Items().Append(firstItem);
 
-  mPersistence.load([this](std::optional<PB::Error> maybeError) {
+  mCentralPersistence.load([this](std::optional<PB::Error> maybeError) {
     if (maybeError) {
       OnError(maybeError.value());
     }
@@ -65,8 +65,8 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
     }
   });
 
-  mPersistence.cache()[uuidStr] = path;
-  mPersistence.write([](std::optional<PB::Error> maybeError) {
+  mCentralPersistence.cache()[uuidStr] = path;
+  mCentralPersistence.write([](std::optional<PB::Error> maybeError) {
     if (maybeError) {
       PB::printError("Error writing into peristence.\n");
     }
@@ -82,7 +82,7 @@ void FirstPage::OnPersistenceDataLoaded()
 {
   mProjectsList.Clear();
 
-  auto &data = mPersistence.cache();
+  auto &data = mCentralPersistence.cache();
   for (auto &[key, value] : data) {
     mProjectsList.Append(
         ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
@@ -132,8 +132,8 @@ void FirstPage::OnDeleteClicked(
     std::string lastClickedKey =
         winrt::to_string(mProjectsList.GetAt(*mLastClickedIndex).Name());
     mProjectsList.RemoveAt(*mLastClickedIndex);
-    mPersistence.cache().erase(lastClickedKey);
-    mPersistence.write([](std::optional<PB::Error>) {});
+    mCentralPersistence.cache().erase(lastClickedKey);
+    mCentralPersistence.write([](std::optional<PB::Error>) {});
   }
   mLastClickedIndex = std::nullopt;
 }
@@ -161,7 +161,7 @@ void FirstPage::OpenProjectClicked(
 
     PB::printDebug("Index clicked: %d", mLastClickedIndex);
     auto key = mProjectsList.GetAt(index).Name();
-    auto location = mPersistence.cache()[winrt::to_string(key)];
+    auto location = mCentralPersistence.cache()[winrt::to_string(key)];
 
     auto locationWin = winrt::to_hstring(location);
     auto boxed = winrt::box_value(locationWin);
