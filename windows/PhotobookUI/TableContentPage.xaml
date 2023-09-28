@@ -80,7 +80,10 @@
             <Grid>
                 <ListView Name="MediaListView"
                           SelectionChanged="onFoldersSelectionChanged"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          AllowDrop="True"
+                          CanDragItems="True"
+                          CanReorderItems="False">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="DataTemplateName">
                             <Grid VerticalAlignment="Center" x:Name="GridListName">
@@ -212,20 +215,26 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView
-                          x:Name="StagedListView"
-                          Grid.Row="0"
-                          Grid.Column="0"
-                          ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                          ScrollViewer.IsHorizontalRailEnabled="True" />
+                            x:Name="StagedListView"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            ScrollViewer.HorizontalScrollMode="Enabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.IsHorizontalRailEnabled="True"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="False" />
 
                     <ListView
-                          x:Name="UnstagedListView"
-                          Grid.Row="1"
-                          Grid.Column="0"
-                          ScrollViewer.HorizontalScrollMode="Enabled"
-                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                          ScrollViewer.IsHorizontalRailEnabled="True" />
+                            x:Name="UnstagedListView"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            ScrollViewer.HorizontalScrollMode="Enabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.IsHorizontalRailEnabled="True"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="False" />
                 </Grid>
             </Border>
 
