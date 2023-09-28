@@ -85,7 +85,7 @@
                           CanDragItems="True"
                           CanReorderItems="False">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:Name="DataTemplateName">
+                        <DataTemplate>
                             <Grid VerticalAlignment="Center" x:Name="GridListName">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
@@ -236,8 +236,8 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding}" Width="120" Height="80" />
+                            <DataTemplate x:DataType="local:ImageUIData">
+                                <Image Source="{x:Bind FullPath}" Width="120" Height="80" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -254,8 +254,8 @@
                             CanReorderItems="False"
                             HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding}" Width="50" Height="20" />
+                            <DataTemplate  x:DataType="local:ImageUIData">
+                                <Image Source="{x:Bind FullPath}" Width="50" Height="20" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

@@ -42,9 +42,9 @@ TableContentPage::TableContentPage()
   mMediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mStagingImageCollection =
-      winrt::single_threaded_observable_vector<winrt::hstring>();
+      winrt::single_threaded_observable_vector<ImageUIData>();
   mUnstagedImageCollection =
-      winrt::single_threaded_observable_vector<winrt::hstring>();
+      winrt::single_threaded_observable_vector<ImageUIData>();
   InitializeComponent();
 
   StagedListView().ItemsSource(mStagingImageCollection);
