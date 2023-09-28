@@ -2,7 +2,7 @@
 namespace PhotobookUI {
 runtimeclass ProjectItem
 {
-  ProjectItem(String itemName);
+  ProjectItem(String itemName, String fullPath);
   String Name { get; };
 }
 } // namespace PhotobookUI

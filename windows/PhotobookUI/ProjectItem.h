@@ -4,11 +4,14 @@
 
 namespace winrt::PhotobookUI::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
-  ProjectItem(winrt::hstring itemName);
+  ProjectItem(winrt::hstring itemName, winrt::hstring fullPath);
   winrt::hstring Name();
+
+  winrt::hstring fullPath() { return mFullPath; }
 
 private:
   winrt::hstring mName;
+  winrt::hstring mFullPath;
 };
 } // namespace winrt::PhotobookUI::implementation
 namespace winrt::PhotobookUI::factory_implementation {

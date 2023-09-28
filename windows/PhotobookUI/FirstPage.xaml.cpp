@@ -75,7 +75,7 @@ void FirstPage::onPersistenceDataLoaded()
 
   auto &data = mPersistence.cache();
   for (auto &[key, value] : data) {
-    mProjectsList.Append(ProjectItem(winrt::to_hstring(key)));
+    mProjectsList.Append(ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
 
     mNativeProjectList.push_back(key);
     PB::printDebug("%s %s\n", key.c_str(), value.c_str());
