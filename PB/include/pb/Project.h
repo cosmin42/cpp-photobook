@@ -26,7 +26,7 @@ struct ProjectDetails {
   }
 };
 
-static std::variant<ProjectDetails, Error>
+std::variant<ProjectDetails, Error>
 convert(std::unordered_map<std::string, std::string> const &map)
 {
   ProjectDetails projectDetails;
@@ -82,7 +82,8 @@ public:
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name =
         boost::uuids::to_string(mProjectDetails.uuid) + ".photobook";
-    mProjectDetails.parentDirectory = Persistence<PersistenceType>::localFolder();
+    mProjectDetails.parentDirectory =
+        Persistence<PersistenceType>::localFolder();
   }
 
   explicit Project(ProjectDetails const &projectDetails)

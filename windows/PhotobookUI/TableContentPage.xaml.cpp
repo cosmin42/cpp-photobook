@@ -271,7 +271,7 @@ void TableContentPage::onAddToTableClicked(
                       winrt::to_string(clickedElement));
 
   if (it != mediaListNative.end()) {
-    int index = it - mediaListNative.begin();
+    int index = (int)(it - mediaListNative.begin());
   }
 }
 
