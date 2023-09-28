@@ -272,6 +272,7 @@ void TableContentPage::onAddToTableClicked(
 
   if (it != mediaListNative.end()) {
     int index = (int)(it - mediaListNative.begin());
+    PB::Unused(index);
   }
 }
 
