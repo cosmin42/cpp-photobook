@@ -23,6 +23,11 @@ public:
 
   static constexpr const char* persistentFileName() { return "persistent.txt"; }
 
+  static constexpr const char *jpgExt = ".jpg";
+  static constexpr const char *bookExt = ".photobook";
+
+  static constexpr std::initializer_list thumbnailSize = {120, 80};
+
   Log const &printer() { return mLogPrinter; }
 
   std::stop_source sStopSource;
