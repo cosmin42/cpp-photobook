@@ -138,22 +138,29 @@ public:
     if (newMediaMap.map().empty()) {
       mParent.onFinished();
     }
+
     Context::inst().data().smallThumbnails()[rootPath];
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     mStagedImagesLogic.generateThumbnails(
         mediaData.at(rootPath),
-        [this, rootPath{rootPath},
-         size{mediaData.at(rootPath).size()}](Path input, Path output) {
+        [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
+         start{start}](Path input, Path output) {
           mParent.onProgressUpdate(
               (int)Context::inst().data().smallThumbnails().at(rootPath).size(),
               (int)size);
 
           mParent.post([this, rootPath{rootPath}, input{input}, output{output},
-                        size{size}]() {
+                        size{size}, start{start}]() {
             Context::inst().data().smallThumbnails()[rootPath][input] = output;
             auto progress =
                 Context::inst().data().smallThumbnails()[rootPath].size();
             if (progress == size) {
+
+              auto end = std::chrono::high_resolution_clock::now();
+              std::chrono::duration<double> duration = end - start;
+              PB::printDebug("Duration: %f\n", duration.count());
               mParent.onFinished();
             }
           });

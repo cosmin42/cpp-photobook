@@ -25,6 +25,8 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
+StagedImagesLogic::StagedImagesLogic() : mResizePool(sNumberOfThreads) {}
+
 StagedImagesLogic::~StagedImagesLogic()
 {
   for (auto &f : mFutures) {
@@ -39,8 +41,7 @@ void StagedImagesLogic::provideProjectDetails(
 }
 
 void StagedImagesLogic::generateThumbnails(
-    MediaMap &mediaMap,
-    std::function<void(Path, Path)> onThumbnailWritten)
+    MediaMap &mediaMap, std::function<void(Path, Path)> onThumbnailWritten)
 {
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = mediaMap.size();

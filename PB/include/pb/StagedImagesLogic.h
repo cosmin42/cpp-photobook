@@ -24,6 +24,7 @@ private:
 
 class StagedImagesLogic final {
 public:
+  StagedImagesLogic();
   ~StagedImagesLogic();
 
   void provideProjectDetails(ProjectDetails const &);
@@ -33,6 +34,7 @@ public:
 
 private:
   static constexpr const char               *sPrefix = "thumbnail";
+  static constexpr unsigned                  sNumberOfThreads = 4;
   Path                                       assembleOutputPath(int index);
   ProjectDetails                             mProjectDetails;
   dp::thread_pool<std::function<void(void)>> mResizePool;
