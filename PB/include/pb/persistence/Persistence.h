@@ -149,6 +149,18 @@ public:
     f(std::nullopt);
   }
 
+  static bool createDirectory(Path path)
+  {
+    if (std::filesystem::exists(path)) {
+      return true;
+    }
+
+    if (!std::filesystem::create_directory(path)) {
+      return false;
+    }
+    return true;
+  }
+
   std::unordered_map<std::string, std::string> &cache() { return mCache; }
 
 private:
