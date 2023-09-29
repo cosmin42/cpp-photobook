@@ -1,18 +1,42 @@
 #pragma once
 
+#include <thread_pool/thread_pool.h>
+
+#include <pb/ImageOperations.h>
 #include <pb/MediaMap.h>
 #include <pb/Project.h>
 
 namespace PB {
-class StagedImagesLogic final {
+class ResizeTask final {
 public:
-  explicit StagedImagesLogic(ProjectDetails const &);
-  void generateThumbnails(MediaMap &mediaMap);
+  ResizeTask() = delete;
+  explicit ResizeTask(Path fullSizePath, Path outputPath,
+                      unsigned totalTaskCount, std::function<void()> onFinish);
+
+  void operator()() const;
 
 private:
-  static constexpr const char *sPrefix = "thumbnail";
-  Path assembleOutputPath(int index);
+  Path                  mFullSizePath;
+  Path                  mOutputPath;
+  unsigned              mTotalTaskCount;
+  std::function<void()> mFinish;
+};
 
-  ProjectDetails mProjectDetails;
+class StagedImagesLogic final {
+public:
+  ~StagedImagesLogic();
+
+  void provideProjectDetails(ProjectDetails const &);
+
+  void generateThumbnails(MediaMap                       &mediaMap,
+                          std::function<void(Path, Path)> onThumbnailWritten);
+
+private:
+  static constexpr const char               *sPrefix = "thumbnail";
+  Path                                       assembleOutputPath(int index);
+  ProjectDetails                             mProjectDetails;
+  dp::thread_pool<std::function<void(void)>> mResizePool;
+  std::vector<std::future<void>>             mFutures;
+  std::function<void(Path, Path)>            mThumbnailWritten;
 };
 } // namespace PB
