@@ -132,6 +132,11 @@ public:
       return;
     }
 
+    if (newMediaMap.map().empty())
+    {
+      mParent.onFinished();
+    }
+
     unsigned index = 0;
     for (auto &mediaPath : newMediaMap.map()) {
       auto outputPath = mProject.details().parentDirectory /
@@ -164,8 +169,6 @@ public:
       v.push_back(std::move(token));
       index++;
     }
-
-    mParent.onFinished();
     // mMappingJobs.erase(path);
     // mListeners.erase(path);
   }
@@ -220,6 +223,11 @@ public:
     PB::printDebug("Save Photobook %s\n", newName.c_str());
   }
 
+  std::unordered_map<Path, Path>& thumbnails()
+  {
+    return Context::inst().data().smallThumbnails();
+  }
+
 private:
   void imageToThumbnail(Path inputPath, Path outputPath)
   {
@@ -237,7 +245,7 @@ private:
 
     if (((int)(Context::inst().data().smallThumbnails().size()) -
          initialThumbnailsSetSize) == totalTaskCount) {
-      PB::printDebug("Thumbnail processing finish.\n");
+      mParent.onFinished();
     }
   }
 

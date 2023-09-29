@@ -227,7 +227,8 @@ void TableContentPage::onPaused() {}
 
 void TableContentPage::onResumed() {}
 
-void TableContentPage::onProgressUpdate([[maybe_unused]] int progress, [[maybe_unused]] int reference)
+void TableContentPage::onProgressUpdate([[maybe_unused]] int progress,
+                                        [[maybe_unused]] int reference)
 {
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
