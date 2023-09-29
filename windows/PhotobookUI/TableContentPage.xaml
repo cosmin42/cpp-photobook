@@ -254,7 +254,7 @@
                             CanReorderItems="False"
                             HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
-                            <DataTemplate  x:DataType="local:ImageUIData">
+                            <DataTemplate x:DataType="local:ImageUIData">
                                 <Image Source="{x:Bind FullPath}" Width="50" Height="20" />
                             </DataTemplate>
                         </ListView.ItemTemplate>

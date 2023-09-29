@@ -48,6 +48,7 @@ if (LOG_LEVEL MATCHES Debug)
 endif()
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
+find_package(thread-pool CONFIG REQUIRED)
 
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -105,7 +106,8 @@ target_link_libraries(pblib PUBLIC
     opencv_core
     Boost::boost
     Boost::program_options
-    exiv2lib)
+    exiv2lib
+    dp::thread-pool)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
