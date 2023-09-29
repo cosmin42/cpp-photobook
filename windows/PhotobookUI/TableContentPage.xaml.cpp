@@ -157,11 +157,7 @@ void TableContentPage::CanvasControlDraw(
                                         {portviewWidth, portviewHeight});
   }
   else {
-    int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
-
-    int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
-
-    std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
+    image = PB::Process::singleColorImage(
         portviewWidth, portviewHeight, {255, 0, 0})();
 
     image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},

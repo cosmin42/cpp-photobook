@@ -144,9 +144,9 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="2">
-                        <canvas:CanvasControl 
-                            Width="420"
-                            Height="298"
+                        <canvas:CanvasControl
+                            Width="630"
+                            Height="447"
                             Draw="CanvasControlDraw"
                             x:Name="GalleryCanvas"
                             ClearColor="#000000"/>
