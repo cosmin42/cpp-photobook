@@ -79,10 +79,12 @@ public:
     return CircularIterator(mPaths);
   }
 
-  static bool validImagePath(Path const& path)
+  std::vector<std::filesystem::path> &map() { return mPaths; }
+
+  static bool validImagePath(Path const &path)
   {
     const std::set<std::string> sValidFileExtensions = {".jpg", ".jpeg",
-                                                               ".png"};
+                                                        ".png"};
 
     std::string extensionStr = path.extension().string();
     std::transform(extensionStr.begin(), extensionStr.end(),
@@ -93,7 +95,6 @@ public:
   }
 
 private:
-
   std::vector<std::filesystem::path> mPaths;
 };
 } // namespace PB
