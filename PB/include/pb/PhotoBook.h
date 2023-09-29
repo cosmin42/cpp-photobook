@@ -135,18 +135,10 @@ public:
     if (newMediaMap.map().empty()) {
       mParent.onFinished();
     }
-    auto validImagesCount = 0;
-    for (auto &mediaPath : newMediaMap.map()) {
-      if (MediaMap::validImagePath(mediaPath)) {
-        validImagesCount++;
-      }
-    }
 
     unsigned index = 0;
     for (auto &mediaPath : newMediaMap.map()) {
-      if (!MediaMap::validImagePath(mediaPath)) {
-        continue;
-      }
+
       auto outputPath = mProject.details().parentDirectory /
                         mProject.details().dirName /
                         ("thumbnail" + std::to_string(index) + Context::jpgExt);
@@ -155,9 +147,20 @@ public:
           (int)Context::inst().data().smallThumbnails().size();
 
       auto resizeTask = [this, mediaPath{mediaPath}, outputPath{outputPath},
-                         taskCount{validImagesCount},
+                         taskCount{newMediaMap.map().size()},
                          intialThumbnailsSize{intialThumbnailsSize}]() {
-        imageToThumbnail(mediaPath, outputPath);
+        if (MediaMap::validImagePath(mediaPath)) {
+          imageToThumbnail(mediaPath, outputPath);
+        }
+        else {
+          std::shared_ptr<cv::Mat> image =
+              PB::Process::singleColorImage(1280, 640, {255, 0, 0})();
+
+          image = PB::Process::addText({1280 / 2, 640 / 2},
+                                       mediaPath.parent_path().string(),
+                                       {0, 255, 0})(image);
+          imageToThumbnail(image, outputPath);
+        }
 
         int completedTasks =
             (int)(Context::inst().data().smallThumbnails().size()) -
@@ -243,6 +246,14 @@ private:
     auto imagePointer = PB::Process::resize(
         cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
         true)(inputImage);
+    ImageSetWriter().write(outputPath, imagePointer);
+  }
+
+  void imageToThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)
+  {
+    auto imagePointer = PB::Process::resize(
+        cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
+        true)(image);
     ImageSetWriter().write(outputPath, imagePointer);
   }
 
