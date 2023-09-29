@@ -28,7 +28,7 @@ concept PhotoBookConcept = requires(T t) {
   } -> std::same_as<void>;
 
   {
-    t.onProgressUpdate()
+    t.onProgressUpdate(int(), int())
   } -> std::same_as<void>;
 
   {

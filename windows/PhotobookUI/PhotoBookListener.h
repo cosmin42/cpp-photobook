@@ -16,7 +16,7 @@ public:
   void onPaused();
   void onResumed();
 
-  void onProgressUpdate();
+  void onProgressUpdate(int progress, int reference);
   void onError(PB::Error error);
 
   void post(std::function<void()> f);

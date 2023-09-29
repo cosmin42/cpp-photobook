@@ -29,9 +29,9 @@ void PhotoBookListener::onResumed()
   mParent.post([this]() { mParent.onResumed(); });
 }
 
-void PhotoBookListener::onProgressUpdate()
+void PhotoBookListener::onProgressUpdate(int progress, int reference)
 {
-  mParent.post([this]() { mParent.onProgressUpdate(); });
+  mParent.post([this, progress, reference]() { mParent.onProgressUpdate(progress, reference); });
 }
 void PhotoBookListener::onError(PB::Error error)
 {

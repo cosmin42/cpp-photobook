@@ -145,7 +145,12 @@ public:
                          taskCount{newMediaMap.map().size()},
                          intialThumbnailsSize{intialThumbnailsSize}]() {
         imageToThumbnail(mediaPath, outputPath);
-        mParent.onProgressUpdate();
+
+        int completedTasks =
+            (int)(Context::inst().data().smallThumbnails().size()) -
+            intialThumbnailsSize;
+        mParent.onProgressUpdate(completedTasks, (int)taskCount);
+
         mParent.post([this, intialThumbnailsSize{intialThumbnailsSize},
                       taskCount{taskCount}, mediaPath{mediaPath},
                       outputPath{outputPath}]() {

@@ -75,7 +75,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onPaused();
   void onResumed();
 
-  void onProgressUpdate();
+  void onProgressUpdate([[maybe_unused]] int progress,
+                        [[maybe_unused]] int reference);
   void onError(PB::Error error);
 
   void post(std::function<void()>);
