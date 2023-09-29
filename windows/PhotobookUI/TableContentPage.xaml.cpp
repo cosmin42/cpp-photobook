@@ -177,21 +177,6 @@ void TableContentPage::CanvasControlDraw(
   session.DrawImage(bitmap);
 }
 
-std::shared_ptr<cv::Mat> TableContentPage::imageFromFolder(std::string filename)
-{
-  int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
-
-  int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
-
-  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
-      portviewWidth, portviewHeight, {255, 0, 0})();
-
-  image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
-                               filename, {0, 255, 0})(image);
-
-  return image;
-}
-
 void TableContentPage::onFinished()
 {
   mMediaListNative.clear();
