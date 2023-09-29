@@ -135,6 +135,12 @@ public:
     if (newMediaMap.map().empty()) {
       mParent.onFinished();
     }
+    auto validImagesCount = 0;
+    for (auto &mediaPath : newMediaMap.map()) {
+      if (MediaMap::validImagePath(mediaPath)) {
+        validImagesCount++;
+      }
+    }
 
     unsigned index = 0;
     for (auto &mediaPath : newMediaMap.map()) {
@@ -149,7 +155,7 @@ public:
           (int)Context::inst().data().smallThumbnails().size();
 
       auto resizeTask = [this, mediaPath{mediaPath}, outputPath{outputPath},
-                         taskCount{newMediaMap.map().size()},
+                         taskCount{validImagesCount},
                          intialThumbnailsSize{intialThumbnailsSize}]() {
         imageToThumbnail(mediaPath, outputPath);
 
