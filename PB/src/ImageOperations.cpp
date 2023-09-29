@@ -1,5 +1,8 @@
 #include <pb/ImageOperations.h>
 
+#include <pb/ImageReader.h>
+#include <pb/ImageSetWriter.h>
+
 namespace PB::Process {
 auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
@@ -85,6 +88,22 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
   };
 
   return f;
+}
+
+void readImageWriteThumbnail(Path inputPath, Path outputPath)
+{
+  auto inputImage = ImageReader().loadImage(inputPath);
+  auto imagePointer = PB::Process::resize(
+      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
+      true)(inputImage);
+  ImageSetWriter().write(outputPath, imagePointer);
+}
+
+void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)
+{
+  auto imagePointer = PB::Process::resize(
+      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight), true)(image);
+  ImageSetWriter().write(outputPath, imagePointer);
 }
 
 } // namespace PB::Process
