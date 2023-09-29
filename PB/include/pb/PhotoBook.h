@@ -132,13 +132,15 @@ public:
       return;
     }
 
-    if (newMediaMap.map().empty())
-    {
+    if (newMediaMap.map().empty()) {
       mParent.onFinished();
     }
 
     unsigned index = 0;
     for (auto &mediaPath : newMediaMap.map()) {
+      if (!MediaMap::validImagePath(mediaPath)) {
+        continue;
+      }
       auto outputPath = mProject.details().parentDirectory /
                         mProject.details().dirName /
                         ("thumbnail" + std::to_string(index) + Context::jpgExt);
@@ -223,7 +225,7 @@ public:
     PB::printDebug("Save Photobook %s\n", newName.c_str());
   }
 
-  std::unordered_map<Path, Path>& thumbnails()
+  std::unordered_map<Path, Path> &thumbnails()
   {
     return Context::inst().data().smallThumbnails();
   }
