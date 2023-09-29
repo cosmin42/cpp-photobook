@@ -37,6 +37,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  std::shared_ptr<cv::Mat> imageFromFolder(std::string filename);
+
   void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasControl const &sender,
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
