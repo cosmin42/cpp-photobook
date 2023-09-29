@@ -26,7 +26,8 @@ public:
   static constexpr const char *jpgExt = ".jpg";
   static constexpr const char *bookExt = ".photobook";
 
-  static constexpr std::initializer_list thumbnailSize = {120, 80};
+  static constexpr int thumbnailWidth = 120;
+  static constexpr int thumbnailHeight = 80;
 
   Log const &printer() { return mLogPrinter; }
 
