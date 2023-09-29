@@ -138,19 +138,22 @@ public:
     if (newMediaMap.map().empty()) {
       mParent.onFinished();
     }
+    Context::inst().data().smallThumbnails()[rootPath];
 
     mStagedImagesLogic.generateThumbnails(
         mediaData.at(rootPath),
-        [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()}](Path input,
-                                                                 Path output) {
+        [this, rootPath{rootPath},
+         size{mediaData.at(rootPath).size()}](Path input, Path output) {
           mParent.onProgressUpdate(
               (int)Context::inst().data().smallThumbnails().at(rootPath).size(),
               (int)size);
+
           mParent.post([this, rootPath{rootPath}, input{input}, output{output},
                         size{size}]() {
             Context::inst().data().smallThumbnails()[rootPath][input] = output;
-            if (Context::inst().data().smallThumbnails()[rootPath].size() ==
-                size) {
+            auto progress =
+                Context::inst().data().smallThumbnails()[rootPath].size();
+            if (progress == size) {
               mParent.onFinished();
             }
           });
