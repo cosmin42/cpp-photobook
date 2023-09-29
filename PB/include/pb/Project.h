@@ -37,6 +37,7 @@ public:
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name =
         boost::uuids::to_string(mProjectDetails.uuid) + ".photobook";
+    mProjectDetails.dirName = boost::uuids::to_string(mProjectDetails.uuid);
     mProjectDetails.parentDirectory =
         Persistence<PersistenceType>::localFolder();
   }
