@@ -44,7 +44,7 @@ convert(std::unordered_map<std::string, std::string> const &map)
     return Error() << ErrorCode::ProjectPathDoesNotExist;
   }
 
-  std::string projectDir = projectDetails.name;
+  std::string projectDir = *projectName;
   if (projectDir.find(".photobook") != std::string::npos) {
     projectDir = projectDir.substr(0, projectDir.length() -
                                           std::string(".photobook").length());
