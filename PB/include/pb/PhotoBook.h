@@ -6,11 +6,14 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <thread_pool/thread_pool.h>
+
 #include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
+#include <pb/ImageSetWriter.h>
 #include <pb/Project.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
@@ -61,8 +64,7 @@ public:
           mProject = Project<PersistenceType>(projectDetails);
         }
       }
-      else
-      {
+      else {
         PB::printError("Error loading project.\n");
       }
     });
@@ -122,6 +124,42 @@ public:
     auto &mediaData = Context::inst().data().mediaData();
     mediaData.insert({path, newMediaMap});
 
+    std::vector<std::future<void>> v;
+
+    if (!Persistence<void>::createDirectory(mProject.details().parentDirectory /
+                                            mProject.details().dirName)) {
+      mParent.onFinished();
+      return;
+    }
+
+    unsigned index = 0;
+    for (auto &mediaPath : newMediaMap.map()) {
+      auto outputPath = mProject.details().parentDirectory /
+                        mProject.details().dirName /
+                        ("thumbnail" + std::to_string(index) + Context::jpgExt);
+
+      int intialThumbnailsSize =
+          (int)Context::inst().data().smallThumbnails().size();
+
+      auto resizeTask = [this, mediaPath{mediaPath}, outputPath{outputPath},
+                         taskCount{newMediaMap.map().size()},
+                         intialThumbnailsSize{intialThumbnailsSize}]() {
+        imageToThumbnail(mediaPath, outputPath);
+        mParent.onProgressUpdate();
+        mParent.post([this, intialThumbnailsSize{intialThumbnailsSize},
+                      taskCount{taskCount}, mediaPath{mediaPath},
+                      outputPath{outputPath}]() {
+          addNewThumbnail(mediaPath, outputPath, intialThumbnailsSize,
+                          (int)taskCount);
+        });
+      };
+
+      std::future<void> token = mResizePool.enqueue(resizeTask);
+
+      v.push_back(std::move(token));
+      index++;
+    }
+
     mParent.onFinished();
     // mMappingJobs.erase(path);
     // mListeners.erase(path);
@@ -178,7 +216,29 @@ public:
   }
 
 private:
+  void imageToThumbnail(Path inputPath, Path outputPath)
+  {
+    auto inputImage = ImageReader().loadImage(inputPath);
+    auto imagePointer = PB::Process::resize(
+        cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
+        true)(inputImage);
+    ImageSetWriter().write(outputPath, imagePointer);
+  }
+
+  void addNewThumbnail(Path fullSizeImagePath, Path thumnailPath,
+                       int initialThumbnailsSetSize, int totalTaskCount)
+  {
+    Context::inst().data().smallThumbnails()[fullSizeImagePath] = thumnailPath;
+
+    if (((int)(Context::inst().data().smallThumbnails().size()) -
+         initialThumbnailsSetSize) == totalTaskCount) {
+      PB::printDebug("Thumbnail processing finish.\n");
+    }
+  }
+
   PhotoBookType &mParent;
+
+  dp::thread_pool<std::function<void(void)>> mResizePool;
 
   Persistence<PersistenceType> mCentralPersistence;
 
