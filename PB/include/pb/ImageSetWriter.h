@@ -65,7 +65,6 @@ public:
     }
   }
 
-private:
   void write(Path const &path, std::shared_ptr<cv::Mat> image)
   {
     bool success = cv::imwrite(path.string(), *image);
@@ -73,6 +72,8 @@ private:
       printDebug("File could not be saved to %s", path.string().c_str());
     }
   }
+
+private:
 
   Path makePath(Path path, int counter) const
   {
