@@ -12,6 +12,7 @@ namespace PB {
 struct ProjectDetails {
   boost::uuids::uuid uuid;
   std::string        name;
+  std::string        dirName;
   Path               parentDirectory;
 
   operator std::unordered_map<std::string, std::string>()
