@@ -15,6 +15,7 @@
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>
 #include <pb/Project.h>
+#include <pb/StagedImagesLogic.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -62,6 +63,8 @@ public:
               std::get<ProjectDetails>(projectDetailsOrError);
 
           mProject = Project<PersistenceType>(projectDetails);
+
+          mStagedImagesLogic.provideProjectDetails(projectDetails);
         }
       }
       else {
@@ -136,51 +139,22 @@ public:
       mParent.onFinished();
     }
 
-    unsigned index = 0;
-    for (auto &mediaPath : newMediaMap.map()) {
-
-      auto outputPath = mProject.details().parentDirectory /
-                        mProject.details().dirName /
-                        ("thumbnail" + std::to_string(index) + Context::jpgExt);
-
-      int intialThumbnailsSize =
-          (int)Context::inst().data().smallThumbnails()[rootPath].size();
-
-      auto resizeTask = [this, mediaPath{mediaPath}, outputPath{outputPath},
-                         taskCount{newMediaMap.map().size()},
-                         intialThumbnailsSize{intialThumbnailsSize},
-                         rootPath{rootPath}]() {
-        if (MediaMap::validImagePath(mediaPath)) {
-          imageToThumbnail(mediaPath, outputPath);
-        }
-        else {
-          std::shared_ptr<cv::Mat> image =
-              PB::Process::singleColorImage(1280, 640, {255, 0, 0})();
-
-          image = PB::Process::addText({1280 / 2, 640 / 2},
-                                       mediaPath.parent_path().string(),
-                                       {0, 255, 0})(image);
-          imageToThumbnail(image, outputPath);
-        }
-
-        int completedTasks =
-            (int)(Context::inst().data().smallThumbnails().size()) -
-            intialThumbnailsSize;
-        mParent.onProgressUpdate(completedTasks, (int)taskCount);
-
-        mParent.post([this, intialThumbnailsSize{intialThumbnailsSize},
-                      taskCount{taskCount}, mediaPath{mediaPath},
-                      outputPath{outputPath}, rootPath{rootPath}]() {
-          addNewThumbnail(rootPath, mediaPath, outputPath, intialThumbnailsSize,
-                          (int)taskCount);
+    mStagedImagesLogic.generateThumbnails(
+        mediaData.at(rootPath),
+        [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()}](Path input,
+                                                                 Path output) {
+          mParent.onProgressUpdate(
+              (int)Context::inst().data().smallThumbnails().at(rootPath).size(),
+              (int)size);
+          mParent.post([this, rootPath{rootPath}, input{input}, output{output},
+                        size{size}]() {
+            Context::inst().data().smallThumbnails()[rootPath][input] = output;
+            if (Context::inst().data().smallThumbnails()[rootPath].size() ==
+                size) {
+              mParent.onFinished();
+            }
+          });
         });
-      };
-
-      std::future<void> token = mResizePool.enqueue(resizeTask);
-
-      v.push_back(std::move(token));
-      index++;
-    }
     // mMappingJobs.erase(path);
     // mListeners.erase(path);
   }
@@ -241,15 +215,6 @@ public:
   }
 
 private:
-  void imageToThumbnail(Path inputPath, Path outputPath)
-  {
-    auto inputImage = ImageReader().loadImage(inputPath);
-    auto imagePointer = PB::Process::resize(
-        cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
-        true)(inputImage);
-    ImageSetWriter().write(outputPath, imagePointer);
-  }
-
   void imageToThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)
   {
     auto imagePointer = PB::Process::resize(
@@ -261,7 +226,8 @@ private:
   void addNewThumbnail(Path rootPath, Path fullSizeImagePath, Path thumnailPath,
                        int initialThumbnailsSetSize, int totalTaskCount)
   {
-    Context::inst().data().smallThumbnails()[rootPath][fullSizeImagePath] = thumnailPath;
+    Context::inst().data().smallThumbnails()[rootPath][fullSizeImagePath] =
+        thumnailPath;
 
     if (((int)(Context::inst().data().smallThumbnails().size()) -
          initialThumbnailsSetSize) == totalTaskCount) {
@@ -272,21 +238,16 @@ private:
   PhotoBookType &mParent;
 
   dp::thread_pool<std::function<void(void)>> mResizePool;
-
-  Persistence<PersistenceType> mCentralPersistence;
-
-  Project<PersistenceType> mProject;
-
+  Persistence<PersistenceType>               mCentralPersistence;
+  Project<PersistenceType>                   mProject;
   std::unordered_map<
       Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
       mListeners;
-
   std::unordered_map<Path, MediaMapper<PhotoBookType, PersistenceType>>
-      mMappingJobs;
-
+                                                  mMappingJobs;
   GalleryListener<PhotoBookType, PersistenceType> mGalleryListener;
   Gallery<PhotoBookType, PersistenceType>         mGallery;
-
-  ImageReader mImageReader;
+  ImageReader                                     mImageReader;
+  StagedImagesLogic                               mStagedImagesLogic;
 };
 } // namespace PB
