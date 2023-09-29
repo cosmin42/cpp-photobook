@@ -10,7 +10,10 @@ class DataManager final {
 public:
   std::unordered_map<Path, MediaMap> &mediaData() { return mMediaData; }
   std::vector<Path> &mediaIndexedByType() { return mMediaIndexedByPath; }
-  std::unordered_map<Path, Path> &smallThumbnails() { return mThumbnailsSmall; }
+  std::unordered_map<Path, std::unordered_map<Path, Path>> &smallThumbnails()
+  {
+    return mThumbnailsSmall;
+  }
 
   void clear()
   {
@@ -20,8 +23,8 @@ public:
   }
 
 private:
-  std::unordered_map<Path, MediaMap> mMediaData;
-  std::vector<Path>                  mMediaIndexedByPath;
-  std::unordered_map<Path, Path>     mThumbnailsSmall;
+  std::unordered_map<Path, MediaMap>                       mMediaData;
+  std::vector<Path>                                        mMediaIndexedByPath;
+  std::unordered_map<Path, std::unordered_map<Path, Path>> mThumbnailsSmall;
 };
 } // namespace PB

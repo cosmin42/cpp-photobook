@@ -119,10 +119,10 @@ public:
     return mediaData.at(key);
   }
 
-  void onNewMediaMap(Path &path, MediaMap &newMediaMap)
+  void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
   {
     auto &mediaData = Context::inst().data().mediaData();
-    mediaData.insert({path, newMediaMap});
+    mediaData.insert({rootPath, newMediaMap});
 
     std::vector<std::future<void>> v;
 
@@ -144,11 +144,12 @@ public:
                         ("thumbnail" + std::to_string(index) + Context::jpgExt);
 
       int intialThumbnailsSize =
-          (int)Context::inst().data().smallThumbnails().size();
+          (int)Context::inst().data().smallThumbnails()[rootPath].size();
 
       auto resizeTask = [this, mediaPath{mediaPath}, outputPath{outputPath},
                          taskCount{newMediaMap.map().size()},
-                         intialThumbnailsSize{intialThumbnailsSize}]() {
+                         intialThumbnailsSize{intialThumbnailsSize},
+                         rootPath{rootPath}]() {
         if (MediaMap::validImagePath(mediaPath)) {
           imageToThumbnail(mediaPath, outputPath);
         }
@@ -169,8 +170,8 @@ public:
 
         mParent.post([this, intialThumbnailsSize{intialThumbnailsSize},
                       taskCount{taskCount}, mediaPath{mediaPath},
-                      outputPath{outputPath}]() {
-          addNewThumbnail(mediaPath, outputPath, intialThumbnailsSize,
+                      outputPath{outputPath}, rootPath{rootPath}]() {
+          addNewThumbnail(rootPath, mediaPath, outputPath, intialThumbnailsSize,
                           (int)taskCount);
         });
       };
@@ -257,10 +258,10 @@ private:
     ImageSetWriter().write(outputPath, imagePointer);
   }
 
-  void addNewThumbnail(Path fullSizeImagePath, Path thumnailPath,
+  void addNewThumbnail(Path rootPath, Path fullSizeImagePath, Path thumnailPath,
                        int initialThumbnailsSetSize, int totalTaskCount)
   {
-    Context::inst().data().smallThumbnails()[fullSizeImagePath] = thumnailPath;
+    Context::inst().data().smallThumbnails()[rootPath][fullSizeImagePath] = thumnailPath;
 
     if (((int)(Context::inst().data().smallThumbnails().size()) -
          initialThumbnailsSetSize) == totalTaskCount) {
