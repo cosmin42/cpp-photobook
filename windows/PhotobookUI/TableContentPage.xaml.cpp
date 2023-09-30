@@ -202,6 +202,8 @@ void TableContentPage::onFinished()
   }
 
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+  MainProgressBar().Visibility(
+      winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 }
 
 void TableContentPage::onFoldersSelectionChanged(
@@ -229,6 +231,8 @@ void TableContentPage::onResumed() {}
 void TableContentPage::onProgressUpdate([[maybe_unused]] int progress,
                                         [[maybe_unused]] int reference)
 {
+  MainProgressBar().Maximum(reference);
+  MainProgressBar().Value(progress);
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 

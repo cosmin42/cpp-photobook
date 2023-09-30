@@ -296,8 +296,6 @@
                 x:Name="MainProgressBar"
                 Width="300"
                 Height="20"
-                Maximum="100"
-                Value="50"
                 Margin="20,0,0,0"/>
         </Grid>
     </Grid>
