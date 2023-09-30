@@ -47,5 +47,6 @@ private:
   std::unordered_map<Path, std::unordered_map<Path, Path>> mThumbnailsSmall;
   std::unordered_map<Path, std::unordered_map<Path, Path>>
       mThumbnailsSmallInverse;
+
 };
 } // namespace PB

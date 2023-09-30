@@ -1,9 +1,10 @@
 #include <pb/StagedImagesLogic.h>
 
 namespace PB {
-ResizeTask::ResizeTask(Path fullSizePath, Path outputPath,
+ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                        unsigned totalTaskCount, std::function<void()> onFinish)
-    : mFullSizePath(fullSizePath), mOutputPath(outputPath),
+    : mFullSizePath(fullSizePath),
+      mSmallThumbnailOutputPath(smallThumbnailOutputPath),
       mTotalTaskCount(totalTaskCount), mFinish(onFinish)
 {
 }
@@ -11,7 +12,7 @@ ResizeTask::ResizeTask(Path fullSizePath, Path outputPath,
 void ResizeTask::operator()() const
 {
   if (MediaMap::validImagePath(mFullSizePath)) {
-    Process::readImageWriteThumbnail(mFullSizePath, mOutputPath);
+    Process::readImageWriteThumbnail(mFullSizePath, mSmallThumbnailOutputPath);
   }
   else {
     std::shared_ptr<cv::Mat> image =
@@ -20,7 +21,7 @@ void ResizeTask::operator()() const
     image = PB::Process::addText({1280 / 2, 640 / 2},
                                  mFullSizePath.parent_path().string(),
                                  {0, 255, 0})(image);
-    Process::imageWriteThumbnail(image, mOutputPath);
+    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath);
   }
   mFinish();
 }

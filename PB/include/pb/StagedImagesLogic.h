@@ -10,14 +10,14 @@ namespace PB {
 class ResizeTask final {
 public:
   ResizeTask() = delete;
-  explicit ResizeTask(Path fullSizePath, Path outputPath,
+  explicit ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                       unsigned totalTaskCount, std::function<void()> onFinish);
 
   void operator()() const;
 
 private:
   Path                  mFullSizePath;
-  Path                  mOutputPath;
+  Path                  mSmallThumbnailOutputPath;
   unsigned              mTotalTaskCount;
   std::function<void()> mFinish;
 };
