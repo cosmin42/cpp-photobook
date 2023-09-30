@@ -147,9 +147,9 @@ void TableContentPage::CanvasControlDraw(
     return;
   }
 
-  int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
+  int32_t portviewWidth = (int32_t)GalleryCanvas().Width();
 
-  int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
+  int32_t portviewHeight = (int32_t)GalleryCanvas().Height();
 
   std::shared_ptr<cv::Mat> image = nullptr;
   if (PB::MediaMap::validImagePath(*itemPath)) {
@@ -219,6 +219,14 @@ void TableContentPage::onFoldersSelectionChanged(
   mPhotoBook.gallery().selectIndex(index);
 
   updateGalleryLabel();
+}
+
+void TableContentPage::onStagedListViewSelectionChanged(
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const&,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+    SelectionChangedEventArgs const&)
+{
+
 }
 
 void TableContentPage::onStopped() {}

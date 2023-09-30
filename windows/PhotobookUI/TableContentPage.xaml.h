@@ -52,6 +52,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
 
+  void onStagedListViewSelectionChanged(
+      [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+          SelectionChangedEventArgs const &);
+
   void onContentDialogSaveClicked(
       Windows::Foundation::IInspectable const &sender,
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const

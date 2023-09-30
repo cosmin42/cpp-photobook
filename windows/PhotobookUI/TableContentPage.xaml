@@ -240,6 +240,8 @@
                             ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.HorizontalScrollBarVisibility="Visible"
                             ScrollViewer.IsHorizontalRailEnabled="True"
+                            SelectionMode="Multiple"
+                            SelectionChanged="onStagedListViewSelectionChanged"
                             AllowDrop="True"
                             CanDragItems="True"
                             CanReorderItems="False">
