@@ -139,7 +139,7 @@ public:
       mParent.onFinished();
     }
 
-    Context::inst().data().smallThumbnails()[rootPath];
+    Context::inst().data().newSmallTumbnailMap(rootPath);
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -148,16 +148,16 @@ public:
         [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
          start{start}](Path input, Path output) {
           mParent.onProgressUpdate(
-              (int)Context::inst().data().smallThumbnails().at(rootPath).size(),
+              (int)Context::inst().data().smallThumbnails(rootPath).size(),
               (int)size);
 
           mParent.onStagedImageAdded(output);
 
           mParent.post([this, rootPath{rootPath}, input{input}, output{output},
                         size{size}, start{start}]() {
-            Context::inst().data().smallThumbnails()[rootPath][input] = output;
+            Context::inst().data().addSmallThumbnail(rootPath, input, output);
             auto progress =
-                Context::inst().data().smallThumbnails()[rootPath].size();
+                Context::inst().data().smallThumbnails(rootPath).size();
             if (progress == size) {
 
               auto end = std::chrono::high_resolution_clock::now();
@@ -233,18 +233,6 @@ private:
         cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
         true)(image);
     ImageSetWriter().write(outputPath, imagePointer);
-  }
-
-  void addNewThumbnail(Path rootPath, Path fullSizeImagePath, Path thumnailPath,
-                       int initialThumbnailsSetSize, int totalTaskCount)
-  {
-    Context::inst().data().smallThumbnails()[rootPath][fullSizeImagePath] =
-        thumnailPath;
-
-    if (((int)(Context::inst().data().smallThumbnails().size()) -
-         initialThumbnailsSetSize) == totalTaskCount) {
-      mParent.onFinished();
-    }
   }
 
   PhotoBookType &mParent;

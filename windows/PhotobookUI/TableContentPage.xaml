@@ -216,8 +216,26 @@
                     </Grid.ColumnDefinitions>
 
                     <ListView
-                            x:Name="StagedListView"
+                            x:Name="UnstagedListView"
                             Grid.Row="0"
+                            Grid.Column="0"
+                            ScrollViewer.HorizontalScrollMode="Enabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.IsHorizontalRailEnabled="True"
+                            AllowDrop="True"
+                            CanDragItems="True"
+                            CanReorderItems="False"
+                            HorizontalAlignment="Left">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:ImageUIData">
+                                <Image Source="{x:Bind FullPath}" Width="50" Height="20" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <ListView
+                            x:Name="StagedListView"
+                            Grid.Row="1"
                             Grid.Column="0"
                             ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -238,24 +256,6 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
                                 <Image Source="{x:Bind FullPath}" Width="120" Height="80" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                    <ListView
-                            x:Name="UnstagedListView"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            ScrollViewer.HorizontalScrollMode="Enabled"
-                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                            ScrollViewer.IsHorizontalRailEnabled="True"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="False"
-                            HorizontalAlignment="Left">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}" Width="50" Height="20" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
