@@ -67,8 +67,7 @@ auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
 {
   auto f = [width{width}, height{height},
             color{color}]() -> std::shared_ptr<cv::Mat> {
-    return std::make_shared<cv::Mat>(height, width, CV_8UC4,
-                                    color);
+    return std::make_shared<cv::Mat>(height, width, CV_8UC4, color);
   };
 
   return f;
@@ -90,13 +89,18 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
   return f;
 }
 
-void readImageWriteThumbnail(Path inputPath, Path outputPath)
+void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
+                             Path mediumOutputPath)
 {
   auto inputImage = ImageReader().loadImage(inputPath);
-  auto imagePointer = PB::Process::resize(
+  auto smallImagePointer = PB::Process::resize(
       cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
       true)(inputImage);
-  ImageSetWriter().write(outputPath, imagePointer);
+  auto mediumImagePointer = PB::Process::resize(
+      cv::Size(Context::mediumThumbnailWidth, Context::mediumThumbnailHeight),
+      true)(inputImage);
+  ImageSetWriter().write(smallOutputPath, smallImagePointer);
+  ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
 }
 
 void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)

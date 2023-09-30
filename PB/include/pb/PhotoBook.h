@@ -146,16 +146,18 @@ public:
     mStagedImagesLogic.generateThumbnails(
         mediaData.at(rootPath),
         [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
-         start{start}](Path input, Path output) {
+         start{start}](Path input, Path smallOutput, [[maybe_unused]] Path mediumOutput) {
           mParent.onProgressUpdate(
               (int)Context::inst().data().smallThumbnails(rootPath).size(),
               (int)size);
 
-          mParent.onStagedImageAdded(output);
+          mParent.onStagedImageAdded(smallOutput);
 
-          mParent.post([this, rootPath{rootPath}, input{input}, output{output},
+          mParent.post([this, rootPath{rootPath}, input{input},
+                        smallOutput{smallOutput},
                         size{size}, start{start}]() {
-            Context::inst().data().addSmallThumbnail(rootPath, input, output);
+            Context::inst().data().addSmallThumbnail(rootPath, input,
+                                                     smallOutput);
             auto progress =
                 Context::inst().data().smallThumbnails(rootPath).size();
             if (progress == size) {

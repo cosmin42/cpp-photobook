@@ -2,9 +2,11 @@
 
 namespace PB {
 ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
-                       unsigned totalTaskCount, std::function<void()> onFinish)
+                       Path mediumThumbnailOutputPath, unsigned totalTaskCount,
+                       std::function<void()> onFinish)
     : mFullSizePath(fullSizePath),
       mSmallThumbnailOutputPath(smallThumbnailOutputPath),
+      mMediumThumbnailOutputPath(mediumThumbnailOutputPath),
       mTotalTaskCount(totalTaskCount), mFinish(onFinish)
 {
 }
@@ -12,7 +14,8 @@ ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
 void ResizeTask::operator()() const
 {
   if (MediaMap::validImagePath(mFullSizePath)) {
-    Process::readImageWriteThumbnail(mFullSizePath, mSmallThumbnailOutputPath);
+    Process::readImageWriteThumbnail(mFullSizePath, mSmallThumbnailOutputPath,
+                                     mMediumThumbnailOutputPath);
   }
   else {
     std::shared_ptr<cv::Mat> image =
@@ -42,19 +45,20 @@ void StagedImagesLogic::provideProjectDetails(
 }
 
 void StagedImagesLogic::generateThumbnails(
-    MediaMap &mediaMap, std::function<void(Path, Path)> onThumbnailWritten)
+    MediaMap &mediaMap, std::function<void(Path, Path, Path)> onThumbnailWritten)
 {
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = mediaMap.size();
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
     auto inputPath = mediaMap.map().at(i);
-    auto outputPath = assembleOutputPath(i);
+    auto [smallPath, mediumPath] = assembleOutputPaths(i);
 
-    ResizeTask        resizeTask(mediaMap.map().at(i), outputPath, taskCount,
+    ResizeTask        resizeTask(mediaMap.map().at(i), smallPath, mediumPath, taskCount,
                                  [mThumbnailWritten{mThumbnailWritten},
-                           inputPath{inputPath}, outputPath{outputPath}]() {
-                            mThumbnailWritten(inputPath, outputPath);
+                           inputPath{inputPath}, smallPath{smallPath},
+                           mediumPath{mediumPath}]() {
+                            mThumbnailWritten(inputPath, smallPath, mediumPath);
                           });
     std::future<void> token = mResizePool.enqueue(resizeTask);
 
@@ -62,14 +66,19 @@ void StagedImagesLogic::generateThumbnails(
   }
 }
 
-Path StagedImagesLogic::assembleOutputPath(int index)
+std::pair<Path, Path> StagedImagesLogic::assembleOutputPaths(int index)
 {
   assert(index >= 0);
   assert(mProjectDetails.dirName.length() > 0);
 
-  auto path = mProjectDetails.parentDirectory / mProjectDetails.dirName /
-              (sPrefix + std::to_string(index) + Context::jpgExt);
+  auto smallOutputPath =
+      mProjectDetails.parentDirectory / mProjectDetails.dirName /
+      (sSmallThumbnailPrefix + std::to_string(index) + Context::jpgExt);
 
-  return path;
+  auto mediumOutputPath =
+      mProjectDetails.parentDirectory / mProjectDetails.dirName /
+      (sMediumThumbnailPrefix + std::to_string(index) + Context::jpgExt);
+
+  return {smallOutputPath, mediumOutputPath};
 }
 } // namespace PB

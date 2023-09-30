@@ -11,13 +11,15 @@ class ResizeTask final {
 public:
   ResizeTask() = delete;
   explicit ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
-                      unsigned totalTaskCount, std::function<void()> onFinish);
+                      Path mediumThumbnailOutputPath, unsigned totalTaskCount,
+                      std::function<void()> onFinish);
 
   void operator()() const;
 
 private:
   Path                  mFullSizePath;
   Path                  mSmallThumbnailOutputPath;
+  Path                  mMediumThumbnailOutputPath;
   unsigned              mTotalTaskCount;
   std::function<void()> mFinish;
 };
@@ -30,15 +32,16 @@ public:
   void provideProjectDetails(ProjectDetails const &);
 
   void generateThumbnails(MediaMap                       &mediaMap,
-                          std::function<void(Path, Path)> onThumbnailWritten);
+                          std::function<void(Path, Path, Path)> onThumbnailWritten);
 
 private:
-  static constexpr const char               *sPrefix = "thumbnail";
-  static constexpr unsigned                  sNumberOfThreads = 4;
-  Path                                       assembleOutputPath(int index);
-  ProjectDetails                             mProjectDetails;
+  static constexpr const char *sSmallThumbnailPrefix = "thumbnail";
+  static constexpr const char *sMediumThumbnailPrefix = "thumbnail-medium";
+  static constexpr unsigned    sNumberOfThreads = 4;
+  std::pair<Path, Path>        assembleOutputPaths(int index);
+  ProjectDetails               mProjectDetails;
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
-  std::function<void(Path, Path)>            mThumbnailWritten;
+  std::function<void(Path, Path, Path)>            mThumbnailWritten;
 };
 } // namespace PB
