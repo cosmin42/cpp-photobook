@@ -227,13 +227,6 @@ public:
   }
 
 private:
-  void imageToThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)
-  {
-    auto imagePointer = PB::Process::resize(
-        cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
-        true)(image);
-    ImageSetWriter().write(outputPath, imagePointer);
-  }
 
   PhotoBookType &mParent;
 
