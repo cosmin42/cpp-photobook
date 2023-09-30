@@ -198,6 +198,7 @@
             </Grid.ColumnDefinitions>
 
             <Border
+                x:Name="BorderName"
                 BorderBrush="#004C35"
                 BorderThickness="1"
                 Padding="16,8">
@@ -211,7 +212,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="{Binding ActualWidth, ElementName=BorderName}"/>
                     </Grid.ColumnDefinitions>
 
                     <ListView
@@ -223,8 +224,7 @@
                             ScrollViewer.IsHorizontalRailEnabled="True"
                             AllowDrop="True"
                             CanDragItems="True"
-                            CanReorderItems="False"
-                            HorizontalAlignment="Left">
+                            CanReorderItems="False">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin" Value="0"/>
