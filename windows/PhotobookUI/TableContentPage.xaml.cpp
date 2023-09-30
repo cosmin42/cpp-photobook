@@ -157,10 +157,11 @@ void TableContentPage::CanvasControlDraw(
                                         {portviewWidth, portviewHeight});
   }
   else {
-    image = PB::Process::singleColorImage(
-        portviewWidth, portviewHeight, {255, 0, 0})();
+    image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
+                                          {255, 0, 0})();
 
-    image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
+    image =
+        PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
                              itemPath->filename().string(), {0, 255, 0})(image);
   }
 
@@ -234,6 +235,11 @@ void TableContentPage::onProgressUpdate([[maybe_unused]] int progress,
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
+}
+
+void TableContentPage::onStagedImageAdded(PB::Path path)
+{
+  mStagingImageCollection.Append(ImageUIData(winrt::to_hstring(path.string())));
 }
 
 void TableContentPage::onError(PB::Error error) {}

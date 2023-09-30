@@ -151,6 +151,8 @@ public:
               (int)Context::inst().data().smallThumbnails().at(rootPath).size(),
               (int)size);
 
+          mParent.onStagedImageAdded(output);
+
           mParent.post([this, rootPath{rootPath}, input{input}, output{output},
                         size{size}, start{start}]() {
             Context::inst().data().smallThumbnails()[rootPath][input] = output;

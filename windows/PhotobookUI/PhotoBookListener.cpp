@@ -31,15 +31,20 @@ void PhotoBookListener::onResumed()
 
 void PhotoBookListener::onProgressUpdate(int progress, int reference)
 {
-  mParent.post([this, progress, reference]() { mParent.onProgressUpdate(progress, reference); });
+  mParent.post([this, progress, reference]() {
+    mParent.onProgressUpdate(progress, reference);
+  });
 }
+
+void PhotoBookListener::onStagedImageAdded(PB::Path path)
+{
+  mParent.post([this, path]() { mParent.onStagedImageAdded(path); });
+}
+
 void PhotoBookListener::onError(PB::Error error)
 {
   mParent.post([error{error}, this]() { mParent.onError(error); });
 }
 
-void PhotoBookListener::post(std::function<void()> f)
-{
-  mParent.post(f);
-}
+void PhotoBookListener::post(std::function<void()> f) { mParent.post(f); }
 } // namespace winrt::PhotobookUI::implementation
