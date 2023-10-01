@@ -11,9 +11,14 @@ public:
   std::unordered_map<Path, MediaMap> &mediaData() { return mMediaData; }
   std::vector<Path> &mediaIndexedByType() { return mMediaIndexedByPath; }
 
-  std::unordered_map<Path, Path> const& smallThumbnails(Path root)
+  std::unordered_map<Path, Path> const &smallThumbnails(Path root)
   {
     return mThumbnailsSmall.at(root);
+  }
+
+  std::unordered_map<Path, Path> const &mediumThumbnails(Path root)
+  {
+    return mThumbnailsMedium.at(root);
   }
 
   void newSmallTumbnailMap(Path root)
@@ -22,10 +27,22 @@ public:
     mThumbnailsSmallInverse[root];
   }
 
+  void newMediumTumbnailMap(Path root)
+  {
+    mThumbnailsMedium[root];
+    mThumbnailsMediumInverse[root];
+  }
+
   void addSmallThumbnail(Path root, Path fullSize, Path smallSize)
   {
     mThumbnailsSmall[root][fullSize] = smallSize;
     mThumbnailsSmallInverse[root][smallSize] = fullSize;
+  }
+
+  void addMediumThumbnail(Path root, Path fullSize, Path mediumSize)
+  {
+    mThumbnailsMedium[root][fullSize] = mediumSize;
+    mThumbnailsMediumInverse[root][mediumSize] = fullSize;
   }
 
   void clearSmallThumbnails()
@@ -34,19 +51,30 @@ public:
     mThumbnailsSmallInverse.clear();
   }
 
+  void clearMediumThumbnails()
+  {
+    mThumbnailsMedium.clear();
+    mThumbnailsMediumInverse.clear();
+  }
+
   void clear()
   {
     mMediaIndexedByPath.clear();
     mMediaData.clear();
     clearSmallThumbnails();
+    clearMediumThumbnails();
   }
 
 private:
-  std::unordered_map<Path, MediaMap>                       mMediaData;
-  std::vector<Path>                                        mMediaIndexedByPath;
+  std::unordered_map<Path, MediaMap> mMediaData;
+  std::vector<Path>                  mMediaIndexedByPath;
+
   std::unordered_map<Path, std::unordered_map<Path, Path>> mThumbnailsSmall;
   std::unordered_map<Path, std::unordered_map<Path, Path>>
       mThumbnailsSmallInverse;
 
+  std::unordered_map<Path, std::unordered_map<Path, Path>> mThumbnailsMedium;
+  std::unordered_map<Path, std::unordered_map<Path, Path>>
+      mThumbnailsMediumInverse;
 };
 } // namespace PB

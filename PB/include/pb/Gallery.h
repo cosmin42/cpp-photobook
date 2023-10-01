@@ -28,7 +28,12 @@ public:
     else {
       mCurrentIterator = std::nullopt;
     }
+
+    mSelectedMedia =
+        Context::inst().data().mediaIndexedByType().at(mSelectedFolderIndex);
   }
+
+  auto selectedMedia() const -> std::optional<Path> { return mSelectedMedia; }
 
   void navigateLeft()
   {
@@ -89,5 +94,6 @@ private:
   int                             mGalleryIndex = -1;
   std::optional<MediaMap>         mCurrentMap;
   std::optional<CircularIterator> mCurrentIterator;
+  std::optional<Path>             mSelectedMedia;
 };
 } // namespace PB

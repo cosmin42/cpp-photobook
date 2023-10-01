@@ -142,18 +142,20 @@ void TableContentPage::CanvasControlDraw(
 
   auto &gallery = mPhotoBook.gallery();
 
-  auto itemPath = gallery.selectedItem();
-  if (!itemPath.has_value()) {
-    return;
-  }
-
   int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
 
   int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
 
   std::shared_ptr<cv::Mat> image = nullptr;
-  if (PB::MediaMap::validImagePath(*itemPath)) {
-    image = mPhotoBook.loadGalleryImage(itemPath->string(),
+
+  auto mediumThumbnailPath = mPhotoBook.mediumThumbnail(gallery.selectedMedia(),
+                                                        gallery.selectedItem());
+
+  if (!mediumThumbnailPath) {
+    return;
+  }
+  if (PB::MediaMap::validImagePath(*mediumThumbnailPath)) {
+    image = mPhotoBook.loadGalleryImage(mediumThumbnailPath->string(),
                                         {portviewWidth, portviewHeight});
   }
   else {
@@ -162,7 +164,8 @@ void TableContentPage::CanvasControlDraw(
 
     image =
         PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
-                             itemPath->filename().string(), {0, 255, 0})(image);
+                                 mediumThumbnailPath->filename().string(),
+                                 {0, 255, 0})(image);
   }
 
   auto device = CanvasDevice::GetSharedDevice();
@@ -206,9 +209,9 @@ void TableContentPage::onFinished()
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
-  PB::printDebug("Index selected %d\n", mMediaListNative.size()-1);
+  PB::printDebug("Index selected %d\n", (int)(mMediaListNative.size() - 1));
 
-  mPhotoBook.gallery().selectIndex(mMediaListNative.size() - 1);
+  mPhotoBook.gallery().selectIndex((int)(mMediaListNative.size() - 1));
 
   updateGalleryLabel();
 }
@@ -228,11 +231,10 @@ void TableContentPage::onFoldersSelectionChanged(
 }
 
 void TableContentPage::onStagedListViewSelectionChanged(
-    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const&,
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
-    SelectionChangedEventArgs const&)
+        SelectionChangedEventArgs const &)
 {
-
 }
 
 void TableContentPage::onStopped() {}

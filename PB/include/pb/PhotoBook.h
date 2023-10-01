@@ -146,7 +146,8 @@ public:
     mStagedImagesLogic.generateThumbnails(
         mediaData.at(rootPath),
         [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
-         start{start}](Path input, Path smallOutput, [[maybe_unused]] Path mediumOutput) {
+         start{start}](Path input, Path smallOutput,
+                       [[maybe_unused]] Path mediumOutput) {
           mParent.onProgressUpdate(
               (int)Context::inst().data().smallThumbnails(rootPath).size(),
               (int)size);
@@ -154,10 +155,13 @@ public:
           mParent.onStagedImageAdded(smallOutput);
 
           mParent.post([this, rootPath{rootPath}, input{input},
-                        smallOutput{smallOutput},
-                        size{size}, start{start}]() {
+                        smallOutput{smallOutput}, size{size}, start{start},
+                        mediumOutput{mediumOutput}]() {
             Context::inst().data().addSmallThumbnail(rootPath, input,
                                                      smallOutput);
+
+            Context::inst().data().addMediumThumbnail(rootPath, input,
+                                                      mediumOutput);
             auto progress =
                 Context::inst().data().smallThumbnails(rootPath).size();
             if (progress == size) {
@@ -171,6 +175,15 @@ public:
         });
     // mMappingJobs.erase(path);
     // mListeners.erase(path);
+  }
+
+  std::optional<Path> mediumThumbnail(std::optional<Path> root,
+                                      std::optional<Path> original)
+  {
+    if (!root || !original) {
+      return std::nullopt;
+    }
+    return Context::inst().data().mediumThumbnails(*root).at(*original);
   }
 
   Gallery<PhotoBookType, PersistenceType> &gallery() { return mGallery; }
@@ -229,7 +242,6 @@ public:
   }
 
 private:
-
   PhotoBookType &mParent;
 
   dp::thread_pool<std::function<void(void)>> mResizePool;
