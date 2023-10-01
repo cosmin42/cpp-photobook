@@ -10,7 +10,15 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="#001C13">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ColorScheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource PrimaryColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="5*" />
@@ -34,7 +42,7 @@
             </Grid.ColumnDefinitions>
 
             <Button
-                Background="#004C35"
+                Background="{StaticResource ButtonBackgroundColor}"
                 Click="onBackClicked"
                 CornerRadius="0"
                 Grid.Column="0"
@@ -94,7 +102,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Button
                                     Grid.Column="0"
-                                    Background="#004C35"
+                                    Background="{StaticResource ButtonBackgroundColor}"
                                     Content="+"
                                     Click="onAddToTableClicked"
                                     x:Name="AddToTableButton"
@@ -106,13 +114,13 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <Border
-                    BorderBrush="#004C35"
+                    BorderBrush="{StaticResource BorderColor}"
                     BorderThickness="1"
                     Padding="16,8"
                     Grid.Row="0"
                     Grid.Column="0">
                     <Button
-                        Background="#004C35"
+                        Background="{StaticResource ButtonBackgroundColor}"
                         Click="onAddMediaButtonClicked"
                         CornerRadius="4"
                         Content="Add Media"
@@ -123,7 +131,7 @@
             </Grid>
 
             <Border
-                BorderBrush="#004C35"
+                BorderBrush="{StaticResource BorderColor}"
                 BorderThickness="1"
                 Padding="16,8"
                 Grid.Row="0"
@@ -163,7 +171,7 @@
                         VerticalAlignment="Center"/>
 
                     <Button
-                        Background="#004C35"
+                        Background="{StaticResource ButtonBackgroundColor}"
                         Click="onGalleryLeft"
                         CornerRadius="0"
                         Grid.Column="0"
@@ -175,7 +183,7 @@
                         IsEnabled="False"/>
 
                     <Button
-                        Background="#004C35"
+                        Background="{StaticResource ButtonBackgroundColor}"
                         Click="onGalleryRight"
                         CornerRadius="0"
                         Grid.Column="1"
@@ -199,7 +207,7 @@
 
             <Border
                 x:Name="BorderName"
-                BorderBrush="#004C35"
+                BorderBrush="{StaticResource BorderColor}"
                 BorderThickness="1"
                 Padding="16,8">
 

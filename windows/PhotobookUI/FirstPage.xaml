@@ -33,7 +33,7 @@
                 Grid.Column="0"
                 x:Name="addProjectButton"
                 Click="AddProjectClicked"
-                Background="#004C35"
+                Background="{StaticResource ButtonBackgroundColor}"
                 Foreground="#FFFFFF"
                 Width="100"
                 Height="100">
@@ -56,7 +56,7 @@
                             <Button
                                 Grid.Column="0"
                                 Content="{x:Bind Name}"
-                                Background="#004C35"
+                                Background="{StaticResource ButtonBackgroundColor}"
                                 Foreground="#FFFFFF"
                                 Width="100"
                                 Height="100" />
