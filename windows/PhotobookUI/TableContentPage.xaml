@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Page
-    x:Class="PhotobookUI.TableContentPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PhotobookUI"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
-
+<Page x:Class="PhotobookUI.TableContentPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:PhotobookUI"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+      xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+      mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ColorScheme.xaml"/>
+                <ResourceDictionary Source="ColorScheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
     <Grid Background="{StaticResource PrimaryColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -26,64 +23,57 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-        <Grid
-            Grid.Row="0"
-            Grid.Column="0">
+        <Grid Grid.Row="0"
+              Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10*" />
             </Grid.ColumnDefinitions>
-
-            <Button
-                Background="{StaticResource ButtonBackgroundColor}"
-                Click="onBackClicked"
-                CornerRadius="0"
-                Grid.Column="0"
-                Grid.Row="0"
-                Content="Back"
-                x:Name="BackButton"
-                Foreground="#FFFFFF"/>
-
-            <winui:MenuBar VerticalAlignment="Top" Grid.Column="1" Grid.Row="0">
-                <winui:MenuBarItem Background="{StaticResource ButtonBackgroundColor}" Title="File" CornerRadius="0">
+            <Button Background="{StaticResource ButtonBackgroundColor}"
+                    Click="onBackClicked"
+                    CornerRadius="0"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Content="Back"
+                    x:Name="BackButton"
+                    Foreground="#FFFFFF" />
+            <winui:MenuBar VerticalAlignment="Top"
+                           Grid.Column="1"
+                           Grid.Row="0">
+                <winui:MenuBarItem Background="{StaticResource ButtonBackgroundColor}"
+                                   Title="File"
+                                   CornerRadius="0">
                     <MenuFlyoutItem Text="New" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Text="Save" />
                     <MenuFlyoutItem Text="Save As" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Text="Export"
-                        Click="onExportClicked"/>
+                                    Click="onExportClicked" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Text="Exit" />
                 </winui:MenuBarItem>
-
             </winui:MenuBar>
-
-            <TextBlock
-                Grid.Column="2"
-                Grid.Row="0"
-                Foreground="#FFFFFF"
-                Text="Photobook"
-                HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="2"
+                       Grid.Row="0"
+                       Foreground="#FFFFFF"
+                       Text="Photobook"
+                       HorizontalAlignment="Center" />
         </Grid>
-
-        <Grid
-            Grid.Row="1"
-            Grid.Column="0">
-
+        <Grid Grid.Row="1"
+              Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid>
                 <ListView Name="MediaListView"
@@ -94,50 +84,54 @@
                           CanReorderItems="False">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid VerticalAlignment="Center" x:Name="GridListName">
+                            <Grid VerticalAlignment="Center"
+                                  x:Name="GridListName">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="4*" />
                                 </Grid.ColumnDefinitions>
-                                <Button
-                                    Grid.Column="0"
-                                    Background="{StaticResource ButtonBackgroundColor}"
-                                    Content="+"
-                                    Click="onAddToTableClicked"
-                                    x:Name="AddToTableButton"
-                                    Foreground="#FFFFFF"/>
-                                <Image Grid.Column="1" x:Name="folderImage" Source="Assets/folderIcon.png" Width="64" Height="64" HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Column="2" Text="{Binding}" Foreground="#FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Button Grid.Column="0"
+                                        Background="{StaticResource ButtonBackgroundColor}"
+                                        Content="+"
+                                        Click="onAddToTableClicked"
+                                        x:Name="AddToTableButton"
+                                        Foreground="#FFFFFF" />
+                                <Image Grid.Column="1"
+                                       x:Name="folderImage"
+                                       Source="Assets/folderIcon.png"
+                                       Width="64"
+                                       Height="64"
+                                       HorizontalAlignment="Left" />
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding}"
+                                           Foreground="#FFFFFF"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Border
+                <Border BorderBrush="{StaticResource BorderColor}"
+                        BorderThickness="1"
+                        Padding="16,8"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                    <Button Background="{StaticResource ButtonBackgroundColor}"
+                            Click="onAddMediaButtonClicked"
+                            CornerRadius="4"
+                            Content="Add Media"
+                            x:Name="AddMediaButton"
+                            Foreground="#FFFFFF"
+                            HorizontalAlignment="Center" />
+                </Border>
+            </Grid>
+            <Border x:Name="CanvasBorder"
                     BorderBrush="{StaticResource BorderColor}"
                     BorderThickness="1"
                     Padding="16,8"
                     Grid.Row="0"
-                    Grid.Column="0">
-                    <Button
-                        Background="{StaticResource ButtonBackgroundColor}"
-                        Click="onAddMediaButtonClicked"
-                        CornerRadius="4"
-                        Content="Add Media"
-                        x:Name="AddMediaButton"
-                        Foreground="#FFFFFF"
-                        HorizontalAlignment="Center"/>
-                </Border>
-            </Grid>
-
-            <Border
-                x:Name="CanvasBorder"
-                BorderBrush="{StaticResource BorderColor}"
-                BorderThickness="1"
-                Padding="16,8"
-                Grid.Row="0"
-                Grid.Column="1">
-
+                    Grid.Column="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="8*" />
@@ -145,174 +139,153 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
-                    <Grid
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2">
-                        <canvas:CanvasControl
-                            Height="Auto"
-                            Width="Auto"
-                            Draw="CanvasControlDraw"
-                            x:Name="GalleryCanvas"
-                            ClearColor="#000000"/>
+                    <Grid Grid.Row="0"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2">
+                        <canvas:CanvasControl Height="Auto"
+                                              Width="Auto"
+                                              Draw="CanvasControlDraw"
+                                              x:Name="GalleryCanvas"
+                                              ClearColor="#000000" />
                     </Grid>
-
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        x:Name="GalleryMainText"
-                        Foreground="#FFFFFF"
-                        Text="No text"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"/>
-                    <Button
-                        Click="onGalleryLeft"
-                        CornerRadius="0"
-                        Grid.Column="0"
-                        Grid.Row="2"
-                        x:Name="GalleryLeftButton"
-                        Foreground="#FFFFFF"
-                        HorizontalAlignment="Right"
-                        Background="{StaticResource ButtonBackgroundDisabled}"
-                        IsEnabled="False"
-                        Height="50">
-                        
-                        <Image Source="Assets/page-left-enabled.png"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               x:Name="GalleryMainText"
+                               Foreground="#FFFFFF"
+                               Text="No text"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    <Button Click="onGalleryLeft"
+                            CornerRadius="0"
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            x:Name="GalleryLeftButton"
+                            Foreground="#FFFFFF"
+                            HorizontalAlignment="Right"
+                            Background="{StaticResource ButtonBackgroundDisabled}"
+                            IsEnabled="False"
+                            Height="50">
+                        <Image Source="Assets/page-left-enabled.png" />
                     </Button>
-
-                    <Button
-                        Background="{StaticResource ButtonBackgroundDisabled}"
-                        Click="onGalleryRight"
-                        CornerRadius="0"
-                        Grid.Column="1"
-                        Grid.Row="2"
-                        x:Name="GalleryRightButton"
-                        Foreground="#FFFFFF"
-                        IsEnabled="False"
-                        Height="50">
+                    <Button Background="{StaticResource ButtonBackgroundDisabled}"
+                            Click="onGalleryRight"
+                            CornerRadius="0"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            x:Name="GalleryRightButton"
+                            Foreground="#FFFFFF"
+                            IsEnabled="False"
+                            Height="50">
                         <Image Source="Assets/page-right-enabled.png" />
                     </Button>
                 </Grid>
             </Border>
         </Grid>
-        <Grid
-            Grid.Row="2"
-            Grid.Column="0">
+        <Grid Grid.Row="2"
+              Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-            <Border
-                x:Name="BorderName"
-                BorderBrush="{StaticResource BorderColor}"
-                BorderThickness="1"
-                Padding="16,8">
-
-                <Grid
-                    Grid.Row="2"
-                    Grid.Column="0">
-
+            <Border x:Name="BorderName"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="1"
+                    Padding="16,8">
+                <Grid Grid.Row="2"
+                      Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding ActualWidth, ElementName=BorderName}"/>
+                        <ColumnDefinition Width="{Binding ActualWidth, ElementName=BorderName}" />
                     </Grid.ColumnDefinitions>
-
-                    <ListView
-                            x:Name="UnstagedListView"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            ScrollViewer.HorizontalScrollMode="Enabled"
-                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                            ScrollViewer.IsHorizontalRailEnabled="True"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="False"
-                            HorizontalAlignment="Left">
+                    <ListView x:Name="UnstagedListView"
+                              Grid.Row="0"
+                              Grid.Column="0"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                              ScrollViewer.IsHorizontalRailEnabled="True"
+                              AllowDrop="True"
+                              CanDragItems="True"
+                              CanReorderItems="False"
+                              HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}" Width="50" Height="20" />
+                                <Image Source="{x:Bind FullPath}"
+                                       Width="50"
+                                       Height="20" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
-                    <ListView
-                            x:Name="StagedListView"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            ScrollViewer.HorizontalScrollMode="Enabled"
-                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                            ScrollViewer.IsHorizontalRailEnabled="True"
-                            SelectionMode="Multiple"
-                            SelectionChanged="onStagedListViewSelectionChanged"
-                            AllowDrop="True"
-                            CanDragItems="True"
-                            CanReorderItems="False">
+                    <ListView x:Name="StagedListView"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              ScrollViewer.HorizontalScrollMode="Enabled"
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                              ScrollViewer.IsHorizontalRailEnabled="True"
+                              SelectionMode="Multiple"
+                              SelectionChanged="onStagedListViewSelectionChanged"
+                              AllowDrop="True"
+                              CanDragItems="True"
+                              CanReorderItems="False">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Margin"
+                                        Value="0" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal"/>
+                                <ItemsStackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}" Width="120" Height="80" />
+                                <Image Source="{x:Bind FullPath}"
+                                       Width="120"
+                                       Height="80" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </Border>
-
-            <ContentDialog
-                Title="Save Project"
-                x:Name="ProjectExitDialog"
-                PrimaryButtonText="Save"
-                SecondaryButtonText="Discard"
-                CloseButtonText = "Cancel"
-                PrimaryButtonClick="onContentDialogSaveClicked"
-                SecondaryButtonClick="onContentDialogDiscardClicked"
-                CloseButtonClick="onContentDialogCancelClicked">
-            </ContentDialog>
-
+            <ContentDialog Title="Save Project"
+                           x:Name="ProjectExitDialog"
+                           PrimaryButtonText="Save"
+                           SecondaryButtonText="Discard"
+                           CloseButtonText="Cancel"
+                           PrimaryButtonClick="onContentDialogSaveClicked"
+                           SecondaryButtonClick="onContentDialogDiscardClicked"
+                           CloseButtonClick="onContentDialogCancelClicked"></ContentDialog>
         </Grid>
         <Grid Grid.Row="3"
-            Grid.Column="0">
+              Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                x:Name="StatusLabelText"
-                Foreground="#FFFFFF"
-                Text="Status: Idle"
-                HorizontalAlignment="Left"/>
-            <ProgressBar
-                Grid.Row="0"
-                Grid.Column="1"
-                x:Name="MainProgressBar"
-                Width="300"
-                Height="20"
-                Margin="20,0,0,0"/>
+            <TextBlock Grid.Row="0"
+                       Grid.Column="0"
+                       x:Name="StatusLabelText"
+                       Foreground="#FFFFFF"
+                       Text="Status: Idle"
+                       HorizontalAlignment="Left" />
+            <ProgressBar Grid.Row="0"
+                         Grid.Column="1"
+                         x:Name="MainProgressBar"
+                         Width="300"
+                         Height="20"
+                         Margin="20,0,0,0" />
         </Grid>
     </Grid>
-
 </Page>

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PhotobookUI">
-
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:PhotobookUI">
     <Color x:Key="PrimaryColor">#1A2224</Color>
-
     <Color x:Key="BorderColor">#09191D</Color>
-
     <Color x:Key="ButtonBackgroundColor">#374346</Color>
-
-    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#00000000"/>
+    <SolidColorBrush x:Key="ButtonBackgroundDisabled"
+                     Color="#00000000" />
 </ResourceDictionary>
