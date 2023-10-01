@@ -28,6 +28,9 @@ public:
 
   static constexpr int thumbnailWidth = 120;
   static constexpr int thumbnailHeight = 80;
+  
+  static constexpr int mediumThumbnailWidth = 120;
+  static constexpr int mediumThumbnailHeight = 80;
 
   Log const &printer() { return mLogPrinter; }
 
