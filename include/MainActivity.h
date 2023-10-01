@@ -12,7 +12,11 @@ public:
   void onPaused() {}
   void onResumed() {}
 
-  void onProgressUpdate() {}
+  void onStagedImageAdded(PB::Path path){}
+
+  void post(std::function<void()>) {}
+
+  void onProgressUpdate(int, int) {}
   void onError(PB::Error error) {}
 };
 
