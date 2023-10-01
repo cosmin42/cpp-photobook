@@ -134,15 +134,23 @@
                     Grid.Column="1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="8*" />
                         <RowDefinition Height="1*" />
+                        <RowDefinition Height="10*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Row="0"
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               x:Name="GalleryMainText"
+                               Foreground="#FFFFFF"
+                               Text="No text"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    <Grid Grid.Row="1"
                           Grid.Column="0"
                           Grid.ColumnSpan="2">
                         <canvas:CanvasControl Height="Auto"
@@ -151,14 +159,6 @@
                                               x:Name="GalleryCanvas"
                                               ClearColor="#000000" />
                     </Grid>
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Grid.ColumnSpan="2"
-                               x:Name="GalleryMainText"
-                               Foreground="#FFFFFF"
-                               Text="No text"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" />
                     <Button Click="onGalleryLeft"
                             CornerRadius="0"
                             Grid.Column="0"
@@ -234,7 +234,8 @@
                               SelectionChanged="onStagedListViewSelectionChanged"
                               AllowDrop="True"
                               CanDragItems="True"
-                              CanReorderItems="False">
+                              CanReorderItems="False"
+                              DragStarting="OnStagedListDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin"

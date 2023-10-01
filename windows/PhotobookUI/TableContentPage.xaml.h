@@ -75,6 +75,10 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onKeyPressed(Windows::Foundation::IInspectable const &sender,
                     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
 
+  void OnStagedListDragStarted(
+      Windows::Foundation::IInspectable const          &sender,
+      Microsoft::UI::Xaml::DragStartingEventArgs const &args);
+
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
