@@ -10,4 +10,5 @@
 
     <Color x:Key="ButtonBackgroundColor">#374346</Color>
 
+    <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#00000000"/>
 </ResourceDictionary>

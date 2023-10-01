@@ -54,6 +54,12 @@
     <Image Include="Assets\folderIcon.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Assets\page-left-enabled.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\page-right-enabled.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
