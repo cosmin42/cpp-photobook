@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
+    <Page Include="ColorScheme.xaml" />
     <Page Include="FirstPage.xaml">
       <SubType>Designer</SubType>
     </Page>
