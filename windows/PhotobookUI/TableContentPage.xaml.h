@@ -72,6 +72,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
           &args);
 
+  void onKeyPressed(Windows::Foundation::IInspectable const &sender,
+                    Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
+
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();

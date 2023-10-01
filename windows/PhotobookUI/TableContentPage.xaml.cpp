@@ -49,6 +49,11 @@ TableContentPage::TableContentPage()
 
   StagedListView().ItemsSource(mStagingImageCollection);
   UnstagedListView().ItemsSource(mUnstagedImageCollection);
+
+  KeyUp([this](Windows::Foundation::IInspectable const              &sender,
+                 Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
+    onKeyPressed(sender, arg);
+  });
 }
 
 auto TableContentPage::fireFolderPicker(
@@ -114,6 +119,33 @@ void TableContentPage::onBackClicked(IInspectable const &,
   projectExitDialogDisplay();
 }
 
+void TableContentPage::onKeyPressed(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
+{
+  auto selected = mPhotoBook.gallery().selectedItem();
+  if (!selected) {
+    return;
+  }
+  Windows::System::VirtualKey key = arg.Key();
+
+  PB::printDebug("Key %d, pressed\n", (int)key);
+  switch (key) {
+  case Windows::System::VirtualKey::Left: {
+    mPhotoBook.gallery().navigateLeft();
+    updateGalleryLabel();
+    break;
+  }
+  case Windows::System::VirtualKey::Right: {
+    mPhotoBook.gallery().navigateRight();
+    updateGalleryLabel();
+    break;
+  }
+  default: {
+  }
+  }
+}
+
 void TableContentPage::onGalleryLeft(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
@@ -162,8 +194,7 @@ void TableContentPage::CanvasControlDraw(
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 0, 0})();
 
-    image =
-        PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
+    image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
                                  mediumThumbnailPath->filename().string(),
                                  {0, 255, 0})(image);
   }
