@@ -23,8 +23,10 @@ auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
 auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
-void readImageWriteThumbnail(Path inputPath, Path smallOutputPath, Path mediumOutputPath);
+void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
+                             Path mediumOutputPath);
 
-void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath);
+void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path smallOutputPath,
+                         Path mediumOutputPath);
 
 } // namespace PB::Process

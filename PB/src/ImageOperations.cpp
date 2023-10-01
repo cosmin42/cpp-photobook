@@ -93,21 +93,32 @@ void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
                              Path mediumOutputPath)
 {
   auto inputImage = ImageReader().loadImage(inputPath);
-  auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
-      true)(inputImage);
+
   auto mediumImagePointer = PB::Process::resize(
       cv::Size(Context::mediumThumbnailWidth, Context::mediumThumbnailHeight),
       true)(inputImage);
-  ImageSetWriter().write(smallOutputPath, smallImagePointer);
   ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
+
+  auto smallImagePointer = PB::Process::resize(
+      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
+      true)(inputImage);
+
+  ImageSetWriter().write(smallOutputPath, smallImagePointer);
 }
 
-void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path outputPath)
+void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path smallPath,
+                         Path mediumPath)
 {
-  auto imagePointer = PB::Process::resize(
+  auto mediumImagePointer = PB::Process::resize(
+      cv::Size(Context::mediumThumbnailWidth, Context::mediumThumbnailHeight),
+      true)(image);
+
+  ImageSetWriter().write(mediumPath, mediumImagePointer);
+
+  auto smallImagePointer = PB::Process::resize(
       cv::Size(Context::thumbnailWidth, Context::thumbnailHeight), true)(image);
-  ImageSetWriter().write(outputPath, imagePointer);
+
+  ImageSetWriter().write(smallPath, smallImagePointer);
 }
 
 } // namespace PB::Process

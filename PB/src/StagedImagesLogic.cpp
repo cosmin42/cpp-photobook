@@ -24,7 +24,7 @@ void ResizeTask::operator()() const
     image = PB::Process::addText({1280 / 2, 640 / 2},
                                  mFullSizePath.parent_path().string(),
                                  {0, 255, 0})(image);
-    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath);
+    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath, mMediumThumbnailOutputPath);
   }
   mFinish();
 }
