@@ -205,6 +205,12 @@ void TableContentPage::onFinished()
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
+
+  PB::printDebug("Index selected %d\n", mMediaListNative.size()-1);
+
+  mPhotoBook.gallery().selectIndex(mMediaListNative.size() - 1);
+
+  updateGalleryLabel();
 }
 
 void TableContentPage::onFoldersSelectionChanged(
