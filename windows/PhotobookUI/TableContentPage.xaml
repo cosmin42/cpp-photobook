@@ -240,6 +240,35 @@
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin"
                                         Value="0" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <ListViewItemPresenter
+                                                    ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                    SelectionCheckMarkVisualEnabled="False"
+                                                    CheckHintBrush="#FF0000"
+                                                    CheckBoxBrush="#00000000"
+                                                    DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                                                    DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                                                    FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                                                    FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                    PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                                                    PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                                                    PointerOverForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                    SelectedBackground="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                                                    SelectedForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                                    SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListAccentMediumBrush}"
+                                                    PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                                    DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                                                    DragOpacity="1"
+                                                    ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                    ContentMargin="1"
+                                                    CheckMode="Overlay" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemsPanel>
@@ -249,9 +278,7 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}"
-                                       Width="120"
-                                       Height="80" />
+                                <Image Source="{x:Bind FullPath}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
