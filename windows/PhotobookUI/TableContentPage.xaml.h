@@ -77,7 +77,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void OnStagedListDragStarted(
       Windows::Foundation::IInspectable const          &sender,
-      Microsoft::UI::Xaml::DragStartingEventArgs const &args);
+      Microsoft::UI::Xaml::Controls::DragItemsStartingEventArgs const &args);
+
+  void OnStagedListDragEnded(
+      Windows::Foundation::IInspectable const                         &sender,
+      Microsoft::UI::Xaml::Controls::DragItemsCompletedEventArgs const &args);
 
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 

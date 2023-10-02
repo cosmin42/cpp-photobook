@@ -51,7 +51,7 @@ TableContentPage::TableContentPage()
   UnstagedListView().ItemsSource(mUnstagedImageCollection);
 
   KeyUp([this](Windows::Foundation::IInspectable const              &sender,
-                 Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
+               Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
     onKeyPressed(sender, arg);
   });
 }
@@ -148,9 +148,18 @@ void TableContentPage::onKeyPressed(
 
 void TableContentPage::OnStagedListDragStarted(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::DragStartingEventArgs const &args)
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        DragItemsStartingEventArgs const &args)
 {
   PB::printDebug("Drag started\n");
+}
+
+void TableContentPage::OnStagedListDragEnded(
+    [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        DragItemsCompletedEventArgs const &args)
+{
+  PB::printDebug("Drag ended\n");
 }
 
 void TableContentPage::onGalleryLeft(
@@ -246,7 +255,6 @@ void TableContentPage::onFinished()
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
-
 
   PB::printDebug("Index selected %d\n", (int)(mMediaListNative.size() - 1));
 
