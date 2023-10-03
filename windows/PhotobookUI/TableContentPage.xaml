@@ -215,7 +215,7 @@
                                   ScrollViewer.IsHorizontalRailEnabled="True"
                                   CanDragItems="True"
                                   CanReorderItems="False"
-                                  HorizontalAlignment="Left"
+                                  HorizontalAlignment="Stretch"
                                   AllowDrop="True"
                                   Drop="OnDropIntoUnstagedListView"
                                   DragOver="OnDragOverUnstagedListView"
