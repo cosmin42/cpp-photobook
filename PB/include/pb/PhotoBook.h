@@ -202,10 +202,11 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportAlbum([[maybe_unused]] std::string const &path,
-                   std::vector<Path>                   paths)
+  void exportAlbum([[maybe_unused]] std::string const &destinationPath,
+                   std::vector<Path>                   imagesPaths)
   {
-    PB::printDebug("Export image to %s", path.c_str());
+    PB::printDebug("Export image to %s", destinationPath.c_str());
+    mExporter.exportImages(destinationPath, imagesPaths);
   }
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
