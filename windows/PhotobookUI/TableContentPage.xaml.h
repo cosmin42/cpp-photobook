@@ -76,12 +76,16 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
 
   void OnStagedListDragStarted(
-      Windows::Foundation::IInspectable const          &sender,
+      Windows::Foundation::IInspectable const                         &sender,
       Microsoft::UI::Xaml::Controls::DragItemsStartingEventArgs const &args);
 
-  void OnStagedListDragEnded(
-      Windows::Foundation::IInspectable const                         &sender,
-      Microsoft::UI::Xaml::Controls::DragItemsCompletedEventArgs const &args);
+  void OnDropIntoUnstagedListView(
+      [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
+
+  void OnDragOverUnstagedListView(
+      [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 

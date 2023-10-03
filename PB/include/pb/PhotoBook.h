@@ -243,8 +243,6 @@ public:
 
 private:
   PhotoBookType &mParent;
-
-  dp::thread_pool<std::function<void(void)>> mResizePool;
   Persistence<PersistenceType>               mCentralPersistence;
   Project<PersistenceType>                   mProject;
   std::unordered_map<

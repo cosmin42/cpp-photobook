@@ -154,12 +154,19 @@ void TableContentPage::OnStagedListDragStarted(
   PB::printDebug("Drag started\n");
 }
 
-void TableContentPage::OnStagedListDragEnded(
-    [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-        DragItemsCompletedEventArgs const &args)
+void TableContentPage::OnDragOverUnstagedListView(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    Microsoft::UI::Xaml::DragEventArgs const &args)
 {
-  PB::printDebug("Drag ended\n");
+  args.AcceptedOperation(
+      Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
+}
+
+void TableContentPage::OnDropIntoUnstagedListView(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
+{
+  PB::printDebug("Drop on unstaged list view.\n");
 }
 
 void TableContentPage::onGalleryLeft(

@@ -206,24 +206,32 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding ActualWidth, ElementName=BorderName}" />
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="UnstagedListView"
-                              Grid.Row="0"
-                              Grid.Column="0"
-                              ScrollViewer.HorizontalScrollMode="Enabled"
-                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                              ScrollViewer.IsHorizontalRailEnabled="True"
-                              AllowDrop="True"
-                              CanDragItems="True"
-                              CanReorderItems="False"
-                              HorizontalAlignment="Left">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}"
-                                       Width="50"
-                                       Height="20" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <Grid>
+                        <ListView x:Name="UnstagedListView"
+                                  Grid.Row="0"
+                                  Grid.Column="0"
+                                  ScrollViewer.HorizontalScrollMode="Enabled"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                  ScrollViewer.IsHorizontalRailEnabled="True"
+                                  CanDragItems="True"
+                                  CanReorderItems="False"
+                                  HorizontalAlignment="Left"
+                                  AllowDrop="True"
+                                  Drop="OnDropIntoUnstagedListView"
+                                  DragOver="OnDragOverUnstagedListView"
+                                  Background="#00FF00">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="local:ImageUIData">
+                                    <Image Source="{x:Bind FullPath}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                     <ListView x:Name="StagedListView"
                               Grid.Row="1"
                               Grid.Column="0"
@@ -235,8 +243,7 @@
                               AllowDrop="True"
                               CanDragItems="True"
                               CanReorderItems="False"
-                              DragItemsStarting="OnStagedListDragStarted"
-                              DragItemsCompleted="OnStagedListDragEnded">
+                              DragItemsStarting="OnStagedListDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Margin"
@@ -278,12 +285,7 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
-                                <Border x:Name="Root"
-                                        Background="#FFFFFF"
-                                        BorderBrush="#00FF00"
-                                        BorderThickness="1">
-                                    <Image Source="{x:Bind FullPath}" />
-                                </Border>
+                                <Image Source="{x:Bind FullPath}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
