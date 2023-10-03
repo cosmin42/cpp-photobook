@@ -49,6 +49,7 @@ endif()
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
+find_package(unofficial-libharu CONFIG REQUIRED)
 
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -95,6 +96,7 @@ add_library(pblib STATIC
     src/Log.cpp
     src/MediaMapListener.cpp
     src/MetadataReader.cpp
+    src/Pdf.cpp
     src/PhotoBook.cpp
     src/Project.cpp
     src/StagedImagesLogic.cpp
@@ -113,7 +115,8 @@ target_link_libraries(pblib PUBLIC
     Boost::boost
     Boost::program_options
     exiv2lib
-    dp::thread-pool)
+    dp::thread-pool
+    unofficial::libharu::hpdf)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
