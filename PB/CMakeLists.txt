@@ -63,6 +63,7 @@ add_library(pblib STATIC
     include/pb/DataManager.h
     include/pb/Error.h
     include/pb/Enums.h
+    include/pb/Exporter.h
     include/pb/FileMapper.h
     include/pb/GalleryListener.h
     include/pb/ImageReader.h
@@ -73,6 +74,7 @@ add_library(pblib STATIC
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
     include/pb/Gallery.h
+    include/pb/Pdf.h
     include/pb/persistence/Persistence.h
     include/pb/PhotoBook.h
     include/pb/Project.h

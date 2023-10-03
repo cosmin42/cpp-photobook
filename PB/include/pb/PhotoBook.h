@@ -10,10 +10,12 @@
 
 #include <pb/DataManager.h>
 #include <pb/Error.h>
+#include <pb/Exporter.h>
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>
+#include <pb/Pdf.h>
 #include <pb/Project.h>
 #include <pb/StagedImagesLogic.h>
 #include <pb/common/Log.h>
@@ -200,7 +202,8 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportAlbum([[maybe_unused]] std::string const &path, std::vector<Path> paths)
+  void exportAlbum([[maybe_unused]] std::string const &path,
+                   std::vector<Path>                   paths)
   {
     PB::printDebug("Export image to %s", path.c_str());
   }
@@ -242,9 +245,9 @@ public:
   }
 
 private:
-  PhotoBookType &mParent;
-  Persistence<PersistenceType>               mCentralPersistence;
-  Project<PersistenceType>                   mProject;
+  PhotoBookType               &mParent;
+  Persistence<PersistenceType> mCentralPersistence;
+  Project<PersistenceType>     mProject;
   std::unordered_map<
       Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
       mListeners;
@@ -254,5 +257,6 @@ private:
   Gallery<PhotoBookType, PersistenceType>         mGallery;
   ImageReader                                     mImageReader;
   StagedImagesLogic                               mStagedImagesLogic;
+  Exporter<Pdf>                                   mExporter;
 };
 } // namespace PB
