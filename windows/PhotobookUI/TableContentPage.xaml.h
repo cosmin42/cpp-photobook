@@ -120,6 +120,7 @@ private:
   IObservableVector<ImageUIData>                     mStagingImageCollection;
   IObservableVector<ImageUIData>                     mUnstagedImageCollection;
   std::vector<std::string>                           mMediaListNative;
+  std::vector<int> mDragAndDropSelectedIndexes;
 
   std::optional<PB::CircularIterator> mCurrentGalleryIterator = std::nullopt;
 };

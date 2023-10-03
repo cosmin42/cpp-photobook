@@ -152,21 +152,34 @@ void TableContentPage::OnStagedListDragStarted(
         DragItemsStartingEventArgs const &args)
 {
   PB::printDebug("Drag started\n");
+  auto selectedRanges =
+      sender.as<Microsoft::UI::Xaml::Controls::ListView>().SelectedRanges();
+
+  for (auto range : selectedRanges) {
+    for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
+      mDragAndDropSelectedIndexes.push_back(i);
+    }
+  }
 }
 
 void TableContentPage::OnDragOverUnstagedListView(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
-    Microsoft::UI::Xaml::DragEventArgs const &args)
+    Microsoft::UI::Xaml::DragEventArgs const                 &args)
 {
   args.AcceptedOperation(
       Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
 }
 
 void TableContentPage::OnDropIntoUnstagedListView(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
   PB::printDebug("Drop on unstaged list view.\n");
+  for (auto index : mDragAndDropSelectedIndexes) {
+    mUnstagedImageCollection.Append(mStagingImageCollection.GetAt(index));
+  }
+
+  mDragAndDropSelectedIndexes.clear();
 }
 
 void TableContentPage::onGalleryLeft(
