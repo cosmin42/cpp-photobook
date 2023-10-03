@@ -388,8 +388,13 @@ void TableContentPage::onExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
-  fireFolderPicker(MainWindow::sMainWindowhandle,
-                   [this](std::string path) { mPhotoBook.exportAlbum(path); });
+  fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
+    std::vector<PB::Path> thumbnailPaths;
+    for (auto item : mUnstagedImageCollection) {
+      thumbnailPaths.push_back(PB::Path(winrt::to_string(item.FullPath())));
+    }
+    mPhotoBook.exportAlbum(path, thumbnailPaths);
+  });
 }
 
 void TableContentPage::onContentDialogSaveClicked(
