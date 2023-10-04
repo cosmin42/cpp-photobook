@@ -52,7 +52,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
 
-  void onStagedListViewSelectionChanged(
+  void onUnstagedListViewSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
@@ -75,15 +75,15 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onKeyPressed(Windows::Foundation::IInspectable const &sender,
                     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
 
-  void OnStagedListDragStarted(
+  void OnUnstagedListDragStarted(
       Windows::Foundation::IInspectable const                         &sender,
       Microsoft::UI::Xaml::Controls::DragItemsStartingEventArgs const &args);
 
-  void OnDropIntoUnstagedListView(
+  void OnDropIntoStagedListView(
       [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
-  void OnDragOverUnstagedListView(
+  void OnDragOverStagedListView(
       [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
@@ -98,7 +98,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onProgressUpdate([[maybe_unused]] int progress,
                         [[maybe_unused]] int reference);
 
-  void onStagedImageAdded(PB::Path path);
+  void onUnstagedImageAdded(PB::Path path);
   void onError(PB::Error error);
 
   void post(std::function<void()>);
@@ -117,8 +117,8 @@ private:
   PhotoBookListener                                  mListener;
   PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
   IObservableVector<winrt::hstring>                  mMediaListItemsCollection;
-  IObservableVector<ImageUIData>                     mStagingImageCollection;
-  IObservableVector<ImageUIData>                     mUnstagedImageCollection;
+  IObservableVector<ImageUIData>                     mUnstagingImageCollection;
+  IObservableVector<ImageUIData>                     mStagedImageCollection;
   std::vector<std::string>                           mMediaListNative;
   std::vector<int> mDragAndDropSelectedIndexes;
 

@@ -41,14 +41,14 @@ TableContentPage::TableContentPage()
 {
   mMediaListItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
-  mStagingImageCollection =
+  mUnstagingImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
-  mUnstagedImageCollection =
+  mStagedImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
   InitializeComponent();
 
-  StagedListView().ItemsSource(mStagingImageCollection);
-  UnstagedListView().ItemsSource(mUnstagedImageCollection);
+  UnstagedListView().ItemsSource(mUnstagingImageCollection);
+  StagedListView().ItemsSource(mStagedImageCollection);
 
   KeyUp([this](Windows::Foundation::IInspectable const              &sender,
                Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
@@ -146,7 +146,7 @@ void TableContentPage::onKeyPressed(
   }
 }
 
-void TableContentPage::OnStagedListDragStarted(
+void TableContentPage::OnUnstagedListDragStarted(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
@@ -162,7 +162,7 @@ void TableContentPage::OnStagedListDragStarted(
   }
 }
 
-void TableContentPage::OnDragOverUnstagedListView(
+void TableContentPage::OnDragOverStagedListView(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::DragEventArgs const                 &args)
 {
@@ -170,13 +170,13 @@ void TableContentPage::OnDragOverUnstagedListView(
       Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
 }
 
-void TableContentPage::OnDropIntoUnstagedListView(
+void TableContentPage::OnDropIntoStagedListView(
     [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
-  PB::printDebug("Drop on unstaged list view.\n");
+  PB::printDebug("Drop on staged list view.\n");
   for (auto index : mDragAndDropSelectedIndexes) {
-    mUnstagedImageCollection.Append(mStagingImageCollection.GetAt(index));
+    mStagedImageCollection.Append(mUnstagingImageCollection.GetAt(index));
   }
 
   mDragAndDropSelectedIndexes.clear();
@@ -297,7 +297,7 @@ void TableContentPage::onFoldersSelectionChanged(
   updateGalleryLabel();
 }
 
-void TableContentPage::onStagedListViewSelectionChanged(
+void TableContentPage::onUnstagedListViewSelectionChanged(
     [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
@@ -320,9 +320,10 @@ void TableContentPage::onProgressUpdate([[maybe_unused]] int progress,
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
-void TableContentPage::onStagedImageAdded(PB::Path path)
+void TableContentPage::onUnstagedImageAdded(PB::Path path)
 {
-  mStagingImageCollection.Append(ImageUIData(winrt::to_hstring(path.string())));
+  mUnstagingImageCollection.Append(
+      ImageUIData(winrt::to_hstring(path.string())));
 }
 
 void TableContentPage::onError(PB::Error error) {}
@@ -390,7 +391,7 @@ void TableContentPage::onExportClicked(
 {
   fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
     std::vector<PB::Path> thumbnailPaths;
-    for (auto item : mUnstagedImageCollection) {
+    for (auto item : mStagedImageCollection) {
       thumbnailPaths.push_back(PB::Path(winrt::to_string(item.FullPath())));
     }
     mPhotoBook.exportAlbum(path, thumbnailPaths);

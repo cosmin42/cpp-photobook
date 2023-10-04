@@ -17,7 +17,7 @@
 #include <pb/ImageSetWriter.h>
 #include <pb/Pdf.h>
 #include <pb/Project.h>
-#include <pb/StagedImagesLogic.h>
+#include <pb/UnstagedImagesLogic.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -66,7 +66,7 @@ public:
 
           mProject = Project<PersistenceType>(projectDetails);
 
-          mStagedImagesLogic.provideProjectDetails(projectDetails);
+          mUnstagedImagesLogic.provideProjectDetails(projectDetails);
         }
       }
       else {
@@ -145,7 +145,7 @@ public:
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    mStagedImagesLogic.generateThumbnails(
+    mUnstagedImagesLogic.generateThumbnails(
         mediaData.at(rootPath),
         [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
          start{start}](Path input, Path smallOutput,
@@ -154,7 +154,7 @@ public:
               (int)Context::inst().data().smallThumbnails(rootPath).size(),
               (int)size);
 
-          mParent.onStagedImageAdded(smallOutput);
+          mParent.onUnstagedImageAdded(smallOutput);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, size{size}, start{start},
@@ -257,7 +257,7 @@ private:
   GalleryListener<PhotoBookType, PersistenceType> mGalleryListener;
   Gallery<PhotoBookType, PersistenceType>         mGallery;
   ImageReader                                     mImageReader;
-  StagedImagesLogic                               mStagedImagesLogic;
+  UnstagedImagesLogic                               mUnstagedImagesLogic;
   Exporter<Pdf>                                   mExporter;
 };
 } // namespace PB

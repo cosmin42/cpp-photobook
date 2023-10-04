@@ -79,8 +79,8 @@ add_library(pblib STATIC
     include/pb/persistence/Persistence.h
     include/pb/PhotoBook.h
     include/pb/Project.h
-    include/pb/StagedImagesLogic.h
     include/pb/UnstagedImagesLogic.h
+    include/pb/StagedImagesLogic.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
     include/pb/util/Timer.h
@@ -99,8 +99,8 @@ add_library(pblib STATIC
     src/Pdf.cpp
     src/PhotoBook.cpp
     src/Project.cpp
-    src/StagedImagesLogic.cpp
     src/UnstagedImagesLogic.cpp
+    src/StagedImagesLogic.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
     src/util/Thread.cpp)

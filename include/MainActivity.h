@@ -12,7 +12,7 @@ public:
   void onPaused() {}
   void onResumed() {}
 
-  void onStagedImageAdded(PB::Path path){}
+  void onUnstagedImageAdded(PB::Path path){}
 
   void post(std::function<void()>) {}
 

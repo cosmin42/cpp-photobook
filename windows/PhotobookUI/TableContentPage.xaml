@@ -207,7 +207,7 @@
                         <ColumnDefinition Width="{Binding ActualWidth, ElementName=BorderName}" />
                     </Grid.ColumnDefinitions>
                     <Grid>
-                        <ListView x:Name="UnstagedListView"
+                        <ListView x:Name="StagedListView"
                                   Grid.Row="0"
                                   Grid.Column="0"
                                   ScrollViewer.HorizontalScrollMode="Enabled"
@@ -217,8 +217,8 @@
                                   CanReorderItems="False"
                                   HorizontalAlignment="Stretch"
                                   AllowDrop="True"
-                                  Drop="OnDropIntoUnstagedListView"
-                                  DragOver="OnDragOverUnstagedListView"
+                                  Drop="OnDropIntoStagedListView"
+                                  DragOver="OnDragOverStagedListView"
                                   Background="{StaticResource PrimaryColor}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -276,19 +276,19 @@
                             </ListView.ItemTemplate>
                         </ListView>
                     </Grid>
-                    <ListView x:Name="StagedListView"
+                    <ListView x:Name="UnstagedListView"
                               Grid.Row="1"
                               Grid.Column="0"
                               ScrollViewer.HorizontalScrollMode="Enabled"
                               ScrollViewer.HorizontalScrollBarVisibility="Visible"
                               ScrollViewer.IsHorizontalRailEnabled="True"
                               SelectionMode="Extended"
-                              SelectionChanged="onStagedListViewSelectionChanged"
+                              SelectionChanged="onUnstagedListViewSelectionChanged"
                               HorizontalAlignment="Stretch"
                               AllowDrop="True"
                               CanDragItems="True"
                               CanReorderItems="False"
-                              DragItemsStarting="OnStagedListDragStarted">
+                              DragItemsStarting="OnUnstagedListDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
