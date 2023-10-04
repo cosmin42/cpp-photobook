@@ -246,33 +246,41 @@
                               DragItemsStarting="OnStagedListDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="Margin"
-                                        Value="0" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListViewItem">
-                                            <ListViewItemPresenter SelectionCheckMarkVisualEnabled="False"
-                                                                   CheckHintBrush="#FF0000"
-                                                                   CheckBoxBrush="#00000000"
-                                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                                   DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
-                                                                   DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
-                                                                   FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
-                                                                   FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                                                   PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
-                                                                   PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
-                                                                   PointerOverForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                                                   SelectedBackground="{ThemeResource SystemControlHighlightListAccentLowBrush}"
-                                                                   SelectedForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                                                                   SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListAccentMediumBrush}"
-                                                                   PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                            <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                   x:Name="Root"
+                                                                   Control.IsTemplateFocusTarget="True"
+                                                                   FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+                                                                   SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}"
+                                                                   CheckBrush="White"
+                                                                   CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}"
+                                                                   DragBackground="Yellow"
+                                                                   DragForeground="White"
+                                                                   FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
+                                                                   FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
+                                                                   PlaceholderBackground="Green"
+                                                                   PointerOverBackground="{StaticResource ButtonBackgroundColor}"
+                                                                   PointerOverForeground="White"
+                                                                   SelectedBackground="{StaticResource ButtonBackgroundColor}"
+                                                                   SelectedForeground="White"
+                                                                   SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                                                                   PressedBackground="{StaticResource ButtonBackgroundColor}"
+                                                                   SelectedPressedBackground="{StaticResource ButtonBackgroundColor}"
                                                                    DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
-                                                                   DragOpacity="1"
+                                                                   DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
                                                                    ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                   ContentMargin="1"
-                                                                   CheckMode="Overlay" />
+                                                                   ContentMargin="{TemplateBinding Padding}"
+                                                                   CheckMode="Overlay"
+                                                                   RevealBackground="{StaticResource PrimaryColor}"
+                                                                   RevealBorderThickness="0"
+                                                                   RevealBorderBrush="{StaticResource ButtonBackgroundColor}"
+                                                                   CornerRadius="8"
+                                                                   Height="90"
+                                                                   Width="140"></ListViewItemPresenter>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
@@ -285,7 +293,9 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ImageUIData">
-                                <Image Source="{x:Bind FullPath}" />
+                                <Image Height="80"
+                                       Width="120"
+                                       Source="{x:Bind FullPath}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
