@@ -46,16 +46,30 @@ public:
 
   auto thumbnailsSet(Path root)
   {
-    auto result =  mSupport |
-           std::ranges::views::filter([this, root{root}](Thumbnails const &th) {
-             if (mGroupContent.find(root) == mGroupContent.end()) {
-               return false;
-             }
-             return mGroupContent.at(root).find(th.index) !=
-                    mGroupContent.at(root).end();
-           });
+    auto result =
+        mSupport |
+        std::ranges::views::filter([this, root{root}](Thumbnails const &th) {
+          if (mGroupContent.find(root) == mGroupContent.end()) {
+            return false;
+          }
+          return mGroupContent.at(root).find(th.index) !=
+                 mGroupContent.at(root).end();
+        });
 
     return CircularIterator<decltype(result)>(result);
+  }
+
+  std::optional<Thumbnails> getByMedium(std::optional<Path> path)
+  {
+    if (!path) {
+      return std::nullopt;
+    }
+    if (mSupportByMediumThumbnail.find(*path) ==
+        mSupportByMediumThumbnail.end()) {
+      return std::nullopt;
+    }
+    auto index = mSupportByMediumThumbnail.at(*path);
+    return mSupport.at(index);
   }
 
 private:
