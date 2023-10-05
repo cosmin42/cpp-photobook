@@ -6,7 +6,7 @@ namespace PB {
 
 void error_handler([[maybe_unused]] HPDF_STATUS error_no,
                    [[maybe_unused]] HPDF_STATUS detail_no,
-                   [[maybe_unused]] void *user_data)
+                   [[maybe_unused]] void       *user_data)
 {
   PB::printError("Internal error\n");
 }
@@ -32,9 +32,8 @@ void Pdf::exportImages(Path dest, std::vector<Path> images)
       return;
     }
 
-    HPDF_Page_DrawImage(page, image, 50, 50,
-                        (HPDF_REAL)HPDF_Image_GetWidth(image),
-                        (HPDF_REAL)HPDF_Image_GetHeight(image));
+    HPDF_Page_DrawImage(page, image, 0, 0, (HPDF_REAL)A4_WIDTH,
+                        (HPDF_REAL)A4_HEIGHT);
   }
 
   if (HPDF_SaveToFile(pdfFile, (dest / "output.pdf").string().c_str()) !=
