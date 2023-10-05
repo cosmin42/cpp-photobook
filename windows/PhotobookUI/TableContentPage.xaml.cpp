@@ -392,7 +392,10 @@ void TableContentPage::onExportClicked(
   fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
     std::vector<PB::Path> thumbnailPaths;
     for (auto item : mStagedImageCollection) {
-      thumbnailPaths.push_back(PB::Path(winrt::to_string(item.FullPath())));
+      auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
+      auto fullPath = mPhotoBook.retrieveFullThumbnailFromMedium(mediumPath);
+      assert(fullPath.has_value());
+      thumbnailPaths.push_back(fullPath.value());
     }
     mPhotoBook.exportAlbum(path, thumbnailPaths);
   });

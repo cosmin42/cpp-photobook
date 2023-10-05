@@ -188,6 +188,16 @@ public:
     return Context::inst().data().mediumThumbnails(*root).at(*original);
   }
 
+  std::optional<Path>
+      retrieveFullThumbnailFromMedium(std::optional<Path> medium)
+  {
+    if (!medium) {
+      return std::nullopt;
+    }
+    auto x = Context::inst().data().inverseMediumThumbnails(*medium);
+    return x;
+  }
+
   Gallery<PhotoBookType, PersistenceType> &gallery() { return mGallery; }
 
   auto loadImage(std::string const &path) -> std::shared_ptr<cv::Mat>

@@ -21,6 +21,16 @@ public:
     return mThumbnailsMedium.at(root);
   }
 
+  std::optional<Path> inverseMediumThumbnails(Path path)
+  {
+    for (auto &[key, value] : mThumbnailsSmallInverse) {
+      if (value.find(path) != value.end()) {
+        return value.at(path);
+      }
+    }
+    return std::nullopt;
+  }
+
   void newSmallTumbnailMap(Path root)
   {
     mThumbnailsSmall[root];
