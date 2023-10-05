@@ -128,6 +128,7 @@ public:
   {
     auto &mediaData = Context::inst().data().mediaData();
     mediaData.insert({rootPath, newMediaMap});
+    Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
 
     std::vector<std::future<void>> v;
 

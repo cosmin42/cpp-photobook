@@ -6,7 +6,6 @@
 
 namespace PB {
 
-    
 struct Thumbnails {
   Thumbnails(Path path) : fullPath(path) {}
   Path fullPath;
@@ -120,6 +119,8 @@ public:
     clearMediumThumbnails();
   }
 
+  ImageSupport &images() { return mImages; }
+
 private:
   std::unordered_map<Path, MediaMap> mMediaData;
   std::vector<Path>                  mMediaIndexedByPath;
@@ -131,5 +132,7 @@ private:
   std::unordered_map<Path, std::unordered_map<Path, Path>> mThumbnailsMedium;
   std::unordered_map<Path, std::unordered_map<Path, Path>>
       mThumbnailsMediumInverse;
+
+  ImageSupport mImages;
 };
 } // namespace PB
