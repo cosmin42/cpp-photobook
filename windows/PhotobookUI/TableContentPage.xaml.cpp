@@ -298,7 +298,7 @@ void TableContentPage::onFoldersSelectionChanged(
 
   PB::printDebug("Index selected %d\n", index);
 
-  auto& imagesData = PB::Context::inst().data().images();
+  auto &imagesData = PB::Context::inst().data().images();
 
   auto maybePath = imagesData.groupByIndex(index);
 
@@ -359,7 +359,8 @@ void TableContentPage::updateGalleryLabel()
   GalleryRightButton().IsEnabled(itemPath.has_value());
 
   if (itemPath) {
-    GalleryMainText().Text(winrt::to_hstring(itemPath->fullPath.filename().string()));
+    GalleryMainText().Text(
+        winrt::to_hstring(itemPath->fullPath.filename().string()));
   }
   else if (rootName) {
     GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));
@@ -405,9 +406,10 @@ void TableContentPage::onExportClicked(
     std::vector<PB::Path> thumbnailPaths;
     for (auto item : mStagedImageCollection) {
       auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
-      auto fullPath = mPhotoBook.retrieveFullThumbnailFromMedium(mediumPath);
-      assert(fullPath.has_value());
-      thumbnailPaths.push_back(fullPath.value());
+      auto maybeThumbnail =
+          PB::Context::inst().data().images().getByMedium(mediumPath);
+      assert(maybeThumbnail.has_value());
+      thumbnailPaths.push_back(maybeThumbnail->fullPath);
     }
     mPhotoBook.exportAlbum(path, thumbnailPaths);
   });
