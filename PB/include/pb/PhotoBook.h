@@ -168,15 +168,6 @@ public:
     // mListeners.erase(path);
   }
 
-  std::optional<Path> mediumThumbnail(std::optional<Path> root,
-                                      std::optional<Path> original)
-  {
-    if (!root || !original) {
-      return std::nullopt;
-    }
-    return Context::inst().data().mediumThumbnails(*root).at(*original);
-  }
-
   std::optional<Path>
       retrieveFullThumbnailFromMedium(std::optional<Path> medium)
   {
