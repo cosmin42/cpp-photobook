@@ -21,8 +21,6 @@ public:
     mCurrentIterator = iterator;
   }
 
-  auto selectedMedia() const -> std::optional<Path> { return mSelectedMedia; }
-
   void navigateLeft()
   {
     if (mCurrentIterator) {
@@ -59,29 +57,9 @@ public:
   }
 
 private:
-  auto mediaMap(unsigned index) -> std::optional<MediaMap>
-  {
-    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
-    if (index >= mediaIndexedByType.size()) {
-      return std::nullopt;
-    }
-
-    auto &key = mediaIndexedByType.at(index);
-
-    auto &mediaData = Context::inst().data().mediaData();
-    if (!mediaData.contains(key)) {
-      return std::nullopt;
-    }
-
-    return mediaData.at(key);
-  }
-
   GalleryListener<PhotoBookType, PersistenceType> &mListener;
-
-  int                                                mSelectedFolderIndex = -1;
-  int                                                mGalleryIndex = -1;
-  std::optional<MediaMap>                            mCurrentMap;
-  std::optional<FilteredThumbnailSet>                mCurrentIterator;
-  std::optional<Path>                                mSelectedMedia;
+  int                                              mSelectedFolderIndex = -1;
+  int                                              mGalleryIndex = -1;
+  std::optional<FilteredThumbnailSet>              mCurrentIterator;
 };
 } // namespace PB

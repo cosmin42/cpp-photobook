@@ -111,23 +111,11 @@ public:
                result);
   }
 
-  auto mediaMap(unsigned index) -> std::optional<MediaMap>
-  {
-    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
-    assert(index < mediaIndexedByType.size());
-
-    auto &key = mediaIndexedByType.at(index);
-
-    auto &mediaData = Context::inst().data().mediaData();
-    assert(mediaData.contains(key));
-
-    return mediaData.at(key);
-  }
-
   void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
   {
     auto &mediaData = Context::inst().data().mediaData();
     mediaData.insert({rootPath, newMediaMap});
+
     Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
 
     std::vector<std::future<void>> v;
