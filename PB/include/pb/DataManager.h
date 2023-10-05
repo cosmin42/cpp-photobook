@@ -18,31 +18,11 @@ struct Thumbnails {
 
 class ImageSupport final {
 public:
-  void addFullPaths(Path root, std::vector<Path> const &paths);
-
-  void addSmall(Path fullSize, Path smallSize);
-  void addMedium(Path fullSize, Path mediumSize);
-
-  std::vector<Path> fullPathByGroup(Path group)
-  {
-    if (mGroupContent.find(group) == mGroupContent.end()) {
-      return std::vector<Path>();
-    }
-    auto             &pathSet = mGroupContent.at(group);
-    std::vector<Path> result;
-    for (auto index : pathSet) {
-      result.push_back(mSupport.at(index).fullPath);
-    }
-    return result;
-  }
-
-  std::optional<Path> groupByIndex(int index)
-  {
-    if (index > 1 && index < mGroup.size()) {
-      return mGroup.at(index);
-    }
-    return std::nullopt;
-  }
+  void                addFullPaths(Path root, std::vector<Path> const &paths);
+  void                addSmall(Path fullSize, Path smallSize);
+  void                addMedium(Path fullSize, Path mediumSize);
+  std::vector<Path>   fullPathByGroup(Path group);
+  std::optional<Path> groupByIndex(int index);
 
   auto thumbnailsSet(Path root)
   {
@@ -58,51 +38,11 @@ public:
 
     return CircularIterator<decltype(result)>(result);
   }
-
-  int groupSize(std::optional<Path> group)
-  {
-    if (!group) {
-      return 0;
-    }
-    if (mGroupContent.find(*group) == mGroupContent.end()) {
-      return 0;
-    }
-    return (int)mGroupContent.at(*group).size();
-  }
-
-  std::optional<Thumbnails> getByMedium(std::optional<Path> path)
-  {
-    if (!path) {
-      return std::nullopt;
-    }
-    if (mSupportByMediumThumbnail.find(*path) ==
-        mSupportByMediumThumbnail.end()) {
-      return std::nullopt;
-    }
-    auto index = mSupportByMediumThumbnail.at(*path);
-    return mSupport.at(index);
-  }
-
-  void addGroup(std::optional<Path> path)
-  {
-    if (!path) {
-      return;
-    }
-    mGroup.push_back(*path);
-    mGroupContent[*path] = std::set<int>();
-  }
-
-  void clear()
-  {
-    mGroupContent.clear();
-    mGroup.clear();
-    mSupportBySmallThumbnail.clear();
-    mSupportByMediumThumbnail.clear();
-    mSupportByFullPath.clear();
-    mSupport.clear();
-  }
-
-  std::vector<Path> const &groups() { return mGroup; }
+  int                       groupSize(std::optional<Path> group);
+  std::optional<Thumbnails> getByMedium(std::optional<Path> path);
+  void                      addGroup(std::optional<Path> path);
+  void                      clear();
+  std::vector<Path> const  &groups();
 
 private:
   std::unordered_map<Path, std::set<int>> mGroupContent;

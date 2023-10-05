@@ -24,6 +24,72 @@ void ImageSupport::addMedium(Path fullSize, Path mediumSize)
   mSupportByMediumThumbnail[mediumSize] = index;
 }
 
+std::vector<Path> ImageSupport::fullPathByGroup(Path group)
+{
+  if (mGroupContent.find(group) == mGroupContent.end()) {
+    return std::vector<Path>();
+  }
+  auto             &pathSet = mGroupContent.at(group);
+  std::vector<Path> result;
+  for (auto index : pathSet) {
+    result.push_back(mSupport.at(index).fullPath);
+  }
+  return result;
+}
+
+std::optional<Path> ImageSupport::groupByIndex(int index)
+{
+  if (index > 1 && index < mGroup.size()) {
+    return mGroup.at(index);
+  }
+  return std::nullopt;
+}
+
+int ImageSupport::groupSize(std::optional<Path> group)
+{
+  if (!group) {
+    return 0;
+  }
+  if (mGroupContent.find(*group) == mGroupContent.end()) {
+    return 0;
+  }
+  return (int)mGroupContent.at(*group).size();
+}
+
+std::optional<Thumbnails> ImageSupport::getByMedium(std::optional<Path> path)
+{
+  if (!path) {
+    return std::nullopt;
+  }
+  if (mSupportByMediumThumbnail.find(*path) ==
+      mSupportByMediumThumbnail.end()) {
+    return std::nullopt;
+  }
+  auto index = mSupportByMediumThumbnail.at(*path);
+  return mSupport.at(index);
+}
+
+void ImageSupport::addGroup(std::optional<Path> path)
+{
+  if (!path) {
+    return;
+  }
+  mGroup.push_back(*path);
+  mGroupContent[*path] = std::set<int>();
+}
+
+void ImageSupport::clear()
+{
+  mGroupContent.clear();
+  mGroup.clear();
+  mSupportBySmallThumbnail.clear();
+  mSupportByMediumThumbnail.clear();
+  mSupportByFullPath.clear();
+  mSupport.clear();
+}
+
+std::vector<Path> const &ImageSupport::groups() { return mGroup; }
+
 void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
 {
   if (mGroupContent.find(root) == mGroupContent.end()) {
