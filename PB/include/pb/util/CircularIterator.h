@@ -8,13 +8,11 @@
 
 namespace PB {
 
-class CircularIterator final {
+template <std::ranges::range Container> class CircularIterator final {
 public:
-  CircularIterator()
-  {
-  }
+  CircularIterator() {}
 
-  explicit CircularIterator(std::vector<Path> &container)
+  explicit CircularIterator(Container &container)
       : mBeginIterator(container.begin()), mEndIterator(container.end()),
         mSize((unsigned)container.size())
   {
@@ -43,7 +41,8 @@ public:
 
   ~CircularIterator() = default;
 
-  auto current() -> std::optional<Path>
+  auto current()
+      -> std::optional<std::ranges::range_value_t<Container>>
   {
     if (mSize == 0) {
       return std::nullopt;
@@ -80,9 +79,9 @@ public:
   auto valid() const -> bool { return mSize > 0; }
 
 private:
-  std::vector<Path>::iterator mBeginIterator;
-  std::vector<Path>::iterator mEndIterator;
-  unsigned                    mIndex = 0;
-  unsigned                    mSize = 0;
+  Container::iterator mBeginIterator;
+  Container::iterator mEndIterator;
+  unsigned            mIndex = 0;
+  unsigned            mSize = 0;
 };
 } // namespace PB

@@ -74,9 +74,9 @@ public:
     return mPaths.at(index);
   }
 
-  [[nodiscard]] auto iterator() -> std::optional<CircularIterator>
+  [[nodiscard]] auto iterator() -> std::optional<CircularIterator<std::vector<Path>>>
   {
-    return CircularIterator(mPaths);
+    return CircularIterator<std::vector<Path>>(mPaths);
   }
 
   std::vector<std::filesystem::path> &map() { return mPaths; }

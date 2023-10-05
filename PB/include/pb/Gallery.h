@@ -93,7 +93,7 @@ private:
   int                             mSelectedFolderIndex = -1;
   int                             mGalleryIndex = -1;
   std::optional<MediaMap>         mCurrentMap;
-  std::optional<CircularIterator> mCurrentIterator;
+  std::optional<CircularIterator<std::vector<Path>>> mCurrentIterator;
   std::optional<Path>             mSelectedMedia;
 };
 } // namespace PB

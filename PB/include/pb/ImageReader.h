@@ -58,7 +58,7 @@ public:
     return inputImage;
   }
 
-  void loadBuffer(CircularIterator iterator)
+  void loadBuffer(CircularIterator<std::vector<Path>> iterator)
   {
     if (!iterator.valid()) {
       return;

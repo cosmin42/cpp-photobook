@@ -122,7 +122,7 @@ private:
   std::vector<std::string>                           mMediaListNative;
   std::vector<int> mDragAndDropSelectedIndexes;
 
-  std::optional<PB::CircularIterator> mCurrentGalleryIterator = std::nullopt;
+  std::optional<PB::CircularIterator<std::vector<PB::Path>>> mCurrentGalleryIterator = std::nullopt;
 };
 } // namespace winrt::PhotobookUI::implementation
 
