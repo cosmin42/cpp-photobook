@@ -16,21 +16,9 @@ public:
   }
   ~Gallery() = default;
 
-  void selectIndex(int newIndex)
+  void setIterator(FilteredThumbnailSet iterator)
   {
-    mSelectedFolderIndex = newIndex;
-
-    mCurrentMap = mediaMap(mSelectedFolderIndex);
-
-    if (mCurrentMap) {
-      mCurrentIterator = mCurrentMap->iterator();
-    }
-    else {
-      mCurrentIterator = std::nullopt;
-    }
-
-    mSelectedMedia =
-        Context::inst().data().mediaIndexedByType().at(mSelectedFolderIndex);
+    mCurrentIterator = iterator;
   }
 
   auto selectedMedia() const -> std::optional<Path> { return mSelectedMedia; }
@@ -57,7 +45,7 @@ public:
     return mediaIndexedByType.at(mSelectedFolderIndex);
   }
 
-  auto selectedItem() -> std::optional<Path>
+  auto selectedItem() -> std::optional<Thumbnails>
   {
     if (mCurrentIterator.has_value()) {
       return mCurrentIterator->current();
@@ -90,10 +78,10 @@ private:
 
   GalleryListener<PhotoBookType, PersistenceType> &mListener;
 
-  int                             mSelectedFolderIndex = -1;
-  int                             mGalleryIndex = -1;
-  std::optional<MediaMap>         mCurrentMap;
-  std::optional<CircularIterator<std::vector<Path>>> mCurrentIterator;
-  std::optional<Path>             mSelectedMedia;
+  int                                                mSelectedFolderIndex = -1;
+  int                                                mGalleryIndex = -1;
+  std::optional<MediaMap>                            mCurrentMap;
+  std::optional<FilteredThumbnailSet>                mCurrentIterator;
+  std::optional<Path>                                mSelectedMedia;
 };
 } // namespace PB

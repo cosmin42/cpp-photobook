@@ -216,14 +216,14 @@ void TableContentPage::CanvasControlDraw(
 
   std::shared_ptr<cv::Mat> image = nullptr;
 
-  auto mediumThumbnailPath = mPhotoBook.mediumThumbnail(gallery.selectedMedia(),
-                                                        gallery.selectedItem());
+  auto maybeMediumThumbnailPath = gallery.selectedItem();
 
-  if (!mediumThumbnailPath) {
+  if (!maybeMediumThumbnailPath) {
     return;
   }
-  if (PB::MediaMap::validImagePath(*mediumThumbnailPath)) {
-    image = mPhotoBook.loadGalleryImage(mediumThumbnailPath->string(),
+  auto mediumThumbnailPath = maybeMediumThumbnailPath->mediumThumbnail;
+  if (PB::MediaMap::validImagePath(mediumThumbnailPath)) {
+    image = mPhotoBook.loadGalleryImage(mediumThumbnailPath.string(),
                                         {portviewWidth, portviewHeight});
   }
   else {
@@ -231,7 +231,7 @@ void TableContentPage::CanvasControlDraw(
                                           {255, 0, 0})();
 
     image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
-                                 mediumThumbnailPath->filename().string(),
+                                 mediumThumbnailPath.filename().string(),
                                  {0, 255, 0})(image);
   }
 
@@ -278,7 +278,13 @@ void TableContentPage::onFinished()
 
   PB::printDebug("Index selected %d\n", (int)(mMediaListNative.size() - 1));
 
-  mPhotoBook.gallery().selectIndex((int)(mMediaListNative.size() - 1));
+  auto &imagesData = PB::Context::inst().data().images();
+
+  auto maybePath = imagesData.groupByIndex((int)(mMediaListNative.size() - 1));
+
+  assert(maybePath.has_value());
+
+  mPhotoBook.gallery().setIterator(imagesData.thumbnailsSet(*maybePath));
 
   updateGalleryLabel();
 }
@@ -292,7 +298,13 @@ void TableContentPage::onFoldersSelectionChanged(
 
   PB::printDebug("Index selected %d\n", index);
 
-  mPhotoBook.gallery().selectIndex(index);
+  auto& imagesData = PB::Context::inst().data().images();
+
+  auto maybePath = imagesData.groupByIndex(index);
+
+  assert(maybePath.has_value());
+
+  mPhotoBook.gallery().setIterator(imagesData.thumbnailsSet(*maybePath));
 
   updateGalleryLabel();
 }
@@ -347,7 +359,7 @@ void TableContentPage::updateGalleryLabel()
   GalleryRightButton().IsEnabled(itemPath.has_value());
 
   if (itemPath) {
-    GalleryMainText().Text(winrt::to_hstring(itemPath->filename().string()));
+    GalleryMainText().Text(winrt::to_hstring(itemPath->fullPath.filename().string()));
   }
   else if (rootName) {
     GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));

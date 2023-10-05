@@ -67,6 +67,8 @@ private:
   std::vector<Thumbnails>                 mSupport;
 };
 
+typedef decltype(ImageSupport().thumbnailsSet(Path())) FilteredThumbnailSet;
+
 class DataManager final {
 public:
   std::unordered_map<Path, MediaMap> &mediaData() { return mMediaData; }
