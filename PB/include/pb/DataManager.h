@@ -59,6 +59,17 @@ public:
     return CircularIterator<decltype(result)>(result);
   }
 
+  int groupSize(std::optional<Path> group)
+  {
+    if (!group) {
+      return 0;
+    }
+    if (mGroupContent.find(*group) == mGroupContent.end()) {
+      return 0;
+    }
+    return (int)mGroupContent.at(*group).size();
+  }
+
   std::optional<Thumbnails> getByMedium(std::optional<Path> path)
   {
     if (!path) {
