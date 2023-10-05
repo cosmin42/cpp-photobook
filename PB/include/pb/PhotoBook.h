@@ -47,7 +47,7 @@ public:
   ~PhotoBook()
   {
     printDebug("Photobook destructed.\n");
-    Context::inst().data().clear();
+    Context::inst().data().images().clear();
   }
 
   void loadProject(Path const &path)
@@ -98,7 +98,7 @@ public:
                    },
                    [this](Error error) { mParent.onError(error); }},
         result);
-    Context::inst().data().mediaIndexedByType().push_back(fsPath);
+    Context::inst().data().images().addGroup(fsPath);
     mMappingJobs.at(fsPath).start();
   }
 
@@ -113,9 +113,6 @@ public:
 
   void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
   {
-    auto &mediaData = Context::inst().data().mediaData();
-    mediaData.insert({rootPath, newMediaMap});
-
     Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
 
     std::vector<std::future<void>> v;
@@ -130,32 +127,25 @@ public:
       mParent.onFinished();
     }
 
-    Context::inst().data().newSmallTumbnailMap(rootPath);
-
     auto start = std::chrono::high_resolution_clock::now();
 
     mUnstagedImagesLogic.generateThumbnails(
-        mediaData.at(rootPath),
-        [this, rootPath{rootPath}, size{mediaData.at(rootPath).size()},
-         start{start}](Path input, Path smallOutput,
-                       [[maybe_unused]] Path mediumOutput) {
-          mParent.onProgressUpdate(
-              (int)Context::inst().data().smallThumbnails(rootPath).size(),
-              (int)size);
+        newMediaMap.map(),
+        [this, rootPath{rootPath}, start{start}](
+            Path input, Path smallOutput, [[maybe_unused]] Path mediumOutput,
+            unsigned progress, unsigned maxProgress) {
+          mParent.onProgressUpdate((int)progress, (int)maxProgress);
 
           mParent.onUnstagedImageAdded(smallOutput);
 
           mParent.post([this, rootPath{rootPath}, input{input},
-                        smallOutput{smallOutput}, size{size}, start{start},
-                        mediumOutput{mediumOutput}]() {
-            Context::inst().data().addSmallThumbnail(rootPath, input,
-                                                     smallOutput);
+                        smallOutput{smallOutput}, start{start},
+                        mediumOutput{mediumOutput}, progress{progress},
+                        maxProgress{maxProgress}]() {
+            Context::inst().data().images().addSmall(input, smallOutput);
+            Context::inst().data().images().addMedium(input, mediumOutput);
 
-            Context::inst().data().addMediumThumbnail(rootPath, input,
-                                                      mediumOutput);
-            auto progress =
-                Context::inst().data().smallThumbnails(rootPath).size();
-            if (progress == size) {
+            if (progress == maxProgress) {
 
               auto end = std::chrono::high_resolution_clock::now();
               std::chrono::duration<double> duration = end - start;
@@ -237,7 +227,7 @@ private:
   GalleryListener<PhotoBookType, PersistenceType> mGalleryListener;
   Gallery<PhotoBookType, PersistenceType>         mGallery;
   ImageReader                                     mImageReader;
-  UnstagedImagesLogic                               mUnstagedImagesLogic;
+  UnstagedImagesLogic                             mUnstagedImagesLogic;
   Exporter<Pdf>                                   mExporter;
 };
 } // namespace PB

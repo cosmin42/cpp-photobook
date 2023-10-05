@@ -24,7 +24,8 @@ void ResizeTask::operator()() const
     image = PB::Process::addText({1280 / 2, 640 / 2},
                                  mFullSizePath.parent_path().string(),
                                  {0, 255, 0})(image);
-    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath, mMediumThumbnailOutputPath);
+    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath,
+                                 mMediumThumbnailOutputPath);
   }
   mFinish();
 }
@@ -45,21 +46,26 @@ void UnstagedImagesLogic::provideProjectDetails(
 }
 
 void UnstagedImagesLogic::generateThumbnails(
-    MediaMap &mediaMap, std::function<void(Path, Path, Path)> onThumbnailWritten)
+    std::vector<std::filesystem::path> mediaMap,
+    std::function<void(Path, Path, Path, unsigned, unsigned)>
+        onThumbnailWritten)
 {
   mThumbnailWritten = onThumbnailWritten;
-  unsigned taskCount = mediaMap.size();
+  unsigned taskCount = (unsigned)mediaMap.size();
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
-    auto inputPath = mediaMap.map().at(i);
+    auto inputPath = mediaMap.at(i);
     auto [smallPath, mediumPath] = assembleOutputPaths(i);
 
-    ResizeTask        resizeTask(mediaMap.map().at(i), smallPath, mediumPath, taskCount,
-                                 [mThumbnailWritten{mThumbnailWritten},
-                           inputPath{inputPath}, smallPath{smallPath},
-                           mediumPath{mediumPath}]() {
-                            mThumbnailWritten(inputPath, smallPath, mediumPath);
-                          });
+    auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},
+                 smallPath{smallPath}, mediumPath{mediumPath}, i{i},
+                 taskCount{taskCount}]() {
+      mThumbnailWritten(inputPath, smallPath, mediumPath, (unsigned)i,
+                        taskCount - 1);
+    };
+
+    ResizeTask        resizeTask(mediaMap.at(i), smallPath, mediumPath,
+                                 taskCount, task);
     std::future<void> token = mResizePool.enqueue(resizeTask);
 
     mFutures.push_back(std::move(token));

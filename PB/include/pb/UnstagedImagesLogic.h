@@ -31,8 +31,10 @@ public:
 
   void provideProjectDetails(ProjectDetails const &);
 
-  void generateThumbnails(MediaMap                       &mediaMap,
-                          std::function<void(Path, Path, Path)> onThumbnailWritten);
+  void
+  generateThumbnails(std::vector<std::filesystem::path> mediaMap,
+                     std::function<void(Path, Path, Path, unsigned, unsigned)>
+                         onThumbnailWritten);
 
 private:
   static constexpr const char *sSmallThumbnailPrefix = "thumbnail";
@@ -40,8 +42,8 @@ private:
   static constexpr unsigned    sNumberOfThreads = 4;
   std::pair<Path, Path>        assembleOutputPaths(int index);
   ProjectDetails               mProjectDetails;
-  dp::thread_pool<std::function<void(void)>> mResizePool;
-  std::vector<std::future<void>>             mFutures;
-  std::function<void(Path, Path, Path)>            mThumbnailWritten;
+  dp::thread_pool<std::function<void(void)>>                mResizePool;
+  std::vector<std::future<void>>                            mFutures;
+  std::function<void(Path, Path, Path, unsigned, unsigned)> mThumbnailWritten;
 };
 } // namespace PB

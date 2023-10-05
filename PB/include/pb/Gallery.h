@@ -36,7 +36,7 @@ public:
 
   auto folderName() -> std::optional<Path>
   {
-    auto &mediaIndexedByType = Context::inst().data().mediaIndexedByType();
+    auto &mediaIndexedByType = Context::inst().data().images().groups();
 
     assert(mSelectedFolderIndex < mediaIndexedByType.size() &&
            mSelectedFolderIndex > -1);
@@ -53,7 +53,7 @@ public:
 
   auto foldersList() -> std::vector<Path>
   {
-    return Context::inst().data().mediaIndexedByType();
+    return Context::inst().data().images().groups();
   }
 
 private:
