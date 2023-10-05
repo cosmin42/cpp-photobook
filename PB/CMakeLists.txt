@@ -88,6 +88,7 @@ add_library(pblib STATIC
     include/pb/util/Traits.h
 
     src/Config.cpp
+    src/DataManager.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/ImageReader.cpp

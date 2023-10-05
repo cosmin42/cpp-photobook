@@ -6,6 +6,51 @@
 
 namespace PB {
 
+    
+struct Thumbnails {
+  Thumbnails(Path path) : fullPath(path) {}
+  Path fullPath;
+  Path mediumThumbnail;
+  Path smallThumbnail;
+};
+
+class ImageSupport final {
+public:
+  void addFullPaths(Path root, std::vector<Path> const &paths);
+
+  void addSmall(Path fullSize, Path smallSize);
+  void addMedium(Path fullSize, Path mediumSize);
+
+  std::vector<Path> fullPathByGroup(Path group)
+  {
+    if (mGroupContent.find(group) == mGroupContent.end()) {
+      return std::vector<Path>();
+    }
+    auto             &pathSet = mGroupContent.at(group);
+    std::vector<Path> result;
+    for (auto index : pathSet) {
+      result.push_back(mSupport.at(index).fullPath);
+    }
+    return result;
+  }
+
+  std::optional<Path> groupByIndex(int index)
+  {
+    if (index > 1 && index < mGroup.size()) {
+      return mGroup.at(index);
+    }
+    return std::nullopt;
+  }
+
+private:
+  std::unordered_map<Path, std::set<int>> mGroupContent;
+  std::vector<Path>                       mGroup;
+  std::unordered_map<Path, int>           mSupportBySmallThumbnail;
+  std::unordered_map<Path, int>           mSupportByMediumThumbnail;
+  std::unordered_map<Path, int>           mSupportByFullPath;
+  std::vector<Thumbnails>                 mSupport;
+};
+
 class DataManager final {
 public:
   std::unordered_map<Path, MediaMap> &mediaData() { return mMediaData; }
