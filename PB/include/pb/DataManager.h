@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ranges>
 #include <unordered_map>
 
 #include <pb/MediaMap.h>
@@ -7,10 +8,11 @@
 namespace PB {
 
 struct Thumbnails {
-  Thumbnails(Path path) : fullPath(path) {}
-  Path fullPath;
-  Path mediumThumbnail;
-  Path smallThumbnail;
+  Thumbnails(Path path, int newIndex) : fullPath(path), index{newIndex} {}
+  const int index;
+  Path      fullPath;
+  Path      mediumThumbnail;
+  Path      smallThumbnail;
 };
 
 class ImageSupport final {
@@ -39,6 +41,18 @@ public:
       return mGroup.at(index);
     }
     return std::nullopt;
+  }
+
+  auto thumbnailsSet(Path root)
+  {
+    return mSupport |
+           std::ranges::views::filter([this, root{root}](Thumbnails const &th) {
+             if (mGroupContent.find(root) == mGroupContent.end()) {
+               return false;
+             }
+             return mGroupContent.at(root).find(th.index) !=
+                    mGroupContent.at(root).end();
+           });
   }
 
 private:

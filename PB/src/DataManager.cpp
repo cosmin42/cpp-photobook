@@ -30,7 +30,7 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
     mGroup.push_back(root);
   }
   for (auto &p : paths) {
-    Thumbnails newThumbnails(p);
+    Thumbnails newThumbnails(p, (int)mSupport.size());
     mSupport.push_back(newThumbnails);
     mSupportByFullPath[p] = (int)(mSupport.size() - 1);
     mGroupContent[root].insert((int)(mSupport.size() - 1));
