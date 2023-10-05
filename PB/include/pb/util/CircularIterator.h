@@ -14,8 +14,11 @@ public:
 
   explicit CircularIterator(Container &container)
       : mBeginIterator(container.begin()), mEndIterator(container.end()),
-        mSize((unsigned)container.size())
+        mSize(0)
   {
+    for (auto it : container) {
+      mSize++;
+    }
   }
 
   CircularIterator(CircularIterator const &other)
@@ -41,8 +44,7 @@ public:
 
   ~CircularIterator() = default;
 
-  auto current()
-      -> std::optional<std::ranges::range_value_t<Container>>
+  auto current() -> std::optional<std::ranges::range_value_t<Container>>
   {
     if (mSize == 0) {
       return std::nullopt;
@@ -79,9 +81,9 @@ public:
   auto valid() const -> bool { return mSize > 0; }
 
 private:
-  Container::iterator mBeginIterator;
-  Container::iterator mEndIterator;
-  unsigned            mIndex = 0;
-  unsigned            mSize = 0;
+  std::ranges::iterator_t<Container> mBeginIterator;
+  std::ranges::iterator_t<Container> mEndIterator;
+  unsigned                           mIndex = 0;
+  unsigned                           mSize = 0;
 };
 } // namespace PB

@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include <pb/MediaMap.h>
+#include <pb/util/CircularIterator.h>
 
 namespace PB {
 
@@ -45,7 +46,7 @@ public:
 
   auto thumbnailsSet(Path root)
   {
-    return mSupport |
+    auto result =  mSupport |
            std::ranges::views::filter([this, root{root}](Thumbnails const &th) {
              if (mGroupContent.find(root) == mGroupContent.end()) {
                return false;
@@ -53,6 +54,8 @@ public:
              return mGroupContent.at(root).find(th.index) !=
                     mGroupContent.at(root).end();
            });
+
+    return CircularIterator<decltype(result)>(result);
   }
 
 private:
