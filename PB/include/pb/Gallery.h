@@ -18,6 +18,7 @@ public:
 
   void setIterator(FilteredThumbnailSet iterator)
   {
+    mSelectedFolderIndex = 0;
     mCurrentIterator = iterator;
   }
 
@@ -60,6 +61,6 @@ private:
   GalleryListener<PhotoBookType, PersistenceType> &mListener;
   int                                              mSelectedFolderIndex = -1;
   int                                              mGalleryIndex = -1;
-  std::optional<FilteredThumbnailSet>              mCurrentIterator;
+  std::optional<FilteredThumbnailSet> mCurrentIterator = std::nullopt;
 };
 } // namespace PB

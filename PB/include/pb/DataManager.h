@@ -26,15 +26,15 @@ public:
 
   auto thumbnailsSet(Path root)
   {
-    auto result =
-        mSupport |
-        std::ranges::views::filter([this, root{root}](Thumbnails const &th) {
-          if (mGroupContent.find(root) == mGroupContent.end()) {
-            return false;
-          }
-          return mGroupContent.at(root).find(th.index) !=
-                 mGroupContent.at(root).end();
-        });
+    auto filterFunction = [this, root{root}](Thumbnails const &th) {
+      if (mGroupContent.find(root) == mGroupContent.end()) {
+        return false;
+      }
+      return mGroupContent.at(root).find(th.index) !=
+             mGroupContent.at(root).end();
+    };
+    auto result = std::ranges::filter_view(mSupport,
+            filterFunction);
 
     return CircularIterator<decltype(result)>(result);
   }

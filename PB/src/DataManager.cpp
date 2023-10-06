@@ -39,7 +39,7 @@ std::vector<Path> ImageSupport::fullPathByGroup(Path group)
 
 std::optional<Path> ImageSupport::groupByIndex(int index)
 {
-  if (index > 1 && index < mGroup.size()) {
+  if (index > -1 && index < mGroup.size()) {
     return mGroup.at(index);
   }
   return std::nullopt;

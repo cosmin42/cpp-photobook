@@ -38,7 +38,9 @@ void PhotoBookListener::onProgressUpdate(int progress, int reference)
 
 void PhotoBookListener::onUnstagedImageAdded(PB::Path path)
 {
-  mParent.post([this, path]() { mParent.onUnstagedImageAdded(path); });
+  mParent.post([this, path]() {
+      mParent.onUnstagedImageAdded(path);
+      });
 }
 
 void PhotoBookListener::onError(PB::Error error)
