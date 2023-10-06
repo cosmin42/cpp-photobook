@@ -129,23 +129,25 @@ public:
 
     auto start = std::chrono::high_resolution_clock::now();
 
+    mProgress = 0;
+    const int maxProgress = (int)newMediaMap.map().size();
+
     mUnstagedImagesLogic.generateThumbnails(
         newMediaMap.map(),
-        [this, rootPath{rootPath}, start{start}](
-            Path input, Path smallOutput, [[maybe_unused]] Path mediumOutput,
-            unsigned progress, unsigned maxProgress) {
-          mParent.onProgressUpdate((int)progress, (int)maxProgress);
+        [this, rootPath{rootPath}, start{start},
+         maxProgress{maxProgress}](Path input, Path smallOutput,
+                                   Path mediumOutput) {
+          mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
 
           mParent.onUnstagedImageAdded(smallOutput);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, start{start},
-                        mediumOutput{mediumOutput}, progress{progress},
-                        maxProgress{maxProgress}]() {
+                        mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
             Context::inst().data().images().addSmall(input, smallOutput);
             Context::inst().data().images().addMedium(input, mediumOutput);
-
-            if (progress == maxProgress) {
+            mProgress++;
+            if (mProgress == maxProgress) {
 
               auto end = std::chrono::high_resolution_clock::now();
               std::chrono::duration<double> duration = end - start;
@@ -229,5 +231,6 @@ private:
   ImageReader                                     mImageReader;
   UnstagedImagesLogic                             mUnstagedImagesLogic;
   Exporter<Pdf>                                   mExporter;
+  int                                             mProgress = 0;
 };
 } // namespace PB

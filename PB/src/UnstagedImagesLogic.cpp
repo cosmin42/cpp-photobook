@@ -47,7 +47,7 @@ void UnstagedImagesLogic::provideProjectDetails(
 
 void UnstagedImagesLogic::generateThumbnails(
     std::vector<std::filesystem::path> mediaMap,
-    std::function<void(Path, Path, Path, unsigned, unsigned)>
+    std::function<void(Path, Path, Path)>
         onThumbnailWritten)
 {
   mThumbnailWritten = onThumbnailWritten;
@@ -60,8 +60,7 @@ void UnstagedImagesLogic::generateThumbnails(
     auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},
                  smallPath{smallPath}, mediumPath{mediumPath}, i{i},
                  taskCount{taskCount}]() {
-      mThumbnailWritten(inputPath, smallPath, mediumPath, (unsigned)i,
-                        taskCount - 1);
+      mThumbnailWritten(inputPath, smallPath, mediumPath);
     };
 
     ResizeTask        resizeTask(mediaMap.at(i), smallPath, mediumPath,

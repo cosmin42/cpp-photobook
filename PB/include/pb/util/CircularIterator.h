@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include <functional>
 #include <optional>
 #include <vector>
@@ -52,6 +53,16 @@ public:
       mIndex = (unsigned)mFilteredIndices.size();
     }
     mIndex--;
+    return *this;
+  }
+
+  CircularIterator &goToPosition(int index)
+  {
+    if (mFilteredIndices.size() == 0) {
+      return *this;
+    }
+    assert(index < (int)mFilteredIndices.size());
+    mIndex = index;
     return *this;
   }
 

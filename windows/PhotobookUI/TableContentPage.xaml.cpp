@@ -222,8 +222,7 @@ void TableContentPage::CanvasControlDraw(
     return;
   }
   auto mediumThumbnailPath = maybeMediumThumbnailPath->mediumThumbnail;
-  if (mediumThumbnailPath.empty())
-  {
+  if (mediumThumbnailPath.empty()) {
     return;
   }
   if (PB::MediaMap::validImagePath(mediumThumbnailPath)) {
@@ -318,6 +317,12 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
+  auto galleryIndex = UnstagedListView().SelectedIndex();
+  auto index = ((int)mMediaListItemsCollection.Size())-1;
+  if (galleryIndex > -1 && index > -1) {
+    mPhotoBook.gallery().setPosition(galleryIndex);
+    updateGalleryLabel();
+  }
 }
 
 void TableContentPage::onStopped() {}
@@ -328,8 +333,7 @@ void TableContentPage::onPaused() {}
 
 void TableContentPage::onResumed() {}
 
-void TableContentPage::onProgressUpdate([[maybe_unused]] int progress,
-                                        [[maybe_unused]] int reference)
+void TableContentPage::onProgressUpdate(int progress, int reference)
 {
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);

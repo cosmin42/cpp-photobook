@@ -22,6 +22,11 @@ public:
     mCurrentIterator = iterator;
   }
 
+  void setPosition(int position)
+  {
+    mCurrentIterator = mCurrentIterator->goToPosition(position);
+  }
+
   void navigateLeft()
   {
     if (mCurrentIterator) {
@@ -38,7 +43,6 @@ public:
   auto folderName() -> std::optional<Path>
   {
     auto &mediaIndexedByType = Context::inst().data().images().groups();
-
     assert(mSelectedFolderIndex < mediaIndexedByType.size() &&
            mSelectedFolderIndex > -1);
     return mediaIndexedByType.at(mSelectedFolderIndex);

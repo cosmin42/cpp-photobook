@@ -33,7 +33,7 @@ public:
 
   void
   generateThumbnails(std::vector<std::filesystem::path> mediaMap,
-                     std::function<void(Path, Path, Path, unsigned, unsigned)>
+                     std::function<void(Path, Path, Path)>
                          onThumbnailWritten);
 
 private:
@@ -44,6 +44,6 @@ private:
   ProjectDetails               mProjectDetails;
   dp::thread_pool<std::function<void(void)>>                mResizePool;
   std::vector<std::future<void>>                            mFutures;
-  std::function<void(Path, Path, Path, unsigned, unsigned)> mThumbnailWritten;
+  std::function<void(Path, Path, Path)> mThumbnailWritten;
 };
 } // namespace PB
