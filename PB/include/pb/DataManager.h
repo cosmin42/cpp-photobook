@@ -33,10 +33,8 @@ public:
       return mGroupContent.at(root).find(th.index) !=
              mGroupContent.at(root).end();
     };
-    auto result = std::ranges::filter_view(mSupport,
-            filterFunction);
 
-    return CircularIterator<decltype(result)>(result);
+    return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
   }
   int                       groupSize(std::optional<Path> group);
   std::optional<Thumbnails> getByMedium(std::optional<Path> path);
@@ -52,8 +50,6 @@ private:
   std::unordered_map<Path, int>           mSupportByFullPath;
   std::vector<Thumbnails>                 mSupport;
 };
-
-typedef decltype(ImageSupport().thumbnailsSet(Path())) FilteredThumbnailSet;
 
 class DataManager final {
 public:

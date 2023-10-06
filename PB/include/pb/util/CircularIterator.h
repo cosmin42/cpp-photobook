@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <optional>
 #include <vector>
 
@@ -8,22 +9,23 @@
 
 namespace PB {
 
-template <std::ranges::range Container> class CircularIterator final {
+template <typename Container> class CircularIterator final {
 public:
-  CircularIterator() {}
-
-  explicit CircularIterator(Container &container)
-      : mBeginIterator(container.begin()), mEndIterator(container.end()),
-        mSize(0)
+  explicit CircularIterator(
+      Container                                          &container,
+      std::function<bool(typename Container::value_type)> filter)
+      : mBeginIterator(container.begin())
   {
-    for (auto it : container) {
-      mSize++;
+    for (int i = 0; i < container.size(); ++i) {
+      if (filter(container.at(i))) {
+        mFilteredIndices.push_back(i);
+      }
     }
   }
 
-  auto current() -> std::optional<std::ranges::range_value_t<Container>>
+  auto current() -> std::optional<typename Container::value_type>
   {
-    if (mSize == 0) {
+    if (mFilteredIndices.size() == 0) {
       return std::nullopt;
     }
     auto tmpIterator = mBeginIterator;
@@ -33,34 +35,33 @@ public:
 
   CircularIterator &next()
   {
-    if (mSize == 0) {
+    if (mFilteredIndices.size() == 0) {
       return *this;
     }
     mIndex++;
-    mIndex %= mSize;
+    mIndex %= mFilteredIndices.size();
     return *this;
   }
 
   CircularIterator &previous()
   {
-    if (mSize == 0) {
+    if (mFilteredIndices.size() == 0) {
       return *this;
     }
     if (mIndex == 0) {
-      mIndex = mSize;
+      mIndex = (unsigned)mFilteredIndices.size();
     }
     mIndex--;
     return *this;
   }
 
-  auto size() const -> unsigned { return mSize; }
+  auto size() const -> unsigned { return (unsigned)mFilteredIndices.size(); }
 
-  auto valid() const -> bool { return mSize > 0; }
+  auto valid() const -> bool { return (unsigned)mFilteredIndices.size() > 0; }
 
 private:
-  std::ranges::iterator_t<Container> mBeginIterator;
-  std::ranges::iterator_t<Container> mEndIterator;
-  unsigned                           mIndex = 0;
-  unsigned                           mSize = 0;
+  Container::iterator mBeginIterator;
+  unsigned            mIndex = 0;
+  std::vector<int>    mFilteredIndices;
 };
 } // namespace PB

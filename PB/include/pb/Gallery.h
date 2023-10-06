@@ -16,7 +16,7 @@ public:
   }
   ~Gallery() = default;
 
-  void setIterator(FilteredThumbnailSet iterator)
+  void setIterator(CircularIterator<std::vector<Thumbnails>> iterator)
   {
     mSelectedFolderIndex = 0;
     mCurrentIterator = iterator;
@@ -58,9 +58,10 @@ public:
   }
 
 private:
-  GalleryListener<PhotoBookType, PersistenceType> &mListener;
-  int                                              mSelectedFolderIndex = -1;
-  int                                              mGalleryIndex = -1;
-  std::optional<FilteredThumbnailSet> mCurrentIterator = std::nullopt;
+  GalleryListener<PhotoBookType, PersistenceType>   &mListener;
+  int                                                mSelectedFolderIndex = -1;
+  int                                                mGalleryIndex = -1;
+  std::optional<CircularIterator<std::vector<Thumbnails>>> mCurrentIterator =
+      std::nullopt;
 };
 } // namespace PB
