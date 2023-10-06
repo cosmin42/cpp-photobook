@@ -21,29 +21,6 @@ public:
     }
   }
 
-  CircularIterator(CircularIterator const &other)
-      : mBeginIterator(other.mBeginIterator), mEndIterator(other.mEndIterator),
-        mIndex(other.mIndex), mSize(other.mSize)
-  {
-  }
-
-  CircularIterator(CircularIterator &&other) noexcept
-      : mBeginIterator(other.mBeginIterator), mEndIterator(other.mEndIterator),
-        mIndex(other.mIndex), mSize(other.mSize)
-  {
-  }
-
-  CircularIterator &operator=(CircularIterator const &other)
-  {
-    mBeginIterator = other.mBeginIterator;
-    mEndIterator = other.mEndIterator;
-    mIndex = other.mIndex;
-    mSize = other.mSize;
-    return *this;
-  }
-
-  ~CircularIterator() = default;
-
   auto current() -> std::optional<std::ranges::range_value_t<Container>>
   {
     if (mSize == 0) {
