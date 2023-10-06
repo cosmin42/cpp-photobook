@@ -287,7 +287,9 @@ void TableContentPage::onFinished()
 
   assert(maybePath.has_value());
 
-  mPhotoBook.gallery().setIterator(imagesData.thumbnailsSet(*maybePath));
+  auto iterator = imagesData.thumbnailsSet(*maybePath);
+
+  mPhotoBook.gallery().setIterator(iterator);
 
   updateGalleryLabel();
 }
@@ -318,7 +320,7 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
         SelectionChangedEventArgs const &)
 {
   auto galleryIndex = UnstagedListView().SelectedIndex();
-  auto index = ((int)mMediaListItemsCollection.Size())-1;
+  auto index = ((int)mMediaListItemsCollection.Size()) - 1;
   if (galleryIndex > -1 && index > -1) {
     mPhotoBook.gallery().setPosition(galleryIndex);
     updateGalleryLabel();
@@ -340,10 +342,17 @@ void TableContentPage::onProgressUpdate(int progress, int reference)
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
-void TableContentPage::onUnstagedImageAdded(PB::Path path)
+void TableContentPage::onUnstagedImageAdded(PB::Path path, int position)
 {
-  mUnstagingImageCollection.Append(
-      ImageUIData(winrt::to_hstring(path.string())));
+  mUnstagingImageCollection.SetAt(
+      position, ImageUIData(winrt::to_hstring(path.string())));
+}
+
+void TableContentPage::onAddingFolder(unsigned size)
+{
+  for (int i = 0; i < (int)size; ++i) {
+    mUnstagingImageCollection.Append(ImageUIData());
+  }
 }
 
 void TableContentPage::onError(PB::Error error) {}

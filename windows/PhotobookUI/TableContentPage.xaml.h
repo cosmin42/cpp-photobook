@@ -98,7 +98,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onProgressUpdate([[maybe_unused]] int progress,
                         [[maybe_unused]] int reference);
 
-  void onUnstagedImageAdded(PB::Path path);
+  void onUnstagedImageAdded(PB::Path path, int position);
+  void onAddingFolder(unsigned size);
   void onError(PB::Error error);
 
   void post(std::function<void()>);
