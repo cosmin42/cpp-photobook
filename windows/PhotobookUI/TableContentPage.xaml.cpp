@@ -170,6 +170,13 @@ void TableContentPage::OnDragOverStagedListView(
       Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
 }
 
+void TableContentPage::OnTableContentSizeChanged(
+    [[maybe_unused]] Windows::Foundation::IInspectable const& sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const& args)
+{
+  GalleryCanvas().Invalidate();
+}
+
 void TableContentPage::OnDropIntoStagedListView(
     [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)

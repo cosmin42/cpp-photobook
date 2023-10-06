@@ -87,6 +87,10 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
+  void OnTableContentSizeChanged(
+      [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args);
+
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
@@ -123,7 +127,8 @@ private:
   std::vector<std::string>                           mMediaListNative;
   std::vector<int> mDragAndDropSelectedIndexes;
 
-  std::optional<PB::CircularIterator<std::vector<PB::Path>>> mCurrentGalleryIterator = std::nullopt;
+  std::optional<PB::CircularIterator<std::vector<PB::Path>>>
+      mCurrentGalleryIterator = std::nullopt;
 };
 } // namespace winrt::PhotobookUI::implementation
 
