@@ -18,9 +18,9 @@ struct Thumbnails {
 
 class ImageSupport final {
 public:
-  void                addFullPaths(Path root, std::vector<Path> const &paths);
-  void                addSmall(Path fullSize, Path smallSize);
-  void                addMedium(Path fullSize, Path mediumSize);
+  void addFullPaths(Path root, std::vector<Path> const &paths);
+  void addSmall(Path fullSize, Path smallSize);
+  void addMedium(Path fullSize, Path mediumSize);
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
@@ -30,25 +30,26 @@ public:
       if (mGroupContent.find(root) == mGroupContent.end()) {
         return false;
       }
-      return mGroupContent.at(root).find(th.index) !=
-             mGroupContent.at(root).end();
+      return std::find(mGroupContent.at(root).begin(),
+                       mGroupContent.at(root).end(),
+                       th.index) != mGroupContent.at(root).end();
     };
 
     return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
   }
   int                       groupSize(std::optional<Path> group);
   std::optional<Thumbnails> getByMedium(std::optional<Path> path);
-  void                      addGroup(std::optional<Path> path);
+  void                      addGroup(std::optional<Path> path, unsigned size);
   void                      clear();
   std::vector<Path> const  &groups();
 
 private:
-  std::unordered_map<Path, std::set<int>> mGroupContent;
-  std::vector<Path>                       mGroup;
-  std::unordered_map<Path, int>           mSupportBySmallThumbnail;
-  std::unordered_map<Path, int>           mSupportByMediumThumbnail;
-  std::unordered_map<Path, int>           mSupportByFullPath;
-  std::vector<Thumbnails>                 mSupport;
+  std::unordered_map<Path, std::vector<int>> mGroupContent;
+  std::vector<Path>                          mGroup;
+  std::unordered_map<Path, int>              mSupportBySmallThumbnail;
+  std::unordered_map<Path, int>              mSupportByMediumThumbnail;
+  std::unordered_map<Path, int>              mSupportByFullPath;
+  std::vector<Thumbnails>                    mSupport;
 };
 
 class DataManager final {

@@ -69,13 +69,13 @@ std::optional<Thumbnails> ImageSupport::getByMedium(std::optional<Path> path)
   return mSupport.at(index);
 }
 
-void ImageSupport::addGroup(std::optional<Path> path)
+void ImageSupport::addGroup(std::optional<Path> path, unsigned size)
 {
   if (!path) {
     return;
   }
   mGroup.push_back(*path);
-  mGroupContent[*path] = std::set<int>();
+  mGroupContent[*path] = std::vector<int>(size);
 }
 
 void ImageSupport::clear()
@@ -99,7 +99,10 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
     Thumbnails newThumbnails(p, (int)mSupport.size());
     mSupport.push_back(newThumbnails);
     mSupportByFullPath[p] = (int)(mSupport.size() - 1);
-    mGroupContent[root].insert((int)(mSupport.size() - 1));
+    if (std::find(mGroupContent[root].begin(), mGroupContent[root].end(),
+                  (int)(mSupport.size() - 1)) == mGroupContent[root].end()) {
+      mGroupContent[root].push_back((int)(mSupport.size() - 1));
+    }
   }
 }
 } // namespace PB
