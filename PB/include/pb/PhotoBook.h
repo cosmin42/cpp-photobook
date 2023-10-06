@@ -98,7 +98,6 @@ public:
                    },
                    [this](Error error) { mParent.onError(error); }},
         result);
-    Context::inst().data().images().addGroup(fsPath);
     mMappingJobs.at(fsPath).start();
   }
 
@@ -113,7 +112,11 @@ public:
 
   void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
   {
+    Context::inst().data().images().addGroup(
+        rootPath, (unsigned)newMediaMap.map().size());
     Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
+
+    mParent.onAddingFolder((unsigned)newMediaMap.map().size());
 
     std::vector<std::future<void>> v;
 
@@ -134,16 +137,16 @@ public:
 
     mUnstagedImagesLogic.generateThumbnails(
         newMediaMap.map(),
-        [this, rootPath{rootPath}, start{start},
-         maxProgress{maxProgress}](Path input, Path smallOutput,
-                                   Path mediumOutput) {
+        [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
+            Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
 
-          mParent.onUnstagedImageAdded(smallOutput);
+          mParent.onUnstagedImageAdded(smallOutput, position);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, start{start},
-                        mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
+                        mediumOutput{mediumOutput},
+                        maxProgress{maxProgress}]() {
             Context::inst().data().images().addSmall(input, smallOutput);
             Context::inst().data().images().addMedium(input, mediumOutput);
             mProgress++;
@@ -174,8 +177,8 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportAlbum([[maybe_unused]] std::string const &destinationPath,
-                   std::vector<Path>                   imagesPaths)
+  void exportAlbum(std::string const &destinationPath,
+                   std::vector<Path>  imagesPaths)
   {
     PB::printDebug("Export image to %s", destinationPath.c_str());
     mExporter.exportImages(destinationPath, imagesPaths);
