@@ -58,9 +58,9 @@ public:
   }
 
 private:
-  GalleryListener<PhotoBookType, PersistenceType>   &mListener;
-  int                                                mSelectedFolderIndex = -1;
-  int                                                mGalleryIndex = -1;
+  GalleryListener<PhotoBookType, PersistenceType> &mListener;
+  int                                              mSelectedFolderIndex = -1;
+  int                                              mGalleryIndex = -1;
   std::optional<CircularIterator<std::vector<Thumbnails>>> mCurrentIterator =
       std::nullopt;
 };

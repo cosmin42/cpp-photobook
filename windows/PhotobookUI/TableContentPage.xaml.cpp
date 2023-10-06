@@ -222,6 +222,10 @@ void TableContentPage::CanvasControlDraw(
     return;
   }
   auto mediumThumbnailPath = maybeMediumThumbnailPath->mediumThumbnail;
+  if (mediumThumbnailPath.empty())
+  {
+    return;
+  }
   if (PB::MediaMap::validImagePath(mediumThumbnailPath)) {
     image = mPhotoBook.loadGalleryImage(mediumThumbnailPath.string(),
                                         {portviewWidth, portviewHeight});
