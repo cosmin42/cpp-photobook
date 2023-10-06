@@ -10,6 +10,8 @@
 
 namespace winrt::PhotobookUI::implementation {
 
+ImageUIData::ImageUIData() : mFullPath(winrt::to_hstring(DEFAULT_IMAGE)) {}
+
 ImageUIData::ImageUIData(winrt::hstring fullPath) : mFullPath(fullPath) {}
 
 winrt::hstring ImageUIData::FullPath() { return mFullPath; }

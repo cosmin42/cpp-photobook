@@ -2,6 +2,7 @@
 namespace PhotobookUI {
 runtimeclass ImageUIData
 {
+  ImageUIData();
   ImageUIData(String fullPath);
   String FullPath { get; };
 }
