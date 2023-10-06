@@ -36,11 +36,15 @@ void PhotoBookListener::onProgressUpdate(int progress, int reference)
   });
 }
 
-void PhotoBookListener::onUnstagedImageAdded(PB::Path path)
+void PhotoBookListener::onUnstagedImageAdded(PB::Path path, int position)
 {
-  mParent.post([this, path]() {
-      mParent.onUnstagedImageAdded(path);
+  mParent.post([this, path, position]() {
+      mParent.onUnstagedImageAdded(path, position);
       });
+}
+
+void PhotoBookListener::onAddingFolder(unsigned size) {
+  mParent.post([this, size]() { mParent.onAddingFolder(size); });
 }
 
 void PhotoBookListener::onError(PB::Error error)
