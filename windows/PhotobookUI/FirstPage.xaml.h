@@ -37,8 +37,8 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   void OpenProjectClicked(
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
-      [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
-          TappedRoutedEventArgs const &);
+      [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::
+          ItemClickEventArgs const &);
 
   IObservableVector<ProjectItem> mProjectsList;
 
