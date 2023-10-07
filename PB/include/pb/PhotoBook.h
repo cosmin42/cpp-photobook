@@ -25,6 +25,25 @@
 
 namespace PB {
 
+enum class PaperType {
+    None,
+    A4,
+    A5,
+    A3,
+    Custom
+};
+
+struct PaperSettings {
+  PaperType type;
+  int       ppi;
+  int       width;
+  int       size;
+};
+
+static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
+static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
+static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
+
 template <typename PhotoBookType, typename PersistenceType>
   requires PhotoBookConcept<PhotoBookType>
 class PhotoBook final {
@@ -184,10 +203,7 @@ public:
     mExporter.exportImages(destinationPath, imagesPaths);
   }
 
-  void discardPhotoBook()
-  {
-    PB::printDebug("Discard Photobook\n");
-  }
+  void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
   void savePhotoBook(std::string const &newName)
   {
