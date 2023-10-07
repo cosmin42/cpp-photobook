@@ -228,6 +228,9 @@
       <Project>{4d898e61-5742-370e-b025-ddab686b7b27}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="Assets\Fonts\Righteous-Regular.ttf" />
+  </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if

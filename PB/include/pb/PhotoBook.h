@@ -184,7 +184,10 @@ public:
     mExporter.exportImages(destinationPath, imagesPaths);
   }
 
-  void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
+  void discardPhotoBook()
+  {
+    PB::printDebug("Discard Photobook\n");
+  }
 
   void savePhotoBook(std::string const &newName)
   {
