@@ -6,11 +6,11 @@ namespace winrt::PhotobookUI::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
   ProjectItem(winrt::hstring itemName, winrt::hstring fullPath);
 
-  winrt::hstring Name();
+  winrt::hstring ItemId();
   winrt::hstring FullPath();
 
 private:
-  winrt::hstring mName;
+  winrt::hstring mId;
   winrt::hstring mFullPath;
 };
 } // namespace winrt::PhotobookUI::implementation

@@ -11,11 +11,11 @@
 namespace winrt::PhotobookUI::implementation {
 
 ProjectItem::ProjectItem(winrt::hstring itemName, winrt::hstring fullPath)
-    : mName(itemName), mFullPath(fullPath)
+    : mId(itemName), mFullPath(fullPath)
 {
 }
 
-winrt::hstring ProjectItem::Name() { return mName; }
+winrt::hstring ProjectItem::ItemId() { return mId; }
 
 winrt::hstring ProjectItem::FullPath() { return mFullPath; }
 

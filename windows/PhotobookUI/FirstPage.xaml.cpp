@@ -112,7 +112,7 @@ void FirstPage::OnListViewRightTapped(
   auto it = std::find_if(
       mProjectsList.begin(), mProjectsList.end(),
       [clickedElement{clickedElement}](ProjectItem const &projectItem) {
-        return clickedElement == projectItem.Name();
+        return clickedElement == projectItem.ItemId();
       });
 
   if (it != mProjectsList.end()) {
@@ -130,7 +130,7 @@ void FirstPage::OnDeleteClicked(
 {
   if (mLastClickedIndex) {
     std::string lastClickedKey =
-        winrt::to_string(mProjectsList.GetAt(*mLastClickedIndex).Name());
+        winrt::to_string(mProjectsList.GetAt(*mLastClickedIndex).ItemId());
     mProjectsList.RemoveAt(*mLastClickedIndex);
     mCentralPersistence.cache().erase(lastClickedKey);
     mCentralPersistence.write([](std::optional<PB::Error>) {});
