@@ -54,6 +54,8 @@ TableContentPage::TableContentPage()
                Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
     onKeyPressed(sender, arg);
   });
+
+  PaperComboBox().SelectedIndex(0);
 }
 
 auto TableContentPage::fireFolderPicker(

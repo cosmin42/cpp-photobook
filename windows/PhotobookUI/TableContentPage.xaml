@@ -43,6 +43,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Background="{StaticResource ButtonBackgroundColor}"
                         Click="onBackClicked"
@@ -82,6 +83,12 @@
                          CornerRadius="0"
                          Grid.Column="2"
                          Margin="0,0,20,0" />
+                <ComboBox x:Name="PaperComboBox"
+                          Grid.Column="3">
+                    <ComboBoxItem Content="A4, 300 ppi" />
+                    <ComboBoxItem Content="A5, 300 ppi" />
+                    <ComboBoxItem Content="A3, 300 ppi" />
+                </ComboBox>
             </Grid>
         </Grid>
         <Grid Grid.Row="1"
