@@ -6,7 +6,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
-      xmlns:winui="using:Microsoft.UI.Xaml.Controls"
       mc:Ignorable="d"
       SizeChanged="OnTableContentSizeChanged">
     <Page.Resources>
@@ -33,39 +32,57 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="10*" />
             </Grid.ColumnDefinitions>
-            <Button Background="{StaticResource ButtonBackgroundColor}"
-                    Click="onBackClicked"
-                    CornerRadius="0"
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Content="Back"
-                    x:Name="BackButton"
-                    Foreground="#FFFFFF" />
-            <winui:MenuBar VerticalAlignment="Top"
-                           Grid.Column="1"
-                           Grid.Row="0">
-                <winui:MenuBarItem Background="{StaticResource ButtonBackgroundColor}"
-                                   Title="File"
-                                   CornerRadius="0">
-                    <MenuFlyoutItem Text="New" />
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Text="Save" />
-                    <MenuFlyoutItem Text="Save As" />
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Text="Export"
-                                    Click="onExportClicked" />
-                    <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Text="Exit" />
-                </winui:MenuBarItem>
-            </winui:MenuBar>
-            <TextBlock Grid.Column="2"
-                       Grid.Row="0"
-                       Foreground="#FFFFFF"
-                       Text="Photobook"
-                       HorizontalAlignment="Center" />
+            <Grid HorizontalAlignment="Left"
+                  Grid.Column="0"
+                  Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Background="{StaticResource ButtonBackgroundColor}"
+                        Click="onBackClicked"
+                        CornerRadius="0"
+                        Grid.Column="0"
+                        Content="Back"
+                        x:Name="BackButton"
+                        Foreground="#FFFFFF" />
+                <Button  Content="File"
+                         Foreground="#FFFFFF"
+                         Background="{StaticResource ButtonBackgroundColor}"
+                         CornerRadius="0"
+                         Grid.Column="1">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="New" />
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Save" />
+                            <MenuFlyoutItem Text="Save As" />
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Export"
+                                            Click="onExportClicked" />
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Exit" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+                <Button  Content="Edit"
+                         Foreground="#FFFFFF"
+                         Background="{StaticResource ButtonBackgroundColor}"
+                         CornerRadius="0"
+                         Grid.Column="2"
+                         Margin="0,0,20,0" />
+                <Button  Content="Help"
+                         Foreground="#FFFFFF"
+                         Background="{StaticResource ButtonBackgroundColor}"
+                         CornerRadius="0"
+                         Grid.Column="2"
+                         Margin="0,0,20,0" />
+            </Grid>
         </Grid>
         <Grid Grid.Row="1"
               Grid.Column="0">
