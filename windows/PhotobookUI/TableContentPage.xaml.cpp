@@ -193,6 +193,32 @@ void TableContentPage::OnTableContentSizeChanged(
   GalleryCanvas().Invalidate();
 }
 
+void TableContentPage::OnPaperComboBoxSelected(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        SelectionChangedEventArgs const &args)
+{
+  auto index = PaperComboBox().SelectedIndex();
+  assert(index > -1);
+  switch (index) {
+  case 0: {
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A4_PAPER));
+    break;
+  }
+  case 1: {
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A5_PAPER));
+    break;
+  }
+  case 2: {
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A3_PAPER));
+    break;
+  }
+  case 3: {
+    // Start the dialog.
+  }
+  }
+}
+
 void TableContentPage::OnDropIntoStagedListView(
     [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)

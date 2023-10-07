@@ -65,6 +65,11 @@ public:
 
   PaperSettings paperSettings() { return mPaperSettings; }
 
+  void setPaperSettings(PaperSettings paperSettings)
+  {
+    mPaperSettings = paperSettings;
+  }
+
   void loadProject(Path const &path)
   {
     Persistence<void> projectPersistence(path);

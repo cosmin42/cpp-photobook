@@ -94,6 +94,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args);
 
+  void OnPaperComboBoxSelected(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          SelectionChangedEventArgs const &args);
+
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
