@@ -58,6 +58,20 @@ TableContentPage::TableContentPage()
   PaperComboBox().SelectedIndex(0);
 }
 
+int TableContentPage::CanvasWidth()
+{
+  auto paperSettings = mPhotoBook.paperSettings();
+  assert(mPhotoBook.paperSettings().ppi > 0);
+  return (int)((float)paperSettings.height * (72.0 / (float)paperSettings.ppi));
+}
+
+int TableContentPage::CanvasHeight()
+{
+  auto paperSettings = mPhotoBook.paperSettings();
+  assert(mPhotoBook.paperSettings().ppi > 0);
+  return (int)((float)paperSettings.height * (72.0 / (float)paperSettings.ppi));
+}
+
 auto TableContentPage::fireFolderPicker(
     HWND hWnd, std::function<void(std::string)> onSuccess)
     -> winrt::fire_and_forget
@@ -477,7 +491,4 @@ void TableContentPage::onContentDialogCancelClicked(
 {
 }
 
-int TableContentPage::CanvasWidth() { return 595; }
-
-int TableContentPage::CanvasHeight() { return 841; }
 } // namespace winrt::PhotobookUI::implementation

@@ -25,19 +25,13 @@
 
 namespace PB {
 
-enum class PaperType {
-    None,
-    A4,
-    A5,
-    A3,
-    Custom
-};
+enum class PaperType { None, A4, A5, A3, Custom };
 
 struct PaperSettings {
   PaperType type;
   int       ppi;
   int       width;
-  int       size;
+  int       height;
 };
 
 static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
@@ -50,7 +44,7 @@ class PhotoBook final {
 public:
   PhotoBook(PhotoBookType &listener)
       : mParent(listener), mGalleryListener(std::ref(*this)),
-        mGallery(mGalleryListener)
+        mGallery(mGalleryListener), mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
 
@@ -68,6 +62,8 @@ public:
     printDebug("Photobook destructed.\n");
     Context::inst().data().images().clear();
   }
+
+  PaperSettings paperSettings() { return mPaperSettings; }
 
   void loadProject(Path const &path)
   {
@@ -254,5 +250,6 @@ private:
   UnstagedImagesLogic                             mUnstagedImagesLogic;
   Exporter<Pdf>                                   mExporter;
   int                                             mProgress = 0;
+  PaperSettings                                   mPaperSettings;
 };
 } // namespace PB

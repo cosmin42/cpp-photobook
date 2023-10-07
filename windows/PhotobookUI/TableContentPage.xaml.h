@@ -21,6 +21,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   TableContentPage();
   ~TableContentPage() = default;
 
+  int CanvasWidth();
+  int CanvasHeight();
+
   void
   onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
@@ -107,9 +110,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onError(PB::Error error);
 
   void post(std::function<void()>);
-
-  int CanvasWidth();
-  int CanvasHeight();
 
 private:
   auto fireFolderPicker(HWND hWnd, std::function<void(std::string)> onSuccess)
