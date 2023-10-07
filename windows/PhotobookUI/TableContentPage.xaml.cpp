@@ -280,11 +280,11 @@ void TableContentPage::CanvasControlDraw(
   }
   else {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
-                                          {255, 0, 0})();
+                                          {255, 255, 255})();
 
     image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
                                  mediumThumbnailPath.filename().string(),
-                                 {0, 255, 0})(image);
+                                 {0, 0, 0})(image);
   }
 
   auto device = CanvasDevice::GetSharedDevice();

@@ -78,11 +78,10 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
 {
   auto f = [offset{offset}, text{text}, color{color}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    auto size =
-        cv::getTextSize(text, cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, 1, 0);
+    auto size = cv::getTextSize(text, cv::FONT_HERSHEY_DUPLEX, 5.0, 2, 0);
 
-    cv::putText(*image, text, offset - (size / 2),
-                cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, color, 1, cv::LINE_AA);
+    cv::putText(*image, text, offset - (size / 2), cv::FONT_HERSHEY_DUPLEX, 5.0,
+                color, 2, cv::LINE_AA);
     return image;
   };
 

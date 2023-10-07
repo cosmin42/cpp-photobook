@@ -19,11 +19,11 @@ void ResizeTask::operator()() const
   }
   else {
     std::shared_ptr<cv::Mat> image =
-        PB::Process::singleColorImage(1280, 640, {255, 0, 0})();
+        PB::Process::singleColorImage(3508, 2480, {0, 0, 0})();
 
-    image = PB::Process::addText({1280 / 2, 640 / 2},
-                                 mFullSizePath.parent_path().string(),
-                                 {0, 255, 0})(image);
+    image = PB::Process::addText({3508 / 2, 2480 / 2},
+                                 mFullSizePath.filename().string(),
+                                 {255, 255, 255})(image);
     Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath,
                                  mMediumThumbnailOutputPath);
   }
