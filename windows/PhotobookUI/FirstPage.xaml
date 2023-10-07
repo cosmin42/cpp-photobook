@@ -41,10 +41,15 @@
                       SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:ProjectItem">
-                        <TextBlock Text="{x:Bind Name}"
-                                   Foreground="#FFFFFF"
-                                   Width="100"
-                                   Height="100" />
+                        <Grid Width="100"
+                              Height="100"
+                              Background="{StaticResource ButtonBackgroundColor}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Name}"
+                                       Foreground="#FFFFFF"
+                                       TextWrapping="Wrap"></TextBlock>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
