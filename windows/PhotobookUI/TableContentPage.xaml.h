@@ -108,6 +108,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void post(std::function<void()>);
 
+  int CanvasWidth();
+  int CanvasHeight();
+
 private:
   auto fireFolderPicker(HWND hWnd, std::function<void(std::string)> onSuccess)
       -> winrt::fire_and_forget;

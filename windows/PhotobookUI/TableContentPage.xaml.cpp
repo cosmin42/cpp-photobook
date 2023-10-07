@@ -171,8 +171,8 @@ void TableContentPage::OnDragOverStagedListView(
 }
 
 void TableContentPage::OnTableContentSizeChanged(
-    [[maybe_unused]] Windows::Foundation::IInspectable const& sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const& args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args)
 {
   GalleryCanvas().Invalidate();
 }
@@ -474,4 +474,8 @@ void TableContentPage::onContentDialogCancelClicked(
         ContentDialogButtonClickEventArgs const &)
 {
 }
+
+int TableContentPage::CanvasWidth() { return 595; }
+
+int TableContentPage::CanvasHeight() { return 841; }
 } // namespace winrt::PhotobookUI::implementation

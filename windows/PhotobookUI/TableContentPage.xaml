@@ -164,8 +164,8 @@
                     <Grid Grid.Row="1"
                           Grid.Column="0"
                           Grid.ColumnSpan="2">
-                        <canvas:CanvasControl Height="Auto"
-                                              Width="Auto"
+                        <canvas:CanvasControl Height="{x:Bind CanvasHeight}"
+                                              Width="{x:Bind CanvasWidth}"
                                               Draw="CanvasControlDraw"
                                               x:Name="GalleryCanvas"
                                               ClearColor="#000000" />

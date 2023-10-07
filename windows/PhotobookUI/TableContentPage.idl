@@ -7,5 +7,8 @@ namespace PhotobookUI
     runtimeclass TableContentPage : Microsoft.UI.Xaml.Controls.Page
     {
         TableContentPage();
+
+        Int32 CanvasWidth { get; };
+        Int32 CanvasHeight { get; };
     }
 }
