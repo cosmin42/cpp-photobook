@@ -41,7 +41,7 @@
                       SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:ProjectItem">
-                        <TextBlock Text="{x:Bind ItemId}"
+                        <TextBlock Text="{x:Bind Name}"
                                    Foreground="#FFFFFF"
                                    Width="100"
                                    Height="100" />

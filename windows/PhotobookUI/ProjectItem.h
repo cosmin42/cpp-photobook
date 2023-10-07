@@ -8,10 +8,12 @@ struct ProjectItem : ProjectItemT<ProjectItem> {
 
   winrt::hstring ItemId();
   winrt::hstring FullPath();
+  winrt::hstring Name();
 
 private:
   winrt::hstring mId;
   winrt::hstring mFullPath;
+  winrt::hstring mName;
 };
 } // namespace winrt::PhotobookUI::implementation
 namespace winrt::PhotobookUI::factory_implementation {
