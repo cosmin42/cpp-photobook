@@ -44,7 +44,7 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
 
-  std::optional<int> mLastClickedIndex = std::nullopt;
+  winrt::hstring mRightClickedId;
 
   PB::Persistence<PB::WinrtStorage> mCentralPersistence;
 };

@@ -103,39 +103,33 @@ void FirstPage::OnListViewRightTapped(
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
 {
+  auto clickedElement =
+      e.OriginalSource().as<FrameworkElement>().DataContext().as<ProjectItem>();
 
-  auto clickedElement = e.OriginalSource()
-                            .as<FrameworkElement>()
-                            .DataContext()
-                            .as<winrt::hstring>();
+  mRightClickedId = clickedElement.ItemId();
 
-  auto it = std::find_if(
-      mProjectsList.begin(), mProjectsList.end(),
-      [clickedElement{clickedElement}](ProjectItem const &projectItem) {
-        return clickedElement == projectItem.ItemId();
-      });
-
-  if (it != mProjectsList.end()) {
-    mLastClickedIndex = (int)(it - mProjectsList.begin());
-
-    PB::printDebug("Index clicked: %d", mLastClickedIndex);
-
-    mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
-  }
+  mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
 }
 
 void FirstPage::OnDeleteClicked(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
-  if (mLastClickedIndex) {
-    std::string lastClickedKey =
-        winrt::to_string(mProjectsList.GetAt(*mLastClickedIndex).ItemId());
-    mProjectsList.RemoveAt(*mLastClickedIndex);
-    mCentralPersistence.cache().erase(lastClickedKey);
-    mCentralPersistence.write([](std::optional<PB::Error>) {});
+  if (!mRightClickedId.empty()) {
+
+    for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
+      auto id = mProjectsList.GetAt(i).ItemId();
+      auto nativeId = winrt::to_string(id);
+      if (id == mRightClickedId) {
+        mProjectsList.RemoveAt(i);
+
+        mCentralPersistence.cache().erase(nativeId);
+        mCentralPersistence.write([](std::optional<PB::Error>) {});
+        break;
+      }
+    }
   }
-  mLastClickedIndex = std::nullopt;
+  mRightClickedId = winrt::hstring();
 }
 
 void FirstPage::OpenProjectClicked(
