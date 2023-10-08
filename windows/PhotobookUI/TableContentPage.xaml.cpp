@@ -408,10 +408,14 @@ void TableContentPage::onProgressUpdate(int progress, int reference)
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
-void TableContentPage::onUnstagedImageAdded(PB::Path path, int position)
+void TableContentPage::onUnstagedImageAdded(PB::Path fullPath,
+                                            PB::Path mediumPath,
+                                            PB::Path smallPath, int position)
 {
   mUnstagingImageCollection.SetAt(
-      position, ImageUIData(winrt::to_hstring(path.string())));
+      position, ImageUIData(winrt::to_hstring(fullPath.string()),
+                            winrt::to_hstring(mediumPath.string()),
+                            winrt::to_hstring(smallPath.string())));
 }
 
 void TableContentPage::onAddingFolder(unsigned size)
@@ -533,11 +537,8 @@ void TableContentPage::onExportContentDialogClicked(
                                                         std::string path) {
       std::vector<PB::Path> thumbnailPaths;
       for (auto item : mStagedImageCollection) {
-        auto smallPath = PB::Path(winrt::to_string(item.FullPath()));
-        auto maybeThumbnail =
-            PB::Context::inst().data().images().getBySmall(smallPath);
-        assert(maybeThumbnail.has_value());
-        thumbnailPaths.push_back(maybeThumbnail->fullPath);
+        auto smallPath = PB::Path(winrt::to_string(item.SmallPath()));
+        thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
       }
       mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
     });

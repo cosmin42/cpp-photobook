@@ -161,7 +161,7 @@ public:
             Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
 
-          mParent.onUnstagedImageAdded(smallOutput, position);
+          mParent.onUnstagedImageAdded(input, mediumOutput, smallOutput, position);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, start{start},
@@ -198,7 +198,7 @@ public:
   }
 
   void exportAlbum(std::string name, std::string const &destinationPath,
-                   std::vector<Path>  imagesPaths)
+                   std::vector<Path> imagesPaths)
   {
     PB::printDebug("Export image to %s", destinationPath.c_str());
     mExporter.exportImages(name, destinationPath, imagesPaths);
@@ -238,6 +238,26 @@ public:
   std::unordered_map<Path, Path> &thumbnails()
   {
     return Context::inst().data().smallThumbnails();
+  }
+
+  void addStagedPhoto(Path path)
+  {
+    Context::inst().data().images().stagePhoto(path);
+  }
+
+  void insertStagedPhoto(Path path, int position)
+  {
+    Context::inst().data().images().stagePhoto(path, position);
+  }
+
+  void removeStagedPhoto(int index)
+  {
+    Context::inst().data().images().unstagePhoto(index);
+  }
+
+  std::vector<Path> &stagedPhotos()
+  {
+    return Context::inst().data().images().stagedPhotos();
   }
 
 private:
