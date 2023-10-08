@@ -62,7 +62,7 @@ int TableContentPage::CanvasWidth()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   assert(mPhotoBook.paperSettings().ppi > 0);
-  return (int)((float)paperSettings.height * (72.0 / (float)paperSettings.ppi));
+  return (int)((float)paperSettings.width * (72.0 / (float)paperSettings.ppi));
 }
 
 int TableContentPage::CanvasHeight()
@@ -270,9 +270,9 @@ void TableContentPage::CanvasControlDraw(
 
   auto &gallery = mPhotoBook.gallery();
 
-  int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
+  int32_t portviewWidth = (int32_t)GalleryCanvas().Width();
 
-  int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
+  int32_t portviewHeight = (int32_t)GalleryCanvas().Height();
 
   std::shared_ptr<cv::Mat> image = nullptr;
 
@@ -285,7 +285,7 @@ void TableContentPage::CanvasControlDraw(
   if (mediumThumbnailPath.empty()) {
     return;
   }
-  if (PB::MediaMap::validImagePath(mediumThumbnailPath)) {
+  if (PB::MediaMap::validImagePath(maybeMediumThumbnailPath->fullPath)) {
     image = mPhotoBook.loadGalleryImage(mediumThumbnailPath.string(),
                                         {portviewWidth, portviewHeight});
   }
