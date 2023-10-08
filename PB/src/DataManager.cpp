@@ -45,6 +45,20 @@ std::optional<Path> ImageSupport::groupByIndex(int index)
   return std::nullopt;
 }
 
+auto ImageSupport::thumbnailsSet(Path root)
+{
+  auto filterFunction = [this, root{root}](Thumbnails const &th) {
+    if (mGroupContent.find(root) == mGroupContent.end()) {
+      return false;
+    }
+    return std::find(mGroupContent.at(root).begin(),
+                     mGroupContent.at(root).end(),
+                     th.index) != mGroupContent.at(root).end();
+  };
+
+  return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
+}
+
 int ImageSupport::groupSize(std::optional<Path> group)
 {
   if (!group) {

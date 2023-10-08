@@ -24,19 +24,7 @@ public:
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
-  auto thumbnailsSet(Path root)
-  {
-    auto filterFunction = [this, root{root}](Thumbnails const &th) {
-      if (mGroupContent.find(root) == mGroupContent.end()) {
-        return false;
-      }
-      return std::find(mGroupContent.at(root).begin(),
-                       mGroupContent.at(root).end(),
-                       th.index) != mGroupContent.at(root).end();
-    };
-
-    return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
-  }
+  auto                      thumbnailsSet(Path root);
   int                       groupSize(std::optional<Path> group);
   std::optional<Thumbnails> getByMedium(std::optional<Path> path);
   std::optional<Thumbnails> getBySmall(std::optional<Path> path);
