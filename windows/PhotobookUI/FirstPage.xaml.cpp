@@ -83,6 +83,21 @@ void FirstPage::OnPersistenceDataLoaded()
   mProjectsList.Clear();
 
   auto &data = mCentralPersistence.cache();
+
+  winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
+      ProjectsListView()
+          .ItemsPanelRoot()
+          .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
+
+  auto sqrtIntF = [](int size) {
+    float root = sqrt((float)size);
+    int   intRoot = (int)floor(root) + 1;
+    return intRoot;
+  };
+
+  auto squareDimension = sqrtIntF((int)data.size());
+  wrapGrid.MaximumRowsOrColumns(squareDimension);
+
   for (auto &[key, value] : data) {
     mProjectsList.Append(
         ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));

@@ -14,9 +14,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid Background="{StaticResource PrimaryColor}">
-        <Grid x:Name="ProjectsGridName"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
+        <Grid x:Name="ProjectsGridName">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -31,15 +29,18 @@
                     Background="{StaticResource ButtonBackgroundColor}"
                     Foreground="#FFFFFF"
                     Width="100"
-                    Height="100">+</Button>
-            <ListView Grid.Row="0"
+                    Height="100"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">+</Button>
+            <GridView Grid.Row="0"
                       Grid.Column="1"
-                      Name="ProjectsListView"
+                      x:Name="ProjectsListView"
                       RightTapped="OnListViewRightTapped"
                       ItemClick="OpenProjectClicked"
                       IsItemClickEnabled="True"
-                      SelectionMode="None">
-                <ListView.ItemTemplate>
+                      SelectionMode="None"
+                      VerticalAlignment="Center">
+                <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local:ProjectItem">
                         <Grid Width="100"
                               Height="100"
@@ -52,8 +53,13 @@
                                        TextWrapping="Wrap"></TextBlock>
                         </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </GridView.ItemTemplate>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate >
+                        <ItemsWrapGrid MaximumRowsOrColumns="10" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
         </Grid>
     </Grid>
 </Page>
