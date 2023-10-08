@@ -18,7 +18,7 @@ public:
   void onResumed();
 
   void onProgressUpdate(int progress, int reference);
-  void onUnstagedImageAdded(PB::Path path, int position);
+  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath, PB::Path smallPath, int position);
   void onAddingFolder(unsigned size);
   void onError(PB::Error error);
 

@@ -36,14 +36,17 @@ void PhotoBookListener::onProgressUpdate(int progress, int reference)
   });
 }
 
-void PhotoBookListener::onUnstagedImageAdded(PB::Path path, int position)
+void PhotoBookListener::onUnstagedImageAdded(PB::Path fullPath,
+                                             PB::Path mediumPath,
+                                             PB::Path smallPath, int position)
 {
-  mParent.post([this, path, position]() {
-      mParent.onUnstagedImageAdded(path, position);
-      });
+  mParent.post([this, fullPath, mediumPath, smallPath, position]() {
+    mParent.onUnstagedImageAdded(fullPath, mediumPath, smallPath, position);
+  });
 }
 
-void PhotoBookListener::onAddingFolder(unsigned size) {
+void PhotoBookListener::onAddingFolder(unsigned size)
+{
   mParent.post([this, size]() { mParent.onAddingFolder(size); });
 }
 
