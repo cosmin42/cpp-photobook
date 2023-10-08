@@ -43,7 +43,8 @@
                     <DataTemplate x:DataType="local:ProjectItem">
                         <Grid Width="100"
                               Height="100"
-                              Background="{StaticResource ButtonBackgroundColor}">
+                              Background="{StaticResource ButtonBackgroundColor}"
+                              Margin="2, 2, 2, 2">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{x:Bind Name}"

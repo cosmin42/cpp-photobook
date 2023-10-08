@@ -10,6 +10,12 @@
 
 #include <filesystem>
 
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Storage.h>
+
+using namespace winrt::Windows::Storage;
+
 namespace winrt::PhotobookUI::implementation {
 
 ProjectItem::ProjectItem(winrt::hstring itemName, winrt::hstring fullPath)
@@ -21,11 +27,15 @@ ProjectItem::ProjectItem(winrt::hstring itemName, winrt::hstring fullPath)
   std::string fileName = path.filename().string();
   auto        index = fileName.find_last_of(".");
 
-  if (index != std::string::npos) {
+  StorageFolder folder = ApplicationData::Current().LocalFolder();
+  std::string   localPath = winrt::to_string(folder.Path());
+
+  if (index != std::string::npos &&
+      nativeFullPath.find(localPath) == std::string::npos) {
     mName = winrt::to_hstring(fileName.substr(0, index));
   }
   else {
-    mName = winrt::to_hstring(fileName);
+    mName = winrt::to_hstring("Unsaved");
   }
 };
 
