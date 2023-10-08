@@ -10,10 +10,21 @@
 
 namespace winrt::PhotobookUI::implementation {
 
-ImageUIData::ImageUIData() : mFullPath(winrt::to_hstring(DEFAULT_IMAGE)) {}
+ImageUIData::ImageUIData()
+    : mFullPath(winrt::to_hstring(DEFAULT_IMAGE)),
+      mMediumPath(winrt::to_hstring(DEFAULT_IMAGE)),
+      mSmallPath(winrt::to_hstring(DEFAULT_IMAGE))
+{
+}
 
-ImageUIData::ImageUIData(winrt::hstring fullPath) : mFullPath(fullPath) {}
+ImageUIData::ImageUIData(winrt::hstring fullPath, winrt::hstring mediumPath,
+                         winrt::hstring smallPath)
+    : mFullPath(fullPath), mMediumPath(mediumPath), mSmallPath(smallPath)
+{
+}
 
 winrt::hstring ImageUIData::FullPath() { return mFullPath; }
+winrt::hstring ImageUIData::MediumPath() { return mMediumPath; }
+winrt::hstring ImageUIData::SmallPath() { return mSmallPath; }
 
 } // namespace winrt::PhotobookUI::implementation
