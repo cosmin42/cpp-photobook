@@ -416,7 +416,6 @@
                        Title="Error"
                        PrimaryButtonText="Ok">
             <TextBlock x:Name="GenericErrorTextBlock"
-                       Text="Unknown Error!"
                        HorizontalAlignment="Left" />
         </ContentDialog>
     </Grid>

@@ -134,7 +134,8 @@ auto TableContentPage::exportDialogDisplay() -> winrt::fire_and_forget
   co_await ExportContentDialog().ShowAsync();
 }
 
-auto TableContentPage::genericErrorDialogDisplay() -> winrt::fire_and_forget
+auto TableContentPage::genericErrorDialogDisplay()
+    -> winrt::fire_and_forget
 {
   co_await GenericErrorDialog().ShowAsync();
 }
@@ -447,6 +448,12 @@ void TableContentPage::updateGalleryLabel()
   GalleryCanvas().Invalidate();
 }
 
+void TableContentPage::postponeError(std::string message)
+{
+  GenericErrorTextBlock().Text(winrt::to_hstring(message));
+  post([this]() { genericErrorDialogDisplay(); });
+}
+
 void TableContentPage::onAddToTableClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &e)
@@ -510,7 +517,10 @@ void TableContentPage::onExportContentDialogClicked(
   std::string nativeExportName = winrt::to_string(exportName);
 
   if (nativeExportName.empty()) {
-    genericErrorDialogDisplay();
+    postponeError("The given name must not be empty!");
+  }
+  else if (mStagedImageCollection.Size() == 0) {
+    postponeError("There is no staged photo!");
   }
   else {
     fireFolderPicker(MainWindow::sMainWindowhandle, [this, nativeExportName](

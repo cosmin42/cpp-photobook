@@ -134,6 +134,8 @@ private:
 
   void updateGalleryLabel();
 
+  void postponeError(std::string message);
+
   PhotoBookListener                                  mListener;
   PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
   IObservableVector<winrt::hstring>                  mMediaListItemsCollection;

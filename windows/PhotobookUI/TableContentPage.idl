@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-namespace PhotobookUI
+namespace PhotobookUI {
+[default_interface] runtimeclass TableContentPage
+    : Microsoft.UI.Xaml.Controls.Page
 {
-    [default_interface]
-    runtimeclass TableContentPage : Microsoft.UI.Xaml.Controls.Page
-    {
-        TableContentPage();
+  TableContentPage();
 
-        Int32 CanvasWidth { get; };
-        Int32 CanvasHeight { get; };
-    }
+  Int32 CanvasWidth { get; };
+  Int32 CanvasHeight { get; };
 }
+} // namespace PhotobookUI
