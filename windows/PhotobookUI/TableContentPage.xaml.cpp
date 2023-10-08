@@ -134,8 +134,7 @@ auto TableContentPage::exportDialogDisplay() -> winrt::fire_and_forget
   co_await ExportContentDialog().ShowAsync();
 }
 
-auto TableContentPage::genericErrorDialogDisplay()
-    -> winrt::fire_and_forget
+auto TableContentPage::genericErrorDialogDisplay() -> winrt::fire_and_forget
 {
   co_await GenericErrorDialog().ShowAsync();
 }
@@ -385,6 +384,13 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
     mPhotoBook.gallery().setPosition(galleryIndex);
     updateGalleryLabel();
   }
+}
+
+void TableContentPage::onStagedListViewSelectionChanged(
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+        SelectionChangedEventArgs const &)
+{
 }
 
 void TableContentPage::onStopped() {}
