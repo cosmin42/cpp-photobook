@@ -240,12 +240,12 @@ public:
     return Context::inst().data().smallThumbnails();
   }
 
-  void addStagedPhoto(Path path)
+  void addStagedPhoto(Thumbnails th)
   {
-    Context::inst().data().images().stagePhoto(path);
+    Context::inst().data().images().stagePhoto(th);
   }
 
-  void insertStagedPhoto(Path path, int position)
+  void insertStagedPhoto(Thumbnails path, int position)
   {
     Context::inst().data().images().stagePhoto(path, position);
   }

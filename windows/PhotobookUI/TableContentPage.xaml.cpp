@@ -236,6 +236,14 @@ void TableContentPage::OnDropIntoStagedListView(
   PB::printDebug("Drop on staged list view.\n");
   for (auto index : mDragAndDropSelectedIndexes) {
     mStagedImageCollection.Append(mUnstagingImageCollection.GetAt(index));
+    auto fullPath =
+        winrt::to_string(mUnstagingImageCollection.GetAt(index).FullPath());
+    auto mediumPath =
+        winrt::to_string(mUnstagingImageCollection.GetAt(index).MediumPath());
+    auto smallPath =
+        winrt::to_string(mUnstagingImageCollection.GetAt(index).SmallPath());
+    mPhotoBook.addStagedPhoto(PB::Thumbnails(
+        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
   }
 
   mDragAndDropSelectedIndexes.clear();
@@ -391,6 +399,12 @@ void TableContentPage::onStagedListViewSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
+  UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+      0, mUnstagingImageCollection.Size()));
+
+  // auto iterator = imagesData.thumbnailsSet(*maybePath);
+
+  // mPhotoBook.gallery().setIterator(iterator);
 }
 
 void TableContentPage::onStopped() {}
@@ -537,7 +551,6 @@ void TableContentPage::onExportContentDialogClicked(
                                                         std::string path) {
       std::vector<PB::Path> thumbnailPaths;
       for (auto item : mStagedImageCollection) {
-        auto smallPath = PB::Path(winrt::to_string(item.SmallPath()));
         thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
       }
       mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);

@@ -359,7 +359,7 @@
                             <DataTemplate x:DataType="local:ImageUIData">
                                 <Image Height="80"
                                        Width="120"
-                                       Source="{x:Bind FullPath}" />
+                                       Source="{x:Bind SmallPath}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

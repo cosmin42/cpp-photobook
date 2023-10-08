@@ -9,11 +9,14 @@
 namespace PB {
 
 struct Thumbnails {
-  Thumbnails(Path path, int newIndex) : fullPath(path), index{newIndex} {}
-  const int index;
-  Path      fullPath;
-  Path      mediumThumbnail;
-  Path      smallThumbnail;
+  explicit Thumbnails(Path path) : fullPath(path) {}
+  explicit Thumbnails(Path fPath, Path mPath, Path sPath)
+      : fullPath(fPath), mediumThumbnail(mPath), smallThumbnail(sPath)
+  {
+  }
+  Path fullPath;
+  Path mediumThumbnail;
+  Path smallThumbnail;
 };
 
 class ImageSupport final {
@@ -32,10 +35,10 @@ public:
   void                      clear();
   std::vector<Path> const  &groups();
 
-  void stagePhoto(Path fullPath, int position = -1);
+  void stagePhoto(Thumbnails fullPath, int position = -1);
   void unstagePhoto(int index);
 
-  std::vector<Path> &stagedPhotos() { return mStagedPhotos; }
+  std::vector<Thumbnails> &stagedPhotos() { return mStagedPhotos; }
 
 private:
   std::unordered_map<Path, std::vector<int>> mGroupContent;
@@ -44,7 +47,7 @@ private:
   std::unordered_map<Path, int>              mSupportByMediumThumbnail;
   std::unordered_map<Path, int>              mSupportByFullPath;
   std::vector<Thumbnails>                    mSupport;
-  std::vector<Path>                          mStagedPhotos;
+  std::vector<Thumbnails>                    mStagedPhotos;
 };
 
 class DataManager final {

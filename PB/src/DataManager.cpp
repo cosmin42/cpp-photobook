@@ -52,9 +52,17 @@ auto ImageSupport::thumbnailsSet(Path root)
     if (mGroupContent.find(root) == mGroupContent.end()) {
       return false;
     }
-    return std::find(mGroupContent.at(root).begin(),
-                     mGroupContent.at(root).end(),
-                     th.index) != mGroupContent.at(root).end();
+
+    auto finding = std::find_if(
+        mGroupContent.at(root).begin(), mGroupContent.at(root).end(),
+        [this, path{th.fullPath}](int index) {
+          if (index > mSupport.size()) {
+            return false;
+          }
+          return mSupport.at(index).fullPath.string() == path.string();
+        });
+
+    return finding != mGroupContent.at(root).end();
   };
 
   return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
@@ -117,13 +125,13 @@ void ImageSupport::clear()
 
 std::vector<Path> const &ImageSupport::groups() { return mGroup; }
 
-void ImageSupport::stagePhoto(Path fullPath, int position)
+void ImageSupport::stagePhoto(Thumbnails paths, int position)
 {
   if (position == -1) {
-    mStagedPhotos.push_back(fullPath);
+    mStagedPhotos.push_back(paths);
   }
   else if (position < mStagedPhotos.size()) {
-    mStagedPhotos.insert(mStagedPhotos.begin() + position, fullPath);
+    mStagedPhotos.insert(mStagedPhotos.begin() + position, paths);
   }
 }
 
@@ -140,7 +148,7 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
     mGroup.push_back(root);
   }
   for (auto &p : paths) {
-    Thumbnails newThumbnails(p, (int)mSupport.size());
+    Thumbnails newThumbnails(p);
     mSupport.push_back(newThumbnails);
     mSupportByFullPath[p] = (int)(mSupport.size() - 1);
     if (std::find(mGroupContent[root].begin(), mGroupContent[root].end(),
