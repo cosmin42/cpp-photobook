@@ -255,7 +255,7 @@ public:
     Context::inst().data().images().unstagePhoto(index);
   }
 
-  std::vector<Path> &stagedPhotos()
+  std::vector<Thumbnails> &stagedPhotos()
   {
     return Context::inst().data().images().stagedPhotos();
   }

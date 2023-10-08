@@ -40,6 +40,8 @@ public:
 
   std::vector<Thumbnails> &stagedPhotos() { return mStagedPhotos; }
 
+  auto stagedIterator() -> CircularIterator<std::vector<Thumbnails>>;
+
 private:
   std::unordered_map<Path, std::vector<int>> mGroupContent;
   std::vector<Path>                          mGroup;

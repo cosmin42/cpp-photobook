@@ -68,6 +68,12 @@ auto ImageSupport::thumbnailsSet(Path root)
   return CircularIterator<std::vector<Thumbnails>>(mSupport, filterFunction);
 }
 
+auto ImageSupport::stagedIterator() -> CircularIterator<std::vector<Thumbnails>>
+{
+  auto filterF = [](Thumbnails) { return true; };
+  return CircularIterator<std::vector<Thumbnails>>(mStagedPhotos, filterF);
+}
+
 int ImageSupport::groupSize(std::optional<Path> group)
 {
   if (!group) {

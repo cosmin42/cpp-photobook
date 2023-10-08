@@ -236,7 +236,7 @@
                                   AllowDrop="True"
                                   Drop="OnDropIntoStagedListView"
                                   DragOver="OnDragOverStagedListView"
-                                  SelectionMode="Extended"
+                                  SelectionMode="Single"
                                   SelectionChanged="onStagedListViewSelectionChanged"
                                   Background="{StaticResource PrimaryColor}">
                             <ListView.ItemContainerStyle>

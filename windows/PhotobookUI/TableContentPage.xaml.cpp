@@ -359,6 +359,8 @@ void TableContentPage::onFinished()
   mPhotoBook.gallery().setIterator(iterator);
 
   updateGalleryLabel();
+
+  MediaListView().SelectedIndex(mMediaListItemsCollection.Size()-1);
 }
 
 void TableContentPage::onFoldersSelectionChanged(
@@ -386,9 +388,25 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
+  StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+      0, mStagedImageCollection.Size()));
+
+  auto navigationListIndex = MediaListView().SelectedIndex();
+
+  if (navigationListIndex < 0) {
+    return;
+  }
+
   auto galleryIndex = UnstagedListView().SelectedIndex();
-  auto index = ((int)mMediaListItemsCollection.Size()) - 1;
-  if (galleryIndex > -1 && index > -1) {
+
+  auto navigationSelectedItem =
+      winrt::to_string(mMediaListItemsCollection.GetAt(navigationListIndex));
+
+  auto &imagesData = PB::Context::inst().data().images();
+  auto  iterator = imagesData.thumbnailsSet(PB::Path(navigationSelectedItem));
+  mPhotoBook.gallery().setIterator(iterator);
+
+  if (galleryIndex > -1) {
     mPhotoBook.gallery().setPosition(galleryIndex);
     updateGalleryLabel();
   }
@@ -402,9 +420,17 @@ void TableContentPage::onStagedListViewSelectionChanged(
   UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
       0, mUnstagingImageCollection.Size()));
 
-  // auto iterator = imagesData.thumbnailsSet(*maybePath);
+  auto stagedImagesIndex = StagedListView().SelectedIndex();
+  if (stagedImagesIndex < 0) {
+    return;
+  }
+  auto stagedPhotos = mPhotoBook.stagedPhotos();
 
-  // mPhotoBook.gallery().setIterator(iterator);
+  auto &imagesData = PB::Context::inst().data().images();
+  auto  iterator = imagesData.stagedIterator();
+  iterator.goToPosition(stagedImagesIndex);
+  mPhotoBook.gallery().setIterator(iterator);
+  updateGalleryLabel();
 }
 
 void TableContentPage::onStopped() {}
