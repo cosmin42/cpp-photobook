@@ -46,6 +46,7 @@ std::optional<Path> ImageSupport::groupByIndex(int index)
 }
 
 auto ImageSupport::thumbnailsSet(Path root)
+    -> CircularIterator<std::vector<Thumbnails>>
 {
   auto filterFunction = [this, root{root}](Thumbnails const &th) {
     if (mGroupContent.find(root) == mGroupContent.end()) {
@@ -115,6 +116,23 @@ void ImageSupport::clear()
 }
 
 std::vector<Path> const &ImageSupport::groups() { return mGroup; }
+
+void ImageSupport::stagePhoto(Path fullPath, int position)
+{
+  if (position == -1) {
+    mStagedPhotos.push_back(fullPath);
+  }
+  else if (position < mStagedPhotos.size()) {
+    mStagedPhotos.insert(mStagedPhotos.begin() + position, fullPath);
+  }
+}
+
+void ImageSupport::unstagePhoto(int index)
+{
+  if (index < mStagedPhotos.size() && index > -1) {
+    mStagedPhotos.erase(mStagedPhotos.begin() + index);
+  }
+}
 
 void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
 {

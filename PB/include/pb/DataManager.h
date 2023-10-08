@@ -24,13 +24,18 @@ public:
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
-  auto                      thumbnailsSet(Path root);
-  int                       groupSize(std::optional<Path> group);
+  auto thumbnailsSet(Path root) -> CircularIterator<std::vector<Thumbnails>>;
+  int  groupSize(std::optional<Path> group);
   std::optional<Thumbnails> getByMedium(std::optional<Path> path);
   std::optional<Thumbnails> getBySmall(std::optional<Path> path);
   void                      addGroup(std::optional<Path> path, unsigned size);
   void                      clear();
   std::vector<Path> const  &groups();
+
+  void stagePhoto(Path fullPath, int position = -1);
+  void unstagePhoto(int index);
+
+  std::vector<Path> &stagedPhotos() { return mStagedPhotos; }
 
 private:
   std::unordered_map<Path, std::vector<int>> mGroupContent;
@@ -39,6 +44,7 @@ private:
   std::unordered_map<Path, int>              mSupportByMediumThumbnail;
   std::unordered_map<Path, int>              mSupportByFullPath;
   std::vector<Thumbnails>                    mSupport;
+  std::vector<Path>                          mStagedPhotos;
 };
 
 class DataManager final {
