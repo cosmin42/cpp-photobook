@@ -65,6 +65,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
           &args);
 
+  void onExportContentDialogClicked(
+      Windows::Foundation::IInspectable const &sender,
+      Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
+          &args);
+
   void onContentDialogDiscardClicked(
       Windows::Foundation::IInspectable const &sender,
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
@@ -100,6 +105,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
           SelectionChangedEventArgs const &args);
 
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
+  auto exportDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
   void onStopped();

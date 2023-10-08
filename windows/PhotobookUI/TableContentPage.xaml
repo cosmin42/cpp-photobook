@@ -373,7 +373,7 @@
                            CloseButtonText="Cancel"
                            PrimaryButtonClick="onContentDialogSaveClicked"
                            SecondaryButtonClick="onContentDialogDiscardClicked"
-                           CloseButtonClick="onContentDialogCancelClicked"></ContentDialog>
+                           CloseButtonClick="onContentDialogCancelClicked" />
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0">
@@ -397,5 +397,20 @@
                          Height="20"
                          Margin="20,0,0,0" />
         </Grid>
+        <ContentDialog x:Name="ExportContentDialog"
+                       Title="Export Photobook"
+                       PrimaryButtonText="Export"
+                       PrimaryButtonClick="onExportContentDialogClicked"
+                       CloseButtonText="Cancel">
+            <StackPanel>
+                <CheckBox x:Name="OptionPDFCheckBox"
+                          Content="PDF" />
+                <CheckBox x:Name="OptionJPGCheckBox"
+                          Content="JPG" />
+                <TextBox x:Name="ExportNameTextBox"
+                         Header="Name:"
+                         PlaceholderText="Photobook1" />
+            </StackPanel>
+        </ContentDialog>
     </Grid>
 </Page>

@@ -129,6 +129,11 @@ auto TableContentPage::projectExitDialogDisplay() -> winrt::fire_and_forget
   co_await ProjectExitDialog().ShowAsync();
 }
 
+auto TableContentPage::exportDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await ExportContentDialog().ShowAsync();
+}
+
 void TableContentPage::onBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
@@ -468,17 +473,7 @@ void TableContentPage::onExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
-  fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
-    std::vector<PB::Path> thumbnailPaths;
-    for (auto item : mStagedImageCollection) {
-      auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
-      auto maybeThumbnail =
-          PB::Context::inst().data().images().getByMedium(mediumPath);
-      assert(maybeThumbnail.has_value());
-      thumbnailPaths.push_back(maybeThumbnail->fullPath);
-    }
-    mPhotoBook.exportAlbum(path, thumbnailPaths);
-  });
+  exportDialogDisplay();
 }
 
 void TableContentPage::onContentDialogSaveClicked(
@@ -499,6 +494,25 @@ void TableContentPage::onContentDialogSaveClicked(
                          onError(std::get<PB::Error>(result));
                        }
                      });
+}
+
+void TableContentPage::onExportContentDialogClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+
+  fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
+    std::vector<PB::Path> thumbnailPaths;
+    for (auto item : mStagedImageCollection) {
+      auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
+      auto maybeThumbnail =
+          PB::Context::inst().data().images().getByMedium(mediumPath);
+      assert(maybeThumbnail.has_value());
+      thumbnailPaths.push_back(maybeThumbnail->fullPath);
+    }
+    mPhotoBook.exportAlbum(path, thumbnailPaths);
+  });
 }
 
 void TableContentPage::onContentDialogDiscardClicked(
