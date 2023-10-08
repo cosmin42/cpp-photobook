@@ -2,9 +2,9 @@
 namespace PB {
 template <typename ExporterType> class Exporter final {
 public:
-  void exportImages(Path dest, std::vector<Path> images)
+  void exportImages(std::string name, Path dest, std::vector<Path> images)
   {
-    mSpecific.exportImages(dest, images);
+    mSpecific.exportImages(name, dest, images);
   }
 
 private:

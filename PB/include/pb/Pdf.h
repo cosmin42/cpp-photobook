@@ -7,7 +7,7 @@
 namespace PB {
 class Pdf final {
 public:
-  void exportImages(Path dest, std::vector<Path> images);
+  void exportImages(std::string name, Path dest, std::vector<Path> images);
 
 private:
   static constexpr int PPI = 72;

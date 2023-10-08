@@ -511,7 +511,9 @@ void TableContentPage::onExportContentDialogClicked(
       assert(maybeThumbnail.has_value());
       thumbnailPaths.push_back(maybeThumbnail->fullPath);
     }
-    mPhotoBook.exportAlbum(path, thumbnailPaths);
+    auto        exportName = ExportNameTextBox().Text();
+    std::string nativeExportName = winrt::to_string(exportName);
+    mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
   });
 }
 

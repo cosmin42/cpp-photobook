@@ -10,7 +10,7 @@ void error_handler([[maybe_unused]] HPDF_STATUS error_no,
 {
   PB::printError("Internal error\n");
 }
-void Pdf::exportImages(Path dest, std::vector<Path> images)
+void Pdf::exportImages(std::string name, Path dest, std::vector<Path> images)
 {
   HPDF_Doc pdfFile = HPDF_New(error_handler, NULL);
   if (!pdfFile) {
@@ -36,7 +36,7 @@ void Pdf::exportImages(Path dest, std::vector<Path> images)
                         (HPDF_REAL)A4_HEIGHT);
   }
 
-  if (HPDF_SaveToFile(pdfFile, (dest / "output.pdf").string().c_str()) !=
+  if (HPDF_SaveToFile(pdfFile, (dest / (name + ".pdf")).string().c_str()) !=
       HPDF_OK) {
     PB::printError("Internal Error\n");
     HPDF_Free(pdfFile);
