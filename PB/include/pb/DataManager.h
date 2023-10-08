@@ -18,9 +18,9 @@ struct Thumbnails {
 
 class ImageSupport final {
 public:
-  void addFullPaths(Path root, std::vector<Path> const &paths);
-  void addSmall(Path fullSize, Path smallSize);
-  void addMedium(Path fullSize, Path mediumSize);
+  void                addFullPaths(Path root, std::vector<Path> const &paths);
+  void                addSmall(Path fullSize, Path smallSize);
+  void                addMedium(Path fullSize, Path mediumSize);
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
@@ -39,6 +39,7 @@ public:
   }
   int                       groupSize(std::optional<Path> group);
   std::optional<Thumbnails> getByMedium(std::optional<Path> path);
+  std::optional<Thumbnails> getBySmall(std::optional<Path> path);
   void                      addGroup(std::optional<Path> path, unsigned size);
   void                      clear();
   std::vector<Path> const  &groups();

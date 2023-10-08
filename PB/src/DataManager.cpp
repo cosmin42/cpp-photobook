@@ -69,6 +69,18 @@ std::optional<Thumbnails> ImageSupport::getByMedium(std::optional<Path> path)
   return mSupport.at(index);
 }
 
+std::optional<Thumbnails> ImageSupport::getBySmall(std::optional<Path> path)
+{
+  if (!path) {
+    return std::nullopt;
+  }
+  if (mSupportBySmallThumbnail.find(*path) == mSupportBySmallThumbnail.end()) {
+    return std::nullopt;
+  }
+  auto index = mSupportBySmallThumbnail.at(*path);
+  return mSupport.at(index);
+}
+
 void ImageSupport::addGroup(std::optional<Path> path, unsigned size)
 {
   if (!path) {

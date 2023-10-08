@@ -527,9 +527,9 @@ void TableContentPage::onExportContentDialogClicked(
                                                         std::string path) {
       std::vector<PB::Path> thumbnailPaths;
       for (auto item : mStagedImageCollection) {
-        auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
+        auto smallPath = PB::Path(winrt::to_string(item.FullPath()));
         auto maybeThumbnail =
-            PB::Context::inst().data().images().getByMedium(mediumPath);
+            PB::Context::inst().data().images().getBySmall(smallPath);
         assert(maybeThumbnail.has_value());
         thumbnailPaths.push_back(maybeThumbnail->fullPath);
       }
