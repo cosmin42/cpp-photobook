@@ -62,14 +62,14 @@ int TableContentPage::CanvasWidth()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   assert(mPhotoBook.paperSettings().ppi > 0);
-  return (int)((float)paperSettings.width * (72.0 / (float)paperSettings.ppi));
+  return (int)((float)paperSettings.width * (60.0 / (float)paperSettings.ppi));
 }
 
 int TableContentPage::CanvasHeight()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   assert(mPhotoBook.paperSettings().ppi > 0);
-  return (int)((float)paperSettings.height * (72.0 / (float)paperSettings.ppi));
+  return (int)((float)paperSettings.height * (60.0 / (float)paperSettings.ppi));
 }
 
 auto TableContentPage::fireFolderPicker(

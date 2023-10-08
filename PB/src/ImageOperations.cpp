@@ -15,15 +15,20 @@ auto resize(cv::Size size, bool keepAspectRatio)
 
     auto &[width, height] = size;
 
-    cv::Size ratio = {image->cols / width, image->rows / height};
+    cv::Size2f ratio = {(float)image->cols / (float)width,
+                        (float)image->rows / (float)height};
     auto     maxRatio = std::max(ratio.width, ratio.height);
 
     if (maxRatio < 1) {
       return image;
     }
-    cv::Size newSize = {image->cols / maxRatio, image->rows / maxRatio};
+    cv::Size newSize = {(int)floor((image->cols / maxRatio)), (int)floor(image->rows / maxRatio)};
 
     cv::resize(*image, *image, newSize, 0, 0, cv::INTER_AREA);
+
+    auto newImage = singleColorImage(newSize.width, newSize.height, cv::Scalar{255, 255, 255})();
+
+    image->copyTo(*newImage);
 
     return image;
   };
@@ -52,9 +57,9 @@ auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
                std::shared_ptr<cv::Mat> dest) -> std::shared_ptr<cv::Mat> {
     auto [left, top] = offset;
 
-    cv::Rect roi(left, top, source->cols, source->rows);
+    //cv::Rect roi(left, top, source->cols, source->rows);
 
-    source->copyTo((*dest)(roi));
+    source->copyTo(*dest);
 
     return dest;
   };
