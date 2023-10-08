@@ -12,12 +12,17 @@ public:
   void onPaused() {}
   void onResumed() {}
 
-  void onUnstagedImageAdded(PB::Path path){}
+  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath,
+                            PB::Path smallPath, int position)
+  {
+  }
 
   void post(std::function<void()>) {}
 
   void onProgressUpdate(int, int) {}
   void onError(PB::Error error) {}
+
+  void onAddingFolder(unsigned size) {}
 };
 
 class PlatformSpecificPersistence final {
