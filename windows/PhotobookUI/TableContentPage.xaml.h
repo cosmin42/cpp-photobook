@@ -106,6 +106,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   auto projectExitDialogDisplay() -> winrt::fire_and_forget;
   auto exportDialogDisplay() -> winrt::fire_and_forget;
+  auto genericErrorDialogDisplay() -> winrt::fire_and_forget;
 
   void onFinished();
   void onStopped();

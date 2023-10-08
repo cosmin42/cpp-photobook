@@ -134,6 +134,11 @@ auto TableContentPage::exportDialogDisplay() -> winrt::fire_and_forget
   co_await ExportContentDialog().ShowAsync();
 }
 
+auto TableContentPage::genericErrorDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await GenericErrorDialog().ShowAsync();
+}
+
 void TableContentPage::onBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
@@ -501,20 +506,26 @@ void TableContentPage::onExportContentDialogClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
+  auto        exportName = ExportNameTextBox().Text();
+  std::string nativeExportName = winrt::to_string(exportName);
 
-  fireFolderPicker(MainWindow::sMainWindowhandle, [this](std::string path) {
-    std::vector<PB::Path> thumbnailPaths;
-    for (auto item : mStagedImageCollection) {
-      auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
-      auto maybeThumbnail =
-          PB::Context::inst().data().images().getByMedium(mediumPath);
-      assert(maybeThumbnail.has_value());
-      thumbnailPaths.push_back(maybeThumbnail->fullPath);
-    }
-    auto        exportName = ExportNameTextBox().Text();
-    std::string nativeExportName = winrt::to_string(exportName);
-    mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
-  });
+  if (nativeExportName.empty()) {
+    genericErrorDialogDisplay();
+  }
+  else {
+    fireFolderPicker(MainWindow::sMainWindowhandle, [this, nativeExportName](
+                                                        std::string path) {
+      std::vector<PB::Path> thumbnailPaths;
+      for (auto item : mStagedImageCollection) {
+        auto mediumPath = PB::Path(winrt::to_string(item.FullPath()));
+        auto maybeThumbnail =
+            PB::Context::inst().data().images().getByMedium(mediumPath);
+        assert(maybeThumbnail.has_value());
+        thumbnailPaths.push_back(maybeThumbnail->fullPath);
+      }
+      mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
+    });
+  }
 }
 
 void TableContentPage::onContentDialogDiscardClicked(

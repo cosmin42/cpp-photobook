@@ -412,5 +412,12 @@
                          PlaceholderText="Photobook1" />
             </StackPanel>
         </ContentDialog>
+        <ContentDialog x:Name="GenericErrorDialog"
+                       Title="Error"
+                       PrimaryButtonText="Ok">
+            <TextBlock x:Name="GenericErrorTextBlock"
+                       Text="Unknown Error!"
+                       HorizontalAlignment="Left" />
+        </ContentDialog>
     </Grid>
 </Page>
