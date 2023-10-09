@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Background="{StaticResource ButtonBackgroundColor}"
-                        Click="onBackClicked"
+                        Click="OnBackClicked"
                         CornerRadius="0"
                         Grid.Column="0"
                         Content="Back"
@@ -65,7 +65,7 @@
                             <MenuFlyoutItem Text="Save As" />
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem Text="Export"
-                                            Click="onExportClicked" />
+                                            Click="OnExportClicked" />
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem Text="Exit" />
                         </MenuFlyout>
@@ -104,7 +104,7 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <ListView Name="MediaListView"
-                          SelectionChanged="onFoldersSelectionChanged"
+                          SelectionChanged="OnImportSelectionChanged"
                           SelectionMode="Single"
                           AllowDrop="True"
                           CanDragItems="True"
@@ -170,7 +170,7 @@
                                               x:Name="GalleryCanvas"
                                               ClearColor="#000000" />
                     </Grid>
-                    <Button Click="onGalleryLeft"
+                    <Button Click="OnGalleryLeft"
                             CornerRadius="0"
                             Grid.Column="0"
                             Grid.Row="1"
@@ -189,7 +189,7 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center" />
                     <Button Background="{StaticResource ButtonBackgroundDisabled}"
-                            Click="onGalleryRight"
+                            Click="OnGalleryRight"
                             CornerRadius="0"
                             Grid.Column="2"
                             Grid.Row="1"
@@ -234,10 +234,10 @@
                                   CanReorderItems="False"
                                   HorizontalAlignment="Stretch"
                                   AllowDrop="True"
-                                  Drop="OnDropIntoStagedListView"
-                                  DragOver="OnDragOverStagedListView"
+                                  Drop="OnDropIntoStagedPhotos"
+                                  DragOver="OnDragOverStagedPhotos"
                                   SelectionMode="Single"
-                                  SelectionChanged="onStagedListViewSelectionChanged"
+                                  SelectionChanged="OnStagedPhotosSelectionChanged"
                                   Background="{StaticResource PrimaryColor}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -302,12 +302,12 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Visible"
                               ScrollViewer.IsHorizontalRailEnabled="True"
                               SelectionMode="Extended"
-                              SelectionChanged="onUnstagedListViewSelectionChanged"
+                              SelectionChanged="OnUnstagedPhotosSelectionChanged"
                               HorizontalAlignment="Stretch"
                               AllowDrop="True"
                               CanDragItems="True"
                               CanReorderItems="False"
-                              DragItemsStarting="OnUnstagedListDragStarted">
+                              DragItemsStarting="OnUnstagedPhotosDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">
@@ -370,9 +370,9 @@
                            PrimaryButtonText="Save"
                            SecondaryButtonText="Discard"
                            CloseButtonText="Cancel"
-                           PrimaryButtonClick="onContentDialogSaveClicked"
-                           SecondaryButtonClick="onContentDialogDiscardClicked"
-                           CloseButtonClick="onContentDialogCancelClicked" />
+                           PrimaryButtonClick="OnContentDialogSaveClicked"
+                           SecondaryButtonClick="OnContentDialogDiscardClicked"
+                           CloseButtonClick="OnContentDialogCancelClicked" />
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0">
@@ -399,7 +399,7 @@
         <ContentDialog x:Name="ExportContentDialog"
                        Title="Export Photobook"
                        PrimaryButtonText="Export"
-                       PrimaryButtonClick="onExportContentDialogClicked"
+                       PrimaryButtonClick="OnExportContentDialogClicked"
                        CloseButtonText="Cancel">
             <StackPanel>
                 <CheckBox x:Name="OptionPDFCheckBox"

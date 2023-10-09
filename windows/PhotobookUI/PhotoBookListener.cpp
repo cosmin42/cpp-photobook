@@ -10,29 +10,29 @@ PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
 }
 void PhotoBookListener::onFinished()
 {
-  mParent.post([this]() { mParent.onFinished(); });
+  mParent.Post([this]() { mParent.OnMappingFinished(); });
 }
 void PhotoBookListener::onStopped()
 {
-  mParent.post([this]() { mParent.onStopped(); });
+  mParent.Post([this]() { mParent.OnMappingStopped(); });
 }
 void PhotoBookListener::onStarted()
 {
-  mParent.post([this]() { mParent.onStarted(); });
+  mParent.Post([this]() { mParent.OnMappingStarted(); });
 }
 void PhotoBookListener::onPaused()
 {
-  mParent.post([this]() { mParent.onPaused(); });
+  mParent.Post([this]() { mParent.OnMappingPaused(); });
 }
 void PhotoBookListener::onResumed()
 {
-  mParent.post([this]() { mParent.onResumed(); });
+  mParent.Post([this]() { mParent.OnMappingResumed(); });
 }
 
 void PhotoBookListener::onProgressUpdate(int progress, int reference)
 {
-  mParent.post([this, progress, reference]() {
-    mParent.onProgressUpdate(progress, reference);
+  mParent.Post([this, progress, reference]() {
+    mParent.OnProgressUpdate(progress, reference);
   });
 }
 
@@ -40,20 +40,21 @@ void PhotoBookListener::onUnstagedImageAdded(PB::Path fullPath,
                                              PB::Path mediumPath,
                                              PB::Path smallPath, int position)
 {
-  mParent.post([this, fullPath, mediumPath, smallPath, position]() {
-    mParent.onUnstagedImageAdded(fullPath, mediumPath, smallPath, position);
+  mParent.Post([this, fullPath, mediumPath, smallPath, position]() {
+    mParent.OnUnstagedImageAdded(fullPath, mediumPath, smallPath, position);
   });
 }
 
-void PhotoBookListener::onAddingFolder(unsigned size)
+void PhotoBookListener::onAddingUnstagedImagePlaceholder(unsigned size)
 {
-  mParent.post([this, size]() { mParent.onAddingFolder(size); });
+  mParent.Post(
+      [this, size]() { mParent.OnAddingUnstagedImagePlaceholder(size); });
 }
 
 void PhotoBookListener::onError(PB::Error error)
 {
-  mParent.post([error{error}, this]() { mParent.onError(error); });
+  mParent.Post([error{error}, this]() { mParent.OnError(error); });
 }
 
-void PhotoBookListener::post(std::function<void()> f) { mParent.post(f); }
+void PhotoBookListener::post(std::function<void()> f) { mParent.Post(f); }
 } // namespace winrt::PhotobookUI::implementation

@@ -49,7 +49,7 @@ TableContentPage::TableContentPage()
 
   KeyUp([this](Windows::Foundation::IInspectable const              &sender,
                Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
-    onKeyPressed(sender, arg);
+    OnKeyPressed(sender, arg);
   });
 
   PaperComboBox().SelectedIndex(0);
@@ -70,35 +70,35 @@ int TableContentPage::CanvasHeight()
 }
 
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
-                                               RoutedEventArgs const &)
+                                           RoutedEventArgs const &)
 {
   mPopups.fireFolderPicker(
       MainWindow::sMainWindowhandle,
       [this](std::string path) { mPhotoBook.addMedia(path); });
 }
 
-auto TableContentPage::projectExitDialogDisplay() -> winrt::fire_and_forget
+auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
 {
   co_await ProjectExitDialog().ShowAsync();
 }
 
-auto TableContentPage::exportDialogDisplay() -> winrt::fire_and_forget
+auto TableContentPage::ExportDialogDisplay() -> winrt::fire_and_forget
 {
   co_await ExportContentDialog().ShowAsync();
 }
 
-auto TableContentPage::genericErrorDialogDisplay() -> winrt::fire_and_forget
+auto TableContentPage::GenericErrorDialogDisplay() -> winrt::fire_and_forget
 {
   co_await GenericErrorDialog().ShowAsync();
 }
 
-void TableContentPage::onBackClicked(IInspectable const &,
+void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  projectExitDialogDisplay();
+  ProjectExitDialogDisplay();
 }
 
-void TableContentPage::onKeyPressed(
+void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
 {
@@ -112,12 +112,12 @@ void TableContentPage::onKeyPressed(
   switch (key) {
   case Windows::System::VirtualKey::Left: {
     mPhotoBook.gallery().navigateLeft();
-    updateGalleryLabel();
+    UpdateGalleryLabel();
     break;
   }
   case Windows::System::VirtualKey::Right: {
     mPhotoBook.gallery().navigateRight();
-    updateGalleryLabel();
+    UpdateGalleryLabel();
     break;
   }
   default: {
@@ -125,7 +125,7 @@ void TableContentPage::onKeyPressed(
   }
 }
 
-void TableContentPage::OnUnstagedListDragStarted(
+void TableContentPage::OnUnstagedPhotosDragStarted(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
@@ -141,7 +141,7 @@ void TableContentPage::OnUnstagedListDragStarted(
   }
 }
 
-void TableContentPage::OnDragOverStagedListView(
+void TableContentPage::OnDragOverStagedPhotos(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::DragEventArgs const                 &args)
 {
@@ -182,7 +182,7 @@ void TableContentPage::OnPaperComboBoxSelected(
   }
 }
 
-void TableContentPage::OnDropIntoStagedListView(
+void TableContentPage::OnDropIntoStagedPhotos(
     [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
@@ -202,22 +202,22 @@ void TableContentPage::OnDropIntoStagedListView(
   mDragAndDropSelectedIndexes.clear();
 }
 
-void TableContentPage::onGalleryLeft(
+void TableContentPage::OnGalleryLeft(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mPhotoBook.gallery().navigateLeft();
 
-  updateGalleryLabel();
+  UpdateGalleryLabel();
 }
 
-void TableContentPage::onGalleryRight(
+void TableContentPage::OnGalleryRight(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mPhotoBook.gallery().navigateRight();
 
-  updateGalleryLabel();
+  UpdateGalleryLabel();
 }
 
 void TableContentPage::CanvasControlDraw(
@@ -275,7 +275,7 @@ void TableContentPage::CanvasControlDraw(
   session.DrawImage(bitmap);
 }
 
-void TableContentPage::onFinished()
+void TableContentPage::OnMappingFinished()
 {
   mNavigationItemsCollection.Clear();
   auto rootFolders = mPhotoBook.gallery().foldersList();
@@ -303,7 +303,7 @@ void TableContentPage::onFinished()
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::onFoldersSelectionChanged(
+void TableContentPage::OnImportSelectionChanged(
     [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
@@ -320,10 +320,10 @@ void TableContentPage::onFoldersSelectionChanged(
 
   mPhotoBook.gallery().setIterator(imagesData.thumbnailsSet(*maybePath));
 
-  updateGalleryLabel();
+  UpdateGalleryLabel();
 }
 
-void TableContentPage::onUnstagedListViewSelectionChanged(
+void TableContentPage::OnUnstagedPhotosSelectionChanged(
     [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
@@ -348,11 +348,11 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
 
   if (galleryIndex > -1) {
     mPhotoBook.gallery().setPosition(galleryIndex);
-    updateGalleryLabel();
+    UpdateGalleryLabel();
   }
 }
 
-void TableContentPage::onStagedListViewSelectionChanged(
+void TableContentPage::OnStagedPhotosSelectionChanged(
     [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
@@ -370,25 +370,25 @@ void TableContentPage::onStagedListViewSelectionChanged(
   auto  iterator = imagesData.stagedIterator();
   iterator.goToPosition(stagedImagesIndex);
   mPhotoBook.gallery().setIterator(iterator);
-  updateGalleryLabel();
+  UpdateGalleryLabel();
 }
 
-void TableContentPage::onStopped() {}
+void TableContentPage::OnMappingStopped() {}
 
-void TableContentPage::onStarted() {}
+void TableContentPage::OnMappingStarted() {}
 
-void TableContentPage::onPaused() {}
+void TableContentPage::OnMappingPaused() {}
 
-void TableContentPage::onResumed() {}
+void TableContentPage::OnMappingResumed() {}
 
-void TableContentPage::onProgressUpdate(int progress, int reference)
+void TableContentPage::OnProgressUpdate(int progress, int reference)
 {
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
-void TableContentPage::onUnstagedImageAdded(PB::Path fullPath,
+void TableContentPage::OnUnstagedImageAdded(PB::Path fullPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
@@ -398,16 +398,16 @@ void TableContentPage::onUnstagedImageAdded(PB::Path fullPath,
                             winrt::to_hstring(smallPath.string())));
 }
 
-void TableContentPage::onAddingFolder(unsigned size)
+void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 {
   for (int i = 0; i < (int)size; ++i) {
     mUnstagedImageCollection.Append(ImageUIData());
   }
 }
 
-void TableContentPage::onError(PB::Error error) {}
+void TableContentPage::OnError(PB::Error error) {}
 
-void TableContentPage::post(std::function<void()> f)
+void TableContentPage::Post(std::function<void()> f)
 {
   bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
@@ -415,7 +415,7 @@ void TableContentPage::post(std::function<void()> f)
   assert(success);
 }
 
-void TableContentPage::updateGalleryLabel()
+void TableContentPage::UpdateGalleryLabel()
 {
   auto &gallery = mPhotoBook.gallery();
 
@@ -438,10 +438,10 @@ void TableContentPage::updateGalleryLabel()
   GalleryCanvas().Invalidate();
 }
 
-void TableContentPage::postponeError(std::string message)
+void TableContentPage::PostponeError(std::string message)
 {
   GenericErrorTextBlock().Text(winrt::to_hstring(message));
-  post([this]() { genericErrorDialogDisplay(); });
+  Post([this]() { GenericErrorDialogDisplay(); });
 }
 
 void TableContentPage::OnNavigatedTo(
@@ -453,14 +453,14 @@ void TableContentPage::OnNavigatedTo(
   mPhotoBook.loadProject(PB::Path(fullPath));
 }
 
-void TableContentPage::onExportClicked(
+void TableContentPage::OnExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
-  exportDialogDisplay();
+  ExportDialogDisplay();
 }
 
-void TableContentPage::onContentDialogSaveClicked(
+void TableContentPage::OnContentDialogSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
@@ -475,12 +475,12 @@ void TableContentPage::onContentDialogSaveClicked(
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
         }
         else {
-          onError(std::get<PB::Error>(result));
+          OnError(std::get<PB::Error>(result));
         }
       });
 }
 
-void TableContentPage::onExportContentDialogClicked(
+void TableContentPage::OnExportContentDialogClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
@@ -489,10 +489,10 @@ void TableContentPage::onExportContentDialogClicked(
   std::string nativeExportName = winrt::to_string(exportName);
 
   if (nativeExportName.empty()) {
-    postponeError("The given name must not be empty!");
+    PostponeError("The given name must not be empty!");
   }
   else if (mStagedImageCollection.Size() == 0) {
-    postponeError("There is no staged photo!");
+    PostponeError("There is no staged photo!");
   }
   else {
     mPopups.fireFolderPicker(
@@ -507,7 +507,7 @@ void TableContentPage::onExportContentDialogClicked(
   }
 }
 
-void TableContentPage::onContentDialogDiscardClicked(
+void TableContentPage::OnContentDialogDiscardClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
@@ -516,7 +516,7 @@ void TableContentPage::onContentDialogDiscardClicked(
   Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
 }
 
-void TableContentPage::onContentDialogCancelClicked(
+void TableContentPage::OnContentDialogCancelClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)

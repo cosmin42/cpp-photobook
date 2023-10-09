@@ -136,7 +136,7 @@ public:
         rootPath, (unsigned)newMediaMap.map().size());
     Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
 
-    mParent.onAddingFolder((unsigned)newMediaMap.map().size());
+    mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.map().size());
 
     std::vector<std::future<void>> v;
 
