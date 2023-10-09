@@ -17,7 +17,7 @@
 #include <pb/ImageSetWriter.h>
 #include <pb/Pdf.h>
 #include <pb/Project.h>
-#include <pb/UnstagedImagesLogic.h>
+#include <pb/ThumbnailsProcessor.h>
 #include <pb/common/Log.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
@@ -87,7 +87,7 @@ public:
 
           mProject = Project<PersistenceType>(projectDetails);
 
-          mUnstagedImagesLogic.provideProjectDetails(projectDetails);
+          mThumbnailsProcessor.provideProjectDetails(projectDetails);
         }
       }
       onReturn(maybeError);
@@ -142,7 +142,7 @@ public:
     mProgress = 0;
     const int maxProgress = (int)newMediaMap.map().size();
 
-    mUnstagedImagesLogic.generateThumbnails(
+    mThumbnailsProcessor.generateThumbnails(
         newMediaMap.map(),
         [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
             Path input, Path smallOutput, Path mediumOutput, int position) {
@@ -266,7 +266,7 @@ private:
   GalleryListener<PhotoBookListenerType, PersistenceType> mGalleryListener;
   Gallery<PhotoBookListenerType, PersistenceType>         mGallery;
   ImageReader                                             mImageReader;
-  UnstagedImagesLogic                                     mUnstagedImagesLogic;
+  ThumbnailsProcessor                                     mThumbnailsProcessor;
   Exporter<Pdf>                                           mExporter;
   int                                                     mProgress = 0;
   PaperSettings                                           mPaperSettings;

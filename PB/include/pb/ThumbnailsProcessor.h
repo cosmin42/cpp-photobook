@@ -24,26 +24,25 @@ private:
   std::function<void()> mFinish;
 };
 
-class UnstagedImagesLogic final {
+class ThumbnailsProcessor final {
 public:
-  UnstagedImagesLogic();
-  ~UnstagedImagesLogic();
+  ThumbnailsProcessor();
+  ~ThumbnailsProcessor();
 
   void provideProjectDetails(ProjectDetails const &);
 
-  void
-  generateThumbnails(std::vector<std::filesystem::path> mediaMap,
-                     std::function<void(Path, Path, Path, int)>
-                         onThumbnailWritten);
+  void generateThumbnails(
+      std::vector<std::filesystem::path>         mediaMap,
+      std::function<void(Path, Path, Path, int)> onThumbnailWritten);
 
 private:
-  static constexpr const char *sSmallThumbnailPrefix = "thumbnail";
+  static constexpr const char *sSmallThumbnailPrefix = "thumbnail-small";
   static constexpr const char *sMediumThumbnailPrefix = "thumbnail-medium";
   static constexpr unsigned    sNumberOfThreads = 4;
   std::pair<Path, Path>        assembleOutputPaths(int index);
   ProjectDetails               mProjectDetails;
-  dp::thread_pool<std::function<void(void)>>                mResizePool;
-  std::vector<std::future<void>>                            mFutures;
+  dp::thread_pool<std::function<void(void)>> mResizePool;
+  std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
 };
 } // namespace PB

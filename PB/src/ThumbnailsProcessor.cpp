@@ -1,4 +1,4 @@
-#include <pb/UnstagedImagesLogic.h>
+#include <pb/ThumbnailsProcessor.h>
 
 namespace PB {
 ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
@@ -30,22 +30,22 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
-UnstagedImagesLogic::UnstagedImagesLogic() : mResizePool(sNumberOfThreads) {}
+ThumbnailsProcessor::ThumbnailsProcessor() : mResizePool(sNumberOfThreads) {}
 
-UnstagedImagesLogic::~UnstagedImagesLogic()
+ThumbnailsProcessor::~ThumbnailsProcessor()
 {
   for (auto &f : mFutures) {
     f.wait();
   }
 }
 
-void UnstagedImagesLogic::provideProjectDetails(
+void ThumbnailsProcessor::provideProjectDetails(
     ProjectDetails const &projectDetails)
 {
   mProjectDetails = projectDetails;
 }
 
-void UnstagedImagesLogic::generateThumbnails(
+void ThumbnailsProcessor::generateThumbnails(
     std::vector<std::filesystem::path> mediaMap,
     std::function<void(Path, Path, Path, int)>
         onThumbnailWritten)
@@ -71,7 +71,7 @@ void UnstagedImagesLogic::generateThumbnails(
   }
 }
 
-std::pair<Path, Path> UnstagedImagesLogic::assembleOutputPaths(int index)
+std::pair<Path, Path> ThumbnailsProcessor::assembleOutputPaths(int index)
 {
   assert(index >= 0);
   assert(mProjectDetails.dirName.length() > 0);
