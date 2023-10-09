@@ -13,10 +13,7 @@
 
 #include "FirstPage.xaml.h"
 #include "MainWindow.xaml.h"
-#include <Shobjidl.h>
 
-#include <winrt/Windows.Storage.Pickers.h>
-#include <winrt/Windows.UI.Popups.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <microsoft.ui.xaml.window.h>
@@ -72,56 +69,12 @@ int TableContentPage::CanvasHeight()
   return (int)((float)paperSettings.height * (60.0 / (float)paperSettings.ppi));
 }
 
-auto TableContentPage::fireFolderPicker(
-    HWND hWnd, std::function<void(std::string)> onSuccess)
-    -> winrt::fire_and_forget
-{
-  Windows::Storage::Pickers::FolderPicker folderPicker;
-
-  auto initializeWithWindow{folderPicker.as<::IInitializeWithWindow>()};
-  initializeWithWindow->Initialize(hWnd);
-
-  folderPicker.FileTypeFilter().Append(L"*");
-  auto folder{co_await folderPicker.PickSingleFolderAsync()};
-
-  if (folder) {
-    onSuccess(winrt::to_string(folder.Path()));
-  }
-}
-
-auto TableContentPage::fireSaveFilePicker(
-    HWND                                                      hWnd,
-    std::function<void(std::variant<std::string, PB::Error>)> onReturn)
-    -> winrt::fire_and_forget
-{
-  Windows::Storage::Pickers::FileSavePicker fileSavePicker;
-
-  auto initializeWithWindow{fileSavePicker.as<::IInitializeWithWindow>()};
-  initializeWithWindow->Initialize(hWnd);
-
-  auto plainTextExtensions = winrt::single_threaded_vector<winrt::hstring>();
-  plainTextExtensions.Append(winrt::param::hstring(L".photobook"));
-
-  fileSavePicker.SuggestedStartLocation(PickerLocationId::DocumentsLibrary);
-  fileSavePicker.FileTypeChoices().Insert(L"Text File", plainTextExtensions);
-  fileSavePicker.DefaultFileExtension(L".photobook");
-  fileSavePicker.SuggestedFileName(L"Untitled");
-
-  auto filename{co_await fileSavePicker.PickSaveFileAsync()};
-
-  if (filename) {
-    onReturn(winrt::to_string(filename.Path()));
-  }
-  else {
-    onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);
-  }
-}
-
-void TableContentPage::onAddMediaButtonClicked(IInspectable const &,
+void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                                RoutedEventArgs const &)
 {
-  fireFolderPicker(MainWindow::sMainWindowhandle,
-                   [this](std::string path) { mPhotoBook.addMedia(path); });
+  mPopups.fireFolderPicker(
+      MainWindow::sMainWindowhandle,
+      [this](std::string path) { mPhotoBook.addMedia(path); });
 }
 
 auto TableContentPage::projectExitDialogDisplay() -> winrt::fire_and_forget
@@ -512,19 +465,19 @@ void TableContentPage::onContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
-  fireSaveFilePicker(MainWindow::sMainWindowhandle,
-                     [this](std::variant<std::string, PB::Error> result) {
-                       if (std::holds_alternative<std::string>(result)) {
-                         auto newName = std::get<std::string>(result);
+  mPopups.fireSaveFilePicker(
+      MainWindow::sMainWindowhandle,
+      [this](std::variant<std::string, PB::Error> result) {
+        if (std::holds_alternative<std::string>(result)) {
+          auto newName = std::get<std::string>(result);
 
-                         mPhotoBook.savePhotoBook(newName);
-                         Frame().Navigate(
-                             winrt::xaml_typename<PhotobookUI::FirstPage>());
-                       }
-                       else {
-                         onError(std::get<PB::Error>(result));
-                       }
-                     });
+          mPhotoBook.savePhotoBook(newName);
+          Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+        }
+        else {
+          onError(std::get<PB::Error>(result));
+        }
+      });
 }
 
 void TableContentPage::onExportContentDialogClicked(
@@ -542,14 +495,15 @@ void TableContentPage::onExportContentDialogClicked(
     postponeError("There is no staged photo!");
   }
   else {
-    fireFolderPicker(MainWindow::sMainWindowhandle, [this, nativeExportName](
-                                                        std::string path) {
-      std::vector<PB::Path> thumbnailPaths;
-      for (auto item : mStagedImageCollection) {
-        thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
-      }
-      mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
-    });
+    mPopups.fireFolderPicker(
+        MainWindow::sMainWindowhandle,
+        [this, nativeExportName](std::string path) {
+          std::vector<PB::Path> thumbnailPaths;
+          for (auto item : mStagedImageCollection) {
+            thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
+          }
+          mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
+        });
   }
 }
 

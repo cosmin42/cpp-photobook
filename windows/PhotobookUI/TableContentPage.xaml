@@ -138,7 +138,7 @@
                         Grid.Row="0"
                         Grid.Column="0">
                     <Button Background="{StaticResource ButtonBackgroundColor}"
-                            Click="onAddMediaButtonClicked"
+                            Click="OnImportFolderAdded"
                             CornerRadius="4"
                             Content="Add Media"
                             x:Name="AddMediaButton"

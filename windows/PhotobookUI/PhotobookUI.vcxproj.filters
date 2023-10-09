@@ -21,6 +21,7 @@
     <ClCompile Include="PhotoBookListener.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
+    <ClCompile Include="PopUps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="WinrtStorage.h" />
     <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="ImageUIData.h" />
+    <ClInclude Include="PopUps.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">

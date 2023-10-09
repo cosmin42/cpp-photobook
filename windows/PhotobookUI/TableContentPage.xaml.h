@@ -11,6 +11,7 @@
 #include <PhotoBookListener.h>
 #include <pb/PhotoBook.h>
 
+#include <PopUps.h>
 #include <WinrtStorage.h>
 
 using namespace winrt::Windows::Foundation::Collections;
@@ -25,7 +26,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   int CanvasHeight();
 
   void
-  onAddMediaButtonClicked(Windows::Foundation::IInspectable const    &sender,
+  OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void onExportClicked(Windows::Foundation::IInspectable const    &sender,
@@ -119,21 +120,14 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void onProgressUpdate([[maybe_unused]] int progress,
                         [[maybe_unused]] int reference);
 
-  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath, PB::Path smallPath, int position);
+  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath,
+                            PB::Path smallPath, int position);
   void onAddingFolder(unsigned size);
   void onError(PB::Error error);
 
   void post(std::function<void()>);
 
 private:
-  auto fireFolderPicker(HWND hWnd, std::function<void(std::string)> onSuccess)
-      -> winrt::fire_and_forget;
-
-  auto fireSaveFilePicker(
-      HWND                                                      hWnd,
-      std::function<void(std::variant<std::string, PB::Error>)> onReturn)
-      -> winrt::fire_and_forget;
-
   void updateGalleryLabel();
 
   void postponeError(std::string message);
@@ -144,6 +138,7 @@ private:
   IObservableVector<ImageUIData>                     mUnstagedImageCollection;
   IObservableVector<ImageUIData>                     mStagedImageCollection;
   std::vector<int> mDragAndDropSelectedIndexes;
+  PopUps           mPopups;
 };
 } // namespace winrt::PhotobookUI::implementation
 
