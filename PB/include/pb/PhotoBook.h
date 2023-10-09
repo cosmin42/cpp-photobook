@@ -70,7 +70,8 @@ public:
     mPaperSettings = paperSettings;
   }
 
-  void loadProject(Path const &path)
+  void loadProject(Path const                               &path,
+                   std::function<void(std::optional<Error>)> onReturn)
   {
     Persistence<void> projectPersistence(path);
     projectPersistence.load([this, &projectPersistence](
@@ -89,18 +90,13 @@ public:
           mUnstagedImagesLogic.provideProjectDetails(projectDetails);
         }
       }
-      else {
-        mParent.onError(
-            Error() << ErrorCode::CouldNotLoadProjectFromGenericPersistence);
-      }
+      onReturn(maybeError);
     });
   }
 
-  void onPersistenceLoaded() { printDebug("Persistence loaded.\n"); }
-
   void onError(Error error) { mParent.onError(error); }
 
-  void addMedia(std::string const &path)
+  void addImportFolder(std::string const &path)
   {
     PB::Path fsPath = path;
     auto     result = FileInfo::validInputRootPath(fsPath);

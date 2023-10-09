@@ -74,7 +74,7 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
 {
   mPopups.fireFolderPicker(
       MainWindow::sMainWindowhandle,
-      [this](std::string path) { mPhotoBook.addMedia(path); });
+      [this](std::string path) { mPhotoBook.addImportFolder(path); });
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -450,7 +450,12 @@ void TableContentPage::OnNavigatedTo(
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
-  mPhotoBook.loadProject(PB::Path(fullPath));
+  mPhotoBook.loadProject(
+      PB::Path(fullPath), [this](std::optional<PB::Error> maybeError) {
+        if (maybeError) {
+          Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+        }
+      });
 }
 
 void TableContentPage::OnExportClicked(
