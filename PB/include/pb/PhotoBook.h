@@ -94,29 +94,26 @@ public:
     });
   }
 
-  void onError(Error error) { mParent.onError(error); }
-
   void addImportFolder(std::string const &path)
   {
-    PB::Path fsPath = path;
-    auto     result = FileInfo::validInputRootPath(fsPath);
-    std::visit(
-        overloaded{
-            [this](PB::Path const &path) {
-              printDebug("Add media %s\n", path.string().c_str());
+    auto errorOrPath = FileInfo::validInputRootPath(Path(path));
+    if (std::holds_alternative<Error>) {
+      mParent.onError(std::get<Error>(errorOrPath));
+    }
+    else {
+      auto path = std::get<Path>(errorOrPath);
+      printDebug("Add Input folder %s\n", path.string().c_str());
 
-              auto ptr = std::make_shared<
-                  MediaMapListener<PhotoBookListenerType, PersistenceType>>(
-                  std::ref(*this));
-              mListeners.insert({path, ptr});
-              auto listener = mListeners.at(path);
-              mMappingJobs.emplace(
-                  path, MediaMapper<PhotoBookListenerType, PersistenceType>(
-                            path, listener));
-            },
-            [this](Error error) { mParent.onError(error); }},
-        result);
-    mMappingJobs.at(fsPath).start();
+      auto ptr = std::make_shared<
+          MediaMapListener<PhotoBookListenerType, PersistenceType>>(
+          std::ref(*this));
+      mListeners.insert({path, ptr});
+      auto listener = mListeners.at(path);
+      mMappingJobs.emplace(
+          path,
+          MediaMapper<PhotoBookListenerType, PersistenceType>(path, listener));
+      mMappingJobs.at(fsPath).start();
+    }
   }
 
   void setOutputPath(std::string const &path)
@@ -182,6 +179,8 @@ public:
     // mMappingJobs.erase(path);
     // mListeners.erase(path);
   }
+
+  void onError(Error error) { mParent.onError(error); }
 
   Gallery<PhotoBookListenerType, PersistenceType> &gallery()
   {
