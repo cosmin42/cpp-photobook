@@ -7,11 +7,11 @@
 namespace PB {
 
 template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+  requires PhotoBookListenerConcept<PhotoBookType>
 class PhotoBook;
 
 template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+  requires PhotoBookListenerConcept<PhotoBookType>
 class MediaMapListener final {
 public:
   explicit MediaMapListener(PhotoBook<PhotoBookType, PersistenceType> &parent)

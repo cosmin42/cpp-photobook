@@ -7,7 +7,7 @@
 namespace PB {
 
 template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+  requires PhotoBookListenerConcept<PhotoBookType>
 class Gallery final {
 public:
   Gallery(GalleryListener<PhotoBookType, PersistenceType> &listener)

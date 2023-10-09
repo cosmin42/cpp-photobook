@@ -5,11 +5,11 @@
 
 namespace PB {
 template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+  requires PhotoBookListenerConcept<PhotoBookType>
 class PhotoBook;
 
 template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+  requires PhotoBookListenerConcept<PhotoBookType>
 class GalleryListener final {
 public:
   GalleryListener(PhotoBook<PhotoBookType, PersistenceType> &parent)

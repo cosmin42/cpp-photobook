@@ -38,11 +38,11 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
-template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookConcept<PhotoBookType>
+template <typename PhotoBookListenerType, typename PersistenceType>
+  requires PhotoBookListenerConcept<PhotoBookListenerType>
 class PhotoBook final {
 public:
-  PhotoBook(PhotoBookType &listener)
+  PhotoBook(PhotoBookListenerType &listener)
       : mParent(listener), mGalleryListener(std::ref(*this)),
         mGallery(mGalleryListener), mPaperSettings(A4_PAPER)
   {
@@ -104,19 +104,20 @@ public:
     PB::Path fsPath = path;
     auto     result = FileInfo::validInputRootPath(fsPath);
     std::visit(
-        overloaded{[this](PB::Path const &path) {
-                     printDebug("Add media %s\n", path.string().c_str());
+        overloaded{
+            [this](PB::Path const &path) {
+              printDebug("Add media %s\n", path.string().c_str());
 
-                     auto ptr = std::make_shared<
-                         MediaMapListener<PhotoBookType, PersistenceType>>(
-                         std::ref(*this));
-                     mListeners.insert({path, ptr});
-                     auto listener = mListeners.at(path);
-                     mMappingJobs.emplace(
-                         path, MediaMapper<PhotoBookType, PersistenceType>(
-                                   path, listener));
-                   },
-                   [this](Error error) { mParent.onError(error); }},
+              auto ptr = std::make_shared<
+                  MediaMapListener<PhotoBookListenerType, PersistenceType>>(
+                  std::ref(*this));
+              mListeners.insert({path, ptr});
+              auto listener = mListeners.at(path);
+              mMappingJobs.emplace(
+                  path, MediaMapper<PhotoBookListenerType, PersistenceType>(
+                            path, listener));
+            },
+            [this](Error error) { mParent.onError(error); }},
         result);
     mMappingJobs.at(fsPath).start();
   }
@@ -136,7 +137,8 @@ public:
         rootPath, (unsigned)newMediaMap.map().size());
     Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
 
-    mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.map().size());
+    mParent.onAddingUnstagedImagePlaceholder(
+        (unsigned)newMediaMap.map().size());
 
     std::vector<std::future<void>> v;
 
@@ -161,7 +163,8 @@ public:
             Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
 
-          mParent.onUnstagedImageAdded(input, mediumOutput, smallOutput, position);
+          mParent.onUnstagedImageAdded(input, mediumOutput, smallOutput,
+                                       position);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, start{start},
@@ -183,7 +186,10 @@ public:
     // mListeners.erase(path);
   }
 
-  Gallery<PhotoBookType, PersistenceType> &gallery() { return mGallery; }
+  Gallery<PhotoBookListenerType, PersistenceType> &gallery()
+  {
+    return mGallery;
+  }
 
   auto loadImage(std::string const &path) -> std::shared_ptr<cv::Mat>
   {
@@ -261,20 +267,21 @@ public:
   }
 
 private:
-  PhotoBookType               &mParent;
+  PhotoBookListenerType       &mParent;
   Persistence<PersistenceType> mCentralPersistence;
   Project<PersistenceType>     mProject;
   std::unordered_map<
-      Path, std::shared_ptr<MediaMapListener<PhotoBookType, PersistenceType>>>
+      Path,
+      std::shared_ptr<MediaMapListener<PhotoBookListenerType, PersistenceType>>>
       mListeners;
-  std::unordered_map<Path, MediaMapper<PhotoBookType, PersistenceType>>
-                                                  mMappingJobs;
-  GalleryListener<PhotoBookType, PersistenceType> mGalleryListener;
-  Gallery<PhotoBookType, PersistenceType>         mGallery;
-  ImageReader                                     mImageReader;
-  UnstagedImagesLogic                             mUnstagedImagesLogic;
-  Exporter<Pdf>                                   mExporter;
-  int                                             mProgress = 0;
-  PaperSettings                                   mPaperSettings;
+  std::unordered_map<Path, MediaMapper<PhotoBookListenerType, PersistenceType>>
+                                                          mMappingJobs;
+  GalleryListener<PhotoBookListenerType, PersistenceType> mGalleryListener;
+  Gallery<PhotoBookListenerType, PersistenceType>         mGallery;
+  ImageReader                                             mImageReader;
+  UnstagedImagesLogic                                     mUnstagedImagesLogic;
+  Exporter<Pdf>                                           mExporter;
+  int                                                     mProgress = 0;
+  PaperSettings                                           mPaperSettings;
 };
 } // namespace PB

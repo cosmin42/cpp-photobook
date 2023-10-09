@@ -7,7 +7,7 @@
 
 namespace PB {
 template <typename T>
-concept PhotoBookConcept = requires(T t) {
+concept PhotoBookListenerConcept = requires(T t) {
   {
     t.onFinished()
   } -> std::same_as<void>;
