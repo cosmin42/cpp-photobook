@@ -324,11 +324,9 @@ void TableContentPage::CanvasControlDraw(
 
 void TableContentPage::onFinished()
 {
-  mMediaListNative.clear();
   mMediaListItemsCollection.Clear();
   auto rootFolders = mPhotoBook.gallery().foldersList();
   for (auto &path : rootFolders) {
-    mMediaListNative.push_back(path.filename().string());
     mMediaListItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
   }
@@ -346,19 +344,8 @@ void TableContentPage::onFinished()
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
-  PB::printDebug("Index selected %d\n", (int)(mMediaListNative.size() - 1));
-
-  auto &imagesData = PB::Context::inst().data().images();
-
-  auto maybePath = imagesData.groupByIndex((int)(mMediaListNative.size() - 1));
-
-  assert(maybePath.has_value());
-
-  auto iterator = imagesData.thumbnailsSet(*maybePath);
-
-  mPhotoBook.gallery().setIterator(iterator);
-
-  updateGalleryLabel();
+  PB::printDebug("Index selected %d\n",
+                 (int)(mMediaListItemsCollection.Size() - 1));
 
   MediaListView().SelectedIndex(mMediaListItemsCollection.Size()-1);
 }

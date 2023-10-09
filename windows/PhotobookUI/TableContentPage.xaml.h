@@ -143,7 +143,6 @@ private:
   IObservableVector<winrt::hstring>                  mMediaListItemsCollection;
   IObservableVector<ImageUIData>                     mUnstagingImageCollection;
   IObservableVector<ImageUIData>                     mStagedImageCollection;
-  std::vector<std::string>                           mMediaListNative;
   std::vector<int> mDragAndDropSelectedIndexes;
 };
 } // namespace winrt::PhotobookUI::implementation
