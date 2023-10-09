@@ -41,13 +41,13 @@ TableContentPage::TableContentPage()
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
-  mUnstagingImageCollection =
+  mUnstagedImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
   mStagedImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
   InitializeComponent();
 
-  UnstagedListView().ItemsSource(mUnstagingImageCollection);
+  UnstagedListView().ItemsSource(mUnstagedImageCollection);
   StagedListView().ItemsSource(mStagedImageCollection);
 
   KeyUp([this](Windows::Foundation::IInspectable const              &sender,
@@ -235,13 +235,13 @@ void TableContentPage::OnDropIntoStagedListView(
 {
   PB::printDebug("Drop on staged list view.\n");
   for (auto index : mDragAndDropSelectedIndexes) {
-    mStagedImageCollection.Append(mUnstagingImageCollection.GetAt(index));
+    mStagedImageCollection.Append(mUnstagedImageCollection.GetAt(index));
     auto fullPath =
-        winrt::to_string(mUnstagingImageCollection.GetAt(index).FullPath());
+        winrt::to_string(mUnstagedImageCollection.GetAt(index).FullPath());
     auto mediumPath =
-        winrt::to_string(mUnstagingImageCollection.GetAt(index).MediumPath());
+        winrt::to_string(mUnstagedImageCollection.GetAt(index).MediumPath());
     auto smallPath =
-        winrt::to_string(mUnstagingImageCollection.GetAt(index).SmallPath());
+        winrt::to_string(mUnstagedImageCollection.GetAt(index).SmallPath());
     mPhotoBook.addStagedPhoto(PB::Thumbnails(
         PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
   }
@@ -405,7 +405,7 @@ void TableContentPage::onStagedListViewSelectionChanged(
         SelectionChangedEventArgs const &)
 {
   UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-      0, mUnstagingImageCollection.Size()));
+      0, mUnstagedImageCollection.Size()));
 
   auto stagedImagesIndex = StagedListView().SelectedIndex();
   if (stagedImagesIndex < 0) {
@@ -439,7 +439,7 @@ void TableContentPage::onUnstagedImageAdded(PB::Path fullPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  mUnstagingImageCollection.SetAt(
+  mUnstagedImageCollection.SetAt(
       position, ImageUIData(winrt::to_hstring(fullPath.string()),
                             winrt::to_hstring(mediumPath.string()),
                             winrt::to_hstring(smallPath.string())));
@@ -448,7 +448,7 @@ void TableContentPage::onUnstagedImageAdded(PB::Path fullPath,
 void TableContentPage::onAddingFolder(unsigned size)
 {
   for (int i = 0; i < (int)size; ++i) {
-    mUnstagingImageCollection.Append(ImageUIData());
+    mUnstagedImageCollection.Append(ImageUIData());
   }
 }
 

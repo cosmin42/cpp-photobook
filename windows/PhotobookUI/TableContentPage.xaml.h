@@ -141,7 +141,7 @@ private:
   PhotoBookListener                                  mListener;
   PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
   IObservableVector<winrt::hstring>                  mNavigationItemsCollection;
-  IObservableVector<ImageUIData>                     mUnstagingImageCollection;
+  IObservableVector<ImageUIData>                     mUnstagedImageCollection;
   IObservableVector<ImageUIData>                     mStagedImageCollection;
   std::vector<int> mDragAndDropSelectedIndexes;
 };
