@@ -12,7 +12,9 @@ enum class ErrorCode {
   CannotSaveFile,
   InvalidUUID,
   InvalidProjectDescription,
-  ProjectPathDoesNotExist
+  ProjectPathDoesNotExist,
+
+  CouldNotLoadProjectFromGenericPersistence
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };

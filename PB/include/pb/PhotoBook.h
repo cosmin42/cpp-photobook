@@ -90,7 +90,8 @@ public:
         }
       }
       else {
-        PB::printError("Error loading project.\n");
+        mParent.onError(
+            Error() << ErrorCode::CouldNotLoadProjectFromGenericPersistence);
       }
     });
   }
