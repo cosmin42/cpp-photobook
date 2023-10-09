@@ -39,7 +39,7 @@ namespace winrt::PhotobookUI::implementation {
 TableContentPage::TableContentPage()
     : mListener(std::ref(*this)), mPhotoBook(mListener)
 {
-  mMediaListItemsCollection =
+  mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mUnstagingImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
@@ -324,14 +324,14 @@ void TableContentPage::CanvasControlDraw(
 
 void TableContentPage::onFinished()
 {
-  mMediaListItemsCollection.Clear();
+  mNavigationItemsCollection.Clear();
   auto rootFolders = mPhotoBook.gallery().foldersList();
   for (auto &path : rootFolders) {
-    mMediaListItemsCollection.Append(
+    mNavigationItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
   }
 
-  MediaListView().ItemsSource(mMediaListItemsCollection);
+  MediaListView().ItemsSource(mNavigationItemsCollection);
 
   if (!rootFolders.empty()) {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
@@ -345,9 +345,9 @@ void TableContentPage::onFinished()
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
   PB::printDebug("Index selected %d\n",
-                 (int)(mMediaListItemsCollection.Size() - 1));
+                 (int)(mNavigationItemsCollection.Size() - 1));
 
-  MediaListView().SelectedIndex(mMediaListItemsCollection.Size()-1);
+  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
 void TableContentPage::onFoldersSelectionChanged(
@@ -387,7 +387,7 @@ void TableContentPage::onUnstagedListViewSelectionChanged(
   auto galleryIndex = UnstagedListView().SelectedIndex();
 
   auto navigationSelectedItem =
-      winrt::to_string(mMediaListItemsCollection.GetAt(navigationListIndex));
+      winrt::to_string(mNavigationItemsCollection.GetAt(navigationListIndex));
 
   auto &imagesData = PB::Context::inst().data().images();
   auto  iterator = imagesData.thumbnailsSet(PB::Path(navigationSelectedItem));
