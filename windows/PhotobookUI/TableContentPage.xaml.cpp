@@ -504,24 +504,6 @@ void TableContentPage::postponeError(std::string message)
   post([this]() { genericErrorDialogDisplay(); });
 }
 
-void TableContentPage::onAddToTableClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
-    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &e)
-{
-  auto clickedElement = e.OriginalSource()
-                            .as<FrameworkElement>()
-                            .DataContext()
-                            .as<winrt::hstring>();
-
-  auto it = std::find(mMediaListNative.begin(), mMediaListNative.end(),
-                      winrt::to_string(clickedElement));
-
-  if (it != mMediaListNative.end()) {
-    int index = (int)(it - mMediaListNative.begin());
-    PB::Unused(index);
-  }
-}
-
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {

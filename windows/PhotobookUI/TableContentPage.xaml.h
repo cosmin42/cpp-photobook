@@ -45,9 +45,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasDrawEventArgs const &args);
 
-  void onAddToTableClicked(Windows::Foundation::IInspectable const    &sender,
-                           Microsoft::UI::Xaml::RoutedEventArgs const &args);
-
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
   void onFoldersSelectionChanged(
