@@ -116,15 +116,6 @@ public:
     }
   }
 
-  void setOutputPath(std::string const &path)
-  {
-    PB::Path fsPath = path;
-    auto     result = FileInfo::validOutputRootPath(fsPath);
-    std::visit(overloaded{[this](PB::Path const &) mutable {},
-                          [this](Error error) { mParent.doError(error); }},
-               result);
-  }
-
   void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
   {
     Context::inst().data().images().addGroup(
