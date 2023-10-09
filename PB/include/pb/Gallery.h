@@ -28,7 +28,7 @@ public:
   void setPosition(int position)
   {
     if (mCurrentIterator.valid()) {
-      mCurrentIterator = mCurrentIterator.goToPosition(position);
+      mCurrentIterator = mCurrentIterator[position];
     }
   }
 

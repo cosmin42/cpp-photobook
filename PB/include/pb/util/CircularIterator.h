@@ -59,7 +59,7 @@ public:
     return *this;
   }
 
-  CircularIterator &goToPosition(int index)
+  CircularIterator &operator[](int index)
   {
     if (mFilteredIndices.size() == 0) {
       return *this;
