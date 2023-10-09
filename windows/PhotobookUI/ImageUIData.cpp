@@ -8,12 +8,14 @@
 #endif
 // clang-format on
 
+#include <pb/Config.h>
+
 namespace winrt::PhotobookUI::implementation {
 
 ImageUIData::ImageUIData()
-    : mFullPath(winrt::to_hstring(DEFAULT_IMAGE)),
-      mMediumPath(winrt::to_hstring(DEFAULT_IMAGE)),
-      mSmallPath(winrt::to_hstring(DEFAULT_IMAGE))
+    : mFullPath(winrt::to_hstring(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)),
+      mMediumPath(winrt::to_hstring(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)),
+      mSmallPath(winrt::to_hstring(Context::PHOTO_TIMELINE_DEFAULT_IMAGE))
 {
 }
 

@@ -36,9 +36,6 @@ public:
       std::function<void(Path, Path, Path, int)> onThumbnailWritten);
 
 private:
-  static constexpr const char *sSmallThumbnailPrefix = "thumbnail-small";
-  static constexpr const char *sMediumThumbnailPrefix = "thumbnail-medium";
-  static constexpr unsigned    sNumberOfThreads = 4;
   std::pair<Path, Path>        assembleOutputPaths(int index);
   ProjectDetails               mProjectDetails;
   dp::thread_pool<std::function<void(void)>> mResizePool;

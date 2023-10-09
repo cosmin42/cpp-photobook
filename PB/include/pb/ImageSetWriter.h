@@ -13,6 +13,7 @@
 
 #include <pb/common/Log.h>
 #include <pb/util/Traits.h>
+#include <pb/Config.h>
 
 namespace PB {
 enum class ExportType { PDF, JPG_COLLECTION };
@@ -78,7 +79,7 @@ private:
   Path makePath(Path path, int counter) const
   {
     const std::string prefix = "image_";
-    std::string       fileNameStr = prefix + std::to_string(counter) + ".jpg";
+    std::string       fileNameStr = prefix + std::to_string(counter) + Context::JPG_EXTENSION;
     std::filesystem::path file(fileNameStr);
     path = path / file;
     return path;

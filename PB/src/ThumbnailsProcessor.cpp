@@ -1,5 +1,7 @@
 #include <pb/ThumbnailsProcessor.h>
 
+#include <pb/Config.h>
+
 namespace PB {
 ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                        Path mediumThumbnailOutputPath, unsigned totalTaskCount,
@@ -30,7 +32,10 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor() : mResizePool(sNumberOfThreads) {}
+ThumbnailsProcessor::ThumbnailsProcessor()
+    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+{
+}
 
 ThumbnailsProcessor::~ThumbnailsProcessor()
 {
@@ -46,9 +51,8 @@ void ThumbnailsProcessor::provideProjectDetails(
 }
 
 void ThumbnailsProcessor::generateThumbnails(
-    std::vector<std::filesystem::path> mediaMap,
-    std::function<void(Path, Path, Path, int)>
-        onThumbnailWritten)
+    std::vector<std::filesystem::path>         mediaMap,
+    std::function<void(Path, Path, Path, int)> onThumbnailWritten)
 {
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = (unsigned)mediaMap.size();
@@ -63,8 +67,8 @@ void ThumbnailsProcessor::generateThumbnails(
       mThumbnailWritten(inputPath, smallPath, mediumPath, i);
     };
 
-    ResizeTask        resizeTask(mediaMap.at(i), smallPath, mediumPath,
-                                 taskCount, task);
+    ResizeTask resizeTask(mediaMap.at(i), smallPath, mediumPath, taskCount,
+                          task);
     std::future<void> token = mResizePool.enqueue(resizeTask);
 
     mFutures.push_back(std::move(token));
@@ -76,13 +80,15 @@ std::pair<Path, Path> ThumbnailsProcessor::assembleOutputPaths(int index)
   assert(index >= 0);
   assert(mProjectDetails.dirName.length() > 0);
 
-  auto smallOutputPath =
-      mProjectDetails.parentDirectory / mProjectDetails.dirName /
-      (sSmallThumbnailPrefix + std::to_string(index) + Context::jpgExt);
+  auto smallOutputPath = mProjectDetails.parentDirectory /
+                         mProjectDetails.dirName /
+                         (Context::SMALL_THUMBNAIL_NAME +
+                          std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath =
-      mProjectDetails.parentDirectory / mProjectDetails.dirName /
-      (sMediumThumbnailPrefix + std::to_string(index) + Context::jpgExt);
+  auto mediumOutputPath = mProjectDetails.parentDirectory /
+                          mProjectDetails.dirName /
+                          (Context::MEDIUM_THUMBNAIL_NAME +
+                           std::to_string(index) + Context::JPG_EXTENSION);
 
   return {smallOutputPath, mediumOutputPath};
 }

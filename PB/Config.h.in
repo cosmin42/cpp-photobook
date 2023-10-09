@@ -19,16 +19,22 @@ public:
 
   static constexpr LogLevel logLevel() { return LogLevel::@LOG_LEVEL@; }
 
-  static constexpr const char* persistentFileName() { return "persistent.txt"; }
+  static constexpr const char* PERSISTENCE_FILENAME = "persistent.txt";
 
-  static constexpr const char *jpgExt = ".jpg";
-  static constexpr const char *bookExt = ".photobook";
+  static constexpr const char *JPG_EXTENSION = ".jpg";
+  static constexpr const char *BOOK_EXTENSION = ".photobook";
 
-  static constexpr int thumbnailWidth = 120;
-  static constexpr int thumbnailHeight = 80;
+  static constexpr int SMALL_THUMBNAIL_WIDTH = 120;
+  static constexpr int SMALL_THUMBNAIL_HEIGHT = 80;
   
-  static constexpr int mediumThumbnailWidth = 800;
-  static constexpr int mediumThumbnailHeight = 530;
+  static constexpr int MEDIUM_THUMBNAIL_WIDTH = 800;
+  static constexpr int MEDIUM_THUMBNAIL_HEIGHT = 530;
+
+  static constexpr const char *SMALL_THUMBNAIL_NAME = "thumbnail-small";
+  static constexpr const char *MEDIUM_THUMBNAIL_NAME = "thumbnail-medium";
+  static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
+
+  static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE = "Assets/coffee-cup.png";
 
   Log const &printer() { return mLogPrinter; }
 

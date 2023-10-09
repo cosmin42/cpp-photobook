@@ -5,8 +5,10 @@
 #include <set>
 #include <vector>
 
+#include <pb/Config.h>
 #include <pb/util/CircularIterator.h>
 #include <pb/util/Traits.h>
+
 namespace PB {
 class MediaMap final {
 public:
@@ -85,8 +87,8 @@ public:
 
   static bool validImagePath(Path const &path)
   {
-    const std::set<std::string> sValidFileExtensions = {".jpg", ".jpeg",
-                                                        ".png"};
+    const std::set<std::string> sValidFileExtensions = {Context::JPG_EXTENSION,
+                                                        ".jpeg", ".png"};
 
     std::string extensionStr = path.extension().string();
     std::transform(extensionStr.begin(), extensionStr.end(),

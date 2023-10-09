@@ -45,9 +45,9 @@ convert(std::unordered_map<std::string, std::string> const &map)
   }
 
   std::string projectDir = *projectName;
-  if (projectDir.find(".photobook") != std::string::npos) {
-    projectDir = projectDir.substr(0, projectDir.length() -
-                                          std::string(".photobook").length());
+  if (projectDir.find(Context::BOOK_EXTENSION) != std::string::npos) {
+    projectDir = projectDir.substr(
+        0, projectDir.length() - std::string(Context::BOOK_EXTENSION).length());
   }
 
   projectDetails.uuid = newUUID;

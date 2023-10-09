@@ -36,7 +36,7 @@ public:
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name =
-        boost::uuids::to_string(mProjectDetails.uuid) + Context::bookExt;
+        boost::uuids::to_string(mProjectDetails.uuid) + Context::BOOK_EXTENSION;
     mProjectDetails.dirName = boost::uuids::to_string(mProjectDetails.uuid);
     mProjectDetails.parentDirectory =
         Persistence<PersistenceType>::localFolder();

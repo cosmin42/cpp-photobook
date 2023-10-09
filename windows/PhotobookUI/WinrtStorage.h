@@ -61,7 +61,7 @@ public:
   void write(Map<std::string, std::string> const      &map,
              std::function<void(std::optional<Error>)> onFinish)
   {
-    write<Map>(localFolder(), Context::inst().persistentFileName(), map,
+    write<Map>(localFolder(), Context::PERSISTENCE_FILENAME, map,
                onFinish);
   }
 
@@ -130,7 +130,7 @@ private:
   {
     PB::printDebug("Loading data.\n");
     winrt::hstring fileName =
-        winrt::to_hstring(Context::inst().persistentFileName());
+        winrt::to_hstring(Context::PERSISTENCE_FILENAME);
     StorageFolder folder = ApplicationData::Current().LocalFolder();
 
     auto result = co_await folder.TryGetItemAsync(fileName);

@@ -99,12 +99,12 @@ void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
   auto inputImage = ImageReader().loadImage(inputPath);
 
   auto mediumImagePointer = PB::Process::resize(
-      cv::Size(Context::mediumThumbnailWidth, Context::mediumThumbnailHeight),
+      cv::Size(Context::MEDIUM_THUMBNAIL_WIDTH, Context::MEDIUM_THUMBNAIL_HEIGHT),
       true)(inputImage);
   ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
 
   auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight),
+      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
       true)(inputImage);
 
   ImageSetWriter().write(smallOutputPath, smallImagePointer);
@@ -114,13 +114,13 @@ void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path smallPath,
                          Path mediumPath)
 {
   auto mediumImagePointer = PB::Process::resize(
-      cv::Size(Context::mediumThumbnailWidth, Context::mediumThumbnailHeight),
+      cv::Size(Context::MEDIUM_THUMBNAIL_WIDTH, Context::MEDIUM_THUMBNAIL_HEIGHT),
       true)(image);
 
   ImageSetWriter().write(mediumPath, mediumImagePointer);
 
   auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::thumbnailWidth, Context::thumbnailHeight), true)(image);
+      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT), true)(image);
 
   ImageSetWriter().write(smallPath, smallImagePointer);
 }

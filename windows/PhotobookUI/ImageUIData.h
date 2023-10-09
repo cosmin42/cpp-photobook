@@ -13,8 +13,6 @@ struct ImageUIData : ImageUIDataT<ImageUIData> {
   winrt::hstring SmallPath();
 
 private:
-  static constexpr const char *DEFAULT_IMAGE = "Assets/coffee-cup.png";
-
   winrt::hstring mFullPath;
   winrt::hstring mMediumPath;
   winrt::hstring mSmallPath;

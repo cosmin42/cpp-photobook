@@ -8,9 +8,11 @@
 
 #include <winrt/Windows.Storage.Pickers.h>
 
+#include <pb/Config.h>
+
 namespace winrt::PhotobookUI::implementation {
 
-auto PopUps::fireFolderPicker(HWND                             hWnd,
+auto PopUps::fireFolderPicker(HWND                          hWnd,
                               std::function<void(PB::Path)> onSuccess)
     -> winrt::fire_and_forget
 {
@@ -38,12 +40,13 @@ auto PopUps::fireSaveFilePicker(
   initializeWithWindow->Initialize(hWnd);
 
   auto plainTextExtensions = winrt::single_threaded_vector<winrt::hstring>();
-  plainTextExtensions.Append(winrt::param::hstring(L".photobook"));
+  plainTextExtensions.Append(winrt::to_hstring(PB::Context::BOOK_EXTENSION));
 
   fileSavePicker.SuggestedStartLocation(
       Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
   fileSavePicker.FileTypeChoices().Insert(L"Text File", plainTextExtensions);
-  fileSavePicker.DefaultFileExtension(L".photobook");
+  fileSavePicker.DefaultFileExtension(
+      winrt::to_hstring(PB::Context::BOOK_EXTENSION));
   fileSavePicker.SuggestedFileName(L"Untitled");
 
   auto filename{co_await fileSavePicker.PickSaveFileAsync()};
