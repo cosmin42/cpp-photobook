@@ -74,8 +74,8 @@ public:
                    std::function<void(std::optional<Error>)> onReturn)
   {
     Persistence<void> projectPersistence(path);
-    projectPersistence.load([this, &projectPersistence](
-                                std::optional<Error> maybeError) {
+    projectPersistence.load([this, &projectPersistence,
+                             onReturn](std::optional<Error> maybeError) {
       if (!maybeError) {
         auto projectDetailsOrError = PB::convert(projectPersistence.cache());
 
@@ -94,10 +94,10 @@ public:
     });
   }
 
-  void addImportFolder(std::string const &path)
+  void addImportFolder(Path importPath)
   {
-    auto errorOrPath = FileInfo::validInputRootPath(Path(path));
-    if (std::holds_alternative<Error>) {
+    auto errorOrPath = FileInfo::validInputRootPath(importPath);
+    if (std::holds_alternative<Error>(errorOrPath)) {
       mParent.onError(std::get<Error>(errorOrPath));
     }
     else {
@@ -112,7 +112,7 @@ public:
       mMappingJobs.emplace(
           path,
           MediaMapper<PhotoBookListenerType, PersistenceType>(path, listener));
-      mMappingJobs.at(fsPath).start();
+      mMappingJobs.at(importPath).start();
     }
   }
 
@@ -190,7 +190,7 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportAlbum(std::string name, std::string const &destinationPath,
+  void exportAlbum(std::string name, Path destinationPath,
                    std::vector<Path> imagesPaths)
   {
     PB::printDebug("Export image to %s", destinationPath.c_str());

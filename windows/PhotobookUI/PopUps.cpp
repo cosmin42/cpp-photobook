@@ -11,7 +11,7 @@
 namespace winrt::PhotobookUI::implementation {
 
 auto PopUps::fireFolderPicker(HWND                             hWnd,
-                              std::function<void(std::string)> onSuccess)
+                              std::function<void(PB::Path)> onSuccess)
     -> winrt::fire_and_forget
 {
   Windows::Storage::Pickers::FolderPicker folderPicker;

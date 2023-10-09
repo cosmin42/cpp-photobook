@@ -74,7 +74,7 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
 {
   mPopups.fireFolderPicker(
       MainWindow::sMainWindowhandle,
-      [this](std::string path) { mPhotoBook.addImportFolder(path); });
+      [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -502,7 +502,7 @@ void TableContentPage::OnExportContentDialogClicked(
   else {
     mPopups.fireFolderPicker(
         MainWindow::sMainWindowhandle,
-        [this, nativeExportName](std::string path) {
+        [this, nativeExportName](PB::Path path) {
           std::vector<PB::Path> thumbnailPaths;
           for (auto item : mStagedImageCollection) {
             thumbnailPaths.push_back(winrt::to_string(item.FullPath()));

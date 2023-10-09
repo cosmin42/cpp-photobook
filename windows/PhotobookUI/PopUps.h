@@ -4,11 +4,12 @@
 #include <variant>
 
 #include <pb/Error.h>
+#include <pb/util/Traits.h>
 
 namespace winrt::PhotobookUI::implementation {
 class PopUps {
 public:
-  auto fireFolderPicker(HWND hWnd, std::function<void(std::string)> onSuccess)
+  auto fireFolderPicker(HWND hWnd, std::function<void(PB::Path)> onSuccess)
       -> winrt::fire_and_forget;
 
   auto fireSaveFilePicker(
