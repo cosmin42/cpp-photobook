@@ -2,17 +2,13 @@
 
 #include <pb/DataManager.h>
 #include <pb/Error.h>
-#include <pb/GalleryListener.h>
 
 namespace PB {
 
-template <typename PhotoBookListenerType, typename PersistenceType>
-  requires PhotoBookListenerConcept<PhotoBookListenerType>
 class Gallery final {
 public:
-  Gallery(GalleryListener<PhotoBookListenerType, PersistenceType> &listener,
-          std::vector<Path> const &importedFolders)
-      : mListener(listener), mImportedFolders(importedFolders)
+  Gallery(std::vector<Path> const &importedFolders)
+      : mImportedFolders(importedFolders)
   {
   }
   ~Gallery() = default;
@@ -61,10 +57,9 @@ public:
   }
 
 private:
-  int mSelectedFolderIndex = -1;
-  int mGalleryIndex = -1;
-  GalleryListener<PhotoBookListenerType, PersistenceType> &mListener;
-  CircularIterator<std::vector<Thumbnails>>                mCurrentIterator;
-  std::vector<Path> const                                 &mImportedFolders;
+  int                                       mSelectedFolderIndex = -1;
+  int                                       mGalleryIndex = -1;
+  CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
+  std::vector<Path> const                  &mImportedFolders;
 };
 } // namespace PB

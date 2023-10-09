@@ -43,8 +43,7 @@ template <typename PhotoBookListenerType, typename PersistenceType>
 class PhotoBook final {
 public:
   PhotoBook(PhotoBookListenerType &listener)
-      : mParent(listener), mGalleryListener(std::ref(*this)),
-        mGallery(mGalleryListener, mImagePaths.groups()),
+      : mParent(listener), mGallery(mImagePaths.groups()),
         mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
@@ -173,10 +172,7 @@ public:
 
   void onError(Error error) { mParent.onError(error); }
 
-  Gallery<PhotoBookListenerType, PersistenceType> &gallery()
-  {
-    return mGallery;
-  }
+  Gallery &gallery() { return mGallery; }
 
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>
@@ -241,14 +237,13 @@ private:
       std::shared_ptr<MediaMapListener<PhotoBookListenerType, PersistenceType>>>
       mListeners;
   std::unordered_map<Path, MediaMapper<PhotoBookListenerType, PersistenceType>>
-                                                          mMappingJobs;
-  ImageSupport                                            mImagePaths;
-  GalleryListener<PhotoBookListenerType, PersistenceType> mGalleryListener;
-  Gallery<PhotoBookListenerType, PersistenceType>         mGallery;
-  ImageReader                                             mImageReader;
-  ThumbnailsProcessor                                     mThumbnailsProcessor;
-  Exporter<Pdf>                                           mExporter;
-  int                                                     mProgress = 0;
-  PaperSettings                                           mPaperSettings;
+                      mMappingJobs;
+  ImageSupport        mImagePaths;
+  Gallery             mGallery;
+  ImageReader         mImageReader;
+  ThumbnailsProcessor mThumbnailsProcessor;
+  Exporter<Pdf>       mExporter;
+  int                 mProgress = 0;
+  PaperSettings       mPaperSettings;
 };
 } // namespace PB
