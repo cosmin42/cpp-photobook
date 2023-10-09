@@ -52,11 +52,4 @@ private:
   std::vector<Thumbnails>                    mStagedPhotos;
 };
 
-class DataManager final {
-public:
-  ImageSupport &images() { return mImages; }
-
-private:
-  ImageSupport mImages;
-};
 } // namespace PB

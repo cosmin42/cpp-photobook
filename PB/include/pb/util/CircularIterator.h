@@ -24,6 +24,9 @@ public:
     }
   }
 
+  CircularIterator() = default;
+  ~CircularIterator() = default;
+
   auto current() -> std::optional<typename Container::value_type>
   {
     if (mFilteredIndices.size() == 0) {

@@ -6,66 +6,65 @@
 
 namespace PB {
 
-template <typename PhotoBookType, typename PersistenceType>
-  requires PhotoBookListenerConcept<PhotoBookType>
+template <typename PhotoBookListenerType, typename PersistenceType>
+  requires PhotoBookListenerConcept<PhotoBookListenerType>
 class Gallery final {
 public:
-  Gallery(GalleryListener<PhotoBookType, PersistenceType> &listener)
-      : mListener(listener)
+  Gallery(GalleryListener<PhotoBookListenerType, PersistenceType> &listener,
+          std::vector<Path> const &importedFolders)
+      : mListener(listener), mImportedFolders(importedFolders)
   {
   }
   ~Gallery() = default;
 
-  void setIterator(CircularIterator<std::vector<Thumbnails>> iterator)
+  void setIterator(CircularIterator<std::vector<Thumbnails>> iterator,
+                   int                                       position = 0)
   {
-    mSelectedFolderIndex = 0;
+    mSelectedFolderIndex = position;
     mCurrentIterator = iterator;
+    setPosition(position);
   }
 
   void setPosition(int position)
   {
-    mCurrentIterator = mCurrentIterator->goToPosition(position);
+    if (mCurrentIterator.valid()) {
+      mCurrentIterator = mCurrentIterator.goToPosition(position);
+    }
   }
 
   void navigateLeft()
   {
-    if (mCurrentIterator) {
-      mCurrentIterator = mCurrentIterator->previous();
+    if (mCurrentIterator.valid()) {
+      mCurrentIterator = mCurrentIterator.previous();
     }
   }
   void navigateRight()
   {
-    if (mCurrentIterator) {
-      mCurrentIterator = mCurrentIterator->next();
+    if (mCurrentIterator.valid()) {
+      mCurrentIterator = mCurrentIterator.next();
     }
   }
 
   auto folderName() -> std::optional<Path>
   {
-    auto &mediaIndexedByType = Context::inst().data().images().groups();
-    assert(mSelectedFolderIndex < mediaIndexedByType.size() &&
+    assert(mSelectedFolderIndex < mImportedFolders.size() &&
            mSelectedFolderIndex > -1);
-    return mediaIndexedByType.at(mSelectedFolderIndex);
+    return mImportedFolders.at(mSelectedFolderIndex);
   }
 
   auto selectedItem() -> std::optional<Thumbnails>
   {
-    if (mCurrentIterator.has_value()) {
-      return mCurrentIterator->current();
+    if (mCurrentIterator.valid()) {
+      return mCurrentIterator.current();
     }
     return std::nullopt;
   }
 
-  auto foldersList() -> std::vector<Path>
-  {
-    return Context::inst().data().images().groups();
-  }
-
 private:
-  GalleryListener<PhotoBookType, PersistenceType> &mListener;
-  int                                              mSelectedFolderIndex = -1;
-  int                                              mGalleryIndex = -1;
-  std::optional<CircularIterator<std::vector<Thumbnails>>> mCurrentIterator =
-      std::nullopt;
+  int mSelectedFolderIndex = -1;
+  int mGalleryIndex = -1;
+  GalleryListener<PhotoBookListenerType, PersistenceType> &mListener;
+  CircularIterator<std::vector<Thumbnails>>                mCurrentIterator;
+  std::vector<Path> const                                 &mImportedFolders;
 };
 } // namespace PB

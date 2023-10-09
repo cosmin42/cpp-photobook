@@ -44,7 +44,8 @@ class PhotoBook final {
 public:
   PhotoBook(PhotoBookListenerType &listener)
       : mParent(listener), mGalleryListener(std::ref(*this)),
-        mGallery(mGalleryListener), mPaperSettings(A4_PAPER)
+        mGallery(mGalleryListener, mImagePaths.groups()),
+        mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
 
@@ -60,7 +61,7 @@ public:
   ~PhotoBook()
   {
     printDebug("Photobook destructed.\n");
-    Context::inst().data().images().clear();
+    mImagePaths.clear();
   }
 
   PaperSettings paperSettings() { return mPaperSettings; }
@@ -118,9 +119,8 @@ public:
 
   void onImportFolderMapped(Path &rootPath, MediaMap &newMediaMap)
   {
-    Context::inst().data().images().addGroup(
-        rootPath, (unsigned)newMediaMap.map().size());
-    Context::inst().data().images().addFullPaths(rootPath, newMediaMap.map());
+    mImagePaths.addGroup(rootPath, (unsigned)newMediaMap.map().size());
+    mImagePaths.addFullPaths(rootPath, newMediaMap.map());
 
     mParent.onAddingUnstagedImagePlaceholder(
         (unsigned)newMediaMap.map().size());
@@ -155,8 +155,8 @@ public:
                         smallOutput{smallOutput}, start{start},
                         mediumOutput{mediumOutput},
                         maxProgress{maxProgress}]() {
-            Context::inst().data().images().addSmall(input, smallOutput);
-            Context::inst().data().images().addMedium(input, mediumOutput);
+            mImagePaths.addSmall(input, smallOutput);
+            mImagePaths.addMedium(input, mediumOutput);
             mProgress++;
             if (mProgress == maxProgress) {
 
@@ -219,30 +219,18 @@ public:
     PB::printDebug("Save Photobook %s\n", newName.c_str());
   }
 
-  std::unordered_map<Path, Path> &thumbnails()
-  {
-    return Context::inst().data().smallThumbnails();
-  }
-
-  void addStagedPhoto(Thumbnails th)
-  {
-    Context::inst().data().images().stagePhoto(th);
-  }
+  void addStagedPhoto(Thumbnails th) { mImagePaths.stagePhoto(th); }
 
   void insertStagedPhoto(Thumbnails path, int position)
   {
-    Context::inst().data().images().stagePhoto(path, position);
+    mImagePaths.stagePhoto(path, position);
   }
 
-  void removeStagedPhoto(int index)
-  {
-    Context::inst().data().images().unstagePhoto(index);
-  }
+  void removeStagedPhoto(int index) { mImagePaths.unstagePhoto(index); }
 
-  std::vector<Thumbnails> &stagedPhotos()
-  {
-    return Context::inst().data().images().stagedPhotos();
-  }
+  std::vector<Thumbnails> &stagedPhotos() { return mImagePaths.stagedPhotos(); }
+
+  ImageSupport &imageSupport() { return mImagePaths; }
 
 private:
   PhotoBookListenerType       &mParent;
@@ -254,6 +242,7 @@ private:
       mListeners;
   std::unordered_map<Path, MediaMapper<PhotoBookListenerType, PersistenceType>>
                                                           mMappingJobs;
+  ImageSupport                                            mImagePaths;
   GalleryListener<PhotoBookListenerType, PersistenceType> mGalleryListener;
   Gallery<PhotoBookListenerType, PersistenceType>         mGallery;
   ImageReader                                             mImageReader;

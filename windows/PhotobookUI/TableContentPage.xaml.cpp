@@ -278,7 +278,7 @@ void TableContentPage::CanvasControlDraw(
 void TableContentPage::OnMappingFinished()
 {
   mNavigationItemsCollection.Clear();
-  auto rootFolders = mPhotoBook.gallery().foldersList();
+  auto rootFolders = mPhotoBook.imageSupport().groups();
   for (auto &path : rootFolders) {
     mNavigationItemsCollection.Append(
         winrt::to_hstring(path.filename().string()));
@@ -312,7 +312,7 @@ void TableContentPage::OnImportSelectionChanged(
 
   PB::printDebug("Index selected %d\n", index);
 
-  auto &imagesData = PB::Context::inst().data().images();
+  auto &imagesData = mPhotoBook.imageSupport();
 
   auto maybePath = imagesData.groupByIndex(index);
 
@@ -342,7 +342,7 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
   auto navigationSelectedItem =
       winrt::to_string(mNavigationItemsCollection.GetAt(navigationListIndex));
 
-  auto &imagesData = PB::Context::inst().data().images();
+  auto &imagesData = mPhotoBook.imageSupport();
   auto  iterator = imagesData.thumbnailsSet(PB::Path(navigationSelectedItem));
   mPhotoBook.gallery().setIterator(iterator);
 
@@ -366,7 +366,7 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   }
   auto stagedPhotos = mPhotoBook.stagedPhotos();
 
-  auto &imagesData = PB::Context::inst().data().images();
+  auto &imagesData = mPhotoBook.imageSupport();
   auto  iterator = imagesData.stagedIterator();
   iterator.goToPosition(stagedImagesIndex);
   mPhotoBook.gallery().setIterator(iterator);
