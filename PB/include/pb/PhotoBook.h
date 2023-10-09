@@ -116,7 +116,7 @@ public:
     }
   }
 
-  void onNewMediaMap(Path &rootPath, MediaMap &newMediaMap)
+  void onImportFolderMapped(Path &rootPath, MediaMap &newMediaMap)
   {
     Context::inst().data().images().addGroup(
         rootPath, (unsigned)newMediaMap.map().size());

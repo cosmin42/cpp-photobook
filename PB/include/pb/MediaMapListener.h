@@ -21,7 +21,7 @@ public:
   ~MediaMapListener() = default;
   void onFinished(MediaMap &newMediaMap, Path &path)
   {
-    mParent.onNewMediaMap(path, newMediaMap);
+    mParent.onImportFolderMapped(path, newMediaMap);
   }
   void onStopped() {}
   void onStarted() {}
