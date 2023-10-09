@@ -507,7 +507,7 @@ void TableContentPage::OnExportContentDialogClicked(
           for (auto item : mStagedImageCollection) {
             thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
           }
-          mPhotoBook.exportAlbum(nativeExportName, path, thumbnailPaths);
+          mPhotoBook.exporter<PB::Pdf>().exportImages(nativeExportName, path, thumbnailPaths);
         });
   }
 }

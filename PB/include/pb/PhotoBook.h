@@ -178,11 +178,6 @@ public:
     return mGallery;
   }
 
-  auto loadImage(std::string const &path) -> std::shared_ptr<cv::Mat>
-  {
-    return mImageReader.read(path);
-  }
-
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>
   {
@@ -190,12 +185,9 @@ public:
     return Process::resize(size, true)(image);
   }
 
-  void exportAlbum(std::string name, Path destinationPath,
-                   std::vector<Path> imagesPaths)
-  {
-    PB::printDebug("Export image to %s", destinationPath.c_str());
-    mExporter.exportImages(name, destinationPath, imagesPaths);
-  }
+  template <typename T> Exporter<T> &exporter();
+
+  template <> Exporter<Pdf> &exporter() { return mExporter; }
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
