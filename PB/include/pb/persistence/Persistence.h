@@ -112,6 +112,37 @@ public:
       }
     }
 
+    sqlite3_stmt *stmt;
+    auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS,
+                                      -1, &stmt, nullptr);
+
+    if (success != SQLITE_OK) {
+      onReturn(Error() << ErrorCode::SQLiteError << std::to_string(success));
+      return;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+      const char *uuid =
+          reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+      if (map.find(uuid) == map.end()) {
+        char *errMsg = nullptr;
+
+        std::string query = "DELETE FROM PROJECTS_REGISTER WHERE uuid = '" +
+                            std::string(uuid) + "';";
+
+        success = sqlite3_exec(mDatabaseHandle.get(), query.c_str(), nullptr,
+                               nullptr, &errMsg);
+
+        if (success != SQLITE_OK) {
+          sqlite3_free(errMsg);
+          onReturn(Error() << ErrorCode::SQLiteError);
+          return;
+        }
+      }
+    }
+
+    sqlite3_finalize(stmt);
+
     onReturn(std::nullopt);
   }
 
