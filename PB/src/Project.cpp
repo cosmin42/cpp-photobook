@@ -52,9 +52,10 @@ convert(std::unordered_map<std::string, std::string> const &map)
 
   projectDetails.uuid = newUUID;
   projectDetails.name = *projectName;
-  projectDetails.dirName = projectDir;
+  projectDetails.supportDirName = projectDir;
   projectDetails.parentDirectory = newPath;
 
   return projectDetails;
 }
+
 } // namespace PB

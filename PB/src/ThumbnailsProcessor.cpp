@@ -78,15 +78,15 @@ void ThumbnailsProcessor::generateThumbnails(
 std::pair<Path, Path> ThumbnailsProcessor::assembleOutputPaths(int index)
 {
   assert(index >= 0);
-  assert(mProjectDetails.dirName.length() > 0);
+  assert(mProjectDetails.supportDirName.length() > 0);
 
   auto smallOutputPath = mProjectDetails.parentDirectory /
-                         mProjectDetails.dirName /
+                         mProjectDetails.supportDirName /
                          (Context::SMALL_THUMBNAIL_NAME +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
   auto mediumOutputPath = mProjectDetails.parentDirectory /
-                          mProjectDetails.dirName /
+                          mProjectDetails.supportDirName /
                           (Context::MEDIUM_THUMBNAIL_NAME +
                            std::to_string(index) + Context::JPG_EXTENSION);
 

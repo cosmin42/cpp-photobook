@@ -127,7 +127,7 @@ public:
     std::vector<std::future<void>> v;
 
     if (!Persistence<void>::createDirectory(mProject.details().parentDirectory /
-                                            mProject.details().dirName)) {
+                                            mProject.details().supportDirName)) {
       mParent.onFinished();
       return;
     }
@@ -197,9 +197,17 @@ public:
     mCentralPersistence
         .cache()[boost::uuids::to_string(mProject.details().uuid)] =
         (mProject.details().parentDirectory / mProject.details().name).string();
-    mCentralPersistence.write([](std::optional<Error> maybeError) {
+    mCentralPersistence.write([this, newPath](std::optional<Error> maybeError) {
       if (maybeError) {
-        PB::printError("Error saving.\n");
+        mParent.onError(Error() << ErrorCode::CannotSaveFile);
+      }
+      else {
+        mProject.details().parentDirectory = newPath.parent_path();
+        mProject.details().name = newPath.filename().string();
+        auto maybeSupportName =
+            Project<void>::excludeExtension(newPath.filename().string());
+        assert(maybeSupportName);
+        mProject.details().supportDirName = maybeSupportName.value();
       }
     });
 

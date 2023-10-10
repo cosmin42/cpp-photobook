@@ -16,7 +16,7 @@
 #include <pb/Config.h>
 
 namespace PB {
-enum class ExportType { PDF, JPG_COLLECTION };
+enum class ExportType { PDF, JPG_COLLECTION, HTML };
 
 class ImageSetWriter final {
 public:

@@ -12,7 +12,7 @@ namespace PB {
 struct ProjectDetails {
   boost::uuids::uuid uuid;
   std::string        name;
-  std::string        dirName;
+  std::string        supportDirName;
   Path               parentDirectory;
 
   operator std::unordered_map<std::string, std::string>()
@@ -32,12 +32,22 @@ convert(std::unordered_map<std::string, std::string> const &map);
 
 template <typename PersistenceType> class Project final {
 public:
+  static std::optional<std::string> excludeExtension(std::string fileName)
+  {
+    if (fileName.find(Context::BOOK_EXTENSION) != std::string::npos) {
+      return fileName.substr(0, fileName.length() -
+                                 std::string(Context::BOOK_EXTENSION).length());
+    }
+    return std::nullopt;
+  }
+
   Project()
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name =
         boost::uuids::to_string(mProjectDetails.uuid) + Context::BOOK_EXTENSION;
-    mProjectDetails.dirName = boost::uuids::to_string(mProjectDetails.uuid);
+    mProjectDetails.supportDirName =
+        boost::uuids::to_string(mProjectDetails.uuid);
     mProjectDetails.parentDirectory =
         Persistence<PersistenceType>::localFolder();
   }
