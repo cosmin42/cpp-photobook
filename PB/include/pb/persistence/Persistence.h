@@ -12,7 +12,35 @@
 #include <pb/Error.h>
 #include <pb/util/Traits.h>
 
+#include <sqlite3.h>
+
 namespace PB {
+
+class SQLitePersistence final {
+public:
+  explicit SQLitePersistence(Path path) : mPath(path) {}
+
+  ~SQLitePersistence() = default;
+
+  std::optional<Error> connect()
+  {
+    auto databaseFilePath = mPath / DATABASE_NAME;
+
+    sqlite3 *rawHandler = nullptr;
+    auto success = sqlite3_open(databaseFilePath.string().c_str(), &rawHandler);
+    if (success == SQLITE_OK) {
+      mDatabaseHandle.reset(rawHandler,
+                            [](sqlite3 *pointer) { sqlite3_close(pointer); });
+      return std::nullopt;
+    }
+    return Error() << ErrorCode::SQLiteError << std::to_string(success);
+  }
+
+private:
+  static constexpr const char *DATABASE_NAME = "database.db";
+  Path                         mPath;
+  std::shared_ptr<sqlite3>     mDatabaseHandle = nullptr;
+};
 
 template <typename PersistenceType = void> class Persistence final {
 public:

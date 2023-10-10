@@ -14,7 +14,8 @@ enum class ErrorCode {
   InvalidProjectDescription,
   ProjectPathDoesNotExist,
 
-  CouldNotLoadProjectFromGenericPersistence
+  CouldNotLoadProjectFromGenericPersistence,
+  SQLiteError
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };
