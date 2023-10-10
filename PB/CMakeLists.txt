@@ -50,6 +50,7 @@ find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
 find_package(unofficial-libharu CONFIG REQUIRED)
+find_package(unofficial-sqlite3 CONFIG REQUIRED)
 
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -116,7 +117,8 @@ target_link_libraries(pblib PUBLIC
     Boost::program_options
     exiv2lib
     dp::thread-pool
-    unofficial::libharu::hpdf)
+    unofficial::libharu::hpdf
+    unofficial::sqlite3::sqlite3)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
