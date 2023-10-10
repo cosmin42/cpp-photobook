@@ -18,6 +18,8 @@ namespace PB {
 
 class SQLitePersistence final {
 public:
+  static constexpr const char *DATABASE_NAME = "database.db";
+
   explicit SQLitePersistence(Path path) : mPath(path) {}
 
   ~SQLitePersistence() = default;
@@ -187,7 +189,6 @@ private:
     return std::nullopt;
   }
 
-  static constexpr const char *DATABASE_NAME = "database.db";
   static constexpr const char *CREATE_PROJECTS_REGISTER =
       "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -200,6 +201,80 @@ private:
 
   Path                     mPath;
   std::shared_ptr<sqlite3> mDatabaseHandle = nullptr;
+};
+
+class FilePersistence final {
+public:
+  explicit FilePersistence(Path path) : mPath(path) {}
+  std::optional<Error> connect() { return std::nullopt; }
+
+  void
+  read(std::function<
+       void(std::variant<std::unordered_map<std::string, std::string>, Error>)>
+           onReturn)
+  {
+    std::ifstream file(mPath);
+    if (!file.is_open()) {
+      onReturn(Error() << ErrorCode::FileDoesNotExist);
+      return;
+    }
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    auto parsedDataOrError = parseData(buffer.str());
+
+    if (std::holds_alternative<Error>(parsedDataOrError)) {
+      onReturn(std::get<Error>(parsedDataOrError));
+    }
+    else {
+      auto &newData = std::get<std::unordered_map<std::string, std::string>>(
+          parsedDataOrError);
+      onReturn(newData);
+    }
+  }
+
+  void write(std::unordered_map<std::string, std::string> map,
+             std::function<void(std::optional<Error>)>    onReturn)
+  {
+    std::ofstream ofs(mPath.string());
+
+    if (!ofs.is_open()) {
+      onReturn(Error() << ErrorCode::FileDoesNotExist);
+      return;
+    }
+
+    for (auto &[key, value] : map) {
+      ofs << key << "\n" << value << "\n";
+    }
+    ofs.close();
+
+    onReturn(std::nullopt);
+  }
+
+private:
+  std::variant<std::unordered_map<std::string, std::string>, Error>
+  parseData(std::string const &rawData)
+  {
+    std::unordered_map<std::string, std::string> parsed;
+    auto                     tokensRanges = rawData | std::views::split('\n');
+    std::vector<std::string> pair;
+    for (const auto &tokenRange : tokensRanges) {
+      auto newStr = std::string(tokenRange.begin(), tokenRange.end());
+      if (newStr.empty()) {
+        continue;
+      }
+      pair.push_back(newStr);
+      if (pair.size() == 2) {
+        parsed[pair.at(0)] = pair.at(1);
+        pair.clear();
+      }
+    }
+    if (pair.size() == 1) {
+      return Error() << ErrorCode::CorruptPersistenceFile;
+    }
+    return parsed;
+  }
+
+  Path mPath;
 };
 
 template <typename PersistenceType = void> class Persistence final {
