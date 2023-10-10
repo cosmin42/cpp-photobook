@@ -22,7 +22,7 @@ public:
   void onProgressUpdate(int, int) {}
   void onError(PB::Error error) {}
 
-  void onAddingFolder(unsigned size) {}
+  void onAddingUnstagedImagePlaceholder(unsigned size) {}
 };
 
 class PlatformSpecificPersistence final {
