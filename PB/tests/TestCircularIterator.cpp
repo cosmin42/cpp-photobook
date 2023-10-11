@@ -4,14 +4,14 @@
 
 using namespace PB;
 
-TEST(TestFileComparator, TestEmpty)
+TEST(TestCircularIterator, TestEmpty)
 {
   auto it = CircularIterator<std::vector<int>>();
   ASSERT_TRUE(it.size() == 0);
   ASSERT_TRUE(!it.valid());
 }
 
-TEST(TestFileComparator, TestFilled)
+TEST(TestCircularIterator, TestFilled)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
   auto             it = CircularIterator<std::vector<int>>(v);
@@ -19,7 +19,7 @@ TEST(TestFileComparator, TestFilled)
   ASSERT_TRUE(it.valid());
 }
 
-TEST(TestFileComparator, TestDereference)
+TEST(TestCircularIterator, TestDereference)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
   auto             it = CircularIterator<std::vector<int>>(v);
@@ -28,7 +28,7 @@ TEST(TestFileComparator, TestDereference)
   ASSERT_TRUE(it.current() == 1);
 }
 
-TEST(TestFileComparator, TestIncrementDecrmeent)
+TEST(TestCircularIterator, TestIncrementDecrmeent)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
   auto             it = CircularIterator<std::vector<int>>(v);
@@ -43,7 +43,7 @@ TEST(TestFileComparator, TestIncrementDecrmeent)
   ASSERT_TRUE(it.current() == 9);
 }
 
-TEST(TestFileComparator, TestIndexOperator)
+TEST(TestCircularIterator, TestIndexOperator)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
   auto             it = CircularIterator<std::vector<int>>(v);
