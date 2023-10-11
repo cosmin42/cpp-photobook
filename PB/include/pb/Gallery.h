@@ -47,10 +47,9 @@ public:
   void setPosition(int position);
   void navigateLeft();
   void navigateRight();
+  void selectImportFolder(int                                       index,
+                          CircularIterator<std::vector<Thumbnails>> iterator);
 
-  void selectImportFolder(int index);
-
-  auto selectedImportFolder() -> std::optional<Path>;
   auto selectedItem() -> std::optional<Thumbnails>;
 
   std::shared_ptr<ImageSupportListener> slot();

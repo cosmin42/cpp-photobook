@@ -17,8 +17,6 @@ Gallery::Gallery()
       });
 }
 
-Gallery::~Gallery() = default;
-
 void Gallery::setPosition(int position)
 {
   if (mCurrentIterator.valid()) {
@@ -39,15 +37,11 @@ void Gallery::navigateRight()
   }
 }
 
-void Gallery::selectImportFolder(int index) { mSelectedFolderIndex = index; }
-
-auto Gallery::selectedImportFolder() -> std::optional<Path>
+void Gallery::selectImportFolder(
+    int index, CircularIterator<std::vector<Thumbnails>> iterator)
 {
-  if (mSelectedFolderIndex >= mImportedFolders.size() ||
-      mSelectedFolderIndex < 0) {
-    return std::nullopt;
-  }
-  return mImportedFolders.at(mSelectedFolderIndex);
+  mSelectedFolderIndex = index;
+  mCurrentIterator = iterator;
 }
 
 auto Gallery::selectedItem() -> std::optional<Thumbnails>
