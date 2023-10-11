@@ -21,8 +21,10 @@ struct Thumbnails {
 
 class ImageSupportListener {
 public:
-  virtual void importFolderAdded(int index) = 0;
-  virtual void stagePhotosUpdated() = 0;
+  virtual void importFolderAdded(Path root,
+                                 CircularIterator<std::vector<Thumbnails>>) = 0;
+  virtual void
+      stagePhotosUpdated(CircularIterator<std::vector<Thumbnails>>) = 0;
 };
 
 class ImageSupport final {

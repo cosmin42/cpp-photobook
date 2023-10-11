@@ -7,28 +7,36 @@ namespace PB {
 
 class GalleryListener final : public ImageSupportListener {
 public:
-  void setCallbacks(std::function<void(int)> onImportFolderAdded,
-                    std::function<void()>    onStagePhotoUpdated)
+  void setCallbacks(
+      std::function<void(Path, CircularIterator<std::vector<Thumbnails>>)>
+          onImportFolderAdded,
+      std::function<void(CircularIterator<std::vector<Thumbnails>>)>
+          onStagePhotoUpdated)
   {
     mOnImportFolderAdded = onImportFolderAdded;
     mOnStagePhotoUpdated = onStagePhotoUpdated;
   }
 
-  void importFolderAdded(int index) override
+  void
+  importFolderAdded(Path                                      root,
+                    CircularIterator<std::vector<Thumbnails>> iterator) override
   {
     assert(mOnImportFolderAdded);
-    mOnImportFolderAdded(index);
+    mOnImportFolderAdded(root, iterator);
   }
 
-  void stagePhotosUpdated() override
+  void stagePhotosUpdated(
+      CircularIterator<std::vector<Thumbnails>> iterator) override
   {
     assert(mOnImportFolderAdded);
-    mOnStagePhotoUpdated();
+    mOnStagePhotoUpdated(iterator);
   }
 
 private:
-  std::function<void(int)> mOnImportFolderAdded = nullptr;
-  std::function<void()>    mOnStagePhotoUpdated = nullptr;
+  std::function<void(Path, CircularIterator<std::vector<Thumbnails>>)>
+      mOnImportFolderAdded = nullptr;
+  std::function<void(CircularIterator<std::vector<Thumbnails>>)>
+      mOnStagePhotoUpdated = nullptr;
 };
 
 class Gallery final {
@@ -38,8 +46,13 @@ public:
   {
     mGalleryListener = std::make_shared<GalleryListener>();
     mGalleryListener->setCallbacks(
-        [](int) { PB::printDebug("Import folder added.\n"); },
-        []() { PB::printDebug("Staged photos updated.\n"); });
+        [this](Path root, CircularIterator<std::vector<Thumbnails>>) {
+          mImportedFolders.push_back(root);
+          PB::printDebug("Import folder added.\n");
+        },
+        [](CircularIterator<std::vector<Thumbnails>>) {
+          PB::printDebug("Staged photos updated.\n");
+        });
   }
 
   ~Gallery() = default;
@@ -66,8 +79,10 @@ public:
 
   auto selectedImportFolder() -> std::optional<Path>
   {
-    assert(mSelectedFolderIndex < mImportedFolders.size() &&
-           mSelectedFolderIndex > -1);
+    if (mSelectedFolderIndex < mImportedFolders.size() ||
+        mSelectedFolderIndex > -1) {
+      return std::nullopt;
+    }
     return mImportedFolders.at(mSelectedFolderIndex);
   }
 
@@ -86,6 +101,6 @@ private:
   int                                       mSelectedFolderIndex = -1;
   int                                       mGalleryIndex = -1;
   CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
-  std::vector<Path> const                  &mImportedFolders;
+  std::vector<Path>                         mImportedFolders;
 };
 } // namespace PB
