@@ -128,6 +128,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestCircularIterator.cpp
         tests/TestComparator.cpp
         tests/TestErrors.cpp
+        tests/TestGallery.cpp
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
