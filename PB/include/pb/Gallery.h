@@ -41,62 +41,19 @@ private:
 
 class Gallery final {
 public:
-  Gallery()
-  {
-    mGalleryListener = std::make_shared<GalleryListener>();
-    mGalleryListener->setCallbacks(
-        [this](Path root, CircularIterator<std::vector<Thumbnails>> iterator) {
-          mImportedFolders.push_back(root);
-          mSelectedFolderIndex = (int)mImportedFolders.size() - 1;
-          mCurrentIterator = iterator;
-          PB::printDebug("Import folder added.\n");
-        },
-        [this](CircularIterator<std::vector<Thumbnails>> iterator) {
-          mCurrentIterator = iterator;
-          PB::printDebug("Staged photos updated.\n");
-        });
-  }
-
+  Gallery();
   ~Gallery() = default;
 
-  void setPosition(int position)
-  {
-    if (mCurrentIterator.valid()) {
-      mCurrentIterator = mCurrentIterator[position];
-    }
-  }
+  void setPosition(int position);
+  void navigateLeft();
+  void navigateRight();
 
-  void navigateLeft()
-  {
-    if (mCurrentIterator.valid()) {
-      mCurrentIterator = mCurrentIterator.previous();
-    }
-  }
-  void navigateRight()
-  {
-    if (mCurrentIterator.valid()) {
-      mCurrentIterator = mCurrentIterator.next();
-    }
-  }
+  void selectImportFolder(int index);
 
-  auto selectedImportFolder() -> std::optional<Path>
-  {
-    if (mSelectedFolderIndex >= mImportedFolders.size() ||
-        mSelectedFolderIndex < 0) {
-      return std::nullopt;
-    }
-    return mImportedFolders.at(mSelectedFolderIndex);
-  }
+  auto selectedImportFolder() -> std::optional<Path>;
+  auto selectedItem() -> std::optional<Thumbnails>;
 
-  auto selectedItem() -> std::optional<Thumbnails>
-  {
-    if (mCurrentIterator.valid()) {
-      return mCurrentIterator.current();
-    }
-    return std::nullopt;
-  }
-
-  std::shared_ptr<ImageSupportListener> slot() { return mGalleryListener; }
+  std::shared_ptr<ImageSupportListener> slot();
 
 private:
   std::shared_ptr<GalleryListener>          mGalleryListener = nullptr;

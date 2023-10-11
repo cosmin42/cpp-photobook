@@ -91,6 +91,7 @@ add_library(pblib STATIC
     src/DataManager.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
+    src/Gallery.cpp
     src/ImageReader.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
