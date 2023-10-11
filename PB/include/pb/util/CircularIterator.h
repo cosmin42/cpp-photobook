@@ -58,7 +58,7 @@ public:
     if (mSize == 0) {
       return *this;
     }
-    assert(index < (int)mSize);
+    index %= mSize;
     mIndex = index;
     return *this;
   }
