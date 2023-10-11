@@ -220,11 +220,12 @@ private:
   std::variant<std::optional<std::pair<std::string, std::string>>, Error>
   queryProjectEntry(std::string searchedUUID)
   {
-    std::string query = "SELECT " + searchedUUID + " FROM PROJECTS_REGISTER";
+    std::string query =
+        "SELECT * FROM PROJECTS_REGISTER WHERE uuid='" + searchedUUID + "'";
 
     sqlite3_stmt *stmt;
-    auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS,
-                                      -1, &stmt, nullptr);
+    auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), query.c_str(), -1,
+                                      &stmt, nullptr);
 
     if (success != SQLITE_OK) {
       return Error() << ErrorCode::SQLiteError << std::to_string(success);

@@ -69,7 +69,7 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 
   auto [uuidStr, path] = newProject.locationData();
 
-  auto fullPath = path + "\\" + newProject.details().name;
+  auto fullPath = PB::Path(path) / newProject.details().name;
 
   PB::FilePersistence newProjectPersistence(fullPath);
 
@@ -81,14 +81,14 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
       });
 
   mCentralPersistence.write(
-      std::pair<std::string, std::string>(uuidStr, fullPath),
+      std::pair<std::string, std::string>(uuidStr, fullPath.string()),
       [](std::optional<PB::Error> maybeError) {
         if (maybeError) {
           PB::printError("Error writing into peristence.\n");
         }
       });
 
-  auto newPathWin = winrt::to_hstring(fullPath);
+  auto newPathWin = winrt::to_hstring(fullPath.string());
   auto boxed = winrt::box_value(newPathWin);
 
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
