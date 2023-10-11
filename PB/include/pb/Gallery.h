@@ -50,14 +50,16 @@ public:
   void selectImportFolder(int                                       index,
                           CircularIterator<std::vector<Thumbnails>> iterator);
 
+  void selectStagedPhotos(CircularIterator<std::vector<Thumbnails>> iterator);
+
   auto selectedItem() -> std::optional<Thumbnails>;
+  auto selectedIndex() -> int;
 
   std::shared_ptr<ImageSupportListener> slot();
 
 private:
   std::shared_ptr<GalleryListener>          mGalleryListener = nullptr;
   int                                       mSelectedFolderIndex = -1;
-  int                                       mGalleryIndex = -1;
   CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
   std::vector<Path>                         mImportedFolders;
 };

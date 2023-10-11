@@ -289,7 +289,7 @@ void TableContentPage::OnMappingFinished()
   auto rootFolders = mPhotoBook.imageSupport().groups();
   for (auto &path : rootFolders) {
     mNavigationItemsCollection.Append(
-        winrt::to_hstring(path.filename().string()));
+        winrt::to_hstring(path.first.filename().string()));
   }
 
   MediaListView().ItemsSource(mNavigationItemsCollection);
@@ -321,12 +321,8 @@ void TableContentPage::OnImportSelectionChanged(
   PB::printDebug("Index selected %d\n", index);
 
   auto &imagesData = mPhotoBook.imageSupport();
-
-  auto maybePath = imagesData.groupByIndex(index);
-
-  assert(maybePath.has_value());
-
-  mPhotoBook.gallery().setIterator(imagesData.thumbnailsSet(*maybePath));
+  auto  iterator = imagesData.unstagedIterator(index);
+  mPhotoBook.gallery().selectImportFolder(index, iterator);
 
   UpdateGalleryLabel();
 }
@@ -347,12 +343,9 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
 
   auto galleryIndex = UnstagedListView().SelectedIndex();
 
-  auto navigationSelectedItem =
-      winrt::to_string(mNavigationItemsCollection.GetAt(navigationListIndex));
-
   auto &imagesData = mPhotoBook.imageSupport();
-  auto  iterator = imagesData.thumbnailsSet(PB::Path(navigationSelectedItem));
-  mPhotoBook.gallery().setIterator(iterator);
+  auto  iterator = imagesData.unstagedIterator(galleryIndex);
+  mPhotoBook.gallery().selectImportFolder(galleryIndex, iterator);
 
   if (galleryIndex > -1) {
     mPhotoBook.gallery().setPosition(galleryIndex);
@@ -372,12 +365,12 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   if (stagedImagesIndex < 0) {
     return;
   }
-  auto stagedPhotos = mPhotoBook.stagedPhotos();
-
   auto &imagesData = mPhotoBook.imageSupport();
-  auto  iterator = imagesData.stagedIterator();
+
+  auto iterator = imagesData.stagedIterator();
   iterator = iterator[stagedImagesIndex];
-  mPhotoBook.gallery().setIterator(iterator);
+
+  mPhotoBook.gallery().selectStagedPhotos(iterator);
   UpdateGalleryLabel();
 }
 
@@ -428,7 +421,11 @@ void TableContentPage::UpdateGalleryLabel()
   auto &gallery = mPhotoBook.gallery();
 
   auto itemPath = gallery.selectedItem();
-  auto rootName = gallery.folderName();
+
+  auto importFolderIndex = gallery.selectedIndex();
+
+  auto rootName = mPhotoBook.imageSupport().groupByIndex(importFolderIndex);
+
 
   GalleryLeftButton().IsEnabled(itemPath.has_value());
   GalleryRightButton().IsEnabled(itemPath.has_value());

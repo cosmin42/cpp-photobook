@@ -44,8 +44,7 @@ class PhotoBook final {
 public:
   PhotoBook(PhotoBookListenerType &listener, Path centralPersistencePath)
       : mParent(listener), mCentralPersistencePath(centralPersistencePath),
-        mCentralPersistence(mCentralPersistencePath),
-        mGallery(mImagePaths.groups()), mPaperSettings(A4_PAPER)
+        mCentralPersistence(mCentralPersistencePath), mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
 
@@ -127,7 +126,7 @@ public:
 
   void onImportFolderMapped(Path &rootPath, MediaMap &newMediaMap)
   {
-    mImagePaths.addGroup(rootPath, (unsigned)newMediaMap.map().size());
+    mImagePaths.addGroup(rootPath);
     mImagePaths.addFullPaths(rootPath, newMediaMap.map());
 
     mParent.onAddingUnstagedImagePlaceholder(

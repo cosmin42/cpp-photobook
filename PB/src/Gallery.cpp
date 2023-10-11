@@ -44,6 +44,15 @@ void Gallery::selectImportFolder(
   mCurrentIterator = iterator;
 }
 
+void Gallery::selectStagedPhotos(
+    CircularIterator<std::vector<Thumbnails>> iterator)
+{
+  mSelectedFolderIndex = -1;
+  mCurrentIterator = iterator;
+}
+
+auto Gallery::selectedIndex() -> int { return mSelectedFolderIndex; }
+
 auto Gallery::selectedItem() -> std::optional<Thumbnails>
 {
   if (mCurrentIterator.valid()) {
