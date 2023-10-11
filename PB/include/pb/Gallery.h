@@ -5,6 +5,33 @@
 
 namespace PB {
 
+class GalleryListener final : public ImageSupportListener {
+public:
+
+  void setCallbacks(std::function<void(int)> onImportFolderAdded,
+                    std::function<void()>    onStagePhotoUpdated)
+  {
+    mOnImportFolderAdded = onImportFolderAdded;
+    mOnStagePhotoUpdated = onStagePhotoUpdated;
+  }
+
+  void importFolderAdded(int index) override
+  {
+    assert(mOnImportFolderAdded);
+    mOnImportFolderAdded(index);
+  }
+
+  void stagePhotosUpdated() override
+  {
+    assert(mOnImportFolderAdded);
+    mOnStagePhotoUpdated();
+  }
+
+private:
+  std::function<void(int)> mOnImportFolderAdded = nullptr;
+  std::function<void()>    mOnStagePhotoUpdated = nullptr;
+};
+
 class Gallery final {
 public:
   Gallery(std::vector<Path> const &importedFolders)
@@ -57,6 +84,7 @@ public:
   }
 
 private:
+  GalleryListener                           mGalleryListener;
   int                                       mSelectedFolderIndex = -1;
   int                                       mGalleryIndex = -1;
   CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
