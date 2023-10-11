@@ -29,7 +29,7 @@ class ImageSupport final {
 public:
   void setListener(std::shared_ptr<ImageSupportListener> listener);
 
-  void addGroup(std::optional<Path> path, unsigned size);
+  void addGroup(std::optional<Path> path);
 
   void                addFullPaths(Path root, std::vector<Path> const &paths);
   void                addSmallPath(Path fullSize, Path smallSize);

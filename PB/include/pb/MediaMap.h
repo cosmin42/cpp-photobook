@@ -79,8 +79,7 @@ public:
   [[nodiscard]] auto iterator()
       -> std::optional<CircularIterator<std::vector<Path>>>
   {
-    return CircularIterator<std::vector<Path>>(mPaths,
-                                               [](Path) { return true; });
+    return CircularIterator<std::vector<Path>>(mPaths);
   }
 
   std::vector<std::filesystem::path> &map() { return mPaths; }

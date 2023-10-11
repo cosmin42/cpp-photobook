@@ -12,16 +12,10 @@ namespace PB {
 
 template <typename Container> class CircularIterator final {
 public:
-  explicit CircularIterator(
-      Container                                          &container,
-      std::function<bool(typename Container::value_type)> filter)
+  explicit CircularIterator(Container &container)
       : mBeginIterator(container.begin())
   {
-    for (int i = 0; i < container.size(); ++i) {
-      if (filter(container.at(i))) {
-        mFilteredIndices.push_back(i);
-      }
-    }
+    mSize = (unsigned)container.size();
   }
 
   CircularIterator() = default;
@@ -29,7 +23,7 @@ public:
 
   auto current() -> std::optional<typename Container::value_type>
   {
-    if (mFilteredIndices.size() == 0) {
+    if (mSize == 0) {
       return std::nullopt;
     }
     auto tmpIterator = mBeginIterator;
@@ -39,21 +33,21 @@ public:
 
   CircularIterator &next()
   {
-    if (mFilteredIndices.size() == 0) {
+    if (mSize == 0) {
       return *this;
     }
     mIndex++;
-    mIndex %= mFilteredIndices.size();
+    mIndex %= mSize;
     return *this;
   }
 
   CircularIterator &previous()
   {
-    if (mFilteredIndices.size() == 0) {
+    if (mSize == 0) {
       return *this;
     }
     if (mIndex == 0) {
-      mIndex = (unsigned)mFilteredIndices.size();
+      mIndex = mSize;
     }
     mIndex--;
     return *this;
@@ -61,21 +55,21 @@ public:
 
   CircularIterator &operator[](int index)
   {
-    if (mFilteredIndices.size() == 0) {
+    if (mSize == 0) {
       return *this;
     }
-    assert(index < (int)mFilteredIndices.size());
+    assert(index < (int)mSize);
     mIndex = index;
     return *this;
   }
 
-  auto size() const -> unsigned { return (unsigned)mFilteredIndices.size(); }
+  auto size() const -> unsigned { return mSize; }
 
-  auto valid() const -> bool { return (unsigned)mFilteredIndices.size() > 0; }
+  auto valid() const -> bool { return mSize > 0; }
 
 private:
   Container::iterator mBeginIterator;
   unsigned            mIndex = 0;
-  std::vector<int>    mFilteredIndices;
+  unsigned            mSize = 0;
 };
 } // namespace PB

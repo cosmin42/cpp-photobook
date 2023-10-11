@@ -9,10 +9,6 @@ void ImageSupport::setListener(std::shared_ptr<ImageSupportListener> listener)
 
 Thumbnails &ImageSupport::image(Path fullPath)
 {
-  if (mSupportByFullPath.find(fullPath) == mSupportByFullPath.end()) {
-    PB::printDebug("Could not find %s", fullPath.string().c_str());
-    return;
-  }
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
   return mSupport.at(importPathIndex).at(pathIndex);
 }
@@ -27,7 +23,7 @@ void ImageSupport::addMediumPath(Path fullPath, Path mediumPath)
   image(fullPath).mediumThumbnail = mediumPath;
 }
 
-void ImageSupport::addGroup(std::optional<Path> path, unsigned size)
+void ImageSupport::addGroup(std::optional<Path> path)
 {
   if (!path) {
     return;
@@ -39,7 +35,7 @@ void ImageSupport::addGroup(std::optional<Path> path, unsigned size)
 void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
 {
   if (mGroupIndexes.find(root) == mGroupIndexes.end()) {
-    addGroup(root, paths.size());
+    addGroup(root);
   }
 
   int indexGroup = mGroupIndexes.at(root);
@@ -113,20 +109,18 @@ auto ImageSupport::unstagedIterator(Path root)
   }
 
   return CircularIterator<std::vector<Thumbnails>>(
-      mSupport.at(mGroupIndexes.at(root)), [](Thumbnails) { return true; });
+      mSupport.at(mGroupIndexes.at(root)));
 }
 
 auto ImageSupport::unstagedIterator(int index)
     -> CircularIterator<std::vector<Thumbnails>>
 {
-  return CircularIterator<std::vector<Thumbnails>>(
-      mSupport.at(index), [](Thumbnails) { return true; });
+  return CircularIterator<std::vector<Thumbnails>>(mSupport.at(index));
 }
 
 auto ImageSupport::stagedIterator() -> CircularIterator<std::vector<Thumbnails>>
 {
-  auto filterF = [](Thumbnails) { return true; };
-  return CircularIterator<std::vector<Thumbnails>>(mStagedPhotos, filterF);
+  return CircularIterator<std::vector<Thumbnails>>(mStagedPhotos);
 }
 
 int ImageSupport::groupSize(std::optional<Path> group)
@@ -135,7 +129,7 @@ int ImageSupport::groupSize(std::optional<Path> group)
     return 0;
   }
 
-  return mSupport.at(mGroupIndexes.at(*group)).size();
+  return (int)mSupport.at(mGroupIndexes.at(*group)).size();
 }
 
 void ImageSupport::clear()
