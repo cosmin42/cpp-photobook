@@ -19,6 +19,12 @@ struct Thumbnails {
   Path smallThumbnail;
 };
 
+class ImageSupportListener {
+public:
+  virtual void importFolderAdded(int index) = 0;
+  virtual void stagePhotosUpdated() = 0;
+};
+
 class ImageSupport final {
 public:
   void                addFullPaths(Path root, std::vector<Path> const &paths);
