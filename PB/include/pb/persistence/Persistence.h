@@ -69,6 +69,7 @@ public:
     }
 
     sqlite3_finalize(stmt);
+    onReturn(readMap);
   }
 
   void write(std::pair<std::string, std::string>       entry,

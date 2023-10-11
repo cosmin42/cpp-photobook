@@ -42,6 +42,9 @@ FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
 
   mMenuFlyout.Items().Append(firstItem);
 
+  auto maybeError = mCentralPersistence.connect();
+  assert(!maybeError);
+
   mCentralPersistence.read(
       [this](
           std::variant<std::unordered_map<std::string, std::string>, PB::Error>
@@ -108,7 +111,7 @@ void FirstPage::OnPersistenceDataLoaded(
   };
 
   auto squareDimension = sqrtIntF((int)projects.size());
-  wrapGrid.MaximumRowsOrColumns(squareDimension);
+  //wrapGrid.MaximumRowsOrColumns(squareDimension);
 
   for (auto &[key, value] : projects) {
     mProjectsList.Append(
