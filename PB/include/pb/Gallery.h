@@ -41,16 +41,18 @@ private:
 
 class Gallery final {
 public:
-  Gallery(std::vector<Path> const &importedFolders)
-      : mImportedFolders(importedFolders)
+  Gallery()
   {
     mGalleryListener = std::make_shared<GalleryListener>();
     mGalleryListener->setCallbacks(
-        [this](Path root, CircularIterator<std::vector<Thumbnails>>) {
+        [this](Path root, CircularIterator<std::vector<Thumbnails>> iterator) {
           mImportedFolders.push_back(root);
+          mSelectedFolderIndex = (int)mImportedFolders.size() - 1;
+          mCurrentIterator = iterator;
           PB::printDebug("Import folder added.\n");
         },
-        [](CircularIterator<std::vector<Thumbnails>>) {
+        [this](CircularIterator<std::vector<Thumbnails>> iterator) {
+          mCurrentIterator = iterator;
           PB::printDebug("Staged photos updated.\n");
         });
   }
