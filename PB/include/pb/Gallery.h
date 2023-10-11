@@ -37,7 +37,11 @@ public:
       : mImportedFolders(importedFolders)
   {
     mGalleryListener = std::make_shared<GalleryListener>();
+    mGalleryListener->setCallbacks(
+        [](int) { PB::printDebug("Import folder added.\n"); },
+        []() { PB::printDebug("Staged photos updated.\n"); });
   }
+
   ~Gallery() = default;
 
   void setPosition(int position)
