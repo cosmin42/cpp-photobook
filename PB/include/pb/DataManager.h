@@ -27,35 +27,41 @@ public:
 
 class ImageSupport final {
 public:
+  void setListener(std::shared_ptr<ImageSupportListener> listener);
+
+  void addGroup(std::optional<Path> path, unsigned size);
+
   void                addFullPaths(Path root, std::vector<Path> const &paths);
   void                addSmallPath(Path fullSize, Path smallSize);
   void                addMediumPath(Path fullSize, Path mediumSize);
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
-  auto thumbnailsSet(Path root) -> CircularIterator<std::vector<Thumbnails>>;
-  int  groupSize(std::optional<Path> group);
-  std::optional<Thumbnails> getByMedium(std::optional<Path> path);
-  std::optional<Thumbnails> getBySmall(std::optional<Path> path);
-  void                      addGroup(std::optional<Path> path, unsigned size);
-  void                      clear();
-  std::vector<Path> const  &groups();
-
   void stagePhoto(Thumbnails fullPath, int position = -1);
   void unstagePhoto(int index);
 
-  std::vector<Thumbnails> &stagedPhotos() { return mStagedPhotos; }
+  void clear();
 
   auto stagedIterator() -> CircularIterator<std::vector<Thumbnails>>;
+  auto unstagedIterator(Path root) -> CircularIterator<std::vector<Thumbnails>>;
+  auto unstagedIterator(int importFolderIndex)
+      -> CircularIterator<std::vector<Thumbnails>>;
+
+  int                                  groupSize(std::optional<Path> group);
+  std::unordered_map<Path, int> const &groups();
+  std::vector<Thumbnails>             &stagedPhotos() { return mStagedPhotos; }
 
 private:
-  std::unordered_map<Path, std::vector<int>> mGroupContent;
-  std::vector<Path>                          mGroup;
-  std::unordered_map<Path, int>              mSupportBySmallThumbnail;
-  std::unordered_map<Path, int>              mSupportByMediumThumbnail;
-  std::unordered_map<Path, int>              mSupportByFullPath;
-  std::vector<Thumbnails>                    mSupport;
-  std::vector<Thumbnails>                    mStagedPhotos;
+  Thumbnails &image(Path fullPath);
+
+  std::unordered_map<Path, int> mGroupIndexes;
+
+  std::unordered_map<Path, std::pair<int, int>> mSupportByFullPath;
+  std::vector<std::vector<Thumbnails>>          mSupport;
+
+  std::vector<Thumbnails> mStagedPhotos;
+
+  std::shared_ptr<ImageSupportListener> mListener = nullptr;
 };
 
 } // namespace PB
