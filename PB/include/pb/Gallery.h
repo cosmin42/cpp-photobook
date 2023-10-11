@@ -7,7 +7,6 @@ namespace PB {
 
 class GalleryListener final : public ImageSupportListener {
 public:
-
   void setCallbacks(std::function<void(int)> onImportFolderAdded,
                     std::function<void()>    onStagePhotoUpdated)
   {
@@ -37,16 +36,9 @@ public:
   Gallery(std::vector<Path> const &importedFolders)
       : mImportedFolders(importedFolders)
   {
+    mGalleryListener = std::make_shared<GalleryListener>();
   }
   ~Gallery() = default;
-
-  void setIterator(CircularIterator<std::vector<Thumbnails>> iterator,
-                   int                                       position = 0)
-  {
-    mSelectedFolderIndex = position;
-    mCurrentIterator = iterator;
-    setPosition(position);
-  }
 
   void setPosition(int position)
   {
@@ -68,7 +60,7 @@ public:
     }
   }
 
-  auto folderName() -> std::optional<Path>
+  auto selectedImportFolder() -> std::optional<Path>
   {
     assert(mSelectedFolderIndex < mImportedFolders.size() &&
            mSelectedFolderIndex > -1);
@@ -83,8 +75,10 @@ public:
     return std::nullopt;
   }
 
+  std::shared_ptr<ImageSupportListener> slot() { return mGalleryListener; }
+
 private:
-  GalleryListener                           mGalleryListener;
+  std::shared_ptr<GalleryListener>          mGalleryListener = nullptr;
   int                                       mSelectedFolderIndex = -1;
   int                                       mGalleryIndex = -1;
   CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
