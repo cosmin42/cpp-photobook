@@ -79,8 +79,8 @@ public:
 
   auto selectedImportFolder() -> std::optional<Path>
   {
-    if (mSelectedFolderIndex < mImportedFolders.size() ||
-        mSelectedFolderIndex > -1) {
+    if (mSelectedFolderIndex >= mImportedFolders.size() ||
+        mSelectedFolderIndex < 0) {
       return std::nullopt;
     }
     return mImportedFolders.at(mSelectedFolderIndex);

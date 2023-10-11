@@ -6,13 +6,17 @@ using namespace PB;
 
 class MockImageSupportListener final : public ImageSupportListener {
 public:
-  void importFolderAdded(int index) override { mIndex = index; }
-  void stagePhotosUpdated() override {}
+  void importFolderAdded(Path path,
+                         CircularIterator<std::vector<Thumbnails>>) override
+  {
+    mImportFolders.push_back(path);
+  }
+  void stagePhotosUpdated(CircularIterator<std::vector<Thumbnails>>) override {}
 
-  const int index() { return mIndex; }
+  const int size() { return (int)mImportFolders.size(); }
 
 private:
-  int mIndex = -1;
+  std::vector<Path> mImportFolders;
 };
 
 TEST(TestDataManager, TestEmpty)
@@ -22,11 +26,11 @@ TEST(TestDataManager, TestEmpty)
   PB::ImageSupport imageSupport;
   imageSupport.setListener(listener);
 
-  ASSERT_TRUE(listener->index() == -1);
+  ASSERT_TRUE(listener->size() == 0);
 
   imageSupport.addFullPaths("a", std::vector<Path>{"a/b", "a/c", "b/c"});
 
-  ASSERT_TRUE(listener->index() == 0);
+  ASSERT_TRUE(listener->size() == 1);
 
   auto iterator = imageSupport.stagedIterator();
   ASSERT_TRUE(iterator.size() == 0);
@@ -45,11 +49,11 @@ TEST(TestDataManager, TestAddingToSTaging)
   PB::ImageSupport imageSupport;
   imageSupport.setListener(listener);
 
-  ASSERT_TRUE(listener->index() == -1);
+  ASSERT_TRUE(listener->size() == 0);
 
   imageSupport.addFullPaths("a", std::vector<Path>{"a/b", "a/c", "b/c"});
 
-  ASSERT_TRUE(listener->index() == 0);
+  ASSERT_TRUE(listener->size() == 1);
 
   auto iterator = imageSupport.stagedIterator();
   ASSERT_TRUE(iterator.size() == 0);
