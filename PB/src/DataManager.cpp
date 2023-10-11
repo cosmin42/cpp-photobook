@@ -2,7 +2,7 @@
 
 namespace PB {
 
-void ImageSupport::addSmall(Path fullSize, Path smallSize)
+void ImageSupport::addSmallPath(Path fullSize, Path smallSize)
 {
   if (mSupportByFullPath.find(fullSize) == mSupportByFullPath.end()) {
     PB::printDebug("Could not find %s", fullSize.string().c_str());
@@ -13,7 +13,7 @@ void ImageSupport::addSmall(Path fullSize, Path smallSize)
   mSupportBySmallThumbnail[smallSize] = index;
 }
 
-void ImageSupport::addMedium(Path fullSize, Path mediumSize)
+void ImageSupport::addMediumPath(Path fullSize, Path mediumSize)
 {
   if (mSupportByFullPath.find(fullSize) == mSupportByFullPath.end()) {
     PB::printDebug("Could not find %s", fullSize.string().c_str());

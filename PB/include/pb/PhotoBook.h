@@ -163,8 +163,8 @@ public:
                         smallOutput{smallOutput}, start{start},
                         mediumOutput{mediumOutput},
                         maxProgress{maxProgress}]() {
-            mImagePaths.addSmall(input, smallOutput);
-            mImagePaths.addMedium(input, mediumOutput);
+            mImagePaths.addSmallPath(input, smallOutput);
+            mImagePaths.addMediumPath(input, mediumOutput);
             mProgress++;
             if (mProgress == maxProgress) {
 

@@ -22,8 +22,8 @@ struct Thumbnails {
 class ImageSupport final {
 public:
   void                addFullPaths(Path root, std::vector<Path> const &paths);
-  void                addSmall(Path fullSize, Path smallSize);
-  void                addMedium(Path fullSize, Path mediumSize);
+  void                addSmallPath(Path fullSize, Path smallSize);
+  void                addMediumPath(Path fullSize, Path mediumSize);
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
