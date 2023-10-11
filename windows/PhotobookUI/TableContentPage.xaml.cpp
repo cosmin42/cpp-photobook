@@ -14,6 +14,7 @@
 #include "FirstPage.xaml.h"
 #include "MainWindow.xaml.h"
 
+#include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <microsoft.ui.xaml.window.h>

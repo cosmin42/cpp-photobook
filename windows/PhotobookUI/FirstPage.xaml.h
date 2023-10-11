@@ -9,8 +9,6 @@
 #include "FirstPage.g.h"
 #include "ProjectItem.g.h"
 
-#include <WinrtStorage.h>
-
 #include <pb/Project.h>
 #include <pb/persistence/Persistence.h>
 

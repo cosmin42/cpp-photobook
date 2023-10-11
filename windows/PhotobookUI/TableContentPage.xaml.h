@@ -12,7 +12,6 @@
 #include <pb/PhotoBook.h>
 
 #include <PopUps.h>
-#include <WinrtStorage.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
