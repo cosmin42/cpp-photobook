@@ -33,8 +33,15 @@ using namespace Microsoft::Graphics::Canvas;
 
 namespace winrt::PhotobookUI::implementation {
 
+PB::Path TableContentPage::currentAppLocation()
+{
+  StorageFolder folder = ApplicationData::Current().LocalFolder();
+
+  return PB::Path(winrt::to_string(folder.Path()));
+}
+
 TableContentPage::TableContentPage()
-    : mListener(std::ref(*this)), mPhotoBook(mListener)
+    : mListener(std::ref(*this)), mPhotoBook(mListener, currentAppLocation())
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
@@ -501,13 +508,13 @@ void TableContentPage::OnExportContentDialogClicked(
   }
   else {
     mPopups.fireFolderPicker(
-        MainWindow::sMainWindowhandle,
-        [this, nativeExportName](PB::Path path) {
+        MainWindow::sMainWindowhandle, [this, nativeExportName](PB::Path path) {
           std::vector<PB::Path> thumbnailPaths;
           for (auto item : mStagedImageCollection) {
             thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
           }
-          mPhotoBook.exporter<PB::Pdf>().exportImages(nativeExportName, path, thumbnailPaths);
+          mPhotoBook.exporter<PB::Pdf>().exportImages(nativeExportName, path,
+                                                      thumbnailPaths);
         });
   }
 }

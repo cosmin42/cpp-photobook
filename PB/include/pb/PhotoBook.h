@@ -38,21 +38,21 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
-template <typename PhotoBookListenerType, typename PersistenceType>
+template <typename PhotoBookListenerType>
   requires PhotoBookListenerConcept<PhotoBookListenerType>
 class PhotoBook final {
 public:
-  PhotoBook(PhotoBookListenerType &listener)
-      : mParent(listener), mGallery(mImagePaths.groups()),
-        mPaperSettings(A4_PAPER)
+  PhotoBook(PhotoBookListenerType &listener, Path centralPersistencePath)
+      : mParent(listener), mCentralPersistencePath(centralPersistencePath),
+        mCentralPersistence(mCentralPersistencePath),
+        mGallery(mImagePaths.groups()), mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
 
-    mCentralPersistence.load([this](std::optional<Error> maybeError) {
-      if (maybeError) {
-        onError(maybeError.value());
-      }
-    });
+    auto maybeError = mCentralPersistence.connect();
+    if (maybeError) {
+      onError(maybeError.value());
+    }
   }
   PhotoBook(PhotoBook const &) = delete;
   PhotoBook(PhotoBook &&other) = delete;
@@ -73,25 +73,36 @@ public:
   void loadProject(Path const                               &path,
                    std::function<void(std::optional<Error>)> onReturn)
   {
-    Persistence<void> projectPersistence(path);
-    projectPersistence.load([this, &projectPersistence,
-                             onReturn](std::optional<Error> maybeError) {
-      if (!maybeError) {
-        auto projectDetailsOrError = PB::convert(projectPersistence.cache());
+    FilePersistence projectPersistence(path);
+    projectPersistence.read(
+        [this, onReturn](
+            std::variant<std::unordered_map<std::string, std::string>, Error>
+                mapOrError) {
+          if (std::holds_alternative<Error>(mapOrError)) {
+            auto error = std::get<Error>(mapOrError);
+            onReturn(error);
+          }
+          else {
+            auto &map = std::get<std::unordered_map<std::string, std::string>>(
+                mapOrError);
 
-        if (std::holds_alternative<Error>(projectDetailsOrError)) {
-        }
-        else {
-          auto &projectDetails =
-              std::get<ProjectDetails>(projectDetailsOrError);
+            auto projectDetailsOrError = PB::convert(map);
 
-          mProject = Project<PersistenceType>(projectDetails);
+            if (std::holds_alternative<Error>(projectDetailsOrError)) {
+              onReturn(std::get<Error>(projectDetailsOrError));
+            }
+            else {
+              auto &projectDetails =
+                  std::get<ProjectDetails>(projectDetailsOrError);
 
-          mThumbnailsProcessor.provideProjectDetails(projectDetails);
-        }
-      }
-      onReturn(maybeError);
-    });
+              mProject = Project(projectDetails);
+
+              mThumbnailsProcessor.provideProjectDetails(projectDetails);
+
+              onReturn(std::nullopt);
+            }
+          }
+        });
   }
 
   void addImportFolder(Path importPath)
@@ -104,14 +115,12 @@ public:
       auto path = std::get<Path>(errorOrPath);
       printDebug("Add Input folder %s\n", path.string().c_str());
 
-      auto ptr = std::make_shared<
-          MediaMapListener<PhotoBookListenerType, PersistenceType>>(
+      auto ptr = std::make_shared<MediaMapListener<PhotoBookListenerType>>(
           std::ref(*this));
       mListeners.insert({path, ptr});
       auto listener = mListeners.at(path);
-      mMappingJobs.emplace(
-          path,
-          MediaMapper<PhotoBookListenerType, PersistenceType>(path, listener));
+      mMappingJobs.emplace(path,
+                           MediaMapper<PhotoBookListenerType>(path, listener));
       mMappingJobs.at(importPath).start();
     }
   }
@@ -126,8 +135,8 @@ public:
 
     std::vector<std::future<void>> v;
 
-    if (!Persistence<void>::createDirectory(mProject.details().parentDirectory /
-                                            mProject.details().supportDirName)) {
+    if (!FilePersistence::createDirectory(mProject.details().parentDirectory /
+                                          mProject.details().supportDirName)) {
       mParent.onFinished();
       return;
     }
@@ -194,29 +203,36 @@ public:
     mProject.details().name = newPath.filename().string();
     mProject.details().parentDirectory = newPath.parent_path();
 
-    mCentralPersistence
-        .cache()[boost::uuids::to_string(mProject.details().uuid)] =
-        (mProject.details().parentDirectory / mProject.details().name).string();
-    mCentralPersistence.write([this, newPath](std::optional<Error> maybeError) {
-      if (maybeError) {
-        mParent.onError(Error() << ErrorCode::CannotSaveFile);
-      }
-      else {
-        mProject.details().parentDirectory = newPath.parent_path();
-        mProject.details().name = newPath.filename().string();
-        auto maybeSupportName =
-            Project<void>::excludeExtension(newPath.filename().string());
-        assert(maybeSupportName);
-        mProject.details().supportDirName = maybeSupportName.value();
-      }
-    });
+    std::pair<std::string, std::string> entry = {
+        boost::uuids::to_string(mProject.details().uuid),
+        (mProject.details().parentDirectory / mProject.details().name)
+            .string()};
+    mCentralPersistence.write(
+        entry, [this, newPath](std::optional<Error> maybeError) {
+          if (maybeError) {
+            mParent.onError(Error() << ErrorCode::CannotSaveFile);
+          }
+          else {
+            mProject.details().parentDirectory = newPath.parent_path();
+            mProject.details().name = newPath.filename().string();
+            auto maybeSupportName =
+                Project::excludeExtension(newPath.filename().string());
+            assert(maybeSupportName);
+            mProject.details().supportDirName = maybeSupportName.value();
+          }
+        });
 
     auto projectDetailsMap =
         std::unordered_map<std::string, std::string>(mProject.details());
 
-    Persistence<void> persistence(newPath);
-    persistence.cache().insert(projectDetailsMap.begin(),
-                               projectDetailsMap.end());
+    FilePersistence persistence(newPath);
+
+    persistence.write(projectDetailsMap,
+                      [this](std::optional<Error> maybeError) {
+                        if (maybeError) {
+                          mParent.onError(maybeError.value());
+                        }
+                      });
 
     std::filesystem::remove(oldPath);
 
@@ -237,18 +253,17 @@ public:
   ImageSupport &imageSupport() { return mImagePaths; }
 
 private:
-  PhotoBookListenerType       &mParent;
-  Persistence<PersistenceType> mCentralPersistence;
-  Project<PersistenceType>     mProject;
-  std::unordered_map<
-      Path,
-      std::shared_ptr<MediaMapListener<PhotoBookListenerType, PersistenceType>>>
-      mListeners;
-  std::unordered_map<Path, MediaMapper<PhotoBookListenerType, PersistenceType>>
-                      mMappingJobs;
-  ImageSupport        mImagePaths;
-  Gallery             mGallery;
-  ImageReader         mImageReader;
+  PhotoBookListenerType &mParent;
+  Path                   mCentralPersistencePath;
+  SQLitePersistence      mCentralPersistence;
+  Project                mProject;
+  std::unordered_map<Path,
+                     std::shared_ptr<MediaMapListener<PhotoBookListenerType>>>
+                                                               mListeners;
+  std::unordered_map<Path, MediaMapper<PhotoBookListenerType>> mMappingJobs;
+  ImageSupport                                                 mImagePaths;
+  Gallery                                                      mGallery;
+  ImageReader                                                  mImageReader;
   ThumbnailsProcessor mThumbnailsProcessor;
   Exporter<Pdf>       mExporter;
   int                 mProgress = 0;

@@ -13,8 +13,7 @@ template <typename T> void testReadWrite(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map,
-                                path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -51,8 +50,7 @@ template <typename T> void testUpdateMap(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map,
-                                path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -74,8 +72,7 @@ template <typename T> void testUpdateMap(std::string path)
 
   map["testKey"] = "testValue2";
 
-  persistence.write(map, [map,
-                                path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -112,8 +109,7 @@ template <typename T> void testRemoveEntry(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map,
-                                path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();

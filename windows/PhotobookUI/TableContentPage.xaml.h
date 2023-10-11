@@ -19,6 +19,9 @@ using namespace winrt::Windows::Foundation::Collections;
 namespace winrt::PhotobookUI::implementation {
 
 struct TableContentPage : TableContentPageT<TableContentPage> {
+
+  static PB::Path currentAppLocation();
+
   TableContentPage();
   ~TableContentPage() = default;
 
@@ -143,7 +146,7 @@ private:
   void PostponeError(std::string message);
 
   PhotoBookListener                                  mListener;
-  PB::PhotoBook<PhotoBookListener, PB::WinrtStorage> mPhotoBook;
+  PB::PhotoBook<PhotoBookListener> mPhotoBook;
   IObservableVector<winrt::hstring>                  mNavigationItemsCollection;
   IObservableVector<ImageUIData>                     mUnstagedImageCollection;
   IObservableVector<ImageUIData>                     mStagedImageCollection;

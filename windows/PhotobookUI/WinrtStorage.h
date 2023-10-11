@@ -22,7 +22,8 @@ class WinrtStorage final {
 public:
   static std::string localFolder()
   {
-    StorageFolder folder = ApplicationData::Current().LocalFolder();
+    winrt::Windows::Storage::StorageFolder folder =
+        ApplicationData::Current().LocalFolder();
 
     return winrt::to_string(folder.Path());
   }
@@ -61,8 +62,7 @@ public:
   void write(Map<std::string, std::string> const      &map,
              std::function<void(std::optional<Error>)> onFinish)
   {
-    write<Map>(localFolder(), Context::PERSISTENCE_FILENAME, map,
-               onFinish);
+    write<Map>(localFolder(), Context::PERSISTENCE_FILENAME, map, onFinish);
   }
 
   void load(std::function<void(std::optional<Error>)> onFinished)
@@ -129,9 +129,8 @@ private:
       -> winrt::fire_and_forget
   {
     PB::printDebug("Loading data.\n");
-    winrt::hstring fileName =
-        winrt::to_hstring(Context::PERSISTENCE_FILENAME);
-    StorageFolder folder = ApplicationData::Current().LocalFolder();
+    winrt::hstring fileName = winrt::to_hstring(Context::PERSISTENCE_FILENAME);
+    StorageFolder  folder = ApplicationData::Current().LocalFolder();
 
     auto result = co_await folder.TryGetItemAsync(fileName);
 

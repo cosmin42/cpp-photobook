@@ -30,26 +30,27 @@ struct ProjectDetails {
 std::variant<ProjectDetails, Error>
 convert(std::unordered_map<std::string, std::string> const &map);
 
-template <typename PersistenceType> class Project final {
+class Project final {
 public:
   static std::optional<std::string> excludeExtension(std::string fileName)
   {
     if (fileName.find(Context::BOOK_EXTENSION) != std::string::npos) {
-      return fileName.substr(0, fileName.length() -
-                                 std::string(Context::BOOK_EXTENSION).length());
+      return fileName.substr(
+          0, fileName.length() - std::string(Context::BOOK_EXTENSION).length());
     }
     return std::nullopt;
   }
 
-  Project()
+  Project() = default;
+
+  Project(Path centralPersistencePath)
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
     mProjectDetails.name =
         boost::uuids::to_string(mProjectDetails.uuid) + Context::BOOK_EXTENSION;
     mProjectDetails.supportDirName =
         boost::uuids::to_string(mProjectDetails.uuid);
-    mProjectDetails.parentDirectory =
-        Persistence<PersistenceType>::localFolder();
+    mProjectDetails.parentDirectory = centralPersistencePath;
   }
 
   explicit Project(ProjectDetails const &projectDetails)
@@ -73,11 +74,11 @@ private:
   ProjectDetails mProjectDetails;
 };
 
-template <typename PersistenceType> class ProjectsSet {
+class ProjectsSet {
 public:
-  Project<PersistenceType> create()
+  Project create(Path centralPersistencePath)
   {
-    Project<PersistenceType> newProject;
+    Project newProject(centralPersistencePath);
     mSet[newProject.details().uuid] = newProject;
     return newProject;
   }
@@ -89,7 +90,7 @@ public:
     }
   }
 
-  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>,
+  std::unordered_map<boost::uuids::uuid, Project,
                      boost::hash<boost::uuids::uuid>> &
   set()
   {
@@ -97,7 +98,7 @@ public:
   }
 
 private:
-  std::unordered_map<boost::uuids::uuid, Project<PersistenceType>,
+  std::unordered_map<boost::uuids::uuid, Project,
                      boost::hash<boost::uuids::uuid>>
       mSet;
 };

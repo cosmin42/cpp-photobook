@@ -19,12 +19,15 @@ using namespace winrt::Windows::Foundation::Collections;
 namespace winrt::PhotobookUI::implementation {
 
 struct FirstPage : FirstPageT<FirstPage> {
+
+  static PB::Path CurrentAppLocation();
+
   FirstPage();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnPersistenceDataLoaded();
+  void OnPersistenceDataLoaded(std::unordered_map<std::string, std::string>&);
   void OnError(PB::Error err);
 
   void OnListViewRightTapped(
@@ -46,7 +49,7 @@ struct FirstPage : FirstPageT<FirstPage> {
 
   winrt::hstring mRightClickedId;
 
-  PB::Persistence<PB::WinrtStorage> mCentralPersistence;
+  PB::SQLitePersistence mCentralPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
 

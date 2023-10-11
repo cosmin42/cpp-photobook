@@ -19,7 +19,15 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::PhotobookUI::implementation {
 
-FirstPage::FirstPage()
+PB::Path FirstPage::CurrentAppLocation()
+{
+  winrt::Windows::Storage::StorageFolder folder =
+      winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+
+  return PB::Path(winrt::to_string(folder.Path()));
+}
+
+FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
 {
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
@@ -33,19 +41,24 @@ FirstPage::FirstPage()
 
   mMenuFlyout.Items().Append(firstItem);
 
-  mCentralPersistence.load([this](std::optional<PB::Error> maybeError) {
-    if (maybeError) {
-      OnError(maybeError.value());
-    }
-    else {
-      OnPersistenceDataLoaded();
-    }
-  });
+  mCentralPersistence.read(
+      [this](
+          std::variant<std::unordered_map<std::string, std::string>, PB::Error>
+              mapOrError) {
+        if (std::holds_alternative<PB::Error>(mapOrError)) {
+          OnError(std::get<PB::Error>(mapOrError));
+        }
+        else {
+          auto &map = std::get<std::unordered_map<std::string, std::string>>(
+              mapOrError);
+          OnPersistenceDataLoaded(map);
+        }
+      });
 }
 
 void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
-  auto newProject = PB::ProjectsSet<PB::WinrtStorage>().create();
+  auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
   auto serializedProject =
       std::unordered_map<std::string, std::string>(newProject.details());
@@ -54,23 +67,22 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 
   auto fullPath = path + "\\" + newProject.details().name;
 
-  PB::Persistence<void> newProjectPersistence(fullPath);
+  PB::FilePersistence newProjectPersistence(fullPath);
 
-  newProjectPersistence.cache().insert(serializedProject.begin(),
-                                       serializedProject.end());
+  newProjectPersistence.write(
+      serializedProject, [](std::optional<PB::Error> maybeError) {
+        if (maybeError) {
+          PB::printError("Error writing into peristence.\n");
+        }
+      });
 
-  newProjectPersistence.write([](std::optional<PB::Error> maybeError) {
-    if (maybeError) {
-      PB::printError("Error writing into peristence.\n");
-    }
-  });
-
-  mCentralPersistence.cache()[uuidStr] = fullPath;
-  mCentralPersistence.write([](std::optional<PB::Error> maybeError) {
-    if (maybeError) {
-      PB::printError("Error writing into peristence.\n");
-    }
-  });
+  mCentralPersistence.write(
+      std::pair<std::string, std::string>(uuidStr, fullPath),
+      [](std::optional<PB::Error> maybeError) {
+        if (maybeError) {
+          PB::printError("Error writing into peristence.\n");
+        }
+      });
 
   auto newPathWin = winrt::to_hstring(fullPath);
   auto boxed = winrt::box_value(newPathWin);
@@ -78,11 +90,10 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
 }
 
-void FirstPage::OnPersistenceDataLoaded()
+void FirstPage::OnPersistenceDataLoaded(
+    std::unordered_map<std::string, std::string> &projects)
 {
   mProjectsList.Clear();
-
-  auto &data = mCentralPersistence.cache();
 
   winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
       ProjectsListView()
@@ -95,10 +106,10 @@ void FirstPage::OnPersistenceDataLoaded()
     return intRoot;
   };
 
-  auto squareDimension = sqrtIntF((int)data.size());
+  auto squareDimension = sqrtIntF((int)projects.size());
   wrapGrid.MaximumRowsOrColumns(squareDimension);
 
-  for (auto &[key, value] : data) {
+  for (auto &[key, value] : projects) {
     mProjectsList.Append(
         ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
 
@@ -138,8 +149,8 @@ void FirstPage::OnDeleteClicked(
       if (id == mRightClickedId) {
         mProjectsList.RemoveAt(i);
 
-        mCentralPersistence.cache().erase(nativeId);
-        mCentralPersistence.write([](std::optional<PB::Error>) {});
+        mCentralPersistence.deleteEntry(nativeId,
+                                        [](std::optional<PB::Error>) {});
         break;
       }
     }
