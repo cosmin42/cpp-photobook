@@ -111,6 +111,7 @@ public:
         onReturn(Error() << ErrorCode::SQLiteError);
         return;
       }
+      onReturn(std::nullopt);
     }
   }
 
