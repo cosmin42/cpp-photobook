@@ -238,9 +238,9 @@ void TableContentPage::CanvasControlDraw(
 
   auto &gallery = mPhotoBook.gallery();
 
-  int32_t portviewWidth = (int32_t)GalleryCanvas().Width();
+  int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
 
-  int32_t portviewHeight = (int32_t)GalleryCanvas().Height();
+  int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
 
   std::shared_ptr<cv::Mat> image = nullptr;
 

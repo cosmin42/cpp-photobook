@@ -98,7 +98,8 @@
                         <StaticResource x:Key="ComboBoxForeground"
                                         ResourceKey="WhiteColour" />
                     </ComboBox.Resources>
-                    <ComboBoxItem Content="A4, 300 ppi" />
+                    <ComboBoxItem Content="A4, 300 ppi"
+                                  Background="#000000" />
                     <ComboBoxItem Content="A5, 300 ppi" />
                     <ComboBoxItem Content="A3, 300 ppi" />
                     <ComboBoxItem Content="Custom" />
@@ -176,8 +177,10 @@
                     <Grid Grid.Row="0"
                           Grid.Column="0"
                           Grid.ColumnSpan="3">
-                        <canvas:CanvasControl Height="{x:Bind CanvasHeight}"
-                                              Width="{x:Bind CanvasWidth}"
+                        <canvas:CanvasControl Height="{x:Bind CanvasBorder.Height}"
+                                              Width="{x:Bind CanvasBorder.Width}"
+                                              MinHeight="{x:Bind CanvasHeight}"
+                                              MinWidth="{x:Bind CanvasWidth}"
                                               Draw="CanvasControlDraw"
                                               x:Name="GalleryCanvas"
                                               ClearColor="#000000" />
