@@ -66,14 +66,14 @@ TableContentPage::TableContentPage()
 int TableContentPage::CanvasWidth()
 {
   auto paperSettings = mPhotoBook.paperSettings();
-  assert(mPhotoBook.paperSettings().ppi > 0);
+  PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
   return (int)((float)paperSettings.width * (60.0 / (float)paperSettings.ppi));
 }
 
 int TableContentPage::CanvasHeight()
 {
   auto paperSettings = mPhotoBook.paperSettings();
-  assert(mPhotoBook.paperSettings().ppi > 0);
+  PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
   return (int)((float)paperSettings.height * (60.0 / (float)paperSettings.ppi));
 }
 
@@ -170,7 +170,7 @@ void TableContentPage::OnPaperComboBoxSelected(
         SelectionChangedEventArgs const &args)
 {
   auto index = PaperComboBox().SelectedIndex();
-  assert(index > -1);
+  PB::basicAssert(index > -1);
   switch (index) {
   case 0: {
     mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A4_PAPER));
@@ -344,7 +344,7 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
   auto unstagedPhotoIndex = UnstagedListView().SelectedIndex();
 
   auto &imagesData = mPhotoBook.imageSupport();
- 
+
   auto iterator =
       imagesData.unstagedIterator(navigationListIndex, unstagedPhotoIndex);
   mPhotoBook.gallery().selectImportFolder(unstagedPhotoIndex, iterator);
@@ -414,8 +414,7 @@ void TableContentPage::Post(std::function<void()> f)
 {
   bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
-
-  assert(success);
+  PB::basicAssert(success);
 }
 
 void TableContentPage::UpdateGalleryLabel()

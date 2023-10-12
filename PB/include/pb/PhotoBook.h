@@ -216,7 +216,7 @@ public:
             mProject.details().name = newPath.filename().string();
             auto maybeSupportName =
                 Project::excludeExtension(newPath.filename().string());
-            assert(maybeSupportName);
+            PB::basicAssert(maybeSupportName.has_value());
             mProject.details().supportDirName = maybeSupportName.value();
           }
         });

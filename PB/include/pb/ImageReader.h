@@ -48,7 +48,7 @@ public:
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
-    assert(matChannels.size() == 3);
+    PB::basicAssert(matChannels.size() == 3);
 
     cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
     alpha = cv::Scalar(255);
@@ -73,7 +73,7 @@ public:
 
     auto currentPath = iterator.current();
 
-    assert(currentPath.has_value());
+    PB::basicAssert(currentPath.has_value());
 
     mBuffer[*currentPath] = loadImage(*currentPath);
   }

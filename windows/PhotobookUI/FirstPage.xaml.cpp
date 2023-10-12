@@ -43,7 +43,7 @@ FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
   mMenuFlyout.Items().Append(firstItem);
 
   auto maybeError = mCentralPersistence.connect();
-  assert(!maybeError);
+  PB::basicAssert(!maybeError);
 
   mCentralPersistence.read(
       [this](

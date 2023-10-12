@@ -26,7 +26,6 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhotoBookListener.h" />
-    <ClInclude Include="WinrtStorage.h" />
     <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PopUps.h" />

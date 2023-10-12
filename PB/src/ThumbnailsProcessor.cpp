@@ -77,8 +77,8 @@ void ThumbnailsProcessor::generateThumbnails(
 
 std::pair<Path, Path> ThumbnailsProcessor::assembleOutputPaths(int index)
 {
-  assert(index >= 0);
-  assert(mProjectDetails.supportDirName.length() > 0);
+  PB::basicAssert(index >= 0);
+  PB::basicAssert(mProjectDetails.supportDirName.length() > 0);
 
   auto smallOutputPath = mProjectDetails.parentDirectory /
                          mProjectDetails.supportDirName /

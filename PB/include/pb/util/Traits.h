@@ -33,12 +33,15 @@ template <typename T> void Unused(T &&) {}
 
 template <template <typename...> typename M, typename KeyType,
           typename ValueType, typename...>
-std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map, KeyType &&value)
+std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map,
+                                KeyType                    &&value)
 {
   if (map.find(value) == map.end()) {
     return std::nullopt;
   }
   return map.at(value);
 }
+
+void basicAssert(int shouldBetrue);
 
 } // namespace PB

@@ -48,8 +48,8 @@ template <>
 auto CustomComparator::operator()(std::filesystem::path const &a,
                                   std::filesystem::path const &b) -> bool
 {
-  assert(std::filesystem::exists(a) && "File doesn't exist.");
-  assert(std::filesystem::exists(b) && "File doesn't exist.");
+  PB::basicAssert(std::filesystem::exists(a));
+  PB::basicAssert(std::filesystem::exists(b));
 
   auto filenameA = a.filename().string();
   auto filenameB = b.filename().string();
@@ -65,7 +65,7 @@ auto CustomComparator::extractPrefix(const std::string &input)
 
   if (std::regex_search(input, match, regexPattern)) {
     std::string result = match.str();
-    assert(result.length() > 0);
+    PB::basicAssert(result.length() > 0);
 
     // Remove the last "."
     result.pop_back();
@@ -89,7 +89,7 @@ auto CustomComparator::tokenizeDate(std::optional<std::string> blob)
   std::stack<std::string> tokensQueue;
 
   for (const auto &tokenRange : tokensRanges) {
-    assert(count < DAY_MONTH_YEAR_COUNT);
+    PB::basicAssert(count < DAY_MONTH_YEAR_COUNT);
     tokensQueue.push(std::string(tokenRange.begin(), tokenRange.end()));
     count++;
   }

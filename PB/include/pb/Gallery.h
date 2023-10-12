@@ -21,14 +21,14 @@ public:
   importFolderAdded(Path                                      root,
                     CircularIterator<std::vector<Thumbnails>> iterator) override
   {
-    assert(mOnImportFolderAdded);
+    PB::basicAssert(mOnImportFolderAdded != nullptr);
     mOnImportFolderAdded(root, iterator);
   }
 
   void stagePhotosUpdated(
       CircularIterator<std::vector<Thumbnails>> iterator) override
   {
-    assert(mOnImportFolderAdded);
+    PB::basicAssert(mOnImportFolderAdded != nullptr);
     mOnStagePhotoUpdated(iterator);
   }
 
