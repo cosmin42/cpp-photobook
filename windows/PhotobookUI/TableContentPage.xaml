@@ -45,11 +45,11 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Background="{StaticResource ButtonBackgroundColor}"
+                <Button Background="{StaticResource PrimaryColor}"
                         Click="OnBackClicked"
                         CornerRadius="0"
                         Grid.Column="0"
-                        Content="Back"
+                        Content="Back "
                         x:Name="BackButton"
                         Foreground="#FFFFFF" />
                 <Button  Content="File"
