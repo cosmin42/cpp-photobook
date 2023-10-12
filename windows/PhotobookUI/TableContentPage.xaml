@@ -67,7 +67,8 @@
                             <MenuFlyoutItem Text="Export"
                                             Click="OnExportClicked" />
                             <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Text="Exit" />
+                            <MenuFlyoutItem Text="Exit"
+                                            Click="OnExitClicked"/>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
@@ -109,7 +110,8 @@
                                   Background="#000000" />
                     <ComboBoxItem Content="A5, 300 ppi" />
                     <ComboBoxItem Content="A3, 300 ppi" />
-                    <ComboBoxItem Content="Custom" />
+                    <ComboBoxItem Content="Custom"
+                                  IsEnabled="False"/>
                 </ComboBox>
             </Grid>
         </Grid>
@@ -347,11 +349,11 @@
                                                                    FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}"
                                                                    FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}"
                                                                    PlaceholderBackground="Green"
-                                                                   PointerOverBackground="White"
+                                                                   PointerOverBackground="{StaticResource ButtonBackgroundColor}"
                                                                    PointerOverForeground="White"
                                                                    SelectedBackground="{StaticResource ButtonBackgroundColor}"
                                                                    SelectedForeground="White"
-                                                                   SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}"
+                                                                   SelectedPointerOverBackground="{StaticResource ButtonBackgroundColor}"
                                                                    PressedBackground="{StaticResource ButtonBackgroundColor}"
                                                                    SelectedPressedBackground="{StaticResource ButtonBackgroundColor}"
                                                                    DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
