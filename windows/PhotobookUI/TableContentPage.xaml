@@ -54,7 +54,7 @@
                         Foreground="#FFFFFF" />
                 <Button  Content="File"
                          Foreground="#FFFFFF"
-                         Background="{StaticResource ButtonBackgroundColor}"
+                         Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="1">
                     <Button.Flyout>
@@ -73,19 +73,31 @@
                 </Button>
                 <Button  Content="Edit"
                          Foreground="#FFFFFF"
-                         Background="{StaticResource ButtonBackgroundColor}"
+                         Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="2"
                          Margin="0,0,20,0" />
                 <Button  Content="Help"
                          Foreground="#FFFFFF"
-                         Background="{StaticResource ButtonBackgroundColor}"
+                         Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="2"
                          Margin="0,0,20,0" />
                 <ComboBox x:Name="PaperComboBox"
                           Grid.Column="3"
-                          SelectionChanged="OnPaperComboBoxSelected">
+                          SelectionChanged="OnPaperComboBoxSelected"
+                          Foreground="#FFFFFF">
+                    <ComboBox.Resources>
+                        <Color x:Key="WhiteColour">#FFFFFF</Color>
+                        <StaticResource x:Key="ComboBoxBackgroundPointerOver"
+                                        ResourceKey="PrimaryColor" />
+                        <StaticResource x:Key="ComboBoxBackground"
+                                        ResourceKey="PrimaryColor" />
+                        <StaticResource x:Key="ComboBoxForegroundPointerOver"
+                                        ResourceKey="WhiteColour" />
+                        <StaticResource x:Key="ComboBoxForeground"
+                                        ResourceKey="WhiteColour" />
+                    </ComboBox.Resources>
                     <ComboBoxItem Content="A4, 300 ppi" />
                     <ComboBoxItem Content="A5, 300 ppi" />
                     <ComboBoxItem Content="A3, 300 ppi" />
