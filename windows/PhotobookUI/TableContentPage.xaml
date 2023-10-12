@@ -186,13 +186,15 @@
                     <Grid Grid.Row="0"
                           Grid.Column="0"
                           Grid.ColumnSpan="3">
-                        <canvas:CanvasControl Height="{x:Bind CanvasBorder.Height}"
-                                              Width="{x:Bind CanvasBorder.Width}"
-                                              MinHeight="{x:Bind CanvasHeight}"
-                                              MinWidth="{x:Bind CanvasWidth}"
+                        <Viewbox Stretch="Uniform">
+                            <canvas:CanvasControl Height="{x:Bind CanvasHeight}"
+                                                  Width="{x:Bind CanvasWidth}"
+                                              MinHeight="{x:Bind CanvasMinHeight}"
+                                              MinWidth="{x:Bind CanvasMinWidth}"
                                               Draw="CanvasControlDraw"
                                               x:Name="GalleryCanvas"
-                                              ClearColor="#000000" />
+                                                  ClearColor="#000000" />
+                        </Viewbox>
                     </Grid>
                     <Button Click="OnGalleryLeft"
                             CornerRadius="0"

@@ -78,18 +78,21 @@ TableContentPage::TableContentPage()
   PaperComboBox().SelectedIndex(0);
 }
 
-double TableContentPage::PaperToCanvasRatio(int width, int height)
+double TableContentPage::PaperToCanvasRatio(int width, int height,
+                                            int boundingBoxWidth,
+                                            int boundingBoxHeight)
 {
-  double widthRatio = (double)width / (double)PB::Context::CANVAS_MIN_MAX_WIDTH;
-  double heightRatio =
-      (double)height / (double)PB::Context::CANVAS_MIN_MAX_HEIGHT;
+  PB::basicAssert(boundingBoxWidth > 0);
+  PB::basicAssert(boundingBoxHeight > 0);
+  double widthRatio = (double)width / (double)boundingBoxWidth;
+  double heightRatio = (double)height / (double)boundingBoxHeight;
 
   double maxRatio = std::max<double>(widthRatio, heightRatio);
 
   return maxRatio;
 }
 
-int TableContentPage::CanvasWidth()
+int TableContentPage::CanvasMinWidth()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
@@ -99,13 +102,12 @@ int TableContentPage::CanvasWidth()
   if (ratio > 1) {
     return (int)floor((double)paperSettings.width / ratio);
   }
-  else
-  {
+  else {
     return paperSettings.width;
   }
 }
 
-int TableContentPage::CanvasHeight()
+int TableContentPage::CanvasMinHeight()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
@@ -119,6 +121,10 @@ int TableContentPage::CanvasHeight()
     return paperSettings.height;
   }
 }
+
+int TableContentPage::CanvasWidth() { return mCanvasSize.first; }
+
+int TableContentPage::CanvasHeight() { return mCanvasSize.second; }
 
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
@@ -222,10 +228,32 @@ void TableContentPage::OnDragOverStagedPhotos(
       Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
 }
 
+void TableContentPage::UpdateCanvasSize()
+{
+  // The new size is computed based on the CanvasBorder size
+
+  int width = (int)CanvasBorder().ActualWidth();
+  int height = (int)CanvasBorder().ActualHeight();
+
+  if (width > 0 && height > 0) {
+
+    auto paperSettings = mPhotoBook.paperSettings();
+
+    double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
+                                      width, height);
+
+    auto newWidth = (int)floor((double)width / ratio);
+    auto newHeight = (int)floor((double)height / ratio);
+
+    mCanvasSize = {newWidth, newHeight};
+  }
+}
+
 void TableContentPage::OnTableContentSizeChanged(
     [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args)
 {
+  UpdateCanvasSize();
   GalleryCanvas().Invalidate();
 }
 

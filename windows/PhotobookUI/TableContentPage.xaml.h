@@ -26,6 +26,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   TableContentPage();
   ~TableContentPage() = default;
 
+  int CanvasMinWidth();
+  int CanvasMinHeight();
+
   int CanvasWidth();
   int CanvasHeight();
 
@@ -130,7 +133,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args);
 
   auto GenericErrorDialogDisplay() -> winrt::fire_and_forget;
-  auto GenericMessageDialogDisplay()->winrt::fire_and_forget;
+  auto GenericMessageDialogDisplay() -> winrt::fire_and_forget;
 
   void OnMappingFinished();
   void OnMappingStopped();
@@ -153,7 +156,13 @@ private:
 
   void PostponeError(std::string message);
 
-  double PaperToCanvasRatio(int width, int height);
+  void UpdateCanvasSize();
+
+  // To be moved, geometry
+  double PaperToCanvasRatio(
+      int width, int height,
+      int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
+      int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
   PhotoBookListener                 mListener;
   PB::PhotoBook<PhotoBookListener>  mPhotoBook;
@@ -163,6 +172,8 @@ private:
   std::vector<int>                  mDragAndDropSelectedIndexes;
   PopUps                            mPopups;
   bool                              mExitFlag = false;
+  std::pair<int, int> mCanvasSize = {PB::Context::CANVAS_MIN_MAX_WIDTH,
+                                     PB::Context::CANVAS_MIN_MAX_HEIGHT};
 };
 } // namespace winrt::PhotobookUI::implementation
 
