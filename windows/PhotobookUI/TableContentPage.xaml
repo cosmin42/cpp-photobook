@@ -82,7 +82,14 @@
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="2"
-                         Margin="0,0,20,0" />
+                         Margin="0,0,20,0">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="About"
+                                            Click="OnAboutClicked" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
                 <ComboBox x:Name="PaperComboBox"
                           Grid.Column="3"
                           SelectionChanged="OnPaperComboBoxSelected"
@@ -430,6 +437,12 @@
                        Title="Error"
                        PrimaryButtonText="Ok">
             <TextBlock x:Name="GenericErrorTextBlock"
+                       HorizontalAlignment="Left" />
+        </ContentDialog>
+        <ContentDialog x:Name="GnericMessage"
+                       Title="Photobook Maker"
+                       PrimaryButtonText="Ok">
+            <TextBlock x:Name="GenericMessageTextBlock"
                        HorizontalAlignment="Left" />
         </ContentDialog>
     </Grid>

@@ -36,6 +36,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnBackClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void OnAboutClicked(Windows::Foundation::IInspectable const    &sender,
+                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   /* Navigation */
   void OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
@@ -124,6 +127,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args);
 
   auto GenericErrorDialogDisplay() -> winrt::fire_and_forget;
+  auto GenericMessageDialogDisplay()->winrt::fire_and_forget;
 
   void OnMappingFinished();
   void OnMappingStopped();

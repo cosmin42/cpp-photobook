@@ -36,6 +36,8 @@ public:
 
   static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE = "Assets/coffee-cup.png";
 
+  static constexpr const char *VERSION = "0.1.0";
+
   Log const &printer() { return mLogPrinter; }
 
   std::stop_source sStopSource;

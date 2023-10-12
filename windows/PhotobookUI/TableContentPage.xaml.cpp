@@ -114,10 +114,22 @@ auto TableContentPage::GenericErrorDialogDisplay() -> winrt::fire_and_forget
   co_await GenericErrorDialog().ShowAsync();
 }
 
+auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget {
+  co_await GnericMessage().ShowAsync();
+}
+
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
   ProjectExitDialogDisplay();
+}
+
+void TableContentPage::OnAboutClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+  GenericMessageTextBlock().Text(winrt::to_hstring("Version: " + std::string(PB::Context::VERSION)));
+  GenericMessageDialogDisplay();
 }
 
 void TableContentPage::OnKeyPressed(
