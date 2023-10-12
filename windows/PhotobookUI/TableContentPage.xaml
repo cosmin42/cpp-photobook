@@ -44,6 +44,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Background="{StaticResource PrimaryColor}"
                         Click="OnBackClicked"
@@ -59,16 +60,24 @@
                          Grid.Column="1">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="New" />
-                            <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Text="Save" />
-                            <MenuFlyoutItem Text="Save As" />
-                            <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Text="Export"
-                                            Click="OnExportClicked" />
-                            <MenuFlyoutSeparator />
-                            <MenuFlyoutItem Text="Exit"
-                                            Click="OnExitClicked"/>
+                            <MenuFlyout.MenuFlyoutPresenterStyle>
+                                <Style TargetType="MenuFlyoutPresenter">
+                                    <Setter Property="CornerRadius"
+                                            Value="0" />
+                                </Style>
+                            </MenuFlyout.MenuFlyoutPresenterStyle>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="New" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="Save" />
+                                <MenuFlyoutItem Text="Save As" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="Export"
+                                                Click="OnExportClicked" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="Exit"
+                                                Click="OnExitClicked" />
+                            </MenuFlyout.Items>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
@@ -76,23 +85,29 @@
                          Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
-                         Grid.Column="2"
-                         Margin="0,0,20,0" />
+                         Grid.Column="2" />
                 <Button  Content="Help"
                          Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
-                         Grid.Column="2"
-                         Margin="0,0,20,0">
+                         Grid.Column="3">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="About"
-                                            Click="OnAboutClicked" />
+                            <MenuFlyout.MenuFlyoutPresenterStyle>
+                                <Style TargetType="MenuFlyoutPresenter">
+                                    <Setter Property="CornerRadius"
+                                            Value="0" />
+                                </Style>
+                            </MenuFlyout.MenuFlyoutPresenterStyle>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="About"
+                                                Click="OnAboutClicked" />
+                            </MenuFlyout.Items>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
                 <ComboBox x:Name="PaperComboBox"
-                          Grid.Column="3"
+                          Grid.Column="4"
                           SelectionChanged="OnPaperComboBoxSelected"
                           Foreground="{StaticResource MainFontColor}">
                     <ComboBox.Resources>
@@ -108,10 +123,12 @@
                     </ComboBox.Resources>
                     <ComboBoxItem Content="A4, 300 ppi"
                                   Background="#000000" />
-                    <ComboBoxItem Content="A5, 300 ppi" />
-                    <ComboBoxItem Content="A3, 300 ppi" />
+                    <ComboBoxItem Content="A5, 300 ppi"
+                                  IsEnabled="False" />
+                    <ComboBoxItem Content="A3, 300 ppi"
+                                  IsEnabled="False" />
                     <ComboBoxItem Content="Custom"
-                                  IsEnabled="False"/>
+                                  IsEnabled="False" />
                 </ComboBox>
             </Grid>
         </Grid>
@@ -189,10 +206,10 @@
                         <Viewbox Stretch="Uniform">
                             <canvas:CanvasControl Height="{x:Bind CanvasHeight}"
                                                   Width="{x:Bind CanvasWidth}"
-                                              MinHeight="{x:Bind CanvasMinHeight}"
-                                              MinWidth="{x:Bind CanvasMinWidth}"
-                                              Draw="CanvasControlDraw"
-                                              x:Name="GalleryCanvas"
+                                                  MinHeight="{x:Bind CanvasMinHeight}"
+                                                  MinWidth="{x:Bind CanvasMinWidth}"
+                                                  Draw="CanvasControlDraw"
+                                                  x:Name="GalleryCanvas"
                                                   ClearColor="#000000" />
                         </Viewbox>
                     </Grid>
