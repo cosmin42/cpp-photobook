@@ -153,6 +153,8 @@ private:
 
   void PostponeError(std::string message);
 
+  double PaperToCanvasRatio(int width, int height);
+
   PhotoBookListener                 mListener;
   PB::PhotoBook<PhotoBookListener>  mPhotoBook;
   IObservableVector<winrt::hstring> mNavigationItemsCollection;

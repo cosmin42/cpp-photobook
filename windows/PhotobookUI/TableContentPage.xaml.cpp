@@ -78,18 +78,46 @@ TableContentPage::TableContentPage()
   PaperComboBox().SelectedIndex(0);
 }
 
+double TableContentPage::PaperToCanvasRatio(int width, int height)
+{
+  double widthRatio = (double)width / (double)PB::Context::CANVAS_MIN_MAX_WIDTH;
+  double heightRatio =
+      (double)height / (double)PB::Context::CANVAS_MIN_MAX_HEIGHT;
+
+  double maxRatio = std::max<double>(widthRatio, heightRatio);
+
+  return maxRatio;
+}
+
 int TableContentPage::CanvasWidth()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
-  return (int)((float)paperSettings.width * (60.0 / (float)paperSettings.ppi));
+
+  double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
+
+  if (ratio > 1) {
+    return (int)floor((double)paperSettings.width / ratio);
+  }
+  else
+  {
+    return paperSettings.width;
+  }
 }
 
 int TableContentPage::CanvasHeight()
 {
   auto paperSettings = mPhotoBook.paperSettings();
   PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
-  return (int)((float)paperSettings.height * (60.0 / (float)paperSettings.ppi));
+
+  double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
+
+  if (ratio > 1) {
+    return (int)floor((double)paperSettings.height / ratio);
+  }
+  else {
+    return paperSettings.height;
+  }
 }
 
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
