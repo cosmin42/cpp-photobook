@@ -244,16 +244,16 @@ void TableContentPage::CanvasControlDraw(
 
   std::shared_ptr<cv::Mat> image = nullptr;
 
-  auto maybeMediumThumbnailPath = gallery.selectedItem();
+  auto maybeThumbnail = gallery.selectedItem();
 
-  if (!maybeMediumThumbnailPath) {
+  if (!maybeThumbnail) {
     return;
   }
-  auto mediumThumbnailPath = maybeMediumThumbnailPath->mediumThumbnail;
+  auto mediumThumbnailPath = maybeThumbnail->mediumThumbnail;
   if (mediumThumbnailPath.empty()) {
     return;
   }
-  if (PB::MediaMap::validImagePath(maybeMediumThumbnailPath->fullPath)) {
+  if (PB::MediaMap::validImagePath(maybeThumbnail->fullPath)) {
     image = mPhotoBook.loadGalleryImage(mediumThumbnailPath.string(),
                                         {portviewWidth, portviewHeight});
   }
@@ -341,14 +341,16 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
     return;
   }
 
-  auto galleryIndex = UnstagedListView().SelectedIndex();
+  auto unstagedPhotoIndex = UnstagedListView().SelectedIndex();
 
   auto &imagesData = mPhotoBook.imageSupport();
-  auto  iterator = imagesData.unstagedIterator(galleryIndex);
-  mPhotoBook.gallery().selectImportFolder(galleryIndex, iterator);
+ 
+  auto iterator =
+      imagesData.unstagedIterator(navigationListIndex, unstagedPhotoIndex);
+  mPhotoBook.gallery().selectImportFolder(unstagedPhotoIndex, iterator);
 
-  if (galleryIndex > -1) {
-    mPhotoBook.gallery().setPosition(galleryIndex);
+  if (unstagedPhotoIndex > -1) {
+    mPhotoBook.gallery().setPosition(unstagedPhotoIndex);
     UpdateGalleryLabel();
   }
 }
@@ -419,13 +421,9 @@ void TableContentPage::Post(std::function<void()> f)
 void TableContentPage::UpdateGalleryLabel()
 {
   auto &gallery = mPhotoBook.gallery();
-
-  auto itemPath = gallery.selectedItem();
-
-  auto importFolderIndex = gallery.selectedIndex();
-
-  auto rootName = mPhotoBook.imageSupport().groupByIndex(importFolderIndex);
-
+  auto  itemPath = gallery.selectedItem();
+  auto  importFolderIndex = gallery.selectedIndex();
+  auto  rootName = mPhotoBook.imageSupport().groupByIndex(importFolderIndex);
 
   GalleryLeftButton().IsEnabled(itemPath.has_value());
   GalleryRightButton().IsEnabled(itemPath.has_value());

@@ -15,12 +15,14 @@ Thumbnails &ImageSupport::image(Path fullPath)
 
 void ImageSupport::addSmallPath(Path fullPath, Path smallSize)
 {
-  image(fullPath).smallThumbnail = smallSize;
+  auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
+  mSupport[importPathIndex][pathIndex].smallThumbnail = smallSize;
 }
 
 void ImageSupport::addMediumPath(Path fullPath, Path mediumPath)
 {
-  image(fullPath).mediumThumbnail = mediumPath;
+  auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
+  mSupport[importPathIndex][pathIndex].mediumThumbnail = mediumPath;
 }
 
 void ImageSupport::addGroup(std::optional<Path> path)
@@ -45,7 +47,8 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
 
     mSupport.at(indexGroup).push_back(newThumbnails);
 
-    mSupportByFullPath[p] = {indexGroup, (int)(mSupport.size() - 1)};
+    mSupportByFullPath[p] = {indexGroup,
+                             (int)(mSupport.at(indexGroup).size() - 1)};
   }
   if (mListener) {
     mListener->importFolderAdded(
@@ -117,10 +120,17 @@ auto ImageSupport::unstagedIterator(Path root)
       mSupport.at(mGroupIndexes.at(root)));
 }
 
-auto ImageSupport::unstagedIterator(int index)
+auto ImageSupport::unstagedIterator(int importedFolderIndex, int index)
     -> CircularIterator<std::vector<Thumbnails>>
 {
-  return CircularIterator<std::vector<Thumbnails>>(mSupport.at(index));
+  if (index > -1) {
+    return CircularIterator<std::vector<Thumbnails>>(
+        mSupport.at(importedFolderIndex))[index];
+  }
+  else {
+    return CircularIterator<std::vector<Thumbnails>>(
+        mSupport.at(importedFolderIndex));
+  }
 }
 
 auto ImageSupport::stagedIterator() -> CircularIterator<std::vector<Thumbnails>>

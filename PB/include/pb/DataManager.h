@@ -40,13 +40,13 @@ public:
   std::optional<Path> groupByIndex(int index);
 
   void stagePhoto(Thumbnails fullPath, int position = -1);
-  void unstagePhoto(int index);
+  void unstagePhoto(int importedFolderIndex);
 
   void clear();
 
   auto stagedIterator() -> CircularIterator<std::vector<Thumbnails>>;
   auto unstagedIterator(Path root) -> CircularIterator<std::vector<Thumbnails>>;
-  auto unstagedIterator(int importFolderIndex)
+  auto unstagedIterator(int importFolderIndex, int index = -1)
       -> CircularIterator<std::vector<Thumbnails>>;
 
   int                                  groupSize(std::optional<Path> group);
