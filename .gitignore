@@ -25,3 +25,5 @@ windows/PhotobookUI/bin/*
 osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
 vcpkg/*
 vcpkg
+windows/PhotobookUI/AppPackages/*
+windows/PhotobookUI/BundleArtifacts/*
