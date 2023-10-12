@@ -111,7 +111,7 @@ void FirstPage::OnPersistenceDataLoaded(
   };
 
   auto squareDimension = sqrtIntF((int)projects.size());
-  //wrapGrid.MaximumRowsOrColumns(squareDimension);
+  // wrapGrid.MaximumRowsOrColumns(squareDimension);
 
   for (auto &[key, value] : projects) {
     mProjectsList.Append(

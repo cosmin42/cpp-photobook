@@ -15,6 +15,7 @@
 #include "MainWindow.xaml.h"
 
 #include <microsoft.ui.xaml.window.h>
+#include <winrt/Windows.ApplicationModel.Core.h>
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.Core.h>
 #include <winrt/Windows.UI.ViewManagement.h>
@@ -114,7 +115,8 @@ auto TableContentPage::GenericErrorDialogDisplay() -> winrt::fire_and_forget
   co_await GenericErrorDialog().ShowAsync();
 }
 
-auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget {
+auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
+{
   co_await GnericMessage().ShowAsync();
 }
 
@@ -128,8 +130,17 @@ void TableContentPage::OnAboutClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  GenericMessageTextBlock().Text(winrt::to_hstring("Version: " + std::string(PB::Context::VERSION)));
+  GenericMessageTextBlock().Text(
+      winrt::to_hstring("Version: " + std::string(PB::Context::VERSION)));
   GenericMessageDialogDisplay();
+}
+
+void TableContentPage::OnExitClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+  ProjectExitDialogDisplay();
+  mExitFlag = true;
 }
 
 void TableContentPage::OnKeyPressed(
@@ -510,6 +521,11 @@ void TableContentPage::OnContentDialogSaveClicked(
         else {
           OnError(std::get<PB::Error>(result));
         }
+        if (mExitFlag) {
+          Post([]() {
+            winrt::Microsoft::UI::Xaml::Application::Current().Exit();
+          });
+        }
       });
 }
 
@@ -546,7 +562,12 @@ void TableContentPage::OnContentDialogDiscardClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   mPhotoBook.discardPhotoBook();
-  Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+  if (mExitFlag) {
+    Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
+  else {
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+  }
 }
 
 void TableContentPage::OnContentDialogCancelClicked(
