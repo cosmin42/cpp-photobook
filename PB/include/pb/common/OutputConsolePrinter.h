@@ -10,7 +10,7 @@ namespace PB {
 
 class OutputConsolePrinter final : public Log {
 
-  static constexpr unsigned MAX_PRINT_BUFFER_SIZE = 512;
+  static constexpr unsigned MAX_PRINT_BUFFER_SIZE = 2048;
 
 public:
   OutputConsolePrinter() = default;
