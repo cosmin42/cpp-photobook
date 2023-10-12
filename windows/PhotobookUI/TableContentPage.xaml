@@ -51,9 +51,9 @@
                         Grid.Column="0"
                         Content="Back "
                         x:Name="BackButton"
-                        Foreground="#FFFFFF" />
+                        Foreground="{StaticResource MainFontColor}" />
                 <Button  Content="File"
-                         Foreground="#FFFFFF"
+                         Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="1">
@@ -73,13 +73,13 @@
                     </Button.Flyout>
                 </Button>
                 <Button  Content="Edit"
-                         Foreground="#FFFFFF"
+                         Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="2"
                          Margin="0,0,20,0" />
                 <Button  Content="Help"
-                         Foreground="#FFFFFF"
+                         Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
                          Grid.Column="2"
@@ -94,7 +94,7 @@
                 <ComboBox x:Name="PaperComboBox"
                           Grid.Column="3"
                           SelectionChanged="OnPaperComboBoxSelected"
-                          Foreground="#FFFFFF">
+                          Foreground="{StaticResource MainFontColor}">
                     <ComboBox.Resources>
                         <Color x:Key="WhiteColour">#FFFFFF</Color>
                         <StaticResource x:Key="ComboBoxBackgroundPointerOver"
@@ -147,7 +147,7 @@
                                        HorizontalAlignment="Left" />
                                 <TextBlock Grid.Column="1"
                                            Text="{Binding}"
-                                           Foreground="#FFFFFF"
+                                           Foreground="{StaticResource MainFontColor}"
                                            HorizontalAlignment="Left"
                                            VerticalAlignment="Center" />
                             </Grid>
@@ -164,7 +164,7 @@
                             CornerRadius="4"
                             Content="Add Media"
                             x:Name="AddMediaButton"
-                            Foreground="#FFFFFF"
+                            Foreground="{StaticResource MainFontColor}"
                             HorizontalAlignment="Center" />
                 </Border>
             </Grid>
@@ -201,7 +201,7 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             x:Name="GalleryLeftButton"
-                            Foreground="#FFFFFF"
+                            Foreground="{StaticResource MainFontColor}"
                             HorizontalAlignment="Right"
                             Background="{StaticResource ButtonBackgroundDisabled}"
                             IsEnabled="False"
@@ -211,7 +211,7 @@
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
                                x:Name="GalleryMainText"
-                               Foreground="#FFFFFF"
+                               Foreground="{StaticResource MainFontColor}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center" />
                     <Button Background="{StaticResource ButtonBackgroundDisabled}"
@@ -220,7 +220,7 @@
                             Grid.Column="2"
                             Grid.Row="1"
                             x:Name="GalleryRightButton"
-                            Foreground="#FFFFFF"
+                            Foreground="{StaticResource MainFontColor}"
                             IsEnabled="False"
                             Height="50">
                         <Image Source="Assets/page-right-enabled.png" />
@@ -412,7 +412,7 @@
             <TextBlock Grid.Row="0"
                        Grid.Column="0"
                        x:Name="StatusLabelText"
-                       Foreground="#FFFFFF"
+                       Foreground="{StaticResource MainFontColor}"
                        Text="Status: Idle"
                        HorizontalAlignment="Left" />
             <ProgressBar Grid.Row="0"

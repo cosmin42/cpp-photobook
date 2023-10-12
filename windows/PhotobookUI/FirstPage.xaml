@@ -30,7 +30,7 @@
                     Foreground="#FFFFFF"
                     Width="100"
                     Height="100"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center">+</Button>
             <GridView Grid.Row="0"
                       Grid.Column="1"

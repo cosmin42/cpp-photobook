@@ -5,6 +5,7 @@
     <Color x:Key="PrimaryColor">#1A2224</Color>
     <Color x:Key="BorderColor">#09191D</Color>
     <Color x:Key="ButtonBackgroundColor">#374346</Color>
+    <Color x:Key="MainFontColor">#FFFFFF</Color>
     <SolidColorBrush x:Key="ButtonBackgroundDisabled"
                      Color="#00000000" />
 </ResourceDictionary>
