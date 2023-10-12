@@ -99,19 +99,23 @@ void FirstPage::OnPersistenceDataLoaded(
 {
   mProjectsList.Clear();
 
-  winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
-      ProjectsListView()
-          .ItemsPanelRoot()
-          .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
+  ProjectsListView().Loaded(
+      [size{projects.size()}](IInspectable const &obj, RoutedEventArgs const &) {
+        auto sqrtIntF = [](int size) {
+          float root = sqrt((float)size);
+          int   intRoot = (int)floor(root) + 1;
+          return intRoot;
+        };
 
-  auto sqrtIntF = [](int size) {
-    float root = sqrt((float)size);
-    int   intRoot = (int)floor(root) + 1;
-    return intRoot;
-  };
+        winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
+            obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
+                .ItemsPanelRoot()
+                .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
 
-  auto squareDimension = sqrtIntF((int)projects.size());
-  // wrapGrid.MaximumRowsOrColumns(squareDimension);
+        auto squareDimension = sqrtIntF((int)size);
+
+        wrapGrid.MaximumRowsOrColumns(squareDimension);
+      });
 
   for (auto &[key, value] : projects) {
     mProjectsList.Append(
