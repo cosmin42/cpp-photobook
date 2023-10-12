@@ -100,6 +100,8 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="License"
+                                                Click="OnLicenseClicked" />
                                 <MenuFlyoutItem Text="About"
                                                 Click="OnAboutClicked" />
                             </MenuFlyout.Items>

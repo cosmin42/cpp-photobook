@@ -169,6 +169,33 @@ void TableContentPage::OnAboutClicked(
   GenericMessageDialogDisplay();
 }
 
+void TableContentPage::OnLicenseClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+  auto installFolder =
+      Windows::ApplicationModel::Package::Current().InstalledLocation();
+
+  PB::Path installedLocation = winrt::to_string(installFolder.Path());
+
+  auto licensePath = installedLocation / "Assets" / "LICENSE";
+
+  std::ifstream licenseFile(licensePath.string());
+
+  std::string licenseText;
+  std::string line;
+
+  while (getline(licenseFile, line)) {
+
+    licenseText += line + "\n";
+  }
+
+  licenseFile.close();
+
+  GenericMessageTextBlock().Text(winrt::to_hstring(licenseText));
+  GenericMessageDialogDisplay();
+}
+
 void TableContentPage::OnExitClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
