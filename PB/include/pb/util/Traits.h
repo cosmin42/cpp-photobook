@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <optional>
+#include <source_location>
 #include <utility>
 
 namespace PB {
@@ -42,6 +43,7 @@ std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map,
   return map.at(value);
 }
 
-void basicAssert(int shouldBetrue);
+void basicAssert(int shouldBetrue, const std::source_location location =
+                                       std::source_location::current());
 
 } // namespace PB
