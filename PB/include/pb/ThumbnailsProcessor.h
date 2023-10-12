@@ -12,7 +12,9 @@ public:
   ResizeTask() = delete;
   explicit ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                       Path mediumThumbnailOutputPath, unsigned totalTaskCount,
-                      std::function<void()> onFinish);
+                      std::function<void()> onFinish, int screenWidth,
+                      int screenHeight);
+  ~ResizeTask() = default;
 
   void operator()() const;
 
@@ -22,11 +24,13 @@ private:
   Path                  mMediumThumbnailOutputPath;
   unsigned              mTotalTaskCount;
   std::function<void()> mFinish;
+  int                   mScreenWidth;
+  int                   mScreenHeight;
 };
 
 class ThumbnailsProcessor final {
 public:
-  ThumbnailsProcessor();
+  explicit ThumbnailsProcessor(std::pair<int, int> size);
   ~ThumbnailsProcessor();
 
   void provideProjectDetails(ProjectDetails const &);
@@ -41,5 +45,7 @@ private:
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
+  int                                        mScreenWidth ;
+  int                                        mScreenHeight;
 };
 } // namespace PB

@@ -14,10 +14,11 @@
 #include "FirstPage.xaml.h"
 #include "MainWindow.xaml.h"
 
-#include <winrt/Windows.Storage.h>
-#include <winrt/Windows.UI.Xaml.Interop.h>
-
 #include <microsoft.ui.xaml.window.h>
+#include <winrt/Windows.Storage.h>
+#include <winrt/Windows.UI.Core.h>
+#include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <pb/common/Log.h>
 
@@ -34,15 +35,28 @@ using namespace Microsoft::Graphics::Canvas;
 
 namespace winrt::PhotobookUI::implementation {
 
-PB::Path TableContentPage::currentAppLocation()
+PB::Path TableContentPage::CurrentAppLocation()
 {
   StorageFolder folder = ApplicationData::Current().LocalFolder();
 
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
+std::pair<int, int> TableContentPage::ScreenSize()
+{
+  RECT windowSize;
+
+  if (SystemParametersInfoA(SPI_GETWORKAREA, 0, &windowSize, 0)) {
+    int windowWidth = windowSize.right - windowSize.left;
+    int windowHeight = windowSize.bottom - windowSize.top;
+    return {windowWidth, windowHeight};
+  }
+  return {0, 0};
+}
+
 TableContentPage::TableContentPage()
-    : mListener(std::ref(*this)), mPhotoBook(mListener, currentAppLocation())
+    : mListener(std::ref(*this)),
+      mPhotoBook(mListener, CurrentAppLocation(), ScreenSize())
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();

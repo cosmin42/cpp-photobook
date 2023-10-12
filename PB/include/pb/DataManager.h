@@ -51,7 +51,12 @@ public:
 
   int                                  groupSize(std::optional<Path> group);
   std::unordered_map<Path, int> const &groups();
-  std::vector<Thumbnails>             &stagedPhotos() { return mStagedPhotos; }
+  std::vector<Thumbnails>             &stagedPhotos();
+
+  std::pair<int, int> screenSize() const;
+
+  void setScreenSize(int width, int height);
+  void setScreenSize(std::pair<int, int> size);
 
 private:
   Thumbnails &image(Path fullPath);
@@ -64,6 +69,9 @@ private:
   std::vector<Thumbnails> mStagedPhotos;
 
   std::shared_ptr<ImageSupportListener> mListener = nullptr;
+
+  int mScreenSizeWidth = 0;
+  int mScreenSizeHeight = 0;
 };
 
 } // namespace PB

@@ -42,9 +42,11 @@ template <typename PhotoBookListenerType>
   requires PhotoBookListenerConcept<PhotoBookListenerType>
 class PhotoBook final {
 public:
-  PhotoBook(PhotoBookListenerType &listener, Path centralPersistencePath)
+  PhotoBook(PhotoBookListenerType &listener, Path centralPersistencePath,std::pair<int, int> screenSize)
       : mParent(listener), mCentralPersistencePath(centralPersistencePath),
-        mCentralPersistence(mCentralPersistencePath), mPaperSettings(A4_PAPER)
+        mCentralPersistence(mCentralPersistencePath),
+        mThumbnailsProcessor(screenSize),
+        mPaperSettings(A4_PAPER)
   {
     printDebug("Photobook created.\n");
 

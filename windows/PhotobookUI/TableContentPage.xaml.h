@@ -19,7 +19,9 @@ namespace winrt::PhotobookUI::implementation {
 
 struct TableContentPage : TableContentPageT<TableContentPage> {
 
-  static PB::Path currentAppLocation();
+  static PB::Path CurrentAppLocation();
+
+  static std::pair<int, int> ScreenSize();
 
   TableContentPage();
   ~TableContentPage() = default;
@@ -144,13 +146,13 @@ private:
 
   void PostponeError(std::string message);
 
-  PhotoBookListener                                  mListener;
-  PB::PhotoBook<PhotoBookListener> mPhotoBook;
-  IObservableVector<winrt::hstring>                  mNavigationItemsCollection;
-  IObservableVector<ImageUIData>                     mUnstagedImageCollection;
-  IObservableVector<ImageUIData>                     mStagedImageCollection;
-  std::vector<int> mDragAndDropSelectedIndexes;
-  PopUps           mPopups;
+  PhotoBookListener                 mListener;
+  PB::PhotoBook<PhotoBookListener>  mPhotoBook;
+  IObservableVector<winrt::hstring> mNavigationItemsCollection;
+  IObservableVector<ImageUIData>    mUnstagedImageCollection;
+  IObservableVector<ImageUIData>    mStagedImageCollection;
+  std::vector<int>                  mDragAndDropSelectedIndexes;
+  PopUps                            mPopups;
 };
 } // namespace winrt::PhotobookUI::implementation
 

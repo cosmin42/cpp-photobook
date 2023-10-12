@@ -162,4 +162,11 @@ std::unordered_map<Path, int> const &ImageSupport::groups()
   return mGroupIndexes;
 }
 
+std::vector<Thumbnails> &ImageSupport::stagedPhotos() { return mStagedPhotos; }
+
+std::pair<int, int> ImageSupport::screenSize() const
+{
+  return {mScreenSizeWidth, mScreenSizeHeight};
+}
+
 } // namespace PB

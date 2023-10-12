@@ -17,16 +17,18 @@ auto resize(cv::Size size, bool keepAspectRatio)
 
     cv::Size2f ratio = {(float)image->cols / (float)width,
                         (float)image->rows / (float)height};
-    auto     maxRatio = std::max(ratio.width, ratio.height);
+    auto       maxRatio = std::max(ratio.width, ratio.height);
 
     if (maxRatio < 1) {
       return image;
     }
-    cv::Size newSize = {(int)floor((image->cols / maxRatio)), (int)floor(image->rows / maxRatio)};
+    cv::Size newSize = {(int)floor((image->cols / maxRatio)),
+                        (int)floor(image->rows / maxRatio)};
 
     cv::resize(*image, *image, newSize, 0, 0, cv::INTER_AREA);
 
-    auto newImage = singleColorImage(newSize.width, newSize.height, cv::Scalar{255, 255, 255})();
+    auto newImage = singleColorImage(newSize.width, newSize.height,
+                                     cv::Scalar{255, 255, 255})();
 
     image->copyTo(*newImage);
 
@@ -57,7 +59,7 @@ auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
                std::shared_ptr<cv::Mat> dest) -> std::shared_ptr<cv::Mat> {
     auto [left, top] = offset;
 
-    //cv::Rect roi(left, top, source->cols, source->rows);
+    // cv::Rect roi(left, top, source->cols, source->rows);
 
     source->copyTo(*dest);
 
@@ -93,14 +95,18 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
   return f;
 }
 
-void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
-                             Path mediumOutputPath)
+void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
+                             Path smallOutputPath, Path mediumOutputPath)
 {
   auto inputImage = ImageReader().loadImage(inputPath);
 
+  int mediumThumbnailWidth =
+      std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
+  int mediumThumbnailHeight =
+      std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
+
   auto mediumImagePointer = PB::Process::resize(
-      cv::Size(Context::MEDIUM_THUMBNAIL_WIDTH, Context::MEDIUM_THUMBNAIL_HEIGHT),
-      true)(inputImage);
+      cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(inputImage);
   ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
 
   auto smallImagePointer = PB::Process::resize(
@@ -110,17 +116,23 @@ void readImageWriteThumbnail(Path inputPath, Path smallOutputPath,
   ImageSetWriter().write(smallOutputPath, smallImagePointer);
 }
 
-void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path smallPath,
+void imageWriteThumbnail(int screenWidth, int screenHeight,
+                         std::shared_ptr<cv::Mat> image, Path smallPath,
                          Path mediumPath)
 {
+  int mediumThumbnailWidth =
+      std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
+  int mediumThumbnailHeight =
+      std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
+
   auto mediumImagePointer = PB::Process::resize(
-      cv::Size(Context::MEDIUM_THUMBNAIL_WIDTH, Context::MEDIUM_THUMBNAIL_HEIGHT),
-      true)(image);
+      cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(image);
 
   ImageSetWriter().write(mediumPath, mediumImagePointer);
 
   auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT), true)(image);
+      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
+      true)(image);
 
   ImageSetWriter().write(smallPath, smallImagePointer);
 }

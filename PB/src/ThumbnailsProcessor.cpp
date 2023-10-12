@@ -5,18 +5,21 @@
 namespace PB {
 ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                        Path mediumThumbnailOutputPath, unsigned totalTaskCount,
-                       std::function<void()> onFinish)
+                       std::function<void()> onFinish, int screenWidth,
+                       int screenHeight)
     : mFullSizePath(fullSizePath),
       mSmallThumbnailOutputPath(smallThumbnailOutputPath),
       mMediumThumbnailOutputPath(mediumThumbnailOutputPath),
-      mTotalTaskCount(totalTaskCount), mFinish(onFinish)
+      mTotalTaskCount(totalTaskCount), mFinish(onFinish),
+      mScreenWidth(screenWidth), mScreenHeight(screenHeight)
 {
 }
 
 void ResizeTask::operator()() const
 {
   if (MediaMap::validImagePath(mFullSizePath)) {
-    Process::readImageWriteThumbnail(mFullSizePath, mSmallThumbnailOutputPath,
+    Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,
+                                     mSmallThumbnailOutputPath,
                                      mMediumThumbnailOutputPath);
   }
   else {
@@ -26,14 +29,16 @@ void ResizeTask::operator()() const
     image = PB::Process::addText({3508 / 2, 2480 / 2},
                                  mFullSizePath.filename().string(),
                                  {0, 0, 0})(image);
-    Process::imageWriteThumbnail(image, mSmallThumbnailOutputPath,
+    Process::imageWriteThumbnail(mScreenWidth, mScreenHeight, image,
+                                 mSmallThumbnailOutputPath,
                                  mMediumThumbnailOutputPath);
   }
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor()
-    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+ThumbnailsProcessor::ThumbnailsProcessor(std::pair<int, int> size)
+    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT),
+      mScreenWidth(size.first), mScreenHeight(size.second)
 {
 }
 
@@ -68,7 +73,7 @@ void ThumbnailsProcessor::generateThumbnails(
     };
 
     ResizeTask resizeTask(mediaMap.at(i), smallPath, mediumPath, taskCount,
-                          task);
+                          task, mScreenWidth, mScreenHeight);
     std::future<void> token = mResizePool.enqueue(resizeTask);
 
     mFutures.push_back(std::move(token));
