@@ -86,6 +86,9 @@ public:
 
   static bool validImagePath(Path const &path)
   {
+    if (path.filename().string().starts_with('.')) {
+      return false;
+    }
     const std::set<std::string> sValidFileExtensions = {Context::JPG_EXTENSION,
                                                         ".jpeg", ".png"};
 

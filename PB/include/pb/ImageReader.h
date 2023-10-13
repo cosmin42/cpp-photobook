@@ -48,13 +48,16 @@ public:
 
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
-    PB::basicAssert(matChannels.size() == 3);
+    if (matChannels.size() == 3) {
+      cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
+      alpha = cv::Scalar(255);
+      matChannels.push_back(alpha);
+      cv::merge(matChannels, *inputImage);
+    }
+    else if (matChannels.size() != 4) {
+      PB::basicAssert(false);
+    }
 
-    cv::Mat alpha(inputImage->rows, inputImage->cols, CV_8UC1);
-    alpha = cv::Scalar(255);
-    matChannels.push_back(alpha);
-
-    cv::merge(matChannels, *inputImage);
     return inputImage;
   }
 
@@ -66,7 +69,7 @@ public:
 
     auto actualBufferSize = std::min(sBufferSize, iterator.size());
 
-    //Unused
+    // Unused
     (void)actualBufferSize;
 
     std::vector<Path> toBeDeleted;
