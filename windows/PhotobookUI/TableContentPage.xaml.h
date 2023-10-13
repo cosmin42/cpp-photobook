@@ -152,6 +152,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void OnStagedImageAdded(PB::Thumbnails image, int index = -1);
 
+  void OnStagedImageRemoved(std::vector<int> removedIndexes);
+
   void OnError(PB::Error error);
 
   void Post(std::function<void()>);

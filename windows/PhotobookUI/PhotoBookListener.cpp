@@ -36,9 +36,15 @@ void PhotoBookListener::onProgressUpdate(int progress, int reference)
   });
 }
 
-void PhotoBookListener::onStagedImageAdded(PB::Thumbnails image, int index)
+void PhotoBookListener::onStagedImageAdded(PB::Thumbnails       image,
+                                           [[maybe_unused]] int index)
 {
   mParent.OnStagedImageAdded(image);
+}
+
+void PhotoBookListener::onStagedImageRemoved(std::vector<int> removedIndexes)
+{
+  mParent.OnStagedImageRemoved(removedIndexes);
 }
 
 void PhotoBookListener::onUnstagedImageAdded(PB::Path fullPath,

@@ -246,6 +246,12 @@ public:
     mParent.onStagedImageAdded(th);
   }
 
+  void deleteStagedPhoto(std::vector<int> positions)
+  {
+    mImagePaths.unstagePhoto(positions);
+    mParent.onStagedImageRemoved(positions);
+  }
+
   void insertStagedPhoto(Thumbnails path, int position)
   {
     mImagePaths.stagePhoto(path, position);

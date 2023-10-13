@@ -75,14 +75,15 @@ void ImageSupport::stagePhoto(Thumbnails paths, int position)
   }
 }
 
-void ImageSupport::unstagePhoto(int index)
+void ImageSupport::unstagePhoto(std::vector<int> indexes)
 {
-  if (index < mStagedPhotos.size() && index > -1) {
-    mStagedPhotos.erase(mStagedPhotos.begin() + index);
-    if (mListener) {
-      mListener->stagePhotosUpdated(
-          CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
-    }
+  std::sort(indexes.begin(), indexes.end(), std::greater<int>());
+  for (int i = 0; i < indexes.size(); ++i) {
+    mStagedPhotos.erase(mStagedPhotos.begin() + indexes.at(i));
+  }
+  if (indexes.size() > 0 && mListener) {
+    mListener->stagePhotosUpdated(
+        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
   }
 }
 

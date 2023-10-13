@@ -40,7 +40,7 @@ public:
   std::optional<Path> groupByIndex(int index);
 
   void stagePhoto(Thumbnails fullPath, int position = -1);
-  void unstagePhoto(int importedFolderIndex);
+  void unstagePhoto(std::vector<int> importedFolderIndex);
 
   void clear();
 

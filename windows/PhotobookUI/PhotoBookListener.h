@@ -24,6 +24,7 @@ public:
   void onAddingUnstagedImagePlaceholder(unsigned size);
 
   void onStagedImageAdded(PB::Thumbnails image, int index = -1);
+  void onStagedImageRemoved(std::vector<int> removedIndexes);
   void onError(PB::Error error);
 
   void post(std::function<void()> f);

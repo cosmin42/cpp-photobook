@@ -226,6 +226,13 @@ void TableContentPage::OnKeyPressed(
     UpdateGalleryLabel();
     break;
   }
+  case Windows::System::VirtualKey::Delete: {
+    auto stagedImagesIndex = StagedListView().SelectedIndex();
+
+    if (stagedImagesIndex > -1) {
+      mPhotoBook.deleteStagedPhoto({stagedImagesIndex});
+    }
+  }
   default: {
   }
   }
@@ -527,6 +534,14 @@ void TableContentPage::OnStagedImageAdded(PB::Thumbnails image, int index)
                            winrt::to_hstring(image.mediumThumbnail.string()),
                            winrt::to_hstring(image.smallThumbnail.string()));
     mStagedImageCollection.Append(winRTImage);
+  }
+}
+
+void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes) {
+  std::sort(removedIndexes.begin(), removedIndexes.end(), std::greater<int>());
+  for (int i = 0; i < removedIndexes.size(); ++i)
+  {
+    mStagedImageCollection.RemoveAt(removedIndexes.at(i));
   }
 }
 
