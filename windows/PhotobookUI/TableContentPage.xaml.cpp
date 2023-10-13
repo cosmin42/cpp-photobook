@@ -236,14 +236,13 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
 {
-  PB::printDebug("Drag started\n");
-  auto selectedRanges =
-      sender.as<Microsoft::UI::Xaml::Controls::ListView>().SelectedRanges();
-
-  for (auto range : selectedRanges) {
-    for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
-      mDragAndDropSelectedIndexes.push_back(i);
-    }
+  for (auto item : args.Items()) {
+    auto image = item.as<ImageUIData>();
+    auto fullPath = winrt::to_string(image.FullPath());
+    auto mediumPath = winrt::to_string(image.MediumPath());
+    auto smallPath = winrt::to_string(image.SmallPath());
+    mDragAndDropSelectedImages.push_back(PB::Thumbnails(
+        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
   }
 }
 
@@ -315,19 +314,11 @@ void TableContentPage::OnDropIntoStagedPhotos(
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
   PB::printDebug("Drop on staged list view.\n");
-  for (auto index : mDragAndDropSelectedIndexes) {
-    mStagedImageCollection.Append(mUnstagedImageCollection.GetAt(index));
-    auto fullPath =
-        winrt::to_string(mUnstagedImageCollection.GetAt(index).FullPath());
-    auto mediumPath =
-        winrt::to_string(mUnstagedImageCollection.GetAt(index).MediumPath());
-    auto smallPath =
-        winrt::to_string(mUnstagedImageCollection.GetAt(index).SmallPath());
-    mPhotoBook.addStagedPhoto(PB::Thumbnails(
-        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
+  for (auto &image : mDragAndDropSelectedImages) {
+    mPhotoBook.addStagedPhoto(image);
   }
 
-  mDragAndDropSelectedIndexes.clear();
+  mDragAndDropSelectedImages.clear();
 }
 
 void TableContentPage::OnGalleryLeft(
@@ -525,6 +516,17 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 {
   for (int i = 0; i < (int)size; ++i) {
     mUnstagedImageCollection.Append(ImageUIData());
+  }
+}
+
+void TableContentPage::OnStagedImageAdded(PB::Thumbnails image, int index)
+{
+  PB::basicAssert(index == -1);
+  if (index == -1) {
+    ImageUIData winRTImage(winrt::to_hstring(image.fullPath.string()),
+                           winrt::to_hstring(image.mediumThumbnail.string()),
+                           winrt::to_hstring(image.smallThumbnail.string()));
+    mStagedImageCollection.Append(winRTImage);
   }
 }
 

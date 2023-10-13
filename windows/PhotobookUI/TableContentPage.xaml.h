@@ -150,6 +150,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                             PB::Path smallPath, int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
+  void OnStagedImageAdded(PB::Thumbnails image, int index = -1);
+
   void OnError(PB::Error error);
 
   void Post(std::function<void()>);
@@ -172,7 +174,7 @@ private:
   IObservableVector<winrt::hstring> mNavigationItemsCollection;
   IObservableVector<ImageUIData>    mUnstagedImageCollection;
   IObservableVector<ImageUIData>    mStagedImageCollection;
-  std::vector<int>                  mDragAndDropSelectedIndexes;
+  std::vector<PB::Thumbnails>       mDragAndDropSelectedImages;
   PopUps                            mPopups;
   bool                              mExitFlag = false;
   std::pair<int, int> mCanvasSize = {PB::Context::CANVAS_MIN_MAX_WIDTH,

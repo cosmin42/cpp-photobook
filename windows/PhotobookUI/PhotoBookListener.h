@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/util/Traits.h>
 
@@ -18,8 +19,11 @@ public:
   void onResumed();
 
   void onProgressUpdate(int progress, int reference);
-  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath, PB::Path smallPath, int position);
+  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath,
+                            PB::Path smallPath, int position);
   void onAddingUnstagedImagePlaceholder(unsigned size);
+
+  void onStagedImageAdded(PB::Thumbnails image, int index = -1);
   void onError(PB::Error error);
 
   void post(std::function<void()> f);

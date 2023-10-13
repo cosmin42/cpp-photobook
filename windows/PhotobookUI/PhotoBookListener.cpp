@@ -36,6 +36,11 @@ void PhotoBookListener::onProgressUpdate(int progress, int reference)
   });
 }
 
+void PhotoBookListener::onStagedImageAdded(PB::Thumbnails image, int index)
+{
+  mParent.OnStagedImageAdded(image);
+}
+
 void PhotoBookListener::onUnstagedImageAdded(PB::Path fullPath,
                                              PB::Path mediumPath,
                                              PB::Path smallPath, int position)
