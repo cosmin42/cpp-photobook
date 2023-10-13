@@ -44,7 +44,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Background="{StaticResource PrimaryColor}"
                         Click="OnBackClicked"
@@ -85,7 +84,26 @@
                          Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
                          CornerRadius="0"
-                         Grid.Column="2" />
+                         Grid.Column="2">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyout.MenuFlyoutPresenterStyle>
+                                <Style TargetType="MenuFlyoutPresenter">
+                                    <Setter Property="CornerRadius"
+                                            Value="0" />
+                                </Style>
+                            </MenuFlyout.MenuFlyoutPresenterStyle>
+                            <MenuFlyout.Items>
+                                <MenuFlyoutSubItem Text="Paper Size">
+                                    <MenuFlyoutItem Text="A4" />
+                                    <MenuFlyoutItem Text="A5" />
+                                    <MenuFlyoutItem Text="A3" />
+                                    <MenuFlyoutItem Text="Other" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
                 <Button  Content="Help"
                          Foreground="{StaticResource MainFontColor}"
                          Background="{StaticResource PrimaryColor}"
@@ -108,30 +126,6 @@
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
-                <ComboBox x:Name="PaperComboBox"
-                          Grid.Column="4"
-                          SelectionChanged="OnPaperComboBoxSelected"
-                          Foreground="{StaticResource MainFontColor}">
-                    <ComboBox.Resources>
-                        <Color x:Key="WhiteColour">#FFFFFF</Color>
-                        <StaticResource x:Key="ComboBoxBackgroundPointerOver"
-                                        ResourceKey="PrimaryColor" />
-                        <StaticResource x:Key="ComboBoxBackground"
-                                        ResourceKey="PrimaryColor" />
-                        <StaticResource x:Key="ComboBoxForegroundPointerOver"
-                                        ResourceKey="WhiteColour" />
-                        <StaticResource x:Key="ComboBoxForeground"
-                                        ResourceKey="WhiteColour" />
-                    </ComboBox.Resources>
-                    <ComboBoxItem Content="A4, 300 ppi"
-                                  Background="#000000" />
-                    <ComboBoxItem Content="A5, 300 ppi"
-                                  IsEnabled="False" />
-                    <ComboBoxItem Content="A3, 300 ppi"
-                                  IsEnabled="False" />
-                    <ComboBoxItem Content="Custom"
-                                  IsEnabled="False" />
-                </ComboBox>
             </Grid>
         </Grid>
         <Grid Grid.Row="1"

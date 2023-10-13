@@ -74,8 +74,6 @@ TableContentPage::TableContentPage()
                Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
     OnKeyPressed(sender, arg);
   });
-
-  PaperComboBox().SelectedIndex(0);
 }
 
 double TableContentPage::PaperToCanvasRatio(int width, int height,
@@ -320,7 +318,7 @@ void TableContentPage::OnPaperComboBoxSelected(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &args)
 {
-  auto index = PaperComboBox().SelectedIndex();
+  auto index = 0;
   PB::basicAssert(index > -1);
   switch (index) {
   case 0: {
