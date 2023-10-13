@@ -227,7 +227,6 @@ void TableContentPage::OnKeyPressed(
     break;
   }
   case Windows::System::VirtualKey::Delete: {
-    auto             stagedImagesIndex = StagedListView().SelectedIndex();
     auto             ranges = StagedListView().SelectedRanges();
     std::vector<int> selectedIndexes;
     for (auto range : ranges) {
