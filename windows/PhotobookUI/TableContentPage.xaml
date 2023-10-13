@@ -281,7 +281,7 @@
                                   AllowDrop="True"
                                   Drop="OnDropIntoStagedPhotos"
                                   DragOver="OnDragOverStagedPhotos"
-                                  SelectionMode="Single"
+                                  SelectionMode="Extended"
                                   SelectionChanged="OnStagedPhotosSelectionChanged"
                                   Background="{StaticResource PrimaryColor}">
                             <ListView.ItemContainerStyle>

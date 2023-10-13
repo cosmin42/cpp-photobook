@@ -227,10 +227,17 @@ void TableContentPage::OnKeyPressed(
     break;
   }
   case Windows::System::VirtualKey::Delete: {
-    auto stagedImagesIndex = StagedListView().SelectedIndex();
+    auto             stagedImagesIndex = StagedListView().SelectedIndex();
+    auto             ranges = StagedListView().SelectedRanges();
+    std::vector<int> selectedIndexes;
+    for (auto range : ranges) {
+      for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
+        selectedIndexes.push_back(i);
+      }
+    }
 
-    if (stagedImagesIndex > -1) {
-      mPhotoBook.deleteStagedPhoto({stagedImagesIndex});
+    if (selectedIndexes.size() > 0) {
+      mPhotoBook.deleteStagedPhoto(selectedIndexes);
     }
   }
   default: {
@@ -537,10 +544,10 @@ void TableContentPage::OnStagedImageAdded(PB::Thumbnails image, int index)
   }
 }
 
-void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes) {
+void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes)
+{
   std::sort(removedIndexes.begin(), removedIndexes.end(), std::greater<int>());
-  for (int i = 0; i < removedIndexes.size(); ++i)
-  {
+  for (int i = 0; i < removedIndexes.size(); ++i) {
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));
   }
 }
