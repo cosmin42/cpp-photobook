@@ -441,15 +441,17 @@ void TableContentPage::OnMappingFinished()
   else {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
   }
+  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
+}
 
+void TableContentPage::OnThumbnailsProcessingFinished()
+{
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
   PB::printDebug("Index selected %d\n",
                  (int)(mNavigationItemsCollection.Size() - 1));
-
-  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
 void TableContentPage::OnImportSelectionChanged(

@@ -25,6 +25,9 @@ public:
 
   void onStagedImageAdded(PB::Thumbnails image, int index = -1);
   void onStagedImageRemoved(std::vector<int> removedIndexes);
+
+  void onMappingFinished();
+
   void onError(PB::Error error);
 
   void post(std::function<void()> f);

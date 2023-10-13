@@ -10,8 +10,14 @@ PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
 }
 void PhotoBookListener::onFinished()
 {
+  mParent.Post([this]() { mParent.OnThumbnailsProcessingFinished(); });
+}
+
+void PhotoBookListener::onMappingFinished()
+{
   mParent.Post([this]() { mParent.OnMappingFinished(); });
 }
+
 void PhotoBookListener::onStopped()
 {
   mParent.Post([this]() { mParent.OnMappingStopped(); });

@@ -143,6 +143,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   auto GenericErrorDialogDisplay() -> winrt::fire_and_forget;
   auto GenericMessageDialogDisplay() -> winrt::fire_and_forget;
 
+  void OnThumbnailsProcessingFinished();
   void OnMappingFinished();
   void OnMappingStopped();
   void OnMappingStarted();

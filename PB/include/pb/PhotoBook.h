@@ -134,6 +134,8 @@ public:
     mParent.onAddingUnstagedImagePlaceholder(
         (unsigned)newMediaMap.map().size());
 
+    mParent.onMappingFinished();
+
     std::vector<std::future<void>> v;
 
     if (!FilePersistence::createDirectory(mProject.details().parentDirectory /
