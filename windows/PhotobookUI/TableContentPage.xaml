@@ -96,9 +96,12 @@
                             <MenuFlyout.Items>
                                 <MenuFlyoutSubItem Text="Paper Size">
                                     <MenuFlyoutItem Text="A4" />
-                                    <MenuFlyoutItem Text="A5" />
-                                    <MenuFlyoutItem Text="A3" />
-                                    <MenuFlyoutItem Text="Other" />
+                                    <MenuFlyoutItem Text="A5"
+                                                    IsEnabled="False" />
+                                    <MenuFlyoutItem Text="A3"
+                                                    IsEnabled="False" />
+                                    <MenuFlyoutItem Text="Other"
+                                                    IsEnabled="False" />
                                 </MenuFlyoutSubItem>
                             </MenuFlyout.Items>
                         </MenuFlyout>
@@ -446,7 +449,8 @@
                 <CheckBox x:Name="OptionPDFCheckBox"
                           Content="PDF" />
                 <CheckBox x:Name="OptionJPGCheckBox"
-                          Content="JPG" />
+                          Content="JPG"
+                          IsEnabled="False" />
                 <TextBox x:Name="ExportNameTextBox"
                          Header="Name:"
                          PlaceholderText="Photobook1" />
