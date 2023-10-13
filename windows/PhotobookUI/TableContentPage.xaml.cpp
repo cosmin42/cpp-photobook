@@ -298,8 +298,8 @@ void TableContentPage::UpdateCanvasSize()
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
 
-    auto newWidth = (int)floor((double)width / ratio);
-    auto newHeight = (int)floor((double)height / ratio);
+    auto newWidth = (int)floor((double)width * ratio);
+    auto newHeight = (int)floor((double)height * ratio);
 
     mCanvasSize = {newWidth, newHeight};
   }
@@ -673,7 +673,14 @@ void TableContentPage::OnExportContentDialogClicked(
         MainWindow::sMainWindowhandle, [this, nativeExportName](PB::Path path) {
           std::vector<PB::Path> thumbnailPaths;
           for (auto item : mStagedImageCollection) {
-            thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
+            PB::Path fullPath = winrt::to_string(item.FullPath());
+            if (std::filesystem::is_regular_file(fullPath)) {
+              thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
+            }
+            else
+            {
+              thumbnailPaths.push_back(winrt::to_string(item.MediumPath()));
+            }
           }
           mPhotoBook.exporter<PB::Pdf>().exportImages(nativeExportName, path,
                                                       thumbnailPaths);

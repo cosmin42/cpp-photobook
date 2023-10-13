@@ -18,7 +18,7 @@ void Pdf::exportImages(std::string name, Path dest, std::vector<Path> images)
     return;
   }
 
-  for (auto path : images) {
+  for (auto &path : images) {
     HPDF_Page page = HPDF_AddPage(pdfFile);
 
     HPDF_Page_SetSize(page, HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE);
