@@ -279,7 +279,7 @@
                                   CanReorderItems="False"
                                   HorizontalAlignment="Stretch"
                                   AllowDrop="True"
-                                  Background="{StaticResource PrimaryColor}
+                                  Background="{StaticResource PrimaryColor}"
                                   Drop="OnDropIntoStagedPhotos"
                                   DragOver="OnDragOverStagedPhotos"
                                   SelectionMode="Extended"
