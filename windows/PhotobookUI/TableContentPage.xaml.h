@@ -95,6 +95,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
+  void OnClickedOutsideList(
+      [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const
+          &args);
+
   /* Dialogs - Save */
   void OnContentDialogSaveClicked(
       Windows::Foundation::IInspectable const &sender,

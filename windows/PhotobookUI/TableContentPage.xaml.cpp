@@ -267,6 +267,25 @@ void TableContentPage::OnDragOverStagedPhotos(
       Windows::ApplicationModel::DataTransfer::DataPackageOperation::Copy);
 }
 
+void TableContentPage::OnClickedOutsideList(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const
+        &args)
+{
+  auto framework = args.OriginalSource().as<FrameworkElement>();
+
+  auto image = framework.DataContext().as<ImageUIData>();
+
+  if (!image) {
+
+    StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mStagedImageCollection.Size()));
+
+    UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mUnstagedImageCollection.Size()));
+  }
+}
+
 void TableContentPage::UpdateCanvasSize()
 {
   // The new size is computed based on the CanvasBorder size

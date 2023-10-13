@@ -279,11 +279,12 @@
                                   CanReorderItems="False"
                                   HorizontalAlignment="Stretch"
                                   AllowDrop="True"
+                                  Background="{StaticResource PrimaryColor}
                                   Drop="OnDropIntoStagedPhotos"
                                   DragOver="OnDragOverStagedPhotos"
                                   SelectionMode="Extended"
-                                  SelectionChanged="OnStagedPhotosSelectionChanged"
-                                  Background="{StaticResource PrimaryColor}">
+                                  Tapped="OnClickedOutsideList"
+                                  SelectionChanged="OnStagedPhotosSelectionChanged">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Template">
@@ -352,6 +353,7 @@
                               AllowDrop="True"
                               CanDragItems="True"
                               CanReorderItems="False"
+                              Tapped="OnClickedOutsideList"
                               DragItemsStarting="OnUnstagedPhotosDragStarted">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
