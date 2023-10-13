@@ -72,7 +72,7 @@ TEST(TestDataManager, TestAddingToSTaging)
 
   ASSERT_TRUE(stagedIterator.size() == 1);
 
-  imageSupport.unstagePhoto(0);
+  imageSupport.unstagePhoto({0});
   stagedIterator = imageSupport.stagedIterator();
 
   ASSERT_TRUE(stagedIterator.size() == 0);
