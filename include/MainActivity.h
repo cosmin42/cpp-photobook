@@ -6,13 +6,14 @@ namespace BL {
 
 class PhotoBookListener final {
 public:
-  void onFinished() {}
+  void onFinished(PB::Path rootPath) {}
   void onStopped() {}
   void onStarted() {}
   void onPaused() {}
   void onResumed() {}
 
-  void onUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath,
+  void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
+                            PB::Path mediumPath,
                             PB::Path smallPath, int position)
   {
   }
