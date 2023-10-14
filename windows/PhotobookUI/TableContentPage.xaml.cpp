@@ -441,8 +441,15 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::OnThumbnailsProcessingFinished()
+void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
 {
+  mLoadedFinishedImportFolders.insert(rootPath);
+  auto selectedIndex = mPhotoBook.gallery().selectedIndex();
+  auto maybeGroupPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+
+  if (maybeGroupPath && maybeGroupPath.value() == rootPath) {
+    UpdateUnstagedImagesView(selectedIndex);
+  }
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
@@ -475,11 +482,32 @@ void TableContentPage::OnImportSelectionChanged(
         mUnstagedImageCollection.Append(ImageUIData());
       }
     }
+    UpdateUnstagedImagesView(index);
+
+    mPhotoBook.gallery().selectImportFolder(index, iterator);
+
+    UpdateGalleryLabel();
   }
+}
 
-  mPhotoBook.gallery().selectImportFolder(index, iterator);
+void TableContentPage::UpdateUnstagedImagesView(int index)
+{
+  auto &imagesData = mPhotoBook.imageSupport();
+  auto  iterator = imagesData.unstagedIterator(index);
 
-  UpdateGalleryLabel();
+  auto rootPath = mPhotoBook.imageSupport().groupByIndex(index);
+  if (rootPath && mLoadedFinishedImportFolders.find(rootPath.value()) !=
+                      mLoadedFinishedImportFolders.end()) {
+    auto size = iterator.size();
+    for (int i = 0; i < (int)size; ++i) {
+      PB::Thumbnails thumbnail = iterator.current().value();
+      mUnstagedImageCollection.SetAt(
+          i, ImageUIData(winrt::to_hstring(thumbnail.fullPath.string()),
+                         winrt::to_hstring(thumbnail.mediumThumbnail.string()),
+                         winrt::to_hstring(thumbnail.smallThumbnail.string())));
+      iterator = iterator.next();
+    }
+  }
 }
 
 void TableContentPage::OnUnstagedPhotosSelectionChanged(

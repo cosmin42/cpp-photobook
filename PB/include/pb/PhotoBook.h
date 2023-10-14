@@ -147,12 +147,12 @@ public:
 
     if (!FilePersistence::createDirectory(mProject.details().parentDirectory /
                                           mProject.details().supportDirName)) {
-      mParent.onFinished();
+      mParent.onFinished(rootPath);
       return;
     }
 
     if (newMediaMap.map().empty()) {
-      mParent.onFinished();
+      mParent.onFinished(rootPath);
     }
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -160,8 +160,13 @@ public:
     mProgress = 0;
     const int maxProgress = (int)newMediaMap.map().size();
 
+    auto importFolderIndex = mImagePaths.groups().at(rootPath);
+
+    auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
+
     mThumbnailsProcessor.generateThumbnails(
         newMediaMap.map(),
+        groupIdentifier,
         [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
             Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
@@ -181,7 +186,7 @@ public:
               auto end = std::chrono::high_resolution_clock::now();
               std::chrono::duration<double> duration = end - start;
               PB::printDebug("Duration: %f\n", duration.count());
-              mParent.onFinished();
+              mParent.onFinished(rootPath);
             }
           });
         });

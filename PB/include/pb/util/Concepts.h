@@ -9,7 +9,7 @@ namespace PB {
 template <typename T>
 concept PhotoBookListenerConcept = requires(T t) {
   {
-    t.onFinished()
+    t.onFinished(PB::Path())
   } -> std::same_as<void>;
 
   {

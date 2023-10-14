@@ -12,7 +12,7 @@ struct TableContentPage;
 class PhotoBookListener {
 public:
   explicit PhotoBookListener(TableContentPage &parent);
-  void onFinished();
+  void onFinished(PB::Path rootPath);
   void onStopped();
   void onStarted();
   void onPaused();

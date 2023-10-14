@@ -36,16 +36,17 @@ public:
   void provideProjectDetails(ProjectDetails const &);
 
   void generateThumbnails(
-      std::vector<std::filesystem::path>         mediaMap,
+      std::vector<Path> mediaMap, std::string groupIdentifier,
       std::function<void(Path, Path, Path, int)> onThumbnailWritten);
 
 private:
-  std::pair<Path, Path>        assembleOutputPaths(int index);
-  ProjectDetails               mProjectDetails;
+  std::pair<Path, Path>                      assembleOutputPaths(int         index,
+                                                                 std::string groupIdentifier);
+  ProjectDetails                             mProjectDetails;
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
-  int                                        mScreenWidth ;
+  int                                        mScreenWidth;
   int                                        mScreenHeight;
 };
 } // namespace PB

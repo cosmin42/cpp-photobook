@@ -8,9 +8,9 @@ namespace winrt::PhotobookUI::implementation {
 PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
 {
 }
-void PhotoBookListener::onFinished()
+void PhotoBookListener::onFinished(PB::Path rootPath)
 {
-  mParent.Post([this]() { mParent.OnThumbnailsProcessingFinished(); });
+  mParent.Post([this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
 }
 
 void PhotoBookListener::onMappingFinished(PB::Path rootPath)

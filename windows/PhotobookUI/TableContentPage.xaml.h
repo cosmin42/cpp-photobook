@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <unordered_set>
+
 #include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
 #include <winrt/Microsoft.Graphics.Canvas.UI.h>
 #include <winrt/Microsoft.Graphics.Canvas.h>
@@ -96,7 +98,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args);
 
   void OnClickedOutsideList(
-      [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const
           &args);
 
@@ -143,7 +145,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   auto GenericErrorDialogDisplay() -> winrt::fire_and_forget;
   auto GenericMessageDialogDisplay() -> winrt::fire_and_forget;
 
-  void OnThumbnailsProcessingFinished();
+  void OnThumbnailsProcessingFinished(PB::Path rootPath);
   void OnMappingFinished(PB::Path rootPath);
   void OnMappingStopped();
   void OnMappingStarted();
@@ -171,6 +173,8 @@ private:
 
   void UpdateCanvasSize();
 
+  void UpdateUnstagedImagesView(int index);
+
   // To be moved, geometry
   double PaperToCanvasRatio(
       int width, int height,
@@ -185,8 +189,9 @@ private:
   std::vector<PB::Thumbnails>       mDragAndDropSelectedImages;
   PopUps                            mPopups;
   bool                              mExitFlag = false;
-  std::pair<int, int> mCanvasSize = {PB::Context::CANVAS_MIN_MAX_WIDTH,
-                                     PB::Context::CANVAS_MIN_MAX_HEIGHT};
+  std::pair<int, int>          mCanvasSize = {PB::Context::CANVAS_MIN_MAX_WIDTH,
+                                              PB::Context::CANVAS_MIN_MAX_HEIGHT};
+  std::unordered_set<PB::Path> mLoadedFinishedImportFolders;
 };
 } // namespace winrt::PhotobookUI::implementation
 
