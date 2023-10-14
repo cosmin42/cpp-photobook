@@ -31,9 +31,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   int CanvasMinWidth();
   int CanvasMinHeight();
 
-  int CanvasWidth();
-  int CanvasHeight();
-
   /* Menu Bar */
   void OnExportClicked(Windows::Foundation::IInspectable const    &sender,
                        Microsoft::UI::Xaml::RoutedEventArgs const &args);
@@ -190,8 +187,6 @@ private:
   std::vector<PB::Thumbnails>       mDragAndDropSelectedImages;
   PopUps                            mPopups;
   bool                              mExitFlag = false;
-  std::pair<int, int>          mCanvasSize = {PB::Context::CANVAS_MIN_MAX_WIDTH,
-                                              PB::Context::CANVAS_MIN_MAX_HEIGHT};
   std::unordered_set<PB::Path> mLoadedFinishedImportFolders;
 };
 } // namespace winrt::PhotobookUI::implementation

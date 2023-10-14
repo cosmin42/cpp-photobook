@@ -197,50 +197,56 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0"
-                          Grid.Column="0"
-                          Grid.ColumnSpan="3">
-                        <Viewbox Stretch="Uniform">
-                            <canvas:CanvasControl Height="{x:Bind CanvasHeight}"
-                                                  Width="{x:Bind CanvasWidth}"
-                                                  MinHeight="{x:Bind CanvasMinHeight}"
-                                                  MinWidth="{x:Bind CanvasMinWidth}"
-                                                  Draw="CanvasControlDraw"
-                                                  x:Name="GalleryCanvas"
-                                                  ClearColor="#000000" />
-                        </Viewbox>
+                          Grid.Column="0">
+                        <canvas:CanvasControl MinHeight="{x:Bind CanvasMinHeight}"
+                                              MinWidth="{x:Bind CanvasMinWidth}"
+                                              Draw="CanvasControlDraw"
+                                              x:Name="GalleryCanvas"
+                                              ClearColor="#000000" />
                     </Grid>
-                    <Button Click="OnGalleryLeft"
-                            CornerRadius="0"
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            x:Name="GalleryLeftButton"
-                            Foreground="{StaticResource MainFontColor}"
-                            HorizontalAlignment="Right"
-                            Background="{StaticResource ButtonBackgroundDisabled}"
-                            IsEnabled="False"
-                            Height="50">
-                        <Image Source="Assets/page-left-enabled.png" />
-                    </Button>
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               x:Name="GalleryMainText"
-                               Foreground="{StaticResource MainFontColor}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" />
-                    <Button Background="{StaticResource ButtonBackgroundDisabled}"
-                            Click="OnGalleryRight"
-                            CornerRadius="0"
-                            Grid.Column="2"
-                            Grid.Row="1"
-                            x:Name="GalleryRightButton"
-                            Foreground="{StaticResource MainFontColor}"
-                            IsEnabled="False"
-                            Height="50">
-                        <Image Source="Assets/page-right-enabled.png" />
-                    </Button>
+                    <Grid x:Name="GalleryBottomName"
+                          Grid.Row="1"
+                          Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Click="OnGalleryLeft"
+                                CornerRadius="0"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                x:Name="GalleryLeftButton"
+                                Foreground="{StaticResource MainFontColor}"
+                                HorizontalAlignment="Right"
+                                Background="{StaticResource ButtonBackgroundDisabled}"
+                                IsEnabled="False"
+                                Height="50">
+                            <Image Source="Assets/page-left-enabled.png" />
+                        </Button>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   x:Name="GalleryMainText"
+                                   Foreground="{StaticResource MainFontColor}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" />
+                        <Button Background="{StaticResource ButtonBackgroundDisabled}"
+                                Click="OnGalleryRight"
+                                CornerRadius="0"
+                                Grid.Column="2"
+                                Grid.Row="0"
+                                x:Name="GalleryRightButton"
+                                Foreground="{StaticResource MainFontColor}"
+                                IsEnabled="False"
+                                Height="50">
+                            <Image Source="Assets/page-right-enabled.png" />
+                        </Button>
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

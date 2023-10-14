@@ -9,8 +9,5 @@ namespace PhotobookUI {
 
   Int32 CanvasMinWidth { get; };
   Int32 CanvasMinHeight { get; };
-
-  Int32 CanvasWidth { get; };
-  Int32 CanvasHeight { get; };
 }
 } // namespace PhotobookUI

@@ -120,10 +120,6 @@ int TableContentPage::CanvasMinHeight()
   }
 }
 
-int TableContentPage::CanvasWidth() { return mCanvasSize.first; }
-
-int TableContentPage::CanvasHeight() { return mCanvasSize.second; }
-
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
 {
@@ -288,20 +284,24 @@ void TableContentPage::UpdateCanvasSize()
 {
   // The new size is computed based on the CanvasBorder size
 
-  int width = (int)CanvasBorder().ActualWidth();
-  int height = (int)CanvasBorder().ActualHeight();
+  int width =
+      (int)(CanvasBorder().ActualWidth() - CanvasBorder().Padding().Left -
+            CanvasBorder().Padding().Right);
+  int height =
+      (int)(CanvasBorder().ActualHeight() - GalleryBottomName().ActualHeight() -
+            CanvasBorder().Padding().Top - CanvasBorder().Padding().Bottom);
 
   if (width > 0 && height > 0) {
-
     auto paperSettings = mPhotoBook.paperSettings();
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
 
-    auto newWidth = (int)floor((double)width * ratio);
-    auto newHeight = (int)floor((double)height * ratio);
+    auto newWidth = floor((double)paperSettings.width / ratio);
+    auto newHeight = floor((double)paperSettings.height / ratio);
 
-    mCanvasSize = {newWidth, newHeight};
+    GalleryCanvas().Width(newWidth);
+    GalleryCanvas().Height(newHeight);
   }
 }
 
