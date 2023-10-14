@@ -41,7 +41,7 @@ jobs:
         doNotCache: false
 
     - name: Build pblib
-      run: build-pblib.bat
+      run: .\build-pblib.bat
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
