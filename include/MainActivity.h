@@ -20,7 +20,7 @@ public:
 
   void post(std::function<void()>) {}
 
-  void onProgressUpdate(int, int) {}
+  void onProgressUpdate(PB::Path, int, int) {}
   void onError(PB::Error error) {}
 
   void onAddingUnstagedImagePlaceholder(unsigned size) {}
