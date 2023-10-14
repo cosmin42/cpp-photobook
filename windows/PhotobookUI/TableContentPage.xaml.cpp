@@ -462,6 +462,21 @@ void TableContentPage::OnImportSelectionChanged(
 
   auto &imagesData = mPhotoBook.imageSupport();
   auto  iterator = imagesData.unstagedIterator(index);
+
+  if (iterator.valid()) {
+    int diff = (int)mUnstagedImageCollection.Size() - (int)iterator.size();
+    if (diff > 0) {
+      for (int i = 0; i < diff; ++i) {
+        mUnstagedImageCollection.RemoveAtEnd();
+      }
+    }
+    else if (diff < 0) {
+      for (int i = 0; i < -diff; ++i) {
+        mUnstagedImageCollection.Append(ImageUIData());
+      }
+    }
+  }
+
   mPhotoBook.gallery().selectImportFolder(index, iterator);
 
   UpdateGalleryLabel();
