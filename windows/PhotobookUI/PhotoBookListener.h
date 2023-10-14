@@ -18,7 +18,7 @@ public:
   void onPaused();
   void onResumed();
 
-  void onProgressUpdate(int progress, int reference);
+  void onProgressUpdate(PB::Path rootPath, int progress, int reference);
   void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
                             PB::Path mediumPath,
                             PB::Path smallPath, int position);

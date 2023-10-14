@@ -36,10 +36,10 @@ void PhotoBookListener::onResumed()
   mParent.Post([this]() { mParent.OnMappingResumed(); });
 }
 
-void PhotoBookListener::onProgressUpdate(int progress, int reference)
+void PhotoBookListener::onProgressUpdate(PB::Path rootPath, int progress, int reference)
 {
-  mParent.Post([this, progress, reference]() {
-    mParent.OnProgressUpdate(progress, reference);
+  mParent.Post([this, rootPath, progress, reference]() {
+    mParent.OnProgressUpdate(rootPath, progress, reference);
   });
 }
 

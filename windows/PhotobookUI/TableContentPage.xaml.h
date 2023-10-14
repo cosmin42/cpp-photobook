@@ -152,7 +152,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnMappingPaused();
   void OnMappingResumed();
 
-  void OnProgressUpdate(int progress, int reference);
+  void OnProgressUpdate(PB::Path rootPath, int progress, int reference);
 
   void OnUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
                             PB::Path mediumPath, PB::Path smallPath,

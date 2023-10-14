@@ -445,7 +445,7 @@ void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
   auto selectedIndex = mPhotoBook.gallery().selectedIndex();
-  auto maybeGroupPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+  auto maybeGroupPath = mPhotoBook.selectedImportFolder();
 
   if (maybeGroupPath && maybeGroupPath.value() == rootPath) {
     UpdateUnstagedImagesView(selectedIndex);
@@ -567,11 +567,15 @@ void TableContentPage::OnMappingPaused() {}
 
 void TableContentPage::OnMappingResumed() {}
 
-void TableContentPage::OnProgressUpdate(int progress, int reference)
+void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
+                                        int reference)
 {
-  MainProgressBar().Maximum(reference);
-  MainProgressBar().Value(progress);
-  StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
+  auto selectedRootPath = mPhotoBook.selectedImportFolder();
+  if (selectedRootPath && rootPath == selectedRootPath.value()) {
+    MainProgressBar().Maximum(reference);
+    MainProgressBar().Value(progress);
+    StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
+  }
 }
 
 void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
@@ -579,9 +583,8 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  auto selectedIndex = mPhotoBook.gallery().selectedIndex();
-  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
-  if (rootPath == selectedRootPath) {
+  auto selectedRootPath = mPhotoBook.selectedImportFolder();
+  if (selectedRootPath && rootPath == selectedRootPath) {
     mUnstagedImageCollection.SetAt(
         position, ImageUIData(winrt::to_hstring(fullPath.string()),
                               winrt::to_hstring(mediumPath.string()),

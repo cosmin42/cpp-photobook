@@ -165,14 +165,13 @@ public:
     auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
 
     mThumbnailsProcessor.generateThumbnails(
-        newMediaMap.map(),
-        groupIdentifier,
+        newMediaMap.map(), groupIdentifier,
         [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
             Path input, Path smallOutput, Path mediumOutput, int position) {
-          mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
+          mParent.onProgressUpdate(rootPath, (int)mProgress, (int)maxProgress);
 
-          mParent.onUnstagedImageAdded(rootPath, input, mediumOutput, smallOutput,
-                                       position);
+          mParent.onUnstagedImageAdded(rootPath, input, mediumOutput,
+                                       smallOutput, position);
 
           mParent.post([this, rootPath{rootPath}, input{input},
                         smallOutput{smallOutput}, start{start},
@@ -197,6 +196,17 @@ public:
   void onError(Error error) { mParent.onError(error); }
 
   Gallery &gallery() { return mGallery; }
+
+  std::optional<PB::Path> selectedImportFolder()
+  {
+    auto selectedIndex = gallery().selectedIndex();
+    if (selectedIndex > -1) {
+      return imageSupport().groupByIndex(selectedIndex);
+    }
+    else {
+      return std::nullopt;
+    }
+  }
 
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>

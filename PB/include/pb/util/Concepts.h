@@ -28,7 +28,7 @@ concept PhotoBookListenerConcept = requires(T t) {
   } -> std::same_as<void>;
 
   {
-    t.onProgressUpdate(int(), int())
+    t.onProgressUpdate(PB::Path(), int(), int())
   } -> std::same_as<void>;
 
   {
