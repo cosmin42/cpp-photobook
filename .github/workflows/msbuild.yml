@@ -1,0 +1,54 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: MSBuild
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: windows\PhotobookUI
+
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: run-vcpkg
+      uses: lukka/run-vcpkg@v11.1
+      with:
+        # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
+        runVcpkgInstall: true
+        # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
+        doNotCache: false
+        # Specify the command line to run vcpkg with. This is only useful when the input 'runVcpkgInstall' is set to true.
+        runVcpkgFormatString: install --triplet=x64-windows 
+        
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
