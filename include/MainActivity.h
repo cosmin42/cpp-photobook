@@ -23,6 +23,8 @@ public:
   void onError(PB::Error error) {}
 
   void onAddingUnstagedImagePlaceholder(unsigned size) {}
+
+  void onMappingFinished(PB::Path) {}
 };
 
 class MainActivity final {

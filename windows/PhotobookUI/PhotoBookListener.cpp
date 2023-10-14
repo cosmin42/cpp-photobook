@@ -13,9 +13,9 @@ void PhotoBookListener::onFinished()
   mParent.Post([this]() { mParent.OnThumbnailsProcessingFinished(); });
 }
 
-void PhotoBookListener::onMappingFinished()
+void PhotoBookListener::onMappingFinished(PB::Path rootPath)
 {
-  mParent.Post([this]() { mParent.OnMappingFinished(); });
+  mParent.Post([this, rootPath]() { mParent.OnMappingFinished(rootPath); });
 }
 
 void PhotoBookListener::onStopped()

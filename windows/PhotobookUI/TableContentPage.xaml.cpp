@@ -424,17 +424,14 @@ void TableContentPage::CanvasControlDraw(
   session.DrawImage(bitmap);
 }
 
-void TableContentPage::OnMappingFinished()
+void TableContentPage::OnMappingFinished(PB::Path rootPath)
 {
-  mNavigationItemsCollection.Clear();
-  auto rootFolders = mPhotoBook.imageSupport().groups();
-  for (auto &path : rootFolders) {
-    mNavigationItemsCollection.Append(
-        winrt::to_hstring(path.first.filename().string()));
-  }
+  mNavigationItemsCollection.Append(
+      winrt::to_hstring(rootPath.filename().string()));
 
   MediaListView().ItemsSource(mNavigationItemsCollection);
 
+  auto rootFolders = mPhotoBook.imageSupport().groups();
   if (!rootFolders.empty()) {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
   }
@@ -677,8 +674,7 @@ void TableContentPage::OnExportContentDialogClicked(
             if (std::filesystem::is_regular_file(fullPath)) {
               thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
             }
-            else
-            {
+            else {
               thumbnailPaths.push_back(winrt::to_string(item.MediumPath()));
             }
           }

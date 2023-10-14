@@ -134,7 +134,7 @@ public:
     mParent.onAddingUnstagedImagePlaceholder(
         (unsigned)newMediaMap.map().size());
 
-    mParent.onMappingFinished();
+    mParent.onMappingFinished(rootPath);
 
     std::vector<std::future<void>> v;
 
