@@ -567,7 +567,11 @@ void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes)
   }
 }
 
-void TableContentPage::OnError(PB::Error error) {}
+void TableContentPage::OnError(PB::Error error)
+{
+  GenericErrorTextBlock().Text(winrt::to_hstring(error.description()));
+  Post([this]() { GenericErrorDialogDisplay(); });
+}
 
 void TableContentPage::Post(std::function<void()> f)
 {

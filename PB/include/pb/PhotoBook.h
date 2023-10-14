@@ -116,6 +116,13 @@ public:
       auto path = std::get<Path>(errorOrPath);
       printDebug("Add Input folder %s\n", path.string().c_str());
 
+      auto &rootFolders = imageSupport().groups();
+      if (rootFolders.find(path) != rootFolders.end()) {
+        mParent.onError(Error() << ErrorCode::FolderAlreadyImported
+                                << "Folder already imported.");
+        return;
+      }
+
       auto ptr = std::make_shared<MediaMapListener<PhotoBookListenerType>>(
           std::ref(*this));
       mListeners.insert({path, ptr});
