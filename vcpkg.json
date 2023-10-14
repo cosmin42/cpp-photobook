@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "dependencies": [
+    "boost-program-options",
+    "opencv",
+    "boost-uuid",
+    "expat",
+    "brotli",
+    "inih",
+    "magic-enum",
+    "exiv2",
+    "gtest",
+    "dp-thread-pool",
+    "libharu",
+    "sqlite3"
+  ]
+}
