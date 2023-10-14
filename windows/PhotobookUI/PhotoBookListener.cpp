@@ -10,7 +10,8 @@ PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
 }
 void PhotoBookListener::onFinished(PB::Path rootPath)
 {
-  mParent.Post([this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
+  mParent.Post(
+      [this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
 }
 
 void PhotoBookListener::onMappingFinished(PB::Path rootPath)
@@ -53,12 +54,14 @@ void PhotoBookListener::onStagedImageRemoved(std::vector<int> removedIndexes)
   mParent.OnStagedImageRemoved(removedIndexes);
 }
 
-void PhotoBookListener::onUnstagedImageAdded(PB::Path fullPath,
+void PhotoBookListener::onUnstagedImageAdded(PB::Path rootPath,
+                                             PB::Path fullPath,
                                              PB::Path mediumPath,
                                              PB::Path smallPath, int position)
 {
-  mParent.Post([this, fullPath, mediumPath, smallPath, position]() {
-    mParent.OnUnstagedImageAdded(fullPath, mediumPath, smallPath, position);
+  mParent.Post([this, rootPath, fullPath, mediumPath, smallPath, position]() {
+    mParent.OnUnstagedImageAdded(rootPath, fullPath, mediumPath, smallPath,
+                                 position);
   });
 }
 

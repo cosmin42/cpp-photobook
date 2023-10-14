@@ -154,8 +154,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void OnProgressUpdate(int progress, int reference);
 
-  void OnUnstagedImageAdded(PB::Path fullPath, PB::Path mediumPath,
-                            PB::Path smallPath, int position);
+  void OnUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
+                            PB::Path mediumPath, PB::Path smallPath,
+                            int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
   void OnStagedImageAdded(PB::Thumbnails image, int index = -1);

@@ -574,14 +574,19 @@ void TableContentPage::OnProgressUpdate(int progress, int reference)
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
-void TableContentPage::OnUnstagedImageAdded(PB::Path fullPath,
+void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
+                                            PB::Path fullPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  mUnstagedImageCollection.SetAt(
-      position, ImageUIData(winrt::to_hstring(fullPath.string()),
-                            winrt::to_hstring(mediumPath.string()),
-                            winrt::to_hstring(smallPath.string())));
+  auto selectedIndex = mPhotoBook.gallery().selectedIndex();
+  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+  if (rootPath == selectedRootPath) {
+    mUnstagedImageCollection.SetAt(
+        position, ImageUIData(winrt::to_hstring(fullPath.string()),
+                              winrt::to_hstring(mediumPath.string()),
+                              winrt::to_hstring(smallPath.string())));
+  }
 }
 
 void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)

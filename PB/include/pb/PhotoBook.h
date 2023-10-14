@@ -171,7 +171,7 @@ public:
             Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate((int)mProgress, (int)maxProgress);
 
-          mParent.onUnstagedImageAdded(input, mediumOutput, smallOutput,
+          mParent.onUnstagedImageAdded(rootPath, input, mediumOutput, smallOutput,
                                        position);
 
           mParent.post([this, rootPath{rootPath}, input{input},
