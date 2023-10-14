@@ -157,7 +157,7 @@ public:
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    mProgress = 0;
+    mProgress[rootPath] = 0;
     const int maxProgress = (int)newMediaMap.map().size();
 
     auto importFolderIndex = mImagePaths.groups().at(rootPath);
@@ -168,7 +168,8 @@ public:
         newMediaMap.map(), groupIdentifier,
         [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
             Path input, Path smallOutput, Path mediumOutput, int position) {
-          mParent.onProgressUpdate(rootPath, (int)mProgress, (int)maxProgress);
+          mParent.onProgressUpdate(rootPath, mProgress.at(rootPath),
+                                   (int)maxProgress);
 
           mParent.onUnstagedImageAdded(rootPath, input, mediumOutput,
                                        smallOutput, position);
@@ -179,8 +180,8 @@ public:
                         maxProgress{maxProgress}]() {
             mImagePaths.addSmallPath(input, smallOutput);
             mImagePaths.addMediumPath(input, mediumOutput);
-            mProgress++;
-            if (mProgress == maxProgress) {
+            mProgress[rootPath]++;
+            if (mProgress.at(rootPath) == maxProgress) {
 
               auto end = std::chrono::high_resolution_clock::now();
               std::chrono::duration<double> duration = end - start;
@@ -299,9 +300,9 @@ private:
   ImageSupport                                                 mImagePaths;
   Gallery                                                      mGallery;
   ImageReader                                                  mImageReader;
-  ThumbnailsProcessor mThumbnailsProcessor;
-  Exporter<Pdf>       mExporter;
-  int                 mProgress = 0;
-  PaperSettings       mPaperSettings;
+  ThumbnailsProcessor           mThumbnailsProcessor;
+  Exporter<Pdf>                 mExporter;
+  std::unordered_map<Path, int> mProgress;
+  PaperSettings                 mPaperSettings;
 };
 } // namespace PB
