@@ -52,8 +52,12 @@ public:
 
   void selectStagedPhotos(CircularIterator<std::vector<Thumbnails>> iterator);
 
+  void clearSelection();
+
   auto selectedItem() -> std::optional<Thumbnails>;
   auto selectedIndex() -> int;
+
+  auto photoLine() const -> PhotoLine;
 
   std::shared_ptr<ImageSupportListener> slot();
 
@@ -62,5 +66,6 @@ private:
   int                                       mSelectedFolderIndex = -1;
   CircularIterator<std::vector<Thumbnails>> mCurrentIterator;
   std::vector<Path>                         mImportedFolders;
+  PhotoLine                                 mPhotoLine = PhotoLine::None;
 };
 } // namespace PB

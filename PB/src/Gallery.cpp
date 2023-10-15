@@ -40,6 +40,7 @@ void Gallery::navigateRight()
 void Gallery::selectImportFolder(
     int index, CircularIterator<std::vector<Thumbnails>> iterator)
 {
+  mPhotoLine = PhotoLine::Unstaged;
   mSelectedFolderIndex = index;
   mCurrentIterator = iterator;
 }
@@ -47,8 +48,18 @@ void Gallery::selectImportFolder(
 void Gallery::selectStagedPhotos(
     CircularIterator<std::vector<Thumbnails>> iterator)
 {
+  mPhotoLine = PhotoLine::Staged;
   mSelectedFolderIndex = -1;
   mCurrentIterator = iterator;
+}
+
+void Gallery::clearSelection()
+{
+  mGalleryListener = nullptr;
+  mSelectedFolderIndex = -1;
+  mCurrentIterator = CircularIterator<std::vector<Thumbnails>>();
+  mImportedFolders.clear();
+  mPhotoLine = PhotoLine::None;
 }
 
 auto Gallery::selectedIndex() -> int { return mSelectedFolderIndex; }
@@ -60,6 +71,8 @@ auto Gallery::selectedItem() -> std::optional<Thumbnails>
   }
   return std::nullopt;
 }
+
+auto Gallery::photoLine() const -> PhotoLine { return mPhotoLine; }
 
 std::shared_ptr<ImageSupportListener> Gallery::slot()
 {

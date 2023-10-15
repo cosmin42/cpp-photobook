@@ -21,4 +21,6 @@ enum class ErrorCode {
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };
+
+enum class PhotoLine { None, Unstaged, Staged };
 } // namespace PB
