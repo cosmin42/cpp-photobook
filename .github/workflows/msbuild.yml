@@ -7,9 +7,9 @@ name: MSBuild
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "actions" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "actions" ]
 
 env:
   # Path to the solution file relative to the root of the project.
@@ -45,12 +45,12 @@ jobs:
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
     - name: vcpkg integrate install
-      run: windows\vcpkg\vcpkg.exe integrate install
+      run: vcpkg\vcpkg.exe integrate install
     - name: Command to list contents
-      run: dir windows\vcpkg\scripts\buildsystems
+      run: dir vcpkg\scripts\buildsystems
 
     - name: Command to list vcpkg packages
-      run: windows\vcpkg\vcpkg.exe list
+      run: vcpkg\vcpkg.exe list
 
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build dependencies
       uses: lukka/run-cmake@v10
