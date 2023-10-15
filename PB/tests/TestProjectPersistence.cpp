@@ -4,6 +4,4 @@
 
 using namespace PB;
 
-TEST(TestProjectPersistence, CreateNewProject)
-{
-}
+TEST(TestProjectPersistence, CreateNewProject) { ASSERT_TRUE(true); }

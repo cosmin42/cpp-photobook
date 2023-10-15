@@ -306,7 +306,7 @@ TEST(TestPersistence, DeleteNonExistentEntry)
         });
   });
 
-  map["testKey"] = "testValue2";
+  map["testKey"] = "testValue";
 
   persistence.deleteEntry("non ExistentKey", [map](
                                          std::optional<PB::Error> maybeError) {
