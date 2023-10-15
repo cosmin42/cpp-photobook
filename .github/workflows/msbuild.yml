@@ -50,12 +50,6 @@ jobs:
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install
 
-    - name: Command to list contents
-      run: dir vcpkg\scripts\buildsystems
-
-    - name: Command to list vcpkg packages
-      run: vcpkg\vcpkg.exe list
-
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build dependencies
       uses: lukka/run-cmake@v10
       with:

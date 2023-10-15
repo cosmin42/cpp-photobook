@@ -15,7 +15,6 @@
         "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "LOG_LEVEL":"Debug",
         "PRINTER_TYPE":"OutputConsolePrinter",
-        "Boost_DEBUG":"ON"
       },
       "architecture":"x64",
       "binaryDir":"build"
@@ -29,7 +28,6 @@
         "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "LOG_LEVEL":"Debug",
         "PRINTER_TYPE":"OutputConsolePrinter",
-        "Boost_DEBUG":"ON"
       },
       "architecture":"x64",
       "binaryDir":"build"
