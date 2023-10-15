@@ -66,10 +66,13 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="New" />
+                                <MenuFlyoutItem Text="New"
+                                                Click="OnNewClicked" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="Save" />
-                                <MenuFlyoutItem Text="Save As" />
+                                <MenuFlyoutItem Text="Save"
+                                                Click="OnSaveClicked" />
+                                <MenuFlyoutItem Text="Save As"
+                                                Click="OnSaveAsClicked" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Export"
                                                 Click="OnExportClicked" />

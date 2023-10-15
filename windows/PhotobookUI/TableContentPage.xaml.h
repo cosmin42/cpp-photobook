@@ -47,6 +47,15 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnExitClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void OnSaveClicked(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void OnSaveAsClicked(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void OnNewClicked(Windows::Foundation::IInspectable const    &sender,
+                    Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   /* Navigation */
   void OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
@@ -190,7 +199,7 @@ private:
   std::vector<PB::Thumbnails>       mDragAndDropSelectedImages;
   PopUps                            mPopups;
   bool                              mExitFlag = false;
-  std::unordered_set<PB::Path> mLoadedFinishedImportFolders;
+  std::unordered_set<PB::Path>      mLoadedFinishedImportFolders;
 };
 } // namespace winrt::PhotobookUI::implementation
 

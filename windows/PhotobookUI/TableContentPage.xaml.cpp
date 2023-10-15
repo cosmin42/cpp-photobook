@@ -198,6 +198,24 @@ void TableContentPage::OnExitClicked(
   mExitFlag = true;
 }
 
+void TableContentPage::OnSaveClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
+void TableContentPage::OnSaveAsClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
+void TableContentPage::OnNewClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
 void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
