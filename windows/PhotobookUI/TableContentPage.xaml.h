@@ -68,6 +68,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasDrawEventArgs const &args);
 
+  void Left();
+  void Right();
+
   /* Book Lines */
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);

@@ -208,15 +208,14 @@ void TableContentPage::OnKeyPressed(
   }
   Windows::System::VirtualKey key = arg.Key();
 
-  PB::printDebug("Key %d, pressed\n", (int)key);
   switch (key) {
   case Windows::System::VirtualKey::Left: {
-    mPhotoBook.gallery().navigateLeft();
+    Left();
     UpdateGalleryLabel();
     break;
   }
   case Windows::System::VirtualKey::Right: {
-    mPhotoBook.gallery().navigateRight();
+    Right();
     UpdateGalleryLabel();
     break;
   }
@@ -351,21 +350,67 @@ void TableContentPage::OnDropIntoStagedPhotos(
   mDragAndDropSelectedImages.clear();
 }
 
+void TableContentPage::Left()
+{
+  auto &gallery = mPhotoBook.gallery();
+  auto  selectedIndex = gallery.selectedIndex();
+  if (selectedIndex > -1) {
+    int nextIndex = 0;
+
+    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
+      nextIndex = (selectedIndex + 1) % mUnstagedImageCollection.Size();
+
+      UnstagedListView().SelectRange({nextIndex, 1});
+    }
+    else if (gallery.photoLine() == PB::PhotoLine::Staged) {
+      nextIndex = (selectedIndex + 1) % mStagedImageCollection.Size();
+      StagedListView().SelectRange({nextIndex, 1});
+    }
+  }
+}
+
 void TableContentPage::OnGalleryLeft(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  mPhotoBook.gallery().navigateLeft();
-
+  Left();
   UpdateGalleryLabel();
+}
+
+void TableContentPage::Right()
+{
+  auto &gallery = mPhotoBook.gallery();
+  auto  selectedIndex = gallery.selectedIndex();
+  if (selectedIndex > -1) {
+    int nextIndex = 0;
+
+    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
+      if (selectedIndex == 0) {
+        nextIndex = (int)mUnstagedImageCollection.Size() - 1;
+      }
+      else {
+        nextIndex--;
+      }
+
+      UnstagedListView().SelectRange({nextIndex, 1});
+    }
+    else if (gallery.photoLine() == PB::PhotoLine::Staged) {
+      if (selectedIndex == 0) {
+        nextIndex = (int)mStagedImageCollection.Size() - 1;
+      }
+      else {
+        nextIndex--;
+      }
+      StagedListView().SelectRange({nextIndex, 1});
+    }
+  }
 }
 
 void TableContentPage::OnGalleryRight(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  mPhotoBook.gallery().navigateRight();
-
+  Right();
   UpdateGalleryLabel();
 }
 
