@@ -57,11 +57,51 @@ TEST(TestProjectPersistence, CreateNewProject)
 
         ASSERT_TRUE(map.size() == 1);
 
-        auto& [key, value] = entry;
+        auto &[key, value] = entry;
 
         auto &[readKey, readValue] = *map.begin();
 
         ASSERT_TRUE(key == readKey);
         ASSERT_TRUE(value == readValue);
+      });
+}
+
+TEST(TestProjectPersistence, CheckProjectPersistence)
+{
+  PB::Project project(Path("."));
+
+  auto uuid = project.details().uuid;
+
+  auto supportDirName = project.details().supportDirName;
+
+  auto parentDirectory = project.details().parentDirectory;
+
+  ASSERT_TRUE(supportDirName ==
+              boost::uuids::to_string(project.details().uuid));
+
+  PB::FilePersistence filePersistence(project.details().projectFile());
+  auto map = std::unordered_map<std::string, std::string>(project.details());
+
+  ASSERT_TRUE(map.at("project-uuid") == supportDirName);
+  ASSERT_TRUE(map.at("project-name") == supportDirName);
+  ASSERT_TRUE(map.at("project-path") == parentDirectory.string());
+
+  filePersistence.write(map, [](std::optional<Error> maybeError) {
+    ASSERT_TRUE(!maybeError.has_value());
+  });
+  filePersistence.read(
+      [supportDirName, parentDirectory](
+          std::variant<std::unordered_map<std::string, std::string>, Error>
+              mapOrError) {
+        ASSERT_TRUE(!std::holds_alternative<Error>(mapOrError));
+        auto &map =
+            std::get<std::unordered_map<std::string, std::string>>(mapOrError);
+
+        auto projectDetailsOrError = PB::convert(map);
+
+        ASSERT_TRUE(!std::holds_alternative<Error>(projectDetailsOrError));
+        auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
+        ASSERT_TRUE(projectDetails.supportDirName == supportDirName);
+        ASSERT_TRUE(projectDetails.parentDirectory == parentDirectory);
       });
 }
