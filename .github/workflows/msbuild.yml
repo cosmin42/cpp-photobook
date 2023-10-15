@@ -44,13 +44,17 @@ jobs:
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
+    - name: vcpkg install
+      run: vcpkg\vcpkg.exe install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows dp-thread-pool:x64-windows libharu:x64-windows sqlite3:x64-windows
+
     - name: vcpkg integrate install
-      run: windows\vcpkg\vcpkg.exe integrate install
+      run: vcpkg\vcpkg.exe integrate install
+
     - name: Command to list contents
-      run: dir windows\vcpkg\scripts\buildsystems
+      run: dir vcpkg\scripts\buildsystems
 
     - name: Command to list vcpkg packages
-      run: windows\vcpkg\vcpkg.exe list
+      run: vcpkg\vcpkg.exe list
 
     - name: Run CMake consuming CMakePreset.json and run vcpkg to build dependencies
       uses: lukka/run-cmake@v10
@@ -63,7 +67,7 @@ jobs:
         # This is the name of the CMakePresets.json's configuration to use to generate
         # the project files. This configuration leverages the vcpkg.cmake toolchain file to
         # run vcpkg and install all dependencies specified in vcpkg.json.
-        configurePreset: 'actions-pblib-release'
+        configurePreset: 'pblib-release'
 
 
     - name: Add MSBuild to PATH
