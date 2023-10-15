@@ -145,5 +145,9 @@ if (LOG_LEVEL MATCHES Debug)
         exiv2lib
         GTest::gtest GTest::gtest_main
         magic_enum::magic_enum
-        pblib)
+        pblib
+        dp::thread-pool
+        unofficial::libharu::hpdf
+        unofficial::sqlite3::sqlite3
+        bcrypt)
 endif()
