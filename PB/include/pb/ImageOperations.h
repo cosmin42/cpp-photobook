@@ -11,10 +11,16 @@
 #include <pb/util/Traits.h>
 
 namespace PB::Process {
+
+typedef std::function<std::pair<int, int>(int, int, int, int)> OffsetFunction;
+
+OffsetFunction alignToCenter();
+OffsetFunction defaultAlignment();
+
 auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
-auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
+auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
 auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)

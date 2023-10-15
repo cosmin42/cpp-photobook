@@ -52,16 +52,51 @@ auto resize(cv::Size size, bool keepAspectRatio)
   return f;
 }
 
-auto overlap(cv::Size offset, std::shared_ptr<cv::Mat> source)
+OffsetFunction alignToCenter()
+{
+  auto f = [](int smallWidth, int smallHeight, int bigWidth,
+              int bigHeight) -> std::pair<int, int> {
+    auto marginHorizontal = bigWidth - smallWidth;
+    auto marginVertical = bigHeight - smallHeight;
+
+    PB::basicAssert(marginHorizontal >= 0);
+    PB::basicAssert(marginVertical >= 0);
+
+    auto marginLeft = marginHorizontal / 2;
+    auto marginTop = marginVertical / 2;
+
+    return {marginLeft, marginTop};
+  };
+  return f;
+}
+
+OffsetFunction defaultAlignment()
+{
+  auto f = []([[maybe_unused]] int smallWidth, [[maybe_unused]] int smallHeight,
+              [[maybe_unused]] int bigWidth,
+              [[maybe_unused]] int bigHeight) -> std::pair<int, int> {
+    return {0, 0};
+  };
+  return f;
+}
+
+auto overlap(std::shared_ptr<cv::Mat> source,
+             OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
-  auto f = [offset{offset}, source{source}](
+  auto f = [source{source}, offsetFunction](
                std::shared_ptr<cv::Mat> dest) -> std::shared_ptr<cv::Mat> {
-    auto [left, top] = offset;
+    auto bigWidth = dest->cols;
+    auto bigHeight = dest->rows;
 
-    // cv::Rect roi(left, top, source->cols, source->rows);
+    auto smallWidth = source->cols;
+    auto smallHeight = source->rows;
 
-    source->copyTo(*dest);
+    auto [marginLeft, marginTop] =
+        offsetFunction(smallWidth, smallHeight, bigWidth, bigHeight);
+
+    source->copyTo(dest->operator()(
+        cv::Rect(marginLeft, marginTop, source->cols, source->rows)));
 
     return dest;
   };

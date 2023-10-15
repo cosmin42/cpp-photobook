@@ -395,8 +395,17 @@ void TableContentPage::CanvasControlDraw(
     return;
   }
   if (PB::MediaMap::validImagePath(maybeThumbnail->fullPath)) {
-    image = mPhotoBook.loadGalleryImage(mediumThumbnailPath.string(),
-                                        {portviewWidth, portviewHeight});
+    image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
+                                          {255, 255, 255})();
+
+    auto tmpImage = mPhotoBook.loadGalleryImage(
+        mediumThumbnailPath.string(), {portviewWidth, portviewHeight});
+    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
+      PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
+    }
+    else {
+      PB::Process::overlap(tmpImage, PB::Process::defaultAlignment())(image);
+    }
   }
   else {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
