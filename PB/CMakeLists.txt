@@ -131,6 +131,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestDataManager.cpp
         tests/TestErrors.cpp
         tests/TestGallery.cpp
+        tests/TestProjectPersistence.cpp
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
