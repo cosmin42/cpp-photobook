@@ -30,6 +30,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - uses: lukka/get-cmake@latest
+
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v11.1
       with:
@@ -50,8 +52,19 @@ jobs:
     - name: Command to list vcpkg packages
       run: vcpkg\vcpkg.exe list
 
-    - name: Build pblib
-      run: cmake --preset pblib-release PB
+    - name: Run CMake consuming CMakePreset.json and run vcpkg to build dependencies
+      uses: lukka/run-cmake@v10
+      with:
+        # This is the default path to the CMakeLists.txt along side the
+        # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
+        # located elsewhere.
+        cmakeListsTxtPath: '${{ github.workspace }}/PB/CMakeLists.txt'
+
+        # This is the name of the CMakePresets.json's configuration to use to generate
+        # the project files. This configuration leverages the vcpkg.cmake toolchain file to
+        # run vcpkg and install all dependencies specified in vcpkg.json.
+        configurePreset: 'pblib-release'
+
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
