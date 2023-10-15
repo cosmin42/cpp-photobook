@@ -44,10 +44,8 @@ jobs:
 
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install
-    - name: Command to list vcpkg
-      run: dir
     - name: Command to list contents
-      run: dir vcpkg
+      run: dir vcpkg\scripts\buildsystems
 
 
     - name: Build pblib
