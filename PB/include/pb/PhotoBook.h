@@ -225,14 +225,12 @@ public:
   void savePhotoBook(std::string const &newName)
   {
     Path newPath = newName;
-    Path oldPath = mProject.details().parentDirectory / mProject.details().name;
-    mProject.details().name = newPath.filename().string();
+    Path oldPath = mProject.details().supportFolder();
     mProject.details().parentDirectory = newPath.parent_path();
 
     std::pair<std::string, std::string> entry = {
         boost::uuids::to_string(mProject.details().uuid),
-        (mProject.details().parentDirectory / mProject.details().name)
-            .string()};
+        mProject.details().supportFolder().string()};
     mCentralPersistence.write(
         entry, [this, newPath](std::optional<Error> maybeError) {
           if (maybeError) {
@@ -240,7 +238,6 @@ public:
           }
           else {
             mProject.details().parentDirectory = newPath.parent_path();
-            mProject.details().name = newPath.filename().string();
             auto maybeSupportName =
                 Project::excludeExtension(newPath.filename().string());
             PB::basicAssert(maybeSupportName.has_value());

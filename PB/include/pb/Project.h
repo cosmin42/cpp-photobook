@@ -11,16 +11,16 @@
 namespace PB {
 struct ProjectDetails {
   boost::uuids::uuid uuid;
-  std::string        name;
   std::string        supportDirName;
   Path               parentDirectory;
+  Path supportFolder() const { return parentDirectory / supportDirName; }
 
   operator std::unordered_map<std::string, std::string>()
   {
     std::unordered_map<std::string, std::string> result;
 
     result["project-uuid"] = boost::uuids::to_string(uuid);
-    result["project-name"] = name;
+    result["project-name"] = supportDirName;
     result["project-path"] = parentDirectory.string();
 
     return result;
@@ -46,8 +46,6 @@ public:
   Project(Path centralPersistencePath)
   {
     mProjectDetails.uuid = boost::uuids::random_generator()();
-    mProjectDetails.name =
-        boost::uuids::to_string(mProjectDetails.uuid) + Context::BOOK_EXTENSION;
     mProjectDetails.supportDirName =
         boost::uuids::to_string(mProjectDetails.uuid);
     mProjectDetails.parentDirectory = centralPersistencePath;

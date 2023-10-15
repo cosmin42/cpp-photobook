@@ -44,15 +44,8 @@ convert(std::unordered_map<std::string, std::string> const &map)
     return Error() << ErrorCode::ProjectPathDoesNotExist;
   }
 
-  std::string projectDir = *projectName;
-  if (projectDir.find(Context::BOOK_EXTENSION) != std::string::npos) {
-    projectDir = projectDir.substr(
-        0, projectDir.length() - std::string(Context::BOOK_EXTENSION).length());
-  }
-
   projectDetails.uuid = newUUID;
-  projectDetails.name = *projectName;
-  projectDetails.supportDirName = projectDir;
+  projectDetails.supportDirName = projectName.value();
   projectDetails.parentDirectory = newPath;
 
   return projectDetails;

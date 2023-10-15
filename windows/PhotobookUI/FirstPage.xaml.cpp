@@ -67,9 +67,9 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
   auto serializedProject =
       std::unordered_map<std::string, std::string>(newProject.details());
 
-  auto [uuidStr, path] = newProject.locationData();
+  auto uuidStr = boost::uuids::to_string(newProject.details().uuid);
 
-  auto fullPath = PB::Path(path) / newProject.details().name;
+  auto fullPath = newProject.details().supportFolder();
 
   PB::FilePersistence newProjectPersistence(fullPath);
 
