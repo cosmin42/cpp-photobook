@@ -42,8 +42,13 @@ jobs:
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
+    - name: vcpkg integrate install
+      run: vcpkg\vcpkg.exe integrate install
     - name: Command to list vcpkg
       run: dir
+    - name: Command to list contents
+      run: dir vcpkg
+
 
     - name: Build pblib
       run: cmake --preset pblib-release PB
