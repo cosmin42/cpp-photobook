@@ -222,26 +222,21 @@ public:
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
-  void savePhotoBook(std::string const &newName)
+  void savePhotoBook(Path newPath)
   {
-    Path newPath = newName;
-    Path oldPath = mProject.details().supportFolder();
-    mProject.details().parentDirectory = newPath.parent_path();
+    Path oldProjectFile = mProject.details().projectFile();
+    Path oldSupportFolder = mProject.details().supportFolder();
+
+    mProject.updateProjectPath(newPath.parent_path());
+    mProject.updateProjectName(newPath.stem().string());
 
     std::pair<std::string, std::string> entry = {
         boost::uuids::to_string(mProject.details().uuid),
         mProject.details().supportFolder().string()};
     mCentralPersistence.write(
-        entry, [this, newPath](std::optional<Error> maybeError) {
+        entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
           if (maybeError) {
             mParent.onError(Error() << ErrorCode::CannotSaveFile);
-          }
-          else {
-            mProject.details().parentDirectory = newPath.parent_path();
-            auto maybeSupportName =
-                Project::excludeExtension(newPath.filename().string());
-            PB::basicAssert(maybeSupportName.has_value());
-            mProject.details().supportDirName = maybeSupportName.value();
           }
         });
 
@@ -251,15 +246,18 @@ public:
     FilePersistence persistence(newPath);
 
     persistence.write(projectDetailsMap,
-                      [this](std::optional<Error> maybeError) {
+                      [this, oldProjectFile,
+                       oldSupportFolder](std::optional<Error> maybeError) {
                         if (maybeError) {
                           mParent.onError(maybeError.value());
                         }
+                        else {
+                          std::filesystem::remove(oldSupportFolder);
+                          std::filesystem::remove(oldProjectFile);
+                        }
                       });
 
-    std::filesystem::remove(oldPath);
-
-    PB::printDebug("Save Photobook %s\n", newName.c_str());
+    PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
   }
 
   void addStagedPhoto(Thumbnails th)

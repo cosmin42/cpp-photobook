@@ -14,8 +14,12 @@ struct ProjectDetails {
   std::string        supportDirName;
   Path               parentDirectory;
   Path supportFolder() const { return parentDirectory / supportDirName; }
+  Path projectFile() const
+  {
+    return parentDirectory / (supportDirName + Context::BOOK_EXTENSION);
+  }
 
-  operator std::unordered_map<std::string, std::string>()
+  operator std::unordered_map<std::string, std::string>() const
   {
     std::unordered_map<std::string, std::string> result;
 
@@ -58,7 +62,14 @@ public:
 
   ~Project() = default;
 
-  ProjectDetails &details() { return mProjectDetails; }
+  ProjectDetails const &details() const { return mProjectDetails; }
+
+  void updateProjectName(std::string name)
+  {
+    mProjectDetails.supportDirName = name;
+  }
+
+  void updateProjectPath(Path path) { mProjectDetails.parentDirectory = path; }
 
   std::pair<std::string, std::string> locationData()
   {

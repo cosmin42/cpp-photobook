@@ -199,20 +199,20 @@ void TableContentPage::OnExitClicked(
 }
 
 void TableContentPage::OnSaveClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
 void TableContentPage::OnSaveAsClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
 void TableContentPage::OnNewClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
