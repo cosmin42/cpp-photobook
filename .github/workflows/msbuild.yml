@@ -43,7 +43,7 @@ jobs:
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
     - name: Build pblib
-      run: cmake -B PB\build -S PB -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake" -DLOG_LEVEL=Debug -DPRINTER_TYPE=OutputConsolePrinter
+      run: cmake --preset pblib-release PB
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
