@@ -27,7 +27,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "LOG_LEVEL":"Release",
+        "LOG_LEVEL":"Debug",
         "PRINTER_TYPE":"OutputConsolePrinter",
         "Boost_DEBUG":"ON"
       },
