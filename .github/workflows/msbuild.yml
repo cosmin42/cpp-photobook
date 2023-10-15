@@ -63,7 +63,7 @@ jobs:
         # This is the name of the CMakePresets.json's configuration to use to generate
         # the project files. This configuration leverages the vcpkg.cmake toolchain file to
         # run vcpkg and install all dependencies specified in vcpkg.json.
-        configurePreset: 'actions-pblib-release'
+        configurePreset: 'pblib-release'
 
 
     - name: Add MSBuild to PATH
