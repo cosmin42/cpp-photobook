@@ -47,6 +47,8 @@ jobs:
     - name: Command to list contents
       run: dir vcpkg\scripts\buildsystems
 
+    - name: Command to list vcpkg packages
+      run: vcpkg\vcpkg.exe list
 
     - name: Build pblib
       run: cmake --preset pblib-release PB
