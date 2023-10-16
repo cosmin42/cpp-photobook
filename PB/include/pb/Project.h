@@ -20,7 +20,7 @@ public:
     catch (...) {
       PB::basicAssert(false);
     }
-    mPath = path;
+    mProjectFilePath = path;
   }
 
   ~ProjectMetadata() = default;
@@ -28,7 +28,7 @@ public:
   std::pair<std::string, std::string> serialize()
   {
     std::pair<std::string, std::string> result = {
-        boost::uuids::to_string(mUUID), mPath.string()};
+        boost::uuids::to_string(mUUID), mProjectFilePath.string()};
     return result;
   }
 
@@ -57,11 +57,14 @@ public:
     return result;
   }
 
-  std::pair<boost::uuids::uuid, Path> data() const { return {mUUID, mPath}; }
+  std::pair<boost::uuids::uuid, Path> data() const
+  {
+    return {mUUID, mProjectFilePath};
+  }
 
 private:
   boost::uuids::uuid mUUID;
-  Path               mPath;
+  Path               mProjectFilePath;
 };
 
 struct ProjectDetails {

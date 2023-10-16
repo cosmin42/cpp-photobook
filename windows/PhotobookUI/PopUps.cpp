@@ -9,6 +9,7 @@
 #include <winrt/Windows.Storage.Pickers.h>
 
 #include <pb/Config.h>
+#include <pb/Project.h>
 
 namespace winrt::PhotobookUI::implementation {
 
@@ -52,7 +53,12 @@ auto PopUps::fireSaveFilePicker(
   auto filename{co_await fileSavePicker.PickSaveFileAsync()};
 
   if (filename) {
-    onReturn(winrt::to_string(filename.Path()));
+    auto maybeResult =
+        PB::Project::excludeExtension(winrt::to_string(filename.Path()));
+
+    PB::basicAssert(maybeResult.has_value());
+
+    onReturn(maybeResult.value());
   }
   else {
     onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);

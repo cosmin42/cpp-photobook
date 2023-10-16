@@ -25,7 +25,8 @@ struct FirstPage : FirstPageT<FirstPage> {
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnPersistenceDataLoaded(std::unordered_map<std::string, std::string>&);
+  void OnPersistenceDataLoaded(std::variant<std::vector<PB::ProjectMetadata>,
+                                            PB::Error> metadatOrError);
   void OnError(PB::Error err);
 
   void OnListViewRightTapped(

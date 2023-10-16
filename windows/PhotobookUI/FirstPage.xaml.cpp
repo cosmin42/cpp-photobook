@@ -53,9 +53,8 @@ FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
           OnError(std::get<PB::Error>(mapOrError));
         }
         else {
-          auto &map = std::get<std::unordered_map<std::string, std::string>>(
-              mapOrError);
-          OnPersistenceDataLoaded(map);
+          auto metadatOrError = PB::ProjectMetadata::parse(mapOrError);
+          OnPersistenceDataLoaded(metadatOrError);
         }
       });
 }
@@ -95,33 +94,38 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 }
 
 void FirstPage::OnPersistenceDataLoaded(
-    std::unordered_map<std::string, std::string> &projects)
+    std::variant<std::vector<PB::ProjectMetadata>, PB::Error> metadataOrError)
 {
+  if (std::holds_alternative<PB::Error>(metadataOrError)) {
+    return;
+  }
+  auto &metadata = std::get<std::vector<PB::ProjectMetadata>>(metadataOrError);
+
   mProjectsList.Clear();
 
-  ProjectsListView().Loaded(
-      [size{projects.size()}](IInspectable const &obj, RoutedEventArgs const &) {
-        auto sqrtIntF = [](int size) {
-          float root = sqrt((float)size);
-          int   intRoot = (int)floor(root) + 1;
-          return intRoot;
-        };
+  ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,
+                                                    RoutedEventArgs const &) {
+    auto sqrtIntF = [](int size) {
+      float root = sqrt((float)size);
+      int   intRoot = (int)floor(root) + 1;
+      return intRoot;
+    };
 
-        winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
-            obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
-                .ItemsPanelRoot()
-                .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
+    winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
+        obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
+            .ItemsPanelRoot()
+            .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
 
-        auto squareDimension = sqrtIntF((int)size);
+    auto squareDimension = sqrtIntF((int)size);
 
-        wrapGrid.MaximumRowsOrColumns(squareDimension);
-      });
+    wrapGrid.MaximumRowsOrColumns(squareDimension);
+  });
 
-  for (auto &[key, value] : projects) {
+  for (auto &project : metadata) {
+    auto [uuid, path] = project.data();
     mProjectsList.Append(
-        ProjectItem(winrt::to_hstring(key), winrt::to_hstring(value)));
-
-    PB::printDebug("%s %s\n", key.c_str(), value.c_str());
+        ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
+                    winrt::to_hstring(path.string())));
   }
 
   ProjectsListView().ItemsSource(mProjectsList);
