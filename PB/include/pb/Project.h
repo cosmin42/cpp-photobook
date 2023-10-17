@@ -91,6 +91,34 @@ struct ProjectDetails {
 
     return result;
   }
+
+  operator Json() const
+  {
+    Json jsonData;
+    jsonData["project-uuid"] = boost::uuids::to_string(uuid);
+    jsonData["project-name"] = supportDirName;
+    jsonData["project-path"] = parentDirectory.string();
+
+    Json importedFolders = {};
+
+    for (auto i = 0; i < importedPaths.size(); ++i)
+    {
+      Json pathFlagPair;
+      pathFlagPair["path"] = importedPaths.at(i).string();
+      pathFlagPair["thumbnails-generated"] = false;
+      importedFolders.push_back(pathFlagPair);
+    }
+
+    jsonData["imported-folders"] = importedFolders;
+
+    Json stagedImagesArray = {};
+    for (auto i = 0; i < stagedImages.size(); ++i)
+    {
+      stagedImagesArray.push_back(stagedImages.at(i).string());
+    }
+
+    jsonData["staged-images"] = stagedImagesArray;
+  }
 };
 
 std::variant<ProjectDetails, Error>
