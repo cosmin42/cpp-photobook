@@ -25,7 +25,6 @@ public:
   Path supportFolder() const;
   Path projectFile() const;
 
-  operator std::unordered_map<std::string, std::string>() const;
   operator Json() const;
 private:
 

@@ -68,17 +68,6 @@ Path ProjectDetails::projectFile() const
   return mParentDirectory / (mSupportDirName + Context::BOOK_EXTENSION);
 }
 
-ProjectDetails::operator std::unordered_map<std::string, std::string>() const
-{
-  std::unordered_map<std::string, std::string> result;
-
-  result["project-uuid"] = boost::uuids::to_string(mUuid);
-  result["project-name"] = mSupportDirName;
-  result["project-path"] = mParentDirectory.string();
-
-  return result;
-}
-
 ProjectDetails::operator Json() const
 {
   Json jsonData;

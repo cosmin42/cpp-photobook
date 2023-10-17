@@ -274,30 +274,6 @@ public:
   explicit FilePersistence(Path path) : mPath(path) {}
   std::optional<Error> connect() { return std::nullopt; }
 
-  void
-  read(std::function<
-       void(std::variant<std::unordered_map<std::string, std::string>, Error>)>
-           onReturn)
-  {
-    std::ifstream file(mPath);
-    if (!file.is_open()) {
-      onReturn(Error() << ErrorCode::FileDoesNotExist);
-      return;
-    }
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    auto parsedDataOrError = parseData(buffer.str());
-
-    if (std::holds_alternative<Error>(parsedDataOrError)) {
-      onReturn(std::get<Error>(parsedDataOrError));
-    }
-    else {
-      auto &newData = std::get<std::unordered_map<std::string, std::string>>(
-          parsedDataOrError);
-      onReturn(newData);
-    }
-  }
-
   void read(std::function<void(std::variant<Json, Error>)> onReturn)
   {
     std::ifstream file(mPath);
@@ -333,24 +309,6 @@ public:
     catch (Json::exception &err) {
       onReturn(Error() << ErrorCode::JSONParseError << err.what());
     }
-  }
-
-  void write(std::unordered_map<std::string, std::string> map,
-             std::function<void(std::optional<Error>)>    onReturn)
-  {
-    std::ofstream ofs(mPath.string());
-
-    if (!ofs.is_open()) {
-      onReturn(Error() << ErrorCode::FileDoesNotExist);
-      return;
-    }
-
-    for (auto &[key, value] : map) {
-      ofs << key << "\n" << value << "\n";
-    }
-    ofs.close();
-
-    onReturn(std::nullopt);
   }
 
 private:
