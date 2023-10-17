@@ -84,15 +84,15 @@ std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 {
   PB::basicAssert(index >= 0);
-  PB::basicAssert(mProjectDetails.supportDirName.length() > 0);
+  PB::basicAssert(mProjectDetails.supportDirName().length() > 0);
 
-  auto smallOutputPath = mProjectDetails.parentDirectory /
-                         mProjectDetails.supportDirName /
+  auto smallOutputPath = mProjectDetails.parentDirectory() /
+                         mProjectDetails.supportDirName() /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath = mProjectDetails.parentDirectory /
-                          mProjectDetails.supportDirName /
+  auto mediumOutputPath = mProjectDetails.parentDirectory() /
+                          mProjectDetails.supportDirName() /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);
 

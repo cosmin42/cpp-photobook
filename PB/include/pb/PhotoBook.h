@@ -145,8 +145,8 @@ public:
 
     std::vector<std::future<void>> v;
 
-    if (!FilePersistence::createDirectory(mProject.details().parentDirectory /
-                                          mProject.details().supportDirName)) {
+    if (!FilePersistence::createDirectory(mProject.details().parentDirectory() /
+                                          mProject.details().supportDirName())) {
       mParent.onFinished(rootPath);
       return;
     }

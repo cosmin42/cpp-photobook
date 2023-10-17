@@ -30,10 +30,9 @@ public:
 
   Project(Path centralPersistencePath)
   {
-    mProjectDetails.uuid = boost::uuids::random_generator()();
-    mProjectDetails.supportDirName =
-        boost::uuids::to_string(mProjectDetails.uuid);
-    mProjectDetails.parentDirectory = centralPersistencePath;
+    mProjectDetails.uuid(boost::uuids::random_generator()());
+    mProjectDetails.supportDirName(boost::uuids::to_string(mProjectDetails.uuid()));
+    mProjectDetails.parentDirectory(centralPersistencePath);
   }
 
   explicit Project(ProjectDetails const &projectDetails)
@@ -47,15 +46,15 @@ public:
 
   void updateProjectName(std::string name)
   {
-    mProjectDetails.supportDirName = name;
+    mProjectDetails.supportDirName(name);
   }
 
-  void updateProjectPath(Path path) { mProjectDetails.parentDirectory = path; }
+  void updateProjectPath(Path path) { mProjectDetails.parentDirectory(path); }
 
   std::pair<std::string, std::string> locationData()
   {
-    auto uuidStr = boost::uuids::to_string(mProjectDetails.uuid);
-    auto pathStr = mProjectDetails.parentDirectory.string();
+    auto uuidStr = boost::uuids::to_string(mProjectDetails.uuid());
+    auto pathStr = mProjectDetails.parentDirectory().string();
 
     return std::pair<std::string, std::string>(uuidStr, pathStr);
   }
@@ -69,7 +68,7 @@ public:
   Project create(Path centralPersistencePath)
   {
     Project newProject(centralPersistencePath);
-    mSet[newProject.details().uuid] = newProject;
+    mSet[newProject.details().uuid()] = newProject;
     return newProject;
   }
 

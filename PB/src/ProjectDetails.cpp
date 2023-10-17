@@ -3,21 +3,21 @@
 namespace PB {
 Path ProjectDetails::supportFolder() const
 {
-  return parentDirectory / supportDirName;
+  return mParentDirectory / mSupportDirName;
 }
 
 Path ProjectDetails::projectFile() const
 {
-  return parentDirectory / (supportDirName + Context::BOOK_EXTENSION);
+  return mParentDirectory / (mSupportDirName + Context::BOOK_EXTENSION);
 }
 
 ProjectDetails::operator std::unordered_map<std::string, std::string>() const
 {
   std::unordered_map<std::string, std::string> result;
 
-  result["project-uuid"] = boost::uuids::to_string(uuid);
-  result["project-name"] = supportDirName;
-  result["project-path"] = parentDirectory.string();
+  result["project-uuid"] = boost::uuids::to_string(mUuid);
+  result["project-name"] = mSupportDirName;
+  result["project-path"] = mParentDirectory.string();
 
   return result;
 }
@@ -25,15 +25,15 @@ ProjectDetails::operator std::unordered_map<std::string, std::string>() const
 ProjectDetails::operator Json() const
 {
   Json jsonData;
-  jsonData["project-uuid"] = boost::uuids::to_string(uuid);
-  jsonData["project-name"] = supportDirName;
-  jsonData["project-path"] = parentDirectory.string();
+  jsonData["project-uuid"] = boost::uuids::to_string(mUuid);
+  jsonData["project-name"] = mSupportDirName;
+  jsonData["project-path"] = mParentDirectory.string();
 
   Json importedFolders = {};
 
-  for (auto i = 0; i < importedPaths.size(); ++i) {
+  for (auto i = 0; i < mImportedPaths.size(); ++i) {
     Json pathFlagPair;
-    pathFlagPair["path"] = importedPaths.at(i).string();
+    pathFlagPair["path"] = mImportedPaths.at(i).string();
     pathFlagPair["thumbnails-generated"] = false;
     importedFolders.push_back(pathFlagPair);
   }
@@ -41,8 +41,8 @@ ProjectDetails::operator Json() const
   jsonData["imported-folders"] = importedFolders;
 
   Json stagedImagesArray = {};
-  for (auto i = 0; i < stagedImages.size(); ++i) {
-    stagedImagesArray.push_back(stagedImages.at(i).string());
+  for (auto i = 0; i < mStagedImages.size(); ++i) {
+    stagedImagesArray.push_back(mStagedImages.at(i).string());
   }
 
   jsonData["staged-images"] = stagedImagesArray;

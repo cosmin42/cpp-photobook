@@ -44,9 +44,9 @@ convert(std::unordered_map<std::string, std::string> const &map)
     return Error() << ErrorCode::ProjectPathDoesNotExist;
   }
 
-  projectDetails.uuid = newUUID;
-  projectDetails.supportDirName = projectName.value();
-  projectDetails.parentDirectory = newPath;
+  projectDetails.uuid(newUUID);
+  projectDetails.supportDirName(projectName.value());
+  projectDetails.parentDirectory(newPath);
 
   return projectDetails;
 }

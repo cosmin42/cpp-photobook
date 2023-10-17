@@ -9,19 +9,29 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
-struct ProjectDetails {
-  boost::uuids::uuid uuid;
-  std::string        supportDirName;
-  Path               parentDirectory;
+class ProjectDetails {
+public:
+  void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
+  boost::uuids::uuid uuid() const { return mUuid; }
 
-  std::vector<Path> importedPaths;
-  std::vector<Path> stagedImages;
+  void supportDirName(std::string const dirName) { mSupportDirName = dirName; }
+  std::string supportDirName() const { return mSupportDirName; }
+
+  void parentDirectory(Path const dirName) { mParentDirectory = dirName; }
+  Path parentDirectory() const { return mParentDirectory; }
 
   Path supportFolder() const;
   Path projectFile() const;
 
   operator std::unordered_map<std::string, std::string>() const;
-
   operator Json() const;
+
+private:
+  boost::uuids::uuid mUuid;
+  std::string        mSupportDirName;
+  Path               mParentDirectory;
+
+  std::vector<Path> mImportedPaths;
+  std::vector<Path> mStagedImages;
 };
 } // namespace PB
