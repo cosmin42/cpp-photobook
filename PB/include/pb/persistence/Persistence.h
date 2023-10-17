@@ -310,8 +310,28 @@ public:
       file >> jsonData;
       onReturn(jsonData);
     }
-    catch (...) {
-      onReturn(Error() << ErrorCode::JSONParseError);
+    catch (Json::exception err) {
+      onReturn(Error() << ErrorCode::JSONParseError << err.what());
+    }
+  }
+
+  void write(Json jsonData, std::function<void(std::optional<Error>)> onReturn)
+  {
+    std::ofstream outputFile(mPath.string());
+
+    if (!outputFile.is_open()) {
+      onReturn(Error() << ErrorCode::FileDoesNotExist);
+      return;
+    }
+
+    static constexpr int INDENTATION_SIZE = 4;
+
+    try {
+      outputFile << jsonData.dump(INDENTATION_SIZE);
+      onReturn(std::nullopt);
+    }
+    catch (Json::exception &err) {
+      onReturn(Error() << ErrorCode::JSONParseError << err.what());
     }
   }
 
