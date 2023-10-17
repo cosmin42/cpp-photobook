@@ -98,4 +98,29 @@ ProjectDetails::operator Json() const
   jsonData["staged-images"] = stagedImagesArray;
   return jsonData;
 }
+
+void ProjectDetails::addImportFolder(std::optional<Path> maybePath)
+{
+  if (!maybePath) {
+    return;
+  }
+  mImportedPaths.push_back(maybePath.value());
+}
+
+void ProjectDetails::addStagedImage(std::optional<Path> maybePath)
+{
+  if (!maybePath) {
+    return;
+  }
+  mStagedImages.push_back(maybePath.value());
+}
+
+void ProjectDetails::removeStagedImage(int index)
+{
+  if (index >= mStagedImages.size()) {
+    return;
+  }
+  mStagedImages.erase(mStagedImages.begin() + index);
+}
+
 } // namespace PB

@@ -26,10 +26,15 @@ public:
   Path projectFile() const;
 
   operator Json() const;
-private:
 
+  void addImportFolder(std::optional<Path> maybePath);
+  void addStagedImage(std::optional<Path> maybePath);
+  void removeStagedImage(int index);
+
+private:
   static std::optional<Error> check(Json const &jsonData, std::string key);
-  static std::optional<Error> check(Json const &jsonData, std::vector<std::string> const key);
+  static std::optional<Error> check(Json const                    &jsonData,
+                                    std::vector<std::string> const key);
 
   boost::uuids::uuid mUuid;
   std::string        mSupportDirName;

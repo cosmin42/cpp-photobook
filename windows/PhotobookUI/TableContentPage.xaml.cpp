@@ -77,8 +77,8 @@ TableContentPage::TableContentPage()
 }
 
 void TableContentPage::OnKeyDown(
-    Windows::Foundation::IInspectable const              &sender,
-    Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg)
+    [[maybe_unused]] Windows::Foundation::IInspectable const              &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg)
 {
 }
 
