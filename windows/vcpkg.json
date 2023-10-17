@@ -12,6 +12,7 @@
     "gtest",
     "dp-thread-pool",
     "libharu",
-    "sqlite3"
+    "sqlite3",
+    "nlohmann-json"
   ]
 }
