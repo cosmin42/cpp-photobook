@@ -11,6 +11,8 @@
 namespace PB {
 class ProjectDetails {
 public:
+  static std::variant<ProjectDetails, Error> parse(Json const &jsonData);
+
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }
 
@@ -25,8 +27,11 @@ public:
 
   operator std::unordered_map<std::string, std::string>() const;
   operator Json() const;
-
 private:
+
+  static std::optional<Error> check(Json const &jsonData, std::string key);
+  static std::optional<Error> check(Json const &jsonData, std::vector<std::string> const key);
+
   boost::uuids::uuid mUuid;
   std::string        mSupportDirName;
   Path               mParentDirectory;
