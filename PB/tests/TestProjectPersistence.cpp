@@ -18,28 +18,28 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   PB::Project project(Path("."));
 
-  auto uuid = project.details().uuid;
+  auto uuid = project.details().uuid();
 
-  auto supportDirName = project.details().supportDirName;
+  auto supportDirName = project.details().supportDirName();
 
-  auto parentDirectory = project.details().parentDirectory;
+  auto parentDirectory = project.details().parentDirectory();
 
   ASSERT_TRUE(supportDirName ==
-              boost::uuids::to_string(project.details().uuid));
+              boost::uuids::to_string(project.details().uuid()));
 
   PB::FilePersistence filePersistence(project.details().projectFile());
-  auto map = std::unordered_map<std::string, std::string>(project.details());
+  auto json = Json(project.details());
 
-  ASSERT_TRUE(map.at("project-uuid") == supportDirName);
-  ASSERT_TRUE(map.at("project-name") == supportDirName);
-  ASSERT_TRUE(map.at("project-path") == parentDirectory.string());
+  ASSERT_TRUE(json.at("project-uuid") == supportDirName);
+  ASSERT_TRUE(json.at("project-name") == supportDirName);
+  ASSERT_TRUE(json.at("project-path") == parentDirectory.string());
 
   filePersistence.write(
-      map, [supportDirName, parentDirectory](std::optional<Error> maybeError) {
+      json, [supportDirName, parentDirectory](std::optional<Error> maybeError) {
         ASSERT_TRUE(!maybeError.has_value());
       });
   std::pair<std::string, std::string> entry = {
-      boost::uuids::to_string(project.details().uuid),
+      boost::uuids::to_string(project.details().uuid()),
       project.details().supportFolder().string()};
 
   centralPersistence.write(entry, [](std::optional<Error> maybeError) {
@@ -70,38 +70,37 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
 {
   PB::Project project(Path("."));
 
-  auto uuid = project.details().uuid;
+  auto uuid = project.details().uuid();
 
-  auto supportDirName = project.details().supportDirName;
+  auto supportDirName = project.details().supportDirName();
 
-  auto parentDirectory = project.details().parentDirectory;
+  auto parentDirectory = project.details().parentDirectory();
 
   ASSERT_TRUE(supportDirName ==
-              boost::uuids::to_string(project.details().uuid));
+              boost::uuids::to_string(project.details().uuid()));
 
   PB::FilePersistence filePersistence(project.details().projectFile());
-  auto map = std::unordered_map<std::string, std::string>(project.details());
+  auto json = Json(project.details());
 
-  ASSERT_TRUE(map.at("project-uuid") == supportDirName);
-  ASSERT_TRUE(map.at("project-name") == supportDirName);
-  ASSERT_TRUE(map.at("project-path") == parentDirectory.string());
+  ASSERT_TRUE(json.at("project-uuid") == supportDirName);
+  ASSERT_TRUE(json.at("project-name") == supportDirName);
+  ASSERT_TRUE(json.at("project-path") == parentDirectory.string());
 
-  filePersistence.write(map, [](std::optional<Error> maybeError) {
+  filePersistence.write(json, [](std::optional<Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
   });
   filePersistence.read(
       [supportDirName, parentDirectory](
-          std::variant<std::unordered_map<std::string, std::string>, Error>
+          std::variant<Json, Error>
               mapOrError) {
         ASSERT_TRUE(!std::holds_alternative<Error>(mapOrError));
         auto &map =
-            std::get<std::unordered_map<std::string, std::string>>(mapOrError);
-
-        auto projectDetailsOrError = PB::convert(map);
+            std::get<Json>(mapOrError);
+        auto projectDetailsOrError = PB::ProjectDetails::parse(map);
 
         ASSERT_TRUE(!std::holds_alternative<Error>(projectDetailsOrError));
         auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
-        ASSERT_TRUE(projectDetails.supportDirName == supportDirName);
-        ASSERT_TRUE(projectDetails.parentDirectory == parentDirectory);
+        ASSERT_TRUE(projectDetails.supportDirName() == supportDirName);
+        ASSERT_TRUE(projectDetails.parentDirectory() == parentDirectory);
       });
 }

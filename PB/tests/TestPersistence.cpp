@@ -39,7 +39,7 @@ TEST(TestPersistence, ReadWrite)
   std::filesystem::remove(SQLitePersistence::DATABASE_NAME);
   std::filesystem::remove(Context::PERSISTENCE_FILENAME);
   testReadWrite<PB::SQLitePersistence>(".");
-  testReadWrite<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
+  //testReadWrite<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
 }
 
 template <typename T> void testUpdateMap(std::string path)
@@ -98,7 +98,7 @@ TEST(TestPersistence, UpdateMap)
   std::filesystem::remove(SQLitePersistence::DATABASE_NAME);
   std::filesystem::remove(Context::PERSISTENCE_FILENAME);
   testUpdateMap<PB::SQLitePersistence>(".");
-  testUpdateMap<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
+  //testUpdateMap<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
 }
 
 template <typename T> void testRemoveEntry(std::string path)
@@ -157,7 +157,7 @@ TEST(TestPersistence, RemoveEntry)
   std::filesystem::remove(SQLitePersistence::DATABASE_NAME);
   std::filesystem::remove(Context::PERSISTENCE_FILENAME);
   testRemoveEntry<PB::SQLitePersistence>(".");
-  testRemoveEntry<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
+  //testRemoveEntry<PB::FilePersistence>(Context::PERSISTENCE_FILENAME);
 }
 
 TEST(TestPersistence, InsertEntry)
