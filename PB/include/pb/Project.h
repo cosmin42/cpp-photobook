@@ -7,61 +7,10 @@
 
 #include <pb/Config.h>
 #include <pb/persistence/ProjectMetadata.h>
+#include <pb/persistence/ProjectDetails.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
-
-struct ProjectDetails {
-  boost::uuids::uuid uuid;
-  std::string        supportDirName;
-  Path               parentDirectory;
-
-  std::vector<Path> importedPaths;
-  std::vector<Path> stagedImages;
-
-  Path supportFolder() const { return parentDirectory / supportDirName; }
-  Path projectFile() const
-  {
-    return parentDirectory / (supportDirName + Context::BOOK_EXTENSION);
-  }
-
-  operator std::unordered_map<std::string, std::string>() const
-  {
-    std::unordered_map<std::string, std::string> result;
-
-    result["project-uuid"] = boost::uuids::to_string(uuid);
-    result["project-name"] = supportDirName;
-    result["project-path"] = parentDirectory.string();
-
-    return result;
-  }
-
-  operator Json() const
-  {
-    Json jsonData;
-    jsonData["project-uuid"] = boost::uuids::to_string(uuid);
-    jsonData["project-name"] = supportDirName;
-    jsonData["project-path"] = parentDirectory.string();
-
-    Json importedFolders = {};
-
-    for (auto i = 0; i < importedPaths.size(); ++i) {
-      Json pathFlagPair;
-      pathFlagPair["path"] = importedPaths.at(i).string();
-      pathFlagPair["thumbnails-generated"] = false;
-      importedFolders.push_back(pathFlagPair);
-    }
-
-    jsonData["imported-folders"] = importedFolders;
-
-    Json stagedImagesArray = {};
-    for (auto i = 0; i < stagedImages.size(); ++i) {
-      stagedImagesArray.push_back(stagedImages.at(i).string());
-    }
-
-    jsonData["staged-images"] = stagedImagesArray;
-  }
-};
 
 std::variant<ProjectDetails, Error>
 convert(std::unordered_map<std::string, std::string> const &map);
