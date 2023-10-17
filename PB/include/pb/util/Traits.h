@@ -5,6 +5,8 @@
 #include <source_location>
 #include <utility>
 
+#include <nlohmann/json.hpp>
+
 namespace PB {
 
 template <class... Ts> struct overloaded : Ts... {
@@ -29,6 +31,8 @@ auto compose(HeadFn &&f, TailFn &&...tailF)
 }
 
 typedef std::filesystem::path Path;
+
+typedef nlohmann::json Json;
 
 template <typename T> void Unused(T &&) {}
 

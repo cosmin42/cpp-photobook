@@ -71,6 +71,10 @@ struct ProjectDetails {
   boost::uuids::uuid uuid;
   std::string        supportDirName;
   Path               parentDirectory;
+
+  std::vector<Path> importedPaths;
+  std::vector<Path> stagedImages;
+
   Path supportFolder() const { return parentDirectory / supportDirName; }
   Path projectFile() const
   {

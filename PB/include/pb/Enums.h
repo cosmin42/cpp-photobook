@@ -17,7 +17,8 @@ enum class ErrorCode {
   CouldNotLoadProjectFromGenericPersistence,
   SQLiteError,
 
-  FolderAlreadyImported
+  FolderAlreadyImported,
+  JSONParseError
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };

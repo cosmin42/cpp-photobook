@@ -298,6 +298,23 @@ public:
     }
   }
 
+  void read(std::function<void(std::variant<Json, Error>)> onReturn)
+  {
+    std::ifstream file(mPath);
+    if (!file.is_open()) {
+      onReturn(Error() << ErrorCode::FileDoesNotExist);
+      return;
+    }
+    Json jsonData;
+    try {
+      file >> jsonData;
+      onReturn(jsonData);
+    }
+    catch (...) {
+      onReturn(Error() << ErrorCode::JSONParseError);
+    }
+  }
+
   void write(std::unordered_map<std::string, std::string> map,
              std::function<void(std::optional<Error>)>    onReturn)
   {
