@@ -202,16 +202,32 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  if (!mPhotoBook.projectDefaultSaved()) {
+    mPhotoBook.savePhotoBook();
+  }
+  else {
+    mPopups.fireSaveFilePicker(
+        MainWindow::sMainWindowhandle,
+        [this](std::variant<std::string, PB::Error> result) {
+          if (std::holds_alternative<std::string>(result)) {
+            auto &newName = std::get<std::string>(result);
+            mPhotoBook.savePhotoBook(newName);
+          }
+          else {
+            OnError(std::get<PB::Error>(result));
+          }
+        });
+  }
 }
 
 void TableContentPage::OnSaveAsClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
 void TableContentPage::OnNewClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
@@ -762,7 +778,7 @@ void TableContentPage::OnContentDialogSaveClicked(
       MainWindow::sMainWindowhandle,
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
-          auto& newName = std::get<std::string>(result);
+          auto &newName = std::get<std::string>(result);
 
           mPhotoBook.savePhotoBook(newName);
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());

@@ -76,9 +76,7 @@ public:
   {
     FilePersistence projectPersistence(path);
     projectPersistence.read(
-        [this, onReturn](
-            std::variant<Json, Error>
-                jsonOrError) {
+        [this, onReturn](std::variant<Json, Error> jsonOrError) {
           if (std::holds_alternative<Error>(jsonOrError)) {
             auto error = std::get<Error>(jsonOrError);
             onReturn(error);
@@ -144,8 +142,9 @@ public:
 
     std::vector<std::future<void>> v;
 
-    if (!FilePersistence::createDirectory(mProject.details().parentDirectory() /
-                                          mProject.details().supportDirName())) {
+    if (!FilePersistence::createDirectory(
+            mProject.details().parentDirectory() /
+            mProject.details().supportDirName())) {
       mParent.onFinished(rootPath);
       return;
     }
@@ -221,37 +220,48 @@ public:
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
+  void savePhotoBook() {
+      savePhotoBook(mProject.details().projectFile());
+  }
+
   void savePhotoBook(Path newPath)
   {
+    bool newSaveFile = false;
     Path oldProjectFile = mProject.details().projectFile();
     Path oldSupportFolder = mProject.details().supportFolder();
 
-    mProject.updateProjectPath(newPath.parent_path());
-    mProject.updateProjectName(newPath.stem().string());
+    if (newPath != oldProjectFile) {
+      mProject.updateProjectPath(newPath.parent_path());
+      mProject.updateProjectName(newPath.stem().string());
+      newSaveFile = true;
 
-    std::pair<std::string, std::string> entry = {
-        boost::uuids::to_string(mProject.details().uuid()),
-        mProject.details().projectFile().string()};
-    mCentralPersistence.write(
-        entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
-          if (maybeError) {
-            mParent.onError(Error() << ErrorCode::CannotSaveFile);
-          }
-        });
+      std::pair<std::string, std::string> entry = {
+          boost::uuids::to_string(mProject.details().uuid()),
+          mProject.details().projectFile().string()};
+
+      mCentralPersistence.write(entry, [this, newPath{Path(newPath)}](
+                                           std::optional<Error> maybeError) {
+        if (maybeError) {
+          mParent.onError(Error() << ErrorCode::CannotSaveFile);
+        }
+      });
+    }
 
     auto projectDetailsJson = Json(mProject.details());
 
     FilePersistence persistence(newPath);
 
     persistence.write(projectDetailsJson,
-                      [this, oldProjectFile,
-                       oldSupportFolder](std::optional<Error> maybeError) {
+                      [this, oldProjectFile, oldSupportFolder,
+                       newSaveFile](std::optional<Error> maybeError) {
                         if (maybeError) {
                           mParent.onError(maybeError.value());
                         }
                         else {
-                          std::filesystem::remove(oldSupportFolder);
-                          std::filesystem::remove(oldProjectFile);
+                          if (newSaveFile) {
+                            std::filesystem::remove(oldSupportFolder);
+                            std::filesystem::remove(oldProjectFile);
+                          }
                         }
                       });
 
@@ -280,6 +290,17 @@ public:
   std::vector<Thumbnails> &stagedPhotos() { return mImagePaths.stagedPhotos(); }
 
   ImageSupport &imageSupport() { return mImagePaths; }
+
+  bool projectDefaultSaved() const
+  {
+    auto projectParentPath = mProject.details().parentDirectory().string();
+
+    if (projectParentPath.find(mCentralPersistencePath.string()) ==
+        std::string::npos) {
+      return false;
+    }
+    return true;
+  }
 
 private:
   PhotoBookListenerType &mParent;
