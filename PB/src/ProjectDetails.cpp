@@ -26,33 +26,37 @@ std::optional<Error> ProjectDetails::check(Json const &jsonData,
 std::variant<ProjectDetails, Error> ProjectDetails::parse(Json const &jsonData)
 {
   auto maybeError =
-      check(jsonData, {"project-uuid", "project-name", "project-patch",
+      check(jsonData, {"project-uuid", "project-name", "project-path",
                        "imported-folders", "staged-images"});
-
   if (maybeError) {
     return maybeError.value();
   }
   ProjectDetails projectDetails;
 
-  auto mUuidStr = jsonData.at("project-uuid").dump();
+  auto mUuidStr = jsonData.at("project-uuid").get<std::string>();
   auto generator = boost::uuids::string_generator();
   projectDetails.mUuid = generator(mUuidStr);
 
-  projectDetails.mSupportDirName = jsonData.at("project-name").dump();
+  projectDetails.mSupportDirName =
+      jsonData.at("project-name").get<std::string>();
 
-  projectDetails.mParentDirectory = Path(jsonData.at("project-path").dump());
+  projectDetails.mParentDirectory =
+      Path(jsonData.at("project-path").get<std::string>());
 
   auto &importedFoldersJson = jsonData.at("imported-folders");
-
-  for (const auto &importedFolderJson : importedFoldersJson) {
-    projectDetails.mImportedPaths.push_back(
-        Path(importedFolderJson["path"].dump()));
+  if (!importedFoldersJson.is_null()) {
+    for (const auto &importedFolderJson : importedFoldersJson) {
+      projectDetails.mImportedPaths.push_back(
+          Path(importedFolderJson["path"].get<std::string>()));
+    }
   }
 
   auto &stagedFoldersJson = jsonData.at("staged-images");
-
-  for (const auto &stagedFolderJson : stagedFoldersJson) {
-    projectDetails.mStagedImages.push_back(Path(stagedFolderJson.dump()));
+  if (!importedFoldersJson.is_null()) {
+    for (const auto &stagedFolderJson : stagedFoldersJson) {
+      projectDetails.mStagedImages.push_back(
+          Path(stagedFolderJson.get<std::string>()));
+    }
   }
 
   return projectDetails;
