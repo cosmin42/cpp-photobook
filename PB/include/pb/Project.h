@@ -12,9 +12,6 @@
 
 namespace PB {
 
-std::variant<ProjectDetails, Error>
-convert(std::unordered_map<std::string, std::string> const &map);
-
 class Project final {
 public:
   static std::optional<std::string> excludeExtension(std::string fileName)
