@@ -6,66 +6,10 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
+#include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
-class ProjectMetadata {
-public:
-  explicit ProjectMetadata(std::string uuid, std::string path)
-  {
-    try {
-      boost::uuids::string_generator gen;
-      mUUID = gen(uuid);
-    }
-    catch (...) {
-      PB::basicAssert(false);
-    }
-    mProjectFilePath = path;
-  }
-
-  ~ProjectMetadata() = default;
-
-  std::pair<std::string, std::string> serialize()
-  {
-    std::pair<std::string, std::string> result = {
-        boost::uuids::to_string(mUUID), mProjectFilePath.string()};
-    return result;
-  }
-
-  static std::variant<std::vector<ProjectMetadata>, Error>
-  parse(std::variant<std::unordered_map<std::string, std::string>, Error>
-            mapOrError)
-  {
-    if (std::holds_alternative<Error>(mapOrError)) {
-      return std::get<Error>(mapOrError);
-    }
-
-    auto &map =
-        std::get<std::unordered_map<std::string, std::string>>(mapOrError);
-    return parse(map);
-  }
-
-  static std::vector<ProjectMetadata>
-  parse(std::unordered_map<std::string, std::string> const &map)
-  {
-    std::vector<ProjectMetadata> result;
-
-    for (auto &[key, value] : map) {
-      result.push_back(ProjectMetadata(key, value));
-    }
-
-    return result;
-  }
-
-  std::pair<boost::uuids::uuid, Path> data() const
-  {
-    return {mUUID, mProjectFilePath};
-  }
-
-private:
-  boost::uuids::uuid mUUID;
-  Path               mProjectFilePath;
-};
 
 struct ProjectDetails {
   boost::uuids::uuid uuid;
@@ -101,8 +45,7 @@ struct ProjectDetails {
 
     Json importedFolders = {};
 
-    for (auto i = 0; i < importedPaths.size(); ++i)
-    {
+    for (auto i = 0; i < importedPaths.size(); ++i) {
       Json pathFlagPair;
       pathFlagPair["path"] = importedPaths.at(i).string();
       pathFlagPair["thumbnails-generated"] = false;
@@ -112,8 +55,7 @@ struct ProjectDetails {
     jsonData["imported-folders"] = importedFolders;
 
     Json stagedImagesArray = {};
-    for (auto i = 0; i < stagedImages.size(); ++i)
-    {
+    for (auto i = 0; i < stagedImages.size(); ++i) {
       stagedImagesArray.push_back(stagedImages.at(i).string());
     }
 
