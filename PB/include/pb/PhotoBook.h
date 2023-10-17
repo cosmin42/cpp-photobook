@@ -77,17 +77,16 @@ public:
     FilePersistence projectPersistence(path);
     projectPersistence.read(
         [this, onReturn](
-            std::variant<std::unordered_map<std::string, std::string>, Error>
-                mapOrError) {
-          if (std::holds_alternative<Error>(mapOrError)) {
-            auto error = std::get<Error>(mapOrError);
+            std::variant<Json, Error>
+                jsonOrError) {
+          if (std::holds_alternative<Error>(jsonOrError)) {
+            auto error = std::get<Error>(jsonOrError);
             onReturn(error);
           }
           else {
-            auto &map = std::get<std::unordered_map<std::string, std::string>>(
-                mapOrError);
+            auto &json = std::get<Json>(jsonOrError);
 
-            auto projectDetailsOrError = PB::convert(map);
+            auto projectDetailsOrError = ProjectDetails::parse(json);
 
             if (std::holds_alternative<Error>(projectDetailsOrError)) {
               onReturn(std::get<Error>(projectDetailsOrError));
@@ -231,7 +230,7 @@ public:
     mProject.updateProjectName(newPath.stem().string());
 
     std::pair<std::string, std::string> entry = {
-        boost::uuids::to_string(mProject.details().uuid),
+        boost::uuids::to_string(mProject.details().uuid()),
         mProject.details().projectFile().string()};
     mCentralPersistence.write(
         entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
@@ -240,12 +239,11 @@ public:
           }
         });
 
-    auto projectDetailsMap =
-        std::unordered_map<std::string, std::string>(mProject.details());
+    auto projectDetailsJson = Json(mProject.details());
 
     FilePersistence persistence(newPath);
 
-    persistence.write(projectDetailsMap,
+    persistence.write(projectDetailsJson,
                       [this, oldProjectFile,
                        oldSupportFolder](std::optional<Error> maybeError) {
                         if (maybeError) {

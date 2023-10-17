@@ -63,10 +63,9 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
-  auto serializedProject =
-      std::unordered_map<std::string, std::string>(newProject.details());
+  auto serializedProject = PB::Json(newProject.details());
 
-  auto uuidStr = boost::uuids::to_string(newProject.details().uuid);
+  auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
 
   auto fullPath = newProject.details().projectFile();
 
