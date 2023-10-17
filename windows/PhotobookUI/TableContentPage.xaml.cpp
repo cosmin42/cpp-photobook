@@ -762,7 +762,7 @@ void TableContentPage::OnContentDialogSaveClicked(
       MainWindow::sMainWindowhandle,
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
-          auto newName = std::get<std::string>(result);
+          auto& newName = std::get<std::string>(result);
 
           mPhotoBook.savePhotoBook(newName);
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());

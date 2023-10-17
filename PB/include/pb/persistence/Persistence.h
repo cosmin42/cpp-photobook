@@ -284,6 +284,7 @@ public:
     Json jsonData;
     try {
       file >> jsonData;
+      file.close();
       onReturn(jsonData);
     }
     catch (Json::exception err) {
@@ -304,6 +305,7 @@ public:
 
     try {
       outputFile << jsonData.dump(INDENTATION_SIZE);
+      outputFile.close();
       onReturn(std::nullopt);
     }
     catch (Json::exception &err) {
