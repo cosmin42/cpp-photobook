@@ -1,0 +1,36 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 27,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "pb-console-debug",
+      "description": "Debug configuration",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"StandardPrinter"
+      },
+      "architecture":"x64",
+      "binaryDir":"build"
+    },
+    {
+      "name": "pb-console-release",
+      "description": "Release configuration",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"StandardPrinter"
+      },
+      "architecture":"x64",
+      "binaryDir":"build"
+    }
+  ]
+}
