@@ -78,6 +78,8 @@ add_library(pblib STATIC
     include/pb/Gallery.h
     include/pb/Pdf.h
     include/pb/persistence/Persistence.h
+    include/pb/persistence/ProjectDetails.h
+    include/pb/persistence/ProjectMetadata.h
     include/pb/PhotoBook.h
     include/pb/Project.h
     include/pb/ThumbnailsProcessor.h
@@ -102,6 +104,8 @@ add_library(pblib STATIC
     src/Pdf.cpp
     src/PhotoBook.cpp
     src/Project.cpp
+    src/ProjectDetails.cpp
+    src/ProjectMetadata.cpp
     src/ThumbnailsProcessor.cpp
     src/StagedImagesLogic.cpp
     src/util/FileInfo.cpp
