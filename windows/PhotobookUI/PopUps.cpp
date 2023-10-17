@@ -53,12 +53,7 @@ auto PopUps::fireSaveFilePicker(
   auto filename{co_await fileSavePicker.PickSaveFileAsync()};
 
   if (filename) {
-    auto maybeResult =
-        PB::Project::excludeExtension(winrt::to_string(filename.Path()));
-
-    PB::basicAssert(maybeResult.has_value());
-
-    onReturn(maybeResult.value());
+    onReturn(winrt::to_string(filename.Path()));
   }
   else {
     onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);

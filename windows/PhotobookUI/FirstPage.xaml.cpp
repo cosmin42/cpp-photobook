@@ -68,7 +68,7 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid);
 
-  auto fullPath = newProject.details().supportFolder();
+  auto fullPath = newProject.details().projectFile();
 
   PB::FilePersistence newProjectPersistence(fullPath);
 
@@ -80,7 +80,7 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
       });
 
   mCentralPersistence.write(
-      std::pair<std::string, std::string>(uuidStr, fullPath.string()),
+      std::pair<std::string, std::string>(uuidStr, fullPath.string() + PB::Context::BOOK_EXTENSION),
       [](std::optional<PB::Error> maybeError) {
         if (maybeError) {
           PB::printError("Error writing into peristence.\n");

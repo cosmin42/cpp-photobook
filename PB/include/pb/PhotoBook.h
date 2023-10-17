@@ -232,7 +232,7 @@ public:
 
     std::pair<std::string, std::string> entry = {
         boost::uuids::to_string(mProject.details().uuid),
-        mProject.details().supportFolder().string()};
+        mProject.details().projectFile().string()};
     mCentralPersistence.write(
         entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
           if (maybeError) {
