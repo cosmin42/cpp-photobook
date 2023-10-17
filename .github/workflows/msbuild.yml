@@ -3,13 +3,17 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: MSBuild
+name: WindowsAppSDK Build
 
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'windows/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'windows/**'
 
 env:
   # Path to the solution file relative to the root of the project.

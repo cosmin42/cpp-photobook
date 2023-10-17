@@ -51,6 +51,7 @@ find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
 find_package(unofficial-libharu CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -119,7 +120,8 @@ target_link_libraries(pblib PUBLIC
     exiv2lib
     dp::thread-pool
     unofficial::libharu::hpdf
-    unofficial::sqlite3::sqlite3)
+    unofficial::sqlite3::sqlite3
+    nlohmann_json::nlohmann_json)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -149,5 +151,6 @@ if (LOG_LEVEL MATCHES Debug)
         dp::thread-pool
         unofficial::libharu::hpdf
         unofficial::sqlite3::sqlite3
-        bcrypt)
+        bcrypt
+        nlohmann_json::nlohmann_json)
 endif()
