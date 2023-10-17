@@ -147,6 +147,18 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnKeyPressed(Windows::Foundation::IInspectable const &sender,
                     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
 
+  /* #18 */
+  void OnKeyDown(Windows::Foundation::IInspectable const              &sender,
+                 Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
+
+  void
+  OnKeyDown(winrt::Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const arg)
+  {
+    if (arg.Key() == Windows::System::VirtualKey::S &&
+        arg.Key() == Windows::System::VirtualKey::LeftControl) {
+    }
+  }
+
   void OnTableContentSizeChanged(
       [[maybe_unused]] Windows::Foundation::IInspectable const         &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::SizeChangedEventArgs const &args);

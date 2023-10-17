@@ -76,6 +76,12 @@ TableContentPage::TableContentPage()
   });
 }
 
+void TableContentPage::OnKeyDown(
+    Windows::Foundation::IInspectable const              &sender,
+    Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg)
+{
+}
+
 double TableContentPage::PaperToCanvasRatio(int width, int height,
                                             int boundingBoxWidth,
                                             int boundingBoxHeight)

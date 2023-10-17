@@ -15,7 +15,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="{StaticResource PrimaryColor}">
+    <Grid Background="{StaticResource PrimaryColor}"
+          KeyDown="OnKeyDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="5*" />
