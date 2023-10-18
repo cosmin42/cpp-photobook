@@ -39,7 +39,7 @@ public:
 
   ~Project() = default;
 
-  ProjectDetails const &details() const { return mProjectDetails; }
+  ProjectDetails &details() { return mProjectDetails; }
 
   void updateProjectName(std::string name)
   {

@@ -123,4 +123,9 @@ void ProjectDetails::removeStagedImage(int index)
   mStagedImages.erase(mStagedImages.begin() + index);
 }
 
+std::vector<Path> ProjectDetails::importedFolderList() const
+{
+  return mImportedPaths;
+}
+
 } // namespace PB

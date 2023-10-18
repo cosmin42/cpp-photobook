@@ -97,6 +97,11 @@ public:
 
               mThumbnailsProcessor.provideProjectDetails(projectDetails);
 
+              auto importedFolders = mProject.details().importedFolderList();
+              for (auto &path : importedFolders) {
+                addImportFolder(path);
+              }
+
               onReturn(std::nullopt);
             }
           }
@@ -220,9 +225,7 @@ public:
 
   void discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
 
-  void savePhotoBook() {
-      savePhotoBook(mProject.details().projectFile());
-  }
+  void savePhotoBook() { savePhotoBook(mProject.details().projectFile()); }
 
   void savePhotoBook(Path newPath)
   {
@@ -291,7 +294,7 @@ public:
 
   ImageSupport &imageSupport() { return mImagePaths; }
 
-  bool projectDefaultSaved() const
+  bool projectDefaultSaved()
   {
     auto projectParentPath = mProject.details().parentDirectory().string();
 

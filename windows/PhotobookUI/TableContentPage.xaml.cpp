@@ -77,7 +77,7 @@ TableContentPage::TableContentPage()
 }
 
 void TableContentPage::OnKeyDown(
-    [[maybe_unused]] Windows::Foundation::IInspectable const              &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg)
 {
 }
@@ -129,9 +129,10 @@ int TableContentPage::CanvasMinHeight()
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
 {
-  mPopups.fireFolderPicker(
-      MainWindow::sMainWindowhandle,
-      [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
+  mPopups.fireFolderPicker(MainWindow::sMainWindowhandle,
+                           [this](PB::Path path) {
+                             mPhotoBook.addImportFolder(path);
+                           });
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget

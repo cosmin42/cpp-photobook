@@ -31,6 +31,8 @@ public:
   void addStagedImage(std::optional<Path> maybePath);
   void removeStagedImage(int index);
 
+  std::vector<Path> importedFolderList() const;
+
 private:
   static std::optional<Error> check(Json const &jsonData, std::string key);
   static std::optional<Error> check(Json const                    &jsonData,
