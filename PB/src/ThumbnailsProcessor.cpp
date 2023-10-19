@@ -17,7 +17,7 @@ ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
 
 void ResizeTask::operator()() const
 {
-  if (MediaMap::validImagePath(mFullSizePath)) {
+  if (Process::validExtension(mFullSizePath)) {
     Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,
                                      mSmallThumbnailOutputPath,
                                      mMediumThumbnailOutputPath);

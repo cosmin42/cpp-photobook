@@ -71,7 +71,6 @@ add_library(pblib STATIC
     include/pb/ImageReader.h
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
-    include/pb/MediaMap.h
     include/pb/MediaMapListener.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h

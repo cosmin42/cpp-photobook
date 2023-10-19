@@ -4,21 +4,20 @@
 #include <set>
 #include <vector>
 
-#include <pb/util/CircularIterator.h>
 #include <pb/Config.h>
 #include <pb/FileComparator.h>
 #include <pb/MediaMapListener.h>
+#include <pb/util/CircularIterator.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Thread.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 
-template <typename PhotoBookType>
-class MediaMapper final : public Thread {
+template <typename PhotoBookType> class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(
-      std::filesystem::path const                        &root,
+      std::filesystem::path const                     &root,
       std::shared_ptr<MediaMapListener<PhotoBookType>> listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener),
         mRoot(root)
@@ -26,20 +25,6 @@ public:
     printDebug("MediaMapper constructor.\n");
     mRecursiveIterator = std::filesystem::recursive_directory_iterator(
         root, std::filesystem::directory_options::skip_permission_denied);
-  }
-
-  MediaMapper(MediaMapper const &other)
-      : Thread(other), mMap(other.mMap), mListener(other.mListener),
-        mRecursiveIterator(other.mRecursiveIterator), mRoot(other.mRoot)
-  {
-    printDebug("Copy MediaMapper\n");
-  }
-
-  MediaMapper(MediaMapper &&other) noexcept
-      : Thread(std::move(other)), mMap(other.mMap), mListener(other.mListener),
-        mRecursiveIterator(other.mRecursiveIterator), mRoot(other.mRoot)
-  {
-    printDebug("Move MediaMapper\n");
   }
 
   MediaMapper &operator=(MediaMapper const &other) = delete;
@@ -53,22 +38,19 @@ public:
     }
     else {
       auto path = mRecursiveIterator->path();
-      mMap.add(path);
+      mImportedFolders.push_back(path);
       mRecursiveIterator++;
     }
     mListener->onProgressUpdate();
   }
 
-  void finish() override { mListener->onFinished(mMap.result(), mRoot); }
-
-  auto map() const -> MediaMap { return mMap; }
+  void finish() override { mListener->onFinished(mImportedFolders, mRoot); }
 
 private:
-  MediaMap                                            mMap;
   std::shared_ptr<MediaMapListener<PhotoBookType>> mListener;
-
-  std::filesystem::recursive_directory_iterator mRecursiveIterator;
-  Path                                          mRoot;
+  std::filesystem::recursive_directory_iterator    mRecursiveIterator;
+  Path                                             mRoot;
+  std::vector<Path>                                mImportedFolders;
 };
 
 } // namespace PB

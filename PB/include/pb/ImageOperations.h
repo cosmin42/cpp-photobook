@@ -17,6 +17,8 @@ typedef std::function<std::pair<int, int>(int, int, int, int)> OffsetFunction;
 OffsetFunction alignToCenter();
 OffsetFunction defaultAlignment();
 
+bool validExtension(std::optional<Path> path);
+
 auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 

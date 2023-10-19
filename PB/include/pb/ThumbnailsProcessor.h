@@ -3,7 +3,6 @@
 #include <thread_pool/thread_pool.h>
 
 #include <pb/ImageOperations.h>
-#include <pb/MediaMap.h>
 #include <pb/Project.h>
 
 namespace PB {

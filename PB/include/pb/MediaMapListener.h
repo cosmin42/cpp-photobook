@@ -1,7 +1,6 @@
 #pragma once
 
 #include <pb/Error.h>
-#include <pb/MediaMap.h>
 #include <pb/util/Concepts.h>
 
 namespace PB {

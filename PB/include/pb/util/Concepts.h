@@ -4,6 +4,7 @@
 #include <optional>
 
 #include <pb/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 template <typename T>

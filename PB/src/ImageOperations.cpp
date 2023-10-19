@@ -4,6 +4,18 @@
 #include <pb/ImageSetWriter.h>
 
 namespace PB::Process {
+bool validExtension(std::optional<Path> path)
+{
+  const std::set<std::string> validFileExtensions = {Context::JPG_EXTENSION,
+                                                     ".jpeg", ".png"};
+
+  auto extension = path->extension().string();
+
+  std::transform(extension.begin(), extension.end(), extension.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
+
+  return (validFileExtensions.contains(extension));
+}
 auto resize(cv::Size size, bool keepAspectRatio)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
@@ -80,8 +92,7 @@ OffsetFunction defaultAlignment()
   return f;
 }
 
-auto overlap(std::shared_ptr<cv::Mat> source,
-             OffsetFunction offsetFunction)
+auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
   auto f = [source{source}, offsetFunction](

@@ -491,7 +491,7 @@ void TableContentPage::CanvasControlDraw(
   if (mediumThumbnailPath.empty()) {
     return;
   }
-  if (PB::MediaMap::validImagePath(maybeThumbnail->fullPath)) {
+  if (PB::Process::validExtension(maybeThumbnail->fullPath)) {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
