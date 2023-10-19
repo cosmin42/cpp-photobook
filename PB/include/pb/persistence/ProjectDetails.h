@@ -7,6 +7,7 @@
 #include <pb/Config.h>
 #include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
+#include <pb/DataManager.h>
 
 namespace PB {
 class ProjectDetails {
@@ -27,11 +28,12 @@ public:
 
   operator Json() const;
 
-  void addImportFolder(std::optional<Path> maybePath);
-  void addStagedImage(std::optional<Path> maybePath);
+  void setImportedPaths(std::vector<Path> maybePath);
+  void setStagedImages(std::vector<Thumbnails> maybePath);
   void removeStagedImage(int index);
 
   std::vector<Path> importedFolderList() const;
+  std::vector<Path> stagedImagesList() const;
 
 private:
   static std::optional<Error> check(Json const &jsonData, std::string key);

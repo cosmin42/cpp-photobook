@@ -3,6 +3,7 @@
 #include <ranges>
 #include <unordered_map>
 
+#include <pb/Config.h>
 #include <pb/util/CircularIterator.h>
 
 namespace PB {
@@ -15,7 +16,7 @@ struct Thumbnails {
   }
   Path fullPath;
   Path mediumThumbnail;
-  Path smallThumbnail;
+  Path smallThumbnail = Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE);
 };
 
 class ImageSupportListener {

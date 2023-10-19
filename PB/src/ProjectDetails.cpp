@@ -99,20 +99,20 @@ ProjectDetails::operator Json() const
   return jsonData;
 }
 
-void ProjectDetails::addImportFolder(std::optional<Path> maybePath)
+void ProjectDetails::setImportedPaths(std::vector<Path> paths)
 {
-  if (!maybePath) {
-    return;
+  mImportedPaths.clear();
+  for (auto &path : paths) {
+    mImportedPaths.push_back(path);
   }
-  mImportedPaths.push_back(maybePath.value());
 }
 
-void ProjectDetails::addStagedImage(std::optional<Path> maybePath)
+void ProjectDetails::setStagedImages(std::vector<Thumbnails> stagedImages)
 {
-  if (!maybePath) {
-    return;
+  mStagedImages.clear();
+  for (auto &image : stagedImages) {
+    mStagedImages.push_back(image.fullPath);
   }
-  mStagedImages.push_back(maybePath.value());
 }
 
 void ProjectDetails::removeStagedImage(int index)
@@ -126,6 +126,11 @@ void ProjectDetails::removeStagedImage(int index)
 std::vector<Path> ProjectDetails::importedFolderList() const
 {
   return mImportedPaths;
+}
+
+std::vector<Path> ProjectDetails::stagedImagesList() const
+{
+  return mStagedImages;
 }
 
 } // namespace PB

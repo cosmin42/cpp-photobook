@@ -101,6 +101,11 @@ public:
               for (auto &path : importedFolders) {
                 addImportFolder(path);
               }
+              auto stagedImages = mProject.details().stagedImagesList();
+
+              for (auto i = 0; i < stagedImages.size(); ++i) {
+                addStagedPhoto(Thumbnails(stagedImages.at(i)));
+              }
 
               onReturn(std::nullopt);
             }
@@ -149,7 +154,7 @@ public:
     auto supportDirectoryPath = mProject.details().parentDirectory() /
                                 mProject.details().supportDirName();
     if (!std::filesystem::exists(supportDirectoryPath)) {
-      if (!FilePersistence::createDirectory(supportDirectoryPath) {
+      if (!FilePersistence::createDirectory(supportDirectoryPath)) {
         mParent.onFinished(rootPath);
         return;
       }
@@ -190,6 +195,7 @@ public:
               auto end = std::chrono::high_resolution_clock::now();
               std::chrono::duration<double> duration = end - start;
               PB::printDebug("Duration: %f\n", duration.count());
+
               mParent.onFinished(rootPath);
               mMappingJobs.erase(rootPath);
             }
@@ -249,6 +255,18 @@ public:
         }
       });
     }
+
+    auto &groupsSet = imageSupport().groups();
+
+    std::vector<Path> goups;
+    for (auto &path : groupsSet) {
+      goups.push_back(path.first);
+    }
+    mProject.details().setImportedPaths(goups);
+
+    auto it = imageSupport().stagedIterator();
+
+    mProject.details().setStagedImages(imageSupport().stagedPhotos());
 
     auto projectDetailsJson = Json(mProject.details());
 
