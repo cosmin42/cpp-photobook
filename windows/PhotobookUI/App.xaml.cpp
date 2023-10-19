@@ -5,7 +5,7 @@
 
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
-#include "FirstPage.xaml.h"
+#include "Dashboard.xaml.h"
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -48,7 +48,7 @@ void App::OnLaunched(LaunchActivatedEventArgs const& e)
 
     Frame rootFrame = Frame();
     rootFrame.NavigationFailed({this, &App::OnNavigationFailed});
-    rootFrame.Navigate(xaml_typename<PhotobookUI::FirstPage>(),
+    rootFrame.Navigate(xaml_typename<PhotobookUI::Dashboard>(),
                        box_value(e.Arguments()));
 
     mWindow.Content(rootFrame);

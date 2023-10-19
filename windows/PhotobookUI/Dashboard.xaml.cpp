@@ -3,9 +3,9 @@
 
 // clang-format off
 #include "pch.h"
-#include "FirstPage.xaml.h"
-#if __has_include("FirstPage.g.cpp")
-#include "FirstPage.g.cpp"
+#include "Dashboard.xaml.h"
+#if __has_include("Dashboard.g.cpp")
+#include "Dashboard.g.cpp"
 #endif
 // clang-format on
 
@@ -20,7 +20,7 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::PhotobookUI::implementation {
 
-PB::Path FirstPage::CurrentAppLocation()
+PB::Path Dashboard::CurrentAppLocation()
 {
   winrt::Windows::Storage::StorageFolder folder =
       winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
@@ -28,7 +28,7 @@ PB::Path FirstPage::CurrentAppLocation()
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
-FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
+Dashboard::Dashboard() : mCentralPersistence(CurrentAppLocation())
 {
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
@@ -59,7 +59,7 @@ FirstPage::FirstPage() : mCentralPersistence(CurrentAppLocation())
       });
 }
 
-void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
+void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
@@ -92,7 +92,7 @@ void FirstPage::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
 }
 
-void FirstPage::OnPersistenceDataLoaded(
+void Dashboard::OnPersistenceDataLoaded(
     std::variant<std::vector<PB::ProjectMetadata>, PB::Error> metadataOrError)
 {
   if (std::holds_alternative<PB::Error>(metadataOrError)) {
@@ -130,12 +130,12 @@ void FirstPage::OnPersistenceDataLoaded(
   ProjectsListView().ItemsSource(mProjectsList);
 }
 
-void FirstPage::OnError(PB::Error err)
+void Dashboard::OnError(PB::Error err)
 {
   PB::printError("Error occured on the first page.\n");
 }
 
-void FirstPage::OnListViewRightTapped(
+void Dashboard::OnListViewRightTapped(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &arg,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Input::
         RightTappedRoutedEventArgs const &e)
@@ -148,7 +148,7 @@ void FirstPage::OnListViewRightTapped(
   mMenuFlyout.ShowAt(e.OriginalSource().as<FrameworkElement>());
 }
 
-void FirstPage::OnDeleteClicked(
+void Dashboard::OnDeleteClicked(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
@@ -169,7 +169,7 @@ void FirstPage::OnDeleteClicked(
   mRightClickedId = winrt::hstring();
 }
 
-void FirstPage::OpenProjectClicked(
+void Dashboard::OpenProjectClicked(
     [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &arg,
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::
         ItemClickEventArgs const &e)

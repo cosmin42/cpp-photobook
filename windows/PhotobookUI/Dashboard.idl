@@ -3,9 +3,8 @@
 
 namespace PhotobookUI
 {
-    [default_interface]
-    runtimeclass FirstPage : Microsoft.UI.Xaml.Controls.Page
+    [default_interface] runtimeclass Dashboard : Microsoft.UI.Xaml.Controls.Page
     {
-        FirstPage();
+      Dashboard();
     }
 }
