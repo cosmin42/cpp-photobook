@@ -56,14 +56,11 @@ public:
 private:
   Thumbnails &image(Path fullPath);
 
-  std::unordered_map<Path, int> mGroupIndexes;
-
+  std::unordered_map<Path, int>                 mGroupIndexes;
   std::unordered_map<Path, std::pair<int, int>> mSupportByFullPath;
   std::vector<std::vector<Thumbnails>>          mSupport;
-
-  std::vector<Thumbnails> mStagedPhotos;
-
-  std::shared_ptr<ImageSupportListener> mListener = nullptr;
+  std::vector<Thumbnails>                       mStagedPhotos;
+  std::shared_ptr<ImageSupportListener>         mListener = nullptr;
 };
 
 } // namespace PB

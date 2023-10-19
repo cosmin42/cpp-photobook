@@ -17,12 +17,23 @@ void ImageSupport::addSmallPath(Path fullPath, Path smallSize)
 {
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
   mSupport[importPathIndex][pathIndex].smallThumbnail = smallSize;
+
+  for (auto &item : mStagedPhotos) {
+    if (item.fullPath == fullPath) {
+      item.smallThumbnail = smallSize;
+    }
+  }
 }
 
 void ImageSupport::addMediumPath(Path fullPath, Path mediumPath)
 {
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
   mSupport[importPathIndex][pathIndex].mediumThumbnail = mediumPath;
+  for (auto &item : mStagedPhotos) {
+    if (item.fullPath == fullPath) {
+      item.mediumThumbnail = mediumPath;
+    }
+  }
 }
 
 void ImageSupport::addGroup(std::optional<Path> path)
