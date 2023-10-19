@@ -500,7 +500,7 @@ void TableContentPage::CanvasControlDraw(
       PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
     }
     else {
-      PB::Process::overlap(tmpImage, PB::Process::defaultAlignment())(image);
+      PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
     }
   }
   else {
@@ -834,6 +834,12 @@ void TableContentPage::OnExportContentDialogClicked(
 {
   auto        exportName = ExportNameTextBox().Text();
   std::string nativeExportName = winrt::to_string(exportName);
+
+  if (!OptionPDFCheckBox().IsChecked())
+  {
+    PostponeError("Check a format!");
+  }
+
 
   if (nativeExportName.empty()) {
     PostponeError("The given name must not be empty!");
