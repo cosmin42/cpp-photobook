@@ -140,18 +140,19 @@ public:
     mImagePaths.addGroup(rootPath);
     mImagePaths.addFullPaths(rootPath, newMediaMap);
 
-    mParent.onAddingUnstagedImagePlaceholder(
-        (unsigned)newMediaMap.size());
+    mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
     mParent.onMappingFinished(rootPath);
 
     std::vector<std::future<void>> v;
 
-    if (!FilePersistence::createDirectory(
-            mProject.details().parentDirectory() /
-            mProject.details().supportDirName())) {
-      mParent.onFinished(rootPath);
-      return;
+    auto supportDirectoryPath = mProject.details().parentDirectory() /
+                                mProject.details().supportDirName();
+    if (!std::filesystem::exists(supportDirectoryPath)) {
+      if (!FilePersistence::createDirectory(supportDirectoryPath) {
+        mParent.onFinished(rootPath);
+        return;
+      }
     }
 
     if (newMediaMap.empty()) {
@@ -190,11 +191,10 @@ public:
               std::chrono::duration<double> duration = end - start;
               PB::printDebug("Duration: %f\n", duration.count());
               mParent.onFinished(rootPath);
+              mMappingJobs.erase(rootPath);
             }
           });
         });
-    // mMappingJobs.erase(path);
-    // mListeners.erase(path);
   }
 
   void onError(Error error) { mParent.onError(error); }
