@@ -11,7 +11,7 @@
 
 #include <coroutine>
 
-#include "FirstPage.xaml.h"
+#include "Dashboard.xaml.h"
 #include "MainWindow.xaml.h"
 
 #include <microsoft.ui.xaml.window.h>
@@ -465,7 +465,7 @@ void TableContentPage::OnGalleryRight(
   UpdateGalleryLabel();
 }
 
-void TableContentPage::CanvasControlDraw(
+void TableContentPage::OnCanvasDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasControl const &sender,
     winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const
@@ -790,7 +790,7 @@ void TableContentPage::OnNavigatedTo(
   mPhotoBook.loadProject(
       PB::Path(fullPath), [this](std::optional<PB::Error> maybeError) {
         if (maybeError) {
-          Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
       });
 }
@@ -814,7 +814,7 @@ void TableContentPage::OnContentDialogSaveClicked(
           auto &newName = std::get<std::string>(result);
 
           mPhotoBook.savePhotoBook(newName);
-          Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
           OnError(std::get<PB::Error>(result));
@@ -876,7 +876,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
   }
   else {
-    Frame().Navigate(winrt::xaml_typename<PhotobookUI::FirstPage>());
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
   }
 }
 

@@ -72,7 +72,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void CanvasControlDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
+  void OnCanvasDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasControl const &sender,
                          [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
                              UI::Xaml::CanvasDrawEventArgs const &args);

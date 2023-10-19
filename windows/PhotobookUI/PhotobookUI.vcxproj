@@ -118,8 +118,8 @@
     <Manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FirstPage.xaml.h">
-      <DependentUpon>FirstPage.xaml</DependentUpon>
+    <ClInclude Include="Dashboard.xaml.h">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
     <ClInclude Include="ImageUIData.h" />
@@ -141,7 +141,7 @@
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
     <Page Include="ColorScheme.xaml" />
-    <Page Include="FirstPage.xaml">
+    <Page Include="Dashboard.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml" />
@@ -150,8 +150,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FirstPage.xaml.cpp">
-      <DependentUpon>FirstPage.xaml</DependentUpon>
+    <ClCompile Include="Dashboard.xaml.cpp">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
     <ClCompile Include="ImageUIData.cpp" />
@@ -178,8 +178,8 @@
       <SubType>Code</SubType>
       <DependentUpon>App.xaml</DependentUpon>
     </Midl>
-    <Midl Include="FirstPage.idl">
-      <DependentUpon>FirstPage.xaml</DependentUpon>
+    <Midl Include="Dashboard.idl">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
     <Midl Include="ImageUIData.idl" />

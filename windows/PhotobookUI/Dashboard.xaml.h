@@ -6,7 +6,7 @@
 #include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
 #include <winrt/Microsoft.UI.Xaml.Input.h>
 
-#include "FirstPage.g.h"
+#include "Dashboard.g.h"
 #include "ProjectItem.g.h"
 
 #include <pb/Project.h>
@@ -16,11 +16,11 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct FirstPage : FirstPageT<FirstPage> {
+struct Dashboard : DashboardT<Dashboard> {
 
   static PB::Path CurrentAppLocation();
 
-  FirstPage();
+  Dashboard();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
@@ -53,5 +53,5 @@ struct FirstPage : FirstPageT<FirstPage> {
 } // namespace winrt::PhotobookUI::implementation
 
 namespace winrt::PhotobookUI::factory_implementation {
-struct FirstPage : FirstPageT<FirstPage, implementation::FirstPage> {};
+struct Dashboard : DashboardT<Dashboard, implementation::Dashboard> {};
 } // namespace winrt::PhotobookUI::factory_implementation
