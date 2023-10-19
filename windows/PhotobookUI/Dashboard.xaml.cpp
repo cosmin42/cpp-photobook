@@ -106,7 +106,7 @@ void Dashboard::OnPersistenceDataLoaded(
                                                     RoutedEventArgs const &) {
     auto sqrtIntF = [](int size) {
       float root = sqrt((float)size);
-      int   intRoot = (int)floor(root) + 1;
+      int   intRoot = (int)floor(root);
       return intRoot;
     };
 
