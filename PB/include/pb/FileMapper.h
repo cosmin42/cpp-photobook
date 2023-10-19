@@ -59,7 +59,7 @@ public:
     mListener->onProgressUpdate();
   }
 
-  void finish() override { mListener->onFinished(mMap, mRoot); }
+  void finish() override { mListener->onFinished(mMap.result(), mRoot); }
 
   auto map() const -> MediaMap { return mMap; }
 

@@ -100,6 +100,8 @@ public:
     return sValidFileExtensions.contains(extensionStr);
   }
 
+  std::vector<std::filesystem::path> const result() const { return mPaths; }
+
 private:
   std::vector<std::filesystem::path> mPaths;
 };

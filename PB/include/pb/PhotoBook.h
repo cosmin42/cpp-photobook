@@ -135,13 +135,13 @@ public:
     }
   }
 
-  void onImportFolderMapped(Path &rootPath, MediaMap &newMediaMap)
+  void onImportFolderMapped(Path &rootPath, std::vector<Path> &newMediaMap)
   {
     mImagePaths.addGroup(rootPath);
-    mImagePaths.addFullPaths(rootPath, newMediaMap.map());
+    mImagePaths.addFullPaths(rootPath, newMediaMap);
 
     mParent.onAddingUnstagedImagePlaceholder(
-        (unsigned)newMediaMap.map().size());
+        (unsigned)newMediaMap.size());
 
     mParent.onMappingFinished(rootPath);
 
@@ -154,21 +154,21 @@ public:
       return;
     }
 
-    if (newMediaMap.map().empty()) {
+    if (newMediaMap.empty()) {
       mParent.onFinished(rootPath);
     }
 
     auto start = std::chrono::high_resolution_clock::now();
 
     mProgress[rootPath] = 0;
-    const int maxProgress = (int)newMediaMap.map().size();
+    const int maxProgress = (int)newMediaMap.size();
 
     auto importFolderIndex = mImagePaths.groups().at(rootPath);
 
     auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
 
     mThumbnailsProcessor.generateThumbnails(
-        newMediaMap.map(), groupIdentifier,
+        newMediaMap, groupIdentifier,
         [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
             Path input, Path smallOutput, Path mediumOutput, int position) {
           mParent.onProgressUpdate(rootPath, mProgress.at(rootPath),

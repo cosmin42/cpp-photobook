@@ -19,9 +19,9 @@ public:
   {
   }
   ~MediaMapListener() = default;
-  void onFinished(MediaMap &newMediaMap, Path &path)
+  void onFinished(std::vector<std::filesystem::path> addedPaths, Path &path)
   {
-    mParent.onImportFolderMapped(path, newMediaMap);
+    mParent.onImportFolderMapped(path, addedPaths);
   }
   void onStopped() {}
   void onStarted() {}
