@@ -206,7 +206,7 @@
                           Grid.Column="0">
                         <canvas:CanvasControl MinHeight="{x:Bind CanvasMinHeight}"
                                               MinWidth="{x:Bind CanvasMinWidth}"
-                                              Draw="CanvasControlDraw"
+                                              Draw="OnCanvasDraw"
                                               x:Name="GalleryCanvas"
                                               ClearColor="#000000" />
                     </Grid>

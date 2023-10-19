@@ -465,7 +465,7 @@ void TableContentPage::OnGalleryRight(
   UpdateGalleryLabel();
 }
 
-void TableContentPage::CanvasControlDraw(
+void TableContentPage::OnCanvasDraw(
     [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::Xaml::
         CanvasControl const &sender,
     winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const
