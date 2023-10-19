@@ -129,10 +129,9 @@ int TableContentPage::CanvasMinHeight()
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
 {
-  mPopups.fireFolderPicker(MainWindow::sMainWindowhandle,
-                           [this](PB::Path path) {
-                             mPhotoBook.addImportFolder(path);
-                           });
+  mPopups.fireFolderPicker(
+      MainWindow::sMainWindowhandle,
+      [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -696,6 +695,18 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                               winrt::to_hstring(mediumPath.string()),
                               winrt::to_hstring(smallPath.string())));
   }
+
+  if (mStagedImages.contains(fullPath)) {
+    for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
+      auto path = winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
+      if (PB::Path(path) == fullPath) {
+        mStagedImageCollection.SetAt(
+            i, ImageUIData(winrt::to_hstring(fullPath.string()),
+                           winrt::to_hstring(mediumPath.string()),
+                           winrt::to_hstring(smallPath.string())));
+      }
+    }
+  }
 }
 
 void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
@@ -713,6 +724,7 @@ void TableContentPage::OnStagedImageAdded(PB::Thumbnails image, int index)
                            winrt::to_hstring(image.mediumThumbnail.string()),
                            winrt::to_hstring(image.smallThumbnail.string()));
     mStagedImageCollection.Append(winRTImage);
+    mStagedImages.insert(image.fullPath);
   }
 }
 
@@ -720,7 +732,10 @@ void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes)
 {
   std::sort(removedIndexes.begin(), removedIndexes.end(), std::greater<int>());
   for (int i = 0; i < removedIndexes.size(); ++i) {
+    auto path = winrt::to_string(
+        mStagedImageCollection.GetAt(removedIndexes.at(i)).FullPath());
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));
+    mStagedImages.erase(PB::Path(path));
   }
 }
 

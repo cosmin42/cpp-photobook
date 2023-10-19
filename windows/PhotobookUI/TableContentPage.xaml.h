@@ -212,6 +212,7 @@ private:
   PopUps                            mPopups;
   bool                              mExitFlag = false;
   std::unordered_set<PB::Path>      mLoadedFinishedImportFolders;
+  std::unordered_set<PB::Path>      mStagedImages;
 };
 } // namespace winrt::PhotobookUI::implementation
 
