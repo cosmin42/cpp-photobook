@@ -38,7 +38,7 @@ private:
   static std::optional<Error> check(Json const                    &jsonData,
                                     std::vector<std::string> const key);
 
-  boost::uuids::uuid mUuid;
+  boost::uuids::uuid mUuid = boost::uuids::random_generator()();
   std::string        mSupportDirName;
   Path               mParentDirectory;
 

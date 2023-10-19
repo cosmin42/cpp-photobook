@@ -29,7 +29,7 @@ public:
 private:
   std::string mDescription = "";
   ErrorCode   mErrorCode = ErrorCode::Unknown;
-  [[maybe_unused]] uint8_t     padding[4];
+  [[maybe_unused]] uint8_t padding[4] = {0, 0, 0, 0};
 };
 
 } // namespace PB
