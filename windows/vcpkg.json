@@ -11,7 +11,7 @@
     "exiv2",
     "gtest",
     "dp-thread-pool",
-    "libharu",
+    "podofo",
     "sqlite3",
     "nlohmann-json"
   ]

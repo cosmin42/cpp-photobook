@@ -49,7 +49,7 @@ endif()
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
-find_package(unofficial-libharu CONFIG REQUIRED)
+find_package(podofo CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
@@ -122,9 +122,9 @@ target_link_libraries(pblib PUBLIC
     Boost::program_options
     exiv2lib
     dp::thread-pool
-    unofficial::libharu::hpdf
     unofficial::sqlite3::sqlite3
-    nlohmann_json::nlohmann_json)
+    nlohmann_json::nlohmann_json
+    podofo_shared)
 
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -152,8 +152,8 @@ if (LOG_LEVEL MATCHES Debug)
         magic_enum::magic_enum
         pblib
         dp::thread-pool
-        unofficial::libharu::hpdf
         unofficial::sqlite3::sqlite3
         bcrypt
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        podofo_shared)
 endif()
