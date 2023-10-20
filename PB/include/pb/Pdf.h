@@ -1,7 +1,5 @@
 #pragma once
 
-#include <hpdf.h>
-
 #include <pb/util/Traits.h>
 
 namespace PB {
