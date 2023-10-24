@@ -16,6 +16,7 @@
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>
 #include <pb/Pdf.h>
+#include <pb/PhotobookListener.h>
 #include <pb/Project.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/common/Log.h>
@@ -38,7 +39,7 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
-class PhotoBook final {
+class PhotoBook final : public Observer {
 public:
   PhotoBook(PhotobookListener &listener, Path centralPersistencePath,
             std::pair<int, int> screenSize)
@@ -128,15 +129,34 @@ public:
         return;
       }
 
-      auto ptr = std::make_shared<MediaMapListener>(std::ref(*this));
-      mListeners.insert({path, ptr});
-      auto listener = mListeners.at(path);
-      mMappingJobs.emplace(path, MediaMapper(path, listener));
+      setChangeFunction([this](PB::Observer *current, PB::Observer *other) {
+        if (other) {
+          for (auto &[key, value] : mMappingJobs) {
+            value.dettach(current);
+            value.attach(other);
+          }
+        }
+        else {
+          for (auto &[key, value] : mMappingJobs) {
+            value.dettach(current);
+          }
+        }
+      });
+      auto mapper = MediaMapper(path, this);
+      mMappingJobs.emplace(path, mapper);
       mMappingJobs.at(importPath).start();
     }
   }
 
-  void onImportFolderMapped(Path &rootPath, std::vector<Path> &newMediaMap)
+  void update(ObservableSubject &subject) override
+  {
+    auto &mediaMap = static_cast<MediaMapper &>(subject);
+    if (mediaMap.state() == MediaMapState::Finished) {
+      onImportFolderMapped(mediaMap.root(), mediaMap.importedDirectories());
+    }
+  }
+
+  void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap)
   {
     mImagePaths.addGroup(rootPath);
     mImagePaths.addFullPaths(rootPath, newMediaMap);
@@ -144,8 +164,6 @@ public:
     mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
     mParent.onMappingFinished(rootPath);
-
-    std::vector<std::future<void>> v;
 
     auto supportDirectoryPath = mProject.details().parentDirectory() /
                                 mProject.details().supportDirName();
@@ -320,18 +338,17 @@ public:
   }
 
 private:
-  PhotobookListener &mParent;
-  Path               mCentralPersistencePath;
-  SQLitePersistence  mCentralPersistence;
-  Project            mProject;
-  std::unordered_map<Path, std::shared_ptr<MediaMapListener>> mListeners;
-  std::unordered_map<Path, MediaMapper>                       mMappingJobs;
-  ImageSupport                                                mImagePaths;
-  Gallery                                                     mGallery;
-  ImageReader                                                 mImageReader;
-  ThumbnailsProcessor           mThumbnailsProcessor;
-  Exporter<Pdf>                 mExporter;
-  std::unordered_map<Path, int> mProgress;
-  PaperSettings                 mPaperSettings;
+  PhotobookListener                    &mParent;
+  Path                                  mCentralPersistencePath;
+  SQLitePersistence                     mCentralPersistence;
+  Project                               mProject;
+  std::unordered_map<Path, MediaMapper> mMappingJobs;
+  ImageSupport                          mImagePaths;
+  Gallery                               mGallery;
+  ImageReader                           mImageReader;
+  ThumbnailsProcessor                   mThumbnailsProcessor;
+  Exporter<Pdf>                         mExporter;
+  std::unordered_map<Path, int>         mProgress;
+  PaperSettings                         mPaperSettings;
 };
 } // namespace PB

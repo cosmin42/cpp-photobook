@@ -24,4 +24,6 @@ enum class ErrorCode {
 enum class LogLevel { None, Debug, Info, Warning, Error };
 
 enum class PhotoLine { None, Unstaged, Staged };
+
+enum class MediaMapState { None, Started, Finished };
 } // namespace PB
