@@ -1,31 +1,35 @@
 #pragma once
 
 #include <pb/PhotoBook.h>
+#include <pb/PhotobookListener.h>
 
 namespace BL {
 
-class PhotoBookListener final {
+class ConsolePhotobookListener final : public PB::PhotobookListener {
 public:
-  void onFinished(PB::Path rootPath) {}
-  void onStopped() {}
-  void onStarted() {}
-  void onPaused() {}
-  void onResumed() {}
+  void onStagedImageAdded(PB::Thumbnails image, int index = -1) override {}
+  void onStagedImageRemoved(std::vector<int> removedIndexes) override {}
+
+  void onFinished(PB::Path rootPath) override {}
+  void onStopped() override {}
+  void onStarted() override {}
+  void onPaused() override {}
+  void onResumed() override {}
 
   void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
-                            PB::Path mediumPath,
-                            PB::Path smallPath, int position)
+                            PB::Path mediumPath, PB::Path smallPath,
+                            int position) override
   {
   }
 
-  void post(std::function<void()>) {}
+  void post(std::function<void()>) override {}
 
-  void onProgressUpdate(PB::Path, int, int) {}
-  void onError(PB::Error error) {}
+  void onProgressUpdate(PB::Path, int, int) override {}
+  void onError(PB::Error error) override {}
 
-  void onAddingUnstagedImagePlaceholder(unsigned size) {}
+  void onAddingUnstagedImagePlaceholder(unsigned size) override {}
 
-  void onMappingFinished(PB::Path) {}
+  void onMappingFinished(PB::Path) override {}
 };
 
 class MainActivity final {
@@ -37,7 +41,7 @@ public:
   ~MainActivity() = default;
 
 private:
-  PhotoBookListener mPhotoBookListener;
-  PB::PhotoBook<PhotoBookListener> mPhotoBook;
+  ConsolePhotobookListener mPhotoBookListener;
+  PB::Photobook            mPhotoBook;
 };
 } // namespace BL
