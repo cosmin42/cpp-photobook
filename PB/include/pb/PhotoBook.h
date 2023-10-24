@@ -38,6 +38,18 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
+class PhotobookListener
+{
+public:
+  virtual void onStarted() = 0;
+  virtual void onFinished(Path) = 0;
+  virtual void onStopped() = 0;
+  virtual void onPaused() = 0;
+  virtual void onResumed() = 0;
+  virtual void onProgressUpdate(Path, int, int) = 0;
+  virtual void onError(Path) = 0;
+};
+
 template <typename PhotoBookListenerType>
   requires PhotoBookListenerConcept<PhotoBookListenerType>
 class PhotoBook final {
