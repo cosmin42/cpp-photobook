@@ -17,10 +17,22 @@ ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
 
 void ResizeTask::operator()() const
 {
+  auto resizeOption = ThumbnailType::None;
+  if (!std::filesystem::exists(mSmallThumbnailOutputPath)) {
+    resizeOption = ThumbnailType::Small;
+  }
+  if (std::filesystem::exists(mMediumThumbnailOutputPath)) {
+    if (resizeOption == ThumbnailType::Small) {
+      resizeOption = ThumbnailType::Both;
+    }
+    else {
+      resizeOption = ThumbnailType::Medium;
+    }
+  }
   if (Process::validExtension(mFullSizePath)) {
     Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,
                                      mSmallThumbnailOutputPath,
-                                     mMediumThumbnailOutputPath);
+                                     mMediumThumbnailOutputPath, resizeOption);
   }
   else {
     std::shared_ptr<cv::Mat> image =
@@ -63,7 +75,7 @@ void ThumbnailsProcessor::generateThumbnails(
   unsigned taskCount = (unsigned)mediaMap.size();
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
-    auto inputPath = mediaMap.at(i);
+    auto &inputPath = mediaMap.at(i);
     auto [smallPath, mediumPath] = assembleOutputPaths(i, groupIdentifier);
 
     auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},

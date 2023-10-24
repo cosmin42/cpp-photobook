@@ -8,6 +8,7 @@
 #include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
+#include <pb/Enums.h>
 #include <pb/util/Traits.h>
 
 namespace PB::Process {
@@ -32,7 +33,8 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
 void readImageWriteThumbnail(int width, int height, Path inputPath,
-                             Path smallOutputPath, Path mediumOutputPath);
+                             Path smallOutputPath, Path mediumOutputPath,
+                             ThumbnailType thumbnailType);
 
 void imageWriteThumbnail(int width, int height, std::shared_ptr<cv::Mat> image,
                          Path smallOutputPath, Path mediumOutputPath);

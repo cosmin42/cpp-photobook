@@ -142,8 +142,13 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
 }
 
 void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
-                             Path smallOutputPath, Path mediumOutputPath)
+                             Path smallOutputPath, Path mediumOutputPath,
+                             ThumbnailType thumbnailsType)
 {
+  if (thumbnailsType == ThumbnailType::None) {
+    return;
+  }
+
   auto inputImage = ImageReader().loadImage(inputPath);
 
   int mediumThumbnailWidth =
@@ -151,15 +156,23 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
   int mediumThumbnailHeight =
       std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
 
-  auto mediumImagePointer = PB::Process::resize(
-      cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(inputImage);
-  ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
+  if (thumbnailsType == ThumbnailType::Both ||
+      thumbnailsType == ThumbnailType::Medium) {
+    auto mediumImagePointer = PB::Process::resize(
+        cv::Size(mediumThumbnailWidth, mediumThumbnailHeight),
+        true)(inputImage);
+    ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
+  }
 
-  auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
-      true)(inputImage);
+  if (thumbnailsType == ThumbnailType::Both ||
+      thumbnailsType == ThumbnailType::Small) {
+    auto smallImagePointer =
+        PB::Process::resize(cv::Size(Context::SMALL_THUMBNAIL_WIDTH,
+                                     Context::SMALL_THUMBNAIL_HEIGHT),
+                            true)(inputImage);
 
-  ImageSetWriter().write(smallOutputPath, smallImagePointer);
+    ImageSetWriter().write(smallOutputPath, smallImagePointer);
+  }
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,

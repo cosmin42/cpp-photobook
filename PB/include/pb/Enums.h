@@ -26,4 +26,6 @@ enum class LogLevel { None, Debug, Info, Warning, Error };
 enum class PhotoLine { None, Unstaged, Staged };
 
 enum class MediaMapState { None, Started, Finished };
+
+enum class ThumbnailType { None = 0, Small, Medium, Both };
 } // namespace PB
