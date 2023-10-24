@@ -11,7 +11,7 @@
 
 #include "TableContentPage.g.h"
 #include <PhotobookTableListener.h>
-#include <pb/PhotoBook.h>
+#include <pb/Photobook.h>
 
 #include <PopUps.h>
 
@@ -204,7 +204,7 @@ private:
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
   PhotobookTableListener            mListener;
-  PB::PhotoBook                     mPhotoBook;
+  PB::Photobook                     mPhotoBook;
   IObservableVector<winrt::hstring> mNavigationItemsCollection;
   IObservableVector<ImageUIData>    mUnstagedImageCollection;
   IObservableVector<ImageUIData>    mStagedImageCollection;

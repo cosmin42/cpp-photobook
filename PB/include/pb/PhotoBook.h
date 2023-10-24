@@ -39,37 +39,42 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
-class PhotoBook final : public Observer {
+class Photobook final : public Observer {
 public:
-  PhotoBook(PhotobookListener &listener, Path centralPersistencePath,
+  Photobook(PhotobookListener &listener, Path centralPersistencePath,
             std::pair<int, int> screenSize);
-  PhotoBook(PhotoBook const &) = delete;
-  PhotoBook(PhotoBook &&other) = delete;
-  PhotoBook &operator=(PhotoBook const &) = delete;
-  ~PhotoBook();
+  Photobook(Photobook const &) = delete;
+  Photobook(Photobook &&other) = delete;
+  Photobook &operator=(Photobook const &) = delete;
+  Photobook &operator=(Photobook &&) = delete;
+  ~Photobook();
 
-  PaperSettings paperSettings();
-  void          setPaperSettings(PaperSettings paperSettings);
-  void          loadProject(Path const                               &path,
-                            std::function<void(std::optional<Error>)> onReturn);
-  void          addImportFolder(Path importPath);
-  void          update(ObservableSubject &subject) override;
-  void     onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
-  void     onError(Error error);
-  Gallery &gallery();
-  std::optional<PB::Path> selectedImportFolder();
+  void setPaperSettings(PaperSettings paperSettings);
+
+  PaperSettings                      paperSettings();
+  std::optional<PB::Path>            selectedImportFolder();
+  Gallery                           &gallery();
+  template <typename T> Exporter<T> &exporter();
+  std::vector<Thumbnails>           &stagedPhotos();
+  ImageSupport                      &imageSupport();
+
+  void loadProject(Path const                               &path,
+                   std::function<void(std::optional<Error>)> onReturn);
+  void addImportFolder(Path importPath);
+  void update(ObservableSubject &subject) override;
+  void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
+  void onError(Error error);
+
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>;
-  template <typename T> Exporter<T> &exporter();
-  void                               discardPhotoBook();
-  void                               savePhotoBook();
-  void                               savePhotoBook(Path newPath);
-  void                               addStagedPhoto(Thumbnails th);
+
+  void                     discardPhotobook();
+  void                     savePhotobook();
+  void                     savePhotobook(Path newPath);
+  void                     addStagedPhoto(Thumbnails th);
   void                     deleteStagedPhoto(std::vector<int> positions);
   void                     insertStagedPhoto(Thumbnails path, int position);
   void                     removeStagedPhoto(int index);
-  std::vector<Thumbnails> &stagedPhotos();
-  ImageSupport            &imageSupport();
   bool                     projectDefaultSaved();
 
 private:

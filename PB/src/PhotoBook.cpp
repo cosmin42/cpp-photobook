@@ -1,12 +1,11 @@
-#include <pb/PhotoBook.h>
-
+#include <pb/Photobook.h>
 
 namespace PB {
-PhotoBook::PhotoBook(PhotobookListener &listener, Path centralPersistencePath,
-          std::pair<int, int> screenSize)
+Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
+                     std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize), mPaperSettings(A4_PAPER)
+      mThumbnailsProcessor(screenSize), mExporter(), mPaperSettings(A4_PAPER)
 {
   printDebug("Photobook created.\n");
 
@@ -16,21 +15,21 @@ PhotoBook::PhotoBook(PhotobookListener &listener, Path centralPersistencePath,
   }
 }
 
-PhotoBook::~PhotoBook()
+Photobook::~Photobook()
 {
   printDebug("Photobook destructed.\n");
   mImagePaths.clear();
 }
 
-PaperSettings PhotoBook::paperSettings() { return mPaperSettings; }
+PaperSettings Photobook::paperSettings() { return mPaperSettings; }
 
-void PhotoBook::setPaperSettings(PaperSettings paperSettings)
+void Photobook::setPaperSettings(PaperSettings paperSettings)
 {
   mPaperSettings = paperSettings;
 }
 
-void PhotoBook::loadProject(Path const                               &path,
-                 std::function<void(std::optional<Error>)> onReturn)
+void Photobook::loadProject(Path const                               &path,
+                            std::function<void(std::optional<Error>)> onReturn)
 {
   FilePersistence projectPersistence(path);
   projectPersistence.read([this,
@@ -70,7 +69,7 @@ void PhotoBook::loadProject(Path const                               &path,
   });
 }
 
-void PhotoBook::addImportFolder(Path importPath)
+void Photobook::addImportFolder(Path importPath)
 {
   auto errorOrPath = FileInfo::validInputRootPath(importPath);
   if (std::holds_alternative<Error>(errorOrPath)) {
@@ -106,7 +105,7 @@ void PhotoBook::addImportFolder(Path importPath)
   }
 }
 
-void PhotoBook::update(ObservableSubject &subject)
+void Photobook::update(ObservableSubject &subject)
 {
   auto &mediaMap = static_cast<MediaMapper &>(subject);
   if (mediaMap.state() == MediaMapState::Finished) {
@@ -114,7 +113,7 @@ void PhotoBook::update(ObservableSubject &subject)
   }
 }
 
-void PhotoBook::onImportFolderMapped(Path              rootPath,
+void Photobook::onImportFolderMapped(Path              rootPath,
                                      std::vector<Path> newMediaMap)
 {
   mImagePaths.addGroup(rootPath);
@@ -175,11 +174,11 @@ void PhotoBook::onImportFolderMapped(Path              rootPath,
       });
 }
 
-void PhotoBook::onError(Error error) { mParent.onError(error); }
+void Photobook::onError(Error error) { mParent.onError(error); }
 
-Gallery &PhotoBook::gallery() { return mGallery; }
+Gallery &Photobook::gallery() { return mGallery; }
 
-std::optional<PB::Path> PhotoBook::selectedImportFolder()
+std::optional<PB::Path> Photobook::selectedImportFolder()
 {
   auto selectedIndex = gallery().selectedIndex();
   if (selectedIndex > -1) {
@@ -190,23 +189,23 @@ std::optional<PB::Path> PhotoBook::selectedImportFolder()
   }
 }
 
-auto PhotoBook::loadGalleryImage(std::string const &path, cv::Size size)
+auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
     -> std::shared_ptr<cv::Mat>
 {
   auto image = mImageReader.read(path);
   return Process::resize(size, true)(image);
 }
 
-template <> Exporter<Pdf> &PhotoBook::exporter() { return mExporter; }
+template <> Exporter<Pdf> &Photobook::exporter() { return mExporter; }
 
-void PhotoBook::discardPhotoBook() { PB::printDebug("Discard Photobook\n"); }
+void Photobook::discardPhotobook() { PB::printDebug("Discard Photobook\n"); }
 
-void PhotoBook::savePhotoBook()
+void Photobook::savePhotobook()
 {
-  savePhotoBook(mProject.details().projectFile());
+  savePhotobook(mProject.details().projectFile());
 }
 
-void PhotoBook::savePhotoBook(Path newPath)
+void Photobook::savePhotobook(Path newPath)
 {
   bool newSaveFile = false;
   Path oldProjectFile = mProject.details().projectFile();
@@ -262,36 +261,36 @@ void PhotoBook::savePhotoBook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-void PhotoBook::addStagedPhoto(Thumbnails th)
+void Photobook::addStagedPhoto(Thumbnails th)
 {
   mImagePaths.stagePhoto(th);
   mParent.onStagedImageAdded(th);
 }
 
-void PhotoBook::deleteStagedPhoto(std::vector<int> positions)
+void Photobook::deleteStagedPhoto(std::vector<int> positions)
 {
   mImagePaths.unstagePhoto(positions);
   mParent.onStagedImageRemoved(positions);
 }
 
-void PhotoBook::insertStagedPhoto(Thumbnails path, int position)
+void Photobook::insertStagedPhoto(Thumbnails path, int position)
 {
   mImagePaths.stagePhoto(path, position);
 }
 
-void PhotoBook::removeStagedPhoto(int index)
+void Photobook::removeStagedPhoto(int index)
 {
   mImagePaths.unstagePhoto({index});
 }
 
-std::vector<Thumbnails> &PhotoBook::stagedPhotos()
+std::vector<Thumbnails> &Photobook::stagedPhotos()
 {
   return mImagePaths.stagedPhotos();
 }
 
-ImageSupport &PhotoBook::imageSupport() { return mImagePaths; }
+ImageSupport &Photobook::imageSupport() { return mImagePaths; }
 
-bool PhotoBook::projectDefaultSaved()
+bool Photobook::projectDefaultSaved()
 {
   auto projectParentPath = mProject.details().parentDirectory().string();
 

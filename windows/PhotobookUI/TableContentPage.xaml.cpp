@@ -209,7 +209,7 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   if (!mPhotoBook.projectDefaultSaved()) {
-    mPhotoBook.savePhotoBook();
+    mPhotoBook.savePhotobook();
   }
   else {
     mPopups.fireSaveFilePicker(
@@ -217,7 +217,7 @@ void TableContentPage::OnSaveClicked(
         [this](std::variant<std::string, PB::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
-            mPhotoBook.savePhotoBook(newName);
+            mPhotoBook.savePhotobook(newName);
           }
           else {
             OnError(std::get<PB::Error>(result));
@@ -235,7 +235,7 @@ void TableContentPage::OnSaveAsClicked(
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
-          mPhotoBook.savePhotoBook(newName);
+          mPhotoBook.savePhotobook(newName);
         }
         else {
           OnError(std::get<PB::Error>(result));
@@ -813,7 +813,7 @@ void TableContentPage::OnContentDialogSaveClicked(
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
 
-          mPhotoBook.savePhotoBook(newName);
+          mPhotoBook.savePhotobook(newName);
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
@@ -871,7 +871,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
-  mPhotoBook.discardPhotoBook();
+  mPhotoBook.discardPhotobook();
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
   }

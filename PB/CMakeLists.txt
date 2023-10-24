@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(PhotoBookLib)
+project(PhotobookLib)
 
 option(STATIC_CHECK "Statically check the program." OFF)
 option(LOG_LEVEL "Log level." OFF)
@@ -79,7 +79,7 @@ add_library(pblib STATIC
     include/pb/persistence/Persistence.h
     include/pb/persistence/ProjectDetails.h
     include/pb/persistence/ProjectMetadata.h
-    include/pb/PhotoBook.h
+    include/pb/Photobook.h
     include/pb/PhotobookListener.h
     include/pb/Project.h
     include/pb/ThumbnailsProcessor.h
@@ -101,7 +101,7 @@ add_library(pblib STATIC
     src/Log.cpp
     src/MetadataReader.cpp
     src/Pdf.cpp
-    src/PhotoBook.cpp
+    src/Photobook.cpp
     src/Project.cpp
     src/ProjectDetails.cpp
     src/ProjectMetadata.cpp

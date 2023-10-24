@@ -8,7 +8,7 @@ class ObservableSubject;
 class Observer {
 public:
   Observer(Observer &&other) noexcept { mOnChanged(&other, this); }
-  virtual ~Observer() { mOnChanged(this, nullptr); }
+  virtual ~Observer() = default;
 
   Observer &operator=(Observer &&other) noexcept
   {
@@ -18,7 +18,7 @@ public:
 
   virtual void update(ObservableSubject &subject) = 0;
 
-  void setChangeFunction(std::function<void(Observer*, Observer*)> changed)
+  void setChangeFunction(std::function<void(Observer *, Observer *)> changed)
   {
     mOnChanged = changed;
   }
