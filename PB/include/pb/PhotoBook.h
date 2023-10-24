@@ -38,23 +38,9 @@ static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
 static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
 static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
-class PhotobookListener
-{
-public:
-  virtual void onStarted() = 0;
-  virtual void onFinished(Path) = 0;
-  virtual void onStopped() = 0;
-  virtual void onPaused() = 0;
-  virtual void onResumed() = 0;
-  virtual void onProgressUpdate(Path, int, int) = 0;
-  virtual void onError(Path) = 0;
-};
-
-template <typename PhotoBookListenerType>
-  requires PhotoBookListenerConcept<PhotoBookListenerType>
 class PhotoBook final {
 public:
-  PhotoBook(PhotoBookListenerType &listener, Path centralPersistencePath,
+  PhotoBook(PhotobookListener &listener, Path centralPersistencePath,
             std::pair<int, int> screenSize)
       : mParent(listener), mCentralPersistencePath(centralPersistencePath),
         mCentralPersistence(mCentralPersistencePath),
@@ -142,12 +128,10 @@ public:
         return;
       }
 
-      auto ptr = std::make_shared<MediaMapListener<PhotoBookListenerType>>(
-          std::ref(*this));
+      auto ptr = std::make_shared<MediaMapListener>(std::ref(*this));
       mListeners.insert({path, ptr});
       auto listener = mListeners.at(path);
-      mMappingJobs.emplace(path,
-                           MediaMapper<PhotoBookListenerType>(path, listener));
+      mMappingJobs.emplace(path, MediaMapper(path, listener));
       mMappingJobs.at(importPath).start();
     }
   }
@@ -318,7 +302,7 @@ public:
     mImagePaths.stagePhoto(path, position);
   }
 
-  void removeStagedPhoto(int index) { mImagePaths.unstagePhoto(index); }
+  void removeStagedPhoto(int index) { mImagePaths.unstagePhoto({index}); }
 
   std::vector<Thumbnails> &stagedPhotos() { return mImagePaths.stagedPhotos(); }
 
@@ -336,17 +320,15 @@ public:
   }
 
 private:
-  PhotoBookListenerType &mParent;
-  Path                   mCentralPersistencePath;
-  SQLitePersistence      mCentralPersistence;
-  Project                mProject;
-  std::unordered_map<Path,
-                     std::shared_ptr<MediaMapListener<PhotoBookListenerType>>>
-                                                               mListeners;
-  std::unordered_map<Path, MediaMapper<PhotoBookListenerType>> mMappingJobs;
-  ImageSupport                                                 mImagePaths;
-  Gallery                                                      mGallery;
-  ImageReader                                                  mImageReader;
+  PhotobookListener &mParent;
+  Path               mCentralPersistencePath;
+  SQLitePersistence  mCentralPersistence;
+  Project            mProject;
+  std::unordered_map<Path, std::shared_ptr<MediaMapListener>> mListeners;
+  std::unordered_map<Path, MediaMapper>                       mMappingJobs;
+  ImageSupport                                                mImagePaths;
+  Gallery                                                     mGallery;
+  ImageReader                                                 mImageReader;
   ThumbnailsProcessor           mThumbnailsProcessor;
   Exporter<Pdf>                 mExporter;
   std::unordered_map<Path, int> mProgress;

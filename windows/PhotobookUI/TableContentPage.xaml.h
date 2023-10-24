@@ -72,10 +72,10 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnGalleryRight(Windows::Foundation::IInspectable const    &sender,
                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnCanvasDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
-                             UI::Xaml::CanvasControl const &sender,
-                         [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::
-                             UI::Xaml::CanvasDrawEventArgs const &args);
+  void OnCanvasDraw([[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::
+                        Xaml::CanvasControl const &sender,
+                    [[maybe_unused]] winrt::Microsoft::Graphics::Canvas::UI::
+                        Xaml::CanvasDrawEventArgs const &args);
 
   void Left();
   void Right();
@@ -204,7 +204,7 @@ private:
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
   PhotoBookListener                 mListener;
-  PB::PhotoBook<PhotoBookListener>  mPhotoBook;
+  PB::PhotoBook                     mPhotoBook;
   IObservableVector<winrt::hstring> mNavigationItemsCollection;
   IObservableVector<ImageUIData>    mUnstagedImageCollection;
   IObservableVector<ImageUIData>    mStagedImageCollection;

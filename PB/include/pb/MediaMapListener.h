@@ -5,22 +5,15 @@
 
 namespace PB {
 
-template <typename PhotoBookType>
-  requires PhotoBookListenerConcept<PhotoBookType>
 class PhotoBook;
 
-template <typename PhotoBookType>
-  requires PhotoBookListenerConcept<PhotoBookType>
 class MediaMapListener final {
 public:
-  explicit MediaMapListener(PhotoBook<PhotoBookType> &parent)
-      : mParent(parent)
-  {
-  }
+  explicit MediaMapListener(PhotoBook &parent) : mParent(parent) {}
   ~MediaMapListener() = default;
   void onFinished(std::vector<std::filesystem::path> addedPaths, Path &path)
   {
-    mParent.onImportFolderMapped(path, addedPaths);
+    //mParent.onImportFolderMapped(path, addedPaths);
   }
   void onStopped() {}
   void onStarted() {}
@@ -28,9 +21,12 @@ public:
   void onResumed() {}
 
   void onProgressUpdate() {}
-  void onError(PB::Error error) { mParent.onError(error); }
+  void onError(PB::Error error)
+  { /*
+    mParent.onError(error);*/
+  }
 
 private:
-  PhotoBook<PhotoBookType> &mParent;
+  PhotoBook &mParent;
 };
 } // namespace PB

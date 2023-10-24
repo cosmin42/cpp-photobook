@@ -14,11 +14,11 @@
 
 namespace PB {
 
-template <typename PhotoBookType> class MediaMapper final : public Thread {
+class MediaMapper final : public Thread {
 public:
   explicit MediaMapper(
       std::filesystem::path const                     &root,
-      std::shared_ptr<MediaMapListener<PhotoBookType>> listener)
+      std::shared_ptr<MediaMapListener> listener)
       : Thread(Context::inst().sStopSource.get_token()), mListener(listener),
         mRoot(root)
   {
@@ -47,7 +47,7 @@ public:
   void finish() override { mListener->onFinished(mImportedFolders, mRoot); }
 
 private:
-  std::shared_ptr<MediaMapListener<PhotoBookType>> mListener;
+  std::shared_ptr<MediaMapListener> mListener;
   std::filesystem::recursive_directory_iterator    mRecursiveIterator;
   Path                                             mRoot;
   std::vector<Path>                                mImportedFolders;

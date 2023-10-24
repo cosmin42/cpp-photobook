@@ -80,6 +80,7 @@ add_library(pblib STATIC
     include/pb/persistence/ProjectDetails.h
     include/pb/persistence/ProjectMetadata.h
     include/pb/PhotoBook.h
+    include/pb/PhotobookListener.h
     include/pb/Project.h
     include/pb/ThumbnailsProcessor.h
     include/pb/StagedImagesLogic.h
