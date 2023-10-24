@@ -156,16 +156,14 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
   int mediumThumbnailHeight =
       std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
 
-  if (thumbnailsType == ThumbnailType::Both ||
-      thumbnailsType == ThumbnailType::Medium) {
+  if ((thumbnailsType & ThumbnailType::Medium) == ThumbnailType::Medium) {
     auto mediumImagePointer = PB::Process::resize(
         cv::Size(mediumThumbnailWidth, mediumThumbnailHeight),
         true)(inputImage);
     ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
   }
 
-  if (thumbnailsType == ThumbnailType::Both ||
-      thumbnailsType == ThumbnailType::Small) {
+  if ((thumbnailsType & ThumbnailType::Small) == ThumbnailType::Small) {
     auto smallImagePointer =
         PB::Process::resize(cv::Size(Context::SMALL_THUMBNAIL_WIDTH,
                                      Context::SMALL_THUMBNAIL_HEIGHT),

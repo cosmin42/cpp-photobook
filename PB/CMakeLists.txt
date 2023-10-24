@@ -93,6 +93,7 @@ add_library(pblib STATIC
 
     src/Config.cpp
     src/DataManager.cpp
+    src/Enums.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/Gallery.cpp

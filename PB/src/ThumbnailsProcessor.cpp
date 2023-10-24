@@ -22,12 +22,7 @@ void ResizeTask::operator()() const
     resizeOption = ThumbnailType::Small;
   }
   if (std::filesystem::exists(mMediumThumbnailOutputPath)) {
-    if (resizeOption == ThumbnailType::Small) {
-      resizeOption = ThumbnailType::Both;
-    }
-    else {
-      resizeOption = ThumbnailType::Medium;
-    }
+    resizeOption = (resizeOption | ThumbnailType::Medium);
   }
   if (Process::validExtension(mFullSizePath)) {
     Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,

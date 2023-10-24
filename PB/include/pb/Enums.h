@@ -27,5 +27,8 @@ enum class PhotoLine { None, Unstaged, Staged };
 
 enum class MediaMapState { None, Started, Finished };
 
-enum class ThumbnailType { None = 0, Small, Medium, Both };
+enum class ThumbnailType { None = 0, Small, Medium };
+
+ThumbnailType operator|(ThumbnailType lhs, ThumbnailType rhs);
+ThumbnailType operator&(ThumbnailType lhs, ThumbnailType rhs);
 } // namespace PB
