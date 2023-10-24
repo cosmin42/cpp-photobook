@@ -31,7 +31,8 @@ Run ```make -j4```
 
 Run ```./PhotoBook``` from the build folder.
 
-
+### Console
+Run ```cmake --preset pb-console-debug```
 
 ## Tests
 The tests are generated only when ```LOG_LEVEL=Debug```
