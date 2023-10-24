@@ -1,60 +1,63 @@
-#include "PhotoBookListener.h"
+#include "PhotobookTableListener.h"
 #include "pch.h"
 
 #include <TableContentPage.xaml.h>
 
 namespace winrt::PhotobookUI::implementation {
 
-PhotoBookListener::PhotoBookListener(TableContentPage &parent) : mParent(parent)
+PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
+    : mParent(parent)
 {
 }
-void PhotoBookListener::onFinished(PB::Path rootPath)
+void PhotobookTableListener::onFinished(PB::Path rootPath)
 {
   mParent.Post(
       [this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
 }
 
-void PhotoBookListener::onMappingFinished(PB::Path rootPath)
+void PhotobookTableListener::onMappingFinished(PB::Path rootPath)
 {
   mParent.Post([this, rootPath]() { mParent.OnMappingFinished(rootPath); });
 }
 
-void PhotoBookListener::onStopped()
+void PhotobookTableListener::onStopped()
 {
   mParent.Post([this]() { mParent.OnMappingStopped(); });
 }
-void PhotoBookListener::onStarted()
+void PhotobookTableListener::onStarted()
 {
   mParent.Post([this]() { mParent.OnMappingStarted(); });
 }
-void PhotoBookListener::onPaused()
+void PhotobookTableListener::onPaused()
 {
   mParent.Post([this]() { mParent.OnMappingPaused(); });
 }
-void PhotoBookListener::onResumed()
+void PhotobookTableListener::onResumed()
 {
   mParent.Post([this]() { mParent.OnMappingResumed(); });
 }
 
-void PhotoBookListener::onProgressUpdate(PB::Path rootPath, int progress, int reference)
+void PhotobookTableListener::onProgressUpdate(PB::Path rootPath, int progress,
+                                              int reference)
 {
   mParent.Post([this, rootPath, progress, reference]() {
     mParent.OnProgressUpdate(rootPath, progress, reference);
   });
 }
 
-void PhotoBookListener::onStagedImageAdded(PB::Thumbnails       image,
+void PhotobookTableListener::onStagedImageAdded(PB::Thumbnails       image,
                                            [[maybe_unused]] int index)
 {
   mParent.OnStagedImageAdded(image);
 }
 
-void PhotoBookListener::onStagedImageRemoved(std::vector<int> removedIndexes)
+void PhotobookTableListener::onStagedImageRemoved(
+    std::vector<int> removedIndexes)
 {
   mParent.OnStagedImageRemoved(removedIndexes);
 }
 
-void PhotoBookListener::onUnstagedImageAdded(PB::Path rootPath,
+void PhotobookTableListener::onUnstagedImageAdded(PB::Path rootPath,
                                              PB::Path fullPath,
                                              PB::Path mediumPath,
                                              PB::Path smallPath, int position)
@@ -65,16 +68,16 @@ void PhotoBookListener::onUnstagedImageAdded(PB::Path rootPath,
   });
 }
 
-void PhotoBookListener::onAddingUnstagedImagePlaceholder(unsigned size)
+void PhotobookTableListener::onAddingUnstagedImagePlaceholder(unsigned size)
 {
   mParent.Post(
       [this, size]() { mParent.OnAddingUnstagedImagePlaceholder(size); });
 }
 
-void PhotoBookListener::onError(PB::Error error)
+void PhotobookTableListener::onError(PB::Error error)
 {
   mParent.Post([error{error}, this]() { mParent.OnError(error); });
 }
 
-void PhotoBookListener::post(std::function<void()> f) { mParent.Post(f); }
+void PhotobookTableListener::post(std::function<void()> f) { mParent.Post(f); }
 } // namespace winrt::PhotobookUI::implementation

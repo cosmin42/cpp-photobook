@@ -10,7 +10,7 @@
 #include <winrt/Microsoft.Graphics.Canvas.h>
 
 #include "TableContentPage.g.h"
-#include <PhotoBookListener.h>
+#include <PhotobookTableListener.h>
 #include <pb/PhotoBook.h>
 
 #include <PopUps.h>
@@ -203,7 +203,7 @@ private:
       int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
-  PhotoBookListener                 mListener;
+  PhotobookTableListener            mListener;
   PB::PhotoBook                     mPhotoBook;
   IObservableVector<winrt::hstring> mNavigationItemsCollection;
   IObservableVector<ImageUIData>    mUnstagedImageCollection;

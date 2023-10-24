@@ -10,9 +10,9 @@
 namespace winrt::PhotobookUI::implementation {
 struct TableContentPage;
 
-class PhotoBookListener : public PB::PhotobookListener {
+class PhotobookTableListener : public PB::PhotobookListener {
 public:
-  explicit PhotoBookListener(TableContentPage &parent);
+  explicit PhotobookTableListener(TableContentPage &parent);
   void onFinished(PB::Path rootPath) override;
   void onStopped() override;
   void onStarted() override;

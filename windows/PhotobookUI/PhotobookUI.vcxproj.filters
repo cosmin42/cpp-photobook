@@ -18,14 +18,14 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="PhotoBookListener.cpp" />
+    <ClCompile Include="PhotobookTableListener.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PopUps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="PhotoBookListener.h" />
+    <ClInclude Include="PhotobookTableListener.h" />
     <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PopUps.h" />
