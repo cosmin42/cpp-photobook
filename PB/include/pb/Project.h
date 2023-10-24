@@ -14,15 +14,6 @@ namespace PB {
 
 class Project final {
 public:
-  static std::optional<std::string> excludeExtension(std::string fileName)
-  {
-    if (fileName.find(Context::BOOK_EXTENSION) != std::string::npos) {
-      return fileName.substr(
-          0, fileName.length() - std::string(Context::BOOK_EXTENSION).length());
-    }
-    return std::nullopt;
-  }
-
   Project() = default;
 
   Project(Path centralPersistencePath)
