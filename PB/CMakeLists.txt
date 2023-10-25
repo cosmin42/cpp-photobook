@@ -70,6 +70,7 @@ add_library(pblib STATIC
     include/pb/Exportable.h
     include/pb/Exporter.h
     include/pb/FileMapper.h
+    include/pb/Html.h
     include/pb/ImageReader.h
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
@@ -100,6 +101,7 @@ add_library(pblib STATIC
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/Gallery.cpp
+    src/Html.cpp
     src/ImageReader.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
