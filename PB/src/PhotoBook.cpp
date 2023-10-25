@@ -31,6 +31,7 @@ void Photobook::setPaperSettings(PaperSettings paperSettings)
 void Photobook::configureProject(PB::Project project)
 {
   mProject = project;
+
   mThumbnailsProcessor.provideProjectDetails(project.details());
 
   auto importedFolders = mProject.details().importedFolderList();

@@ -250,13 +250,13 @@ void TableContentPage::OnNewClicked(
 }
 
 void TableContentPage::OnUndoClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
 void TableContentPage::OnRedoClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
@@ -265,6 +265,9 @@ void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
 {
+  auto &gallery = mPhotoBook.gallery();
+  auto  selectedIndex = gallery.selectedIndex();
+
   auto selected = mPhotoBook.gallery().selectedItem();
   if (!selected) {
     return;
@@ -272,16 +275,6 @@ void TableContentPage::OnKeyPressed(
   Windows::System::VirtualKey key = arg.Key();
 
   switch (key) {
-  case Windows::System::VirtualKey::Left: {
-    Left();
-    UpdateGalleryLabel();
-    break;
-  }
-  case Windows::System::VirtualKey::Right: {
-    Right();
-    UpdateGalleryLabel();
-    break;
-  }
   case Windows::System::VirtualKey::Delete: {
     auto             ranges = StagedListView().SelectedRanges();
     std::vector<int> selectedIndexes;
@@ -419,7 +412,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
   mDragAndDropSelectedImages.clear();
 }
 
-void TableContentPage::Left()
+void TableContentPage::Right()
 {
   auto &gallery = mPhotoBook.gallery();
   auto  selectedIndex = gallery.selectedIndex();
@@ -429,10 +422,15 @@ void TableContentPage::Left()
     if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
       nextIndex = (selectedIndex + 1) % mUnstagedImageCollection.Size();
 
+      UnstagedListView().DeselectRange(
+          Microsoft::UI::Xaml::Data::ItemIndexRange(
+              0, mUnstagedImageCollection.Size()));
       UnstagedListView().SelectRange({nextIndex, 1});
     }
     else if (gallery.photoLine() == PB::PhotoLine::Staged) {
       nextIndex = (selectedIndex + 1) % mStagedImageCollection.Size();
+      StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+          0, mStagedImageCollection.Size()));
       StagedListView().SelectRange({nextIndex, 1});
     }
   }
@@ -446,7 +444,7 @@ void TableContentPage::OnGalleryLeft(
   UpdateGalleryLabel();
 }
 
-void TableContentPage::Right()
+void TableContentPage::Left()
 {
   auto &gallery = mPhotoBook.gallery();
   auto  selectedIndex = gallery.selectedIndex();
@@ -461,6 +459,9 @@ void TableContentPage::Right()
         nextIndex--;
       }
 
+      UnstagedListView().DeselectRange(
+          Microsoft::UI::Xaml::Data::ItemIndexRange(
+              0, mUnstagedImageCollection.Size()));
       UnstagedListView().SelectRange({nextIndex, 1});
     }
     else if (gallery.photoLine() == PB::PhotoLine::Staged) {
@@ -470,6 +471,8 @@ void TableContentPage::Right()
       else {
         nextIndex--;
       }
+      StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+          0, mStagedImageCollection.Size()));
       StagedListView().SelectRange({nextIndex, 1});
     }
   }
@@ -734,7 +737,8 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
   }
 }
 
-void TableContentPage::OnStagedImageAdded(std::vector<PB::Thumbnails> photos, int index)
+void TableContentPage::OnStagedImageAdded(std::vector<PB::Thumbnails> photos,
+                                          int                         index)
 {
   PB::basicAssert(index == -1);
   if (index == -1) {
@@ -808,25 +812,27 @@ void TableContentPage::OnNavigatedTo(
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
   PB::FilePersistence projectPersistence(fullPath);
-  projectPersistence.read([this](std::variant<PB::Json, PB::Error> jsonOrError) {
-    if (std::holds_alternative<PB::Error>(jsonOrError)) {
-      auto error = std::get<PB::Error>(jsonOrError);
-      Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-    }
-    else {
-      auto &json = std::get<PB::Json>(jsonOrError);
+  projectPersistence.read(
+      [this](std::variant<PB::Json, PB::Error> jsonOrError) {
+        if (std::holds_alternative<PB::Error>(jsonOrError)) {
+          auto error = std::get<PB::Error>(jsonOrError);
+          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+        }
+        else {
+          auto &json = std::get<PB::Json>(jsonOrError);
 
-      auto projectDetailsOrError = PB::ProjectDetails::parse(json);
+          auto projectDetailsOrError = PB::ProjectDetails::parse(json);
 
-      if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
-        Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-      }
-      else {
-        auto &projectDetails = std::get<PB::ProjectDetails>(projectDetailsOrError);
-        OnProjectDetailsLoaded(projectDetails);
-      }
-    }
-  });
+          if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
+            Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+          }
+          else {
+            auto &projectDetails =
+                std::get<PB::ProjectDetails>(projectDetailsOrError);
+            OnProjectDetailsLoaded(projectDetails);
+          }
+        }
+      });
 }
 
 void TableContentPage::OnProjectDetailsLoaded(PB::ProjectDetails projectDetails)
