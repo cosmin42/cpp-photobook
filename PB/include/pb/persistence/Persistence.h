@@ -262,6 +262,7 @@ class FilePersistence final {
 public:
   static bool createDirectory(Path path)
   {
+    PB::basicAssert(!path.string().empty());
     if (std::filesystem::exists(path)) {
       return true;
     }

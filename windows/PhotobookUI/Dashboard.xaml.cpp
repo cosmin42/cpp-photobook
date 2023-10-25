@@ -79,7 +79,7 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
       });
 
   mCentralPersistence.write(
-      std::pair<std::string, std::string>(uuidStr, fullPath.string() + PB::Context::BOOK_EXTENSION),
+      std::pair<std::string, std::string>(uuidStr, fullPath.string()),
       [](std::optional<PB::Error> maybeError) {
         if (maybeError) {
           PB::printError("Error writing into peristence.\n");
