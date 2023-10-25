@@ -367,6 +367,11 @@
                               CanReorderItems="False"
                               Tapped="OnClickedOutsideList"
                               DragItemsStarting="OnUnstagedPhotosDragStarted">
+                        <ListView.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control"
+                                                 Key="A"
+                                                 Invoked="UnstagedSelectAllInvoked" />
+                        </ListView.KeyboardAccelerators>
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Template">

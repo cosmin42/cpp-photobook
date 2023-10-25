@@ -329,6 +329,13 @@ void TableContentPage::OnClickedOutsideList(
         0, mUnstagedImageCollection.Size()));
   }
 }
+void TableContentPage::UnstagedSelectAllInvoked(
+    winrt::Microsoft::UI::Xaml::Input::KeyboardAccelerator const,
+    winrt::Microsoft::UI::Xaml::Input::
+    KeyboardAcceleratorInvokedEventArgs const)
+{
+  UnstagedListView().SelectAll();
+}
 
 void TableContentPage::UpdateCanvasSize()
 {

@@ -111,6 +111,11 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const
           &args);
 
+  void UnstagedSelectAllInvoked(
+      winrt::Microsoft::UI::Xaml::Input::KeyboardAccelerator const,
+                   winrt::Microsoft::UI::Xaml::Input::
+                       KeyboardAcceleratorInvokedEventArgs const);
+
   /* Dialogs - Save */
   void OnContentDialogSaveClicked(
       Windows::Foundation::IInspectable const &sender,
