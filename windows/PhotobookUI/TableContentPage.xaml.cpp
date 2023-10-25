@@ -819,7 +819,8 @@ void TableContentPage::OnNavigatedTo(
         else {
           auto &json = std::get<PB::Json>(jsonOrError);
 
-          auto projectDetailsOrError = PB::ProjectDetails::parse(json);
+          auto projectDetailsOrError =
+              PB::ProjectDetails::parseProjectDetails(json);
 
           if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
             Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());

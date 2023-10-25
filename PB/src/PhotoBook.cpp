@@ -5,7 +5,8 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize), mExporter(), mPaperSettings(Context::A4_PAPER)
+      mThumbnailsProcessor(screenSize), mExporter(),
+      mPaperSettings(Context::A4_PAPER)
 {
   printDebug("Photobook created.\n");
 
@@ -211,6 +212,8 @@ void Photobook::savePhotobook(Path newPath)
     goups.push_back(path.first);
   }
   mProject.details().setImportedPaths(goups);
+
+  mProject.details().setPaperSettings(mPaperSettings);
 
   auto it = imageSupport().stagedIterator();
 

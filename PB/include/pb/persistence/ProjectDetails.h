@@ -5,14 +5,19 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
+#include <pb/DataManager.h>
+#include <pb/PaperSettings.h>
 #include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
-#include <pb/DataManager.h>
 
 namespace PB {
 class ProjectDetails {
 public:
-  static std::variant<ProjectDetails, Error> parse(Json const &jsonData);
+  static std::variant<ProjectDetails, Error>
+  parseProjectDetails(Json const &jsonData);
+
+  static std::variant<PaperSettings, Error>
+  parsePaperSettings(Json const &jsonData);
 
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }
@@ -30,10 +35,12 @@ public:
 
   void setImportedPaths(std::vector<Path> maybePath);
   void setStagedImages(std::vector<Thumbnails> maybePath);
+  void setPaperSettings(PaperSettings paperSettings);
   void removeStagedImage(int index);
 
   std::vector<Path> importedFolderList() const;
   std::vector<Path> stagedImagesList() const;
+  PaperSettings     paperSettings() const;
 
 private:
   static std::optional<Error> check(Json const &jsonData, std::string key);
@@ -46,5 +53,7 @@ private:
 
   std::vector<Path> mImportedPaths;
   std::vector<Path> mStagedImages;
+
+  PaperSettings mPaperSettings;
 };
 } // namespace PB

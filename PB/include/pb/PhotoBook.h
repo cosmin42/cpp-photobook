@@ -75,8 +75,5 @@ private:
   std::unordered_map<Path, int>         mProgress;
   PaperSettings                         mPaperSettings;
   CommandStack                          mCommandStack;
-
-
-
 };
 } // namespace PB

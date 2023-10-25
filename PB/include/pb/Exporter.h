@@ -11,4 +11,10 @@ public:
 private:
   ExporterType mSpecific;
 };
+
+template <typename ExporterType>
+class ExportFactory final
+{
+
+};
 } // namespace PB

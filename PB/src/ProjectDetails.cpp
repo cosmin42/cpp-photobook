@@ -23,7 +23,8 @@ std::optional<Error> ProjectDetails::check(Json const &jsonData,
   return std::nullopt;
 }
 
-std::variant<ProjectDetails, Error> ProjectDetails::parse(Json const &jsonData)
+std::variant<ProjectDetails, Error>
+ProjectDetails::parseProjectDetails(Json const &jsonData)
 {
   auto maybeError =
       check(jsonData, {"project-uuid", "project-name", "project-path",
@@ -59,7 +60,40 @@ std::variant<ProjectDetails, Error> ProjectDetails::parse(Json const &jsonData)
     }
   }
 
+  
+  if (jsonData.contains("paper-settings")) {
+    auto &paperSettingsJson = jsonData.at("paper-settings");
+    auto maybePaperSettings = parsePaperSettings(paperSettingsJson);
+    if (std::holds_alternative<PB::PaperSettings>(maybePaperSettings)) {
+      projectDetails.mPaperSettings =
+          std::get<PB::PaperSettings>(maybePaperSettings);
+    }
+    else {
+      PB::printWarning("Paper settings coul not be parsed\n");
+    }
+  }
+  else {
+    PB::printWarning("Paper settings not present\n");
+  }
+
   return projectDetails;
+}
+
+std::variant<PaperSettings, Error>
+ProjectDetails::parsePaperSettings(Json const &jsonData)
+{
+  auto maybeError = check(jsonData, {"type", "ppi", "width", "height"});
+  if (maybeError) {
+    return PaperSettings();
+  }
+
+  PaperSettings paperSettings;
+  paperSettings.type = (PaperType)jsonData.at("type").get<int>();
+  paperSettings.ppi = jsonData.at("ppi").get<int>();
+  paperSettings.width = jsonData.at("width").get<int>();
+  paperSettings.height = jsonData.at("height").get<int>();
+
+  return paperSettings;
 }
 
 Path ProjectDetails::supportFolder() const
@@ -96,6 +130,9 @@ ProjectDetails::operator Json() const
   }
 
   jsonData["staged-images"] = stagedImagesArray;
+
+  jsonData["paper-settings"] = Json(mPaperSettings);
+
   return jsonData;
 }
 
@@ -115,6 +152,11 @@ void ProjectDetails::setStagedImages(std::vector<Thumbnails> stagedImages)
   }
 }
 
+void ProjectDetails::setPaperSettings(PaperSettings paperSettings)
+{
+  mPaperSettings = paperSettings;
+}
+
 void ProjectDetails::removeStagedImage(int index)
 {
   if (index >= mStagedImages.size()) {
@@ -132,5 +174,7 @@ std::vector<Path> ProjectDetails::stagedImagesList() const
 {
   return mStagedImages;
 }
+
+PaperSettings ProjectDetails::paperSettings() const { return mPaperSettings; }
 
 } // namespace PB

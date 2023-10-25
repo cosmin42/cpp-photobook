@@ -96,7 +96,8 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
         ASSERT_TRUE(!std::holds_alternative<Error>(mapOrError));
         auto &map =
             std::get<Json>(mapOrError);
-        auto projectDetailsOrError = PB::ProjectDetails::parse(map);
+        auto  projectDetailsOrError =
+            PB::ProjectDetails::parseProjectDetails(map);
 
         ASSERT_TRUE(!std::holds_alternative<Error>(projectDetailsOrError));
         auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
