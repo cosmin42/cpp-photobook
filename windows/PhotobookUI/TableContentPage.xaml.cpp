@@ -265,9 +265,6 @@ void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
 {
-  auto &gallery = mPhotoBook.gallery();
-  auto  selectedIndex = gallery.selectedIndex();
-
   auto selected = mPhotoBook.gallery().selectedItem();
   if (!selected) {
     return;

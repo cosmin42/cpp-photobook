@@ -42,12 +42,8 @@ static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
 class Photobook final : public Observer {
 public:
-  Photobook(PhotobookListener &listener, Path centralPersistencePath,
+  explicit Photobook(PhotobookListener &listener, Path centralPersistencePath,
             std::pair<int, int> screenSize);
-  Photobook(Photobook const &) = delete;
-  Photobook(Photobook &&other) = delete;
-  Photobook &operator=(Photobook const &) = delete;
-  Photobook &operator=(Photobook &&) = delete;
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
