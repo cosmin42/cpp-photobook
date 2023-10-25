@@ -66,7 +66,7 @@ TEST(TestDataManager, TestAddingToSTaging)
 
   Thumbnails toBeStaged("a/b", "b", "c");
 
-  imageSupport.stagePhoto(toBeStaged);
+  imageSupport.stagePhoto({toBeStaged});
 
   auto stagedIterator = imageSupport.stagedIterator();
 
