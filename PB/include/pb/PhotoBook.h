@@ -8,6 +8,7 @@
 
 #include <thread_pool/thread_pool.h>
 
+#include <pb/Command.h>
 #include <pb/DataManager.h>
 #include <pb/Error.h>
 #include <pb/Exporter.h>
@@ -68,14 +69,14 @@ public:
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>;
 
-  void                     discardPhotobook();
-  void                     savePhotobook();
-  void                     savePhotobook(Path newPath);
-  void                     addStagedPhoto(Thumbnails th);
-  void                     deleteStagedPhoto(std::vector<int> positions);
-  void                     insertStagedPhoto(Thumbnails path, int position);
-  void                     removeStagedPhoto(int index);
-  bool                     projectDefaultSaved();
+  void discardPhotobook();
+  void savePhotobook();
+  void savePhotobook(Path newPath);
+  void addStagedPhoto(Thumbnails th);
+  void deleteStagedPhoto(std::vector<int> positions);
+  void insertStagedPhoto(Thumbnails path, int position);
+  void removeStagedPhoto(int index);
+  bool projectDefaultSaved();
 
 private:
   PhotobookListener                    &mParent;
@@ -90,5 +91,6 @@ private:
   Exporter<Pdf>                         mExporter;
   std::unordered_map<Path, int>         mProgress;
   PaperSettings                         mPaperSettings;
+  CommandStack                          mCommandStack;
 };
 } // namespace PB

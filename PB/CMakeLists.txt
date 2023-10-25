@@ -62,6 +62,7 @@ add_library(pblib STATIC
     include/pb/util/CircularIterator.h
     include/pb/common/Log.h
     include/pb/common/${PRINTER_TYPE}.h
+    include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
     include/pb/Error.h
@@ -91,6 +92,7 @@ add_library(pblib STATIC
     include/pb/util/Thread.h
     include/pb/util/Traits.h
 
+    src/Command.cpp
     src/Config.cpp
     src/DataManager.cpp
     src/Enums.cpp
