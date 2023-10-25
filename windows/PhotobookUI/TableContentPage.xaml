@@ -83,6 +83,16 @@
                                 <MenuFlyoutItem Text="Export"
                                                 Click="OnExportClicked" />
                                 <MenuFlyoutSeparator />
+                                <MenuFlyoutSubItem Text="Paper Size">
+                                    <MenuFlyoutItem Text="A4" />
+                                    <MenuFlyoutItem Text="A5"
+                                                    IsEnabled="False" />
+                                    <MenuFlyoutItem Text="A3"
+                                                    IsEnabled="False" />
+                                    <MenuFlyoutItem Text="Other"
+                                                    IsEnabled="False" />
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Exit"
                                                 Click="OnExitClicked" />
                             </MenuFlyout.Items>
@@ -103,15 +113,23 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
-                                <MenuFlyoutSubItem Text="Paper Size">
-                                    <MenuFlyoutItem Text="A4" />
-                                    <MenuFlyoutItem Text="A5"
-                                                    IsEnabled="False" />
-                                    <MenuFlyoutItem Text="A3"
-                                                    IsEnabled="False" />
-                                    <MenuFlyoutItem Text="Other"
-                                                    IsEnabled="False" />
-                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="Undo"
+                                                IsEnabled="True"
+                                                Click="OnUndoClicked">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control"
+                                                             Key="Z" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Redo"
+                                                IsEnabled="True"
+                                                Click="OnRedoClicked">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control,Shift"
+                                                             Key="Z" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
                             </MenuFlyout.Items>
                         </MenuFlyout>
                     </Button.Flyout>

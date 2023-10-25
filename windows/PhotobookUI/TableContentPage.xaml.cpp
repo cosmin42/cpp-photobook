@@ -249,6 +249,18 @@ void TableContentPage::OnNewClicked(
 {
 }
 
+void TableContentPage::OnUndoClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
+void TableContentPage::OnRedoClicked(
+    Windows::Foundation::IInspectable const    &sender,
+    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+}
+
 void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
@@ -332,7 +344,7 @@ void TableContentPage::OnClickedOutsideList(
 void TableContentPage::UnstagedSelectAllInvoked(
     winrt::Microsoft::UI::Xaml::Input::KeyboardAccelerator const,
     winrt::Microsoft::UI::Xaml::Input::
-    KeyboardAcceleratorInvokedEventArgs const)
+        KeyboardAcceleratorInvokedEventArgs const)
 {
   UnstagedListView().SelectAll();
 }
@@ -842,11 +854,9 @@ void TableContentPage::OnExportContentDialogClicked(
   auto        exportName = ExportNameTextBox().Text();
   std::string nativeExportName = winrt::to_string(exportName);
 
-  if (!OptionPDFCheckBox().IsChecked())
-  {
+  if (!OptionPDFCheckBox().IsChecked()) {
     PostponeError("Check a format!");
   }
-
 
   if (nativeExportName.empty()) {
     PostponeError("The given name must not be empty!");

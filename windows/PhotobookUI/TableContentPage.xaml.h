@@ -56,6 +56,12 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnNewClicked(Windows::Foundation::IInspectable const    &sender,
                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void OnUndoClicked(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
+  void OnRedoClicked(Windows::Foundation::IInspectable const    &sender,
+                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   /* Navigation */
   void OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
