@@ -21,7 +21,7 @@ void ResizeTask::operator()() const
   if (!std::filesystem::exists(mSmallThumbnailOutputPath)) {
     resizeOption = ThumbnailType::Small;
   }
-  if (std::filesystem::exists(mMediumThumbnailOutputPath)) {
+  if (!std::filesystem::exists(mMediumThumbnailOutputPath)) {
     resizeOption = (resizeOption | ThumbnailType::Medium);
   }
   if (Process::validExtension(mFullSizePath)) {
