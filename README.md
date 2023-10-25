@@ -81,6 +81,7 @@ Platforms:
 - [ ] Android Phone
 - [ ] iPhone
 
+General features:
 - [ ] Collages
 - [ ] Low memory PDF creation
 - [ ] Multiple paper size options
