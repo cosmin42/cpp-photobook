@@ -67,6 +67,7 @@ add_library(pblib STATIC
     include/pb/DataManager.h
     include/pb/Error.h
     include/pb/Enums.h
+    include/pb/Exportable.h
     include/pb/Exporter.h
     include/pb/FileMapper.h
     include/pb/ImageReader.h
