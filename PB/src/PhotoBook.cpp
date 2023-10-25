@@ -273,11 +273,6 @@ void Photobook::deleteStagedPhoto(std::vector<int> positions)
   mParent.onStagedImageRemoved(positions);
 }
 
-void Photobook::insertStagedPhoto(std::vector<Thumbnails> path, int position)
-{
-  mImagePaths.stagePhoto(path, position);
-}
-
 void Photobook::removeStagedPhoto(int index)
 {
   mImagePaths.unstagePhoto({index});

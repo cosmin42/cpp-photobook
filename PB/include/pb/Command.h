@@ -7,6 +7,7 @@ struct Command {};
 
 struct PhotoAddition : Command {
   std::vector<Path> photo;
+  int               position;
 };
 
 class CommandStack {
