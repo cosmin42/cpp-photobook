@@ -453,7 +453,7 @@ void TableContentPage::Left()
         nextIndex = (int)mUnstagedImageCollection.Size() - 1;
       }
       else {
-        nextIndex--;
+        nextIndex = selectedIndex - 1;
       }
 
       UnstagedListView().DeselectRange(
@@ -466,7 +466,7 @@ void TableContentPage::Left()
         nextIndex = (int)mStagedImageCollection.Size() - 1;
       }
       else {
-        nextIndex--;
+        nextIndex = selectedIndex - 1;
       }
       StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
           0, mStagedImageCollection.Size()));
