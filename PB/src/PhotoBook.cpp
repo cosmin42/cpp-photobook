@@ -60,7 +60,7 @@ void Photobook::loadProject(Path const                               &path,
         auto stagedImages = mProject.details().stagedImagesList();
 
         for (auto i = 0; i < stagedImages.size(); ++i) {
-          addStagedPhoto(Thumbnails(stagedImages.at(i)));
+          addStagedPhoto({Thumbnails(stagedImages.at(i))});
         }
 
         onReturn(std::nullopt);
@@ -261,10 +261,10 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-void Photobook::addStagedPhoto(Thumbnails th)
+void Photobook::addStagedPhoto(std::vector<Thumbnails> photos)
 {
-  mImagePaths.stagePhoto(th);
-  mParent.onStagedImageAdded(th);
+  mImagePaths.stagePhoto(photos);
+  mParent.onStagedImageAdded(photos);
 }
 
 void Photobook::deleteStagedPhoto(std::vector<int> positions)
@@ -273,7 +273,7 @@ void Photobook::deleteStagedPhoto(std::vector<int> positions)
   mParent.onStagedImageRemoved(positions);
 }
 
-void Photobook::insertStagedPhoto(Thumbnails path, int position)
+void Photobook::insertStagedPhoto(std::vector<Thumbnails> path, int position)
 {
   mImagePaths.stagePhoto(path, position);
 }

@@ -45,8 +45,8 @@ void PhotobookTableListener::onProgressUpdate(PB::Path rootPath, int progress,
   });
 }
 
-void PhotobookTableListener::onStagedImageAdded(PB::Thumbnails       image,
-                                           [[maybe_unused]] int index)
+void PhotobookTableListener::onStagedImageAdded(
+    std::vector<PB::Thumbnails> image, [[maybe_unused]] int index)
 {
   mParent.OnStagedImageAdded(image);
 }
@@ -58,9 +58,10 @@ void PhotobookTableListener::onStagedImageRemoved(
 }
 
 void PhotobookTableListener::onUnstagedImageAdded(PB::Path rootPath,
-                                             PB::Path fullPath,
-                                             PB::Path mediumPath,
-                                             PB::Path smallPath, int position)
+                                                  PB::Path fullPath,
+                                                  PB::Path mediumPath,
+                                                  PB::Path smallPath,
+                                                  int      position)
 {
   mParent.Post([this, rootPath, fullPath, mediumPath, smallPath, position]() {
     mParent.OnUnstagedImageAdded(rootPath, fullPath, mediumPath, smallPath,

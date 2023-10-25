@@ -57,10 +57,10 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void OnUndoClicked(Windows::Foundation::IInspectable const    &sender,
-                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   void OnRedoClicked(Windows::Foundation::IInspectable const    &sender,
-                       Microsoft::UI::Xaml::RoutedEventArgs const &args);
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
   /* Navigation */
   void OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
@@ -119,8 +119,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void UnstagedSelectAllInvoked(
       winrt::Microsoft::UI::Xaml::Input::KeyboardAccelerator const,
-                   winrt::Microsoft::UI::Xaml::Input::
-                       KeyboardAcceleratorInvokedEventArgs const);
+      winrt::Microsoft::UI::Xaml::Input::
+          KeyboardAcceleratorInvokedEventArgs const);
 
   /* Dialogs - Save */
   void OnContentDialogSaveClicked(
@@ -191,7 +191,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                             int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
-  void OnStagedImageAdded(PB::Thumbnails image, int index = -1);
+  void OnStagedImageAdded(std::vector<PB::Thumbnails> photos, int index = -1);
 
   void OnStagedImageRemoved(std::vector<int> removedIndexes);
 

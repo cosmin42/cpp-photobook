@@ -413,9 +413,8 @@ void TableContentPage::OnDropIntoStagedPhotos(
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
   PB::printDebug("Drop on staged list view.\n");
-  for (auto &image : mDragAndDropSelectedImages) {
-    mPhotoBook.addStagedPhoto(image);
-  }
+
+  mPhotoBook.addStagedPhoto(mDragAndDropSelectedImages);
 
   mDragAndDropSelectedImages.clear();
 }
@@ -735,15 +734,17 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
   }
 }
 
-void TableContentPage::OnStagedImageAdded(PB::Thumbnails image, int index)
+void TableContentPage::OnStagedImageAdded(std::vector<PB::Thumbnails> photos, int index)
 {
   PB::basicAssert(index == -1);
   if (index == -1) {
-    ImageUIData winRTImage(winrt::to_hstring(image.fullPath.string()),
-                           winrt::to_hstring(image.mediumThumbnail.string()),
-                           winrt::to_hstring(image.smallThumbnail.string()));
-    mStagedImageCollection.Append(winRTImage);
-    mStagedImages.insert(image.fullPath);
+    for (auto &photo : photos) {
+      ImageUIData winRTImage(winrt::to_hstring(photo.fullPath.string()),
+                             winrt::to_hstring(photo.mediumThumbnail.string()),
+                             winrt::to_hstring(photo.smallThumbnail.string()));
+      mStagedImageCollection.Append(winRTImage);
+      mStagedImages.insert(photo.fullPath);
+    }
   }
 }
 

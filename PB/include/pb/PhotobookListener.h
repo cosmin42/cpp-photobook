@@ -17,7 +17,7 @@ public:
                                     PB::Path mediumPath, PB::Path smallPath,
                                     int position) = 0;
   virtual void onAddingUnstagedImagePlaceholder(unsigned size) = 0;
-  virtual void onStagedImageAdded(PB::Thumbnails image, int index = -1) = 0;
+  virtual void onStagedImageAdded(std::vector<PB::Thumbnails> photos, int index = -1) = 0;
   virtual void onStagedImageRemoved(std::vector<int> removedIndexes) = 0;
   virtual void onMappingFinished(PB::Path rootPath) = 0;
   virtual void post(std::function<void()> f) = 0;

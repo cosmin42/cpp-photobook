@@ -39,7 +39,7 @@ public:
   std::vector<Path>   fullPathByGroup(Path group);
   std::optional<Path> groupByIndex(int index);
 
-  void stagePhoto(Thumbnails fullPath, int position = -1);
+  void stagePhoto(std::vector<Thumbnails> fullPath, int position = -1);
   void unstagePhoto(std::vector<int> importedFolderIndex);
 
   void clear();

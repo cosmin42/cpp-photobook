@@ -68,17 +68,18 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
   }
 }
 
-void ImageSupport::stagePhoto(Thumbnails paths, int position)
+void ImageSupport::stagePhoto(std::vector<Thumbnails> paths, int position)
 {
   if (position == -1) {
-    mStagedPhotos.push_back(paths);
+    mStagedPhotos.insert(mStagedPhotos.end(), paths.begin(), paths.end());
     if (mListener) {
       mListener->stagePhotosUpdated(
           CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
     }
   }
   else if (position < mStagedPhotos.size()) {
-    mStagedPhotos.insert(mStagedPhotos.begin() + position, paths);
+    mStagedPhotos.insert(mStagedPhotos.begin() + position, paths.begin(),
+                         paths.end());
     if (mListener) {
       mListener->stagePhotosUpdated(
           CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
