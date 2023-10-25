@@ -59,8 +59,7 @@ public:
   std::vector<Thumbnails>           &stagedPhotos();
   ImageSupport                      &imageSupport();
 
-  void loadProject(Path const                               &path,
-                   std::function<void(std::optional<Error>)> onReturn);
+  void configureProject(Project project);
   void addImportFolder(Path importPath);
   void update(ObservableSubject &subject) override;
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);

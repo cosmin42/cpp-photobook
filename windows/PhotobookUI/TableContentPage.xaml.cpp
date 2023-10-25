@@ -250,14 +250,14 @@ void TableContentPage::OnNewClicked(
 }
 
 void TableContentPage::OnUndoClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
 void TableContentPage::OnRedoClicked(
-    Windows::Foundation::IInspectable const    &sender,
-    Microsoft::UI::Xaml::RoutedEventArgs const &args)
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
 }
 
@@ -807,12 +807,31 @@ void TableContentPage::OnNavigatedTo(
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
-  mPhotoBook.loadProject(
-      PB::Path(fullPath), [this](std::optional<PB::Error> maybeError) {
-        if (maybeError) {
-          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-        }
-      });
+  PB::FilePersistence projectPersistence(fullPath);
+  projectPersistence.read([this](std::variant<PB::Json, PB::Error> jsonOrError) {
+    if (std::holds_alternative<PB::Error>(jsonOrError)) {
+      auto error = std::get<PB::Error>(jsonOrError);
+      Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+    }
+    else {
+      auto &json = std::get<PB::Json>(jsonOrError);
+
+      auto projectDetailsOrError = PB::ProjectDetails::parse(json);
+
+      if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
+        Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+      }
+      else {
+        auto &projectDetails = std::get<PB::ProjectDetails>(projectDetailsOrError);
+        OnProjectDetailsLoaded(projectDetails);
+      }
+    }
+  });
+}
+
+void TableContentPage::OnProjectDetailsLoaded(PB::ProjectDetails projectDetails)
+{
+  mPhotoBook.configureProject(PB::Project(projectDetails));
 }
 
 void TableContentPage::OnExportClicked(

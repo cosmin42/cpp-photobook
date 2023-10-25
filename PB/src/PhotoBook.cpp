@@ -28,45 +28,20 @@ void Photobook::setPaperSettings(PaperSettings paperSettings)
   mPaperSettings = paperSettings;
 }
 
-void Photobook::loadProject(Path const                               &path,
-                            std::function<void(std::optional<Error>)> onReturn)
+void Photobook::configureProject(PB::Project project)
 {
-  FilePersistence projectPersistence(path);
-  projectPersistence.read([this,
-                           onReturn](std::variant<Json, Error> jsonOrError) {
-    if (std::holds_alternative<Error>(jsonOrError)) {
-      auto error = std::get<Error>(jsonOrError);
-      onReturn(error);
-    }
-    else {
-      auto &json = std::get<Json>(jsonOrError);
+  mProject = project;
+  mThumbnailsProcessor.provideProjectDetails(project.details());
 
-      auto projectDetailsOrError = ProjectDetails::parse(json);
+  auto importedFolders = mProject.details().importedFolderList();
+  for (auto &path : importedFolders) {
+    addImportFolder(path);
+  }
+  auto stagedImages = mProject.details().stagedImagesList();
 
-      if (std::holds_alternative<Error>(projectDetailsOrError)) {
-        onReturn(std::get<Error>(projectDetailsOrError));
-      }
-      else {
-        auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
-
-        mProject = Project(projectDetails);
-
-        mThumbnailsProcessor.provideProjectDetails(projectDetails);
-
-        auto importedFolders = mProject.details().importedFolderList();
-        for (auto &path : importedFolders) {
-          addImportFolder(path);
-        }
-        auto stagedImages = mProject.details().stagedImagesList();
-
-        for (auto i = 0; i < stagedImages.size(); ++i) {
-          addStagedPhoto({Thumbnails(stagedImages.at(i))});
-        }
-
-        onReturn(std::nullopt);
-      }
-    }
-  });
+  for (auto i = 0; i < stagedImages.size(); ++i) {
+    addStagedPhoto({Thumbnails(stagedImages.at(i))});
+  }
 }
 
 void Photobook::addImportFolder(Path importPath)
