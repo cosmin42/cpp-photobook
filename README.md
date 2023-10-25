@@ -69,3 +69,40 @@ In order to install the libraries release version only modify the x64-windows tr
 
 #### Exporting vcpkg packages
 ```vcpkg export --raw --x-all-installed```
+
+## Features to come
+
+Platforms:
+- [ ] Windows Desktop
+- [ ] Windows Tablet
+- [ ] Android Tablet
+- [ ] MacOs
+- [ ] iPad
+- [ ] Android Phone
+- [ ] iPhone
+
+- [ ] Collages
+- [ ] Low memory PDF creation
+- [ ] Multiple paper size options
+- [ ] HTML export
+- [ ] Photo Info section
+- [ ] Photos sorting
+- [ ] Summary info (Places, Photo details index)
+- [ ] Ability to create pages
+
+Image layout:
+ - [ ] Margins
+ - [ ] Captions
+ - [ ] Custom text insertion
+
+Image editing:
+ - [ ] Image background color
+ - [ ] Crop
+ - [ ] Rotation
+ - [ ] Resize
+ - [ ] Hue/Saturation
+ - [ ] Contrast/Exposure
+ - [ ] Filters
+
+AI:
+- [ ] Face detection and recognition
