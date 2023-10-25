@@ -24,21 +24,10 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
+#include <pb/Html.h>
+#include <pb/Jpg.h>
 
 namespace PB {
-
-enum class PaperType { None, A4, A5, A3, Custom };
-
-struct PaperSettings {
-  PaperType type;
-  int       ppi;
-  int       width;
-  int       height;
-};
-
-static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
-static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
-static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
 class Photobook final : public Observer {
 public:
@@ -86,5 +75,8 @@ private:
   std::unordered_map<Path, int>         mProgress;
   PaperSettings                         mPaperSettings;
   CommandStack                          mCommandStack;
+
+
+
 };
 } // namespace PB

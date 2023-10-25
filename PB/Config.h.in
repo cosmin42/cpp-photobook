@@ -4,6 +4,7 @@
 #include <pb/common/Log.h>
 #include <pb/persistence/Persistence.h>
 #include <pb/util/Timer.h>
+#include <pb/PaperSettings.h>
 
 #if __has_include(<pb/common/@PRINTER_TYPE@.h>)
 #include <pb/common/@PRINTER_TYPE@.h>
@@ -42,6 +43,10 @@ public:
   static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE = "Assets/coffee-cup.png";
 
   static constexpr const char *VERSION = "0.1.0";
+
+  static constexpr PaperSettings A4_PAPER = {PaperType::A4, 300, 3508, 2480};
+  static constexpr PaperSettings A5_PAPER = {PaperType::A5, 300, 2480, 1748};
+  static constexpr PaperSettings A3_PAPER = {PaperType::A3, 300, 4961, 3508};
 
   Log const &printer() { return mLogPrinter; }
 

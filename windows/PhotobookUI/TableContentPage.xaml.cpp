@@ -21,6 +21,7 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
+#include <pb/PaperSettings.h>
 #include <pb/common/Log.h>
 
 using namespace winrt;
@@ -381,15 +382,15 @@ void TableContentPage::OnPaperComboBoxSelected(
   PB::basicAssert(index > -1);
   switch (index) {
   case 0: {
-    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A4_PAPER));
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::Context::A4_PAPER));
     break;
   }
   case 1: {
-    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A5_PAPER));
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::Context::A5_PAPER));
     break;
   }
   case 2: {
-    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::A3_PAPER));
+    mPhotoBook.setPaperSettings(PB::PaperSettings(PB::Context::A3_PAPER));
     break;
   }
   case 3: {

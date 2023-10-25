@@ -5,7 +5,7 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize), mExporter(), mPaperSettings(A4_PAPER)
+      mThumbnailsProcessor(screenSize), mExporter(), mPaperSettings(Context::A4_PAPER)
 {
   printDebug("Photobook created.\n");
 
