@@ -71,7 +71,12 @@
                                                 Click="OnNewClicked" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Save"
-                                                Click="OnSaveClicked" />
+                                                Click="OnSaveClicked">
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control"
+                                                             Key="S" />
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Text="Save As"
                                                 Click="OnSaveAsClicked" />
                                 <MenuFlyoutSeparator />
