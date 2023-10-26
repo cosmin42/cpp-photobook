@@ -4,11 +4,6 @@
 
 namespace PB::Text {
 
-std::optional<Error> check(Json const &jsonData, std::string key);
-
-std::optional<Error> check(Json const                    &jsonData,
-                           std::vector<std::string> const keys);
-
 template <typename T> std::variant<T, Error> deserialize(Json jsonData);
 
 template <typename T>

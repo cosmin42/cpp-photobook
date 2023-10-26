@@ -4,26 +4,6 @@
 
 namespace PB::Text {
 
-std::optional<Error> check(Json const &jsonData, std::string key)
-{
-  if (!jsonData.contains(key)) {
-    return Error() << ErrorCode::JSONParseError << key;
-  }
-  return std::nullopt;
-}
-
-std::optional<Error> check(Json const                    &jsonData,
-                           std::vector<std::string> const keys)
-{
-  for (auto &key : keys) {
-    auto maybeError = check(jsonData, key);
-    if (maybeError) {
-      return maybeError.value();
-    }
-  }
-  return std::nullopt;
-}
-
 template <> std::variant<Path, Error> deserialize(Json jsonData)
 {
   try {
