@@ -31,8 +31,7 @@ auto compose(HeadFn &&f, TailFn &&...tailF)
 }
 
 typedef std::filesystem::path Path;
-
-typedef nlohmann::json Json;
+typedef nlohmann::json        Json;
 
 template <typename T> void Unused(T &&) {}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pb/persistence/Persistence.h>
+#include <pb/util/Concepts.h>
 
 namespace PB::Text {
 
@@ -50,4 +51,44 @@ deserialize(Json jsonData, std::string key,
   return Error() << ErrorCode::JSONParseError;
 }
 
-} // namespace PB
+template <SerializationPrimitiveConcept T>
+std::variant<Json, Error> serialize(T object)
+{
+  Json json = object;
+  return json;
+}
+
+template <typename T>
+std::variant<Json, Error> serialize(std::pair<std::string, T> const &entry);
+
+template <SerializationPrimitiveConcept T>
+std::variant<Json, Error> serialize(std::pair<std::string, T> const &entry)
+{
+  Json json;
+  json[entry.first] = entry.second;
+  return json;
+}
+
+template <typename Head, typename... Tail>
+std::variant<Json, Error> serialize(std::pair<std::string, Head> const &head,
+                                    std::pair<std::string, Tail> const &...args)
+{
+  std::variant<Json, Error> jsonOrError = serialize<Tail...>(args...);
+
+  if (std::holds_alternative<Error>(jsonOrError)) {
+    return jsonOrError;
+  }
+
+  std::variant<Json, Error> headJsonOrError = serialize<Head>(head);
+
+  if (std::holds_alternative<Error>(headJsonOrError)) {
+    return headJsonOrError;
+  }
+
+  auto const &[key, value] = head;
+
+  std::get<Json>(jsonOrError)[key] = std::get<Json>(headJsonOrError);
+  return jsonOrError;
+}
+
+} // namespace PB::Text

@@ -26,8 +26,6 @@ public:
   Path supportFolder() const;
   Path projectFile() const;
 
-  operator Json() const;
-
   void setImportedPaths(std::vector<Path> maybePath);
   void setStagedImages(std::vector<Thumbnails> maybePath);
   void setStagedImages(std::vector<Path> stagedImages);

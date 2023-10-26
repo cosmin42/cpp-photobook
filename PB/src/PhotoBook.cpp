@@ -1,5 +1,7 @@
 #include <pb/Photobook.h>
 
+#include <pb/SerializationStrategy.h>
+
 namespace PB {
 Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
@@ -219,11 +221,17 @@ void Photobook::savePhotobook(Path newPath)
 
   mProject.details().setStagedImages(imageSupport().stagedPhotos());
 
-  auto projectDetailsJson = Json(mProject.details());
+  auto projectDetailsOrError =
+      Text::serialize<ProjectDetails>({"root", mProject.details()});
+
+  if (std::holds_alternative<Error>(projectDetailsOrError)) {
+    PB::basicAssert(false);
+    return;
+  }
 
   FilePersistence persistence(newPath);
-
-  persistence.write(projectDetailsJson,
+  auto            x = std::get<Json>(projectDetailsOrError).dump();
+  persistence.write(std::get<Json>(projectDetailsOrError).at("root"),
                     [this, oldProjectFile, oldSupportFolder,
                      newSaveFile](std::optional<Error> maybeError) {
                       if (maybeError) {

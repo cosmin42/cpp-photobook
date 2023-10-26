@@ -135,4 +135,72 @@ template <> std::variant<ProjectDetails, Error> deserialize(Json jsonData)
   return projectDetails;
 }
 
+template <>
+std::variant<Json, Error>
+serialize(std::pair<std::string, boost::uuids::uuid> const &entry)
+{
+  Json json;
+  json[entry.first] = boost::uuids::to_string(entry.second);
+  return json;
+}
+
+template <>
+std::variant<Json, Error>
+serialize(std::pair<std::string, std::vector<Path>> const &entry)
+{
+  Json json;
+  for (auto &content : entry.second) {
+    auto jasonOrError = serialize<Path>(content);
+    if (std::holds_alternative<Error>(jasonOrError)) {
+      return jasonOrError;
+    }
+    json.push_back(std::get<Json>(jasonOrError));
+  }
+  return json;
+}
+
+template <>
+std::variant<Json, Error>
+serialize(std::pair<std::string, PaperSettings> const &entry)
+{
+  auto &[key, paperSettings] = entry;
+
+  auto jsonOrError = serialize<int, int, int, int>(
+      {"type", (int)paperSettings.type}, {"ppi", paperSettings.ppi},
+      {"width", paperSettings.width}, {"height", paperSettings.height});
+
+  if (std::holds_alternative<Error>(jsonOrError)) {
+    return jsonOrError;
+  }
+  Json json;
+  json[key] = std::get<Json>(jsonOrError);
+  return json;
+}
+
+template <>
+std::variant<Json, Error>
+serialize(std::pair<std::string, ProjectDetails> const &entry)
+{
+  auto &[key, projectDetails] = entry;
+
+  auto jsonOrError =
+      serialize<boost::uuids::uuid, std::string, Path, std::vector<Path>,
+                std::vector<Path>, PaperSettings>(
+          {"project-uuid", projectDetails.uuid()},
+          {"project-name", projectDetails.supportDirName()},
+          {"project-path", projectDetails.parentDirectory()},
+          {"imported-folders", projectDetails.importedFolderList()},
+          {"staged-images", projectDetails.stagedImagesList()},
+          {"paper-settings", projectDetails.paperSettings()});
+
+  if (std::holds_alternative<Error>(jsonOrError)) {
+    return jsonOrError;
+  }
+
+  Json json;
+  json[key] = std::get<Json>(jsonOrError);
+
+  return json;
+}
+
 } // namespace PB::Text

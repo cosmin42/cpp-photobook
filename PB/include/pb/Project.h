@@ -21,6 +21,8 @@ public:
     mProjectDetails.uuid(boost::uuids::random_generator()());
     mProjectDetails.supportDirName(boost::uuids::to_string(mProjectDetails.uuid()));
     mProjectDetails.parentDirectory(centralPersistencePath);
+
+    mProjectDetails.setPaperSettings(Context::A4_PAPER);
   }
 
   explicit Project(ProjectDetails const &projectDetails)

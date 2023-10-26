@@ -63,7 +63,10 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
-  auto serializedProject = PB::Json(newProject.details());
+  auto jsonOrError =
+      PB::Text::serialize<PB::ProjectDetails>({"root", newProject.details()});
+
+  PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
 
@@ -71,8 +74,8 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 
   PB::FilePersistence newProjectPersistence(fullPath);
 
-  newProjectPersistence.write(
-      serializedProject, [](std::optional<PB::Error> maybeError) {
+  newProjectPersistence.write(std::get<PB::Json>(jsonOrError).at("root"),
+                              [](std::optional<PB::Error> maybeError) {
         if (maybeError) {
           PB::printError("Error writing into peristence.\n");
         }
