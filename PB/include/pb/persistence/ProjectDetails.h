@@ -7,18 +7,13 @@
 #include <pb/Config.h>
 #include <pb/DataManager.h>
 #include <pb/PaperSettings.h>
+#include <pb/SerializationStrategy.h>
 #include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 class ProjectDetails {
 public:
-  static std::variant<ProjectDetails, Error>
-  parseProjectDetails(Json const &jsonData);
-
-  static std::variant<PaperSettings, Error>
-  parsePaperSettings(Json const &jsonData);
-
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }
 
@@ -35,6 +30,7 @@ public:
 
   void setImportedPaths(std::vector<Path> maybePath);
   void setStagedImages(std::vector<Thumbnails> maybePath);
+  void setStagedImages(std::vector<Path> stagedImages);
   void setPaperSettings(PaperSettings paperSettings);
   void removeStagedImage(int index);
 

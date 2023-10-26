@@ -22,6 +22,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <pb/PaperSettings.h>
+#include <pb/SerializationStrategy.h>
 #include <pb/common/Log.h>
 
 using namespace winrt;
@@ -820,7 +821,7 @@ void TableContentPage::OnNavigatedTo(
           auto &json = std::get<PB::Json>(jsonOrError);
 
           auto projectDetailsOrError =
-              PB::ProjectDetails::parseProjectDetails(json);
+              PB::Text::deserialize<PB::ProjectDetails>(json);
 
           if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
             Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());

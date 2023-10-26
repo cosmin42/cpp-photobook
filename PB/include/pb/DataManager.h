@@ -9,6 +9,7 @@
 namespace PB {
 
 struct Thumbnails {
+  Thumbnails() = default;
   explicit Thumbnails(Path path) : fullPath(path) {}
   explicit Thumbnails(Path fPath, Path mPath, Path sPath)
       : fullPath(fPath), mediumThumbnail(mPath), smallThumbnail(sPath)

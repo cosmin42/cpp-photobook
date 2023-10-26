@@ -88,6 +88,7 @@ add_library(pblib STATIC
     include/pb/PhotobookListener.h
     include/pb/Project.h
     include/pb/ThumbnailsProcessor.h
+    include/pb/SerializationStrategy.h
     include/pb/StagedImagesLogic.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
@@ -115,6 +116,7 @@ add_library(pblib STATIC
     src/ProjectDetails.cpp
     src/ProjectMetadata.cpp
     src/ThumbnailsProcessor.cpp
+    src/SerializationStrategy.cpp
     src/StagedImagesLogic.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
