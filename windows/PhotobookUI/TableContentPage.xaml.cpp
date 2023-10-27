@@ -819,7 +819,6 @@ void TableContentPage::OnNavigatedTo(
         }
         else {
           auto &json = std::get<PB::Json>(jsonOrError);
-
           auto projectDetailsOrError =
               PB::Text::deserialize<PB::ProjectDetails>(json);
 

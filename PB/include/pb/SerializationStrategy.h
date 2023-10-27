@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pb/common/Log.h>
 #include <pb/persistence/Persistence.h>
 #include <pb/util/Concepts.h>
 
@@ -23,7 +24,6 @@ std::variant<T, Error> deserialize(Json jsonData, std::string key,
 template <template <typename> typename Container, typename T>
 std::variant<Container<T>, Error> deserialize(Json jsonData)
 {
-  auto         x = jsonData.dump();
   Container<T> result;
   for (const auto &stagedFolderJson : jsonData) {
     auto deserializedOrError = deserialize<T>(stagedFolderJson);
@@ -52,42 +52,58 @@ deserialize(Json jsonData, std::string key,
 }
 
 template <SerializationPrimitiveConcept T>
-std::variant<Json, Error> serialize(T object)
+std::variant<Json, Error> serialize(int depth, T object)
 {
   Json json = object;
+  PB::printDebug("%sT %s\n", std::string(depth * 2, ' ').c_str(),
+                 json.dump().c_str());
   return json;
 }
 
 template <typename T>
-std::variant<Json, Error> serialize(std::pair<std::string, T> const &entry);
+std::variant<Json, Error> serialize(int                              depth,
+                                    std::pair<std::string, T> const &entry);
 
 template <SerializationPrimitiveConcept T>
-std::variant<Json, Error> serialize(std::pair<std::string, T> const &entry)
+std::variant<Json, Error> serialize(int                              depth,
+                                    std::pair<std::string, T> const &entry)
 {
   Json json;
   json[entry.first] = entry.second;
+  PB::printDebug("%s(string, T) %s\n", std::string(depth * 2, ' ').c_str(),
+                 json.dump().c_str());
   return json;
 }
 
 template <typename Head, typename... Tail>
-std::variant<Json, Error> serialize(std::pair<std::string, Head> const &head,
+std::variant<Json, Error> serialize(int                                 depth,
+                                    std::pair<std::string, Head> const &head,
                                     std::pair<std::string, Tail> const &...args)
 {
-  std::variant<Json, Error> jsonOrError = serialize<Tail...>(args...);
+  std::variant<Json, Error> jsonOrError =
+      serialize<Tail...>(depth + 1, args...);
 
   if (std::holds_alternative<Error>(jsonOrError)) {
     return jsonOrError;
   }
 
-  std::variant<Json, Error> headJsonOrError = serialize<Head>(head);
+  PB::printDebug("%s(args...Tail) %s\n", std::string(depth * 2, ' ').c_str(),
+                 std::get<Json>(jsonOrError).dump().c_str());
+
+  std::variant<Json, Error> headJsonOrError = serialize<Head>(depth + 1, head);
 
   if (std::holds_alternative<Error>(headJsonOrError)) {
     return headJsonOrError;
   }
 
-  auto const &[key, value] = head;
+  PB::printDebug("%s(args...Head) %s\n", std::string(depth * 2, ' ').c_str(),
+                 std::get<Json>(headJsonOrError).dump().c_str());
 
-  std::get<Json>(jsonOrError)[key] = std::get<Json>(headJsonOrError);
+  auto const &[key, value] = head;
+  std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
+
+  PB::printDebug("%s(args...All) %s\n", std::string(depth * 2, ' ').c_str(),
+                 std::get<Json>(jsonOrError).dump().c_str());
   return jsonOrError;
 }
 

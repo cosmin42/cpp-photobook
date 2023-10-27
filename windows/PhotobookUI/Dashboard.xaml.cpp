@@ -64,7 +64,7 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
   auto jsonOrError =
-      PB::Text::serialize<PB::ProjectDetails>({"root", newProject.details()});
+      PB::Text::serialize<PB::ProjectDetails>(0, {"root", newProject.details()});
 
   PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 

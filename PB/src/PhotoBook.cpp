@@ -222,7 +222,7 @@ void Photobook::savePhotobook(Path newPath)
   mProject.details().setStagedImages(imageSupport().stagedPhotos());
 
   auto projectDetailsOrError =
-      Text::serialize<ProjectDetails>({"root", mProject.details()});
+      Text::serialize<ProjectDetails>(0, {"root", mProject.details()});
 
   if (std::holds_alternative<Error>(projectDetailsOrError)) {
     PB::basicAssert(false);
@@ -230,7 +230,6 @@ void Photobook::savePhotobook(Path newPath)
   }
 
   FilePersistence persistence(newPath);
-  auto            x = std::get<Json>(projectDetailsOrError).dump();
   persistence.write(std::get<Json>(projectDetailsOrError).at("root"),
                     [this, oldProjectFile, oldSupportFolder,
                      newSaveFile](std::optional<Error> maybeError) {
