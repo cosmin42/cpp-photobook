@@ -297,6 +297,7 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
 {
+  mDragSource = DragSource::Unstaged;
   for (auto item : args.Items()) {
     auto image = item.as<ImageUIData>();
     auto fullPath = winrt::to_string(image.FullPath());
@@ -326,11 +327,11 @@ void TableContentPage::OnClickedOutsideList(
 
   if (!image) {
 
-    StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-        0, mStagedImageCollection.Size()));
+    // StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+    //     0, mStagedImageCollection.Size()));
 
-    UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-        0, mUnstagedImageCollection.Size()));
+    // UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+    //     0, mUnstagedImageCollection.Size()));
   }
 }
 void TableContentPage::UnstagedSelectAllInvoked(
@@ -684,6 +685,44 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   UpdateGalleryLabel();
 }
 
+void TableContentPage::OnStagedDragItemsCompleted(
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &obj,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+        DragItemsCompletedEventArgs const &args)
+{
+  if (mDragSource == DragSource::Staged) {
+    mDragSource = DragSource::None;
+  }
+  mStagedImageCollection.VectorChanged(
+      [](IObservableVector<ImageUIData> const &sender,
+         IVectorChangedEventArgs const        &args) {});
+}
+
+void TableContentPage::OnStagedDragItemsStarting(
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+        DragItemsStartingEventArgs const &args)
+{
+  mStagedImageCollection.VectorChanged(
+      [](IObservableVector<ImageUIData> const &sender,
+         IVectorChangedEventArgs const        &args) {
+        // Changed index
+        PB::printDebug("Changed index: %d %d\n", args.Index(),
+                       args.CollectionChange());
+        auto changeType = args.CollectionChange();
+        if (changeType == winrt::Windows::Foundation::Collections::
+                              CollectionChange::ItemInserted) {
+        }
+        else if (changeType == winrt::Windows::Foundation::Collections::
+                                   CollectionChange::ItemRemoved) {
+        }
+        else if (changeType == winrt::Windows::Foundation::Collections::
+                                   CollectionChange::ItemChanged) {
+        }
+      });
+  mDragSource = DragSource::Staged;
+}
+
 void TableContentPage::OnMappingStopped() {}
 
 void TableContentPage::OnMappingStarted() {}
@@ -819,7 +858,7 @@ void TableContentPage::OnNavigatedTo(
         }
         else {
           auto &json = std::get<PB::Json>(jsonOrError);
-          auto projectDetailsOrError =
+          auto  projectDetailsOrError =
               PB::Text::deserialize<PB::ProjectDetails>(json);
 
           if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {

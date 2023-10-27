@@ -19,6 +19,8 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
+enum class DragSource { None, Unstaged, Staged };
+
 struct TableContentPage : TableContentPageT<TableContentPage> {
 
   static PB::Path CurrentAppLocation();
@@ -101,6 +103,16 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
           SelectionChangedEventArgs const &);
+
+  void OnStagedDragItemsStarting(
+      [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+          DragItemsStartingEventArgs const &);
+
+  void OnStagedDragItemsCompleted(
+      [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
+          DragItemsCompletedEventArgs const &args);
 
   void OnUnstagedPhotosDragStarted(
       Windows::Foundation::IInspectable const                         &sender,
@@ -226,6 +238,7 @@ private:
   bool                              mExitFlag = false;
   std::unordered_set<PB::Path>      mLoadedFinishedImportFolders;
   std::unordered_set<PB::Path>      mStagedImages;
+  DragSource                        mDragSource = DragSource::None;
 };
 } // namespace winrt::PhotobookUI::implementation
 

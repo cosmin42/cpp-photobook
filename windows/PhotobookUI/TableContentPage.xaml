@@ -68,7 +68,7 @@
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="New"
-                                                Click="OnNewClicked" />
+                                                Click="OnNewClicked"></MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Save"
                                                 Click="OnSaveClicked">
@@ -306,12 +306,15 @@
                                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                   ScrollViewer.IsHorizontalRailEnabled="True"
                                   CanDragItems="True"
-                                  CanReorderItems="False"
+                                  CanReorderItems="True"
+                                  IsSwipeEnabled="True"
                                   HorizontalAlignment="Stretch"
                                   AllowDrop="True"
                                   Background="{StaticResource PrimaryColor}"
                                   Drop="OnDropIntoStagedPhotos"
                                   DragOver="OnDragOverStagedPhotos"
+                                  DragItemsCompleted="OnStagedDragItemsCompleted"
+                                  DragItemsStarting="OnStagedDragItemsStarting"
                                   SelectionMode="Extended"
                                   Tapped="OnClickedOutsideList"
                                   SelectionChanged="OnStagedPhotosSelectionChanged">
