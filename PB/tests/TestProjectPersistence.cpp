@@ -28,14 +28,20 @@ TEST(TestProjectPersistence, CreateNewProject)
               boost::uuids::to_string(project.details().uuid()));
 
   PB::FilePersistence filePersistence(project.details().projectFile());
-  auto json = Json(project.details());
+  auto                jsonOrError =
+      PB::Text::serialize<ProjectDetails>(0, {"root", project.details()});
+  assert(!std::holds_alternative<Error>(jsonOrError));
 
-  ASSERT_TRUE(json.at("project-uuid") == supportDirName);
-  ASSERT_TRUE(json.at("project-name") == supportDirName);
-  ASSERT_TRUE(json.at("project-path") == parentDirectory.string());
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==
+              supportDirName);
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-name") ==
+              supportDirName);
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-path") ==
+              parentDirectory.string());
 
   filePersistence.write(
-      json, [supportDirName, parentDirectory](std::optional<Error> maybeError) {
+      std::get<Json>(jsonOrError).at("root"),
+      [supportDirName, parentDirectory](std::optional<Error> maybeError) {
         ASSERT_TRUE(!maybeError.has_value());
       });
   std::pair<std::string, std::string> entry = {
@@ -80,24 +86,27 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
               boost::uuids::to_string(project.details().uuid()));
 
   PB::FilePersistence filePersistence(project.details().projectFile());
-  auto json = Json(project.details());
 
-  ASSERT_TRUE(json.at("project-uuid") == supportDirName);
-  ASSERT_TRUE(json.at("project-name") == supportDirName);
-  ASSERT_TRUE(json.at("project-path") == parentDirectory.string());
+  auto jsonOrError =
+      PB::Text::serialize<ProjectDetails>(0, {"root", project.details()});
+  assert(!std::holds_alternative<Error>(jsonOrError));
 
-  filePersistence.write(json, [](std::optional<Error> maybeError) {
-    ASSERT_TRUE(!maybeError.has_value());
-  });
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==
+              supportDirName);
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-name") ==
+              supportDirName);
+  ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-path") ==
+              parentDirectory.string());
+
+  filePersistence.write(std::get<Json>(jsonOrError).at("root"),
+                        [](std::optional<Error> maybeError) {
+                          ASSERT_TRUE(!maybeError.has_value());
+                        });
   filePersistence.read(
-      [supportDirName, parentDirectory](
-          std::variant<Json, Error>
-              mapOrError) {
+      [supportDirName, parentDirectory](std::variant<Json, Error> mapOrError) {
         ASSERT_TRUE(!std::holds_alternative<Error>(mapOrError));
-        auto &map =
-            std::get<Json>(mapOrError);
-        auto  projectDetailsOrError =
-            PB::ProjectDetails::parseProjectDetails(map);
+        auto &map = std::get<Json>(mapOrError);
+        auto projectDetailsOrError = PB::Text::deserialize<ProjectDetails>(map);
 
         ASSERT_TRUE(!std::holds_alternative<Error>(projectDetailsOrError));
         auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
