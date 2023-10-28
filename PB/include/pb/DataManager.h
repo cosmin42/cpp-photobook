@@ -43,6 +43,7 @@ public:
 
   void stagePhoto(std::vector<Thumbnails> fullPath, int position = -1);
   void unstagePhoto(std::vector<int> importedFolderIndex);
+  void removeGroup(int index);
 
   int fullPathRow(Path) const;
 
@@ -62,7 +63,7 @@ private:
 
   std::unordered_map<Path, int>                 mGroupIndexes;
   std::unordered_map<Path, std::pair<int, int>> mSupportByFullPath;
-  std::vector<std::vector<Thumbnails>>          mSupport;
+  std::vector<std::vector<Thumbnails>>          mUnstagedImagesMatrix;
   std::vector<Thumbnails>                       mStagedPhotos;
   std::shared_ptr<ImageSupportListener>         mListener = nullptr;
 };

@@ -220,6 +220,8 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
     }
   }
   mNavigationItemsCollection.RemoveAt(selectedIndex);
+
+  mPhotoBook.imageSupport().removeGroup((int)selectedIndex);
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget

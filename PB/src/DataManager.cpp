@@ -10,13 +10,13 @@ void ImageSupport::setListener(std::shared_ptr<ImageSupportListener> listener)
 Thumbnails &ImageSupport::image(Path fullPath)
 {
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  return mSupport.at(importPathIndex).at(pathIndex);
+  return mUnstagedImagesMatrix.at(importPathIndex).at(pathIndex);
 }
 
 void ImageSupport::addSmallPath(Path fullPath, Path smallSize)
 {
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  mSupport[importPathIndex][pathIndex].smallThumbnail = smallSize;
+  mUnstagedImagesMatrix[importPathIndex][pathIndex].smallThumbnail = smallSize;
 
   for (auto &item : mStagedPhotos) {
     if (item.fullPath == fullPath) {
@@ -28,7 +28,8 @@ void ImageSupport::addSmallPath(Path fullPath, Path smallSize)
 void ImageSupport::addMediumPath(Path fullPath, Path mediumPath)
 {
   auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  mSupport[importPathIndex][pathIndex].mediumThumbnail = mediumPath;
+  mUnstagedImagesMatrix[importPathIndex][pathIndex].mediumThumbnail =
+      mediumPath;
   for (auto &item : mStagedPhotos) {
     if (item.fullPath == fullPath) {
       item.mediumThumbnail = mediumPath;
@@ -41,8 +42,8 @@ void ImageSupport::addGroup(std::optional<Path> path)
   if (!path) {
     return;
   }
-  mSupport.push_back(std::vector<Thumbnails>());
-  mGroupIndexes[*path] = (int)mSupport.size() - 1;
+  mUnstagedImagesMatrix.push_back(std::vector<Thumbnails>());
+  mGroupIndexes[*path] = (int)mUnstagedImagesMatrix.size() - 1;
 }
 
 void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
@@ -56,15 +57,15 @@ void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
   for (auto &p : paths) {
     Thumbnails newThumbnails(p);
 
-    mSupport.at(indexGroup).push_back(newThumbnails);
+    mUnstagedImagesMatrix.at(indexGroup).push_back(newThumbnails);
 
-    mSupportByFullPath[p] = {indexGroup,
-                             (int)(mSupport.at(indexGroup).size() - 1)};
+    mSupportByFullPath[p] = {
+        indexGroup, (int)(mUnstagedImagesMatrix.at(indexGroup).size() - 1)};
   }
   if (mListener) {
-    mListener->importFolderAdded(
-        root,
-        CircularIterator<std::vector<Thumbnails>>(mSupport.at(indexGroup)));
+    mListener->importFolderAdded(root,
+                                 CircularIterator<std::vector<Thumbnails>>(
+                                     mUnstagedImagesMatrix.at(indexGroup)));
   }
 }
 
@@ -106,6 +107,21 @@ void ImageSupport::unstagePhoto(std::vector<int> indexes)
   }
 }
 
+void ImageSupport::removeGroup(int index)
+{
+  auto maybeGroup = groupByIndex(index);
+  PB::basicAssert(maybeGroup.has_value());
+  mGroupIndexes.erase(maybeGroup.value());
+  for (int i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
+    mSupportByFullPath.erase(mUnstagedImagesMatrix.at(index).at(i).fullPath);
+  }
+  mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + index);
+  if (mListener) {
+    mListener->stagePhotosUpdated(
+        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+  }
+}
+
 int ImageSupport::fullPathRow(Path path) const
 {
   return mSupportByFullPath.at(path).first;
@@ -118,7 +134,7 @@ std::vector<Path> ImageSupport::fullPathByGroup(Path group)
   }
   auto             &index = mGroupIndexes.at(group);
   std::vector<Path> result;
-  for (auto &entry : mSupport.at(index)) {
+  for (auto &entry : mUnstagedImagesMatrix.at(index)) {
     result.push_back(entry.fullPath);
   }
   return result;
@@ -142,7 +158,7 @@ auto ImageSupport::unstagedIterator(Path root)
   }
 
   return CircularIterator<std::vector<Thumbnails>>(
-      mSupport.at(mGroupIndexes.at(root)));
+      mUnstagedImagesMatrix.at(mGroupIndexes.at(root)));
 }
 
 auto ImageSupport::unstagedIterator(int importedFolderIndex, int index)
@@ -150,11 +166,11 @@ auto ImageSupport::unstagedIterator(int importedFolderIndex, int index)
 {
   if (index > -1) {
     return CircularIterator<std::vector<Thumbnails>>(
-        mSupport.at(importedFolderIndex))[index];
+        mUnstagedImagesMatrix.at(importedFolderIndex))[index];
   }
   else {
     return CircularIterator<std::vector<Thumbnails>>(
-        mSupport.at(importedFolderIndex));
+        mUnstagedImagesMatrix.at(importedFolderIndex));
   }
 }
 
@@ -169,7 +185,7 @@ int ImageSupport::groupSize(std::optional<Path> group)
     return 0;
   }
 
-  return (int)mSupport.at(mGroupIndexes.at(*group)).size();
+  return (int)mUnstagedImagesMatrix.at(mGroupIndexes.at(*group)).size();
 }
 
 void ImageSupport::clear()
@@ -177,7 +193,7 @@ void ImageSupport::clear()
   mGroupIndexes.clear();
 
   mSupportByFullPath.clear();
-  mSupport.clear();
+  mUnstagedImagesMatrix.clear();
 
   mStagedPhotos.clear();
   if (mListener) {
