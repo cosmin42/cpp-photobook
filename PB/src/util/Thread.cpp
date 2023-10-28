@@ -3,17 +3,12 @@
 #include <pb/Config.h>
 
 namespace PB {
-Thread::Thread(std::stop_token stopToken)
-    : mExternalToken(stopToken)
-{
-}
+Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken) {}
 
 void Thread::start()
 {
   printDebug("Starting thread\n");
-  mThread = std::jthread([this](std::stop_token token) {
-    run(token);
-  });
+  mThread = std::jthread([this](std::stop_token token) { run(token); });
 }
 
 void Thread::stop()
@@ -24,11 +19,13 @@ void Thread::stop()
 
 void Thread::run(std::stop_token token)
 {
+  Timer timer;
   mCurrentToken = token;
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     executeSingleTask();
   }
   if (mCurrentToken.stop_requested()) {
+    printDebug("Thread Elapsed time %f\n", timer.elapsed());
     finish();
   }
 }
