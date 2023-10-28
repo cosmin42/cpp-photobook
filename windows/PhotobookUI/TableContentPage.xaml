@@ -204,13 +204,23 @@
                         Padding="16,8"
                         Grid.Row="0"
                         Grid.Column="0">
-                    <Button Background="{StaticResource ButtonBackgroundColor}"
-                            Click="OnImportFolderAdded"
-                            CornerRadius="4"
-                            Content="Add Media"
-                            x:Name="AddMediaButton"
-                            Foreground="{StaticResource MainFontColor}"
-                            HorizontalAlignment="Center" />
+                    <Grid>
+                        <Button Background="{StaticResource ButtonBackgroundColor}"
+                                Click="OnImportFolderAdded"
+                                CornerRadius="4"
+                                Content="Add Media"
+                                x:Name="AddMediaButton"
+                                Foreground="{StaticResource MainFontColor}"
+                                HorizontalAlignment="Center" />
+                        <Button Click="OnImportFolderRemoved"
+                                CornerRadius="4"
+                                Content="Remove"
+                                x:Name="RemoveMediaButton"
+                                Visibility="Collapsed"
+                                Foreground="{StaticResource MainFontColor}"
+                                Background="{StaticResource RemoveButtonBackground}"
+                                HorizontalAlignment="Right" />
+                    </Grid>
                 </Border>
             </Grid>
             <Border x:Name="CanvasBorder"

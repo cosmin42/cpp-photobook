@@ -172,6 +172,11 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
       [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
 }
 
+void TableContentPage::OnImportFolderRemoved(IInspectable const &,
+                                             RoutedEventArgs const &)
+{
+}
+
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
 {
   co_await ProjectExitDialog().ShowAsync();
@@ -599,6 +604,9 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
   auto rootFolders = mPhotoBook.imageSupport().groups();
   if (!rootFolders.empty()) {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
+    RemoveMediaButton().Visibility(
+        winrt::Microsoft::UI::Xaml::Visibility::Visible);
+    RemoveMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
   }
   else {
     AddMediaButton().VerticalAlignment(VerticalAlignment::Center);

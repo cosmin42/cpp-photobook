@@ -200,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\coffee-cup.png" />
+    <Image Include="Assets\delete-circle.png" />
     <Image Include="Assets\folderIcon.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\page-left-enabled.png">

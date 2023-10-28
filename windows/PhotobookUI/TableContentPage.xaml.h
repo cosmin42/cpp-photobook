@@ -68,6 +68,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnImportFolderAdded(Windows::Foundation::IInspectable const    &sender,
                            Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void OnImportFolderRemoved(Windows::Foundation::IInspectable const    &sender,
+                             Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void OnImportSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
