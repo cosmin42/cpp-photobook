@@ -210,6 +210,7 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   }
   auto importFoldersSize = MediaListView().Items().Size();
   if (importFoldersSize == 1) {
+    mUnstagedImageCollection.Clear();
   }
   else {
     // TODO: Optimize this.
