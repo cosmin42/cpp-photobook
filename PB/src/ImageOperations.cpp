@@ -6,6 +6,12 @@
 namespace PB::Process {
 bool validExtension(std::optional<Path> path)
 {
+  if (!path) {
+    return false;
+  }
+  if (path->filename().string().starts_with('.')) {
+    return false;
+  }
   const std::set<std::string> validFileExtensions = {Context::JPG_EXTENSION,
                                                      ".jpeg", ".png"};
 
