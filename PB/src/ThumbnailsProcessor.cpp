@@ -34,7 +34,7 @@ void ResizeTask::operator()() const
         PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
 
     image = PB::Process::addText({3508 / 2, 2480 / 2},
-                                 mFullSizePath.filename().string(),
+                                 mFullSizePath.stem().string(),
                                  {0, 0, 0})(image);
     Process::imageWriteThumbnail(mScreenWidth, mScreenHeight, image,
                                  mSmallThumbnailOutputPath,

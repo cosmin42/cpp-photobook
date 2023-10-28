@@ -568,7 +568,7 @@ void TableContentPage::OnCanvasDraw(
                                           {255, 255, 255})();
 
     image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
-                                 mediumThumbnailPath.filename().string(),
+                                 maybeThumbnail->fullPath.stem().string(),
                                  {0, 0, 0})(image);
   }
 
