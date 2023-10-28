@@ -16,6 +16,8 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
   if (maybeError) {
     onError(maybeError.value());
   }
+
+  mImagePaths.setListener(mGallery.slot());
 }
 
 Photobook::~Photobook()

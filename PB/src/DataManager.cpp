@@ -85,6 +85,13 @@ void ImageSupport::stagePhoto(std::vector<Thumbnails> paths, int position)
           CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
     }
   }
+  else if (position == mStagedPhotos.size()) {
+    mStagedPhotos.insert(mStagedPhotos.end(), paths.begin(), paths.end());
+    if (mListener) {
+      mListener->stagePhotosUpdated(
+          CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+    }
+  }
 }
 
 void ImageSupport::unstagePhoto(std::vector<int> indexes)
@@ -168,6 +175,10 @@ void ImageSupport::clear()
   mSupport.clear();
 
   mStagedPhotos.clear();
+  if (mListener) {
+    mListener->stagePhotosUpdated(
+        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+  }
 }
 
 std::unordered_map<Path, int> const &ImageSupport::groups()
