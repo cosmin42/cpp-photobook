@@ -45,6 +45,7 @@ void Photobook::configureProject(PB::Project project)
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
     addStagedPhoto({Thumbnails(stagedImages.at(i))});
+    mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
   }
 }
 
@@ -250,7 +251,6 @@ void Photobook::savePhotobook(Path newPath)
 void Photobook::addStagedPhoto(std::vector<Thumbnails> photos)
 {
   mImagePaths.stagePhoto(photos);
-  mParent.onStagedImageAdded(photos);
 }
 
 void Photobook::deleteStagedPhoto(std::vector<int> positions)

@@ -409,6 +409,8 @@ void TableContentPage::OnDropIntoStagedPhotos(
 
   mPhotoBook.addStagedPhoto(mDragAndDropSelectedImages);
 
+  OnStagedImageAdded(mDragAndDropSelectedImages);
+
   mDragAndDropSelectedImages.clear();
 }
 
@@ -693,6 +695,7 @@ void TableContentPage::OnStagedDragItemsCompleted(
   if (mDragSource == DragSource::Staged) {
     mDragSource = DragSource::None;
   }
+
   mStagedImageCollection.VectorChanged(
       [](IObservableVector<ImageUIData> const &sender,
          IVectorChangedEventArgs const        &args) {});
@@ -704,9 +707,8 @@ void TableContentPage::OnStagedDragItemsStarting(
         DragItemsStartingEventArgs const &args)
 {
   mStagedImageCollection.VectorChanged(
-      [](IObservableVector<ImageUIData> const &sender,
+      [this](IObservableVector<ImageUIData> const &sender,
          IVectorChangedEventArgs const        &args) {
-        // Changed index
         PB::printDebug("Changed index: %d %d\n", args.Index(),
                        args.CollectionChange());
         auto changeType = args.CollectionChange();
