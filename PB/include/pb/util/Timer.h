@@ -5,7 +5,13 @@
 
 namespace PB {
 
-template <typename CloseFunction> class Timer final {
+class TimerDefaultCloseFunction {
+public:
+  static void onClose(double){};
+};
+
+template <typename CloseFunction = TimerDefaultCloseFunction>
+class Timer final {
 public:
   Timer() : mStart(std::chrono::system_clock::now()) {}
   Timer(Timer const &) = delete;
