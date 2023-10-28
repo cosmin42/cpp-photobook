@@ -248,15 +248,14 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-void Photobook::addStagedPhoto(std::vector<Thumbnails> photos)
+void Photobook::addStagedPhoto(std::vector<Thumbnails> photos, int position)
 {
-  mImagePaths.stagePhoto(photos);
+  mImagePaths.stagePhoto(photos, position);
 }
 
 void Photobook::deleteStagedPhoto(std::vector<int> positions)
 {
   mImagePaths.unstagePhoto(positions);
-  mParent.onStagedImageRemoved(positions);
 }
 
 void Photobook::removeStagedPhoto(int index)

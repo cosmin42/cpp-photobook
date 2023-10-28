@@ -76,6 +76,42 @@ TableContentPage::TableContentPage()
                Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg) {
     OnKeyPressed(sender, arg);
   });
+
+  mStagedImageCollection.VectorChanged(
+      [this](IObservableVector<ImageUIData> const &sender,
+             IVectorChangedEventArgs const        &args) {
+        if (mDragSource != DragSource::Staged) {
+          return;
+        }
+        PB::printDebug(
+            "Reorder changed index: %d %s\n", args.Index(),
+            std::string(magic_enum::enum_name(args.CollectionChange()))
+                .c_str());
+        auto changeType = args.CollectionChange();
+        if (changeType == winrt::Windows::Foundation::Collections::
+                              CollectionChange::ItemInserted) {
+          auto image = sender.GetAt(args.Index());
+          auto fullPath = winrt::to_string(image.FullPath());
+          auto mediumPath = winrt::to_string(image.MediumPath());
+          auto smallPath = winrt::to_string(image.SmallPath());
+          mPhotoBook.addStagedPhoto(
+              {PB::Thumbnails(PB::Path(fullPath), PB::Path(mediumPath),
+                              PB::Path(smallPath))},
+              args.Index());
+        }
+        else if (changeType == winrt::Windows::Foundation::Collections::
+                                   CollectionChange::ItemRemoved) {
+
+          mPhotoBook.removeStagedPhoto(args.Index());
+        }
+        else if (changeType == winrt::Windows::Foundation::Collections::
+                                   CollectionChange::ItemChanged) {
+          PB::basicAssert(false);
+        }
+        else {
+          PB::basicAssert(false);
+        }
+      });
 }
 
 void TableContentPage::OnKeyDown(
@@ -285,6 +321,7 @@ void TableContentPage::OnKeyPressed(
 
     if (selectedIndexes.size() > 0) {
       mPhotoBook.deleteStagedPhoto(selectedIndexes);
+      OnStagedImageRemoved(selectedIndexes);
     }
   }
   default: {
@@ -695,10 +732,6 @@ void TableContentPage::OnStagedDragItemsCompleted(
   if (mDragSource == DragSource::Staged) {
     mDragSource = DragSource::None;
   }
-
-  mStagedImageCollection.VectorChanged(
-      [](IObservableVector<ImageUIData> const &sender,
-         IVectorChangedEventArgs const        &args) {});
 }
 
 void TableContentPage::OnStagedDragItemsStarting(
@@ -706,22 +739,6 @@ void TableContentPage::OnStagedDragItemsStarting(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
 {
-  mStagedImageCollection.VectorChanged(
-      [this](IObservableVector<ImageUIData> const &sender,
-         IVectorChangedEventArgs const        &args) {
-        PB::printDebug("Changed index: %d %d\n", args.Index(),
-                       args.CollectionChange());
-        auto changeType = args.CollectionChange();
-        if (changeType == winrt::Windows::Foundation::Collections::
-                              CollectionChange::ItemInserted) {
-        }
-        else if (changeType == winrt::Windows::Foundation::Collections::
-                                   CollectionChange::ItemRemoved) {
-        }
-        else if (changeType == winrt::Windows::Foundation::Collections::
-                                   CollectionChange::ItemChanged) {
-        }
-      });
   mDragSource = DragSource::Staged;
 }
 

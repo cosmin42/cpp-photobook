@@ -56,7 +56,7 @@ public:
   void discardPhotobook();
   void savePhotobook();
   void savePhotobook(Path newPath);
-  void addStagedPhoto(std::vector<Thumbnails> photos);
+  void addStagedPhoto(std::vector<Thumbnails> photos, int position = -1);
   void deleteStagedPhoto(std::vector<int> positions);
   void removeStagedPhoto(int index);
   bool projectDefaultSaved();

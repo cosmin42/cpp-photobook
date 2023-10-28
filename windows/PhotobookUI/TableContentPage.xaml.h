@@ -168,7 +168,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   auto ExportDialogDisplay() -> winrt::fire_and_forget;
 
   /* Keyboard */
-
   void OnKeyPressed(Windows::Foundation::IInspectable const &sender,
                     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const &arg);
 
