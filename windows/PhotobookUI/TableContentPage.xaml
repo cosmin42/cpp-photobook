@@ -80,6 +80,8 @@
                                 <MenuFlyoutItem Text="Save As"
                                                 Click="OnSaveAsClicked" />
                                 <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="Import Media"
+                                                Click="OnImportFolderAdded" />
                                 <MenuFlyoutItem Text="Export"
                                                 Click="OnExportClicked" />
                                 <MenuFlyoutSeparator />
