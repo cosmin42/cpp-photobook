@@ -106,6 +106,11 @@ void ImageSupport::unstagePhoto(std::vector<int> indexes)
   }
 }
 
+int ImageSupport::fullPathRow(Path path) const
+{
+  return mSupportByFullPath.at(path).first;
+}
+
 std::vector<Path> ImageSupport::fullPathByGroup(Path group)
 {
   if (mGroupIndexes.find(group) == mGroupIndexes.end()) {

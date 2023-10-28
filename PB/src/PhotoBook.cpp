@@ -259,7 +259,7 @@ void Photobook::addStagedPhoto(std::vector<Thumbnails> photos, int position)
   mImagePaths.stagePhoto(photos, position);
 }
 
-void Photobook::deleteStagedPhoto(std::vector<int> positions)
+void Photobook::removeStagedPhoto(std::vector<int> positions)
 {
   mImagePaths.unstagePhoto(positions);
 }
@@ -267,6 +267,11 @@ void Photobook::deleteStagedPhoto(std::vector<int> positions)
 void Photobook::removeStagedPhoto(int index)
 {
   mImagePaths.unstagePhoto({index});
+}
+
+void Photobook::removeStagedPhoto(Path group)
+{
+  mImagePaths.unstagePhotoByGroup(group);
 }
 
 std::vector<Thumbnails> &Photobook::stagedPhotos()

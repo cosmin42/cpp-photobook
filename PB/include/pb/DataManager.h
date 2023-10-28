@@ -2,6 +2,7 @@
 
 #include <ranges>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <pb/Config.h>
 #include <pb/util/CircularIterator.h>
@@ -42,6 +43,8 @@ public:
 
   void stagePhoto(std::vector<Thumbnails> fullPath, int position = -1);
   void unstagePhoto(std::vector<int> importedFolderIndex);
+
+  int fullPathRow(Path) const;
 
   void clear();
 

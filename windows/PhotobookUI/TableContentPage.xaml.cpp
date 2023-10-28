@@ -191,6 +191,24 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
 void TableContentPage::OnImportFolderRemoved(IInspectable const &,
                                              RoutedEventArgs const &)
 {
+  auto selectedIndex = MediaListView().SelectedIndex();
+  if (selectedIndex < 0) {
+    return;
+  }
+
+  StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+      0, mStagedImageCollection.Size()));
+
+  for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i)
+  {
+    PB::Path fullPath = winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
+    if (mPhotoBook.imageSupport().fullPathRow(fullPath) == selectedIndex)
+    {
+      mPhotoBook.removeStagedPhoto(i);
+      mStagedImageCollection.RemoveAt(i);
+      i--;
+    }
+  }
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -341,7 +359,7 @@ void TableContentPage::OnKeyPressed(
     }
 
     if (selectedIndexes.size() > 0) {
-      mPhotoBook.deleteStagedPhoto(selectedIndexes);
+      mPhotoBook.removeStagedPhoto(selectedIndexes);
       OnStagedImageRemoved(selectedIndexes);
     }
   }
