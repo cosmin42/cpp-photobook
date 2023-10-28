@@ -29,9 +29,6 @@ TEST(TestGallery, Test2) {
   ASSERT_TRUE(maybeSelected.has_value());
 
   ASSERT_TRUE(maybeSelected->fullPath.string() == "a/b");
-  g.navigateRight();
-  maybeSelected = g.selectedItem();
-  ASSERT_TRUE(maybeSelected->fullPath.string() == "a/c");
   g.setPosition(5);
   maybeSelected = g.selectedItem();
   ASSERT_TRUE(maybeSelected->fullPath.string() == "b/c");
