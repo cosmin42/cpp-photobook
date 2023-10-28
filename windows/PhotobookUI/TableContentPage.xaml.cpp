@@ -915,6 +915,7 @@ void TableContentPage::OnContentDialogSaveClicked(
           auto &newName = std::get<std::string>(result);
 
           mPhotoBook.savePhotobook(newName);
+          mPhotoBook.discardPhotobook();
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {

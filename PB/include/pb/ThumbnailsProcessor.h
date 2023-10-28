@@ -12,7 +12,7 @@ public:
   explicit ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                       Path mediumThumbnailOutputPath, unsigned totalTaskCount,
                       std::function<void()> onFinish, int screenWidth,
-                      int screenHeight);
+                      int screenHeight, std::stop_token stopToken);
   ~ResizeTask() = default;
 
   void operator()() const;
@@ -25,6 +25,7 @@ private:
   std::function<void()> mFinish;
   int                   mScreenWidth;
   int                   mScreenHeight;
+  std::stop_token       mStopToken;
 };
 
 class ThumbnailsProcessor final {
@@ -38,6 +39,8 @@ public:
       std::vector<Path> mediaMap, std::string groupIdentifier,
       std::function<void(Path, Path, Path, int)> onThumbnailWritten);
 
+  void halt();
+
 private:
   std::pair<Path, Path>                      assembleOutputPaths(int         index,
                                                                  std::string groupIdentifier);
@@ -47,5 +50,6 @@ private:
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
   int                                        mScreenWidth;
   int                                        mScreenHeight;
+  std::vector<std::stop_source> mStopSources;
 };
 } // namespace PB

@@ -6,17 +6,21 @@ namespace PB {
 ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
                        Path mediumThumbnailOutputPath, unsigned totalTaskCount,
                        std::function<void()> onFinish, int screenWidth,
-                       int screenHeight)
+                       int screenHeight, std::stop_token stopToken)
     : mFullSizePath(fullSizePath),
       mSmallThumbnailOutputPath(smallThumbnailOutputPath),
       mMediumThumbnailOutputPath(mediumThumbnailOutputPath),
       mTotalTaskCount(totalTaskCount), mFinish(onFinish),
-      mScreenWidth(screenWidth), mScreenHeight(screenHeight)
+      mScreenWidth(screenWidth), mScreenHeight(screenHeight),
+      mStopToken(stopToken)
 {
 }
 
 void ResizeTask::operator()() const
 {
+  if (mStopToken.stop_requested()) {
+    return;
+  }
   auto resizeOption = ThumbnailType::None;
   if (!std::filesystem::exists(mSmallThumbnailOutputPath)) {
     resizeOption = ThumbnailType::Small;
@@ -33,9 +37,8 @@ void ResizeTask::operator()() const
     std::shared_ptr<cv::Mat> image =
         PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
 
-    image = PB::Process::addText({3508 / 2, 2480 / 2},
-                                 mFullSizePath.stem().string(),
-                                 {0, 0, 0})(image);
+    image = PB::Process::addText(
+        {3508 / 2, 2480 / 2}, mFullSizePath.stem().string(), {0, 0, 0})(image);
     Process::imageWriteThumbnail(mScreenWidth, mScreenHeight, image,
                                  mSmallThumbnailOutputPath,
                                  mMediumThumbnailOutputPath);
@@ -51,9 +54,7 @@ ThumbnailsProcessor::ThumbnailsProcessor(std::pair<int, int> size)
 
 ThumbnailsProcessor::~ThumbnailsProcessor()
 {
-  for (auto &f : mFutures) {
-    f.wait();
-  }
+  halt();
 }
 
 void ThumbnailsProcessor::provideProjectDetails(
@@ -66,6 +67,8 @@ void ThumbnailsProcessor::generateThumbnails(
     std::vector<Path> mediaMap, std::string groupIdentifier,
     std::function<void(Path, Path, Path, int)> onThumbnailWritten)
 {
+  mStopSources.push_back(std::stop_source());
+
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = (unsigned)mediaMap.size();
 
@@ -80,10 +83,22 @@ void ThumbnailsProcessor::generateThumbnails(
     };
 
     ResizeTask resizeTask(mediaMap.at(i), smallPath, mediumPath, taskCount,
-                          task, mScreenWidth, mScreenHeight);
+                          task, mScreenWidth, mScreenHeight,
+                          mStopSources.at(mStopSources.size() - 1).get_token());
     std::future<void> token = mResizePool.enqueue(resizeTask);
 
     mFutures.push_back(std::move(token));
+  }
+}
+
+void ThumbnailsProcessor::halt()
+{
+  for (auto &source : mStopSources) {
+    source.request_stop();
+  }
+
+  for (auto &f : mFutures) {
+    f.wait();
   }
 }
 

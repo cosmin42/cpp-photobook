@@ -180,7 +180,11 @@ auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
 
 template <> Exporter<Pdf> &Photobook::exporter() { return mExporter; }
 
-void Photobook::discardPhotobook() { PB::printDebug("Discard Photobook\n"); }
+void Photobook::discardPhotobook()
+{
+  mThumbnailsProcessor.halt();
+  PB::printDebug("Discard Photobook\n");
+}
 
 void Photobook::savePhotobook()
 {
