@@ -24,19 +24,6 @@ void Gallery::setPosition(int position)
   }
 }
 
-void Gallery::navigateLeft()
-{
-  if (mCurrentIterator.valid()) {
-    mCurrentIterator = mCurrentIterator.previous();
-  }
-}
-void Gallery::navigateRight()
-{
-  if (mCurrentIterator.valid()) {
-    mCurrentIterator = mCurrentIterator.next();
-  }
-}
-
 void Gallery::selectImportFolder(
     int index, CircularIterator<std::vector<Thumbnails>> iterator)
 {

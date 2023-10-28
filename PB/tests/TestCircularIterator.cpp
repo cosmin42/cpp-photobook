@@ -35,12 +35,6 @@ TEST(TestCircularIterator, TestIncrementDecrmeent)
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);
-  it = it.next();
-  ASSERT_TRUE(it.current() == 3);
-  it = it.previous();
-  ASSERT_TRUE(it.current() == 1);
-  it = it.previous();
-  ASSERT_TRUE(it.current() == 9);
 }
 
 TEST(TestCircularIterator, TestIndexOperator)

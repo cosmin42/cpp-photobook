@@ -31,28 +31,6 @@ public:
     return *tmpIterator;
   }
 
-  CircularIterator &next()
-  {
-    if (mSize == 0) {
-      return *this;
-    }
-    mIndex++;
-    mIndex %= mSize;
-    return *this;
-  }
-
-  CircularIterator &previous()
-  {
-    if (mSize == 0) {
-      return *this;
-    }
-    if (mIndex == 0) {
-      mIndex = mSize;
-    }
-    mIndex--;
-    return *this;
-  }
-
   CircularIterator &operator[](int index)
   {
     if (mSize == 0) {

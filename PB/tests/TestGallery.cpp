@@ -9,10 +9,6 @@ TEST(TestGallery, TestEmpty) {
   ASSERT_TRUE(!g.selectedItem().has_value());
   g.setPosition(0);
   ASSERT_TRUE(!g.selectedItem().has_value());
-  g.navigateLeft();
-  ASSERT_TRUE(!g.selectedItem().has_value());
-  g.navigateRight();
-  ASSERT_TRUE(!g.selectedItem().has_value());
   g.setPosition(10);
   ASSERT_TRUE(!g.selectedItem().has_value());
 }

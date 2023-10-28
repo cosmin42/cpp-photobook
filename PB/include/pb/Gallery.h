@@ -45,8 +45,6 @@ public:
   ~Gallery() = default;
 
   void setPosition(int position);
-  void navigateLeft();
-  void navigateRight();
   void selectImportFolder(int                                       index,
                           CircularIterator<std::vector<Thumbnails>> iterator);
 
