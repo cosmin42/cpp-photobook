@@ -223,6 +223,8 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   mNavigationItemsCollection.RemoveAt(selectedIndex);
 
   mPhotoBook.imageSupport().removeGroup((int)selectedIndex);
+
+   GalleryCanvas().Invalidate();
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -350,6 +352,13 @@ void TableContentPage::OnRedoClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+}
+
+void TableContentPage::OnPreferencesClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+
 }
 
 void TableContentPage::OnKeyPressed(

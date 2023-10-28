@@ -45,6 +45,8 @@ public:
   ImageSupport                      &imageSupport();
 
   void configureProject(Project project);
+  void newEmptyProject();
+
   void addImportFolder(Path importPath);
   void update(ObservableSubject &subject) override;
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);

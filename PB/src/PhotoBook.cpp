@@ -50,6 +50,9 @@ void Photobook::configureProject(PB::Project project)
     mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
   }
 }
+void Photobook::newEmptyProject() {
+
+}
 
 void Photobook::addImportFolder(Path importPath)
 {
