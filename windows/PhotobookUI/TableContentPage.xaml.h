@@ -163,11 +163,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
           &args);
 
-  void OnPaperComboBoxSelected(
-      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
-      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-          SelectionChangedEventArgs const &args);
-
   auto ExportDialogDisplay() -> winrt::fire_and_forget;
 
   /* Keyboard */
