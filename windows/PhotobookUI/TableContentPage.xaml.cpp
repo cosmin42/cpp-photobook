@@ -112,6 +112,22 @@ TableContentPage::TableContentPage()
           PB::basicAssert(false);
         }
       });
+
+  mUnstagedImageCollection.VectorChanged(
+      [this]([[maybe_unused]] IObservableVector<ImageUIData> const &sender,
+             [[maybe_unused]] IVectorChangedEventArgs const        &args) {
+        if (sender.Size() == 0) {
+          AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
+          RemoveMediaButton().Visibility(
+              winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
+        }
+        else {
+          AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
+          RemoveMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
+          RemoveMediaButton().Visibility(
+              winrt::Microsoft::UI::Xaml::Visibility::Visible);
+        }
+      });
 }
 
 void TableContentPage::OnKeyDown(
@@ -602,15 +618,7 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
   MediaListView().ItemsSource(mNavigationItemsCollection);
 
   auto rootFolders = mPhotoBook.imageSupport().groups();
-  if (!rootFolders.empty()) {
-    AddMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
-    RemoveMediaButton().Visibility(
-        winrt::Microsoft::UI::Xaml::Visibility::Visible);
-    RemoveMediaButton().VerticalAlignment(VerticalAlignment::Bottom);
-  }
-  else {
-    AddMediaButton().VerticalAlignment(VerticalAlignment::Center);
-  }
+
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
