@@ -269,11 +269,6 @@ void Photobook::removeStagedPhoto(int index)
   mImagePaths.unstagePhoto({index});
 }
 
-void Photobook::removeStagedPhoto(Path group)
-{
-  mImagePaths.unstagePhotoByGroup(group);
-}
-
 std::vector<Thumbnails> &Photobook::stagedPhotos()
 {
   return mImagePaths.stagedPhotos();

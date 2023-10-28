@@ -199,16 +199,27 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
       0, mStagedImageCollection.Size()));
 
-  for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i)
-  {
-    PB::Path fullPath = winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
-    if (mPhotoBook.imageSupport().fullPathRow(fullPath) == selectedIndex)
-    {
+  for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
+    PB::Path fullPath =
+        winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
+    if (mPhotoBook.imageSupport().fullPathRow(fullPath) == selectedIndex) {
       mPhotoBook.removeStagedPhoto(i);
       mStagedImageCollection.RemoveAt(i);
       i--;
     }
   }
+  auto importFoldersSize = MediaListView().Items().Size();
+  if (importFoldersSize == 1) {
+  }
+  else {
+    // TODO: Optimize this.
+    for (auto i = 0; i < (int)importFoldersSize; ++i) {
+      if (i != selectedIndex) {
+        MediaListView().SelectedIndex(i);
+      }
+    }
+  }
+  mNavigationItemsCollection.RemoveAt(selectedIndex);
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget

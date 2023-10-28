@@ -60,7 +60,6 @@ public:
   void addStagedPhoto(std::vector<Thumbnails> photos, int position = -1);
   void removeStagedPhoto(std::vector<int> positions);
   void removeStagedPhoto(int index);
-  void removeStagedPhoto(Path group);
 
   bool projectDefaultSaved();
 
