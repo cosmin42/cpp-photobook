@@ -27,3 +27,4 @@ vcpkg/*
 vcpkg
 windows/PhotobookUI/AppPackages/*
 windows/PhotobookUI/BundleArtifacts/*
+osx/PhotoBook/.DS_Store
