@@ -750,7 +750,7 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   auto iterator = imagesData.stagedIterator();
   iterator = iterator[stagedImagesIndex];
 
-  mPhotoBook.gallery().selectStagedPhotos(iterator);
+  mPhotoBook.gallery().selectStagedPhotos(stagedImagesIndex, iterator);
   UpdateGalleryLabel();
 }
 

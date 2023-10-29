@@ -33,10 +33,10 @@ void Gallery::selectImportFolder(
 }
 
 void Gallery::selectStagedPhotos(
-    CircularIterator<std::vector<Thumbnails>> iterator)
+    int index, CircularIterator<std::vector<Thumbnails>> iterator)
 {
   mPhotoLine = PhotoLine::Staged;
-  mSelectedFolderIndex = -1;
+  mSelectedFolderIndex = index;
   mCurrentIterator = iterator;
 }
 

@@ -48,7 +48,8 @@ public:
   void selectImportFolder(int                                       index,
                           CircularIterator<std::vector<Thumbnails>> iterator);
 
-  void selectStagedPhotos(CircularIterator<std::vector<Thumbnails>> iterator);
+  void selectStagedPhotos(int                                       index,
+                          CircularIterator<std::vector<Thumbnails>> iterator);
 
   void clearSelection();
 
