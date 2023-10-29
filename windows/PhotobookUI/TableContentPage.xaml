@@ -489,13 +489,25 @@
                 </Grid>
             </Border>
             <ContentDialog Title="Save Project"
+                           Content="Do you want to save the current project?"
+                           Foreground="{StaticResource MainFontColor}"
                            x:Name="ProjectExitDialog"
+                           Background="{StaticResource PrimaryColor}"
                            PrimaryButtonText="Save"
+                           PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
                            SecondaryButtonText="Discard"
+                           SecondaryButtonStyle="{StaticResource ContentDialogSecondaryButtonStyle}"
                            CloseButtonText="Cancel"
                            PrimaryButtonClick="OnContentDialogSaveClicked"
                            SecondaryButtonClick="OnContentDialogDiscardClicked"
-                           CloseButtonClick="OnContentDialogCancelClicked" />
+                           CloseButtonClick="OnContentDialogCancelClicked">
+                <ContentDialog.Resources>
+                    <SolidColorBrush x:Key="ButtonBackground"
+                                     Color="{StaticResource ButtonBackgroundColor}" />
+                    <SolidColorBrush x:Key="ButtonForeground"
+                                     Color="{StaticResource MainFontColor}" />
+                </ContentDialog.Resources>
+            </ContentDialog>
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0">
@@ -521,29 +533,40 @@
         </Grid>
         <ContentDialog x:Name="ExportContentDialog"
                        Title="Export Photobook"
+                       Foreground="{StaticResource MainFontColor}"
+                       Background="{StaticResource PrimaryColor}"
+                       PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
                        PrimaryButtonText="Export"
                        PrimaryButtonClick="OnExportContentDialogClicked"
                        CloseButtonText="Cancel">
             <StackPanel>
                 <CheckBox x:Name="OptionPDFCheckBox"
+                          Foreground="{StaticResource MainFontColor}"
                           Content="PDF" />
                 <CheckBox x:Name="OptionJPGCheckBox"
+                          Foreground="{StaticResource MainFontColor}"
                           Content="JPG"
                           IsEnabled="False" />
                 <TextBox x:Name="ExportNameTextBox"
+                         Foreground="{StaticResource MainFontColor}"
                          Header="Name:"
                          PlaceholderText="Photobook1" />
             </StackPanel>
         </ContentDialog>
         <ContentDialog x:Name="GenericErrorDialog"
                        Title="Error"
-                       PrimaryButtonText="Ok">
+                       PrimaryButtonText="Ok"
+                       Foreground="{StaticResource MainFontColor}"
+                       Background="{StaticResource PrimaryColor}">
             <TextBlock x:Name="GenericErrorTextBlock"
+                       Foreground="{StaticResource MainFontColor}"
                        HorizontalAlignment="Left" />
         </ContentDialog>
         <ContentDialog x:Name="GnericMessage"
                        Title="Photobook Maker"
-                       PrimaryButtonText="Ok">
+                       PrimaryButtonText="Ok"
+                       Foreground="{StaticResource MainFontColor}"
+                       Background="{StaticResource PrimaryColor}">
             <TextBlock x:Name="GenericMessageTextBlock"
                        HorizontalAlignment="Left" />
         </ContentDialog>

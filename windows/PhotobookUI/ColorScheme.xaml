@@ -10,4 +10,22 @@
     <Color x:Key="RemoveButtonBackground">#541C1C</Color>
     <SolidColorBrush x:Key="ButtonBackgroundDisabled"
                      Color="#00000000" />
+    <SolidColorBrush x:Key="ContentDialogTopOverlay"
+                     Color="#1A2224" />
+    <SolidColorBrush x:Key="ContentDialogSeparatorBorderBrush"
+                     Color="#374346" />
+    <Style x:Key="ContentDialogPrimaryButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="#2B4970" />
+        <Setter Property="Foreground"
+                Value="#FFFFFF" />
+    </Style>
+    <Style x:Key="ContentDialogSecondaryButtonStyle"
+           TargetType="Button">
+        <Setter Property="Background"
+                Value="#541C1C" />
+        <Setter Property="Foreground"
+                Value="#FFFFFF" />
+    </Style>
 </ResourceDictionary>
