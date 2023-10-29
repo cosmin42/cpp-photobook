@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  PhotoBook
 //
 //  Created by Cosmin Mihai on 31.08.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct DashboardView: View {
     var buttonBackgroundColor: Color
     var body: some View {
         VStack {
@@ -33,8 +33,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100))
+        DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100))
     }
 }
