@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    var buttonBackgroundColor: Color
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Spacer()
+            HStack {
+                Spacer()
+                // Button with specific size in the center
+                Button(action: {
+                    print("Button was tapped!")
+                }) {
+                    Text("+").frame(minWidth: 100, minHeight: 100)
+                        .padding()
+                        .background(buttonBackgroundColor)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                Spacer()
+            }
+            Spacer()
         }
         .padding()
     }
@@ -21,6 +35,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100))
     }
 }
