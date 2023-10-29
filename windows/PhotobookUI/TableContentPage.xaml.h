@@ -46,6 +46,9 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnLicenseClicked(Windows::Foundation::IInspectable const    &sender,
                         Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  void OnTipsClicked(Windows::Foundation::IInspectable const    &sender,
+                     Microsoft::UI::Xaml::RoutedEventArgs const &args);
+
   void OnExitClicked(Windows::Foundation::IInspectable const    &sender,
                      Microsoft::UI::Xaml::RoutedEventArgs const &args);
 

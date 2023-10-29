@@ -289,6 +289,13 @@ void TableContentPage::OnLicenseClicked(
   GenericMessageDialogDisplay();
 }
 
+void TableContentPage::OnTipsClicked(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
+{
+
+}
+
 void TableContentPage::OnExitClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)

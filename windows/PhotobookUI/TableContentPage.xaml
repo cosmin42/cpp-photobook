@@ -171,6 +171,9 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="Tips"
+                                                Click="OnTipsClicked" />
+                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="License"
                                                 Click="OnLicenseClicked" />
                                 <MenuFlyoutItem Text="About"
