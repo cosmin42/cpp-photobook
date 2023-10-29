@@ -112,6 +112,12 @@ void ImageSupport::removeGroup(int index)
   auto maybeGroup = groupByIndex(index);
   PB::basicAssert(maybeGroup.has_value());
   mGroupIndexes.erase(maybeGroup.value());
+  for (auto &[key, value] : mGroupIndexes) {
+    if (value > index) {
+      value--;
+    }
+  }
+
   for (int i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
     mSupportByFullPath.erase(mUnstagedImagesMatrix.at(index).at(i).fullPath);
   }
@@ -164,13 +170,21 @@ auto ImageSupport::unstagedIterator(Path root)
 auto ImageSupport::unstagedIterator(int importedFolderIndex, int index)
     -> CircularIterator<std::vector<Thumbnails>>
 {
+  if (importedFolderIndex < 0) {
+    return CircularIterator<std::vector<Thumbnails>>();
+  }
   if (index > -1) {
     return CircularIterator<std::vector<Thumbnails>>(
         mUnstagedImagesMatrix.at(importedFolderIndex))[index];
   }
   else {
-    return CircularIterator<std::vector<Thumbnails>>(
-        mUnstagedImagesMatrix.at(importedFolderIndex));
+    if (mUnstagedImagesMatrix.size() > 0) {
+      return CircularIterator<std::vector<Thumbnails>>(
+          mUnstagedImagesMatrix.at(importedFolderIndex));
+    }
+    else {
+      return CircularIterator<std::vector<Thumbnails>>();
+    }
   }
 }
 

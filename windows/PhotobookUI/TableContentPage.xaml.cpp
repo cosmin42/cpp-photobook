@@ -209,6 +209,10 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
     }
   }
   auto importFoldersSize = MediaListView().Items().Size();
+  if (MediaListView().SelectedIndex() > -1) {
+    MediaListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mNavigationItemsCollection.Size()));
+  }
   if (importFoldersSize == 1) {
     mUnstagedImageCollection.Clear();
   }
@@ -224,7 +228,7 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
 
   mPhotoBook.imageSupport().removeGroup((int)selectedIndex);
 
-   GalleryCanvas().Invalidate();
+  GalleryCanvas().Invalidate();
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -290,10 +294,9 @@ void TableContentPage::OnLicenseClicked(
 }
 
 void TableContentPage::OnTipsClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-
 }
 
 void TableContentPage::OnExitClicked(
@@ -362,10 +365,9 @@ void TableContentPage::OnRedoClicked(
 }
 
 void TableContentPage::OnPreferencesClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-
 }
 
 void TableContentPage::OnKeyPressed(
