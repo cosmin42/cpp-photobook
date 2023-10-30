@@ -1,4 +1,7 @@
 #pragma once
+#include <pb/Jpg.h>
+#include <pb/PdfPoDoFo.h>
+
 namespace PB {
 template <typename ExporterType> class Exporter final {
 public:
@@ -12,9 +15,15 @@ private:
   ExporterType mSpecific;
 };
 
-template <typename ExporterType>
-class ExportFactory final
-{
+class ExportFactory final {
+  static Exportable makePdf(std::string name, Path destination,
+                            std::vector<Path> images)
+  {
+    PdfPoDoFoExport exporter =
+        PdfPoDoFoExport(Context::inst().sStopSource.get_token());
+    exporter.configureExport(name, destination, images);
 
+    return exporter;
+  }
 };
 } // namespace PB
