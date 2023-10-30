@@ -57,6 +57,7 @@ public:
   int                                  groupSize(std::optional<Path> group);
   std::unordered_map<Path, int> const &groups();
   std::vector<Thumbnails>             &stagedPhotos();
+  std::vector<Path>                    stagedPhotosFullPaths() const;
 
 private:
   Thumbnails &image(Path fullPath);
