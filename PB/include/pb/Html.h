@@ -4,7 +4,7 @@
 #include <pb/util/Thread.h>
 
 namespace PB {
-class HtmlExporter : public Exportable, public Thread {
+class HtmlExporter : public Exportable {
 public:
   void executeSingleTask() override;
 

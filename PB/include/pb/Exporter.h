@@ -17,12 +17,12 @@ private:
 
 class ExportFactory final {
 public:
-  static Exportable makePdf(std::string name, Path destination,
+  static std::shared_ptr<Exportable> makePdf(std::string name, Path destination,
                             std::vector<Path> images)
   {
-    PdfPoDoFoExport exporter =
-        PdfPoDoFoExport(Context::inst().sStopSource.get_token());
-    exporter.configureExport(name, destination, images);
+    std::shared_ptr<Exportable> exporter = std::make_shared<PdfPoDoFoExport>(
+        Context::inst().sStopSource.get_token());
+    exporter->configureExport(name, destination, images);
 
     return exporter;
   }
