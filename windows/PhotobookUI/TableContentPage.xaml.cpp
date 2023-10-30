@@ -990,7 +990,9 @@ void TableContentPage::OnExportContentDialogClicked(
   else {
     mPopups.fireFolderPicker(
         MainWindow::sMainWindowhandle, [this, nativeExportName](PB::Path path) {
-          mPhotoBook.exportAlbum(nativeExportName, path);
+          Post([this, path{path}, nativeExportName{nativeExportName}]() {
+            mPhotoBook.exportAlbum(nativeExportName, path);
+          });
         });
   }
 }

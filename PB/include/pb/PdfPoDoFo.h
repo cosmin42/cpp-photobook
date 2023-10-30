@@ -15,6 +15,10 @@ public:
   void finish() override;
 
 private:
+  static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";
+
+  void paperProjection(Path input, Path output);
+
   std::shared_ptr<PoDoFo::PdfStreamedDocument> mDocument = nullptr;
   int                                          mIndex = 0;
   bool                                         mInitialized = false;

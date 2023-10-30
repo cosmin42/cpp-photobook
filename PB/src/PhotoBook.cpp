@@ -7,8 +7,8 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize),
-      mPaperSettings(Context::A4_PAPER)
+      mThumbnailsProcessor(screenSize), mPaperSettings(Context::A4_PAPER),
+      mExportFactory()
 {
   printDebug("Photobook created.\n");
 
@@ -50,9 +50,7 @@ void Photobook::configureProject(PB::Project project)
     mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
   }
 }
-void Photobook::newEmptyProject() {
-
-}
+void Photobook::newEmptyProject() {}
 
 void Photobook::addImportFolder(Path importPath)
 {
@@ -181,13 +179,13 @@ auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
   return Process::resize(size, true)(image);
 }
 
-void Photobook::exportAlbum(std::string name, Path path) {
+void Photobook::exportAlbum(std::string name, Path path)
+{
   auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
   mExportFactory.updateConfiguration(mPaperSettings, mCentralPersistencePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, stagedPhotos));
 
-  for (auto exporter : mExporters)
-  {
+  for (auto exporter : mExporters) {
     std::dynamic_pointer_cast<Thread>(exporter)->start();
   }
 }

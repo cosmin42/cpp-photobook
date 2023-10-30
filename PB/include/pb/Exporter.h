@@ -17,7 +17,7 @@ private:
 
 class ExportFactory final {
 public:
-  void updateConfiguration(PaperSettings &paperSettings,
+  void updateConfiguration(PaperSettings paperSettings,
                            Path           temporaryDirectory)
   {
     mPaperSettings = paperSettings;
@@ -37,6 +37,6 @@ public:
 
 private:
   PaperSettings mPaperSettings;
-  Path          mTemporaryDirectory;
+  Path          mTemporaryDirectory = Path();
 };
 } // namespace PB
