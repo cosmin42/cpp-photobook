@@ -223,4 +223,13 @@ std::unordered_map<Path, int> const &ImageSupport::groups()
 
 std::vector<Thumbnails> &ImageSupport::stagedPhotos() { return mStagedPhotos; }
 
+std::vector<Path> ImageSupport::stagedPhotosFullPaths() const
+{
+  std::vector<Path> results;
+  for (auto &thumbnail : mStagedPhotos) {
+    results.push_back(thumbnail.fullPath);
+  }
+  return results;
+}
+
 } // namespace PB
