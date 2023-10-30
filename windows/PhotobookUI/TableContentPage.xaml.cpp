@@ -794,6 +794,8 @@ void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
 {
   auto selectedRootPath = mPhotoBook.selectedImportFolder();
   if (selectedRootPath && rootPath == selectedRootPath.value()) {
+    MainProgressBar().Visibility(
+        winrt::Microsoft::UI::Xaml::Visibility::Visible);
     MainProgressBar().Maximum(reference);
     MainProgressBar().Value(progress);
     StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
@@ -801,6 +803,8 @@ void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference) {
+  MainProgressBar().Visibility(
+      winrt::Microsoft::UI::Xaml::Visibility::Visible);
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
