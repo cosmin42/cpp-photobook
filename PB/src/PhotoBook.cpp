@@ -185,6 +185,11 @@ void Photobook::exportAlbum(std::string name, Path path) {
   auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
 
   mExporters.push_back(ExportFactory::makePdf(name, path, stagedPhotos));
+
+  for (auto exporter : mExporters)
+  {
+    std::dynamic_pointer_cast<Thread>(exporter)->start();
+  }
 }
 
 void Photobook::discardPhotobook()
