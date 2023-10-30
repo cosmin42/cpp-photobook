@@ -183,8 +183,8 @@ auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
 
 void Photobook::exportAlbum(std::string name, Path path) {
   auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
-
-  mExporters.push_back(ExportFactory::makePdf(name, path, stagedPhotos));
+  mExportFactory.updateConfiguration(mPaperSettings, mCentralPersistencePath);
+  mExporters.push_back(mExportFactory.makePdf(name, path, stagedPhotos));
 
   for (auto exporter : mExporters)
   {

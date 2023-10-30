@@ -17,14 +17,26 @@ private:
 
 class ExportFactory final {
 public:
-  static std::shared_ptr<Exportable> makePdf(std::string name, Path destination,
-                            std::vector<Path> images)
+  void updateConfiguration(PaperSettings &paperSettings,
+                           Path           temporaryDirectory)
+  {
+    mPaperSettings = paperSettings;
+    mTemporaryDirectory = temporaryDirectory;
+  }
+
+  std::shared_ptr<Exportable> makePdf(std::string name, Path destination,
+                                      std::vector<Path> images)
   {
     std::shared_ptr<Exportable> exporter = std::make_shared<PdfPoDoFoExport>(
-        Context::inst().sStopSource.get_token());
+        Context::inst().sStopSource.get_token(), mPaperSettings,
+        mTemporaryDirectory);
     exporter->configureExport(name, destination, images);
 
     return exporter;
   }
+
+private:
+  PaperSettings mPaperSettings;
+  Path          mTemporaryDirectory;
 };
 } // namespace PB

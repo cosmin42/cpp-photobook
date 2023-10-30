@@ -80,5 +80,6 @@ private:
   std::unordered_map<Path, int>            mProgress;
   PaperSettings                            mPaperSettings;
   CommandStack                             mCommandStack;
+  ExportFactory                            mExportFactory;
 };
 } // namespace PB

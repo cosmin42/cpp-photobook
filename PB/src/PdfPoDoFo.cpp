@@ -1,8 +1,10 @@
 #include <pb/PdfPoDoFo.h>
 
 namespace PB {
-PdfPoDoFoExport::PdfPoDoFoExport(std::stop_token stopToken)
-    : Exportable(stopToken)
+PdfPoDoFoExport::PdfPoDoFoExport(std::stop_token stopToken,
+                                 PaperSettings   paperSettings,
+                                 Path            temporaryDirectory)
+    : Exportable(stopToken, paperSettings, temporaryDirectory)
 {
 }
 

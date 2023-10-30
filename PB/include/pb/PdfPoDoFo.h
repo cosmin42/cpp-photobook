@@ -6,7 +6,9 @@
 namespace PB {
 class PdfPoDoFoExport final : public Exportable {
 public:
-  explicit PdfPoDoFoExport(std::stop_token stopToken);
+  explicit PdfPoDoFoExport(std::stop_token stopToken,
+                           PaperSettings   paperSettings,
+                           Path            temporaryDirectory);
 
   void executeSingleTask() override;
 
