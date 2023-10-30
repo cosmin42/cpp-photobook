@@ -1,0 +1,3 @@
+[submodule "third-party/podofo"]
+	path = third-party/podofo
+	url = git@github.com:cosmin42/podofo.git
