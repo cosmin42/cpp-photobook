@@ -2,12 +2,13 @@
 
 #include <string>
 
+#include <pb/PaperSettings.h>
+#include <pb/util/Observable.h>
 #include <pb/util/Thread.h>
 #include <pb/util/Traits.h>
-#include <pb/PaperSettings.h>
 
 namespace PB {
-class Exportable : public Thread {
+class Exportable : public Thread, public ObservableSubject {
 public:
   Exportable(std::stop_token stopToken, PaperSettings paperSettings,
              Path temporaryDirectory)
@@ -24,6 +25,13 @@ public:
     mDestination = destination;
     for (auto &image : images) {
       mImages.push_back(image);
+    }
+  }
+
+  void notify() override
+  {
+    for (auto observer : mObservers) {
+      observer->update(*this);
     }
   }
 

@@ -12,6 +12,8 @@ public:
   virtual void onPaused() = 0;
   virtual void onResumed() = 0;
   virtual void onProgressUpdate(Path, int, int) = 0;
+  virtual void onExportProgressUpdate(int, int) = 0;
+  virtual void onExportFinished() = 0;
   virtual void onError(Error) = 0;
   virtual void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
                                     PB::Path mediumPath, PB::Path smallPath,

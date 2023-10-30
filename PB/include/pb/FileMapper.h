@@ -16,11 +16,10 @@ namespace PB {
 
 class MediaMapper final : public Thread, public ObservableSubject {
 public:
-  explicit MediaMapper(std::filesystem::path const &root, Observer *observer)
+  explicit MediaMapper(std::filesystem::path const &root)
       : Thread(Context::inst().sStopSource.get_token()), mRoot(root)
   {
     printDebug("MediaMapper constructor.\n");
-    attach(observer);
     mRecursiveIterator = std::filesystem::recursive_directory_iterator(
         root, std::filesystem::directory_options::skip_permission_denied);
   }

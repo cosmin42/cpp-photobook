@@ -52,8 +52,13 @@ void PdfPoDoFoExport::executeSingleTask()
   painter.SetCanvas(pPage);
   painter.DrawImage(*image, 0, 0);
   painter.FinishDrawing();
+
+  notify();
+
   mIndex++;
 }
 
-void PdfPoDoFoExport::finish() {}
+void PdfPoDoFoExport::finish() { notify(); }
+
+std::pair<int, int> PdfPoDoFoExport::progress() const { return {mIndex, (int)mImages.size()}; }
 } // namespace PB

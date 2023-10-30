@@ -800,6 +800,19 @@ void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
   }
 }
 
+void TableContentPage::OnExportProgressUpdate(int progress, int reference) {
+  MainProgressBar().Maximum(reference);
+  MainProgressBar().Value(progress);
+  StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
+}
+
+void TableContentPage::OnExportFinished()
+{
+  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+  MainProgressBar().Visibility(
+      winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
+}
+
 void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path fullPath,
                                             PB::Path mediumPath,

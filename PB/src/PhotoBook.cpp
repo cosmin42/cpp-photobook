@@ -75,14 +75,18 @@ void Photobook::addImportFolder(Path importPath)
           value.dettach(current);
           value.attach(other);
         }
-      }
-      else {
-        for (auto &[key, value] : mMappingJobs) {
-          value.dettach(current);
+
+        for (auto &exporter : mExporters) {
+          exporter->dettach(current);
+          exporter->attach(other);
         }
       }
+      else {
+        PB::basicAssert(false);
+      }
     });
-    auto mapper = MediaMapper(path, this);
+    auto mapper = MediaMapper(path);
+    mapper.attach(this);
     mMappingJobs.emplace(path, mapper);
     mMappingJobs.at(importPath).start();
   }
@@ -90,9 +94,20 @@ void Photobook::addImportFolder(Path importPath)
 
 void Photobook::update(ObservableSubject &subject)
 {
-  auto &mediaMap = static_cast<MediaMapper &>(subject);
-  if (mediaMap.state() == MediaMapState::Finished) {
-    onImportFolderMapped(mediaMap.root(), mediaMap.importedDirectories());
+  if (dynamic_cast<MediaMapper *>(&subject) != nullptr) {
+    auto &mediaMap = static_cast<MediaMapper &>(subject);
+    if (mediaMap.state() == MediaMapState::Finished) {
+      onImportFolderMapped(mediaMap.root(), mediaMap.importedDirectories());
+    }
+  }
+  else if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
+    auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
+    auto [progress, maxProgress] = pdfExporter.progress();
+    mParent.onExportProgressUpdate(progress, maxProgress);
+    if (progress == maxProgress)
+    {
+      mParent.onExportFinished();
+    }
   }
 }
 
@@ -186,7 +201,8 @@ void Photobook::exportAlbum(std::string name, Path path)
   mExporters.push_back(mExportFactory.makePdf(name, path, stagedPhotos));
 
   for (auto exporter : mExporters) {
-    std::dynamic_pointer_cast<Thread>(exporter)->start();
+    exporter->attach(this);
+    exporter->start();
   }
 }
 

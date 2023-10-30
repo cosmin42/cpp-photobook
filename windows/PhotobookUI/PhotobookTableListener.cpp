@@ -45,6 +45,18 @@ void PhotobookTableListener::onProgressUpdate(PB::Path rootPath, int progress,
   });
 }
 
+void PhotobookTableListener::onExportProgressUpdate(int progress, int reference)
+{
+  mParent.Post([this, progress, reference]() {
+    mParent.OnExportProgressUpdate(progress, reference);
+  });
+}
+
+void PhotobookTableListener::onExportFinished() {
+  mParent.Post([this]() { mParent.OnExportFinished();
+  });
+}
+
 void PhotobookTableListener::onStagedImageAdded(
     std::vector<PB::Thumbnails> image, [[maybe_unused]] int index)
 {

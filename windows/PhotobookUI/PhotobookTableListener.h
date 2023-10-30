@@ -21,6 +21,10 @@ public:
 
   void onProgressUpdate(PB::Path rootPath, int progress,
                         int reference) override;
+  void onExportProgressUpdate(int, int) override;
+
+  void onExportFinished() override;
+
   void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
                             PB::Path mediumPath, PB::Path smallPath,
                             int position) override;
