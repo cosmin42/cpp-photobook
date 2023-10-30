@@ -990,18 +990,7 @@ void TableContentPage::OnExportContentDialogClicked(
   else {
     mPopups.fireFolderPicker(
         MainWindow::sMainWindowhandle, [this, nativeExportName](PB::Path path) {
-          std::vector<PB::Path> thumbnailPaths;
-          for (auto item : mStagedImageCollection) {
-            PB::Path fullPath = winrt::to_string(item.FullPath());
-            if (std::filesystem::is_regular_file(fullPath)) {
-              thumbnailPaths.push_back(winrt::to_string(item.FullPath()));
-            }
-            else {
-              thumbnailPaths.push_back(winrt::to_string(item.MediumPath()));
-            }
-          }
-          mPhotoBook.exporter<PB::Pdf>().exportImages(nativeExportName, path,
-                                                      thumbnailPaths);
+          mPhotoBook.exportAlbum(nativeExportName, path);
         });
   }
 }

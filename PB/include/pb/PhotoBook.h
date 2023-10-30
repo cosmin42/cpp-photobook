@@ -40,7 +40,6 @@ public:
   PaperSettings                      paperSettings();
   std::optional<PB::Path>            selectedImportFolder();
   Gallery                           &gallery();
-  template <typename T> Exporter<T> &exporter();
   std::vector<Thumbnails>           &stagedPhotos();
   ImageSupport                      &imageSupport();
 
@@ -51,6 +50,8 @@ public:
   void update(ObservableSubject &subject) override;
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
   void onError(Error error);
+
+  void exportAlbum(std::string name, Path path);
 
   auto loadGalleryImage(std::string const &path, cv::Size size)
       -> std::shared_ptr<cv::Mat>;
@@ -75,7 +76,7 @@ private:
   Gallery                               mGallery;
   ImageReader                           mImageReader;
   ThumbnailsProcessor                   mThumbnailsProcessor;
-  Exporter<Pdf>                         mExporter;
+  std::vector<Exportable>               mExporters;
   std::unordered_map<Path, int>         mProgress;
   PaperSettings                         mPaperSettings;
   CommandStack                          mCommandStack;

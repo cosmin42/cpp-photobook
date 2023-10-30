@@ -7,7 +7,7 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize), mExporter(),
+      mThumbnailsProcessor(screenSize),
       mPaperSettings(Context::A4_PAPER)
 {
   printDebug("Photobook created.\n");
@@ -181,7 +181,11 @@ auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
   return Process::resize(size, true)(image);
 }
 
-template <> Exporter<Pdf> &Photobook::exporter() { return mExporter; }
+void Photobook::exportAlbum(std::string name, Path path) {
+  auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
+
+  mExporters.push_back(ExportFactory::makePdf(name, path, stagedPhotos));
+}
 
 void Photobook::discardPhotobook()
 {

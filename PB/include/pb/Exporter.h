@@ -16,6 +16,7 @@ private:
 };
 
 class ExportFactory final {
+public:
   static Exportable makePdf(std::string name, Path destination,
                             std::vector<Path> images)
   {
