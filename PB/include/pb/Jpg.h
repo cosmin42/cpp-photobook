@@ -1,10 +1,9 @@
 #pragma once
 
 #include <pb/Exportable.h>
-#include <pb/util/Thread.h>
 
 namespace PB {
-class JpgExport final : public Exportable, public Thread {
+class JpgExport final : public Exportable {
 public:
   void executeSingleTask() override;
 
