@@ -53,6 +53,7 @@ find_package(unofficial-libharu CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
+add_subdirectory(third-party/podofo)
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
@@ -81,6 +82,7 @@ add_library(pblib STATIC
     include/pb/util/Observable.h
     include/pb/PaperSettings.h
     include/pb/Pdf.h
+    include/pb/PdfPoDoFo.h
     include/pb/persistence/Persistence.h
     include/pb/persistence/ProjectDetails.h
     include/pb/persistence/ProjectMetadata.h
@@ -111,6 +113,7 @@ add_library(pblib STATIC
     src/Log.cpp
     src/MetadataReader.cpp
     src/Pdf.cpp
+    src/PdfPoDoFo.cpp
     src/Photobook.cpp
     src/Project.cpp
     src/ProjectDetails.cpp
