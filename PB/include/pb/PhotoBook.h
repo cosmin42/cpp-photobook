@@ -14,8 +14,10 @@
 #include <pb/Exporter.h>
 #include <pb/FileMapper.h>
 #include <pb/Gallery.h>
+#include <pb/Html.h>
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>
+#include <pb/Jpg.h>
 #include <pb/Pdf.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Project.h>
@@ -24,24 +26,22 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
-#include <pb/Html.h>
-#include <pb/Jpg.h>
 
 namespace PB {
 
 class Photobook final : public Observer {
 public:
   explicit Photobook(PhotobookListener &listener, Path centralPersistencePath,
-            std::pair<int, int> screenSize);
+                     std::pair<int, int> screenSize);
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
 
-  PaperSettings                      paperSettings();
-  std::optional<PB::Path>            selectedImportFolder();
-  Gallery                           &gallery();
-  std::vector<Thumbnails>           &stagedPhotos();
-  ImageSupport                      &imageSupport();
+  PaperSettings            paperSettings();
+  std::optional<PB::Path>  selectedImportFolder();
+  Gallery                 &gallery();
+  std::vector<Thumbnails> &stagedPhotos();
+  ImageSupport            &imageSupport();
 
   void configureProject(Project project);
   void newEmptyProject();
@@ -67,18 +67,18 @@ public:
   bool projectDefaultSaved();
 
 private:
-  PhotobookListener                    &mParent;
-  Path                                  mCentralPersistencePath;
-  SQLitePersistence                     mCentralPersistence;
-  Project                               mProject;
-  std::unordered_map<Path, MediaMapper> mMappingJobs;
-  ImageSupport                          mImagePaths;
-  Gallery                               mGallery;
-  ImageReader                           mImageReader;
-  ThumbnailsProcessor                   mThumbnailsProcessor;
-  std::vector<Exportable>               mExporters;
-  std::unordered_map<Path, int>         mProgress;
-  PaperSettings                         mPaperSettings;
-  CommandStack                          mCommandStack;
+  PhotobookListener                       &mParent;
+  Path                                     mCentralPersistencePath;
+  SQLitePersistence                        mCentralPersistence;
+  Project                                  mProject;
+  std::unordered_map<Path, MediaMapper>    mMappingJobs;
+  ImageSupport                             mImagePaths;
+  Gallery                                  mGallery;
+  ImageReader                              mImageReader;
+  ThumbnailsProcessor                      mThumbnailsProcessor;
+  std::vector<std::shared_ptr<Exportable>> mExporters;
+  std::unordered_map<Path, int>            mProgress;
+  PaperSettings                            mPaperSettings;
+  CommandStack                             mCommandStack;
 };
 } // namespace PB

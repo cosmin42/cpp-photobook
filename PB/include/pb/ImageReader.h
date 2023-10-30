@@ -1,7 +1,5 @@
 #pragma once
 
-#define NOMINMAX
-
 #include <algorithm>
 #include <filesystem>
 #include <map>
