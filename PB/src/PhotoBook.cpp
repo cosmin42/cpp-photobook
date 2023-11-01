@@ -283,11 +283,6 @@ void Photobook::removeStagedPhoto(int index)
   mImagePaths.unstagePhoto({index});
 }
 
-std::vector<Thumbnails> &Photobook::stagedPhotos()
-{
-  return mImagePaths.stagedPhotos();
-}
-
 ImageSupport &Photobook::imageSupport() { return mImagePaths; }
 
 bool Photobook::projectDefaultSaved()
