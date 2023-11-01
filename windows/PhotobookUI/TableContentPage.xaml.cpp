@@ -650,7 +650,7 @@ void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
   auto selectedIndex = mPhotoBook.gallery().selectedIndex();
-  auto maybeGroupPath = mPhotoBook.selectedImportFolder();
+  auto maybeGroupPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
 
   if (maybeGroupPath && maybeGroupPath.value() == rootPath) {
     UpdateUnstagedImagesView(selectedIndex);
@@ -792,7 +792,8 @@ void TableContentPage::OnMappingResumed() {}
 void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
                                         int reference)
 {
-  auto selectedRootPath = mPhotoBook.selectedImportFolder();
+  auto selectedIndex = mPhotoBook.gallery().selectedIndex();
+  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath.value()) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
@@ -802,9 +803,9 @@ void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
   }
 }
 
-void TableContentPage::OnExportProgressUpdate(int progress, int reference) {
-  MainProgressBar().Visibility(
-      winrt::Microsoft::UI::Xaml::Visibility::Visible);
+void TableContentPage::OnExportProgressUpdate(int progress, int reference)
+{
+  MainProgressBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);
   StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
@@ -822,7 +823,8 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  auto selectedRootPath = mPhotoBook.selectedImportFolder();
+  auto selectedIndex = mPhotoBook.gallery().selectedIndex();
+  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath) {
     mUnstagedImageCollection.SetAt(
         position, ImageUIData(winrt::to_hstring(fullPath.string()),

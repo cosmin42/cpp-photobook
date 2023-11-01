@@ -148,6 +148,9 @@ std::vector<Path> ImageSupport::fullPathByGroup(Path group)
 
 std::optional<Path> ImageSupport::groupByIndex(int index)
 {
+  if (index == -1) {
+    return std::nullopt;
+  }
   for (auto &[key, value] : mGroupIndexes) {
     if (value == index) {
       return key;
