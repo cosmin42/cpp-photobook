@@ -40,7 +40,6 @@ public:
   PaperSettings            paperSettings() const;
 
   Gallery                 &gallery();
-  std::vector<Thumbnails> &stagedPhotos();
   ImageSupport            &imageSupport();
 
   void configureProject(Project project);
