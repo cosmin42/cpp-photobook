@@ -6,20 +6,9 @@
 
 #include <pb/Config.h>
 #include <pb/util/CircularIterator.h>
+#include <pb/PreprocessedImage.h>
 
 namespace PB {
-
-struct Thumbnails {
-  Thumbnails() = default;
-  explicit Thumbnails(Path path) : fullPath(path) {}
-  explicit Thumbnails(Path fPath, Path mPath, Path sPath)
-      : fullPath(fPath), mediumThumbnail(mPath), smallThumbnail(sPath)
-  {
-  }
-  Path fullPath;
-  Path mediumThumbnail;
-  Path smallThumbnail = Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE);
-};
 
 class ImageSupportListener {
 public:

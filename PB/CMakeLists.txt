@@ -88,6 +88,7 @@ add_library(pblib STATIC
     include/pb/persistence/ProjectMetadata.h
     include/pb/Photobook.h
     include/pb/PhotobookListener.h
+    include/pb/PreprocessedImage.h
     include/pb/Project.h
     include/pb/RegularImage.h
     include/pb/ThumbnailsProcessor.h
@@ -118,6 +119,7 @@ add_library(pblib STATIC
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/Photobook.cpp
+    src/PreprocessedImage.cpp
     src/Project.cpp
     src/ProjectDetails.cpp
     src/ProjectMetadata.cpp
