@@ -97,6 +97,7 @@ add_library(pblib STATIC
     include/pb/util/Timer.h
     include/pb/util/Thread.h
     include/pb/util/Traits.h
+    include/pb/VirtualImage.h
 
     src/Command.cpp
     src/Config.cpp
@@ -123,7 +124,8 @@ add_library(pblib STATIC
     src/StagedImagesLogic.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
-    src/util/Thread.cpp)
+    src/util/Thread.cpp
+    src/VirtualImage.cpp)
 
 target_include_directories(pblib PUBLIC
     include
