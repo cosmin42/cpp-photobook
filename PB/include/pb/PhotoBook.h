@@ -66,7 +66,7 @@ private:
   SQLitePersistence                        mCentralPersistence;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;
-  ImageSupport                             mImagePaths;
+  ImageSupport                             mImageSupport;
   Gallery                                  mGallery;
   ImageReader                              mImageReader;
   ThumbnailsProcessor                      mThumbnailsProcessor;
