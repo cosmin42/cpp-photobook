@@ -37,8 +37,8 @@ public:
 
   void setPaperSettings(PaperSettings paperSettings);
 
-  PaperSettings            paperSettings();
-  std::optional<PB::Path>  selectedImportFolder();
+  PaperSettings            paperSettings() const;
+
   Gallery                 &gallery();
   std::vector<Thumbnails> &stagedPhotos();
   ImageSupport            &imageSupport();

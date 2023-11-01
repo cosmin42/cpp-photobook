@@ -7,8 +7,8 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
                      std::pair<int, int> screenSize)
     : mParent(listener), mCentralPersistencePath(centralPersistencePath),
       mCentralPersistence(mCentralPersistencePath),
-      mThumbnailsProcessor(screenSize), mPaperSettings(Context::A4_LANDSCAPE_PAPER),
-      mExportFactory()
+      mThumbnailsProcessor(screenSize),
+      mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
 {
   printDebug("Photobook created.\n");
 
@@ -26,7 +26,7 @@ Photobook::~Photobook()
   mImagePaths.clear();
 }
 
-PaperSettings Photobook::paperSettings() { return mPaperSettings; }
+PaperSettings Photobook::paperSettings() const { return mPaperSettings; }
 
 void Photobook::setPaperSettings(PaperSettings paperSettings)
 {
@@ -104,8 +104,7 @@ void Photobook::update(ObservableSubject &subject)
     auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
     auto [progress, maxProgress] = pdfExporter.progress();
     mParent.onExportProgressUpdate(progress, maxProgress);
-    if (progress == maxProgress)
-    {
+    if (progress == maxProgress) {
       mParent.onExportFinished();
     }
   }
@@ -175,17 +174,6 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 void Photobook::onError(Error error) { mParent.onError(error); }
 
 Gallery &Photobook::gallery() { return mGallery; }
-
-std::optional<PB::Path> Photobook::selectedImportFolder()
-{
-  auto selectedIndex = gallery().selectedIndex();
-  if (selectedIndex > -1) {
-    return imageSupport().groupByIndex(selectedIndex);
-  }
-  else {
-    return std::nullopt;
-  }
-}
 
 auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
     -> std::shared_ptr<cv::Mat>
