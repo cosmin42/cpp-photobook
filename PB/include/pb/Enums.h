@@ -32,5 +32,14 @@ enum class ThumbnailType { None = 0, Small, Medium };
 ThumbnailType operator|(ThumbnailType lhs, ThumbnailType rhs);
 ThumbnailType operator&(ThumbnailType lhs, ThumbnailType rhs);
 
-enum class PaperType { None, A4, A5, A3, Custom };
+enum class PaperType {
+  None,
+  A4_Landscape,
+  A4_Portrait,
+  A5_Landscape,
+  A5_Portrait,
+  A3_Landscape,
+  A3_Portrait,
+  Custom
+};
 } // namespace PB
