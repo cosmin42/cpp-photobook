@@ -8,9 +8,12 @@
 #include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
+#include <pb/Config.h>
+
 namespace PB {
 class VirtualImage {
 public:
   virtual cv::Mat image() = 0;
+  virtual Path    path() = 0;
 };
 } // namespace PB
