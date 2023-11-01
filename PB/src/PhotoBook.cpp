@@ -17,13 +17,13 @@ Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
     onError(maybeError.value());
   }
 
-  mImagePaths.setListener(mGallery.slot());
+  mImageSupport.setListener(mGallery.slot());
 }
 
 Photobook::~Photobook()
 {
   printDebug("Photobook destructed.\n");
-  mImagePaths.clear();
+  mImageSupport.clear();
 }
 
 PaperSettings Photobook::paperSettings() const { return mPaperSettings; }
@@ -46,7 +46,7 @@ void Photobook::configureProject(PB::Project project)
   auto stagedImages = mProject.details().stagedImagesList();
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
-    mImagePaths.stagePhoto({Thumbnails(stagedImages.at(i))});
+    mImageSupport.stagePhoto({Thumbnails(stagedImages.at(i))});
     mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
   }
 }
@@ -113,8 +113,8 @@ void Photobook::update(ObservableSubject &subject)
 void Photobook::onImportFolderMapped(Path              rootPath,
                                      std::vector<Path> newMediaMap)
 {
-  mImagePaths.addGroup(rootPath);
-  mImagePaths.addFullPaths(rootPath, newMediaMap);
+  mImageSupport.addGroup(rootPath);
+  mImageSupport.addFullPaths(rootPath, newMediaMap);
 
   mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
@@ -138,7 +138,7 @@ void Photobook::onImportFolderMapped(Path              rootPath,
   mProgress[rootPath] = 0;
   const int maxProgress = (int)newMediaMap.size();
 
-  auto importFolderIndex = mImagePaths.groups().at(rootPath);
+  auto importFolderIndex = mImageSupport.groups().at(rootPath);
 
   auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
 
@@ -155,8 +155,8 @@ void Photobook::onImportFolderMapped(Path              rootPath,
         mParent.post([this, rootPath{rootPath}, input{input},
                       smallOutput{smallOutput}, start{start},
                       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
-          mImagePaths.addSmallPath(input, smallOutput);
-          mImagePaths.addMediumPath(input, mediumOutput);
+          mImageSupport.addSmallPath(input, smallOutput);
+          mImageSupport.addMediumPath(input, mediumOutput);
           mProgress[rootPath]++;
           if (mProgress.at(rootPath) == maxProgress) {
 
@@ -177,7 +177,7 @@ Gallery &Photobook::gallery() { return mGallery; }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
-  auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
+  auto stagedPhotos = mImageSupport.stagedPhotosFullPaths();
   mExportFactory.updateConfiguration(mPaperSettings, mCentralPersistencePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, stagedPhotos));
 
@@ -261,7 +261,7 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-ImageSupport &Photobook::imageSupport() { return mImagePaths; }
+ImageSupport &Photobook::imageSupport() { return mImageSupport; }
 
 bool Photobook::projectDefaultSaved()
 {
