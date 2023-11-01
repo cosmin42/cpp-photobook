@@ -9,11 +9,21 @@
 #pragma warning(pop)
 
 #include <pb/Config.h>
+#include <pb/PreprocessedImage.h>
 
 namespace PB {
 class VirtualImage {
 public:
+  VirtualImage(Thumbnails thumbnails) : mThumbnails(thumbnails) {}
+
   virtual cv::Mat image() = 0;
   virtual Path    path() = 0;
+
+  Thumbnails const &thumbnails() const { return mThumbnails; }
+
+  void setThumbnail(Thumbnails thumbnails) { mThumbnails = thumbnails; }
+
+private:
+  Thumbnails mThumbnails;
 };
 } // namespace PB

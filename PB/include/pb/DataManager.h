@@ -5,8 +5,9 @@
 #include <unordered_set>
 
 #include <pb/Config.h>
-#include <pb/util/CircularIterator.h>
 #include <pb/PreprocessedImage.h>
+#include <pb/VirtualImage.h>
+#include <pb/util/CircularIterator.h>
 
 namespace PB {
 
