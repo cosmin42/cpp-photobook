@@ -3,8 +3,10 @@
 #include <pb/VirtualImage.h>
 
 namespace PB {
-	class RegularImage final : public VirtualImage {
+class RegularImage final : public VirtualImage {
 public:
+  RegularImage(Thumbnails thumbnails) : VirtualImage(thumbnails) {}
+
   cv::Mat image() override;
   Path    path() override;
 };
