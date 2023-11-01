@@ -30,13 +30,18 @@ public:
   ImageReader &operator=(ImageReader const &other) = delete;
   ~ImageReader() = default;
 
-  auto read(std::filesystem::path const &path) -> std::shared_ptr<cv::Mat>
+  auto read(std::filesystem::path const &path, cv::Size size = {0, 0})
+      -> std::shared_ptr<cv::Mat>
   {
     if (isCached(path)) {
       return mBuffer.at(path);
     }
 
-    return loadImage(path);
+    auto image = loadImage(path);
+    if (!size.empty()) {
+      Process::resize(size, true)(image);
+    }
+    return image;
   }
 
   auto loadImage(Path const &path) -> std::shared_ptr<cv::Mat>

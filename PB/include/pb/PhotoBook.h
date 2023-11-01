@@ -37,35 +37,30 @@ public:
 
   void setPaperSettings(PaperSettings paperSettings);
 
-  PaperSettings            paperSettings() const;
+  PaperSettings paperSettings() const;
 
-  Gallery                 &gallery();
-  ImageSupport            &imageSupport();
+  Gallery      &gallery();
+  ImageSupport &imageSupport();
 
   void configureProject(Project project);
   void newEmptyProject();
 
   void addImportFolder(Path importPath);
+
   void update(ObservableSubject &subject) override;
-  void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
   void onError(Error error);
 
   void exportAlbum(std::string name, Path path);
-
-  auto loadGalleryImage(std::string const &path, cv::Size size)
-      -> std::shared_ptr<cv::Mat>;
 
   void discardPhotobook();
   void savePhotobook();
   void savePhotobook(Path newPath);
 
-  void addStagedPhoto(std::vector<Thumbnails> photos, int position = -1);
-  void removeStagedPhoto(std::vector<int> positions);
-  void removeStagedPhoto(int index);
-
   bool projectDefaultSaved();
 
 private:
+  void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
+
   PhotobookListener                       &mParent;
   Path                                     mCentralPersistencePath;
   SQLitePersistence                        mCentralPersistence;

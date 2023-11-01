@@ -94,7 +94,7 @@ TableContentPage::TableContentPage()
           auto fullPath = winrt::to_string(image.FullPath());
           auto mediumPath = winrt::to_string(image.MediumPath());
           auto smallPath = winrt::to_string(image.SmallPath());
-          mPhotoBook.addStagedPhoto(
+          mPhotoBook.imageSupport().stagePhoto(
               {PB::Thumbnails(PB::Path(fullPath), PB::Path(mediumPath),
                               PB::Path(smallPath))},
               args.Index());
@@ -102,7 +102,7 @@ TableContentPage::TableContentPage()
         else if (changeType == winrt::Windows::Foundation::Collections::
                                    CollectionChange::ItemRemoved) {
 
-          mPhotoBook.removeStagedPhoto(args.Index());
+          mPhotoBook.imageSupport().unstagePhoto({(int)args.Index()});
         }
         else if (changeType == winrt::Windows::Foundation::Collections::
                                    CollectionChange::ItemChanged) {
@@ -203,7 +203,8 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
     PB::Path fullPath =
         winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
     if (mPhotoBook.imageSupport().fullPathRow(fullPath) == selectedIndex) {
-      mPhotoBook.removeStagedPhoto(i);
+      // TODO: Optimize this
+      mPhotoBook.imageSupport().unstagePhoto({i});
       mStagedImageCollection.RemoveAt(i);
       i--;
     }
@@ -391,7 +392,7 @@ void TableContentPage::OnKeyPressed(
     }
 
     if (selectedIndexes.size() > 0) {
-      mPhotoBook.removeStagedPhoto(selectedIndexes);
+      mPhotoBook.imageSupport().unstagePhoto(selectedIndexes);
       OnStagedImageRemoved(selectedIndexes);
     }
   }
@@ -489,7 +490,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
 {
   PB::printDebug("Drop on staged list view.\n");
 
-  mPhotoBook.addStagedPhoto(mDragAndDropSelectedImages);
+  mPhotoBook.imageSupport().stagePhoto(mDragAndDropSelectedImages);
 
   OnStagedImageAdded(mDragAndDropSelectedImages);
 
@@ -599,8 +600,8 @@ void TableContentPage::OnCanvasDraw(
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
-    auto tmpImage = mPhotoBook.loadGalleryImage(
-        mediumThumbnailPath.string(), {portviewWidth, portviewHeight});
+    auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(),
+                                           {portviewWidth, portviewHeight});
     if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
       PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
     }

@@ -46,7 +46,7 @@ void Photobook::configureProject(PB::Project project)
   auto stagedImages = mProject.details().stagedImagesList();
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
-    addStagedPhoto({Thumbnails(stagedImages.at(i))});
+    mImagePaths.stagePhoto({Thumbnails(stagedImages.at(i))});
     mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
   }
 }
@@ -175,13 +175,6 @@ void Photobook::onError(Error error) { mParent.onError(error); }
 
 Gallery &Photobook::gallery() { return mGallery; }
 
-auto Photobook::loadGalleryImage(std::string const &path, cv::Size size)
-    -> std::shared_ptr<cv::Mat>
-{
-  auto image = mImageReader.read(path);
-  return Process::resize(size, true)(image);
-}
-
 void Photobook::exportAlbum(std::string name, Path path)
 {
   auto stagedPhotos = mImagePaths.stagedPhotosFullPaths();
@@ -266,21 +259,6 @@ void Photobook::savePhotobook(Path newPath)
                     });
 
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
-}
-
-void Photobook::addStagedPhoto(std::vector<Thumbnails> photos, int position)
-{
-  mImagePaths.stagePhoto(photos, position);
-}
-
-void Photobook::removeStagedPhoto(std::vector<int> positions)
-{
-  mImagePaths.unstagePhoto(positions);
-}
-
-void Photobook::removeStagedPhoto(int index)
-{
-  mImagePaths.unstagePhoto({index});
 }
 
 ImageSupport &Photobook::imageSupport() { return mImagePaths; }
