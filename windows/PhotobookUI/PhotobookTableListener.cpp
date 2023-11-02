@@ -52,13 +52,14 @@ void PhotobookTableListener::onExportProgressUpdate(int progress, int reference)
   });
 }
 
-void PhotobookTableListener::onExportFinished() {
-  mParent.Post([this]() { mParent.OnExportFinished();
-  });
+void PhotobookTableListener::onExportFinished()
+{
+  mParent.Post([this]() { mParent.OnExportFinished(); });
 }
 
 void PhotobookTableListener::onStagedImageAdded(
-    std::vector<PB::Thumbnails> image, [[maybe_unused]] int index)
+    std::vector<std::shared_ptr<PB::VirtualImage>> image,
+    [[maybe_unused]] int                           index)
 {
   mParent.OnStagedImageAdded(image);
 }
