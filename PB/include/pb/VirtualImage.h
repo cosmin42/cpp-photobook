@@ -9,25 +9,13 @@
 #pragma warning(pop)
 
 #include <pb/Config.h>
-#include <pb/PreprocessedImage.h>
 
 namespace PB {
 class VirtualImage {
 public:
-  VirtualImage(Thumbnails thumbnails) : mThumbnails(thumbnails) {}
-
-  virtual cv::Mat image() = 0;
-  virtual Path    path() = 0;
-
-  Thumbnails const &thumbnails() const { return mThumbnails; }
-
-  void setSmall(Path path) { mThumbnails.smallThumbnail = path; }
-  void setMedium(Path path) { mThumbnails.mediumThumbnail = path; }
-  void setFull(Path path) { mThumbnails.fullPath = path; }
-
-  void setThumbnail(Thumbnails thumbnails) { mThumbnails = thumbnails; }
-
-private:
-  Thumbnails mThumbnails;
+  virtual cv::Mat          fullImage() = 0;
+  virtual cv::Mat          mediumImage() = 0;
+  virtual cv::Mat          smallImage() = 0;
+  virtual VirtualImageType type() const = 0;
 };
 } // namespace PB
