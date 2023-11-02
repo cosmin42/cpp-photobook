@@ -30,7 +30,8 @@ public:
                             int position) override;
   void onAddingUnstagedImagePlaceholder(unsigned size) override;
 
-  void onStagedImageAdded(std::vector<PB::Thumbnails> photos, int index = -1) override;
+  void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+                          int index = -1) override;
   void onStagedImageRemoved(std::vector<int> removedIndexes) override;
 
   void onMappingFinished(PB::Path rootPath) override;
