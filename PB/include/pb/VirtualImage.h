@@ -17,5 +17,12 @@ public:
   virtual cv::Mat          mediumImage() = 0;
   virtual cv::Mat          smallImage() = 0;
   virtual VirtualImageType type() const = 0;
+
+  void setFullSizePath(Path path) { mFullSizePath = path; }
+
+  Path fullSizePath() const { return mFullSizePath; }
+
+private:
+  Path mFullSizePath;
 };
 } // namespace PB
