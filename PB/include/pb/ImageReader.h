@@ -79,9 +79,7 @@ public:
 
     auto currentPath = iterator.current();
 
-    PB::basicAssert(currentPath.has_value());
-
-    mBuffer[*currentPath] = loadImage(*currentPath);
+    mBuffer[currentPath] = loadImage(currentPath);
   }
 
   auto isCached(Path const &path) const -> bool
