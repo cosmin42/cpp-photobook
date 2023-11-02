@@ -27,7 +27,7 @@ public:
   Path projectFile() const;
 
   void setImportedPaths(std::vector<Path> maybePath);
-  void setStagedImages(std::vector<Thumbnails> maybePath);
+  void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> maybePath);
   void setStagedImages(std::vector<Path> stagedImages);
   void setPaperSettings(PaperSettings paperSettings);
   void removeStagedImage(int index);
