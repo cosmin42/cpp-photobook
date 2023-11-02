@@ -42,4 +42,11 @@ enum class PaperType {
   A3_Portrait,
   Custom
 };
+
+enum class VirtualImageType
+{
+	None,
+	Text,
+	Regular
+};
 } // namespace PB
