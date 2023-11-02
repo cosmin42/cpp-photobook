@@ -1,5 +1,7 @@
 #include <pb/persistence/ProjectDetails.h>
 
+#include <pb/VirtualImage.h>
+
 namespace PB {
 
 Path ProjectDetails::supportFolder() const
@@ -20,11 +22,12 @@ void ProjectDetails::setImportedPaths(std::vector<Path> paths)
   }
 }
 
-void ProjectDetails::setStagedImages(std::vector<Thumbnails> stagedImages)
+void ProjectDetails::setStagedImages(
+    std::vector<std::shared_ptr<VirtualImage>> stagedImages)
 {
   mStagedImages.clear();
-  for (auto &image : stagedImages) {
-    mStagedImages.push_back(image.fullPath);
+  for (auto image : stagedImages) {
+    mStagedImages.push_back(image->fullSizePath());
   }
 }
 
