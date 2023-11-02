@@ -21,7 +21,7 @@ public:
   CircularIterator() = default;
   ~CircularIterator() = default;
 
-  auto current() -> typename Container::value_type
+  auto current() const -> typename Container::value_type
   {
     PB::basicAssert(mSize > 0);
     auto tmpIterator = mBeginIterator;
