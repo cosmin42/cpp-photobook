@@ -5,19 +5,22 @@ Gallery::Gallery()
 {
   mGalleryListener = std::make_shared<GalleryListener>();
   mGalleryListener->setCallbacks(
-      [this](Path root, CircularIterator<std::vector<Thumbnails>> iterator) {
+      [this](Path root,
+             CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+                 iterator) {
         mImportedFolders.push_back(root);
         mSelectedFolderIndex = (int)mImportedFolders.size() - 1;
         mCurrentIterator = iterator;
         PB::printDebug("Import folder added.\n");
       },
-      [this](CircularIterator<std::vector<Thumbnails>> iterator) {
+      [this](CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+                 iterator) {
         mCurrentIterator = iterator;
         PB::printDebug("Staged photos updated.\n");
       });
 }
 
-void Gallery::setPosition(int position)
+void Gallery::setPhotoLinePosition(int position)
 {
   if (mCurrentIterator.valid()) {
     mCurrentIterator = mCurrentIterator[position];
@@ -25,7 +28,8 @@ void Gallery::setPosition(int position)
 }
 
 void Gallery::selectImportFolder(
-    int index, CircularIterator<std::vector<Thumbnails>> iterator)
+    int                                                          index,
+    CircularIterator<std::vector<std::shared_ptr<VirtualImage>>> iterator)
 {
   mPhotoLine = PhotoLine::Unstaged;
   mSelectedFolderIndex = index;
@@ -33,7 +37,8 @@ void Gallery::selectImportFolder(
 }
 
 void Gallery::selectStagedPhotos(
-    int index, CircularIterator<std::vector<Thumbnails>> iterator)
+    int                                                          index,
+    CircularIterator<std::vector<std::shared_ptr<VirtualImage>>> iterator)
 {
   mPhotoLine = PhotoLine::Staged;
   mSelectedFolderIndex = index;
@@ -44,19 +49,25 @@ void Gallery::clearSelection()
 {
   mGalleryListener = nullptr;
   mSelectedFolderIndex = -1;
-  mCurrentIterator = CircularIterator<std::vector<Thumbnails>>();
+  mCurrentIterator =
+      CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>();
   mImportedFolders.clear();
   mPhotoLine = PhotoLine::None;
 }
 
-auto Gallery::selectedIndex() -> int { return mSelectedFolderIndex; }
+auto Gallery::selectedNavigationIndex() const -> int
+{
+  return mSelectedFolderIndex;
+}
 
-auto Gallery::selectedItem() -> std::optional<Thumbnails>
+auto Gallery::hasSelection() const -> bool { return mCurrentIterator.valid(); }
+
+auto Gallery::selectedItem() const -> std::shared_ptr<VirtualImage>
 {
   if (mCurrentIterator.valid()) {
     return mCurrentIterator.current();
   }
-  return std::nullopt;
+  return nullptr;
 }
 
 auto Gallery::photoLine() const -> PhotoLine { return mPhotoLine; }
