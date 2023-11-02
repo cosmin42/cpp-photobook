@@ -5,9 +5,12 @@
 namespace PB {
 class TextImage final : public VirtualImage {
 public:
-  TextImage(Thumbnails thumbnails) : VirtualImage(thumbnails) {}
+  TextImage() {}
 
-  cv::Mat image() override;
-  Path    path() override;
+  cv::Mat fullImage() override { return cv::Mat(); }
+  cv::Mat mediumImage() override { return cv::Mat(); }
+  cv::Mat smallImage() override { return cv::Mat(); }
+
+  VirtualImageType type() const override { return VirtualImageType::Text; }
 };
 } // namespace PB
