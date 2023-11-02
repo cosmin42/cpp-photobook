@@ -1,4 +1,5 @@
 #include <pb/DataManager.h>
+#include <pb/VirtualImage.h>
 
 namespace PB {
 
@@ -7,75 +8,47 @@ void ImageSupport::setListener(std::shared_ptr<ImageSupportListener> listener)
   mListener = listener;
 }
 
-Thumbnails &ImageSupport::image(Path fullPath)
-{
-  auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  return mUnstagedImagesMatrix.at(importPathIndex).at(pathIndex);
-}
-
-void ImageSupport::addSmallPath(Path fullPath, Path smallSize)
-{
-  auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  mUnstagedImagesMatrix[importPathIndex][pathIndex].smallThumbnail = smallSize;
-
-  for (auto &item : mStagedPhotos) {
-    if (item.fullPath == fullPath) {
-      item.smallThumbnail = smallSize;
-    }
-  }
-}
-
-void ImageSupport::addMediumPath(Path fullPath, Path mediumPath)
-{
-  auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
-  mUnstagedImagesMatrix[importPathIndex][pathIndex].mediumThumbnail =
-      mediumPath;
-  for (auto &item : mStagedPhotos) {
-    if (item.fullPath == fullPath) {
-      item.mediumThumbnail = mediumPath;
-    }
-  }
-}
-
 void ImageSupport::addGroup(std::optional<Path> path)
 {
   if (!path) {
     return;
   }
-  mUnstagedImagesMatrix.push_back(std::vector<Thumbnails>());
+  mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());
   mGroupIndexes[*path] = (int)mUnstagedImagesMatrix.size() - 1;
 }
 
-void ImageSupport::addFullPaths(Path root, std::vector<Path> const &paths)
+void ImageSupport::addImage(Path root, std::vector<Path> paths,
+                            std::vector<std::shared_ptr<VirtualImage>> images)
 {
   if (mGroupIndexes.find(root) == mGroupIndexes.end()) {
     addGroup(root);
   }
-
   int indexGroup = mGroupIndexes.at(root);
 
-  for (auto &p : paths) {
-    Thumbnails newThumbnails(p);
+  PB::basicAssert(paths.size() == images.size());
 
-    mUnstagedImagesMatrix.at(indexGroup).push_back(newThumbnails);
-
-    mSupportByFullPath[p] = {
+  for (int i = 0; i < (int)paths.size(); ++i) {
+    mUnstagedImagesMatrix.at(indexGroup).push_back(images.at(i));
+    mSupportByFullPath[paths.at(i)] = {
         indexGroup, (int)(mUnstagedImagesMatrix.at(indexGroup).size() - 1)};
   }
+
   if (mListener) {
-    mListener->importFolderAdded(root,
-                                 CircularIterator<std::vector<Thumbnails>>(
-                                     mUnstagedImagesMatrix.at(indexGroup)));
+    mListener->importFolderAdded(
+        root, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+                  mUnstagedImagesMatrix.at(indexGroup)));
   }
 }
 
-void ImageSupport::stagePhoto(std::vector<Thumbnails> paths, int position)
+void ImageSupport::stagePhoto(std::vector<std::shared_ptr<VirtualImage>> paths,
+                              int position)
 {
   if (position == -1) {
     mStagedPhotos.insert(mStagedPhotos.end(), paths.begin(), paths.end());
     if (mListener) {
       mListener->stagePhotosUpdated(
-          CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+          CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+              mStagedPhotos));
     }
   }
   else if (position < mStagedPhotos.size()) {
@@ -83,14 +56,16 @@ void ImageSupport::stagePhoto(std::vector<Thumbnails> paths, int position)
                          paths.end());
     if (mListener) {
       mListener->stagePhotosUpdated(
-          CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+          CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+              mStagedPhotos));
     }
   }
   else if (position == mStagedPhotos.size()) {
     mStagedPhotos.insert(mStagedPhotos.end(), paths.begin(), paths.end());
     if (mListener) {
       mListener->stagePhotosUpdated(
-          CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+          CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+              mStagedPhotos));
     }
   }
 }
@@ -103,7 +78,8 @@ void ImageSupport::unstagePhoto(std::vector<int> indexes)
   }
   if (indexes.size() > 0 && mListener) {
     mListener->stagePhotosUpdated(
-        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+        CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+            mStagedPhotos));
   }
 }
 
@@ -119,12 +95,14 @@ void ImageSupport::removeGroup(int index)
   }
 
   for (int i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
-    mSupportByFullPath.erase(mUnstagedImagesMatrix.at(index).at(i).fullPath);
+    auto path = mUnstagedImagesMatrix.at(index).at(i)->fullSizePath();
+    mSupportByFullPath.erase(path);
   }
   mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + index);
   if (mListener) {
     mListener->stagePhotosUpdated(
-        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+        CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+            mStagedPhotos));
   }
 }
 
@@ -140,8 +118,8 @@ std::vector<Path> ImageSupport::fullPathByGroup(Path group)
   }
   auto             &index = mGroupIndexes.at(group);
   std::vector<Path> result;
-  for (auto &entry : mUnstagedImagesMatrix.at(index)) {
-    result.push_back(entry.fullPath);
+  for (auto entry : mUnstagedImagesMatrix.at(index)) {
+    result.push_back(entry->fullSizePath());
   }
   return result;
 }
@@ -160,40 +138,42 @@ std::optional<Path> ImageSupport::groupByIndex(int index)
 }
 
 auto ImageSupport::unstagedIterator(Path root)
-    -> CircularIterator<std::vector<Thumbnails>>
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
 {
   if (mGroupIndexes.find(root) == mGroupIndexes.end()) {
-    return CircularIterator<std::vector<Thumbnails>>();
+    return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>();
   }
 
-  return CircularIterator<std::vector<Thumbnails>>(
+  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
       mUnstagedImagesMatrix.at(mGroupIndexes.at(root)));
 }
 
 auto ImageSupport::unstagedIterator(int importedFolderIndex, int index)
-    -> CircularIterator<std::vector<Thumbnails>>
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
 {
   if (importedFolderIndex < 0) {
-    return CircularIterator<std::vector<Thumbnails>>();
+    return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>();
   }
   if (index > -1) {
-    return CircularIterator<std::vector<Thumbnails>>(
+    return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
         mUnstagedImagesMatrix.at(importedFolderIndex))[index];
   }
   else {
     if (mUnstagedImagesMatrix.size() > 0) {
-      return CircularIterator<std::vector<Thumbnails>>(
+      return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
           mUnstagedImagesMatrix.at(importedFolderIndex));
     }
     else {
-      return CircularIterator<std::vector<Thumbnails>>();
+      return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>();
     }
   }
 }
 
-auto ImageSupport::stagedIterator() -> CircularIterator<std::vector<Thumbnails>>
+auto ImageSupport::stagedIterator()
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
 {
-  return CircularIterator<std::vector<Thumbnails>>(mStagedPhotos);
+  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+      mStagedPhotos);
 }
 
 int ImageSupport::groupSize(std::optional<Path> group)
@@ -215,7 +195,8 @@ void ImageSupport::clear()
   mStagedPhotos.clear();
   if (mListener) {
     mListener->stagePhotosUpdated(
-        CircularIterator<std::vector<Thumbnails>>(mStagedPhotos));
+        CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+            mStagedPhotos));
   }
 }
 
@@ -224,13 +205,16 @@ std::unordered_map<Path, int> const &ImageSupport::groups()
   return mGroupIndexes;
 }
 
-std::vector<Thumbnails> &ImageSupport::stagedPhotos() { return mStagedPhotos; }
+std::vector<std::shared_ptr<VirtualImage>> &ImageSupport::stagedPhotos()
+{
+  return mStagedPhotos;
+}
 
 std::vector<Path> ImageSupport::stagedPhotosFullPaths() const
 {
   std::vector<Path> results;
-  for (auto &thumbnail : mStagedPhotos) {
-    results.push_back(thumbnail.fullPath);
+  for (auto thumbnail : mStagedPhotos) {
+    results.push_back(thumbnail->fullSizePath());
   }
   return results;
 }
