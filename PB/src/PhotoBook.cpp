@@ -1,6 +1,8 @@
 #include <pb/Photobook.h>
 
+#include <pb/RegularImage.h>
 #include <pb/SerializationStrategy.h>
+#include <pb/TextImage.h>
 
 namespace PB {
 Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
@@ -46,8 +48,25 @@ void Photobook::configureProject(PB::Project project)
   auto stagedImages = mProject.details().stagedImagesList();
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
-    mImageSupport.stagePhoto({Thumbnails(stagedImages.at(i))});
-    mParent.onStagedImageAdded({Thumbnails(stagedImages.at(i))});
+    if (std::filesystem::is_regular_file(stagedImages.at(i))) {
+      Thumbnails thumbnail(stagedImages.at(i));
+      auto       regularImage = std::make_shared<RegularImage>(thumbnail);
+      regularImage->setFullSizePath(stagedImages.at(i));
+
+      mImageSupport.stagePhoto({regularImage});
+      mParent.onStagedImageAdded({regularImage});
+    }
+    else if (std::filesystem::is_directory(stagedImages.at(i))) {
+      auto textImage =
+          std::make_shared<TextImage>(stagedImages.at(i).stem().string());
+      textImage->setFullSizePath(stagedImages.at(i));
+
+      mImageSupport.stagePhoto({textImage});
+      mParent.onStagedImageAdded({textImage});
+    }
+    else {
+      PB::basicAssert(false);
+    }
   }
 }
 void Photobook::newEmptyProject() {}
@@ -114,7 +133,24 @@ void Photobook::onImportFolderMapped(Path              rootPath,
                                      std::vector<Path> newMediaMap)
 {
   mImageSupport.addGroup(rootPath);
-  mImageSupport.addFullPaths(rootPath, newMediaMap);
+  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  for (auto p : newMediaMap) {
+    if (std::filesystem::is_regular_file(p)) {
+      auto newRegularImage = std::make_shared<RegularImage>(Thumbnails(p));
+      newRegularImage->setFullSizePath(p);
+      imagesSet.push_back(newRegularImage);
+    }
+    else if (std::filesystem::is_directory(p)) {
+      auto textImage = std::make_shared<TextImage>(p.stem().string());
+      textImage->setFullSizePath(p);
+      imagesSet.push_back(textImage);
+    }
+    else {
+      PB::basicAssert(false);
+    }
+  }
+
+  mImageSupport.addImage(rootPath, newMediaMap, imagesSet);
 
   mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
@@ -155,8 +191,9 @@ void Photobook::onImportFolderMapped(Path              rootPath,
         mParent.post([this, rootPath{rootPath}, input{input},
                       smallOutput{smallOutput}, start{start},
                       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
-          mImageSupport.addSmallPath(input, smallOutput);
-          mImageSupport.addMediumPath(input, mediumOutput);
+          mImageSupport.image<RegularImage>(input)
+              ->buildSmallImage(smallOutput)
+              .buildMediumImage(mediumOutput);
           mProgress[rootPath]++;
           if (mProgress.at(rootPath) == maxProgress) {
 
