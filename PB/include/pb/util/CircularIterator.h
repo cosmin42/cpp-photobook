@@ -21,11 +21,9 @@ public:
   CircularIterator() = default;
   ~CircularIterator() = default;
 
-  auto current() -> std::optional<typename Container::value_type>
+  auto current() -> typename Container::value_type
   {
-    if (mSize == 0) {
-      return std::nullopt;
-    }
+    PB::basicAssert(mSize > 0);
     auto tmpIterator = mBeginIterator;
     std::advance(tmpIterator, mIndex);
     return *tmpIterator;

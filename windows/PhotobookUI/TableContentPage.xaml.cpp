@@ -706,7 +706,7 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
                       mLoadedFinishedImportFolders.end()) {
     auto size = iterator.size();
     for (int i = 0; i < (int)size; ++i) {
-      PB::Thumbnails thumbnail = iterator[i].current().value();
+      PB::Thumbnails thumbnail = iterator[i].current();
       mUnstagedImageCollection.SetAt(
           i, ImageUIData(winrt::to_hstring(thumbnail.fullPath.string()),
                          winrt::to_hstring(thumbnail.mediumThumbnail.string()),
