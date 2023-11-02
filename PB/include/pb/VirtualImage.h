@@ -21,6 +21,10 @@ public:
 
   Thumbnails const &thumbnails() const { return mThumbnails; }
 
+  void setSmall(Path path) { mThumbnails.smallThumbnail = path; }
+  void setMedium(Path path) { mThumbnails.mediumThumbnail = path; }
+  void setFull(Path path) { mThumbnails.fullPath = path; }
+
   void setThumbnail(Thumbnails thumbnails) { mThumbnails = thumbnails; }
 
 private:
