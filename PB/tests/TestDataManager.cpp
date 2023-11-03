@@ -1,17 +1,22 @@
 #include <gtest/gtest.h>
 
 #include <pb/DataManager.h>
+#include <pb/RegularImage.h>
+#include <pb/TextImage.h>
 
 using namespace PB;
 
 class MockImageSupportListener final : public ImageSupportListener {
 public:
   void importFolderAdded(Path path,
-                         CircularIterator<std::vector<Thumbnails>>) override
+                         CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) override
   {
     mImportFolders.push_back(path);
   }
-  void stagePhotosUpdated(CircularIterator<std::vector<Thumbnails>>) override {}
+  void stagePhotosUpdated(
+      CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) override
+  {
+  }
 
   const int size() { return (int)mImportFolders.size(); }
 
@@ -28,7 +33,26 @@ TEST(TestDataManager, TestEmpty)
 
   ASSERT_TRUE(listener->size() == 0);
 
-  imageSupport.addFullPaths("a", std::vector<Path>{"a/b", "a/c", "b/c"});
+  std::vector<Path> mediaMap = std::vector<Path>{"a/b", "a/c", "b/c"};
+
+  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  for (auto p : mediaMap) {
+    if (std::filesystem::is_regular_file(p)) {
+      auto newRegularImage = std::make_shared<PB::RegularImage>(Thumbnails(p));
+      newRegularImage->setFullSizePath(p);
+      imagesSet.push_back(newRegularImage);
+    }
+    else if (std::filesystem::is_directory(p)) {
+      auto textImage = std::make_shared<PB::TextImage>(p.stem().string());
+      textImage->setFullSizePath(p);
+      imagesSet.push_back(textImage);
+    }
+    else {
+      PB::basicAssert(false);
+    }
+  }
+
+  imageSupport.addImage("a", std::vector<Path>{"a/b", "a/c", "b/c"}, imagesSet);
 
   ASSERT_TRUE(listener->size() == 1);
 
@@ -51,7 +75,26 @@ TEST(TestDataManager, TestAddingToSTaging)
 
   ASSERT_TRUE(listener->size() == 0);
 
-  imageSupport.addFullPaths("a", std::vector<Path>{"a/b", "a/c", "b/c"});
+  std::vector<Path> mediaMap = std::vector<Path>{"a/b", "a/c", "b/c"};
+
+  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  for (auto p : mediaMap) {
+    if (std::filesystem::is_regular_file(p)) {
+      auto newRegularImage = std::make_shared<PB::RegularImage>(Thumbnails(p));
+      newRegularImage->setFullSizePath(p);
+      imagesSet.push_back(newRegularImage);
+    }
+    else if (std::filesystem::is_directory(p)) {
+      auto textImage = std::make_shared<PB::TextImage>(p.stem().string());
+      textImage->setFullSizePath(p);
+      imagesSet.push_back(textImage);
+    }
+    else {
+      PB::basicAssert(false);
+    }
+  }
+
+  imageSupport.addImage("a", std::vector<Path>{"a/b", "a/c", "b/c"}, imagesSet);
 
   ASSERT_TRUE(listener->size() == 1);
 
@@ -66,7 +109,9 @@ TEST(TestDataManager, TestAddingToSTaging)
 
   Thumbnails toBeStaged("a/b", "b", "c");
 
-  imageSupport.stagePhoto({toBeStaged});
+  auto regularImage = std::make_shared<PB::RegularImage>(toBeStaged);
+
+  imageSupport.stagePhoto({regularImage});
 
   auto stagedIterator = imageSupport.stagedIterator();
 
