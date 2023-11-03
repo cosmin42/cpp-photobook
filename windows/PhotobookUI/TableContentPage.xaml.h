@@ -211,7 +211,8 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
                             int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
-  void OnStagedImageAdded(std::vector<PB::Thumbnails> photos, int index = -1);
+  void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+                          int index = -1);
 
   void OnStagedImageRemoved(std::vector<int> removedIndexes);
 
@@ -234,17 +235,17 @@ private:
       int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
-  PhotobookTableListener            mListener;
-  PB::Photobook                     mPhotoBook;
-  IObservableVector<winrt::hstring> mNavigationItemsCollection;
-  IObservableVector<ImageUIData>    mUnstagedImageCollection;
-  IObservableVector<ImageUIData>    mStagedImageCollection;
-  std::vector<PB::Thumbnails>       mDragAndDropSelectedImages;
-  PopUps                            mPopups;
-  bool                              mExitFlag = false;
-  std::unordered_set<PB::Path>      mLoadedFinishedImportFolders;
-  std::unordered_set<PB::Path>      mStagedImages;
-  DragSource                        mDragSource = DragSource::None;
+  PhotobookTableListener                         mListener;
+  PB::Photobook                                  mPhotoBook;
+  IObservableVector<winrt::hstring>              mNavigationItemsCollection;
+  IObservableVector<ImageUIData>                 mUnstagedImageCollection;
+  IObservableVector<ImageUIData>                 mStagedImageCollection;
+  std::vector<std::shared_ptr<PB::VirtualImage>> mDragAndDropSelectedImages;
+  PopUps                                         mPopups;
+  bool                                           mExitFlag = false;
+  std::unordered_set<PB::Path>                   mLoadedFinishedImportFolders;
+  std::unordered_set<PB::Path>                   mStagedImages;
+  DragSource                                     mDragSource = DragSource::None;
 };
 } // namespace winrt::PhotobookUI::implementation
 
