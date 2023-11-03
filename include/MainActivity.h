@@ -7,7 +7,7 @@ namespace BL {
 
 class ConsolePhotobookListener final : public PB::PhotobookListener {
 public:
-  void onStagedImageAdded(std::vector<PB::Thumbnails> image, int index = -1) override {}
+  void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> image, int index = -1) override {}
   void onStagedImageRemoved(std::vector<int> removedIndexes) override {}
 
   void onExportProgressUpdate(int, int) {}
