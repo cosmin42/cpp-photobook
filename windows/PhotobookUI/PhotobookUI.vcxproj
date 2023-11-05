@@ -105,7 +105,7 @@ xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\include;$(VcpkgRoot)\installed\x64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\include;$(VcpkgRoot)\installed\x64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\build\include;$(SolutionDir)..\..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
