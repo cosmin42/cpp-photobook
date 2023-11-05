@@ -28,19 +28,9 @@ TEST(TestGallery, Test2)
 
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
   for (auto p : mediaMap) {
-    if (std::filesystem::is_regular_file(p)) {
-      auto newRegularImage = std::make_shared<PB::RegularImage>(Thumbnails(p));
-      newRegularImage->setFullSizePath(p);
-      imagesSet.push_back(newRegularImage);
-    }
-    else if (std::filesystem::is_directory(p)) {
-      auto textImage = std::make_shared<PB::TextImage>(p.stem().string());
-      textImage->setFullSizePath(p);
-      imagesSet.push_back(textImage);
-    }
-    else {
-      PB::basicAssert(false);
-    }
+    auto newRegularImage = std::make_shared<PB::RegularImage>(Thumbnails(p));
+    newRegularImage->setFullSizePath(p);
+    imagesSet.push_back(newRegularImage);
   }
 
   imageSupport.addImage("a", mediaMap, imagesSet);
