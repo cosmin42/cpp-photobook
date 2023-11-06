@@ -596,16 +596,11 @@ void TableContentPage::OnCanvasDraw(
 
   auto thumbnailPtr = gallery.selectedItem();
 
-  auto regularImage = std::dynamic_pointer_cast<PB::RegularImage>(thumbnailPtr);
-  if (!regularImage) {
-    return;
-  }
-
-  auto mediumThumbnailPath = regularImage->thumbnails().mediumThumbnail;
+  auto mediumThumbnailPath = thumbnailPtr->mediumSizePath();
   if (mediumThumbnailPath.empty()) {
     return;
   }
-  if (PB::Process::validExtension(regularImage->thumbnails().fullPath)) {
+  if (PB::Process::validExtension(thumbnailPtr->fullSizePath())) {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
@@ -622,9 +617,9 @@ void TableContentPage::OnCanvasDraw(
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
-    image = PB::Process::addText(
-        {portviewWidth / 2, portviewHeight / 2},
-        regularImage->thumbnails().fullPath.stem().string(), {0, 0, 0})(image);
+    image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
+                                 thumbnailPtr->fullSizePath().stem().string(),
+                                 {0, 0, 0})(image);
   }
 
   auto device = CanvasDevice::GetSharedDevice();
