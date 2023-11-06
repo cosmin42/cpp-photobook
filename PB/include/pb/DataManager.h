@@ -34,6 +34,8 @@ public:
 
   void stagePhoto(std::vector<std::shared_ptr<VirtualImage>> fullPath,
                   int                                        position = -1);
+  void updateStagedPhoto(std::shared_ptr<VirtualImage> newImage);
+
   void unstagePhoto(std::vector<int> importedFolderIndex);
   void removeGroup(int index);
 

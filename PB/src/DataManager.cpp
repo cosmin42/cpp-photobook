@@ -70,6 +70,16 @@ void ImageSupport::stagePhoto(std::vector<std::shared_ptr<VirtualImage>> paths,
   }
 }
 
+void ImageSupport::updateStagedPhoto(std::shared_ptr<VirtualImage> newImage)
+{
+  for (auto photo : mStagedPhotos) {
+    if (photo->fullSizePath() == newImage->fullSizePath()) {
+      photo->setMediumSizePath(newImage->mediumSizePath());
+      photo->setSmallSizePath(newImage->smallSizePath());
+    }
+  }
+}
+
 void ImageSupport::unstagePhoto(std::vector<int> indexes)
 {
   std::sort(indexes.begin(), indexes.end(), std::greater<int>());

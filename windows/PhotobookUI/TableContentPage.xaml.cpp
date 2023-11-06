@@ -907,9 +907,9 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 void TableContentPage::OnStagedImageAdded(
     std::vector<std::shared_ptr<PB::VirtualImage>> photos, int index)
 {
-  PB::basicAssert(index >= 0 && index <= (int)mStagedImageCollection.Size());
+  PB::basicAssert(index <= (int)mStagedImageCollection.Size());
 
-  if (index == (int)mStagedImageCollection.Size()) {
+  if (index == (int)mStagedImageCollection.Size() || index < 0) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
           winrt::to_hstring(photo->fullSizePath().string()),

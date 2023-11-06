@@ -45,6 +45,7 @@ void Photobook::configureProject(PB::Project project)
   for (auto &path : importedFolders) {
     addImportFolder(path);
   }
+
   auto stagedImages = mProject.details().stagedImagesList();
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
@@ -158,6 +159,7 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 
   auto supportDirectoryPath = mProject.details().parentDirectory() /
                               mProject.details().supportDirName();
+
   if (!std::filesystem::exists(supportDirectoryPath)) {
     if (!FilePersistence::createDirectory(supportDirectoryPath)) {
       mParent.onFinished(rootPath);
@@ -195,6 +197,8 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 
           image->setMediumSizePath(mediumOutput);
           image->setSmallSizePath(smallOutput);
+
+          mImageSupport.updateStagedPhoto(image);
 
           mProgress[rootPath]++;
           if (mProgress.at(rootPath) == maxProgress) {
