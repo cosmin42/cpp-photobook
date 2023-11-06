@@ -212,7 +212,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
   void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-                          int index = -1);
+                          int index = 0);
 
   void OnStagedImageRemoved(std::vector<int> removedIndexes);
 

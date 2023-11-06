@@ -493,9 +493,44 @@ void TableContentPage::OnDropIntoStagedPhotos(
 {
   PB::printDebug("Drop on staged list view.\n");
 
-  mPhotoBook.imageSupport().stagePhoto(mDragAndDropSelectedImages);
+  // WORKAROUND
+  // https://stackoverflow.com/questions/77401865/winui3-listview-insertionmark-functionality-with-c-winrt/77406535#77406535
+  auto dropRelativeToStageListViewPosition =
+      args.GetPosition(sender.as<Microsoft::UI::Xaml::Controls::ListView>());
+  PB::printDebug("(%f %f)\n", dropRelativeToStageListViewPosition.X,
+                 dropRelativeToStageListViewPosition.Y);
 
-  OnStagedImageAdded(mDragAndDropSelectedImages);
+  if (dropRelativeToStageListViewPosition.Y < 0 ||
+      dropRelativeToStageListViewPosition.Y > StagedListView().ActualHeight()) {
+    return;
+  }
+
+  int insertPostion = StagedListView().Items().Size();
+
+  for (auto item : StagedListView().Items()) {
+    auto itemContainer = StagedListView()
+                             .ContainerFromItem(item)
+                             .as<Microsoft::UI::Xaml::Controls::ListViewItem>();
+    auto itemIndex = StagedListView().IndexFromContainer(itemContainer);
+
+    auto dropRelativeToItem = args.GetPosition(itemContainer);
+
+    PB::printDebug("(%f %f)\n", dropRelativeToItem.X, dropRelativeToItem.Y);
+
+    if (dropRelativeToItem.X < itemContainer.ActualWidth()) {
+      insertPostion = itemIndex;
+      break;
+    }
+  }
+
+  PB::printDebug("Insertion position: %d\n", insertPostion);
+
+  // WORKAROUND
+
+  mPhotoBook.imageSupport().stagePhoto(mDragAndDropSelectedImages,
+                                       insertPostion);
+
+  OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
 
   mDragAndDropSelectedImages.clear();
 }
@@ -861,23 +896,26 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 void TableContentPage::OnStagedImageAdded(
     std::vector<std::shared_ptr<PB::VirtualImage>> photos, int index)
 {
-  PB::basicAssert(index == -1);
-  if (index == -1) {
+  PB::basicAssert(index >= 0 && index <= (int)mStagedImageCollection.Size());
+
+  if (index == (int)mStagedImageCollection.Size()) {
     for (auto photo : photos) {
-      if (photo->type() == PB::VirtualImageType::Regular) {
-        auto regularImage = std::dynamic_pointer_cast<PB::RegularImage>(photo);
-        ImageUIData winRTImage(
-            winrt::to_hstring(regularImage->thumbnails().fullPath.string()),
-            winrt::to_hstring(
-                regularImage->thumbnails().mediumThumbnail.string()),
-            winrt::to_hstring(
-                regularImage->thumbnails().smallThumbnail.string()));
-        mStagedImageCollection.Append(winRTImage);
-        mStagedImages.insert(regularImage->thumbnails().fullPath);
-      }
-      else {
-        PB::basicAssert(false);
-      }
+      ImageUIData winRTImage(
+          winrt::to_hstring(photo->fullSizePath().string()),
+          winrt::to_hstring(photo->mediumSizePath().string()),
+          winrt::to_hstring(photo->smallSizePath().string()));
+      mStagedImageCollection.Append(winRTImage);
+      mStagedImages.insert(photo->fullSizePath().string());
+    }
+  }
+  else if (index < (int)mStagedImageCollection.Size()) {
+    for (auto photo : photos) {
+      ImageUIData winRTImage(
+          winrt::to_hstring(photo->fullSizePath().string()),
+          winrt::to_hstring(photo->mediumSizePath().string()),
+          winrt::to_hstring(photo->smallSizePath().string()));
+      mStagedImageCollection.InsertAt(index, winRTImage);
+      mStagedImages.insert(photo->fullSizePath().string());
     }
   }
 }
