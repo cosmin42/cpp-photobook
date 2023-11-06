@@ -121,20 +121,7 @@ int ImageSupport::fullPathRow(Path path) const
   return mSupportByFullPath.at(path).first;
 }
 
-std::vector<Path> ImageSupport::fullPathByGroup(Path group) const
-{
-  if (mGroupIndexes.find(group) == mGroupIndexes.end()) {
-    return std::vector<Path>();
-  }
-  auto             &index = mGroupIndexes.at(group);
-  std::vector<Path> result;
-  for (auto entry : mUnstagedImagesMatrix.at(index)) {
-    result.push_back(entry->fullSizePath());
-  }
-  return result;
-}
-
-std::optional<Path> ImageSupport::groupByIndex(int index)
+std::optional<Path> ImageSupport::groupByIndex(int index) const
 {
   if (index == -1) {
     return std::nullopt;
@@ -227,18 +214,9 @@ bool ImageSupport::containsGroup(Path path)
   return (mGroupIndexes.find(path) != mGroupIndexes.end());
 }
 
-std::vector<std::shared_ptr<VirtualImage>> &ImageSupport::stagedPhotos()
+std::vector<std::shared_ptr<VirtualImage>> const &ImageSupport::stagedPhotos()
 {
   return mStagedPhotos;
-}
-
-std::vector<Path> ImageSupport::stagedPhotosFullPaths() const
-{
-  std::vector<Path> results;
-  for (auto thumbnail : mStagedPhotos) {
-    results.push_back(thumbnail->fullSizePath());
-  }
-  return results;
 }
 
 } // namespace PB

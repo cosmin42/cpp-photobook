@@ -219,9 +219,14 @@ Gallery &Photobook::gallery() { return mGallery; }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
-  auto stagedPhotos = mImageSupport.stagedPhotosFullPaths();
+  auto              stagedPhotos = mImageSupport.stagedPhotos();
+  std::vector<Path> fullPaths;
+  for (auto photo : stagedPhotos) {
+    fullPaths.push_back(photo->fullSizePath());
+  }
+
   mExportFactory.updateConfiguration(mPaperSettings, mCentralPersistencePath);
-  mExporters.push_back(mExportFactory.makePdf(name, path, stagedPhotos));
+  mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {
     exporter->attach(this);

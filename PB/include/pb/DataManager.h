@@ -27,18 +27,22 @@ public:
   void addGroup(std::optional<Path> path);
   void removeGroup(int index);
 
+  std::optional<Path> groupByIndex(int index) const;
+  int                 groupSize(std::optional<Path> group) const;
+  std::vector<Path>   groups() const;
+  int                 groupIndex(Path path) const;
+  bool                containsGroup(Path path);
+
   void addImage(Path root, std::vector<Path> paths,
                 std::vector<std::shared_ptr<VirtualImage>>);
 
-  std::vector<Path>   fullPathByGroup(Path group) const;
-  std::optional<Path> groupByIndex(int index);
+  int fullPathRow(Path) const;
 
   void stagePhoto(std::vector<std::shared_ptr<VirtualImage>> photo,
                   int                                        position = -1);
   void updateStagedPhoto(std::shared_ptr<VirtualImage> newImage);
   void unstagePhoto(std::vector<int> importedFolderIndex);
-
-  int fullPathRow(Path) const;
+  std::vector<std::shared_ptr<VirtualImage>> const &stagedPhotos();
 
   void clear();
 
@@ -48,15 +52,6 @@ public:
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
   auto unstagedIterator(int importFolderIndex, int index = -1)
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
-
-  int               groupSize(std::optional<Path> group) const;
-  std::vector<Path> groups() const;
-  int               groupIndex(Path path) const;
-
-  bool containsGroup(Path path);
-
-  std::vector<std::shared_ptr<VirtualImage>> &stagedPhotos();
-  std::vector<Path>                           stagedPhotosFullPaths() const;
 
   template <typename T> std::shared_ptr<T> image(Path fullPath)
   {
