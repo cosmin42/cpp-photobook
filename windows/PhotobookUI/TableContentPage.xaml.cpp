@@ -692,8 +692,6 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
 
   MediaListView().ItemsSource(mNavigationItemsCollection);
 
-  auto rootFolders = mPhotoBook.imageSupport().groups();
-
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 

@@ -121,7 +121,7 @@ int ImageSupport::fullPathRow(Path path) const
   return mSupportByFullPath.at(path).first;
 }
 
-std::vector<Path> ImageSupport::fullPathByGroup(Path group)
+std::vector<Path> ImageSupport::fullPathByGroup(Path group) const
 {
   if (mGroupIndexes.find(group) == mGroupIndexes.end()) {
     return std::vector<Path>();
@@ -186,7 +186,7 @@ auto ImageSupport::stagedIterator()
       mStagedPhotos);
 }
 
-int ImageSupport::groupSize(std::optional<Path> group)
+int ImageSupport::groupSize(std::optional<Path> group) const
 {
   if (!group) {
     return 0;
@@ -210,9 +210,21 @@ void ImageSupport::clear()
   }
 }
 
-std::unordered_map<Path, int> const &ImageSupport::groups()
+std::vector<Path> ImageSupport::groups() const
 {
-  return mGroupIndexes;
+  std::vector<Path> result;
+  for (auto &[key, value] : mGroupIndexes) {
+    result.push_back(key);
+    PB::Unused(value);
+  }
+  return result;
+}
+
+int ImageSupport::groupIndex(Path path) const { return mGroupIndexes.at(path); }
+
+bool ImageSupport::containsGroup(Path path)
+{
+  return (mGroupIndexes.find(path) != mGroupIndexes.end());
 }
 
 std::vector<std::shared_ptr<VirtualImage>> &ImageSupport::stagedPhotos()

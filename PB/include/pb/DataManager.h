@@ -25,19 +25,18 @@ public:
   void setListener(std::shared_ptr<ImageSupportListener> listener);
 
   void addGroup(std::optional<Path> path);
+  void removeGroup(int index);
 
   void addImage(Path root, std::vector<Path> paths,
                 std::vector<std::shared_ptr<VirtualImage>>);
 
-  std::vector<Path>   fullPathByGroup(Path group);
+  std::vector<Path>   fullPathByGroup(Path group) const;
   std::optional<Path> groupByIndex(int index);
 
-  void stagePhoto(std::vector<std::shared_ptr<VirtualImage>> fullPath,
+  void stagePhoto(std::vector<std::shared_ptr<VirtualImage>> photo,
                   int                                        position = -1);
   void updateStagedPhoto(std::shared_ptr<VirtualImage> newImage);
-
   void unstagePhoto(std::vector<int> importedFolderIndex);
-  void removeGroup(int index);
 
   int fullPathRow(Path) const;
 
@@ -50,8 +49,12 @@ public:
   auto unstagedIterator(int importFolderIndex, int index = -1)
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
 
-  int                                  groupSize(std::optional<Path> group);
-  std::unordered_map<Path, int> const &groups();
+  int               groupSize(std::optional<Path> group) const;
+  std::vector<Path> groups() const;
+  int               groupIndex(Path path) const;
+
+  bool containsGroup(Path path);
+
   std::vector<std::shared_ptr<VirtualImage>> &stagedPhotos();
   std::vector<Path>                           stagedPhotosFullPaths() const;
 

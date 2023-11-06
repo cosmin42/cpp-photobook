@@ -82,8 +82,7 @@ void Photobook::addImportFolder(Path importPath)
     auto path = std::get<Path>(errorOrPath);
     printDebug("Add Input folder %s\n", path.string().c_str());
 
-    auto &rootFolders = imageSupport().groups();
-    if (rootFolders.find(path) != rootFolders.end()) {
+    if (imageSupport().containsGroup(path)) {
       mParent.onError(Error() << ErrorCode::FolderAlreadyImported
                               << "Folder already imported.");
       return;
@@ -176,7 +175,7 @@ void Photobook::onImportFolderMapped(Path              rootPath,
   mProgress[rootPath] = 0;
   const int maxProgress = (int)newMediaMap.size();
 
-  auto importFolderIndex = mImageSupport.groups().at(rootPath);
+  auto importFolderIndex = mImageSupport.groupIndex(rootPath);
 
   auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
 
@@ -264,13 +263,9 @@ void Photobook::savePhotobook(Path newPath)
         });
   }
 
-  auto &groupsSet = imageSupport().groups();
+  auto groupsSet = imageSupport().groups();
 
-  std::vector<Path> goups;
-  for (auto &path : groupsSet) {
-    goups.push_back(path.first);
-  }
-  mProject.details().setImportedPaths(goups);
+  mProject.details().setImportedPaths(groupsSet);
 
   mProject.details().setPaperSettings(mPaperSettings);
 
