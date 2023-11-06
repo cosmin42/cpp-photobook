@@ -26,6 +26,8 @@ namespace winrt::PhotobookUI::implementation {
 
 HWND MainWindow::sMainWindowhandle = 0x0;
 
+std::function<void()> MainWindow::sMainExitfunction = nullptr;
+
 winrt::Microsoft::UI::Dispatching::DispatcherQueue
     MainWindow::sMainthreadDispatcher = nullptr;
 
@@ -39,6 +41,16 @@ MainWindow::MainWindow()
   auto windowNative{this->try_as<::IWindowNative>()};
   winrt::check_bool(windowNative);
   windowNative->get_WindowHandle(&sMainWindowhandle);
+}
+
+void MainWindow::OnWindowClosed(
+    [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::WindowEventArgs const &arg)
+{
+  if (sMainExitfunction) {
+    sMainExitfunction();
+    arg.Handled(true);
+  }
 }
 
 } // namespace winrt::PhotobookUI::implementation

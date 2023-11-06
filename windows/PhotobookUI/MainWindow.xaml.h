@@ -5,6 +5,8 @@
 
 #include "MainWindow.g.h"
 
+#include <functional>
+
 namespace winrt::PhotobookUI::implementation {
 struct MainWindow : MainWindowT<MainWindow> {
   static HWND sMainWindowhandle;
@@ -12,7 +14,12 @@ struct MainWindow : MainWindowT<MainWindow> {
   static winrt::Microsoft::UI::Dispatching::DispatcherQueue
       sMainthreadDispatcher;
 
+  static std::function<void()> sMainExitfunction;
+
   MainWindow();
+
+  void OnWindowClosed(::winrt::Windows::Foundation::IInspectable const &,
+                      ::winrt::Microsoft::UI::Xaml::WindowEventArgs const &);
 };
 } // namespace winrt::PhotobookUI::implementation
 

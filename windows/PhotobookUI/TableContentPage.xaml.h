@@ -28,7 +28,7 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   static std::pair<int, int> ScreenSize();
 
   TableContentPage();
-  ~TableContentPage() = default;
+  ~TableContentPage();
 
   int CanvasMinWidth();
   int CanvasMinHeight();

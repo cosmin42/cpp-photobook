@@ -118,7 +118,7 @@
                             <MenuFlyout.Items>
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Undo"
-                                                IsEnabled="True"
+                                                IsEnabled="False"
                                                 Click="OnUndoClicked">
                                     <MenuFlyoutItem.KeyboardAccelerators>
                                         <KeyboardAccelerator Modifiers="Control"
@@ -126,7 +126,7 @@
                                     </MenuFlyoutItem.KeyboardAccelerators>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem Text="Redo"
-                                                IsEnabled="True"
+                                                IsEnabled="False"
                                                 Click="OnRedoClicked">
                                     <MenuFlyoutItem.KeyboardAccelerators>
                                         <KeyboardAccelerator Modifiers="Control,Shift"
@@ -152,7 +152,8 @@
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Preferences"
-                                                Click="OnPreferencesClicked" />
+                                                Click="OnPreferencesClicked"
+                                                IsEnabled="False" />
                             </MenuFlyout.Items>
                         </MenuFlyout>
                     </Button.Flyout>
@@ -172,7 +173,8 @@
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Tips"
-                                                Click="OnTipsClicked" />
+                                                Click="OnTipsClicked"
+                                                IsEnabled="False"/>
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="License"
                                                 Click="OnLicenseClicked" />

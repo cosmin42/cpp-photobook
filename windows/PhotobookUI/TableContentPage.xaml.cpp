@@ -68,6 +68,12 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
   mStagedImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
+
+  MainWindow::sMainExitfunction = [this]() {
+    ProjectExitDialogDisplay();
+    mExitFlag = true;
+  };
+
   InitializeComponent();
 
   UnstagedListView().ItemsSource(mUnstagedImageCollection);
@@ -128,6 +134,11 @@ TableContentPage::TableContentPage()
               winrt::Microsoft::UI::Xaml::Visibility::Visible);
         }
       });
+}
+
+TableContentPage::~TableContentPage()
+{
+  MainWindow::sMainExitfunction = nullptr;
 }
 
 void TableContentPage::OnKeyDown(
@@ -1074,6 +1085,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
+  PB::printDebug("OnContentDialogDiscardClicked\n");
   mPhotoBook.discardPhotobook();
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
