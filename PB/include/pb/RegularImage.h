@@ -6,36 +6,25 @@
 namespace PB {
 class RegularImage final : public VirtualImage {
 public:
-  explicit RegularImage(Thumbnails thumbnails) : mThumbnails(thumbnails) {}
-
-  RegularImage &buildFullImage(Path path)
+  explicit RegularImage(Thumbnails thumbnails)
   {
-    mThumbnails.fullPath = path;
-    return *this;
+    setSizePath(thumbnails.fullPath, thumbnails.mediumThumbnail,
+                thumbnails.smallThumbnail);
   }
 
-  RegularImage &buildMediumImage(Path path)
-  {
-    mThumbnails.mediumThumbnail = path;
-    return *this;
-  }
-
-  RegularImage &buildSmallImage(Path path)
-  {
-    mThumbnails.smallThumbnail = path;
-    return *this;
-  }
-
-  cv::Mat          fullImage() override { return cv::Mat(); }
-  cv::Mat          mediumImage() override { return cv::Mat(); }
-  cv::Mat          smallImage() override { return cv::Mat(); }
   VirtualImageType type() const override { return VirtualImageType::Regular; }
 
-  Thumbnails const &thumbnails() const { return mThumbnails; }
+  Thumbnails thumbnails() const
+  {
+    return Thumbnails(fullSizePath(), mediumSizePath(), smallSizePath());
+  }
 
-  void setThumbnail(Thumbnails thumbnails) { mThumbnails = thumbnails; }
+  void setThumbnail(Thumbnails thumbnails)
+  {
+    setSizePath(thumbnails.fullPath, thumbnails.mediumThumbnail,
+                thumbnails.smallThumbnail);
+  }
 
 private:
-  Thumbnails mThumbnails;
 };
 } // namespace PB

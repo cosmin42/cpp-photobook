@@ -13,16 +13,27 @@
 namespace PB {
 class VirtualImage {
 public:
-  virtual cv::Mat          fullImage() = 0;
-  virtual cv::Mat          mediumImage() = 0;
-  virtual cv::Mat          smallImage() = 0;
   virtual VirtualImageType type() const = 0;
 
   void setFullSizePath(Path path) { mFullSizePath = path; }
+  void setMediumSizePath(Path path) { mMediumSizePath = path; }
+  void setSmallSizePath(Path path) { mSmallSizePath = path; }
+
+  void setSizePath(Path fullSizePath, Path mediumSizePath = Path(),
+                   Path smallSizePath = Path())
+  {
+    mFullSizePath = fullSizePath;
+    mMediumSizePath = mediumSizePath;
+    mSmallSizePath = smallSizePath;
+  }
 
   Path fullSizePath() const { return mFullSizePath; }
+  Path mediumSizePath() const { return mMediumSizePath; }
+  Path smallSizePath() const { return mSmallSizePath; }
 
 private:
   Path mFullSizePath;
+  Path mMediumSizePath;
+  Path mSmallSizePath = Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE);
 };
 } // namespace PB

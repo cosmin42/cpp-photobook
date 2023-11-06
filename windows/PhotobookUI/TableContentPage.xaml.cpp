@@ -597,6 +597,9 @@ void TableContentPage::OnCanvasDraw(
   auto thumbnailPtr = gallery.selectedItem();
 
   auto regularImage = std::dynamic_pointer_cast<PB::RegularImage>(thumbnailPtr);
+  if (!regularImage) {
+    return;
+  }
 
   auto mediumThumbnailPath = regularImage->thumbnails().mediumThumbnail;
   if (mediumThumbnailPath.empty()) {
@@ -712,22 +715,12 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
                       mLoadedFinishedImportFolders.end()) {
     auto size = iterator.size();
     for (int i = 0; i < (int)size; ++i) {
-      auto thumbnail = iterator[i].current();
-      if (thumbnail->type() == PB::VirtualImageType::Regular) {
-        auto regularImage =
-            std::dynamic_pointer_cast<PB::RegularImage>(thumbnail);
-        mUnstagedImageCollection.SetAt(
-            i,
-            ImageUIData(
-                winrt::to_hstring(regularImage->thumbnails().fullPath.string()),
-                winrt::to_hstring(
-                    regularImage->thumbnails().mediumThumbnail.string()),
-                winrt::to_hstring(
-                    regularImage->thumbnails().smallThumbnail.string())));
-      }
-      else {
-        PB::basicAssert(false);
-      }
+      auto virtualImage = iterator[i].current();
+      mUnstagedImageCollection.SetAt(
+          i, ImageUIData(
+                 winrt::to_hstring(virtualImage->fullSizePath().string()),
+                 winrt::to_hstring(virtualImage->mediumSizePath().string()),
+                 winrt::to_hstring(virtualImage->smallSizePath().string())));
     }
   }
 }

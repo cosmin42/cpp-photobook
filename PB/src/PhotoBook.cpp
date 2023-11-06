@@ -191,9 +191,11 @@ void Photobook::onImportFolderMapped(Path              rootPath,
         mParent.post([this, rootPath{rootPath}, input{input},
                       smallOutput{smallOutput}, start{start},
                       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
-          mImageSupport.image<RegularImage>(input)
-              ->buildSmallImage(smallOutput)
-              .buildMediumImage(mediumOutput);
+          auto image = mImageSupport.image<VirtualImage>(input);
+
+          image->setMediumSizePath(mediumOutput);
+          image->setSmallSizePath(smallOutput);
+
           mProgress[rootPath]++;
           if (mProgress.at(rootPath) == maxProgress) {
 
