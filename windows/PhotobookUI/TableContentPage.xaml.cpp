@@ -274,7 +274,7 @@ void TableContentPage::OnAboutClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   GenericMessageTextBlock().Text(
-      winrt::to_hstring("Version: " + std::string(PB::Context::VERSION)));
+      winrt::to_hstring("Version: " + std::string(PB::Context::VERSION) + "\nEmail: cosmin@mandelbrot-code.com"));
   GenericMessageDialogDisplay();
 }
 

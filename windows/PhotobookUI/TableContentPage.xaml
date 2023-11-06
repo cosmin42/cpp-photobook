@@ -174,7 +174,7 @@
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Tips"
                                                 Click="OnTipsClicked"
-                                                IsEnabled="False"/>
+                                                IsEnabled="False" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="License"
                                                 Click="OnLicenseClicked" />
@@ -570,7 +570,8 @@
                        Foreground="{StaticResource MainFontColor}"
                        Background="{StaticResource PrimaryColor}">
             <TextBlock x:Name="GenericMessageTextBlock"
-                       HorizontalAlignment="Left" />
+                       HorizontalAlignment="Left"
+                       TextWrapping="WrapWholeWords" />
         </ContentDialog>
     </Grid>
 </Page>
