@@ -55,6 +55,7 @@ public:
   void discardPhotobook();
   void savePhotobook();
   void savePhotobook(Path newPath);
+  bool isSaved();
 
   bool projectDefaultSaved();
 

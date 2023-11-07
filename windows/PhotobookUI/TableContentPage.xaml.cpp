@@ -70,8 +70,14 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitfunction = [this]() {
-    ProjectExitDialogDisplay();
-    mExitFlag = true;
+    if (!mPhotoBook.isSaved()) {
+      ProjectExitDialogDisplay();
+      mExitFlag = true;
+    }
+    else
+    {
+      Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+    }
   };
 
   InitializeComponent();
@@ -324,6 +330,9 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  if (mPhotoBook.isSaved()) {
+    return;
+  }
   if (!mPhotoBook.projectDefaultSaved()) {
     mPhotoBook.savePhotobook();
   }
@@ -1030,6 +1039,9 @@ void TableContentPage::OnContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
+  if (mPhotoBook.isSaved()) {
+    return;
+  }
   mPopups.fireSaveFilePicker(
       MainWindow::sMainWindowhandle,
       [this](std::variant<std::string, PB::Error> result) {
