@@ -274,7 +274,8 @@ void TableContentPage::OnAboutClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   GenericMessageTextBlock().Text(
-      winrt::to_hstring("Version: " + std::string(PB::Context::VERSION) + "\nEmail: cosmin@mandelbrot-code.com"));
+      winrt::to_hstring("Version: " + std::string(PB::Context::VERSION) +
+                        "\nEmail: cosmin@mandelbrot-code.com"));
   GenericMessageDialogDisplay();
 }
 
@@ -315,7 +316,7 @@ void TableContentPage::OnExitClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  ProjectExitDialogDisplay();
+  Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
   mExitFlag = true;
 }
 
@@ -1085,6 +1086,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
 {
   PB::printDebug("OnContentDialogDiscardClicked\n");
   mPhotoBook.discardPhotobook();
+
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
   }

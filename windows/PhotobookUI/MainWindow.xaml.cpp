@@ -47,9 +47,11 @@ void MainWindow::OnWindowClosed(
     [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::WindowEventArgs const &arg)
 {
-  if (sMainExitfunction) {
+  static bool once = true;
+  if (sMainExitfunction && once) {
     sMainExitfunction();
     arg.Handled(true);
+    once = false;
   }
 }
 
