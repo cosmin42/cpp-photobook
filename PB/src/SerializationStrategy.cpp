@@ -82,7 +82,7 @@ template <> std::variant<PaperSettings, Error> deserialize(Json jsonData)
   if (std::holds_alternative<Error>(heightOrError)) {
     return std::get<Error>(heightOrError);
   }
-  paperSettings.width = std::get<int>(heightOrError);
+  paperSettings.height = std::get<int>(heightOrError);
 
   return paperSettings;
 }
