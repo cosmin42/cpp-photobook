@@ -116,6 +116,7 @@ add_library(pblib STATIC
     src/Jpg.cpp
     src/Log.cpp
     src/MetadataReader.cpp
+    src/PaperSettings.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/Photobook.cpp

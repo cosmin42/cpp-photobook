@@ -11,3 +11,5 @@ struct PaperSettings {
   int       height;
 };
 } // namespace PB
+
+bool operator==(PB::PaperSettings const &lhs, PB::PaperSettings const &rhs);

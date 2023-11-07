@@ -26,17 +26,26 @@ public:
   Path supportFolder() const;
   Path projectFile() const;
 
-  void setImportedPaths(std::vector<Path> maybePath);
-  void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> maybePath);
+  [[nodiscard]] bool projectDetailsChanged(
+      std::vector<Path> const                   &importedPaths,
+      std::vector<std::shared_ptr<VirtualImage>> stagedChanges,
+      PaperSettings const                       &paperSettings);
+
+  void setImportedPaths(std::vector<Path> paths);
+  void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> paths);
   void setStagedImages(std::vector<Path> stagedImages);
   void setPaperSettings(PaperSettings paperSettings);
-  void removeStagedImage(int index);
 
   std::vector<Path> importedFolderList() const;
   std::vector<Path> stagedImagesList() const;
   PaperSettings     paperSettings() const;
 
 private:
+  [[nodiscard]] bool importedPathsChanged(std::vector<Path> const &paths) const;
+  [[nodiscard]] bool
+  stagedImagesChanged(std::vector<std::shared_ptr<VirtualImage>> paths);
+  [[nodiscard]] bool paperSettingsChanged(PaperSettings const &paperSettings);
+
   boost::uuids::uuid mUuid = boost::uuids::random_generator()();
   std::string        mSupportDirName;
   Path               mParentDirectory;
