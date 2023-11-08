@@ -1,7 +1,12 @@
 #pragma once
 
 #include <optional>
+#include <variant>
+
+#include <sqlite3.h>
+
 #include <pb/Config.h>
+#include <pb/Error.h>
 
 namespace PB {
 
@@ -22,12 +27,11 @@ public:
 
   void write(std::pair<std::string, std::string>       entry,
              std::function<void(std::optional<Error>)> onReturn);
+  void write(std::unordered_map<std::string, std::string> map,
+             std::function<void(std::optional<Error>)>    onReturn);
 
   void deleteEntry(std::string                               key,
                    std::function<void(std::optional<Error>)> onReturn);
-
-  void write(std::unordered_map<std::string, std::string> map,
-             std::function<void(std::optional<Error>)>    onReturn);
 
 private:
   std::optional<Error> createProjectsRegisterIfNotExisting();

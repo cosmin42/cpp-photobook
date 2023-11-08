@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include <pb/Config.h>
-#include <pb/persistence/Persistence.h>
 
 using namespace PB;
 

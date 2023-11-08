@@ -7,7 +7,7 @@
 
 #include <pb/Config.h>
 #include <pb/util/Traits.h>
-
+#include <pb/Error.h>
 
 namespace PB {
 class ProjectMetadata {

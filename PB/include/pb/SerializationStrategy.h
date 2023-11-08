@@ -1,7 +1,8 @@
 #pragma once
 
+#include <variant>
+
 #include <pb/common/Log.h>
-#include <pb/persistence/Persistence.h>
 #include <pb/util/Concepts.h>
 
 namespace PB::Text {

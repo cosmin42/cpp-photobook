@@ -269,14 +269,8 @@ void Photobook::savePhotobook(Path newPath)
         });
   }
 
-  auto groupsSet = imageSupport().groups();
-
-  mProject.details().setImportedPaths(groupsSet);
-
+  mProject.details().setImportedPaths(imageSupport().groups());
   mProject.details().setPaperSettings(mPaperSettings);
-
-  auto it = imageSupport().stagedIterator();
-
   mProject.details().setStagedImages(imageSupport().stagedPhotos());
 
   auto projectDetailsOrError =

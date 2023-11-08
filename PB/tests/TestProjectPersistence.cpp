@@ -2,7 +2,6 @@
 
 #include <pb/Config.h>
 #include <pb/Project.h>
-#include <pb/persistence/Persistence.h>
 
 using namespace PB;
 

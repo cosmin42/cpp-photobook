@@ -2,7 +2,6 @@
 #include <stop_token>
 
 #include <pb/common/Log.h>
-#include <pb/persistence/Persistence.h>
 #include <pb/util/Timer.h>
 #include <pb/PaperSettings.h>
 

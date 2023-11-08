@@ -11,7 +11,6 @@
 
 #include <pb/Project.h>
 #include <pb/SQLPersistence.h>
-#include <pb/persistence/Persistence.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
