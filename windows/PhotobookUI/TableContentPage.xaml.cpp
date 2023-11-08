@@ -21,6 +21,7 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
+#include <pb/FilePersistence.h>
 #include <pb/PaperSettings.h>
 #include <pb/RegularImage.h>
 #include <pb/SerializationStrategy.h>

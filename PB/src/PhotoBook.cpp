@@ -1,5 +1,6 @@
 #include <pb/Photobook.h>
 
+#include <pb/FilePersistence.h>
 #include <pb/RegularImage.h>
 #include <pb/SerializationStrategy.h>
 #include <pb/TextImage.h>
@@ -308,8 +309,8 @@ bool Photobook::isSaved()
 {
   auto importedFolders = imageSupport().groups();
   auto stagedPhotos = imageSupport().stagedPhotos();
-  return !mProject.details().projectDetailsChanged(importedFolders, stagedPhotos,
-                                           mPaperSettings);
+  return !mProject.details().projectDetailsChanged(
+      importedFolders, stagedPhotos, mPaperSettings);
 }
 
 ImageSupport &Photobook::imageSupport() { return mImageSupport; }

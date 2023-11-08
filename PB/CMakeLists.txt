@@ -71,6 +71,7 @@ add_library(pblib STATIC
     include/pb/Exportable.h
     include/pb/Exporter.h
     include/pb/FileMapper.h
+    include/pb/FilePersistence.h
     include/pb/Html.h
     include/pb/ImageReader.h
     include/pb/ImageOperations.h
@@ -108,6 +109,7 @@ add_library(pblib STATIC
     src/Enums.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
+    src/FilePersistence.cpp
     src/Gallery.cpp
     src/Html.cpp
     src/ImageReader.cpp

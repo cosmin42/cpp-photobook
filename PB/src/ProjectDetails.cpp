@@ -24,7 +24,6 @@ bool ProjectDetails::importedPathsChanged(std::vector<Path> const &paths) const
   else {
     return !std::equal(paths.begin(), paths.end(), mImportedPaths.begin());
   }
-  return false;
 }
 
 bool ProjectDetails::stagedImagesChanged(

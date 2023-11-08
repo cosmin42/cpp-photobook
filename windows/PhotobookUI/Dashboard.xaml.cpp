@@ -21,6 +21,8 @@ using namespace Microsoft::UI::Dispatching;
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
+#include <pb/FilePersistence.h>
+
 namespace winrt::PhotobookUI::implementation {
 
 PB::Path Dashboard::CurrentAppLocation()
