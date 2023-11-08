@@ -10,6 +10,7 @@
 #include "ProjectItem.g.h"
 
 #include <pb/Project.h>
+#include <pb/SQLPersistence.h>
 #include <pb/persistence/Persistence.h>
 
 using namespace winrt::Windows::Foundation::Collections;
@@ -27,8 +28,8 @@ struct Dashboard : DashboardT<Dashboard> {
 
   std::string CreateProject();
 
-  void OnPersistenceDataLoaded(std::variant<std::vector<PB::ProjectMetadata>,
-                                            PB::Error> metadatOrError);
+  void OnPersistenceDataLoaded(
+      std::variant<std::vector<PB::ProjectMetadata>, PB::Error> metadatOrError);
   void OnError(PB::Error err);
 
   void OnListViewRightTapped(

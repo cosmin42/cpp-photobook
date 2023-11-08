@@ -26,6 +26,7 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
+#include <pb/SQLPersistence.h>
 
 namespace PB {
 
