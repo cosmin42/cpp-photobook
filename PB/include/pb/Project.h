@@ -41,14 +41,6 @@ public:
 
   void updateProjectPath(Path path) { mProjectDetails.parentDirectory(path); }
 
-  std::pair<std::string, std::string> locationData()
-  {
-    auto uuidStr = boost::uuids::to_string(mProjectDetails.uuid());
-    auto pathStr = mProjectDetails.parentDirectory().string();
-
-    return std::pair<std::string, std::string>(uuidStr, pathStr);
-  }
-
 private:
   ProjectDetails mProjectDetails;
 };
