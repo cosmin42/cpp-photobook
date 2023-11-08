@@ -1,10 +1,9 @@
 #pragma once
 
-#include <pb/Project.h>
-#include <pb/persistence/ProjectMetadata.h>
+#include <pb/Visitor.h>
 
 namespace PB {
-class PersistenceVisitor final {
+class PersistenceVisitor final : public Visitor {
 public:
   void visit(Project const &project);
   void visit(ProjectMetadata const &projectMetadata);

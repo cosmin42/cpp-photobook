@@ -103,6 +103,7 @@ add_library(pblib STATIC
     include/pb/util/Traits.h
     include/pb/TextImage.h
     include/pb/VirtualImage.h
+    include/pb/Visitor.h
 
     src/Command.cpp
     src/Config.cpp
