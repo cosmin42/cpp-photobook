@@ -271,7 +271,13 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  ProjectExitDialogDisplay();
+  if (mPhotoBook.isSaved()) {
+    mPhotoBook.discardPhotobook();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+  }
+  else {
+    ProjectExitDialogDisplay();
+  }
 }
 
 void TableContentPage::OnAboutClicked(
@@ -385,8 +391,9 @@ void TableContentPage::OnNewClicked(
 
             mPhotoBook.savePhotobook(newName);
             mPhotoBook.discardPhotobook();
-            Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
-                             winrt::box_value(winrt::to_hstring("new-project")));
+            Frame().Navigate(
+                winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                winrt::box_value(winrt::to_hstring("new-project")));
           }
           else {
             OnError(std::get<PB::Error>(result));
