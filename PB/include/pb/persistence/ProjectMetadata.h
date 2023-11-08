@@ -6,18 +6,12 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/util/Traits.h>
 #include <pb/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 class ProjectMetadata {
 public:
-  explicit ProjectMetadata(std::string uuid, std::string path);
-
-  ~ProjectMetadata() = default;
-
-  std::pair<std::string, std::string> serialize();
-
   static std::variant<std::vector<ProjectMetadata>, Error>
   parse(std::variant<std::unordered_map<std::string, std::string>, Error>
             mapOrError);
@@ -25,7 +19,17 @@ public:
   static std::vector<ProjectMetadata>
   parse(std::unordered_map<std::string, std::string> const &map);
 
+  explicit ProjectMetadata(std::string uuid, std::string path);
+
+  ProjectMetadata() = default;
+  ~ProjectMetadata() = default;
+
+  std::pair<std::string, std::string> serialize();
+
   std::pair<boost::uuids::uuid, Path> data() const;
+
+  Path projectFile() const;
+  boost::uuids::uuid uuid() const;
 
 private:
   boost::uuids::uuid mUUID;

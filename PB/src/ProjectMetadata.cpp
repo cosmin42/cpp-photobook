@@ -49,4 +49,8 @@ std::pair<boost::uuids::uuid, Path> ProjectMetadata::data() const
 {
   return {mUUID, mProjectFilePath};
 }
+
+Path ProjectMetadata::projectFile() const { return mProjectFilePath; }
+
+boost::uuids::uuid ProjectMetadata::uuid() const { return mUUID; }
 } // namespace PB

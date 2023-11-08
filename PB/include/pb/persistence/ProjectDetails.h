@@ -24,7 +24,6 @@ public:
   Path parentDirectory() const { return mParentDirectory; }
 
   Path supportFolder() const;
-  Path projectFile() const;
 
   [[nodiscard]] bool projectDetailsChanged(
       std::vector<Path> const                   &importedPaths,

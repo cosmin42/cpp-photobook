@@ -11,11 +11,6 @@ Path ProjectDetails::supportFolder() const
   return mParentDirectory / mSupportDirName;
 }
 
-Path ProjectDetails::projectFile() const
-{
-  return mParentDirectory / (mSupportDirName + Context::BOOK_EXTENSION);
-}
-
 bool ProjectDetails::importedPathsChanged(std::vector<Path> const &paths) const
 {
   if (mImportedPaths.size() != paths.size()) {

@@ -243,13 +243,13 @@ void Photobook::discardPhotobook()
 
 void Photobook::savePhotobook()
 {
-  savePhotobook(mProject.details().projectFile());
+  savePhotobook(mProject.metadata().projectFile());
 }
 
 void Photobook::savePhotobook(Path newPath)
 {
   bool newSaveFile = false;
-  Path oldProjectFile = mProject.details().projectFile();
+  Path oldProjectFile = mProject.metadata().projectFile();
   Path oldSupportFolder = mProject.details().supportFolder();
 
   if (newPath != oldProjectFile) {
@@ -258,8 +258,8 @@ void Photobook::savePhotobook(Path newPath)
     newSaveFile = true;
 
     std::pair<std::string, std::string> entry = {
-        boost::uuids::to_string(mProject.details().uuid()),
-        mProject.details().projectFile().string()};
+        boost::uuids::to_string(mProject.metadata().uuid()),
+        mProject.metadata().projectFile().string()};
 
     mCentralPersistence.write(
         entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
