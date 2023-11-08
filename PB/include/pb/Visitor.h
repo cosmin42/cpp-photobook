@@ -6,7 +6,7 @@
 namespace PB {
 class Visitor {
 public:
-  void visit(Project const &project) = 0;
-  void visit(ProjectMetadata const &projectMetadata) = 0;
+  virtual void visit(Project const &project) = 0;
+  virtual void visit(ProjectMetadata const &projectMetadata) = 0;
 };
 } // namespace PB

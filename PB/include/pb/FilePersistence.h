@@ -11,7 +11,9 @@ class FilePersistence final {
 public:
   static bool createDirectory(Path path);
 
+  FilePersistence() = default;
   explicit FilePersistence(Path path);
+  ~FilePersistence() = default;
 
   void read(std::function<void(std::variant<Json, Error>)> onReturn);
 
