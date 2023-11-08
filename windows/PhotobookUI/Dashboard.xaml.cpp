@@ -9,8 +9,11 @@
 #endif
 // clang-format on
 
+#include "MainWindow.xaml.h"
+
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
+using namespace Microsoft::UI::Dispatching;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,12 +62,12 @@ Dashboard::Dashboard() : mCentralPersistence(CurrentAppLocation())
       });
 }
 
-void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
+std::string Dashboard::CreateProject()
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
-  auto jsonOrError =
-      PB::Text::serialize<PB::ProjectDetails>(0, {"root", newProject.details()});
+  auto jsonOrError = PB::Text::serialize<PB::ProjectDetails>(
+      0, {"root", newProject.details()});
 
   PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 
@@ -76,10 +79,11 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 
   newProjectPersistence.write(std::get<PB::Json>(jsonOrError).at("root"),
                               [](std::optional<PB::Error> maybeError) {
-        if (maybeError) {
-          PB::printError("Error writing into peristence.\n");
-        }
-      });
+                                if (maybeError) {
+                                  PB::printError(
+                                      "Error writing into peristence.\n");
+                                }
+                              });
 
   mCentralPersistence.write(
       std::pair<std::string, std::string>(uuidStr, fullPath.string()),
@@ -89,7 +93,14 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
         }
       });
 
-  auto newPathWin = winrt::to_hstring(fullPath.string());
+  return fullPath.string();
+}
+
+void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
+{
+  auto path = CreateProject();
+
+  auto newPathWin = winrt::to_hstring(path);
   auto boxed = winrt::box_value(newPathWin);
 
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
@@ -180,6 +191,26 @@ void Dashboard::OpenProjectClicked(
   auto item = e.ClickedItem().as<ProjectItem>();
   Frame().Navigate(winrt::xaml_typename<TableContentPage>(),
                    winrt::box_value(item.FullPath()));
+}
+
+void Dashboard::OnNavigatedTo(
+    Microsoft::UI::Xaml::Navigation::NavigationEventArgs args)
+{
+  if (args.Parameter() != nullptr) {
+    winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
+
+    if (winrt::to_string(source) == "new-project") {
+      auto path = CreateProject();
+      auto newPathWin = winrt::to_hstring(path);
+      auto boxed = winrt::box_value(newPathWin);
+
+      bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
+          DispatcherQueuePriority::Normal, [this, boxed{boxed}]() {
+            Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
+          });
+      PB::basicAssert(success);
+    }
+  }
 }
 
 } // namespace winrt::PhotobookUI::implementation

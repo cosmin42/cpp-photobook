@@ -74,8 +74,7 @@ TableContentPage::TableContentPage()
       ProjectExitDialogDisplay();
       mExitFlag = true;
     }
-    else
-    {
+    else {
       Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
     }
   };
@@ -372,6 +371,28 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  if (mPhotoBook.isSaved()) {
+    mPhotoBook.discardPhotobook();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                     winrt::box_value(winrt::to_hstring("new-project")));
+  }
+  else {
+    mPopups.fireSaveFilePicker(
+        MainWindow::sMainWindowhandle,
+        [this](std::variant<std::string, PB::Error> result) {
+          if (std::holds_alternative<std::string>(result)) {
+            auto &newName = std::get<std::string>(result);
+
+            mPhotoBook.savePhotobook(newName);
+            mPhotoBook.discardPhotobook();
+            Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                             winrt::box_value(winrt::to_hstring("new-project")));
+          }
+          else {
+            OnError(std::get<PB::Error>(result));
+          }
+        });
+  }
 }
 
 void TableContentPage::OnUndoClicked(

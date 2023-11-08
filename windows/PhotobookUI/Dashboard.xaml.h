@@ -25,6 +25,8 @@ struct Dashboard : DashboardT<Dashboard> {
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
+  std::string CreateProject();
+
   void OnPersistenceDataLoaded(std::variant<std::vector<PB::ProjectMetadata>,
                                             PB::Error> metadatOrError);
   void OnError(PB::Error err);
@@ -41,6 +43,8 @@ struct Dashboard : DashboardT<Dashboard> {
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::
           ItemClickEventArgs const &);
+
+  void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
   IObservableVector<ProjectItem> mProjectsList;
 
