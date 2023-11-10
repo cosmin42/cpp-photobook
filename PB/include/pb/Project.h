@@ -16,11 +16,11 @@ class Project final {
 public:
   Project() = default;
 
-  Project(Path centralPersistencePath)
+  Project(Path parentDirectory)
   {
     auto uuid = boost::uuids::random_generator()();
-    auto projectPath = centralPersistencePath / (boost::uuids::to_string(uuid) +
-                                                 Context::BOOK_EXTENSION);
+    auto projectPath = parentDirectory / (boost::uuids::to_string(uuid) +
+                                          Context::BOOK_EXTENSION);
 
     mMetadata =
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
@@ -28,9 +28,20 @@ public:
     mProjectDetails.uuid(uuid);
     mProjectDetails.supportDirName(
         boost::uuids::to_string(mProjectDetails.uuid()));
-    mProjectDetails.parentDirectory(centralPersistencePath);
+    mProjectDetails.parentDirectory(parentDirectory);
 
     mProjectDetails.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
+  }
+
+  Project(ProjectDetails projectDetails)
+  {
+    auto projectPath = projectDetails.parentDirectory() /
+                       (boost::uuids::to_string(projectDetails.uuid()) +
+                        Context::BOOK_EXTENSION);
+    mMetadata = ProjectMetadata(boost::uuids::to_string(projectDetails.uuid()),
+                                projectPath.string());
+
+    mProjectDetails = projectDetails;
   }
 
   ~Project() = default;

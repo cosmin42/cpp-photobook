@@ -11,12 +11,15 @@
 
 #include <pb/Project.h>
 #include <pb/SQLPersistence.h>
+#include <pb/persistence/PersistenceVisitor.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct Dashboard : DashboardT<Dashboard> {
+struct Dashboard : DashboardT<Dashboard>,
+                   public PB::PersistenceMetadataListener,
+                   public PB::PersistenceProjectListener {
 
   static PB::Path CurrentAppLocation();
 
@@ -27,8 +30,7 @@ struct Dashboard : DashboardT<Dashboard> {
 
   std::string CreateProject();
 
-  void OnPersistenceDataLoaded(
-      std::variant<std::vector<PB::ProjectMetadata>, PB::Error> metadatOrError);
+  void OnPersistenceDataLoaded(std::vector<PB::ProjectMetadata> metadata);
   void OnError(PB::Error err);
 
   void OnListViewRightTapped(
@@ -46,13 +48,20 @@ struct Dashboard : DashboardT<Dashboard> {
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
+  void onProjectRead(PB::Project project) override;
+  void
+  onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata) override;
+  void onMetadataRead(PB::ProjectMetadata projectMetadata) override;
+  void onProjectPersistenceError(PB::Error) override;
+  void onMetadataPersistenceError(PB::Error) override;
+
   IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
 
   winrt::hstring mRightClickedId;
 
-  PB::SQLitePersistence mCentralPersistence;
+  PB::PersistenceVisitor mPersistenceVisitor;
 };
 } // namespace winrt::PhotobookUI::implementation
 

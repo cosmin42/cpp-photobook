@@ -101,8 +101,6 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
-  void OnProjectDetailsLoaded(PB::ProjectDetails projectDetails);
-
   void OnUnstagedPhotosSelectionChanged(
       [[maybe_unused]] ::winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::

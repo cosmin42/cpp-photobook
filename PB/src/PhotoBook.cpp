@@ -6,19 +6,16 @@
 #include <pb/TextImage.h>
 
 namespace PB {
-Photobook::Photobook(PhotobookListener &listener, Path centralPersistencePath,
+Photobook::Photobook(PhotobookListener  &listener,
+                     PersistenceVisitor &persistenceVisitor,
+                     Path                centralPersistencePath,
                      std::pair<int, int> screenSize)
-    : mParent(listener), mCentralPersistencePath(centralPersistencePath),
-      mCentralPersistence(mCentralPersistencePath),
+    : mParent(listener), mPersistence(persistenceVisitor),
+      mCentralPersistencePath(centralPersistencePath),
       mThumbnailsProcessor(screenSize),
       mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
 {
   printDebug("Photobook created.\n");
-
-  auto maybeError = mCentralPersistence.connect();
-  if (maybeError) {
-    onError(maybeError.value());
-  }
 
   mImageSupport.setListener(mGallery.slot());
 }
@@ -257,16 +254,7 @@ void Photobook::savePhotobook(Path newPath)
     mProject.updateProjectName(newPath.stem().string());
     newSaveFile = true;
 
-    std::pair<std::string, std::string> entry = {
-        boost::uuids::to_string(mProject.metadata().uuid()),
-        mProject.metadata().projectFile().string()};
-
-    mCentralPersistence.write(
-        entry, [this, newPath{Path(newPath)}](std::optional<Error> maybeError) {
-          if (maybeError) {
-            mParent.onError(Error() << ErrorCode::CannotSaveFile);
-          }
-        });
+    mPersistence.persist(mProject.metadata());
   }
 
   mProject.details().setImportedPaths(imageSupport().groups());
@@ -281,20 +269,11 @@ void Photobook::savePhotobook(Path newPath)
     return;
   }
 
-  FilePersistence persistence(newPath);
-  persistence.write(std::get<Json>(projectDetailsOrError).at("root"),
-                    [this, oldProjectFile, oldSupportFolder,
-                     newSaveFile](std::optional<Error> maybeError) {
-                      if (maybeError) {
-                        mParent.onError(maybeError.value());
-                      }
-                      else {
-                        if (newSaveFile) {
-                          std::filesystem::remove(oldSupportFolder);
-                          std::filesystem::remove(oldProjectFile);
-                        }
-                      }
-                    });
+  mPersistence.persist(newPath, mProject.details());
+  if (newSaveFile) {
+    std::filesystem::remove(oldSupportFolder);
+    std::filesystem::remove(oldProjectFile);
+  }
 
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
@@ -319,4 +298,15 @@ bool Photobook::projectDefaultSaved()
   }
   return true;
 }
+
+void Photobook::onProjectRead(Project project) { configureProject(project); }
+
+void Photobook::onMetadataRead(ProjectMetadata projectMetadata) {}
+
+void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata) {}
+
+void Photobook::onMetadataPersistenceError(Error error) { onError(error); }
+
+void Photobook::onProjectPersistenceError(Error error) { onError(error); }
+
 } // namespace PB

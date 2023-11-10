@@ -5,8 +5,14 @@
 
 #include "App.xaml.g.h"
 
+#include <pb/persistence/PersistenceVisitor.h>
+
 namespace winrt::PhotobookUI::implementation {
-struct App : AppT<App> {
+struct App : AppT<App>,
+             public PB::PersistenceMetadataListener,
+             public PB::PersistenceProjectListener {
+  static PB::Path CurrentAppLocation();
+
   App();
 
   void OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const &);
@@ -15,7 +21,18 @@ struct App : AppT<App> {
       IInspectable const &,
       Microsoft::UI::Xaml::Navigation::NavigationFailedEventArgs const &);
 
+  void onProjectRead(PB::Project project) override;
+  void onMetadataRead(PB::ProjectMetadata projectMetadata) override;
+  void
+  onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata) override;
+  void onProjectPersistenceError(PB::Error) override;
+  void onMetadataPersistenceError(PB::Error) override;
+
+  PB::PersistenceVisitor &persistence() { return mPersistenceVisitor; }
+
 private:
   winrt::Microsoft::UI::Xaml::Window mWindow{nullptr};
+
+  PB::PersistenceVisitor mPersistenceVisitor;
 };
 } // namespace winrt::PhotobookUI::implementation

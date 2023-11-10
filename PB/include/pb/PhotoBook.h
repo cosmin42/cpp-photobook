@@ -21,18 +21,21 @@
 #include <pb/Pdf.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Project.h>
+#include <pb/SQLPersistence.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/common/Log.h>
+#include <pb/persistence/PersistenceVisitor.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
-#include <pb/SQLPersistence.h>
 
 namespace PB {
 
-class Photobook final : public Observer {
+class Photobook final : public Observer, public PersistenceMetadataListener, public PersistenceProjectListener {
 public:
-  explicit Photobook(PhotobookListener &listener, Path centralPersistencePath,
+  explicit Photobook(PhotobookListener  &listener,
+                     PersistenceVisitor &persistenceVisitor,
+                     Path                centralPersistencePath,
                      std::pair<int, int> screenSize);
   ~Photobook();
 
@@ -60,12 +63,20 @@ public:
 
   bool projectDefaultSaved();
 
+  void onProjectRead(Project project) override;
+  void onMetadataRead(ProjectMetadata projectMetadata) override;
+  void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
+  void onMetadataPersistenceError(Error) override;
+  void onProjectPersistenceError(Error) override;
+
+  PersistenceVisitor &persistence() { return mPersistence; }
+
 private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
 
   PhotobookListener                       &mParent;
+  PersistenceVisitor                      &mPersistence;
   Path                                     mCentralPersistencePath;
-  SQLitePersistence                        mCentralPersistence;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;
   ImageSupport                             mImageSupport;

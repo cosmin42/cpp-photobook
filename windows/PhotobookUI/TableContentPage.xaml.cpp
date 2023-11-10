@@ -8,6 +8,7 @@
 #include "TableContentPage.g.cpp"
 #endif
 // clang-format on
+#include "App.xaml.h"
 
 #include <coroutine>
 
@@ -21,7 +22,6 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
-#include <pb/FilePersistence.h>
 #include <pb/PaperSettings.h>
 #include <pb/RegularImage.h>
 #include <pb/SerializationStrategy.h>
@@ -61,7 +61,12 @@ std::pair<int, int> TableContentPage::ScreenSize()
 
 TableContentPage::TableContentPage()
     : mListener(std::ref(*this)),
-      mPhotoBook(mListener, CurrentAppLocation(), ScreenSize())
+      mPhotoBook(mListener,
+                 Application()
+                     .Current()
+                     .as<winrt::PhotobookUI::implementation::App>()
+                     ->persistence(),
+                 CurrentAppLocation(), ScreenSize())
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
@@ -1027,33 +1032,7 @@ void TableContentPage::OnNavigatedTo(
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
-  PB::FilePersistence projectPersistence(fullPath);
-  projectPersistence.read(
-      [this](std::variant<PB::Json, PB::Error> jsonOrError) {
-        if (std::holds_alternative<PB::Error>(jsonOrError)) {
-          auto error = std::get<PB::Error>(jsonOrError);
-          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-        }
-        else {
-          auto &json = std::get<PB::Json>(jsonOrError);
-          auto  projectDetailsOrError =
-              PB::Text::deserialize<PB::ProjectDetails>(json);
-
-          if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
-            Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-          }
-          else {
-            auto &projectDetails =
-                std::get<PB::ProjectDetails>(projectDetailsOrError);
-            OnProjectDetailsLoaded(projectDetails);
-          }
-        }
-      });
-}
-
-void TableContentPage::OnProjectDetailsLoaded(PB::ProjectDetails projectDetails)
-{
-  mPhotoBook.configureProject(PB::Project(projectDetails));
+  mPhotoBook.persistence().recallProject(fullPath);
 }
 
 void TableContentPage::OnExportClicked(

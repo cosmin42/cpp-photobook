@@ -21,8 +21,6 @@ using namespace Microsoft::UI::Dispatching;
 #include <winrt/Windows.Storage.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
-#include <pb/FilePersistence.h>
-
 namespace winrt::PhotobookUI::implementation {
 
 PB::Path Dashboard::CurrentAppLocation()
@@ -33,7 +31,7 @@ PB::Path Dashboard::CurrentAppLocation()
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
-Dashboard::Dashboard() : mCentralPersistence(CurrentAppLocation())
+Dashboard::Dashboard() : mPersistenceVisitor(CurrentAppLocation(), this, this)
 {
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
@@ -47,53 +45,19 @@ Dashboard::Dashboard() : mCentralPersistence(CurrentAppLocation())
 
   mMenuFlyout.Items().Append(firstItem);
 
-  auto maybeError = mCentralPersistence.connect();
-  PB::basicAssert(!maybeError);
-
-  mCentralPersistence.read(
-      [this](
-          std::variant<std::unordered_map<std::string, std::string>, PB::Error>
-              mapOrError) {
-        if (std::holds_alternative<PB::Error>(mapOrError)) {
-          OnError(std::get<PB::Error>(mapOrError));
-        }
-        else {
-          auto metadatOrError = PB::ProjectMetadata::parse(mapOrError);
-          OnPersistenceDataLoaded(metadatOrError);
-        }
-      });
+  mPersistenceVisitor.recallMetadata();
 }
 
 std::string Dashboard::CreateProject()
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
-
-  auto jsonOrError = PB::Text::serialize<PB::ProjectDetails>(
-      0, {"root", newProject.details()});
-
-  PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
+  mPersistenceVisitor.persist(newProject.metadata().projectFile(),
+                              newProject.details());
 
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
-
   auto fullPath = newProject.metadata().projectFile();
-
-  PB::FilePersistence newProjectPersistence(fullPath);
-
-  newProjectPersistence.write(std::get<PB::Json>(jsonOrError).at("root"),
-                              [](std::optional<PB::Error> maybeError) {
-                                if (maybeError) {
-                                  PB::printError(
-                                      "Error writing into peristence.\n");
-                                }
-                              });
-
-  mCentralPersistence.write(
-      std::pair<std::string, std::string>(uuidStr, fullPath.string()),
-      [](std::optional<PB::Error> maybeError) {
-        if (maybeError) {
-          PB::printError("Error writing into peristence.\n");
-        }
-      });
+  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
+  mPersistenceVisitor.persist(projectMetadata);
 
   return fullPath.string();
 }
@@ -109,13 +73,8 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 }
 
 void Dashboard::OnPersistenceDataLoaded(
-    std::variant<std::vector<PB::ProjectMetadata>, PB::Error> metadataOrError)
+    std::vector<PB::ProjectMetadata> metadata)
 {
-  if (std::holds_alternative<PB::Error>(metadataOrError)) {
-    return;
-  }
-  auto &metadata = std::get<std::vector<PB::ProjectMetadata>>(metadataOrError);
-
   mProjectsList.Clear();
 
   ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,
@@ -176,8 +135,7 @@ void Dashboard::OnDeleteClicked(
       if (id == mRightClickedId) {
         mProjectsList.RemoveAt(i);
 
-        mCentralPersistence.deleteEntry(nativeId,
-                                        [](std::optional<PB::Error>) {});
+        mPersistenceVisitor.deleteMetadata(nativeId);
         break;
       }
     }
@@ -213,6 +171,25 @@ void Dashboard::OnNavigatedTo(
       PB::basicAssert(success);
     }
   }
+}
+
+void Dashboard::onProjectRead(PB::Project project) {}
+
+void Dashboard::onMetadataRead(PB::ProjectMetadata projectMetadata) {}
+
+void Dashboard::onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata)
+{
+  OnPersistenceDataLoaded(projectMetadata);
+}
+
+void Dashboard::onProjectPersistenceError(PB::Error)
+{
+  PB::printError("Error writing into peristence.\n");
+}
+
+void Dashboard::onMetadataPersistenceError(PB::Error)
+{
+  PB::printError("Error writing into peristence.\n");
 }
 
 } // namespace winrt::PhotobookUI::implementation
