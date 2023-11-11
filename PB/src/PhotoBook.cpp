@@ -259,7 +259,7 @@ void Photobook::savePhotobook(Path newPath)
     return;
   }
 
-  mPersistence.persist(newPath, mProject.details());
+  mPersistence.persistProject(newPath, mProject.details());
   if (newSaveFile) {
     std::filesystem::remove(oldSupportFolder);
     std::filesystem::remove(oldProjectFile);

@@ -21,7 +21,7 @@ Persistence::Persistence(
   }
 }
 
-void Persistence::persist(Path filePath, ProjectDetails projectDetails)
+void Persistence::persistProject(Path filePath, ProjectDetails projectDetails)
 {
 
   auto jsonOrError =

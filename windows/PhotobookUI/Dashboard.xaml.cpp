@@ -51,7 +51,7 @@ Dashboard::Dashboard() : mPersistence(CurrentAppLocation(), this, this)
 std::string Dashboard::CreateProject()
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
-  mPersistence.persist(newProject.metadata().projectFile(),
+  mPersistence.persistProject(newProject.metadata().projectFile(),
                               newProject.details());
 
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
