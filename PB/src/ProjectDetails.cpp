@@ -11,54 +11,6 @@ Path ProjectDetails::supportFolder() const
   return mParentDirectory / mSupportDirName;
 }
 
-bool ProjectDetails::importedPathsChanged(std::vector<Path> const &paths) const
-{
-  if (mImportedPaths.size() != paths.size()) {
-    return true;
-  }
-  else {
-    return !std::equal(paths.begin(), paths.end(), mImportedPaths.begin());
-  }
-}
-
-bool ProjectDetails::stagedImagesChanged(
-    std::vector<std::shared_ptr<VirtualImage>> stagedImages)
-{
-  if (mStagedImages.size() != stagedImages.size()) {
-    return true;
-  }
-  else {
-    for (int i = 0; i < (int)stagedImages.size(); ++i) {
-      if (stagedImages.at(i)->fullSizePath() != mStagedImages.at(i)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-bool ProjectDetails::paperSettingsChanged(PaperSettings const &paperSettings)
-{
-  return !(mPaperSettings == paperSettings);
-}
-
-bool ProjectDetails::projectDetailsChanged(
-    std::vector<Path> const                   &importedPaths,
-    std::vector<std::shared_ptr<VirtualImage>> stagedChanges,
-    PaperSettings const                       &paperSettings)
-{
-  bool changed = importedPathsChanged(importedPaths);
-  if (changed) {
-    return true;
-  }
-  changed = stagedImagesChanged(stagedChanges);
-  if (changed) {
-    return true;
-  }
-  changed = paperSettingsChanged(paperSettings);
-  return changed;
-}
-
 void ProjectDetails::setImportedPaths(std::vector<Path> paths)
 {
   mImportedPaths.clear();
