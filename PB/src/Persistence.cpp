@@ -31,6 +31,15 @@ void Persistence::persist(Path filePath, ProjectDetails projectDetails)
 
   auto uuidStr = boost::uuids::to_string(projectDetails.uuid());
 
+  auto supportDirectoryPath =
+      projectDetails.parentDirectory() / projectDetails.supportDirName();
+
+  auto maybeError = createSupportDirectory(supportDirectoryPath);
+
+  if (maybeError) {
+    mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
+  }
+
   PB::FilePersistence newProjectPersistence(filePath);
 
   auto jsonSerialization = std::get<PB::Json>(jsonOrError);

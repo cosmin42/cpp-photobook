@@ -154,17 +154,6 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 
   mParent.onMappingFinished(rootPath);
 
-  auto supportDirectoryPath = mProject.details().parentDirectory() /
-                              mProject.details().supportDirName();
-
-  auto maybeError = mPersistence.createSupportDirectory(supportDirectoryPath);
-  if (maybeError)
-  {
-    mParent.onError(maybeError.value());
-    mParent.onFinished(rootPath);
-    return;
-  }
-
   if (newMediaMap.empty()) {
     mParent.onFinished(rootPath);
   }
