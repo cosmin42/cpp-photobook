@@ -11,7 +11,7 @@
 
 #include <pb/Project.h>
 #include <pb/SQLPersistence.h>
-#include <pb/persistence/PersistenceVisitor.h>
+#include <pb/persistence/Persistence.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -61,7 +61,7 @@ struct Dashboard : DashboardT<Dashboard>,
 
   winrt::hstring mRightClickedId;
 
-  PB::PersistenceVisitor mPersistenceVisitor;
+  PB::Persistence mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
 

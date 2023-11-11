@@ -18,14 +18,14 @@ public:
   virtual void onMetadataPersistenceError(Error) = 0;
 };
 
-class PersistenceVisitor final {
+class Persistence final {
 public:
-  explicit PersistenceVisitor(
+  explicit Persistence(
       Path                         centralPersistencePath,
       PersistenceProjectListener  *persistenceProjectListener,
       PersistenceMetadataListener *persistenceMetadataListener);
 
-  ~PersistenceVisitor() = default;
+  ~Persistence() = default;
 
   void persist(Path filePath, ProjectDetails project);
   void persist(ProjectMetadata projectMetadata);

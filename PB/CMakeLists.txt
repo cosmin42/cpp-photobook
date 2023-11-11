@@ -84,7 +84,7 @@ add_library(pblib STATIC
     include/pb/PaperSettings.h
     include/pb/Pdf.h
     include/pb/PdfPoDoFo.h
-    include/pb/persistence/PersistenceVisitor.h
+    include/pb/persistence/Persistence.h
     include/pb/persistence/ProjectDetails.h
     include/pb/persistence/ProjectMetadata.h
     include/pb/Photobook.h
@@ -123,7 +123,7 @@ add_library(pblib STATIC
     src/PaperSettings.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
-    src/PersistenceVisitor.cpp
+    src/Persistence.cpp
     src/Photobook.cpp
     src/PreprocessedImage.cpp
     src/Project.cpp

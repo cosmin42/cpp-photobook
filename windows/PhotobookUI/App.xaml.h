@@ -5,7 +5,7 @@
 
 #include "App.xaml.g.h"
 
-#include <pb/persistence/PersistenceVisitor.h>
+#include <pb/persistence/Persistence.h>
 
 namespace winrt::PhotobookUI::implementation {
 struct App : AppT<App>,
@@ -28,11 +28,11 @@ struct App : AppT<App>,
   void onProjectPersistenceError(PB::Error) override;
   void onMetadataPersistenceError(PB::Error) override;
 
-  PB::PersistenceVisitor &persistence() { return mPersistenceVisitor; }
+  PB::Persistence &persistence() { return mPersistence; }
 
 private:
   winrt::Microsoft::UI::Xaml::Window mWindow{nullptr};
 
-  PB::PersistenceVisitor mPersistenceVisitor;
+  PB::Persistence mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation

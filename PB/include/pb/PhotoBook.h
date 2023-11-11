@@ -24,7 +24,7 @@
 #include <pb/SQLPersistence.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/common/Log.h>
-#include <pb/persistence/PersistenceVisitor.h>
+#include <pb/persistence/Persistence.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
@@ -34,7 +34,7 @@ namespace PB {
 class Photobook final : public Observer, public PersistenceMetadataListener, public PersistenceProjectListener {
 public:
   explicit Photobook(PhotobookListener  &listener,
-                     PersistenceVisitor &persistenceVisitor,
+                     Persistence        &persistence,
                      Path                centralPersistencePath,
                      std::pair<int, int> screenSize);
   ~Photobook();
@@ -69,13 +69,13 @@ public:
   void onMetadataPersistenceError(Error) override;
   void onProjectPersistenceError(Error) override;
 
-  PersistenceVisitor &persistence() { return mPersistence; }
+  Persistence &persistence() { return mPersistence; }
 
 private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
 
   PhotobookListener                       &mParent;
-  PersistenceVisitor                      &mPersistence;
+  Persistence                             &mPersistence;
   Path                                     mCentralPersistencePath;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;

@@ -31,7 +31,7 @@ PB::Path Dashboard::CurrentAppLocation()
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
-Dashboard::Dashboard() : mPersistenceVisitor(CurrentAppLocation(), this, this)
+Dashboard::Dashboard() : mPersistence(CurrentAppLocation(), this, this)
 {
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
@@ -45,19 +45,19 @@ Dashboard::Dashboard() : mPersistenceVisitor(CurrentAppLocation(), this, this)
 
   mMenuFlyout.Items().Append(firstItem);
 
-  mPersistenceVisitor.recallMetadata();
+  mPersistence.recallMetadata();
 }
 
 std::string Dashboard::CreateProject()
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
-  mPersistenceVisitor.persist(newProject.metadata().projectFile(),
+  mPersistence.persist(newProject.metadata().projectFile(),
                               newProject.details());
 
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
   auto fullPath = newProject.metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
-  mPersistenceVisitor.persist(projectMetadata);
+  mPersistence.persist(projectMetadata);
 
   return fullPath.string();
 }
@@ -135,7 +135,7 @@ void Dashboard::OnDeleteClicked(
       if (id == mRightClickedId) {
         mProjectsList.RemoveAt(i);
 
-        mPersistenceVisitor.deleteMetadata(nativeId);
+        mPersistence.deleteMetadata(nativeId);
         break;
       }
     }
