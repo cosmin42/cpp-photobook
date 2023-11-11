@@ -35,12 +35,12 @@ public:
 
   void deleteMetadata(std::string id);
 
-  bool isSaved(Json serialization) const;
+  bool isSaved(ProjectDetails const &projectDetails) const;
 
 private:
-  PersistenceProjectListener               *mPersistenceProjectListener;
-  PersistenceMetadataListener              *mPersistenceMetadataListener;
-  SQLitePersistence                         mCentral;
-  Json                                      mProjectCache;
+  PersistenceProjectListener  *mPersistenceProjectListener;
+  PersistenceMetadataListener *mPersistenceMetadataListener;
+  SQLitePersistence            mCentral;
+  Json                         mProjectCache;
 };
 } // namespace PB

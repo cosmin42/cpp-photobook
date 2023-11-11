@@ -9,6 +9,9 @@ Persistence::Persistence(
       mPersistenceMetadataListener(persistenceMetadataListener),
       mCentral(centralPersistencePath)
 {
+  PB::basicAssert(persistenceProjectListener != nullptr);
+  PB::basicAssert(persistenceMetadataListener != nullptr);
+
   auto maybeError = mCentral.connect();
   if (maybeError) {
     mPersistenceMetadataListener->onMetadataPersistenceError(
@@ -82,9 +85,14 @@ void Persistence::deleteMetadata(std::string id)
   });
 }
 
-bool Persistence::isSaved(Json serialization) const
+bool Persistence::isSaved(ProjectDetails const &projectDetails) const
 {
-  return serialization == mProjectCache;
+  auto jsonOrError =
+      PB::Text::serialize<PB::ProjectDetails>(0, {"root", projectDetails});
+
+  PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
+
+  return std::get<PB::Json>(jsonOrError) == mProjectCache;
 }
 
 } // namespace PB
