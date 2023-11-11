@@ -244,7 +244,7 @@ void Photobook::savePhotobook(Path newPath)
     mProject.updateProjectName(newPath.stem().string());
     newSaveFile = true;
 
-    mPersistence.persist(mProject.metadata());
+    mPersistence.persistMetadata(mProject.metadata());
   }
 
   mProject.details().setImportedPaths(imageSupport().groups());

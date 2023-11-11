@@ -57,7 +57,7 @@ std::string Dashboard::CreateProject()
   auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
   auto fullPath = newProject.metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
-  mPersistence.persist(projectMetadata);
+  mPersistence.persistMetadata(projectMetadata);
 
   return fullPath.string();
 }
