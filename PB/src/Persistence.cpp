@@ -1,5 +1,7 @@
 #include <pb/persistence/Persistence.h>
 
+#include <unordered_map>
+
 namespace PB {
 Persistence::Persistence(
     Path                         centralPersistencePath,
@@ -60,7 +62,26 @@ void Persistence::persist(ProjectMetadata projectMetadata)
   });
 }
 
-void Persistence::recallMetadata() {}
+void Persistence::recallMetadata()
+{
+  mCentral.read(
+      [this](std::variant<std::unordered_map<std::string, std::string>, Error>
+                 mapOrError) {
+        if (std::holds_alternative<Error>(mapOrError)) {
+          mPersistenceMetadataListener->onMetadataPersistenceError(
+              std::get<Error>(mapOrError));
+        }
+        else {
+          auto &map = std::get<std::unordered_map<std::string, std::string>>(
+              mapOrError);
+          std::vector<ProjectMetadata> projectsMetadata;
+          for (auto &[key, value] : map) {
+            projectsMetadata.push_back(ProjectMetadata(key, value));
+          }
+          mPersistenceMetadataListener->onMetadataRead(projectsMetadata);
+        }
+      });
+}
 
 void Persistence::recallProject(Path projectPath)
 {
