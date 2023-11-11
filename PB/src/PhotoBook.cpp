@@ -252,7 +252,7 @@ void Photobook::savePhotobook(Path newPath)
   mProject.details().setStagedImages(imageSupport().stagedPhotos());
 
   auto projectDetailsOrError =
-      Text::serialize<ProjectDetails>(0, {"root", mProject.details()});
+      Text::serialize<ProjectSnapshot>(0, {"root", mProject.details()});
 
   if (std::holds_alternative<Error>(projectDetailsOrError)) {
     PB::basicAssert(false);
@@ -268,7 +268,7 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-ProjectDetails Photobook::projectDetails() { return mProject.details(); }
+ProjectSnapshot Photobook::projectDetails() { return mProject.details(); }
 
 ImageSupport &Photobook::imageSupport() { return mImageSupport; }
 

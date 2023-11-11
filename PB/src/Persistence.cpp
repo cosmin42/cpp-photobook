@@ -21,11 +21,11 @@ Persistence::Persistence(
   }
 }
 
-void Persistence::persistProject(Path filePath, ProjectDetails projectDetails)
+void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 {
 
   auto jsonOrError =
-      PB::Text::serialize<PB::ProjectDetails>(0, {"root", projectDetails});
+      PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
 
   PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 
@@ -100,7 +100,7 @@ void Persistence::recallProject(Path projectPath)
       [this](std::variant<PB::Json, PB::Error> jsonOrError) {
         auto &jsonSerialization = std::get<PB::Json>(jsonOrError);
         auto  projectDetailsOrError =
-            PB::Text::deserialize<PB::ProjectDetails>(jsonSerialization);
+            PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
 
         if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
           mPersistenceProjectListener->onProjectPersistenceError(
@@ -108,7 +108,7 @@ void Persistence::recallProject(Path projectPath)
         }
         else {
           auto &projectDetails =
-              std::get<PB::ProjectDetails>(projectDetailsOrError);
+              std::get<PB::ProjectSnapshot>(projectDetailsOrError);
           mProjectCache = jsonSerialization;
           mPersistenceProjectListener->onProjectRead(Project(projectDetails));
         }
@@ -123,10 +123,10 @@ void Persistence::deleteMetadata(std::string id)
   });
 }
 
-bool Persistence::isSaved(ProjectDetails const &projectDetails) const
+bool Persistence::isSaved(ProjectSnapshot const &projectDetails) const
 {
   auto jsonOrError =
-      PB::Text::serialize<PB::ProjectDetails>(0, {"root", projectDetails});
+      PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
 
   PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 

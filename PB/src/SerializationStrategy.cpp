@@ -87,9 +87,9 @@ template <> std::variant<PaperSettings, Error> deserialize(Json jsonData)
   return paperSettings;
 }
 
-template <> std::variant<ProjectDetails, Error> deserialize(Json jsonData)
+template <> std::variant<ProjectSnapshot, Error> deserialize(Json jsonData)
 {
-  ProjectDetails projectDetails;
+  ProjectSnapshot projectDetails;
 
   auto uuidOrError = deserialize<boost::uuids::uuid>(jsonData, "project-uuid");
   if (std::holds_alternative<Error>(uuidOrError)) {
@@ -186,7 +186,7 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
 
 template <>
 std::variant<Json, Error>
-serialize(int depth, std::pair<std::string, ProjectDetails> const &entry)
+serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
 {
   auto &[key, projectDetails] = entry;
 
@@ -206,7 +206,7 @@ serialize(int depth, std::pair<std::string, ProjectDetails> const &entry)
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
-  PB::printDebug("%s(string, ProjectDetails) %s\n",
+  PB::printDebug("%s(string, ProjectSnapshot) %s\n",
                  std::string(depth * 2, ' ').c_str(), json.dump().c_str());
   return json;
 }

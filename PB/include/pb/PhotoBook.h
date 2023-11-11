@@ -57,10 +57,10 @@ public:
 
   void exportAlbum(std::string name, Path path);
 
-  void           discardPhotobook();
-  void           savePhotobook();
-  void           savePhotobook(Path newPath);
-  ProjectDetails projectDetails();
+  void            discardPhotobook();
+  void            savePhotobook();
+  void            savePhotobook(Path newPath);
+  ProjectSnapshot projectDetails();
 
   bool projectDefaultSaved();
 

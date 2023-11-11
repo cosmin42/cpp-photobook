@@ -58,7 +58,7 @@ ThumbnailsProcessor::~ThumbnailsProcessor()
 }
 
 void ThumbnailsProcessor::provideProjectDetails(
-    ProjectDetails const &projectDetails)
+    ProjectSnapshot const &projectDetails)
 {
   mProjectDetails = projectDetails;
 }

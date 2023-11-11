@@ -33,7 +33,7 @@ public:
   explicit ThumbnailsProcessor(std::pair<int, int> size);
   ~ThumbnailsProcessor();
 
-  void provideProjectDetails(ProjectDetails const &);
+  void provideProjectDetails(ProjectSnapshot const &);
 
   void generateThumbnails(
       std::vector<Path> mediaMap, std::string groupIdentifier,
@@ -44,7 +44,7 @@ public:
 private:
   std::pair<Path, Path>                      assembleOutputPaths(int         index,
                                                                  std::string groupIdentifier);
-  ProjectDetails                             mProjectDetails;
+  ProjectSnapshot                            mProjectDetails;
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;

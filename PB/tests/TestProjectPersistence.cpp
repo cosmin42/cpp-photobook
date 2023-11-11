@@ -28,7 +28,7 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   PB::FilePersistence filePersistence(project.details().projectFile());
   auto                jsonOrError =
-      PB::Text::serialize<ProjectDetails>(0, {"root", project.details()});
+      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.details()});
   assert(!std::holds_alternative<Error>(jsonOrError));
 
   ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==
@@ -87,7 +87,7 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
   PB::FilePersistence filePersistence(project.details().projectFile());
 
   auto jsonOrError =
-      PB::Text::serialize<ProjectDetails>(0, {"root", project.details()});
+      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.details()});
   assert(!std::holds_alternative<Error>(jsonOrError));
 
   ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==
@@ -105,10 +105,10 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
       [supportDirName, parentDirectory](std::variant<Json, Error> mapOrError) {
         ASSERT_TRUE(!std::holds_alternative<Error>(mapOrError));
         auto &map = std::get<Json>(mapOrError);
-        auto projectDetailsOrError = PB::Text::deserialize<ProjectDetails>(map);
+        auto projectDetailsOrError = PB::Text::deserialize<ProjectSnapshot>(map);
 
         ASSERT_TRUE(!std::holds_alternative<Error>(projectDetailsOrError));
-        auto &projectDetails = std::get<ProjectDetails>(projectDetailsOrError);
+        auto &projectDetails = std::get<ProjectSnapshot>(projectDetailsOrError);
         ASSERT_TRUE(projectDetails.supportDirName() == supportDirName);
         ASSERT_TRUE(projectDetails.parentDirectory() == parentDirectory);
       });

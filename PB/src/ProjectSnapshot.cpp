@@ -1,4 +1,4 @@
-#include <pb/persistence/ProjectDetails.h>
+#include <pb/persistence/ProjectSnapshot.h>
 
 #include <algorithm>
 
@@ -6,12 +6,12 @@
 
 namespace PB {
 
-Path ProjectDetails::supportFolder() const
+Path ProjectSnapshot::supportFolder() const
 {
   return mParentDirectory / mSupportDirName;
 }
 
-void ProjectDetails::setImportedPaths(std::vector<Path> paths)
+void ProjectSnapshot::setImportedPaths(std::vector<Path> paths)
 {
   mImportedPaths.clear();
   for (auto &path : paths) {
@@ -19,7 +19,7 @@ void ProjectDetails::setImportedPaths(std::vector<Path> paths)
   }
 }
 
-void ProjectDetails::setStagedImages(
+void ProjectSnapshot::setStagedImages(
     std::vector<std::shared_ptr<VirtualImage>> stagedImages)
 {
   mStagedImages.clear();
@@ -28,7 +28,7 @@ void ProjectDetails::setStagedImages(
   }
 }
 
-void ProjectDetails::setStagedImages(std::vector<Path> stagedImages)
+void ProjectSnapshot::setStagedImages(std::vector<Path> stagedImages)
 {
   mStagedImages.clear();
   for (auto &image : stagedImages) {
@@ -36,21 +36,21 @@ void ProjectDetails::setStagedImages(std::vector<Path> stagedImages)
   }
 }
 
-void ProjectDetails::setPaperSettings(PaperSettings paperSettings)
+void ProjectSnapshot::setPaperSettings(PaperSettings paperSettings)
 {
   mPaperSettings = paperSettings;
 }
 
-std::vector<Path> ProjectDetails::importedFolderList() const
+std::vector<Path> ProjectSnapshot::importedFolderList() const
 {
   return mImportedPaths;
 }
 
-std::vector<Path> ProjectDetails::stagedImagesList() const
+std::vector<Path> ProjectSnapshot::stagedImagesList() const
 {
   return mStagedImages;
 }
 
-PaperSettings ProjectDetails::paperSettings() const { return mPaperSettings; }
+PaperSettings ProjectSnapshot::paperSettings() const { return mPaperSettings; }
 
 } // namespace PB

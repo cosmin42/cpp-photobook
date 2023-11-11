@@ -12,7 +12,7 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
-class ProjectDetails {
+class ProjectSnapshot {
 public:
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }

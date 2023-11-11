@@ -28,7 +28,7 @@ public:
 
   ~Persistence() = default;
 
-  void persistProject(Path filePath, ProjectDetails project);
+  void persistProject(Path filePath, ProjectSnapshot project);
   void persistMetadata(ProjectMetadata projectMetadata);
 
   void recallMetadata();
@@ -36,7 +36,7 @@ public:
 
   void deleteMetadata(std::string id);
 
-  bool isSaved(ProjectDetails const &projectDetails) const;
+  bool isSaved(ProjectSnapshot const &projectDetails) const;
 
   std::optional<Error> createSupportDirectory(Path path);
 

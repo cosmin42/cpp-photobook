@@ -6,7 +6,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/persistence/ProjectDetails.h>
+#include <pb/persistence/ProjectSnapshot.h>
 #include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
 
@@ -33,7 +33,7 @@ public:
     mProjectDetails.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
   }
 
-  Project(ProjectDetails projectDetails)
+  Project(ProjectSnapshot projectDetails)
   {
     auto projectPath = projectDetails.parentDirectory() /
                        (boost::uuids::to_string(projectDetails.uuid()) +
@@ -46,7 +46,7 @@ public:
 
   ~Project() = default;
 
-  ProjectDetails &details() { return mProjectDetails; }
+  ProjectSnapshot &details() { return mProjectDetails; }
 
   void updateProjectName(std::string name)
   {
@@ -59,7 +59,7 @@ public:
 
 private:
   ProjectMetadata mMetadata;
-  ProjectDetails  mProjectDetails;
+  ProjectSnapshot mProjectDetails;
 };
 
 class ProjectsSet {
