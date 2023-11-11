@@ -75,7 +75,9 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitfunction = [this]() {
-    if (!mPhotoBook.isSaved()) {
+    auto projectDetails = mPhotoBook.projectDetails();
+    bool alreadySaved = mPersistence.isSaved(projectDetails);
+    if (!alreadySaved) {
       ProjectExitDialogDisplay();
       mExitFlag = true;
     }
@@ -276,7 +278,9 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  if (mPhotoBook.isSaved()) {
+  auto projectDetails = mPhotoBook.projectDetails();
+  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  if (alreadySaved) {
     mPhotoBook.discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
   }
@@ -340,7 +344,9 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  if (mPhotoBook.isSaved()) {
+  auto projectDetails = mPhotoBook.projectDetails();
+  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  if (alreadySaved) {
     return;
   }
   if (!mPhotoBook.projectDefaultSaved()) {
@@ -382,7 +388,9 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  if (mPhotoBook.isSaved()) {
+  auto projectDetails = mPhotoBook.projectDetails();
+  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  if (alreadySaved) {
     mPhotoBook.discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
@@ -1046,7 +1054,9 @@ void TableContentPage::OnContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
-  if (mPhotoBook.isSaved()) {
+  auto projectDetails = mPhotoBook.projectDetails();
+  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  if (alreadySaved) {
     return;
   }
   mPopups.fireSaveFilePicker(

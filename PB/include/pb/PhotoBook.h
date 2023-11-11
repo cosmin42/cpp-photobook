@@ -31,10 +31,11 @@
 
 namespace PB {
 
-class Photobook final : public Observer, public PersistenceMetadataListener, public PersistenceProjectListener {
+class Photobook final : public Observer,
+                        public PersistenceMetadataListener,
+                        public PersistenceProjectListener {
 public:
-  explicit Photobook(PhotobookListener  &listener,
-                     Persistence        &persistence,
+  explicit Photobook(PhotobookListener &listener, Persistence &persistence,
                      Path                centralPersistencePath,
                      std::pair<int, int> screenSize);
   ~Photobook();
@@ -56,10 +57,10 @@ public:
 
   void exportAlbum(std::string name, Path path);
 
-  void discardPhotobook();
-  void savePhotobook();
-  void savePhotobook(Path newPath);
-  bool isSaved();
+  void           discardPhotobook();
+  void           savePhotobook();
+  void           savePhotobook(Path newPath);
+  ProjectDetails projectDetails();
 
   bool projectDefaultSaved();
 

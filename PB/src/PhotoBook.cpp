@@ -278,13 +278,7 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-bool Photobook::isSaved()
-{
-  auto importedFolders = imageSupport().groups();
-  auto stagedPhotos = imageSupport().stagedPhotos();
-  return !mProject.details().projectDetailsChanged(
-      importedFolders, stagedPhotos, mPaperSettings);
-}
+ProjectDetails Photobook::projectDetails() { return mProject.details(); }
 
 ImageSupport &Photobook::imageSupport() { return mImageSupport; }
 
