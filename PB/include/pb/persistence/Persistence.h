@@ -29,7 +29,7 @@ public:
   ~Persistence() = default;
 
   void persistProject(Path filePath, ProjectDetails project);
-  void persist(ProjectMetadata projectMetadata);
+  void persistMetadata(ProjectMetadata projectMetadata);
 
   void recallMetadata();
   void recallProject(Path projectPath);

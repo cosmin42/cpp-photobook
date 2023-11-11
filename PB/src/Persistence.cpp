@@ -58,7 +58,7 @@ void Persistence::persistProject(Path filePath, ProjectDetails projectDetails)
       });
 }
 
-void Persistence::persist(ProjectMetadata projectMetadata)
+void Persistence::persistMetadata(ProjectMetadata projectMetadata)
 {
   std::pair<std::string, std::string> entry = {
       boost::uuids::to_string(projectMetadata.uuid()),
