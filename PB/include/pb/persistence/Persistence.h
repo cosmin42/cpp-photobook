@@ -20,6 +20,7 @@ public:
 
 class Persistence final {
 public:
+
   explicit Persistence(
       Path                         centralPersistencePath,
       PersistenceProjectListener  *persistenceProjectListener,
@@ -36,6 +37,8 @@ public:
   void deleteMetadata(std::string id);
 
   bool isSaved(ProjectDetails const &projectDetails) const;
+
+  std::optional<Error> createSupportDirectory(Path path);
 
 private:
   PersistenceProjectListener  *mPersistenceProjectListener;

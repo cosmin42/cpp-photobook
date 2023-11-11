@@ -9,8 +9,6 @@ namespace PB {
 
 class FilePersistence final {
 public:
-  static bool createDirectory(Path path);
-
   FilePersistence() = default;
   explicit FilePersistence(Path path);
   ~FilePersistence() = default;

@@ -157,11 +157,12 @@ void Photobook::onImportFolderMapped(Path              rootPath,
   auto supportDirectoryPath = mProject.details().parentDirectory() /
                               mProject.details().supportDirName();
 
-  if (!std::filesystem::exists(supportDirectoryPath)) {
-    if (!FilePersistence::createDirectory(supportDirectoryPath)) {
-      mParent.onFinished(rootPath);
-      return;
-    }
+  auto maybeError = mPersistence.createSupportDirectory(supportDirectoryPath);
+  if (maybeError)
+  {
+    mParent.onError(maybeError.value());
+    mParent.onFinished(rootPath);
+    return;
   }
 
   if (newMediaMap.empty()) {

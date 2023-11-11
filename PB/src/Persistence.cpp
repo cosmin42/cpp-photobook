@@ -23,6 +23,7 @@ Persistence::Persistence(
 
 void Persistence::persist(Path filePath, ProjectDetails projectDetails)
 {
+
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectDetails>(0, {"root", projectDetails});
 
@@ -121,6 +122,19 @@ bool Persistence::isSaved(ProjectDetails const &projectDetails) const
   PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
 
   return std::get<PB::Json>(jsonOrError) == mProjectCache;
+}
+
+std::optional<Error> Persistence::createSupportDirectory(Path path)
+{
+  PB::basicAssert(!path.string().empty());
+  if (std::filesystem::exists(path)) {
+    return std::nullopt;
+  }
+
+  if (!std::filesystem::create_directory(path)) {
+    return Error() << ErrorCode::CorruptPersistenceFile;
+  }
+  return std::nullopt;
 }
 
 } // namespace PB

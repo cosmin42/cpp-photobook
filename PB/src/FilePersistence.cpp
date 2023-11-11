@@ -3,18 +3,6 @@
 #include <fstream>
 
 namespace PB {
-bool FilePersistence::createDirectory(Path path)
-{
-  PB::basicAssert(!path.string().empty());
-  if (std::filesystem::exists(path)) {
-    return true;
-  }
-
-  if (!std::filesystem::create_directory(path)) {
-    return false;
-  }
-  return true;
-}
 FilePersistence::FilePersistence(Path path) : mPath(path) {}
 
 void FilePersistence::read(
