@@ -1,7 +1,7 @@
-#include <pb/persistence/PersistenceVisitor.h>
+#include <pb/persistence/Persistence.h>
 
 namespace PB {
-PersistenceVisitor::PersistenceVisitor(
+Persistence::Persistence(
     Path                         centralPersistencePath,
     PersistenceProjectListener  *persistenceProjectListener,
     PersistenceMetadataListener *persistenceMetadataListener)
@@ -16,7 +16,7 @@ PersistenceVisitor::PersistenceVisitor(
   }
 }
 
-void PersistenceVisitor::persist(Path filePath, ProjectDetails projectDetails)
+void Persistence::persist(Path filePath, ProjectDetails projectDetails)
 {
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectDetails>(0, {"root", projectDetails});
@@ -37,7 +37,7 @@ void PersistenceVisitor::persist(Path filePath, ProjectDetails projectDetails)
       });
 }
 
-void PersistenceVisitor::persist(ProjectMetadata projectMetadata)
+void Persistence::persist(ProjectMetadata projectMetadata)
 {
   std::pair<std::string, std::string> entry = {
       boost::uuids::to_string(projectMetadata.uuid()),
@@ -51,9 +51,9 @@ void PersistenceVisitor::persist(ProjectMetadata projectMetadata)
   });
 }
 
-void PersistenceVisitor::recallMetadata() {}
+void Persistence::recallMetadata() {}
 
-void PersistenceVisitor::recallProject(Path projectPath)
+void Persistence::recallProject(Path projectPath)
 {
   PB::FilePersistence projectPersistence(projectPath);
   projectPersistence.read(
@@ -74,7 +74,7 @@ void PersistenceVisitor::recallProject(Path projectPath)
       });
 }
 
-void PersistenceVisitor::deleteMetadata(std::string id)
+void Persistence::deleteMetadata(std::string id)
 {
   mCentral.deleteEntry(id, [this](std::optional<PB::Error>) {
     mPersistenceMetadataListener->onMetadataPersistenceError(
@@ -82,7 +82,7 @@ void PersistenceVisitor::deleteMetadata(std::string id)
   });
 }
 
-bool PersistenceVisitor::isSaved(Json serialization) const
+bool Persistence::isSaved(Json serialization) const
 {
   return serialization == mProjectCache;
 }

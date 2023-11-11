@@ -7,10 +7,10 @@
 
 namespace PB {
 Photobook::Photobook(PhotobookListener  &listener,
-                     PersistenceVisitor &persistenceVisitor,
+                     Persistence        &persistence,
                      Path                centralPersistencePath,
                      std::pair<int, int> screenSize)
-    : mParent(listener), mPersistence(persistenceVisitor),
+    : mParent(listener), mPersistence(persistence),
       mCentralPersistencePath(centralPersistencePath),
       mThumbnailsProcessor(screenSize),
       mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
