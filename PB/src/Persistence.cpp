@@ -30,12 +30,18 @@ void Persistence::persist(Path filePath, ProjectDetails projectDetails)
 
   PB::FilePersistence newProjectPersistence(filePath);
 
+  auto jsonSerialization = std::get<PB::Json>(jsonOrError);
+
   newProjectPersistence.write(
-      std::get<PB::Json>(jsonOrError).at("root"),
-      [this](std::optional<PB::Error> maybeError) {
+      jsonSerialization.at("root"),
+      [this, jsonSerialization{jsonSerialization}](
+          std::optional<PB::Error> maybeError) {
         if (maybeError) {
           mPersistenceProjectListener->onProjectPersistenceError(
               Error() << ErrorCode::CorruptPersistenceFile);
+        }
+        else {
+          mProjectCache = jsonSerialization;
         }
       });
 }
@@ -61,9 +67,9 @@ void Persistence::recallProject(Path projectPath)
   PB::FilePersistence projectPersistence(projectPath);
   projectPersistence.read(
       [this](std::variant<PB::Json, PB::Error> jsonOrError) {
-        auto &json = std::get<PB::Json>(jsonOrError);
+        auto &jsonSerialization = std::get<PB::Json>(jsonOrError);
         auto  projectDetailsOrError =
-            PB::Text::deserialize<PB::ProjectDetails>(json);
+            PB::Text::deserialize<PB::ProjectDetails>(jsonSerialization);
 
         if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
           mPersistenceProjectListener->onProjectPersistenceError(
@@ -72,6 +78,7 @@ void Persistence::recallProject(Path projectPath)
         else {
           auto &projectDetails =
               std::get<PB::ProjectDetails>(projectDetailsOrError);
+          mProjectCache = jsonSerialization;
           mPersistenceProjectListener->onProjectRead(Project(projectDetails));
         }
       });
