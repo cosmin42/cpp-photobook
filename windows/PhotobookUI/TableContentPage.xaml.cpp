@@ -60,13 +60,12 @@ std::pair<int, int> TableContentPage::ScreenSize()
 }
 
 TableContentPage::TableContentPage()
-    : mListener(std::ref(*this)),
-      mPhotoBook(mListener,
-                 Application()
-                     .Current()
-                     .as<winrt::PhotobookUI::implementation::App>()
-                     ->persistence(),
-                 CurrentAppLocation(), ScreenSize())
+    : mPersistence(Application()
+                       .Current()
+                       .as<winrt::PhotobookUI::implementation::App>()
+                       ->persistence()),
+      mListener(std::ref(*this)),
+      mPhotoBook(mListener, mPersistence, CurrentAppLocation(), ScreenSize())
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();

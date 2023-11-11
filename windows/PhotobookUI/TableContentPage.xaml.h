@@ -232,7 +232,7 @@ private:
       int width, int height,
       int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
-
+  PB::Persistence                               &mPersistence;
   PhotobookTableListener                         mListener;
   PB::Photobook                                  mPhotoBook;
   IObservableVector<winrt::hstring>              mNavigationItemsCollection;
