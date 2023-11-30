@@ -24,23 +24,23 @@ using namespace Windows::UI::Core;
 
 namespace winrt::PhotobookUI::implementation {
 
-HWND MainWindow::sMainWindowhandle = 0x0;
+HWND MainWindow::sMainWindowHandle = 0x0;
 
-std::function<void()> MainWindow::sMainExitfunction = nullptr;
+std::function<void()> MainWindow::sMainExitFunction = nullptr;
 
 winrt::Microsoft::UI::Dispatching::DispatcherQueue
-    MainWindow::sMainthreadDispatcher = nullptr;
+    MainWindow::sMainThreadDispatcher = nullptr;
 
 MainWindow::MainWindow()
 {
   InitializeComponent();
 
-  sMainthreadDispatcher =
+  sMainThreadDispatcher =
       winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
 
   auto windowNative{this->try_as<::IWindowNative>()};
   winrt::check_bool(windowNative);
-  windowNative->get_WindowHandle(&sMainWindowhandle);
+  windowNative->get_WindowHandle(&sMainWindowHandle);
 }
 
 void MainWindow::OnWindowClosed(
@@ -48,8 +48,8 @@ void MainWindow::OnWindowClosed(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::WindowEventArgs const &arg)
 {
   static bool once = true;
-  if (sMainExitfunction && once) {
-    sMainExitfunction();
+  if (sMainExitFunction && once) {
+    sMainExitFunction();
     arg.Handled(true);
     once = false;
   }

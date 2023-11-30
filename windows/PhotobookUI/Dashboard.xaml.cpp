@@ -164,7 +164,7 @@ void Dashboard::OnNavigatedTo(
       auto newPathWin = winrt::to_hstring(path);
       auto boxed = winrt::box_value(newPathWin);
 
-      bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
+      bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
           DispatcherQueuePriority::Normal, [this, boxed{boxed}]() {
             Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
           });

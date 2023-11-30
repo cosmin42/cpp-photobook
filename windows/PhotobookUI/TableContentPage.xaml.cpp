@@ -74,7 +74,7 @@ TableContentPage::TableContentPage()
   mStagedImageCollection =
       winrt::single_threaded_observable_vector<ImageUIData>();
 
-  MainWindow::sMainExitfunction = [this]() {
+  MainWindow::sMainExitFunction = [this]() {
     auto projectDetails = mPhotoBook.projectDetails();
     bool alreadySaved = mPersistence.isSaved(projectDetails);
     if (!alreadySaved) {
@@ -150,7 +150,7 @@ TableContentPage::TableContentPage()
 
 TableContentPage::~TableContentPage()
 {
-  MainWindow::sMainExitfunction = nullptr;
+  MainWindow::sMainExitFunction = nullptr;
 }
 
 void TableContentPage::OnKeyDown(
@@ -207,7 +207,7 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
 {
   mPopups.fireFolderPicker(
-      MainWindow::sMainWindowhandle,
+      MainWindow::sMainWindowHandle,
       [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
 }
 
@@ -354,7 +354,7 @@ void TableContentPage::OnSaveClicked(
   }
   else {
     mPopups.fireSaveFilePicker(
-        MainWindow::sMainWindowhandle,
+        MainWindow::sMainWindowHandle,
         [this](std::variant<std::string, PB::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
@@ -372,7 +372,7 @@ void TableContentPage::OnSaveAsClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   mPopups.fireSaveFilePicker(
-      MainWindow::sMainWindowhandle,
+      MainWindow::sMainWindowHandle,
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
@@ -397,7 +397,7 @@ void TableContentPage::OnNewClicked(
   }
   else {
     mPopups.fireSaveFilePicker(
-        MainWindow::sMainWindowhandle,
+        MainWindow::sMainWindowHandle,
         [this](std::variant<std::string, PB::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
@@ -999,7 +999,7 @@ void TableContentPage::OnError(PB::Error error)
 
 void TableContentPage::Post(std::function<void()> f)
 {
-  bool success = MainWindow::sMainthreadDispatcher.TryEnqueue(
+  bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
   PB::basicAssert(success);
 }
@@ -1060,7 +1060,7 @@ void TableContentPage::OnContentDialogSaveClicked(
     return;
   }
   mPopups.fireSaveFilePicker(
-      MainWindow::sMainWindowhandle,
+      MainWindow::sMainWindowHandle,
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
@@ -1100,7 +1100,7 @@ void TableContentPage::OnExportContentDialogClicked(
   }
   else {
     mPopups.fireFolderPicker(
-        MainWindow::sMainWindowhandle, [this, nativeExportName](PB::Path path) {
+        MainWindow::sMainWindowHandle, [this, nativeExportName](PB::Path path) {
           Post([this, path{path}, nativeExportName{nativeExportName}]() {
             mPhotoBook.exportAlbum(nativeExportName, path);
           });
