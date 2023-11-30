@@ -68,6 +68,7 @@ TableContentPage::TableContentPage()
                      ->persistence(),
                  CurrentAppLocation(), ScreenSize())
 {
+  mPhotoBook.persistence()->setPersistenceListener(nullptr, nullptr);
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mUnstagedImageCollection =
@@ -1037,6 +1038,7 @@ void TableContentPage::PostponeError(std::string message)
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
+  mPhotoBook.persistence()->setPersistenceListener(nullptr, nullptr);
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 

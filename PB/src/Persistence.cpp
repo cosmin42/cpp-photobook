@@ -15,7 +15,7 @@ Persistence::Persistence(
   PB::basicAssert(persistenceMetadataListener != nullptr);
 
   auto maybeError = mCentral.connect();
-  if (maybeError) {
+  if (maybeError && mPersistenceMetadataListener) {
     mPersistenceMetadataListener->onMetadataPersistenceError(
         maybeError.value());
   }
@@ -44,7 +44,7 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 
   auto maybeError = createSupportDirectory(supportDirectoryPath);
 
-  if (maybeError) {
+  if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
   }
 
@@ -56,7 +56,7 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
       jsonSerialization.at("root"),
       [this, jsonSerialization{jsonSerialization}](
           std::optional<PB::Error> maybeError) {
-        if (maybeError) {
+        if (maybeError && mPersistenceProjectListener) {
           mPersistenceProjectListener->onProjectPersistenceError(
               Error() << ErrorCode::CorruptPersistenceFile);
         }
@@ -73,7 +73,7 @@ void Persistence::persistMetadata(ProjectMetadata projectMetadata)
       projectMetadata.projectFile().string()};
 
   mCentral.write(entry, [this](std::optional<Error> maybeError) {
-    if (maybeError) {
+    if (maybeError && mPersistenceProjectListener) {
       mPersistenceProjectListener->onProjectPersistenceError(
           Error() << ErrorCode::CannotSaveFile);
     }
@@ -85,7 +85,8 @@ void Persistence::recallMetadata()
   mCentral.read(
       [this](std::variant<std::unordered_map<std::string, std::string>, Error>
                  mapOrError) {
-        if (std::holds_alternative<Error>(mapOrError)) {
+        if (std::holds_alternative<Error>(mapOrError) &&
+            mPersistenceMetadataListener) {
           mPersistenceMetadataListener->onMetadataPersistenceError(
               std::get<Error>(mapOrError));
         }
@@ -96,7 +97,9 @@ void Persistence::recallMetadata()
           for (auto &[key, value] : map) {
             projectsMetadata.push_back(ProjectMetadata(key, value));
           }
-          mPersistenceMetadataListener->onMetadataRead(projectsMetadata);
+          if (mPersistenceMetadataListener) {
+            mPersistenceMetadataListener->onMetadataRead(projectsMetadata);
+          }
         }
       });
 }
@@ -110,7 +113,8 @@ void Persistence::recallProject(Path projectPath)
         auto  projectDetailsOrError =
             PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
 
-        if (std::holds_alternative<PB::Error>(projectDetailsOrError)) {
+        if (std::holds_alternative<PB::Error>(projectDetailsOrError) &&
+            mPersistenceProjectListener) {
           mPersistenceProjectListener->onProjectPersistenceError(
               std::get<PB::Error>(projectDetailsOrError));
         }
@@ -118,7 +122,9 @@ void Persistence::recallProject(Path projectPath)
           auto &projectDetails =
               std::get<PB::ProjectSnapshot>(projectDetailsOrError);
           mProjectCache = jsonSerialization;
-          mPersistenceProjectListener->onProjectRead(Project(projectDetails));
+          if (mPersistenceProjectListener) {
+            mPersistenceProjectListener->onProjectRead(Project(projectDetails));
+          }
         }
       });
 }
@@ -126,8 +132,10 @@ void Persistence::recallProject(Path projectPath)
 void Persistence::deleteMetadata(std::string id)
 {
   mCentral.deleteEntry(id, [this](std::optional<PB::Error>) {
-    mPersistenceMetadataListener->onMetadataPersistenceError(
-        Error() << ErrorCode::CorruptPersistenceFile);
+    if (mPersistenceMetadataListener) {
+      mPersistenceMetadataListener->onMetadataPersistenceError(
+          Error() << ErrorCode::CorruptPersistenceFile);
+    }
   });
 }
 
