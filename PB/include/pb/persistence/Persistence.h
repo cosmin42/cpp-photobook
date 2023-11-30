@@ -20,13 +20,16 @@ public:
 
 class Persistence final {
 public:
-
   explicit Persistence(
       Path                         centralPersistencePath,
       PersistenceProjectListener  *persistenceProjectListener,
       PersistenceMetadataListener *persistenceMetadataListener);
 
   ~Persistence() = default;
+
+  void setPersistenceListener(
+      PersistenceProjectListener  *persistenceProjectListener,
+      PersistenceMetadataListener *persistenceMetadataListener);
 
   void persistProject(Path filePath, ProjectSnapshot project);
   void persistMetadata(ProjectMetadata projectMetadata);

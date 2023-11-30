@@ -28,11 +28,11 @@ struct App : AppT<App>,
   void onProjectPersistenceError(PB::Error) override;
   void onMetadataPersistenceError(PB::Error) override;
 
-  PB::Persistence &persistence() { return mPersistence; }
+  std::shared_ptr<PB::Persistence> persistence() { return mPersistence; }
 
 private:
   winrt::Microsoft::UI::Xaml::Window mWindow{nullptr};
 
-  PB::Persistence mPersistence;
+  std::shared_ptr<PB::Persistence> mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation

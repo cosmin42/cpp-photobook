@@ -35,9 +35,10 @@ class Photobook final : public Observer,
                         public PersistenceMetadataListener,
                         public PersistenceProjectListener {
 public:
-  explicit Photobook(PhotobookListener &listener, Persistence &persistence,
-                     Path                centralPersistencePath,
-                     std::pair<int, int> screenSize);
+  explicit Photobook(PhotobookListener           &listener,
+                     std::shared_ptr<Persistence> persistence,
+                     Path                         centralPersistencePath,
+                     std::pair<int, int>          screenSize);
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
@@ -70,13 +71,13 @@ public:
   void onMetadataPersistenceError(Error) override;
   void onProjectPersistenceError(Error) override;
 
-  Persistence &persistence() { return mPersistence; }
+  std::shared_ptr<Persistence> persistence() { return mPersistence; }
 
 private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
 
   PhotobookListener                       &mParent;
-  Persistence                             &mPersistence;
+  std::shared_ptr<Persistence>             mPersistence;
   Path                                     mCentralPersistencePath;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;

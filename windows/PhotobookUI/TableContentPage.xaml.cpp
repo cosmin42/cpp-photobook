@@ -60,12 +60,13 @@ std::pair<int, int> TableContentPage::ScreenSize()
 }
 
 TableContentPage::TableContentPage()
-    : mPersistence(Application()
-                       .Current()
-                       .as<winrt::PhotobookUI::implementation::App>()
-                       ->persistence()),
-      mListener(std::ref(*this)),
-      mPhotoBook(mListener, mPersistence, CurrentAppLocation(), ScreenSize())
+    : mListener(std::ref(*this)),
+      mPhotoBook(mListener,
+                 Application()
+                     .Current()
+                     .as<winrt::PhotobookUI::implementation::App>()
+                     ->persistence(),
+                 CurrentAppLocation(), ScreenSize())
 {
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
@@ -76,7 +77,7 @@ TableContentPage::TableContentPage()
 
   MainWindow::sMainExitFunction = [this]() {
     auto projectDetails = mPhotoBook.projectDetails();
-    bool alreadySaved = mPersistence.isSaved(projectDetails);
+    bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
       ProjectExitDialogDisplay();
       mExitFlag = true;
@@ -279,7 +280,7 @@ void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
   auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook.discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
@@ -345,7 +346,7 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
@@ -389,7 +390,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook.discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
@@ -1039,7 +1040,7 @@ void TableContentPage::OnNavigatedTo(
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
-  mPhotoBook.persistence().recallProject(fullPath);
+  mPhotoBook.persistence()->recallProject(fullPath);
 }
 
 void TableContentPage::OnExportClicked(
@@ -1055,7 +1056,7 @@ void TableContentPage::OnContentDialogSaveClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPersistence.isSaved(projectDetails);
+  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }

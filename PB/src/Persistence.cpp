@@ -21,6 +21,14 @@ Persistence::Persistence(
   }
 }
 
+void Persistence::setPersistenceListener(
+    PersistenceProjectListener  *persistenceProjectListener,
+    PersistenceMetadataListener *persistenceMetadataListener)
+{
+  mPersistenceProjectListener = persistenceProjectListener;
+  mPersistenceMetadataListener = persistenceMetadataListener;
+}
+
 void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 {
 

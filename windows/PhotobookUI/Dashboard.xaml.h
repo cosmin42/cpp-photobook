@@ -55,13 +55,14 @@ struct Dashboard : DashboardT<Dashboard>,
   void onProjectPersistenceError(PB::Error) override;
   void onMetadataPersistenceError(PB::Error) override;
 
+private:
   IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
 
   winrt::hstring mRightClickedId;
 
-  PB::Persistence mPersistence;
+  std::shared_ptr<PB::Persistence> mPersistence;
 };
 } // namespace winrt::PhotobookUI::implementation
 

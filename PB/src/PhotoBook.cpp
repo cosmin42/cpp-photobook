@@ -6,10 +6,10 @@
 #include <pb/TextImage.h>
 
 namespace PB {
-Photobook::Photobook(PhotobookListener  &listener,
-                     Persistence        &persistence,
-                     Path                centralPersistencePath,
-                     std::pair<int, int> screenSize)
+Photobook::Photobook(PhotobookListener           &listener,
+                     std::shared_ptr<Persistence> persistence,
+                     Path                         centralPersistencePath,
+                     std::pair<int, int>          screenSize)
     : mParent(listener), mPersistence(persistence),
       mCentralPersistencePath(centralPersistencePath),
       mThumbnailsProcessor(screenSize),
@@ -244,7 +244,7 @@ void Photobook::savePhotobook(Path newPath)
     mProject.updateProjectName(newPath.stem().string());
     newSaveFile = true;
 
-    mPersistence.persistMetadata(mProject.metadata());
+    mPersistence->persistMetadata(mProject.metadata());
   }
 
   mProject.details().setImportedPaths(imageSupport().groups());
@@ -259,7 +259,7 @@ void Photobook::savePhotobook(Path newPath)
     return;
   }
 
-  mPersistence.persistProject(newPath, mProject.details());
+  mPersistence->persistProject(newPath, mProject.details());
   if (newSaveFile) {
     std::filesystem::remove(oldSupportFolder);
     std::filesystem::remove(oldProjectFile);

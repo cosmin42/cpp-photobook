@@ -35,7 +35,7 @@ PB::Path App::CurrentAppLocation()
 /// authored code executed, and as such is the logical equivalent of main() or
 /// WinMain().
 /// </summary>
-App::App() : mPersistence(CurrentAppLocation(), this, this)
+App::App() : mPersistence(std::make_shared<PB::Persistence>(CurrentAppLocation(), this, this))
 {
   InitializeComponent();
 
