@@ -33,11 +33,10 @@ PB::Path Dashboard::CurrentAppLocation()
 }
 
 Dashboard::Dashboard()
-    : mPersistence(Application()
-                       .Current()
-                       .as<winrt::PhotobookUI::implementation::App>()
-                       ->persistence())
 {
+  mPersistence = Application::Current()
+                     .as<winrt::PhotobookUI::implementation::App>()
+                     ->persistence();
   mPersistence->setPersistenceListener(this, this);
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   InitializeComponent();
