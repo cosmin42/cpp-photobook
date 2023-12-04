@@ -17,6 +17,8 @@ Photobook::Photobook(PhotobookListener           &listener,
 {
   printDebug("Photobook created.\n");
 
+  mPersistence->setPersistenceListener(this, this);
+
   mImageSupport.setListener(mGallery.slot());
 }
 

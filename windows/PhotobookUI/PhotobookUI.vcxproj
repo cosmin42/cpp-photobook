@@ -96,7 +96,7 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /y $(VcpkgRoot)\installed\x64-windows\debug\bin\*.dll $(OutDir)\AppX\
-xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(OutDir)\AppX\</Command>
+xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(OutDir)\AppX\</Command>
     </PostBuildEvent>
     <Link>
       <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\podofo.lib;%(AdditionalDependencies)</AdditionalDependencies>

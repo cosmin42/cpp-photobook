@@ -56,6 +56,8 @@ struct Dashboard : DashboardT<Dashboard>,
   void onMetadataPersistenceError(PB::Error) override;
 
 private:
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem RightClickFlyout();
+
   IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;

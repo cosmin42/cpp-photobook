@@ -32,15 +32,7 @@ PB::Path Dashboard::CurrentAppLocation()
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
-Dashboard::Dashboard()
-{
-  mPersistence = Application::Current()
-                     .as<winrt::PhotobookUI::implementation::App>()
-                     ->persistence();
-  mPersistence->setPersistenceListener(this, this);
-  mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
-  InitializeComponent();
-
+Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout() {
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem firstItem;
   firstItem.Text(winrt::to_hstring("Delete"));
 
@@ -48,7 +40,21 @@ Dashboard::Dashboard()
     OnDeleteClicked(obj, e);
   });
 
-  mMenuFlyout.Items().Append(firstItem);
+  return firstItem;
+}
+
+Dashboard::Dashboard()
+{
+  mPersistence = Application::Current()
+                     .as<winrt::PhotobookUI::implementation::App>()
+                     ->persistence();
+  mPersistence->setPersistenceListener(this, this);
+
+  mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
+
+  InitializeComponent();
+
+  mMenuFlyout.Items().Append(RightClickFlyout());
 
   mPersistence->recallMetadata();
 }
@@ -56,6 +62,7 @@ Dashboard::Dashboard()
 std::string Dashboard::CreateProject()
 {
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
+
   mPersistence->persistProject(newProject.metadata().projectFile(),
                                newProject.details());
 
