@@ -6,10 +6,9 @@
 #include <pb/TextImage.h>
 
 namespace PB {
-Photobook::Photobook(PhotobookListener           &listener,
-                     std::shared_ptr<Persistence> persistence,
+Photobook::Photobook(std::shared_ptr<Persistence> persistence,
                      Path                         centralPersistencePath)
-    : mParent(listener), mPersistence(persistence),
+    : mPersistence(persistence),
       mCentralPersistencePath(centralPersistencePath), mThumbnailsProcessor(),
       mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
 {
@@ -38,6 +37,11 @@ void Photobook::configure(std::pair<int, int> screenSize)
   mThumbnailsProcessor.setScreenSize(screenSize);
 }
 
+void Photobook::configure(std::shared_ptr<PhotobookListener> listener)
+{
+  mParent = listener;
+}
+
 void Photobook::configureProject(PB::Project project)
 {
   mProject = project;
@@ -58,7 +62,7 @@ void Photobook::configureProject(PB::Project project)
       regularImage->setFullSizePath(stagedImages.at(i));
 
       mImageSupport.stagePhoto({regularImage});
-      mParent.onStagedImageAdded({regularImage});
+      mParent->onStagedImageAdded({regularImage});
     }
     else if (std::filesystem::is_directory(stagedImages.at(i))) {
       auto textImage =
@@ -66,7 +70,7 @@ void Photobook::configureProject(PB::Project project)
       textImage->setFullSizePath(stagedImages.at(i));
 
       mImageSupport.stagePhoto({textImage});
-      mParent.onStagedImageAdded({textImage});
+      mParent->onStagedImageAdded({textImage});
     }
     else {
       PB::basicAssert(false);
@@ -79,15 +83,15 @@ void Photobook::addImportFolder(Path importPath)
 {
   auto errorOrPath = FileInfo::validInputRootPath(importPath);
   if (std::holds_alternative<Error>(errorOrPath)) {
-    mParent.onError(std::get<Error>(errorOrPath));
+    mParent->onError(std::get<Error>(errorOrPath));
   }
   else {
     auto path = std::get<Path>(errorOrPath);
     printDebug("Add Input folder %s\n", path.string().c_str());
 
     if (imageSupport().containsGroup(path)) {
-      mParent.onError(Error() << ErrorCode::FolderAlreadyImported
-                              << "Folder already imported.");
+      mParent->onError(Error() << ErrorCode::FolderAlreadyImported
+                               << "Folder already imported.");
       return;
     }
 
@@ -125,9 +129,9 @@ void Photobook::update(ObservableSubject &subject)
   else if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
     auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
     auto [progress, maxProgress] = pdfExporter.progress();
-    mParent.onExportProgressUpdate(progress, maxProgress);
+    mParent->onExportProgressUpdate(progress, maxProgress);
     if (progress == maxProgress) {
-      mParent.onExportFinished();
+      mParent->onExportFinished();
     }
   }
 }
@@ -155,12 +159,12 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 
   mImageSupport.addImage(rootPath, newMediaMap, imagesSet);
 
-  mParent.onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
+  mParent->onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
-  mParent.onMappingFinished(rootPath);
+  mParent->onMappingFinished(rootPath);
 
   if (newMediaMap.empty()) {
-    mParent.onFinished(rootPath);
+    mParent->onFinished(rootPath);
   }
 
   auto start = std::chrono::high_resolution_clock::now();
@@ -176,15 +180,15 @@ void Photobook::onImportFolderMapped(Path              rootPath,
       newMediaMap, groupIdentifier,
       [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
           Path input, Path smallOutput, Path mediumOutput, int position) {
-        mParent.onProgressUpdate(rootPath, mProgress.at(rootPath),
-                                 (int)maxProgress);
+        mParent->onProgressUpdate(rootPath, mProgress.at(rootPath),
+                                  (int)maxProgress);
 
-        mParent.onUnstagedImageAdded(rootPath, input, mediumOutput, smallOutput,
-                                     position);
+        mParent->onUnstagedImageAdded(rootPath, input, mediumOutput,
+                                      smallOutput, position);
 
-        mParent.post([this, rootPath{rootPath}, input{input},
-                      smallOutput{smallOutput}, start{start},
-                      mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
+        mParent->post([this, rootPath{rootPath}, input{input},
+                       smallOutput{smallOutput}, start{start},
+                       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
           auto image = mImageSupport.image<VirtualImage>(input);
 
           image->setMediumSizePath(mediumOutput);
@@ -199,14 +203,14 @@ void Photobook::onImportFolderMapped(Path              rootPath,
             std::chrono::duration<double> duration = end - start;
             PB::printDebug("Duration: %f\n", duration.count());
 
-            mParent.onFinished(rootPath);
+            mParent->onFinished(rootPath);
             mMappingJobs.erase(rootPath);
           }
         });
       });
 }
 
-void Photobook::onError(Error error) { mParent.onError(error); }
+void Photobook::onError(Error error) { mParent->onError(error); }
 
 Gallery &Photobook::gallery() { return mGallery; }
 
