@@ -61,10 +61,12 @@ std::pair<int, int> TableContentPage::ScreenSize()
 
 TableContentPage::TableContentPage()
     : mListener(std::make_shared<PhotobookTableListener>(std::ref(*this))),
-      mPhotoBook(CurrentAppLocation())
+      mPhotoBook(Application::Current()
+                     .as<winrt::PhotobookUI::implementation::App>()
+                     ->api())
 {
-  mPhotoBook.configure(ScreenSize());
-  mPhotoBook.configure(mListener);
+  mPhotoBook->configure(ScreenSize());
+  mPhotoBook->configure(mListener);
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mUnstagedImageCollection =
@@ -73,8 +75,8 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitFunction = [this]() {
-    auto projectDetails = mPhotoBook.projectDetails();
-    bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
+    auto projectDetails = mPhotoBook->projectDetails();
+    bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
       ProjectExitDialogDisplay();
       mExitFlag = true;
@@ -113,12 +115,12 @@ TableContentPage::TableContentPage()
           auto smallPath = winrt::to_string(image.SmallPath());
           auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
               PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
-          mPhotoBook.imageSupport().stagePhoto({regularImage}, args.Index());
+          mPhotoBook->imageSupport().stagePhoto({regularImage}, args.Index());
         }
         else if (changeType == winrt::Windows::Foundation::Collections::
                                    CollectionChange::ItemRemoved) {
 
-          mPhotoBook.imageSupport().unstagePhoto({(int)args.Index()});
+          mPhotoBook->imageSupport().unstagePhoto({(int)args.Index()});
         }
         else if (changeType == winrt::Windows::Foundation::Collections::
                                    CollectionChange::ItemChanged) {
@@ -173,8 +175,8 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 
 int TableContentPage::CanvasMinWidth()
 {
-  auto paperSettings = mPhotoBook.paperSettings();
-  PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
+  auto paperSettings = mPhotoBook->paperSettings();
+  PB::basicAssert(mPhotoBook->paperSettings().ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -188,8 +190,8 @@ int TableContentPage::CanvasMinWidth()
 
 int TableContentPage::CanvasMinHeight()
 {
-  auto paperSettings = mPhotoBook.paperSettings();
-  PB::basicAssert(mPhotoBook.paperSettings().ppi > 0);
+  auto paperSettings = mPhotoBook->paperSettings();
+  PB::basicAssert(mPhotoBook->paperSettings().ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -206,7 +208,7 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
 {
   mPopups.fireFolderPicker(
       MainWindow::sMainWindowHandle,
-      [this](PB::Path path) { mPhotoBook.addImportFolder(path); });
+      [this](PB::Path path) { mPhotoBook->addImportFolder(path); });
 }
 
 void TableContentPage::OnImportFolderRemoved(IInspectable const &,
@@ -223,9 +225,9 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
     PB::Path fullPath =
         winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
-    if (mPhotoBook.imageSupport().fullPathRow(fullPath) == selectedIndex) {
+    if (mPhotoBook->imageSupport().fullPathRow(fullPath) == selectedIndex) {
       // TODO: Optimize this
-      mPhotoBook.imageSupport().unstagePhoto({i});
+      mPhotoBook->imageSupport().unstagePhoto({i});
       mStagedImageCollection.RemoveAt(i);
       i--;
     }
@@ -248,7 +250,7 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   }
   mNavigationItemsCollection.RemoveAt(selectedIndex);
 
-  mPhotoBook.imageSupport().removeGroup((int)selectedIndex);
+  mPhotoBook->imageSupport().removeGroup((int)selectedIndex);
 
   GalleryCanvas().Invalidate();
 }
@@ -276,10 +278,10 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
+  auto projectDetails = mPhotoBook->projectDetails();
+  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
-    mPhotoBook.discardPhotobook();
+    mPhotoBook->discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
   }
   else {
@@ -342,13 +344,13 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
+  auto projectDetails = mPhotoBook->projectDetails();
+  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
-  if (!mPhotoBook.projectDefaultSaved()) {
-    mPhotoBook.savePhotobook();
+  if (!mPhotoBook->projectDefaultSaved()) {
+    mPhotoBook->savePhotobook();
   }
   else {
     mPopups.fireSaveFilePicker(
@@ -356,7 +358,7 @@ void TableContentPage::OnSaveClicked(
         [this](std::variant<std::string, PB::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
-            mPhotoBook.savePhotobook(newName);
+            mPhotoBook->savePhotobook(newName);
           }
           else {
             OnError(std::get<PB::Error>(result));
@@ -374,7 +376,7 @@ void TableContentPage::OnSaveAsClicked(
       [this](std::variant<std::string, PB::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
-          mPhotoBook.savePhotobook(newName);
+          mPhotoBook->savePhotobook(newName);
         }
         else {
           OnError(std::get<PB::Error>(result));
@@ -386,10 +388,10 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
+  auto projectDetails = mPhotoBook->projectDetails();
+  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
-    mPhotoBook.discardPhotobook();
+    mPhotoBook->discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
   }
@@ -400,8 +402,8 @@ void TableContentPage::OnNewClicked(
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
 
-            mPhotoBook.savePhotobook(newName);
-            mPhotoBook.discardPhotobook();
+            mPhotoBook->savePhotobook(newName);
+            mPhotoBook->discardPhotobook();
             Frame().Navigate(
                 winrt::xaml_typename<PhotobookUI::Dashboard>(),
                 winrt::box_value(winrt::to_hstring("new-project")));
@@ -435,7 +437,7 @@ void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
 {
-  auto selected = mPhotoBook.gallery().selectedItem();
+  auto selected = mPhotoBook->gallery().selectedItem();
   if (!selected) {
     return;
   }
@@ -452,7 +454,7 @@ void TableContentPage::OnKeyPressed(
     }
 
     if (selectedIndexes.size() > 0) {
-      mPhotoBook.imageSupport().unstagePhoto(selectedIndexes);
+      mPhotoBook->imageSupport().unstagePhoto(selectedIndexes);
       OnStagedImageRemoved(selectedIndexes);
     }
   }
@@ -526,7 +528,7 @@ void TableContentPage::UpdateCanvasSize()
             CanvasBorder().Padding().Top - CanvasBorder().Padding().Bottom);
 
   if (width > 0 && height > 0) {
-    auto paperSettings = mPhotoBook.paperSettings();
+    auto paperSettings = mPhotoBook->paperSettings();
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
@@ -587,7 +589,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
 
   // WORKAROUND
 
-  mPhotoBook.imageSupport().stagePhoto(mDragAndDropSelectedImages,
+  mPhotoBook->imageSupport().stagePhoto(mDragAndDropSelectedImages,
                                        insertPostion);
 
   OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
@@ -597,7 +599,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
 
 void TableContentPage::Right()
 {
-  auto &gallery = mPhotoBook.gallery();
+  auto &gallery = mPhotoBook->gallery();
   auto  selectedIndex = gallery.selectedNavigationIndex();
   if (selectedIndex > -1) {
     int nextIndex = 0;
@@ -629,7 +631,7 @@ void TableContentPage::OnGalleryLeft(
 
 void TableContentPage::Left()
 {
-  auto &gallery = mPhotoBook.gallery();
+  auto &gallery = mPhotoBook->gallery();
   auto  selectedIndex = gallery.selectedNavigationIndex();
   if (selectedIndex > -1) {
     int nextIndex = 0;
@@ -677,7 +679,7 @@ void TableContentPage::OnCanvasDraw(
 {
   auto session = args.DrawingSession();
 
-  auto &gallery = mPhotoBook.gallery();
+  auto &gallery = mPhotoBook->gallery();
 
   int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
 
@@ -747,8 +749,8 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
 void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
-  auto selectedIndex = mPhotoBook.gallery().selectedNavigationIndex();
-  auto maybeGroupPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
+  auto maybeGroupPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
 
   if (maybeGroupPath && maybeGroupPath.value() == rootPath) {
     UpdateUnstagedImagesView(selectedIndex);
@@ -770,7 +772,7 @@ void TableContentPage::OnImportSelectionChanged(
 
   PB::printDebug("Index selected %d\n", index);
 
-  auto &imagesData = mPhotoBook.imageSupport();
+  auto &imagesData = mPhotoBook->imageSupport();
   auto  iterator = imagesData.unstagedIterator(index);
 
   if (iterator.valid()) {
@@ -787,7 +789,7 @@ void TableContentPage::OnImportSelectionChanged(
     }
     UpdateUnstagedImagesView(index);
 
-    mPhotoBook.gallery().selectImportFolder(index, iterator);
+    mPhotoBook->gallery().selectImportFolder(index, iterator);
 
     UpdateGalleryLabel();
   }
@@ -795,10 +797,10 @@ void TableContentPage::OnImportSelectionChanged(
 
 void TableContentPage::UpdateUnstagedImagesView(int index)
 {
-  auto &imagesData = mPhotoBook.imageSupport();
+  auto &imagesData = mPhotoBook->imageSupport();
   auto  iterator = imagesData.unstagedIterator(index);
 
-  auto rootPath = mPhotoBook.imageSupport().groupByIndex(index);
+  auto rootPath = mPhotoBook->imageSupport().groupByIndex(index);
   if (rootPath && mLoadedFinishedImportFolders.find(rootPath.value()) !=
                       mLoadedFinishedImportFolders.end()) {
     auto size = iterator.size();
@@ -829,14 +831,14 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
 
   auto unstagedPhotoIndex = UnstagedListView().SelectedIndex();
 
-  auto &imagesData = mPhotoBook.imageSupport();
+  auto &imagesData = mPhotoBook->imageSupport();
 
   auto iterator =
       imagesData.unstagedIterator(navigationListIndex, unstagedPhotoIndex);
-  mPhotoBook.gallery().selectImportFolder(unstagedPhotoIndex, iterator);
+  mPhotoBook->gallery().selectImportFolder(unstagedPhotoIndex, iterator);
 
   if (unstagedPhotoIndex > -1) {
-    mPhotoBook.gallery().setPhotoLinePosition(unstagedPhotoIndex);
+    mPhotoBook->gallery().setPhotoLinePosition(unstagedPhotoIndex);
     UpdateGalleryLabel();
   }
 }
@@ -853,12 +855,12 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   if (stagedImagesIndex < 0) {
     return;
   }
-  auto &imagesData = mPhotoBook.imageSupport();
+  auto &imagesData = mPhotoBook->imageSupport();
 
   auto iterator = imagesData.stagedIterator();
   iterator = iterator[stagedImagesIndex];
 
-  mPhotoBook.gallery().selectStagedPhotos(stagedImagesIndex, iterator);
+  mPhotoBook->gallery().selectStagedPhotos(stagedImagesIndex, iterator);
   UpdateGalleryLabel();
 }
 
@@ -891,8 +893,8 @@ void TableContentPage::OnMappingResumed() {}
 void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
                                         int reference)
 {
-  auto selectedIndex = mPhotoBook.gallery().selectedNavigationIndex();
-  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
+  auto selectedRootPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath.value()) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
@@ -922,8 +924,8 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  auto selectedIndex = mPhotoBook.gallery().selectedNavigationIndex();
-  auto selectedRootPath = mPhotoBook.imageSupport().groupByIndex(selectedIndex);
+  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
+  auto selectedRootPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath) {
     mUnstagedImageCollection.SetAt(
         position, ImageUIData(winrt::to_hstring(fullPath.string()),
@@ -1004,10 +1006,10 @@ void TableContentPage::Post(std::function<void()> f)
 
 void TableContentPage::UpdateGalleryLabel()
 {
-  auto &gallery = mPhotoBook.gallery();
+  auto &gallery = mPhotoBook->gallery();
   auto  itemPath = gallery.selectedItem();
   auto  importFolderIndex = gallery.selectedNavigationIndex();
-  auto  rootName = mPhotoBook.imageSupport().groupByIndex(importFolderIndex);
+  auto  rootName = mPhotoBook->imageSupport().groupByIndex(importFolderIndex);
 
   GalleryLeftButton().IsEnabled(itemPath != nullptr);
   GalleryRightButton().IsEnabled(itemPath != nullptr);
@@ -1034,11 +1036,11 @@ void TableContentPage::PostponeError(std::string message)
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
-  mPhotoBook.persistence()->setPersistenceListener(nullptr, nullptr);
+  mPhotoBook->persistence()->setPersistenceListener(nullptr, nullptr);
   std::string fullPath =
       winrt::to_string(winrt::unbox_value<winrt::hstring>(e.Parameter()));
 
-  mPhotoBook.persistence()->recallProject(fullPath);
+  mPhotoBook->persistence()->recallProject(fullPath);
 }
 
 void TableContentPage::OnExportClicked(
@@ -1053,8 +1055,8 @@ void TableContentPage::OnContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
-  auto projectDetails = mPhotoBook.projectDetails();
-  bool alreadySaved = mPhotoBook.persistence()->isSaved(projectDetails);
+  auto projectDetails = mPhotoBook->projectDetails();
+  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
@@ -1064,8 +1066,8 @@ void TableContentPage::OnContentDialogSaveClicked(
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
 
-          mPhotoBook.savePhotobook(newName);
-          mPhotoBook.discardPhotobook();
+          mPhotoBook->savePhotobook(newName);
+          mPhotoBook->discardPhotobook();
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
@@ -1101,7 +1103,7 @@ void TableContentPage::OnExportContentDialogClicked(
     mPopups.fireFolderPicker(
         MainWindow::sMainWindowHandle, [this, nativeExportName](PB::Path path) {
           Post([this, path{path}, nativeExportName{nativeExportName}]() {
-            mPhotoBook.exportAlbum(nativeExportName, path);
+            mPhotoBook->exportAlbum(nativeExportName, path);
           });
         });
   }
@@ -1113,7 +1115,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   PB::printDebug("OnContentDialogDiscardClicked\n");
-  mPhotoBook.discardPhotobook();
+  mPhotoBook->discardPhotobook();
 
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });

@@ -47,7 +47,7 @@ Dashboard::Dashboard()
 {
   mPersistence = Application::Current()
                      .as<winrt::PhotobookUI::implementation::App>()
-                     ->persistence();
+                     ->api()->persistence();
   mPersistence->setPersistenceListener(this, this);
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
