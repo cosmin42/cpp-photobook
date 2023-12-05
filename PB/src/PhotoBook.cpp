@@ -8,11 +8,11 @@
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)
     : mApplicationLocalStatePath(applicationLocalStatePath),
-      mThumbnailsProcessor(), mPaperSettings(Context::A4_LANDSCAPE_PAPER),
-      mExportFactory()
+      mThumbnailsProcessor(), mExportFactory()
 {
   printDebug("Photobook created.\n");
 
+  mProject.active().setPaperSettings(Context::A4_LANDSCAPE_PAPER);
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 
@@ -23,13 +23,6 @@ Photobook::~Photobook()
 {
   printDebug("Photobook destructed.\n");
   mImageSupport.clear();
-}
-
-PaperSettings Photobook::paperSettings() const { return mPaperSettings; }
-
-void Photobook::setPaperSettings(PaperSettings paperSettings)
-{
-  mPaperSettings = paperSettings;
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -222,7 +215,7 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->fullSizePath());
   }
 
-  mExportFactory.updateConfiguration(mPaperSettings,
+  mExportFactory.updateConfiguration(mProject.active().paperSettings(),
                                      mApplicationLocalStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
@@ -231,6 +224,8 @@ void Photobook::exportAlbum(std::string name, Path path)
     exporter->start();
   }
 }
+
+ProjectSnapshot &Photobook::activeProject() { return mProject.active(); }
 
 void Photobook::discardPhotobook()
 {
@@ -258,7 +253,7 @@ void Photobook::savePhotobook(Path newPath)
   }
 
   mProject.active().setImportedPaths(imageSupport().groups());
-  mProject.active().setPaperSettings(mPaperSettings);
+  mProject.active().setPaperSettings(mProject.active().paperSettings());
   mProject.active().setStagedImages(imageSupport().stagedPhotos());
 
   auto projectDetailsOrError =

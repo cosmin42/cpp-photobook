@@ -38,13 +38,8 @@ public:
   explicit Photobook(Path applicationLocalStatePath);
   ~Photobook();
 
-  void setPaperSettings(PaperSettings paperSettings);
-
   void configure(std::pair<int, int> screenSize);
-
   void configure(std::shared_ptr<PhotobookListener> listener);
-
-  PaperSettings paperSettings() const;
 
   Gallery      &gallery();
   ImageSupport &imageSupport();
@@ -58,6 +53,8 @@ public:
   void onError(Error error);
 
   void exportAlbum(std::string name, Path path);
+
+  ProjectSnapshot &activeProject();
 
   void            discardPhotobook();
   void            savePhotobook();
@@ -88,7 +85,6 @@ private:
   ThumbnailsProcessor                      mThumbnailsProcessor;
   std::vector<std::shared_ptr<Exportable>> mExporters;
   std::unordered_map<Path, int>            mProgress;
-  PaperSettings                            mPaperSettings;
   CommandStack                             mCommandStack;
   ExportFactory                            mExportFactory;
 };

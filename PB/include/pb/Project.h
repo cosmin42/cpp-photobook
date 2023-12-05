@@ -45,15 +45,14 @@ public:
 
   ~Project() = default;
 
+  ProjectMetadata const &metadata() { return mMetadata; }
   ProjectSnapshot &active() { return mActive; }
+  ProjectSnapshot const &cache() { return mCache; }
 
-  ProjectSnapshot &cache() { return mCache; }
+  void save() { mCache = mActive; }
 
   void updateProjectName(std::string name) { mCache.supportDirName(name); }
-
   void updateProjectPath(Path path) { mCache.parentDirectory(path); }
-
-  ProjectMetadata const &metadata() { return mMetadata; }
 
 private:
   ProjectMetadata mMetadata;
