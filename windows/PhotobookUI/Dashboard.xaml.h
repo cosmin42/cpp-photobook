@@ -28,8 +28,6 @@ struct Dashboard : DashboardT<Dashboard>,
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  std::string CreateProject();
-
   void OnPersistenceDataLoaded(std::vector<PB::ProjectMetadata> metadata);
   void OnError(PB::Error err);
 

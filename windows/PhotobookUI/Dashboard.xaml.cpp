@@ -32,7 +32,8 @@ PB::Path Dashboard::CurrentAppLocation()
   return PB::Path(winrt::to_string(folder.Path()));
 }
 
-Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout() {
+Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout()
+{
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem firstItem;
   firstItem.Text(winrt::to_hstring("Delete"));
 
@@ -47,7 +48,8 @@ Dashboard::Dashboard()
 {
   mPersistence = Application::Current()
                      .as<winrt::PhotobookUI::implementation::App>()
-                     ->api()->persistence();
+                     ->api()
+                     ->persistence();
   mPersistence->setPersistenceListener(this, this);
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
@@ -59,29 +61,14 @@ Dashboard::Dashboard()
   mPersistence->recallMetadata();
 }
 
-std::string Dashboard::CreateProject()
-{
-  auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
-
-  mPersistence->persistProject(newProject.metadata().projectFile(),
-                               newProject.active());
-
-  auto uuidStr = boost::uuids::to_string(newProject.active().uuid());
-  auto fullPath = newProject.metadata().projectFile();
-  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
-  mPersistence->persistMetadata(projectMetadata);
-
-  return fullPath.string();
-}
-
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
-  auto path = CreateProject();
+  Application::Current()
+      .as<winrt::PhotobookUI::implementation::App>()
+      ->api()
+      ->newProject();
 
-  auto newPathWin = winrt::to_hstring(path);
-  auto boxed = winrt::box_value(newPathWin);
-
-  Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
+  Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
 void Dashboard::OnPersistenceDataLoaded(
@@ -172,13 +159,14 @@ void Dashboard::OnNavigatedTo(
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
     if (winrt::to_string(source) == "new-project") {
-      auto path = CreateProject();
-      auto newPathWin = winrt::to_hstring(path);
-      auto boxed = winrt::box_value(newPathWin);
+      Application::Current()
+          .as<winrt::PhotobookUI::implementation::App>()
+          ->api()
+          ->newProject();
 
       bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
-          DispatcherQueuePriority::Normal, [this, boxed{boxed}]() {
-            Frame().Navigate(winrt::xaml_typename<TableContentPage>(), boxed);
+          DispatcherQueuePriority::Normal, [this]() {
+            Frame().Navigate(winrt::xaml_typename<TableContentPage>());
           });
       PB::basicAssert(success);
     }

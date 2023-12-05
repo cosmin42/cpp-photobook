@@ -45,7 +45,6 @@ public:
   ImageSupport &imageSupport();
 
   void configureProject(Project project);
-  void newEmptyProject();
 
   void addImportFolder(Path importPath);
 
@@ -70,6 +69,8 @@ public:
   void onProjectPersistenceError(Error) override;
 
   std::shared_ptr<Persistence> persistence() { return mPersistence; }
+
+  void newProject();
 
 private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);

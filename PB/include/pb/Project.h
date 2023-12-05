@@ -46,7 +46,7 @@ public:
   ~Project() = default;
 
   ProjectMetadata const &metadata() { return mMetadata; }
-  ProjectSnapshot &active() { return mActive; }
+  ProjectSnapshot       &active() { return mActive; }
   ProjectSnapshot const &cache() { return mCache; }
 
   void save() { mCache = mActive; }
@@ -60,35 +60,6 @@ private:
   ProjectSnapshot mCache;
 
   ProjectSnapshot mActive;
-};
-
-class ProjectsSet {
-public:
-  Project create(Path applicationLocalStatePath)
-  {
-    Project newProject(applicationLocalStatePath);
-    mSet[newProject.active().uuid()] = newProject;
-    return newProject;
-  }
-
-  std::optional<Error>
-  load(std::unordered_map<std::string, std::string> const &map)
-  {
-    for (auto &[uuid, path] : map) {
-    }
-  }
-
-  std::unordered_map<boost::uuids::uuid, Project,
-                     boost::hash<boost::uuids::uuid>> &
-  set()
-  {
-    return mSet;
-  }
-
-private:
-  std::unordered_map<boost::uuids::uuid, Project,
-                     boost::hash<boost::uuids::uuid>>
-      mSet;
 };
 
 } // namespace PB

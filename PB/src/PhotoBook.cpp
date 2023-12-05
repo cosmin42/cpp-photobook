@@ -70,7 +70,6 @@ void Photobook::configureProject(PB::Project project)
     }
   }
 }
-void Photobook::newEmptyProject() {}
 
 void Photobook::addImportFolder(Path importPath)
 {
@@ -297,5 +296,18 @@ void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata) {}
 void Photobook::onMetadataPersistenceError(Error error) { onError(error); }
 
 void Photobook::onProjectPersistenceError(Error error) { onError(error); }
+
+void Photobook::newProject()
+{
+  mProject = Project(mApplicationLocalStatePath);
+
+  mPersistence->persistProject(mProject.metadata().projectFile(),
+                               mProject.active());
+
+  auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
+  auto fullPath = mProject.metadata().projectFile();
+  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
+  mPersistence->persistMetadata(projectMetadata);
+}
 
 } // namespace PB
