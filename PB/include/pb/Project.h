@@ -25,11 +25,11 @@ public:
     mMetadata =
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
 
-    mProjectCache.uuid(uuid);
-    mProjectCache.supportDirName(boost::uuids::to_string(mProjectCache.uuid()));
-    mProjectCache.parentDirectory(parentDirectory);
+    mCache.uuid(uuid);
+    mCache.supportDirName(boost::uuids::to_string(mCache.uuid()));
+    mCache.parentDirectory(parentDirectory);
 
-    mProjectCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
+    mCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
   }
 
   Project(ProjectSnapshot projectDetails)
@@ -40,28 +40,27 @@ public:
     mMetadata = ProjectMetadata(boost::uuids::to_string(projectDetails.uuid()),
                                 projectPath.string());
 
-    mProjectCache = projectDetails;
+    mCache = projectDetails;
   }
 
   ~Project() = default;
 
-  ProjectSnapshot &details() { return mProjectCache; }
+  ProjectSnapshot &active() { return mActive; }
 
-  void updateProjectName(std::string name)
-  {
-    mProjectCache.supportDirName(name);
-  }
+  ProjectSnapshot &cache() { return mCache; }
 
-  void updateProjectPath(Path path) { mProjectCache.parentDirectory(path); }
+  void updateProjectName(std::string name) { mCache.supportDirName(name); }
+
+  void updateProjectPath(Path path) { mCache.parentDirectory(path); }
 
   ProjectMetadata const &metadata() { return mMetadata; }
 
 private:
   ProjectMetadata mMetadata;
 
-  ProjectSnapshot mProjectCache;
+  ProjectSnapshot mCache;
 
-  ProjectSnapshot mActiveProject;
+  ProjectSnapshot mActive;
 };
 
 class ProjectsSet {
@@ -69,7 +68,7 @@ public:
   Project create(Path applicationLocalStatePath)
   {
     Project newProject(applicationLocalStatePath);
-    mSet[newProject.details().uuid()] = newProject;
+    mSet[newProject.active().uuid()] = newProject;
     return newProject;
   }
 

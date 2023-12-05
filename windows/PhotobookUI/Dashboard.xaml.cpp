@@ -64,9 +64,9 @@ std::string Dashboard::CreateProject()
   auto newProject = PB::ProjectsSet().create(CurrentAppLocation());
 
   mPersistence->persistProject(newProject.metadata().projectFile(),
-                               newProject.details());
+                               newProject.active());
 
-  auto uuidStr = boost::uuids::to_string(newProject.details().uuid());
+  auto uuidStr = boost::uuids::to_string(newProject.active().uuid());
   auto fullPath = newProject.metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
   mPersistence->persistMetadata(projectMetadata);

@@ -17,18 +17,18 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   PB::Project project(Path("."));
 
-  auto uuid = project.details().uuid();
+  auto uuid = project.active().uuid();
 
-  auto supportDirName = project.details().supportDirName();
+  auto supportDirName = project.active().supportDirName();
 
-  auto parentDirectory = project.details().parentDirectory();
+  auto parentDirectory = project.active().parentDirectory();
 
   ASSERT_TRUE(supportDirName ==
-              boost::uuids::to_string(project.details().uuid()));
+              boost::uuids::to_string(project.active().uuid()));
 
-  PB::FilePersistence filePersistence(project.details().projectFile());
+  PB::FilePersistence filePersistence(project.active().projectFile());
   auto                jsonOrError =
-      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.details()});
+      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.active()});
   assert(!std::holds_alternative<Error>(jsonOrError));
 
   ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==
@@ -44,8 +44,8 @@ TEST(TestProjectPersistence, CreateNewProject)
         ASSERT_TRUE(!maybeError.has_value());
       });
   std::pair<std::string, std::string> entry = {
-      boost::uuids::to_string(project.details().uuid()),
-      project.details().supportFolder().string()};
+      boost::uuids::to_string(project.active().uuid()),
+      project.active().supportFolder().string()};
 
   centralPersistence.write(entry, [](std::optional<Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
@@ -75,19 +75,19 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
 {
   PB::Project project(Path("."));
 
-  auto uuid = project.details().uuid();
+  auto uuid = project.active().uuid();
 
-  auto supportDirName = project.details().supportDirName();
+  auto supportDirName = project.active().supportDirName();
 
-  auto parentDirectory = project.details().parentDirectory();
+  auto parentDirectory = project.active().parentDirectory();
 
   ASSERT_TRUE(supportDirName ==
               boost::uuids::to_string(project.details().uuid()));
 
-  PB::FilePersistence filePersistence(project.details().projectFile());
+  PB::FilePersistence filePersistence(project.active().projectFile());
 
   auto jsonOrError =
-      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.details()});
+      PB::Text::serialize<ProjectSnapshot>(0, {"root", project.active()});
   assert(!std::holds_alternative<Error>(jsonOrError));
 
   ASSERT_TRUE(std::get<Json>(jsonOrError).at("root").at("project-uuid") ==

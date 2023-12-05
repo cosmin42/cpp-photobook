@@ -46,14 +46,14 @@ void Photobook::configureProject(PB::Project project)
 {
   mProject = project;
 
-  mThumbnailsProcessor.provideProjectDetails(project.details());
+  mThumbnailsProcessor.provideProjectDetails(project.active());
 
-  auto importedFolders = mProject.details().importedFolderList();
+  auto importedFolders = mProject.active().importedFolderList();
   for (auto &path : importedFolders) {
     addImportFolder(path);
   }
 
-  auto stagedImages = mProject.details().stagedImagesList();
+  auto stagedImages = mProject.active().stagedImagesList();
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
     if (std::filesystem::is_regular_file(stagedImages.at(i))) {
@@ -247,7 +247,7 @@ void Photobook::savePhotobook(Path newPath)
 {
   bool newSaveFile = false;
   Path oldProjectFile = mProject.metadata().projectFile();
-  Path oldSupportFolder = mProject.details().supportFolder();
+  Path oldSupportFolder = mProject.active().supportFolder();
 
   if (newPath != oldProjectFile) {
     mProject.updateProjectPath(newPath.parent_path());
@@ -257,19 +257,19 @@ void Photobook::savePhotobook(Path newPath)
     mPersistence->persistMetadata(mProject.metadata());
   }
 
-  mProject.details().setImportedPaths(imageSupport().groups());
-  mProject.details().setPaperSettings(mPaperSettings);
-  mProject.details().setStagedImages(imageSupport().stagedPhotos());
+  mProject.active().setImportedPaths(imageSupport().groups());
+  mProject.active().setPaperSettings(mPaperSettings);
+  mProject.active().setStagedImages(imageSupport().stagedPhotos());
 
   auto projectDetailsOrError =
-      Text::serialize<ProjectSnapshot>(0, {"root", mProject.details()});
+      Text::serialize<ProjectSnapshot>(0, {"root", mProject.active()});
 
   if (std::holds_alternative<Error>(projectDetailsOrError)) {
     PB::basicAssert(false);
     return;
   }
 
-  mPersistence->persistProject(newPath, mProject.details());
+  mPersistence->persistProject(newPath, mProject.active());
   if (newSaveFile) {
     std::filesystem::remove(oldSupportFolder);
     std::filesystem::remove(oldProjectFile);
@@ -278,13 +278,13 @@ void Photobook::savePhotobook(Path newPath)
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
-ProjectSnapshot Photobook::projectDetails() { return mProject.details(); }
+ProjectSnapshot Photobook::projectDetails() { return mProject.active(); }
 
 ImageSupport &Photobook::imageSupport() { return mImageSupport; }
 
 bool Photobook::projectDefaultSaved()
 {
-  auto projectParentPath = mProject.details().parentDirectory().string();
+  auto projectParentPath = mProject.active().parentDirectory().string();
 
   if (projectParentPath.find(mApplicationLocalStatePath.string()) ==
       std::string::npos) {
