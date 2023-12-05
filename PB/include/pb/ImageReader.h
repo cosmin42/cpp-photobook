@@ -17,6 +17,7 @@
 #include <pb/Config.h>
 #include <pb/FileMapper.h>
 #include <pb/ImageOperations.h>
+#include <pb/util/CircularIterator.h>
 
 namespace PB {
 

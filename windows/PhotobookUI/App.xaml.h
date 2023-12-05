@@ -6,6 +6,7 @@
 #include "App.xaml.g.h"
 
 #include <pb/persistence/Persistence.h>
+#include <pb/PhotoBook.h>
 
 namespace winrt::PhotobookUI::implementation {
 struct App : AppT<App>,
@@ -30,9 +31,13 @@ struct App : AppT<App>,
 
   std::shared_ptr<PB::Persistence> persistence() { return mPersistence; }
 
+  std::shared_ptr<PB::Photobook> api() const;
+
 private:
   winrt::Microsoft::UI::Xaml::Window mWindow{nullptr};
 
   std::shared_ptr<PB::Persistence> mPersistence;
+
+  std::shared_ptr<PB::Photobook> mAPI;
 };
 } // namespace winrt::PhotobookUI::implementation

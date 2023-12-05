@@ -30,8 +30,10 @@ private:
 
 class ThumbnailsProcessor final {
 public:
-  explicit ThumbnailsProcessor(std::pair<int, int> size);
+  explicit ThumbnailsProcessor();
   ~ThumbnailsProcessor();
+
+  void setScreenSize(std::pair<int, int> size);
 
   void provideProjectDetails(ProjectSnapshot const &);
 
@@ -48,8 +50,8 @@ private:
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
-  int                                        mScreenWidth;
-  int                                        mScreenHeight;
+  int                                        mScreenWidth = 0;
+  int                                        mScreenHeight = 0;
   std::vector<std::stop_source> mStopSources;
 };
 } // namespace PB

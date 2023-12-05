@@ -35,7 +35,9 @@ PB::Path App::CurrentAppLocation()
 /// authored code executed, and as such is the logical equivalent of main() or
 /// WinMain().
 /// </summary>
-App::App() : mPersistence(std::make_shared<PB::Persistence>(CurrentAppLocation(), this, this))
+App::App()
+    : mPersistence(
+          std::make_shared<PB::Persistence>(CurrentAppLocation(), this, this))
 {
   InitializeComponent();
 
@@ -80,3 +82,5 @@ void App::onMetadataRead(PB::ProjectMetadata projectMetadata) {}
 void App::onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata) {}
 void App::onProjectPersistenceError(PB::Error) {}
 void App::onMetadataPersistenceError(PB::Error) {}
+
+std::shared_ptr<PB::Photobook> App::api() const { return mAPI; }

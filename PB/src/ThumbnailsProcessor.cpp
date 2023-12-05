@@ -46,15 +46,17 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor(std::pair<int, int> size)
-    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT),
-      mScreenWidth(size.first), mScreenHeight(size.second)
+ThumbnailsProcessor::ThumbnailsProcessor()
+    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
 {
 }
 
-ThumbnailsProcessor::~ThumbnailsProcessor()
+ThumbnailsProcessor::~ThumbnailsProcessor() { halt(); }
+
+void ThumbnailsProcessor::setScreenSize(std::pair<int, int> screenSize)
 {
-  halt();
+  mScreenWidth = screenSize.first;
+  mScreenHeight = screenSize.second;
 }
 
 void ThumbnailsProcessor::provideProjectDetails(

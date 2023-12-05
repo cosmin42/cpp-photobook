@@ -65,8 +65,9 @@ TableContentPage::TableContentPage()
                  Application::Current()
                      .as<winrt::PhotobookUI::implementation::App>()
                      ->persistence(),
-                 CurrentAppLocation(), ScreenSize())
+                 CurrentAppLocation())
 {
+  mPhotoBook.configure(ScreenSize());
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mUnstagedImageCollection =

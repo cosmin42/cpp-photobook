@@ -37,11 +37,12 @@ class Photobook final : public Observer,
 public:
   explicit Photobook(PhotobookListener           &listener,
                      std::shared_ptr<Persistence> persistence,
-                     Path                         centralPersistencePath,
-                     std::pair<int, int>          screenSize);
+                     Path                         centralPersistencePath);
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
+
+  void configure(std::pair<int, int> screenSize);
 
   PaperSettings paperSettings() const;
 

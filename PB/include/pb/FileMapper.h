@@ -6,7 +6,6 @@
 
 #include <pb/Config.h>
 #include <pb/FileComparator.h>
-#include <pb/util/CircularIterator.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Observable.h>
 #include <pb/util/Thread.h>

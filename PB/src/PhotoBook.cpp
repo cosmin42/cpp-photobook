@@ -8,11 +8,9 @@
 namespace PB {
 Photobook::Photobook(PhotobookListener           &listener,
                      std::shared_ptr<Persistence> persistence,
-                     Path                         centralPersistencePath,
-                     std::pair<int, int>          screenSize)
+                     Path                         centralPersistencePath)
     : mParent(listener), mPersistence(persistence),
-      mCentralPersistencePath(centralPersistencePath),
-      mThumbnailsProcessor(screenSize),
+      mCentralPersistencePath(centralPersistencePath), mThumbnailsProcessor(),
       mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
 {
   printDebug("Photobook created.\n");
@@ -33,6 +31,11 @@ PaperSettings Photobook::paperSettings() const { return mPaperSettings; }
 void Photobook::setPaperSettings(PaperSettings paperSettings)
 {
   mPaperSettings = paperSettings;
+}
+
+void Photobook::configure(std::pair<int, int> screenSize)
+{
+  mThumbnailsProcessor.setScreenSize(screenSize);
 }
 
 void Photobook::configureProject(PB::Project project)
