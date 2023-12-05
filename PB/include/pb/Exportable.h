@@ -8,14 +8,15 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
-class Exportable : public Thread, public ObservableSubject {
+class Exportable : public SequentialTaskConsumer, public ObservableSubject {
 public:
   Exportable(std::stop_token stopToken, PaperSettings paperSettings,
              Path temporaryDirectory)
-      : Thread(stopToken), mPaperSettings(paperSettings),
+      : SequentialTaskConsumer(stopToken), mPaperSettings(paperSettings),
         mTemporaryDirectory(temporaryDirectory)
   {
   }
+
   virtual ~Exportable() = default;
 
   void configureExport(std::string name, Path destination,

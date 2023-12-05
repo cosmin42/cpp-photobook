@@ -13,10 +13,12 @@
 
 namespace PB {
 
-class MediaMapper final : public Thread, public ObservableSubject {
+class MediaMapper final : public SequentialTaskConsumer,
+                          public ObservableSubject {
 public:
   explicit MediaMapper(std::filesystem::path const &root)
-      : Thread(Context::inst().sStopSource.get_token()), mRoot(root)
+      : SequentialTaskConsumer(Context::inst().sStopSource.get_token()),
+        mRoot(root)
   {
     printDebug("MediaMapper constructor.\n");
     mRecursiveIterator = std::filesystem::recursive_directory_iterator(

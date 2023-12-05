@@ -6,14 +6,20 @@
 #include <thread>
 
 namespace PB {
-class Thread {
+class SequentialTaskConsumer {
 public:
-  explicit Thread(std::stop_token stopToken);
+  explicit SequentialTaskConsumer(std::stop_token stopToken);
 
-  Thread(Thread const &other) { mExternalToken = other.mExternalToken; }
-  Thread(Thread &&other) noexcept { mExternalToken = other.mExternalToken; }
-  Thread &operator=(Thread const &) = delete;
-  virtual ~Thread() = default;
+  SequentialTaskConsumer(SequentialTaskConsumer const &other)
+  {
+    mExternalToken = other.mExternalToken;
+  }
+  SequentialTaskConsumer(SequentialTaskConsumer &&other) noexcept
+  {
+    mExternalToken = other.mExternalToken;
+  }
+  SequentialTaskConsumer &operator=(SequentialTaskConsumer const &) = delete;
+  virtual ~SequentialTaskConsumer() = default;
 
   void start();
 

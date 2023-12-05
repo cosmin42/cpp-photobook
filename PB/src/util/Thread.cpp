@@ -3,21 +3,24 @@
 #include <pb/Config.h>
 
 namespace PB {
-Thread::Thread(std::stop_token stopToken) : mExternalToken(stopToken) {}
+SequentialTaskConsumer::SequentialTaskConsumer(std::stop_token stopToken)
+    : mExternalToken(stopToken)
+{
+}
 
-void Thread::start()
+void SequentialTaskConsumer::start()
 {
   printDebug("Starting thread\n");
   mThread = std::jthread([this](std::stop_token token) { run(token); });
 }
 
-void Thread::stop()
+void SequentialTaskConsumer::stop()
 {
   this->mThread.request_stop();
   printDebug("Ending thread\n");
 }
 
-void Thread::run(std::stop_token token)
+void SequentialTaskConsumer::run(std::stop_token token)
 {
   Timer timer;
   mCurrentToken = token;
