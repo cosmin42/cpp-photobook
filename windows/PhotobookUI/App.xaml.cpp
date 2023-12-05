@@ -59,6 +59,8 @@ void App::OnLaunched(LaunchActivatedEventArgs const &e)
 {
   mWindow = make<MainWindow>();
 
+  mAPI = std::make_shared<PB::Photobook>(CurrentAppLocation());
+
   Frame rootFrame = Frame();
   rootFrame.NavigationFailed({this, &App::OnNavigationFailed});
   rootFrame.Navigate(xaml_typename<PhotobookUI::Dashboard>(),

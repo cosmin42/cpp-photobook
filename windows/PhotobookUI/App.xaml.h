@@ -5,11 +5,12 @@
 
 #include "App.xaml.g.h"
 
-#include <pb/persistence/Persistence.h>
 #include <pb/PhotoBook.h>
+#include <pb/persistence/Persistence.h>
 
 namespace winrt::PhotobookUI::implementation {
-struct App : AppT<App>{
+struct App : AppT<App> {
+
   static PB::Path CurrentAppLocation();
 
   App();
