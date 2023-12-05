@@ -14,7 +14,7 @@ namespace PB {
 class ImageSupportListener {
 public:
   virtual void importFolderAdded(
-      Path root,
+      int newSize,
       CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) = 0;
   virtual void stagePhotosUpdated(
       CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) = 0;

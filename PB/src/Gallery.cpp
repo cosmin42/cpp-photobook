@@ -5,11 +5,10 @@ Gallery::Gallery()
 {
   mGalleryListener = std::make_shared<GalleryListener>();
   mGalleryListener->setCallbacks(
-      [this](Path root,
+      [this](int newSize,
              CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
                  iterator) {
-        mImportedFolders.push_back(root);
-        mSelectedFolderIndex = (int)mImportedFolders.size() - 1;
+        mSelectedFolderIndex = newSize;
         mCurrentIterator = iterator;
         PB::printDebug("Import folder added.\n");
       },
@@ -51,7 +50,6 @@ void Gallery::clearSelection()
   mSelectedFolderIndex = -1;
   mCurrentIterator =
       CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>();
-  mImportedFolders.clear();
   mPhotoLine = PhotoLine::None;
 }
 

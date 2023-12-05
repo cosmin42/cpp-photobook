@@ -35,7 +35,7 @@ void ImageSupport::addImage(Path root, std::vector<Path> paths,
 
   if (mListener) {
     mListener->importFolderAdded(
-        root, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+        (int)mGroupIndexes.size(), CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
                   mUnstagedImagesMatrix.at(indexGroup)));
   }
 }

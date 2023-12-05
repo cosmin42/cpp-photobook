@@ -9,7 +9,7 @@ class GalleryListener final : public ImageSupportListener {
 public:
   void setCallbacks(
       std::function<void(
-          Path, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
+          int, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
           onImportFolderAdded,
       std::function<
           void(CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
@@ -20,13 +20,13 @@ public:
   }
 
   void
-  importFolderAdded(Path root,
+  importFolderAdded(int newSize,
                     CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
                         iterator) override
   {
     // Forward
     PB::basicAssert(mOnImportFolderAdded != nullptr);
-    mOnImportFolderAdded(root, iterator);
+    mOnImportFolderAdded(newSize, iterator);
   }
 
   void stagePhotosUpdated(
@@ -40,7 +40,7 @@ public:
 
 private:
   std::function<void(
-      Path, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
+      int, CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
       mOnImportFolderAdded = nullptr;
   std::function<void(
       CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>)>
@@ -74,7 +74,6 @@ private:
   std::shared_ptr<GalleryListener> mGalleryListener = nullptr;
   int                              mSelectedFolderIndex = -1;
   CircularIterator<std::vector<std::shared_ptr<VirtualImage>>> mCurrentIterator;
-  std::vector<Path>                                            mImportedFolders;
   PhotoLine mPhotoLine = PhotoLine::None;
 };
 } // namespace PB
