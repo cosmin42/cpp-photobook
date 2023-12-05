@@ -227,6 +227,11 @@ private:
 
   void UpdateUnstagedImagesView(int index);
 
+  void OnStagedImageCollectionChanged(
+      IObservableVector<ImageUIData> const                     &sender,
+      winrt::Windows::Foundation::Collections::CollectionChange changeType,
+      int                                                       changedIndex);
+
   // To be moved, geometry
   double PaperToCanvasRatio(
       int width, int height,

@@ -46,6 +46,8 @@ public:
 
   void configureProject(Project project);
 
+  void loadProject();
+
   void addImportFolder(Path importPath);
 
   void update(ObservableSubject &subject) override;

@@ -12,7 +12,6 @@ Photobook::Photobook(Path applicationLocalStatePath)
 {
   printDebug("Photobook created.\n");
 
-  mProject.active().setPaperSettings(Context::A4_LANDSCAPE_PAPER);
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 
@@ -40,7 +39,9 @@ void Photobook::configureProject(PB::Project project)
   mProject = project;
 
   mThumbnailsProcessor.provideProjectDetails(project.active());
+}
 
+void Photobook::loadProject() {
   auto importedFolders = mProject.active().importedFolderList();
   for (auto &path : importedFolders) {
     addImportFolder(path);

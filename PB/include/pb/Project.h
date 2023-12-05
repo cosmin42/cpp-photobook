@@ -30,6 +30,8 @@ public:
     mCache.parentDirectory(parentDirectory);
 
     mCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
+
+    mActive = mCache;
   }
 
   Project(ProjectSnapshot projectDetails)
@@ -41,6 +43,7 @@ public:
                                 projectPath.string());
 
     mCache = projectDetails;
+    mActive = mCache;
   }
 
   ~Project() = default;

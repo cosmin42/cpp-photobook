@@ -65,6 +65,8 @@ TableContentPage::TableContentPage()
                      .as<winrt::PhotobookUI::implementation::App>()
                      ->api())
 {
+  InitializeComponent();
+
   mPhotoBook->configure(ScreenSize());
   mPhotoBook->configure(mListener);
   mNavigationItemsCollection =
@@ -86,8 +88,6 @@ TableContentPage::TableContentPage()
     }
   };
 
-  InitializeComponent();
-
   UnstagedListView().ItemsSource(mUnstagedImageCollection);
   StagedListView().ItemsSource(mStagedImageCollection);
 
@@ -99,36 +99,13 @@ TableContentPage::TableContentPage()
   mStagedImageCollection.VectorChanged(
       [this](IObservableVector<ImageUIData> const &sender,
              IVectorChangedEventArgs const        &args) {
-        if (mDragSource != DragSource::Staged) {
-          return;
-        }
         PB::printDebug(
             "Reorder changed index: %d %s\n", args.Index(),
             std::string(magic_enum::enum_name(args.CollectionChange()))
                 .c_str());
         auto changeType = args.CollectionChange();
-        if (changeType == winrt::Windows::Foundation::Collections::
-                              CollectionChange::ItemInserted) {
-          auto image = sender.GetAt(args.Index());
-          auto fullPath = winrt::to_string(image.FullPath());
-          auto mediumPath = winrt::to_string(image.MediumPath());
-          auto smallPath = winrt::to_string(image.SmallPath());
-          auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
-              PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
-          mPhotoBook->imageSupport().stagePhoto({regularImage}, args.Index());
-        }
-        else if (changeType == winrt::Windows::Foundation::Collections::
-                                   CollectionChange::ItemRemoved) {
-
-          mPhotoBook->imageSupport().unstagePhoto({(int)args.Index()});
-        }
-        else if (changeType == winrt::Windows::Foundation::Collections::
-                                   CollectionChange::ItemChanged) {
-          PB::basicAssert(false);
-        }
-        else {
-          PB::basicAssert(false);
-        }
+        int  index = (int)args.Index();
+        OnStagedImageCollectionChanged(sender, changeType, index);
       });
 
   mUnstagedImageCollection.VectorChanged(
@@ -590,7 +567,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
   // WORKAROUND
 
   mPhotoBook->imageSupport().stagePhoto(mDragAndDropSelectedImages,
-                                       insertPostion);
+                                        insertPostion);
 
   OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
 
@@ -795,6 +772,38 @@ void TableContentPage::OnImportSelectionChanged(
   }
 }
 
+void TableContentPage::OnStagedImageCollectionChanged(
+    IObservableVector<ImageUIData> const                     &sender,
+    winrt::Windows::Foundation::Collections::CollectionChange changeType,
+    int                                                       changedIndex)
+{
+  if (mDragSource != DragSource::Staged) {
+    return;
+  }
+  if (changeType ==
+      winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted) {
+    auto image = sender.GetAt(changedIndex);
+    auto fullPath = winrt::to_string(image.FullPath());
+    auto mediumPath = winrt::to_string(image.MediumPath());
+    auto smallPath = winrt::to_string(image.SmallPath());
+    auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
+        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
+    mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
+  }
+  else if (changeType == winrt::Windows::Foundation::Collections::
+                             CollectionChange::ItemRemoved) {
+
+    mPhotoBook->imageSupport().unstagePhoto({changedIndex});
+  }
+  else if (changeType == winrt::Windows::Foundation::Collections::
+                             CollectionChange::ItemChanged) {
+    PB::basicAssert(false);
+  }
+  else {
+    PB::basicAssert(false);
+  }
+}
+
 void TableContentPage::UpdateUnstagedImagesView(int index)
 {
   auto &imagesData = mPhotoBook->imageSupport();
@@ -894,7 +903,8 @@ void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
                                         int reference)
 {
   auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
-  auto selectedRootPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
+  auto selectedRootPath =
+      mPhotoBook->imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath.value()) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
@@ -925,7 +935,8 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path smallPath, int position)
 {
   auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
-  auto selectedRootPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
+  auto selectedRootPath =
+      mPhotoBook->imageSupport().groupByIndex(selectedIndex);
   if (selectedRootPath && rootPath == selectedRootPath) {
     mUnstagedImageCollection.SetAt(
         position, ImageUIData(winrt::to_hstring(fullPath.string()),
@@ -1037,6 +1048,7 @@ void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
   mPhotoBook->persistence()->setPersistenceListener(nullptr, nullptr);
+  mPhotoBook->loadProject();
 }
 
 void TableContentPage::OnExportClicked(

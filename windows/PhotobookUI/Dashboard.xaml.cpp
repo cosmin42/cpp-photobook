@@ -148,8 +148,8 @@ void Dashboard::OpenProjectClicked(
         ItemClickEventArgs const &e)
 {
   auto item = e.ClickedItem().as<ProjectItem>();
-  Frame().Navigate(winrt::xaml_typename<TableContentPage>(),
-                   winrt::box_value(item.FullPath()));
+
+  mPersistence->recallProject(winrt::to_string(item.FullPath()));
 }
 
 void Dashboard::OnNavigatedTo(
@@ -173,7 +173,14 @@ void Dashboard::OnNavigatedTo(
   }
 }
 
-void Dashboard::onProjectRead(PB::Project project) {}
+void Dashboard::onProjectRead(PB::Project project)
+{
+  Application::Current()
+      .as<winrt::PhotobookUI::implementation::App>()
+      ->api()
+      ->configureProject(project);
+  Frame().Navigate(winrt::xaml_typename<TableContentPage>());
+}
 
 void Dashboard::onMetadataRead(PB::ProjectMetadata projectMetadata) {}
 
