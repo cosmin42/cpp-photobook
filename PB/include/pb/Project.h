@@ -58,7 +58,10 @@ public:
 
 private:
   ProjectMetadata mMetadata;
+
   ProjectSnapshot mProjectCache;
+
+  ProjectSnapshot mActiveProject;
 };
 
 class ProjectsSet {
