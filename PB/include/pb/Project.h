@@ -6,8 +6,8 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/persistence/ProjectSnapshot.h>
 #include <pb/persistence/ProjectMetadata.h>
+#include <pb/persistence/ProjectSnapshot.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
@@ -25,12 +25,11 @@ public:
     mMetadata =
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
 
-    mProjectDetails.uuid(uuid);
-    mProjectDetails.supportDirName(
-        boost::uuids::to_string(mProjectDetails.uuid()));
-    mProjectDetails.parentDirectory(parentDirectory);
+    mProjectCache.uuid(uuid);
+    mProjectCache.supportDirName(boost::uuids::to_string(mProjectCache.uuid()));
+    mProjectCache.parentDirectory(parentDirectory);
 
-    mProjectDetails.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
+    mProjectCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
   }
 
   Project(ProjectSnapshot projectDetails)
@@ -41,25 +40,25 @@ public:
     mMetadata = ProjectMetadata(boost::uuids::to_string(projectDetails.uuid()),
                                 projectPath.string());
 
-    mProjectDetails = projectDetails;
+    mProjectCache = projectDetails;
   }
 
   ~Project() = default;
 
-  ProjectSnapshot &details() { return mProjectDetails; }
+  ProjectSnapshot &details() { return mProjectCache; }
 
   void updateProjectName(std::string name)
   {
-    mProjectDetails.supportDirName(name);
+    mProjectCache.supportDirName(name);
   }
 
-  void updateProjectPath(Path path) { mProjectDetails.parentDirectory(path); }
+  void updateProjectPath(Path path) { mProjectCache.parentDirectory(path); }
 
   ProjectMetadata const &metadata() { return mMetadata; }
 
 private:
   ProjectMetadata mMetadata;
-  ProjectSnapshot mProjectDetails;
+  ProjectSnapshot mProjectCache;
 };
 
 class ProjectsSet {
