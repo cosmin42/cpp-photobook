@@ -21,7 +21,7 @@ public:
 class Persistence final {
 public:
   explicit Persistence(
-      Path                         centralPersistencePath,
+      Path                         applicationLocalStatePath,
       PersistenceProjectListener  *persistenceProjectListener,
       PersistenceMetadataListener *persistenceMetadataListener);
 

@@ -64,9 +64,9 @@ private:
 
 class ProjectsSet {
 public:
-  Project create(Path centralPersistencePath)
+  Project create(Path applicationLocalStatePath)
   {
-    Project newProject(centralPersistencePath);
+    Project newProject(applicationLocalStatePath);
     mSet[newProject.details().uuid()] = newProject;
     return newProject;
   }

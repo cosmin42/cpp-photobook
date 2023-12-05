@@ -6,14 +6,15 @@
 #include <pb/TextImage.h>
 
 namespace PB {
-Photobook::Photobook(Path centralPersistencePath)
-    : mCentralPersistencePath(centralPersistencePath), mThumbnailsProcessor(),
-      mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
+Photobook::Photobook(Path applicationLocalStatePath)
+    : mApplicationLocalStatePath(applicationLocalStatePath),
+      mThumbnailsProcessor(), mPaperSettings(Context::A4_LANDSCAPE_PAPER),
+      mExportFactory()
 {
   printDebug("Photobook created.\n");
 
   mPersistence =
-      std::make_shared<PB::Persistence>(centralPersistencePath, this, this);
+      std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 
   mImageSupport.setListener(mGallery.slot());
 }
@@ -221,7 +222,8 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->fullSizePath());
   }
 
-  mExportFactory.updateConfiguration(mPaperSettings, mCentralPersistencePath);
+  mExportFactory.updateConfiguration(mPaperSettings,
+                                     mApplicationLocalStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {
@@ -284,7 +286,7 @@ bool Photobook::projectDefaultSaved()
 {
   auto projectParentPath = mProject.details().parentDirectory().string();
 
-  if (projectParentPath.find(mCentralPersistencePath.string()) ==
+  if (projectParentPath.find(mApplicationLocalStatePath.string()) ==
       std::string::npos) {
     return false;
   }

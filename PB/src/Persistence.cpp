@@ -4,12 +4,12 @@
 
 namespace PB {
 Persistence::Persistence(
-    Path                         centralPersistencePath,
+    Path                         applicationLocalStatePath,
     PersistenceProjectListener  *persistenceProjectListener,
     PersistenceMetadataListener *persistenceMetadataListener)
     : mPersistenceProjectListener(persistenceProjectListener),
       mPersistenceMetadataListener(persistenceMetadataListener),
-      mCentral(centralPersistencePath)
+      mCentral(applicationLocalStatePath)
 {
   PB::basicAssert(persistenceProjectListener != nullptr);
   PB::basicAssert(persistenceMetadataListener != nullptr);

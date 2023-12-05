@@ -35,7 +35,7 @@ class Photobook final : public Observer,
                         public PersistenceMetadataListener,
                         public PersistenceProjectListener {
 public:
-  explicit Photobook(Path centralPersistencePath);
+  explicit Photobook(Path applicationLocalStatePath);
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
@@ -79,7 +79,7 @@ private:
 
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
   std::shared_ptr<Persistence>             mPersistence;
-  Path                                     mCentralPersistencePath;
+  Path                                     mApplicationLocalStatePath;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;
   ImageSupport                             mImageSupport;
