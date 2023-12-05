@@ -36,8 +36,6 @@ PB::Path App::CurrentAppLocation()
 /// WinMain().
 /// </summary>
 App::App()
-    : mPersistence(
-          std::make_shared<PB::Persistence>(CurrentAppLocation(), this, this))
 {
   InitializeComponent();
 
@@ -76,11 +74,5 @@ void App::OnNavigationFailed(IInspectable const &,
   throw hresult_error(E_FAIL, hstring(L"Failed to load Page ") +
                                   e.SourcePageType().Name);
 }
-
-void App::onProjectRead(PB::Project project) {}
-void App::onMetadataRead(PB::ProjectMetadata projectMetadata) {}
-void App::onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata) {}
-void App::onProjectPersistenceError(PB::Error) {}
-void App::onMetadataPersistenceError(PB::Error) {}
 
 std::shared_ptr<PB::Photobook> App::api() const { return mAPI; }

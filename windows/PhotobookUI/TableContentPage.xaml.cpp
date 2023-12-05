@@ -61,10 +61,7 @@ std::pair<int, int> TableContentPage::ScreenSize()
 
 TableContentPage::TableContentPage()
     : mListener(std::make_shared<PhotobookTableListener>(std::ref(*this))),
-      mPhotoBook(Application::Current()
-                     .as<winrt::PhotobookUI::implementation::App>()
-                     ->persistence(),
-                 CurrentAppLocation())
+      mPhotoBook(CurrentAppLocation())
 {
   mPhotoBook.configure(ScreenSize());
   mPhotoBook.configure(mListener);

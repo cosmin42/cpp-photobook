@@ -6,15 +6,14 @@
 #include <pb/TextImage.h>
 
 namespace PB {
-Photobook::Photobook(std::shared_ptr<Persistence> persistence,
-                     Path                         centralPersistencePath)
-    : mPersistence(persistence),
-      mCentralPersistencePath(centralPersistencePath), mThumbnailsProcessor(),
+Photobook::Photobook(Path centralPersistencePath)
+    : mCentralPersistencePath(centralPersistencePath), mThumbnailsProcessor(),
       mPaperSettings(Context::A4_LANDSCAPE_PAPER), mExportFactory()
 {
   printDebug("Photobook created.\n");
 
-  mPersistence->setPersistenceListener(this, this);
+  mPersistence =
+      std::make_shared<PB::Persistence>(centralPersistencePath, this, this);
 
   mImageSupport.setListener(mGallery.slot());
 }

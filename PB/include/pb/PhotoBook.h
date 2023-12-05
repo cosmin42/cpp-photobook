@@ -35,8 +35,7 @@ class Photobook final : public Observer,
                         public PersistenceMetadataListener,
                         public PersistenceProjectListener {
 public:
-  explicit Photobook(std::shared_ptr<Persistence>       persistence,
-                     Path                               centralPersistencePath);
+  explicit Photobook(Path centralPersistencePath);
   ~Photobook();
 
   void setPaperSettings(PaperSettings paperSettings);
