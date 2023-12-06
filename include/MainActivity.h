@@ -37,7 +37,7 @@ public:
 
 class MainActivity final {
 public:
-  MainActivity() : mPhotoBook(mPhotoBookListener, PB::Path("."), {0, 0}) {}
+  MainActivity() : mPhotoBook(PB::Path(".")) {}
   MainActivity(MainActivity const &) = delete;
   MainActivity(MainActivity &&) = delete;
   MainActivity &operator=(MainActivity const &) = delete;
