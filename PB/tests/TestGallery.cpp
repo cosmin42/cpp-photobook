@@ -41,8 +41,8 @@ TEST(TestGallery, Test2)
 
   ASSERT_TRUE(maybeSelected != nullptr);
 
-  ASSERT_TRUE(maybeSelected->fullSizePath().string() == "a/b");
+  ASSERT_TRUE(maybeSelected->resources().full.string() == "a/b");
   g.setPhotoLinePosition(5);
   maybeSelected = g.selectedItem();
-  ASSERT_TRUE(maybeSelected->fullSizePath().string() == "b/c");
+  ASSERT_TRUE(maybeSelected->resources().full.string() == "b/c");
 }
