@@ -212,7 +212,7 @@ void Photobook::exportAlbum(std::string name, Path path)
   auto              stagedPhotos = mImageSupport.stagedPhotos();
   std::vector<Path> fullPaths;
   for (auto photo : stagedPhotos) {
-    fullPaths.push_back(photo->fullSizePath());
+    fullPaths.push_back(photo->resources().full);
   }
 
   mExportFactory.updateConfiguration(mProject.active().paperSettings(),

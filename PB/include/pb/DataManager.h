@@ -8,6 +8,7 @@
 #include <pb/PreprocessedImage.h>
 #include <pb/VirtualImage.h>
 #include <pb/util/CircularIterator.h>
+#include <pb/util/Observable.h>
 
 namespace PB {
 
@@ -20,8 +21,13 @@ public:
       CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) = 0;
 };
 
-class ImageSupport final {
+class ImageSupport final : public Observer {
 public:
+  ImageSupport() = default;
+  ImageSupport(ImageSupport &&) = delete;
+  ImageSupport(ImageSupport const &) = delete;
+  ~ImageSupport() = default;
+
   void setListener(std::shared_ptr<ImageSupportListener> listener);
 
   void addGroup(std::optional<Path> path);
@@ -58,6 +64,9 @@ public:
     auto &[importPathIndex, pathIndex] = mSupportByFullPath.at(fullPath);
     return std::dynamic_pointer_cast<T>(
         mUnstagedImagesMatrix.at(importPathIndex).at(pathIndex));
+  }
+
+  void update([[maybe_unused]] ObservableSubject &subject) override {
   }
 
 private:

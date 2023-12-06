@@ -73,9 +73,9 @@ void ImageSupport::stagePhoto(std::vector<std::shared_ptr<VirtualImage>> paths,
 void ImageSupport::updateStagedPhoto(std::shared_ptr<VirtualImage> newImage)
 {
   for (auto photo : mStagedPhotos) {
-    if (photo->fullSizePath() == newImage->fullSizePath()) {
-      photo->setMediumSizePath(newImage->mediumSizePath());
-      photo->setSmallSizePath(newImage->smallSizePath());
+    if (photo->resources().full == newImage->resources().full) {
+      photo->setMediumSizePath(newImage->resources().medium);
+      photo->setSmallSizePath(newImage->resources().small);
     }
   }
 }
@@ -105,7 +105,7 @@ void ImageSupport::removeGroup(int index)
   }
 
   for (int i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
-    auto path = mUnstagedImagesMatrix.at(index).at(i)->fullSizePath();
+    auto path = mUnstagedImagesMatrix.at(index).at(i)->resources().full;
     mSupportByFullPath.erase(path);
   }
   mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + index);

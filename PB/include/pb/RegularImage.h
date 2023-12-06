@@ -16,7 +16,7 @@ public:
 
   Thumbnails thumbnails() const
   {
-    return Thumbnails(fullSizePath(), mediumSizePath(), smallSizePath());
+    return Thumbnails(resources().full, resources().medium, resources().small);
   }
 
   void setThumbnail(Thumbnails thumbnails)

@@ -24,7 +24,7 @@ void ProjectSnapshot::setStagedImages(
 {
   mStagedImages.clear();
   for (auto image : stagedImages) {
-    mStagedImages.push_back(image->fullSizePath());
+    mStagedImages.push_back(image->resources().full);
   }
 }
 

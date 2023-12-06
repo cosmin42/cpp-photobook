@@ -9,31 +9,39 @@
 #pragma warning(pop)
 
 #include <pb/Config.h>
+#include <pb/util/Observable.h>
 
 namespace PB {
-class VirtualImage {
+
+struct ImageResources {
+  Path full;
+  Path medium;
+  Path small;
+};
+
+class VirtualImage : public ObservableSubject {
 public:
+  void notify() override {}
+
   virtual VirtualImageType type() const = 0;
 
-  void setFullSizePath(Path path) { mFullSizePath = path; }
-  void setMediumSizePath(Path path) { mMediumSizePath = path; }
-  void setSmallSizePath(Path path) { mSmallSizePath = path; }
+  void setFullSizePath(Path path) { mResources.full = path; }
+  void setMediumSizePath(Path path) { mResources.medium = path; }
+  void setSmallSizePath(Path path) { mResources.small = path; }
 
   void setSizePath(Path fullSizePath, Path mediumSizePath = Path(),
                    Path smallSizePath = Path())
   {
-    mFullSizePath = fullSizePath;
-    mMediumSizePath = mediumSizePath;
-    mSmallSizePath = smallSizePath;
+    mResources.full = fullSizePath;
+    mResources.medium = mediumSizePath;
+    mResources.small = smallSizePath;
   }
 
-  Path fullSizePath() const { return mFullSizePath; }
-  Path mediumSizePath() const { return mMediumSizePath; }
-  Path smallSizePath() const { return mSmallSizePath; }
+  ImageResources resources() const { return mResources; }
 
 private:
-  Path mFullSizePath;
-  Path mMediumSizePath;
-  Path mSmallSizePath = Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE);
+  ImageResources mResources = {Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE),
+                               Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE),
+                               Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
 };
 } // namespace PB
