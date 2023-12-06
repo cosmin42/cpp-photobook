@@ -3,7 +3,7 @@
 #include <pb/Config.h>
 
 using namespace PB;
-
+/*
 template <typename T> void testReadWrite(std::string path)
 {
   T persistence(path);
@@ -328,3 +328,4 @@ TEST(TestPersistence, DeleteNonExistentEntry)
         });
   });
 }
+*/

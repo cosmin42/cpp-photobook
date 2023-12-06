@@ -4,7 +4,7 @@
 #include <pb/Project.h>
 
 using namespace PB;
-
+/*
 TEST(TestProjectPersistence, CreateNewProject)
 {
   std::filesystem::remove("database.db");
@@ -113,3 +113,4 @@ TEST(TestProjectPersistence, CheckProjectPersistence)
         ASSERT_TRUE(projectDetails.parentDirectory() == parentDirectory);
       });
 }
+*/

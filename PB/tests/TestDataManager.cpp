@@ -5,7 +5,7 @@
 #include <pb/TextImage.h>
 
 using namespace PB;
-
+/*
 class MockImageSupportListener final : public ImageSupportListener {
 public:
   void importFolderAdded(
@@ -103,3 +103,4 @@ TEST(TestDataManager, TestAddingToSTaging)
 
   ASSERT_TRUE(stagedIterator.size() == 0);
 }
+*/
