@@ -66,8 +66,7 @@ public:
         mUnstagedImagesMatrix.at(importPathIndex).at(pathIndex));
   }
 
-  void update([[maybe_unused]] ObservableSubject &subject) override {
-  }
+  void update([[maybe_unused]] ObservableSubject &subject) override {}
 
 private:
   std::unordered_map<Path, int>                           mGroupIndexes;

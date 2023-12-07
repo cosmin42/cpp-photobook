@@ -94,7 +94,7 @@ add_library(pblib STATIC
     include/pb/RegularImage.h
     include/pb/ThumbnailsProcessor.h
     include/pb/SerializationStrategy.h
-    include/pb/StagedImagesLogic.h
+    include/pb/StagedImages.h
     include/pb/SQLPersistence.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
@@ -133,7 +133,7 @@ add_library(pblib STATIC
     src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
     src/SQLPersistence.cpp
-    src/StagedImagesLogic.cpp
+    src/StagedImages.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
     src/util/Thread.cpp
