@@ -7,7 +7,7 @@ void StagedImages::setListener(std::shared_ptr<StagedImagesListener> listener)
   mListener = listener;
 }
 
-void StagedImages::addPicture(
+void StagedImages::addPictures(
     std::vector<std::shared_ptr<VirtualImage>> pictures)
 {
   int nextIndex = (int)mStagedPhotos.size();
@@ -17,7 +17,7 @@ void StagedImages::addPicture(
   mListener->onPicturesAdded(nextIndex, pictures.size());
 }
 
-void StagedImages::addPicture(
+void StagedImages::addPictures(
     std::vector<std::shared_ptr<VirtualImage>> pictures, int position)
 {
   PB::basicAssert(position > -1);

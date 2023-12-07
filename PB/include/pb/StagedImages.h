@@ -17,8 +17,8 @@ class StagedImages final {
 public:
   void setListener(std::shared_ptr<StagedImagesListener> listener);
 
-  void addPicture(std::vector<std::shared_ptr<VirtualImage>> pictures);
-  void addPicture(std::vector<std::shared_ptr<VirtualImage>> pictures,
+  void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures);
+  void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures,
                   int                                        position);
   void removePicture(std::vector<unsigned> indexes);
   void clear();
