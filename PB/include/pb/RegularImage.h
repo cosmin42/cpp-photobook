@@ -12,6 +12,9 @@ public:
                 thumbnails.smallThumbnail);
   }
 
+  RegularImage() = default;
+  ~RegularImage() = default;
+
   VirtualImageType type() const override { return VirtualImageType::Regular; }
 
   Thumbnails thumbnails() const

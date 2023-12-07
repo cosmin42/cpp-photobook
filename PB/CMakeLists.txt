@@ -74,6 +74,7 @@ add_library(pblib STATIC
     include/pb/FilePersistence.h
     include/pb/Html.h
     include/pb/ImageReader.h
+    include/pb/ImageMonitor.h
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
     include/pb/Jpg.h
@@ -115,6 +116,7 @@ add_library(pblib STATIC
     src/Gallery.cpp
     src/Html.cpp
     src/ImageReader.cpp
+    src/ImageMonitor.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
     src/Jpg.cpp
