@@ -32,16 +32,26 @@ void StagedImages::addPicture(
   }
 
   PB::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded(position, pictures.size());
+  mListener->onPicturesAdded(position, (int)pictures.size());
 }
 
 void StagedImages::removePicture(std::vector<unsigned> indexes)
 {
   std::sort(indexes.begin(), indexes.end(), std::greater<int>());
-  for (int i = 0; i < indexes.size(); ++i) {
+  for (int i = 0; i < (int)indexes.size(); ++i) {
     mStagedPhotos.erase(mStagedPhotos.begin() + indexes.at(i));
   }
   mListener->onPictureRemoved(indexes);
+}
+
+void StagedImages::clear()
+{
+  std::vector<unsigned> clearedIndexes;
+  for (unsigned i = 0; i < (unsigned)mStagedPhotos.size(); ++i) {
+    clearedIndexes.push_back(i);
+  }
+  mStagedPhotos.clear();
+  mListener->onPictureRemoved(clearedIndexes);
 }
 
 std::vector<std::shared_ptr<VirtualImage>> const &

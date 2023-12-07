@@ -47,6 +47,7 @@ enum class VirtualImageType
 {
 	None,
 	Text,
-	Regular
+	Regular,
+	Test
 };
 } // namespace PB

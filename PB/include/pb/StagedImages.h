@@ -21,6 +21,7 @@ public:
   void addPicture(std::vector<std::shared_ptr<VirtualImage>> pictures,
                   int                                        position);
   void removePicture(std::vector<unsigned> indexes);
+  void clear();
 
   std::vector<std::shared_ptr<VirtualImage>> const &stagedPhotos() const;
   std::shared_ptr<VirtualImage> picture(unsigned index) const;
