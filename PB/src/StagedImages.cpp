@@ -14,7 +14,7 @@ void StagedImages::addPictures(
   mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
 
   PB::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded(nextIndex, pictures.size());
+  mListener->onPicturesAdded(nextIndex, (int)pictures.size());
 }
 
 void StagedImages::addPictures(
