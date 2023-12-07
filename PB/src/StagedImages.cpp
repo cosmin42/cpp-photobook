@@ -66,4 +66,11 @@ std::shared_ptr<VirtualImage> StagedImages::picture(unsigned index) const
   return mStagedPhotos.at(index);
 }
 
+auto StagedImages::statefullIterator()
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+{
+  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+      mStagedPhotos);
+}
+
 } // namespace PB

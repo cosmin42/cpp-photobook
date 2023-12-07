@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <pb/VirtualImage.h>
+#include <pb/util/CircularIterator.h>
 
 namespace PB {
 
@@ -25,6 +26,9 @@ public:
 
   std::vector<std::shared_ptr<VirtualImage>> const &stagedPhotos() const;
   std::shared_ptr<VirtualImage> picture(unsigned index) const;
+
+  auto statefullIterator()
+      -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
   std::shared_ptr<StagedImagesListener>      mListener;
