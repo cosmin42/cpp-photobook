@@ -166,6 +166,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestErrors.cpp
         tests/TestGallery.cpp
         tests/TestProjectPersistence.cpp
+        tests/TestStagedImages.cpp
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
@@ -177,7 +178,7 @@ if (LOG_LEVEL MATCHES Debug)
         Boost::boost
         Boost::program_options
         exiv2lib
-        GTest::gtest GTest::gtest_main
+        GTest::gtest GTest::gtest_main GTest::gmock
         magic_enum::magic_enum
         pblib
         dp::thread-pool
