@@ -19,6 +19,8 @@ void ImageMonitor::addGroup(Path                                       path,
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));
   }
+
+  mListener->onImportFolderAdded();
 }
 
 void ImageMonitor::removeGroup(int index)
@@ -33,6 +35,8 @@ void ImageMonitor::removeGroup(int index)
   for (int i = index + 1; i < mGroupIndexes.size() + 1; ++i) {
     mGroupIndexes.right.replace_key(mGroupIndexes.right.find(i), i - 1);
   }
+
+  mListener->onImportFolderRemoved(index);
 }
 
 void ImageMonitor::removeGroup(Path path)
@@ -40,6 +44,8 @@ void ImageMonitor::removeGroup(Path path)
   int index = mGroupIndexes.left.at(path);
   basicAssert(!mPendingGroups.contains(index));
   removeGroup(index);
+
+  mListener->onImportFolderRemoved(index);
 }
 
 void ImageMonitor::clear()
@@ -48,8 +54,30 @@ void ImageMonitor::clear()
   mGroupIndexes.clear();
   mPositions.clear();
   mUnstagedImagesMatrix.clear();
+
+  mListener->onCleared();
 }
 
 void ImageMonitor::completeGroup(int index) { mPendingGroups.erase(index); }
+
+unsigned ImageMonitor::importListSize() const
+{
+  return (unsigned)mGroupIndexes.size();
+}
+
+unsigned ImageMonitor::rowSize(unsigned row)
+{
+  basicAssert(row < mUnstagedImagesMatrix.size());
+  return (unsigned)mUnstagedImagesMatrix.at(row).size();
+}
+
+std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
+                                                  unsigned index) const
+{
+  basicAssert(row < mUnstagedImagesMatrix.size());
+  basicAssert(index < mUnstagedImagesMatrix.at(row).size());
+
+  return mUnstagedImagesMatrix.at(row).at(index);
+}
 
 } // namespace PB
