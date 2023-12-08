@@ -6,7 +6,6 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
-#include <pb/RegularImage.h>
 #include <pb/VirtualImage.h>
 #include <pb/util/CircularIterator.h>
 
@@ -22,19 +21,25 @@ class ImageMonitor {
 public:
   void setListener(std::shared_ptr<ImageMonitorListener> listener);
 
-  void addGroup(Path path, std::vector<Path> imagesPaths);
+  void addGroup(Path                                       path,
+                std::vector<std::shared_ptr<VirtualImage>> images);
   void removeGroup(int index);
   void removeGroup(Path path);
 
   void clear();
+
+  void completeGroup(int index);
 
 private:
   std::shared_ptr<ImageMonitorListener> mListener;
 
   boost::bimaps::bimap<Path, int> mGroupIndexes;
 
-  boost::bimaps::bimap<Path, std::pair<int, int>>         mSupportByFullPath;
-  std::vector<std::vector<std::shared_ptr<RegularImage>>> mUnstagedImagesMatrix;
+  boost::bimaps::bimap<Path, std::pair<int, int>> mPositions;
+
+  std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
+
+  std::unordered_set<int> mPendingGroups;
 };
 
 } // namespace PB
