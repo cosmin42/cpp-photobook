@@ -52,7 +52,7 @@ TEST(TestImageMonitor, TestAdding)
 
   EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
 
-  imageMonitor.addGroup(PB::Path("a/b"), newImageRow);
+  imageMonitor.addRow(PB::Path("a/b"), newImageRow);
 
   EXPECT_EQ(imageMonitor.importListSize(), 1);
 
