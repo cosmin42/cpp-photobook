@@ -104,4 +104,17 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
   return mUnstagedImagesMatrix.at(row).at(index);
 }
 
+auto ImageMonitor::statefulIterator(Path root)
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+{
+  return statefulIterator(mRowIndexes.left.at(root));
+}
+
+auto ImageMonitor::statefulIterator(unsigned row)
+    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+{
+  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+      mUnstagedImagesMatrix.at(row));
+}
+
 } // namespace PB

@@ -29,14 +29,20 @@ public:
 
   void completeRow(int index);
 
-  unsigned          importListSize() const;
-  unsigned          rowSize(unsigned row);
-  unsigned          rowIndex(Path path) const;
-  bool              containsRow(Path path) const;
+  unsigned importListSize() const;
+  unsigned rowSize(unsigned row);
+  unsigned rowIndex(Path path) const;
+  bool     containsRow(Path path) const;
+  Path     rowPath(unsigned row) const;
+
   std::vector<Path> rowList() const;
-  Path              rowPath(unsigned row) const;
 
   std::shared_ptr<VirtualImage> image(unsigned row, unsigned index) const;
+
+  auto statefulIterator(Path root)
+      -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
+  auto statefulIterator(unsigned row)
+      -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
   std::shared_ptr<ImageMonitorListener>                   mListener;
