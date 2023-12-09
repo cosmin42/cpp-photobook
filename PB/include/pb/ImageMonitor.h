@@ -29,8 +29,13 @@ public:
 
   void completeRow(int index);
 
-  unsigned                      importListSize() const;
-  unsigned                      rowSize(unsigned row);
+  unsigned          importListSize() const;
+  unsigned          rowSize(unsigned row);
+  unsigned          rowIndex(Path path) const;
+  bool              containsRow(Path path) const;
+  std::vector<Path> rowList() const;
+  Path              rowPath(unsigned row) const;
+
   std::shared_ptr<VirtualImage> image(unsigned row, unsigned index) const;
 
 private:

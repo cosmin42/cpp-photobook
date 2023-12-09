@@ -7,7 +7,7 @@ void ImageMonitor::setListener(std::shared_ptr<ImageMonitorListener> listener)
 }
 
 void ImageMonitor::addRow(Path                                       path,
-                            std::vector<std::shared_ptr<VirtualImage>> images)
+                          std::vector<std::shared_ptr<VirtualImage>> images)
 {
   mRowIndexes.insert({path, (int)mRowIndexes.size()});
 
@@ -69,6 +69,30 @@ unsigned ImageMonitor::rowSize(unsigned row)
 {
   basicAssert(row < mUnstagedImagesMatrix.size());
   return (unsigned)mUnstagedImagesMatrix.at(row).size();
+}
+
+unsigned ImageMonitor::rowIndex(Path path) const
+{
+  return mRowIndexes.left.at(path);
+}
+
+bool ImageMonitor::containsRow(Path path) const
+{
+  return mRowIndexes.left.find(path) != mRowIndexes.left.end();
+}
+
+std::vector<Path> ImageMonitor::rowList() const
+{
+  std::vector<Path> result;
+  for (int i = 0; i < mRowIndexes.size(); ++i) {
+    result.push_back(mRowIndexes.right.at(i));
+  }
+  return result;
+}
+
+Path ImageMonitor::rowPath(unsigned row) const
+{
+  return mRowIndexes.right.at(row);
 }
 
 std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
