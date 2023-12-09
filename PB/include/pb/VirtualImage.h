@@ -19,10 +19,8 @@ struct ImageResources {
   Path small;
 };
 
-class VirtualImage : public ObservableSubject {
+class VirtualImage {
 public:
-  void notify() override {}
-
   virtual VirtualImageType type() const = 0;
 
   void setFullSizePath(Path path) { mResources.full = path; }

@@ -39,15 +39,11 @@ public:
   std::shared_ptr<VirtualImage> image(unsigned row, unsigned index) const;
 
 private:
-  std::shared_ptr<ImageMonitorListener> mListener;
-
-  boost::bimaps::bimap<Path, int> mRowIndexes;
-
-  boost::bimaps::bimap<Path, std::pair<int, int>> mPositions;
-
+  std::shared_ptr<ImageMonitorListener>                   mListener;
+  boost::bimaps::bimap<Path, int>                         mRowIndexes;
+  boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions;
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
-
-  std::unordered_set<int> mPendingRows;
+  std::unordered_set<int>                                 mPendingRows;
 };
 
 } // namespace PB
