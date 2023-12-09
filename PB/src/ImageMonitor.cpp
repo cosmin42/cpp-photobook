@@ -6,10 +6,10 @@ void ImageMonitor::setListener(std::shared_ptr<ImageMonitorListener> listener)
   mListener = listener;
 }
 
-void ImageMonitor::addGroup(Path                                       path,
+void ImageMonitor::addRow(Path                                       path,
                             std::vector<std::shared_ptr<VirtualImage>> images)
 {
-  mGroupIndexes.insert({path, (int)mGroupIndexes.size()});
+  mRowIndexes.insert({path, (int)mRowIndexes.size()});
 
   mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());
 
@@ -23,46 +23,46 @@ void ImageMonitor::addGroup(Path                                       path,
   mListener->onImportFolderAdded();
 }
 
-void ImageMonitor::removeGroup(int index)
+void ImageMonitor::removeRow(int index)
 {
-  basicAssert(!mPendingGroups.contains(index));
+  basicAssert(!mPendingRows.contains(index));
 
   for (auto i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
     mPositions.right.erase(std::pair<int, int>{index, i});
   }
   mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + index);
-  mGroupIndexes.right.erase(index);
-  for (int i = index + 1; i < mGroupIndexes.size() + 1; ++i) {
-    mGroupIndexes.right.replace_key(mGroupIndexes.right.find(i), i - 1);
+  mRowIndexes.right.erase(index);
+  for (int i = index + 1; i < mRowIndexes.size() + 1; ++i) {
+    mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
   }
 
   mListener->onImportFolderRemoved(index);
 }
 
-void ImageMonitor::removeGroup(Path path)
+void ImageMonitor::removeRow(Path path)
 {
-  int index = mGroupIndexes.left.at(path);
-  basicAssert(!mPendingGroups.contains(index));
-  removeGroup(index);
+  int index = mRowIndexes.left.at(path);
+  basicAssert(!mPendingRows.contains(index));
+  removeRow(index);
 
   mListener->onImportFolderRemoved(index);
 }
 
 void ImageMonitor::clear()
 {
-  basicAssert(mPendingGroups.empty());
-  mGroupIndexes.clear();
+  basicAssert(mPendingRows.empty());
+  mRowIndexes.clear();
   mPositions.clear();
   mUnstagedImagesMatrix.clear();
 
   mListener->onCleared();
 }
 
-void ImageMonitor::completeGroup(int index) { mPendingGroups.erase(index); }
+void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
 
 unsigned ImageMonitor::importListSize() const
 {
-  return (unsigned)mGroupIndexes.size();
+  return (unsigned)mRowIndexes.size();
 }
 
 unsigned ImageMonitor::rowSize(unsigned row)

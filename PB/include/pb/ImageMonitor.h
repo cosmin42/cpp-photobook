@@ -21,13 +21,13 @@ class ImageMonitor {
 public:
   void setListener(std::shared_ptr<ImageMonitorListener> listener);
 
-  void addGroup(Path path, std::vector<std::shared_ptr<VirtualImage>> images);
-  void removeGroup(int index);
-  void removeGroup(Path path);
+  void addRow(Path path, std::vector<std::shared_ptr<VirtualImage>> images);
+  void removeRow(int index);
+  void removeRow(Path path);
 
   void clear();
 
-  void completeGroup(int index);
+  void completeRow(int index);
 
   unsigned                      importListSize() const;
   unsigned                      rowSize(unsigned row);
@@ -36,13 +36,13 @@ public:
 private:
   std::shared_ptr<ImageMonitorListener> mListener;
 
-  boost::bimaps::bimap<Path, int> mGroupIndexes;
+  boost::bimaps::bimap<Path, int> mRowIndexes;
 
   boost::bimaps::bimap<Path, std::pair<int, int>> mPositions;
 
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
 
-  std::unordered_set<int> mPendingGroups;
+  std::unordered_set<int> mPendingRows;
 };
 
 } // namespace PB
