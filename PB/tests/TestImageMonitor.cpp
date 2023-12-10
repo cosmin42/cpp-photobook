@@ -130,4 +130,27 @@ TEST(TestImageMonitor, TestRemoving)
 
   EXPECT_EQ(imageMonitor.rowPath(0), PB::Path("a/b"));
   EXPECT_EQ(imageMonitor.rowPath(1), PB::Path("b/c"));
+
+  EXPECT_EQ(imageMonitor.isPending(0), true);
+  EXPECT_EQ(imageMonitor.isPending(1), true);
+
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("a/b")), true);
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("b/c")), true);
+
+  imageMonitor.completeRow(0);
+
+  EXPECT_EQ(imageMonitor.isPending(0), false);
+  EXPECT_EQ(imageMonitor.isPending(1), true);
+
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("a/b")), false);
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("b/c")), true);
+
+  imageMonitor.completeRow(1);
+
+  EXPECT_EQ(imageMonitor.isPending(0), false);
+  EXPECT_EQ(imageMonitor.isPending(1), false);
+
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("a/b")), false);
+  EXPECT_EQ(imageMonitor.isPending(PB::Path("b/c")), false);
+
 }
