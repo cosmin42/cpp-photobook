@@ -9,8 +9,7 @@ void ImageMonitor::setListener(std::shared_ptr<ImageMonitorListener> listener)
 void ImageMonitor::addRow(Path                                       path,
                           std::vector<std::shared_ptr<VirtualImage>> images)
 {
-  if (mRowIndexes.left.find(path) != mRowIndexes.left.end())
-  {
+  if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
     printDebug("Image row already imported\n");
     return;
   }
@@ -26,6 +25,8 @@ void ImageMonitor::addRow(Path                                       path,
   }
 
   mListener->onImportFolderAdded();
+
+  mPendingRows.insert((int)mRowIndexes.size() - 1);
 }
 
 void ImageMonitor::removeRow(int index)
@@ -64,6 +65,16 @@ void ImageMonitor::clear()
 }
 
 void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
+
+bool ImageMonitor::isPending(Path path) const
+{
+  return isPending(mRowIndexes.left.at(path));
+}
+
+bool ImageMonitor::isPending(int index) const
+{
+  return mPendingRows.contains(index);
+}
 
 unsigned ImageMonitor::importListSize() const
 {

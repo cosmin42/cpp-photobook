@@ -28,6 +28,8 @@ public:
   void clear();
 
   void completeRow(int index);
+  bool isPending(Path path) const;
+  bool isPending(int index) const;
 
   unsigned importListSize() const;
   unsigned rowSize(unsigned row);
