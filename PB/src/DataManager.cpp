@@ -35,8 +35,9 @@ void ImageSupport::addImage(Path root, std::vector<Path> paths,
 
   if (mListener) {
     mListener->importFolderAdded(
-        (int)mGroupIndexes.size(), CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
-                  mUnstagedImagesMatrix.at(indexGroup)));
+        (int)mGroupIndexes.size(),
+        CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+            mUnstagedImagesMatrix.at(indexGroup)));
   }
 }
 
@@ -218,5 +219,9 @@ std::vector<std::shared_ptr<VirtualImage>> const &ImageSupport::stagedPhotos()
 {
   return mStagedPhotos;
 }
+
+ImageMonitor &ImageViews::imageMonitor() { return mImageMonitor; }
+
+StagedImages &ImageViews::stagedImages() { return mStagedImages; }
 
 } // namespace PB

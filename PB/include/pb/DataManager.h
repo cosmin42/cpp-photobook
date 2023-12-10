@@ -5,7 +5,9 @@
 #include <unordered_set>
 
 #include <pb/Config.h>
+#include <pb/ImageMonitor.h>
 #include <pb/PreprocessedImage.h>
+#include <pb/StagedImages.h>
 #include <pb/VirtualImage.h>
 #include <pb/util/CircularIterator.h>
 #include <pb/util/Observable.h>
@@ -74,6 +76,16 @@ private:
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
   std::vector<std::shared_ptr<VirtualImage>>              mStagedPhotos;
   std::shared_ptr<ImageSupportListener>                   mListener = nullptr;
+};
+
+class ImageViews final {
+public:
+  ImageMonitor &imageMonitor();
+  StagedImages &stagedImages();
+
+private:
+  ImageMonitor mImageMonitor;
+  StagedImages mStagedImages;
 };
 
 } // namespace PB
