@@ -57,4 +57,77 @@ TEST(TestImageMonitor, TestAdding)
   EXPECT_EQ(imageMonitor.importListSize(), 1);
 
   EXPECT_EQ(imageMonitor.rowSize(0), 4);
+
+  EXPECT_EQ(imageMonitor.rowIndex(PB::Path("a/b")), 0);
+
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/b")), true);
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/c")), false);
+
+  EXPECT_EQ(imageMonitor.rowPath(0), PB::Path("a/b"));
+
+  imageMonitor.addRow(PB::Path("a/b"), newImageRow);
+
+  EXPECT_EQ(imageMonitor.importListSize(), 1);
+
+  EXPECT_EQ(imageMonitor.rowSize(0), 4);
+
+  EXPECT_EQ(imageMonitor.rowIndex(PB::Path("a/b")), 0);
+
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/b")), true);
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/c")), false);
+
+  EXPECT_EQ(imageMonitor.rowPath(0), PB::Path("a/b"));
+}
+
+TEST(TestImageMonitor, TestRemoving)
+{
+  PB::ImageMonitor imageMonitor;
+
+  auto listenerPtr = std::make_shared<MockImageMonitorListener>();
+
+  imageMonitor.setListener(listenerPtr);
+
+  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {
+      std::make_shared<ImageMonitorVirtualImage>(),
+      std::make_shared<ImageMonitorVirtualImage>(),
+      std::make_shared<ImageMonitorVirtualImage>(),
+      std::make_shared<ImageMonitorVirtualImage>()};
+
+  EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
+
+  imageMonitor.addRow(PB::Path("a/b"), newImageRow);
+
+  EXPECT_EQ(imageMonitor.importListSize(), 1);
+
+  EXPECT_EQ(imageMonitor.rowSize(0), 4);
+
+  EXPECT_EQ(imageMonitor.rowIndex(PB::Path("a/b")), 0);
+
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/b")), true);
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/c")), false);
+
+  EXPECT_EQ(imageMonitor.rowPath(0), PB::Path("a/b"));
+
+  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow2 = {
+      std::make_shared<ImageMonitorVirtualImage>(),
+      std::make_shared<ImageMonitorVirtualImage>()};
+
+  EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
+
+  imageMonitor.addRow(PB::Path("b/c"), newImageRow2);
+
+  EXPECT_EQ(imageMonitor.importListSize(), 2);
+
+  EXPECT_EQ(imageMonitor.rowSize(0), 4);
+  EXPECT_EQ(imageMonitor.rowSize(1), 2);
+
+  EXPECT_EQ(imageMonitor.rowIndex(PB::Path("a/b")), 0);
+  EXPECT_EQ(imageMonitor.rowIndex(PB::Path("b/c")), 1);
+
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/b")), true);
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("b/c")), true);
+  EXPECT_EQ(imageMonitor.containsRow(PB::Path("a/c")), false);
+
+  EXPECT_EQ(imageMonitor.rowPath(0), PB::Path("a/b"));
+  EXPECT_EQ(imageMonitor.rowPath(1), PB::Path("b/c"));
 }
