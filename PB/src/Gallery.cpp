@@ -1,6 +1,7 @@
 #include <pb/Gallery.h>
 
 namespace PB {
+/*
 Gallery::Gallery()
 {
   mGalleryListener = std::make_shared<GalleryListener>();
@@ -74,4 +75,5 @@ std::shared_ptr<ImageSupportListener> Gallery::slot()
 {
   return mGalleryListener;
 }
+*/
 } // namespace PB

@@ -15,13 +15,14 @@ Photobook::Photobook(Path applicationLocalStatePath)
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 
-  mImageSupport.setListener(mGallery.slot());
+  // mImageSupport.setListener(mGallery.slot());
 }
 
 Photobook::~Photobook()
 {
   printDebug("Photobook destructed.\n");
-  mImageSupport.clear();
+  mImageViews.stagedImages().clear();
+  mImageViews.imageMonitor().clear();
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -41,7 +42,8 @@ void Photobook::configureProject(PB::Project project)
   mThumbnailsProcessor.provideProjectDetails(project.active());
 }
 
-void Photobook::loadProject() {
+void Photobook::loadProject()
+{
   auto importedFolders = mProject.active().importedFolderList();
   for (auto &path : importedFolders) {
     addImportFolder(path);
@@ -49,27 +51,32 @@ void Photobook::loadProject() {
 
   auto stagedImages = mProject.active().stagedImagesList();
 
+  std::vector<std::shared_ptr<VirtualImage>> stage;
+
   for (auto i = 0; i < stagedImages.size(); ++i) {
     if (std::filesystem::is_regular_file(stagedImages.at(i))) {
       Thumbnails thumbnail(stagedImages.at(i));
       auto       regularImage = std::make_shared<RegularImage>(thumbnail);
       regularImage->setFullSizePath(stagedImages.at(i));
 
-      mImageSupport.stagePhoto({regularImage});
-      mParent->onStagedImageAdded({regularImage});
+      stage.push_back(regularImage);
+      // mParent->onStagedImageAdded({regularImage});
     }
     else if (std::filesystem::is_directory(stagedImages.at(i))) {
       auto textImage =
           std::make_shared<TextImage>(stagedImages.at(i).stem().string());
       textImage->setFullSizePath(stagedImages.at(i));
 
-      mImageSupport.stagePhoto({textImage});
-      mParent->onStagedImageAdded({textImage});
+      // mImageSupport.stagePhoto({textImage});
+      stage.push_back(textImage);
+      // mParent->onStagedImageAdded({textImage});
     }
     else {
       PB::basicAssert(false);
     }
   }
+
+  mImageViews.stagedImages().addPictures(stage);
 }
 
 void Photobook::addImportFolder(Path importPath)
@@ -82,7 +89,7 @@ void Photobook::addImportFolder(Path importPath)
     auto path = std::get<Path>(errorOrPath);
     printDebug("Add Input folder %s\n", path.string().c_str());
 
-    if (imageSupport().containsGroup(path)) {
+    if (mImageViews.imageMonitor().containsRow(path)) {
       mParent->onError(Error() << ErrorCode::FolderAlreadyImported
                                << "Folder already imported.");
       return;
@@ -132,6 +139,7 @@ void Photobook::update(ObservableSubject &subject)
 void Photobook::onImportFolderMapped(Path              rootPath,
                                      std::vector<Path> newMediaMap)
 {
+  /*
   mImageSupport.addGroup(rootPath);
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
   for (auto p : newMediaMap) {
@@ -150,7 +158,9 @@ void Photobook::onImportFolderMapped(Path              rootPath,
     }
   }
 
-  mImageSupport.addImage(rootPath, newMediaMap, imagesSet);
+  mImageViews.imageMonitor().addRow(rootPath, imagesSet);
+
+  //mImageSupport.addImage(rootPath, newMediaMap, imagesSet);
 
   mParent->onAddingUnstagedImagePlaceholder((unsigned)newMediaMap.size());
 
@@ -201,15 +211,14 @@ void Photobook::onImportFolderMapped(Path              rootPath,
           }
         });
       });
+      */
 }
 
 void Photobook::onError(Error error) { mParent->onError(error); }
 
-Gallery &Photobook::gallery() { return mGallery; }
-
 void Photobook::exportAlbum(std::string name, Path path)
 {
-  auto              stagedPhotos = mImageSupport.stagedPhotos();
+  auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
   std::vector<Path> fullPaths;
   for (auto photo : stagedPhotos) {
     fullPaths.push_back(photo->resources().full);
@@ -252,9 +261,9 @@ void Photobook::savePhotobook(Path newPath)
     mPersistence->persistMetadata(mProject.metadata());
   }
 
-  mProject.active().setImportedPaths(imageSupport().groups());
+  mProject.active().setImportedPaths(mImageViews.imageMonitor().rowList());
   mProject.active().setPaperSettings(mProject.active().paperSettings());
-  mProject.active().setStagedImages(imageSupport().stagedPhotos());
+  mProject.active().setStagedImages(mImageViews.stagedImages().stagedPhotos());
 
   auto projectDetailsOrError =
       Text::serialize<ProjectSnapshot>(0, {"root", mProject.active()});
@@ -275,7 +284,7 @@ void Photobook::savePhotobook(Path newPath)
 
 ProjectSnapshot Photobook::projectDetails() { return mProject.active(); }
 
-ImageSupport &Photobook::imageSupport() { return mImageSupport; }
+ImageViews &Photobook::imageViews() { return mImageViews; }
 
 bool Photobook::projectDefaultSaved()
 {

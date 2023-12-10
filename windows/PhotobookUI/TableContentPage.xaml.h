@@ -21,6 +21,12 @@ namespace winrt::PhotobookUI::implementation {
 
 enum class DragSource { None, Unstaged, Staged };
 
+struct UISelectionIndex {
+  std::optional<unsigned> importListIndex;
+  std::vector<unsigned> unstagedLineIndex;
+  std::vector<unsigned> stagedPhotoIndex;
+};
+
 struct TableContentPage : TableContentPageT<TableContentPage> {
 
   static PB::Path CurrentAppLocation();
@@ -212,13 +218,17 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                           int index = -1);
 
-  void OnStagedImageRemoved(std::vector<int> removedIndexes);
+  void OnStagedImageRemoved(std::vector<unsigned> removedIndexes);
 
   void OnError(PB::Error error);
 
   void Post(std::function<void()>);
 
 private:
+  UISelectionIndex SelectionIndex();
+  bool             StagedLineEmpty();
+  bool             UnstagedLintEmpty();
+
   void UpdateGalleryLabel();
 
   void PostponeError(std::string message);

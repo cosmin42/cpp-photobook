@@ -202,9 +202,11 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
     PB::Path fullPath =
         winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
-    if (mPhotoBook->imageSupport().fullPathRow(fullPath) == selectedIndex) {
+
+    if (mPhotoBook->imageViews().imageMonitor().rowIndex(fullPath) ==
+        (unsigned)selectedIndex) {
       // TODO: Optimize this
-      mPhotoBook->imageSupport().unstagePhoto({i});
+      mPhotoBook->imageViews().stagedImages().removePicture({(unsigned)i});
       mStagedImageCollection.RemoveAt(i);
       i--;
     }
@@ -227,7 +229,7 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   }
   mNavigationItemsCollection.RemoveAt(selectedIndex);
 
-  mPhotoBook->imageSupport().removeGroup((int)selectedIndex);
+  mPhotoBook->imageViews().imageMonitor().removeRow((int)selectedIndex);
 
   GalleryCanvas().Invalidate();
 }
@@ -414,16 +416,18 @@ void TableContentPage::OnKeyPressed(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     Microsoft::UI::Xaml::Input::KeyRoutedEventArgs const     &arg)
 {
-  auto selected = mPhotoBook->gallery().selectedItem();
-  if (!selected) {
+  UISelectionIndex selectionIndex = SelectionIndex();
+  if (selectionIndex.stagedPhotoIndex.empty() &&
+      selectionIndex.unstagedLineIndex.empty()) {
     return;
   }
+
   Windows::System::VirtualKey key = arg.Key();
 
   switch (key) {
   case Windows::System::VirtualKey::Delete: {
-    auto             ranges = StagedListView().SelectedRanges();
-    std::vector<int> selectedIndexes;
+    auto                  ranges = StagedListView().SelectedRanges();
+    std::vector<unsigned> selectedIndexes;
     for (auto range : ranges) {
       for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
         selectedIndexes.push_back(i);
@@ -431,7 +435,7 @@ void TableContentPage::OnKeyPressed(
     }
 
     if (selectedIndexes.size() > 0) {
-      mPhotoBook->imageSupport().unstagePhoto(selectedIndexes);
+      mPhotoBook->imageViews().stagedImages().removePicture(selectedIndexes);
       OnStagedImageRemoved(selectedIndexes);
     }
   }
@@ -565,9 +569,10 @@ void TableContentPage::OnDropIntoStagedPhotos(
   PB::printDebug("Insertion position: %d\n", insertPostion);
 
   // WORKAROUND
-
-  mPhotoBook->imageSupport().stagePhoto(mDragAndDropSelectedImages,
-                                        insertPostion);
+  mPhotoBook->imageViews().stagedImages().addPictures(
+      mDragAndDropSelectedImages, insertPostion);
+  // mPhotoBook->imageSupport().stagePhoto(mDragAndDropSelectedImages,
+  //                                       insertPostion);
 
   OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
 
@@ -576,25 +581,27 @@ void TableContentPage::OnDropIntoStagedPhotos(
 
 void TableContentPage::Right()
 {
-  auto &gallery = mPhotoBook->gallery();
-  auto  selectedIndex = gallery.selectedNavigationIndex();
-  if (selectedIndex > -1) {
-    int nextIndex = 0;
+  auto selection = SelectionIndex();
 
-    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
-      nextIndex = (selectedIndex + 1) % mUnstagedImageCollection.Size();
+  int nextIndex = 0;
 
-      UnstagedListView().DeselectRange(
-          Microsoft::UI::Xaml::Data::ItemIndexRange(
-              0, mUnstagedImageCollection.Size()));
-      UnstagedListView().SelectRange({nextIndex, 1});
-    }
-    else if (gallery.photoLine() == PB::PhotoLine::Staged) {
-      nextIndex = (selectedIndex + 1) % mStagedImageCollection.Size();
-      StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-          0, mStagedImageCollection.Size()));
-      StagedListView().SelectRange({nextIndex, 1});
-    }
+  if (!selection.unstagedLineIndex.empty()) {
+    PB::basicAssert(selection.unstagedLineIndex.size() == 1);
+
+    nextIndex = (SelectionIndex().importListIndex.value() + 1) %
+                mUnstagedImageCollection.Size();
+
+    UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mUnstagedImageCollection.Size()));
+    UnstagedListView().SelectRange({nextIndex, 1});
+  }
+  else if (!selection.stagedPhotoIndex.empty()) {
+    PB::basicAssert(selection.stagedPhotoIndex.size() == 1);
+    nextIndex = (SelectionIndex().importListIndex.value() + 1) %
+                mStagedImageCollection.Size();
+    StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mStagedImageCollection.Size()));
+    StagedListView().SelectRange({nextIndex, 1});
   }
 }
 
@@ -608,35 +615,33 @@ void TableContentPage::OnGalleryLeft(
 
 void TableContentPage::Left()
 {
-  auto &gallery = mPhotoBook->gallery();
-  auto  selectedIndex = gallery.selectedNavigationIndex();
-  if (selectedIndex > -1) {
-    int nextIndex = 0;
+  auto selection = SelectionIndex();
+  int  nextIndex = 0;
 
-    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
-      if (selectedIndex == 0) {
-        nextIndex = (int)mUnstagedImageCollection.Size() - 1;
-      }
-      else {
-        nextIndex = selectedIndex - 1;
-      }
+  if (!selection.unstagedLineIndex.empty()) {
+    PB::basicAssert(selection.unstagedLineIndex.size() == 1);
+    if (selection.unstagedLineIndex.at(0) == 0) {
+      nextIndex = (int)mUnstagedImageCollection.Size() - 1;
+    }
+    else {
+      nextIndex = selection.unstagedLineIndex.at(0) - 1;
+    }
 
-      UnstagedListView().DeselectRange(
-          Microsoft::UI::Xaml::Data::ItemIndexRange(
-              0, mUnstagedImageCollection.Size()));
-      UnstagedListView().SelectRange({nextIndex, 1});
+    UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mUnstagedImageCollection.Size()));
+    UnstagedListView().SelectRange({nextIndex, 1});
+  }
+  else if (!selection.stagedPhotoIndex.empty()) {
+    PB::basicAssert(selection.stagedPhotoIndex.size() == 1);
+    if (selection.stagedPhotoIndex.at(0) == 0) {
+      nextIndex = (int)mStagedImageCollection.Size() - 1;
     }
-    else if (gallery.photoLine() == PB::PhotoLine::Staged) {
-      if (selectedIndex == 0) {
-        nextIndex = (int)mStagedImageCollection.Size() - 1;
-      }
-      else {
-        nextIndex = selectedIndex - 1;
-      }
-      StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-          0, mStagedImageCollection.Size()));
-      StagedListView().SelectRange({nextIndex, 1});
+    else {
+      nextIndex = selection.stagedPhotoIndex.at(0) - 1;
     }
+    StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mStagedImageCollection.Size()));
+    StagedListView().SelectRange({nextIndex, 1});
   }
 }
 
@@ -654,9 +659,9 @@ void TableContentPage::OnCanvasDraw(
     winrt::Microsoft::Graphics::Canvas::UI::Xaml::CanvasDrawEventArgs const
         &args)
 {
-  auto session = args.DrawingSession();
+  auto selection = SelectionIndex();
 
-  auto &gallery = mPhotoBook->gallery();
+  auto session = args.DrawingSession();
 
   int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
 
@@ -664,35 +669,37 @@ void TableContentPage::OnCanvasDraw(
 
   std::shared_ptr<cv::Mat> image = nullptr;
 
-  if (!gallery.hasSelection()) {
+  if (selection.stagedPhotoIndex.empty() &&
+      selection.unstagedLineIndex.empty()) {
     return;
   }
 
-  auto thumbnailPtr = gallery.selectedItem();
+  std::shared_ptr<PB::VirtualImage> imagePtr = nullptr;
 
-  auto mediumThumbnailPath = thumbnailPtr->mediumSizePath();
+  if (!selection.stagedPhotoIndex.empty()) {
+    imagePtr = mPhotoBook->imageViews().stagedImages().picture(
+        selection.stagedPhotoIndex.at(0));
+  }
+
+  auto mediumThumbnailPath = imagePtr->resources().medium;
   if (mediumThumbnailPath.empty()) {
     return;
   }
-  if (PB::Process::validExtension(thumbnailPtr->fullSizePath())) {
+  if (PB::Process::validExtension(imagePtr->resources().full)) {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
     auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(),
                                            {portviewWidth, portviewHeight});
-    if (gallery.photoLine() == PB::PhotoLine::Unstaged) {
-      PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
-    }
-    else {
-      PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
-    }
+
+    PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
   }
   else {
     image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                           {255, 255, 255})();
 
     image = PB::Process::addText({portviewWidth / 2, portviewHeight / 2},
-                                 thumbnailPtr->fullSizePath().stem().string(),
+                                 imagePtr->resources().full.stem().string(),
                                  {0, 0, 0})(image);
   }
 
@@ -726,11 +733,15 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
 void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
-  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
-  auto maybeGroupPath = mPhotoBook->imageSupport().groupByIndex(selectedIndex);
 
-  if (maybeGroupPath && maybeGroupPath.value() == rootPath) {
-    UpdateUnstagedImagesView(selectedIndex);
+  auto selection = SelectionIndex();
+
+  auto selectedIndex = selection.importListIndex;
+  auto rowPath =
+      mPhotoBook->imageViews().imageMonitor().rowPath(selectedIndex.value());
+
+  if (rowPath == rootPath) {
+    UpdateUnstagedImagesView(selectedIndex.value());
   }
   StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
@@ -748,9 +759,8 @@ void TableContentPage::OnImportSelectionChanged(
   auto index = MediaListView().SelectedIndex();
 
   PB::printDebug("Index selected %d\n", index);
-
-  auto &imagesData = mPhotoBook->imageSupport();
-  auto  iterator = imagesData.unstagedIterator(index);
+  auto iterator =
+      mPhotoBook->imageViews().imageMonitor().statefulIterator(index);
 
   if (iterator.valid()) {
     int diff = (int)mUnstagedImageCollection.Size() - (int)iterator.size();
@@ -765,8 +775,6 @@ void TableContentPage::OnImportSelectionChanged(
       }
     }
     UpdateUnstagedImagesView(index);
-
-    mPhotoBook->gallery().selectImportFolder(index, iterator);
 
     UpdateGalleryLabel();
   }
@@ -788,12 +796,16 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto smallPath = winrt::to_string(image.SmallPath());
     auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
         PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
-    mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
+    // mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
+    mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
+                                                        changedIndex);
   }
   else if (changeType == winrt::Windows::Foundation::Collections::
                              CollectionChange::ItemRemoved) {
 
-    mPhotoBook->imageSupport().unstagePhoto({changedIndex});
+    // mPhotoBook->imageSupport().unstagePhoto({changedIndex});
+    mPhotoBook->imageViews().stagedImages().removePicture(
+        {(unsigned)changedIndex});
   }
   else if (changeType == winrt::Windows::Foundation::Collections::
                              CollectionChange::ItemChanged) {
@@ -806,20 +818,24 @@ void TableContentPage::OnStagedImageCollectionChanged(
 
 void TableContentPage::UpdateUnstagedImagesView(int index)
 {
-  auto &imagesData = mPhotoBook->imageSupport();
-  auto  iterator = imagesData.unstagedIterator(index);
+  auto iterator =
+      mPhotoBook->imageViews().imageMonitor().statefulIterator((unsigned)index);
 
-  auto rootPath = mPhotoBook->imageSupport().groupByIndex(index);
-  if (rootPath && mLoadedFinishedImportFolders.find(rootPath.value()) !=
-                      mLoadedFinishedImportFolders.end()) {
+  if (!iterator.valid()) {
+    return;
+  }
+
+  auto rootPath = mPhotoBook->imageViews().imageMonitor().rowPath(index);
+  if (mLoadedFinishedImportFolders.find(rootPath) !=
+      mLoadedFinishedImportFolders.end()) {
     auto size = iterator.size();
     for (int i = 0; i < (int)size; ++i) {
       auto virtualImage = iterator[i].current();
       mUnstagedImageCollection.SetAt(
           i, ImageUIData(
-                 winrt::to_hstring(virtualImage->fullSizePath().string()),
-                 winrt::to_hstring(virtualImage->mediumSizePath().string()),
-                 winrt::to_hstring(virtualImage->smallSizePath().string())));
+                 winrt::to_hstring(virtualImage->resources().full.string()),
+                 winrt::to_hstring(virtualImage->resources().medium.string()),
+                 winrt::to_hstring(virtualImage->resources().small.string())));
     }
   }
 }
@@ -840,14 +856,7 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
 
   auto unstagedPhotoIndex = UnstagedListView().SelectedIndex();
 
-  auto &imagesData = mPhotoBook->imageSupport();
-
-  auto iterator =
-      imagesData.unstagedIterator(navigationListIndex, unstagedPhotoIndex);
-  mPhotoBook->gallery().selectImportFolder(unstagedPhotoIndex, iterator);
-
   if (unstagedPhotoIndex > -1) {
-    mPhotoBook->gallery().setPhotoLinePosition(unstagedPhotoIndex);
     UpdateGalleryLabel();
   }
 }
@@ -864,12 +873,7 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   if (stagedImagesIndex < 0) {
     return;
   }
-  auto &imagesData = mPhotoBook->imageSupport();
 
-  auto iterator = imagesData.stagedIterator();
-  iterator = iterator[stagedImagesIndex];
-
-  mPhotoBook->gallery().selectStagedPhotos(stagedImagesIndex, iterator);
   UpdateGalleryLabel();
 }
 
@@ -902,10 +906,12 @@ void TableContentPage::OnMappingResumed() {}
 void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
                                         int reference)
 {
-  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
-  auto selectedRootPath =
-      mPhotoBook->imageSupport().groupByIndex(selectedIndex);
-  if (selectedRootPath && rootPath == selectedRootPath.value()) {
+  auto selection = SelectionIndex();
+
+  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
+      selection.unstagedLineIndex.at(0));
+
+  if (rootPath == selectedRootPath) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
     MainProgressBar().Maximum(reference);
@@ -934,10 +940,12 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
                                             PB::Path mediumPath,
                                             PB::Path smallPath, int position)
 {
-  auto selectedIndex = mPhotoBook->gallery().selectedNavigationIndex();
-  auto selectedRootPath =
-      mPhotoBook->imageSupport().groupByIndex(selectedIndex);
-  if (selectedRootPath && rootPath == selectedRootPath) {
+  auto selection = SelectionIndex();
+
+  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
+      selection.unstagedLineIndex.at(0));
+
+  if (rootPath == selectedRootPath) {
     mUnstagedImageCollection.SetAt(
         position, ImageUIData(winrt::to_hstring(fullPath.string()),
                               winrt::to_hstring(mediumPath.string()),
@@ -972,26 +980,27 @@ void TableContentPage::OnStagedImageAdded(
   if (index == (int)mStagedImageCollection.Size() || index < 0) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
-          winrt::to_hstring(photo->fullSizePath().string()),
-          winrt::to_hstring(photo->mediumSizePath().string()),
-          winrt::to_hstring(photo->smallSizePath().string()));
+          winrt::to_hstring(photo->resources().full.string()),
+          winrt::to_hstring(photo->resources().medium.string()),
+          winrt::to_hstring(photo->resources().small.string()));
       mStagedImageCollection.Append(winRTImage);
-      mStagedImages.insert(photo->fullSizePath().string());
+      mStagedImages.insert(photo->resources().full.string());
     }
   }
   else if (index < (int)mStagedImageCollection.Size()) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
-          winrt::to_hstring(photo->fullSizePath().string()),
-          winrt::to_hstring(photo->mediumSizePath().string()),
-          winrt::to_hstring(photo->smallSizePath().string()));
+          winrt::to_hstring(photo->resources().full.string()),
+          winrt::to_hstring(photo->resources().medium.string()),
+          winrt::to_hstring(photo->resources().small.string()));
       mStagedImageCollection.InsertAt(index, winRTImage);
-      mStagedImages.insert(photo->fullSizePath().string());
+      mStagedImages.insert(photo->resources().full.string());
     }
   }
 }
 
-void TableContentPage::OnStagedImageRemoved(std::vector<int> removedIndexes)
+void TableContentPage::OnStagedImageRemoved(
+    std::vector<unsigned> removedIndexes)
 {
   std::sort(removedIndexes.begin(), removedIndexes.end(), std::greater<int>());
   for (int i = 0; i < removedIndexes.size(); ++i) {
@@ -1015,22 +1024,73 @@ void TableContentPage::Post(std::function<void()> f)
   PB::basicAssert(success);
 }
 
+UISelectionIndex TableContentPage::SelectionIndex()
+{
+  UISelectionIndex selectionIndex;
+
+  auto ranges = UnstagedListView().SelectedRanges();
+
+  for (auto range : ranges) {
+    for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
+      selectionIndex.unstagedLineIndex.push_back(i);
+    }
+  }
+
+  ranges = StagedListView().SelectedRanges();
+  for (auto range : ranges) {
+    for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
+      selectionIndex.stagedPhotoIndex.push_back(i);
+    }
+  }
+
+  auto index = MediaListView().SelectedIndex();
+
+  if (index >= 0) {
+    selectionIndex.importListIndex = (unsigned)index;
+  }
+  return selectionIndex;
+}
+
+bool TableContentPage::StagedLineEmpty()
+{
+  return StagedListView().Items().Size() == 0;
+}
+
+bool TableContentPage::UnstagedLintEmpty()
+{
+  return UnstagedListView().Items().Size() == 0;
+}
+
 void TableContentPage::UpdateGalleryLabel()
 {
-  auto &gallery = mPhotoBook->gallery();
-  auto  itemPath = gallery.selectedItem();
-  auto  importFolderIndex = gallery.selectedNavigationIndex();
-  auto  rootName = mPhotoBook->imageSupport().groupByIndex(importFolderIndex);
+  auto selection = SelectionIndex();
+
+  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
+      selection.importListIndex.value());
+
+  std::shared_ptr<PB::VirtualImage> itemPath = nullptr;
+
+  if (!selection.stagedPhotoIndex.empty()) {
+    itemPath = mPhotoBook->imageViews().stagedImages().picture(
+        selection.stagedPhotoIndex.at(0));
+  }
+  else if (!selection.unstagedLineIndex.empty()) {
+    itemPath = mPhotoBook->imageViews().imageMonitor().image(
+        selection.importListIndex.value(), selection.unstagedLineIndex.at(0));
+  }
 
   GalleryLeftButton().IsEnabled(itemPath != nullptr);
   GalleryRightButton().IsEnabled(itemPath != nullptr);
 
   if (itemPath) {
     GalleryMainText().Text(
-        winrt::to_hstring(itemPath->fullSizePath().filename().string()));
+        winrt::to_hstring(itemPath->resources().full.filename().string()));
   }
-  else if (rootName) {
-    GalleryMainText().Text(winrt::to_hstring(rootName->filename().string()));
+  else if (mPhotoBook->imageViews().imageMonitor().containsRow(
+               selectedRootPath)) {
+    auto rootName = mPhotoBook->imageViews().imageMonitor().rowPath(
+        selection.importListIndex.value());
+    GalleryMainText().Text(winrt::to_hstring(rootName.filename().string()));
   }
   else {
     GalleryMainText().Text(winrt::to_hstring("Nothing sleected."));

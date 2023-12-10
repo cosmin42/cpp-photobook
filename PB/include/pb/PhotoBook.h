@@ -41,8 +41,7 @@ public:
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<PhotobookListener> listener);
 
-  Gallery      &gallery();
-  ImageSupport &imageSupport();
+  ImageViews &imageViews();
 
   void configureProject(Project project);
 
@@ -82,8 +81,7 @@ private:
   Path                                     mApplicationLocalStatePath;
   Project                                  mProject;
   std::unordered_map<Path, MediaMapper>    mMappingJobs;
-  ImageSupport                             mImageSupport;
-  Gallery                                  mGallery;
+  ImageViews                               mImageViews;
   ImageReader                              mImageReader;
   ThumbnailsProcessor                      mThumbnailsProcessor;
   std::vector<std::shared_ptr<Exportable>> mExporters;

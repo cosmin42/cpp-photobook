@@ -65,7 +65,7 @@ void PhotobookTableListener::onStagedImageAdded(
 }
 
 void PhotobookTableListener::onStagedImageRemoved(
-    std::vector<int> removedIndexes)
+    std::vector<unsigned> removedIndexes)
 {
   mParent.OnStagedImageRemoved(removedIndexes);
 }

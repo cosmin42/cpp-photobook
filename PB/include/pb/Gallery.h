@@ -4,7 +4,7 @@
 #include <pb/Error.h>
 
 namespace PB {
-
+/*
 class GalleryListener final : public ImageSupportListener {
 public:
   void setCallbacks(
@@ -76,4 +76,5 @@ private:
   CircularIterator<std::vector<std::shared_ptr<VirtualImage>>> mCurrentIterator;
   PhotoLine mPhotoLine = PhotoLine::None;
 };
+*/
 } // namespace PB

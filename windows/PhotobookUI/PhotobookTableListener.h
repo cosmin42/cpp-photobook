@@ -32,7 +32,7 @@ public:
 
   void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                           int index = -1) override;
-  void onStagedImageRemoved(std::vector<int> removedIndexes) override;
+  void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override;
 
   void onMappingFinished(PB::Path rootPath) override;
 
