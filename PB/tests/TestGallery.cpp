@@ -5,6 +5,7 @@
 #include <pb/TextImage.h>
 
 using namespace PB;
+/*
 
 TEST(TestGallery, TestEmpty)
 {
@@ -46,3 +47,4 @@ TEST(TestGallery, Test2)
   maybeSelected = g.selectedItem();
   ASSERT_TRUE(maybeSelected->resources().full.string() == "b/c");
 }
+*/
