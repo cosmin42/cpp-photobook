@@ -168,6 +168,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestErrors.cpp
         tests/TestGallery.cpp
         tests/TestImageMonitor.cpp
+        tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
         tests/TestStagedImages.cpp
         tests/TestThirdPartyLinks.cpp
@@ -178,15 +179,18 @@ if (LOG_LEVEL MATCHES Debug)
         ${CMAKE_CURRENT_BINARY_DIR}/include)
 
     target_link_libraries(pbtests
+        opencv_core
+        opencv_imgcodecs
         Boost::boost
         Boost::program_options
         exiv2lib
         GTest::gtest GTest::gtest_main GTest::gmock
         magic_enum::magic_enum
-        pblib
         dp::thread-pool
         unofficial::libharu::hpdf
         unofficial::sqlite3::sqlite3
         bcrypt
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug/podofo.lib
+        pblib)
 endif()
