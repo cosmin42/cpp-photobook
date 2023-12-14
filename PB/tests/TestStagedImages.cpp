@@ -23,7 +23,7 @@ TEST(TestStagedImages, CreateStageImages)
   std::shared_ptr<TestStagedImagesListener> listener =
       std::make_shared<TestStagedImagesListener>();
 
-  stagedImages->setListener(listener);
+  stagedImages->setListener(listener.get());
 }
 
 TEST(TestStagedImages, AddPictures)
@@ -34,7 +34,7 @@ TEST(TestStagedImages, AddPictures)
   std::shared_ptr<TestStagedImagesListener> listener =
       std::make_shared<TestStagedImagesListener>();
 
-  stagedImages->setListener(listener);
+  stagedImages->setListener(listener.get());
 
   std::vector<std::shared_ptr<PB::VirtualImage>> pictures;
 

@@ -20,7 +20,7 @@ TEST(TestImageMonitor, TestCreation)
 
   auto listenerPtr = std::make_shared<MockImageMonitorListener>();
 
-  imageMonitor.setListener(listenerPtr);
+  imageMonitor.setListener(listenerPtr.get());
 }
 
 TEST(TestImageMonitor, TestEmpty)
@@ -29,7 +29,7 @@ TEST(TestImageMonitor, TestEmpty)
 
   auto listenerPtr = std::make_shared<MockImageMonitorListener>();
 
-  imageMonitor.setListener(listenerPtr);
+  imageMonitor.setListener(listenerPtr.get());
 
   EXPECT_CALL(*listenerPtr.get(), onCleared());
 
@@ -42,7 +42,7 @@ TEST(TestImageMonitor, TestAdding)
 
   auto listenerPtr = std::make_shared<MockImageMonitorListener>();
 
-  imageMonitor.setListener(listenerPtr);
+  imageMonitor.setListener(listenerPtr.get());
 
   std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {
       std::make_shared<ImageMonitorVirtualImage>(),
@@ -85,7 +85,7 @@ TEST(TestImageMonitor, TestRemoving)
 
   auto listenerPtr = std::make_shared<MockImageMonitorListener>();
 
-  imageMonitor.setListener(listenerPtr);
+  imageMonitor.setListener(listenerPtr.get());
 
   std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {
       std::make_shared<ImageMonitorVirtualImage>(),
