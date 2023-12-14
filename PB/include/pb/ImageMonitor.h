@@ -19,7 +19,7 @@ public:
 
 class ImageMonitor {
 public:
-  void setListener(std::shared_ptr<ImageMonitorListener> listener);
+  void setListener(ImageMonitorListener *listener);
 
   void addRow(Path path, std::vector<std::shared_ptr<VirtualImage>> images);
   void removeRow(int index);
@@ -47,7 +47,7 @@ public:
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
-  std::shared_ptr<ImageMonitorListener>                   mListener;
+  ImageMonitorListener                                   *mListener;
   boost::bimaps::bimap<Path, int>                         mRowIndexes;
   boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions;
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;

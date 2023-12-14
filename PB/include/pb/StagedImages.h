@@ -16,11 +16,11 @@ public:
 
 class StagedImages final {
 public:
-  void setListener(std::shared_ptr<StagedImagesListener> listener);
+  void setListener(StagedImagesListener *listener);
 
   void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures);
   void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures,
-                  int                                        position);
+                   int                                        position);
   void removePicture(std::vector<unsigned> indexes);
   void clear();
 
@@ -31,7 +31,7 @@ public:
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
-  std::shared_ptr<StagedImagesListener>      mListener;
+  StagedImagesListener                      *mListener;
   std::vector<std::shared_ptr<VirtualImage>> mStagedPhotos;
 };
 } // namespace PB

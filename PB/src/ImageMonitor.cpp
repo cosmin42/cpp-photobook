@@ -1,7 +1,7 @@
 #include <pb/ImageMonitor.h>
 
 namespace PB {
-void ImageMonitor::setListener(std::shared_ptr<ImageMonitorListener> listener)
+void ImageMonitor::setListener(ImageMonitorListener* listener)
 {
   mListener = listener;
 }

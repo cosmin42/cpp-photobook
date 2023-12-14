@@ -2,7 +2,7 @@
 
 namespace PB {
 
-void StagedImages::setListener(std::shared_ptr<StagedImagesListener> listener)
+void StagedImages::setListener(StagedImagesListener* listener)
 {
   mListener = listener;
 }
