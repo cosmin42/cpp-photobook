@@ -40,6 +40,8 @@ public:
 
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<PhotobookListener> listener);
+  void configure(StagedImagesListener *listener);
+  void configure(ImageMonitorListener *listener);
 
   ImageViews &imageViews();
 

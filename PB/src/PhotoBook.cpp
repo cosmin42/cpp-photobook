@@ -34,6 +34,15 @@ void Photobook::configure(std::shared_ptr<PhotobookListener> listener)
 {
   mParent = listener;
 }
+void Photobook::configure(StagedImagesListener *listener)
+{
+  mImageViews.stagedImages().setListener(listener);
+}
+
+void Photobook::configure(ImageMonitorListener *listener)
+{
+  mImageViews.imageMonitor().setListener(listener);
+}
 
 void Photobook::configureProject(PB::Project project)
 {
