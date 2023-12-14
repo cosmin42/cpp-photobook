@@ -193,4 +193,9 @@ if (LOG_LEVEL MATCHES Debug)
         nlohmann_json::nlohmann_json
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug/podofo.lib
         pblib)
+
+    add_custom_command(TARGET pbtests POST_BUILD        # Adds a post-build event to MyTest
+    COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
+        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug"      # <--this is in-file
+        "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build/Debug/")                 # <--this is out-file path
 endif()
