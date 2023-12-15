@@ -27,6 +27,8 @@ public:
 
   virtual void finish() = 0;
 
+  virtual bool stoppingCondition() = 0;
+
 protected:
   void stop();
 

@@ -25,7 +25,12 @@ void SequentialTaskConsumer::run(std::stop_token token)
   Timer timer;
   mCurrentToken = token;
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
-    executeSingleTask();
+    if (stoppingCondition()) {
+      stop();
+    }
+    else {
+      executeSingleTask();
+    }
   }
   if (mCurrentToken.stop_requested()) {
     printDebug("Thread Elapsed time %f\n", timer.elapsed());
