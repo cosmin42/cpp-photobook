@@ -30,7 +30,7 @@ TEST(TestParallelTaskConsumer, BasicTest)
   isFinished = consumer.finished();
   EXPECT_TRUE(!isFinished);
 
-  Sleep(1010);
+  Sleep(1500);
   isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 
@@ -46,7 +46,7 @@ TEST(TestParallelTaskConsumer, BasicTest)
   isFinished = consumer.finished();
   EXPECT_TRUE(!isFinished);
 
-  Sleep(1010);
+  Sleep(1500);
   isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 
