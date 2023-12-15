@@ -1,26 +1,41 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <pb/Error.h>
 
 #include <pb/FileMapper.h>
 
+#include <Windows.h>
+
 using namespace PB;
+
+class TestFileMapObserver : public PB::Observer {
+public:
+  MOCK_METHOD(void, update, (PB::ObservableSubject &), (override));
+};
 
 TEST(TestFilesMap, TestConstructor)
 {
-  testing::internal::CaptureStdout();
-  //FilesMap    fileMapper(".");
-  //std::string output = testing::internal::GetCapturedStdout();
-#ifdef WIN32
-  //ASSERT_EQ(output, "[Debug] FilesMap ctr .\n");
-#else
-  //ASSERT_EQ(output, "[Debug] FilesMap ctr \x10\n");
-#endif
+  PB::MediaMapper fileMapper("../test-data/file-mapping-test");
 }
 
 TEST(TestFilesMap, TestSimpleCollection)
 {
-  //FilesMap fileMapper("../../tests-data/Collection");
+  PB::MediaMapper fileMapper("../test-data/file-mapping-test");
 
-  //auto map = fileMapper.map();
+  TestFileMapObserver observer;
+
+  fileMapper.attach(&observer);
+  EXPECT_CALL(observer, update);
+  fileMapper.start();
+
+  while (fileMapper.state() != PB::MediaMapState::Started)
+    ;
+
+  EXPECT_EQ(fileMapper.state(), PB::MediaMapState::Started);
+
+  EXPECT_CALL(observer, update);
+  while (fileMapper.state() != PB::MediaMapState::None)
+    ;
+  fileMapper.dettach(&observer);
 }
