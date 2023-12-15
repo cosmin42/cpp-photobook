@@ -81,6 +81,9 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /property:Platform=x64 ${{env.SOLUTION_FILE_PATH}}
 
+    - name: Generate test data
+      run: python PB\test-data\generate-data.py PB\test-data
+
     - name: Tests
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: PB\build\Release\pbtests.exe
