@@ -99,6 +99,7 @@ add_library(pblib STATIC
     include/pb/SQLPersistence.h
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
+    include/pb/util/ParallelTaskConsumer.h
     include/pb/util/Timer.h
     include/pb/util/SequentialTaskConsumer.h
     include/pb/util/Traits.h
@@ -139,6 +140,7 @@ add_library(pblib STATIC
     src/util/FileInfo.cpp
     src/util/Timer.cpp
     src/util/SequentialTaskConsumer.cpp
+    src/util/ParallelTaskConsumer.cpp
     src/TextImage.cpp
     src/VirtualImage.cpp)
 
@@ -168,6 +170,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestErrors.cpp
         tests/TestGallery.cpp
         tests/TestImageMonitor.cpp
+        tests/TestParallelTaskConsumer.cpp
         tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
         tests/TestSequenctialTaskConsumer.cpp
