@@ -100,7 +100,7 @@ add_library(pblib STATIC
     include/pb/util/Concepts.h
     include/pb/util/FileInfo.h
     include/pb/util/Timer.h
-    include/pb/util/Thread.h
+    include/pb/util/SequentialTaskConsumer.h
     include/pb/util/Traits.h
     include/pb/TextImage.h
     include/pb/VirtualImage.h

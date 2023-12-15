@@ -1,4 +1,4 @@
-#include <pb/util/Thread.h>
+#include <pb/util/SequentialTaskConsumer.h>
 
 #include <pb/Config.h>
 

@@ -8,7 +8,7 @@
 #include <pb/FileComparator.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Observable.h>
-#include <pb/util/Thread.h>
+#include <pb/util/SequentialTaskConsumer.h>
 #include <pb/util/Traits.h>
 
 namespace PB {

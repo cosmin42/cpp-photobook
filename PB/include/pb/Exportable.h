@@ -4,7 +4,7 @@
 
 #include <pb/PaperSettings.h>
 #include <pb/util/Observable.h>
-#include <pb/util/Thread.h>
+#include <pb/util/SequentialTaskConsumer.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
