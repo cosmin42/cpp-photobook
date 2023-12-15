@@ -21,8 +21,6 @@ Photobook::Photobook(Path applicationLocalStatePath)
 Photobook::~Photobook()
 {
   printDebug("Photobook destructed.\n");
-  mImageViews.stagedImages().clear();
-  mImageViews.imageMonitor().clear();
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
