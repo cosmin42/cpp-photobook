@@ -170,6 +170,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestImageMonitor.cpp
         tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
+        tests/TestSequenctialTaskConsumer.cpp
         tests/TestStagedImages.cpp
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
