@@ -36,6 +36,10 @@ void SequentialTaskConsumer::run(std::stop_token token)
     printDebug("Thread Elapsed time %f\n", timer.elapsed());
     finish();
   }
+  else
+  {
+    aborted();
+  }
 }
 
 } // namespace PB

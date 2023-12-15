@@ -21,6 +21,8 @@ public:
 
   void finish() override { mFinish = true; }
 
+  void aborted() override { mFinish = true; }
+
   bool stoppingCondition() override { return mCounter >= END_COUNTER; }
 
   bool finished() const { return mFinish; }

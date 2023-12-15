@@ -16,6 +16,8 @@ public:
 
   bool stoppingCondition() override;
 
+  void aborted() override {}
+
   std::pair<int, int> progress() const;
 
 private:

@@ -26,11 +26,12 @@ public:
   virtual void executeSingleTask() = 0;
 
   virtual void finish() = 0;
+  virtual void aborted() = 0;
 
   virtual bool stoppingCondition() = 0;
 
 protected:
-  // TODO: Rename to halt()
+  // TODO: Rename to abort()
   void stop();
 
 private:

@@ -51,6 +51,12 @@ public:
     notify();
   }
 
+  void aborted() override
+  {
+    mState = MediaMapState::Aborted;
+    notify();
+  }
+
   bool stoppingCondition() override
   {
     return mRecursiveIterator == std::filesystem::end(mRecursiveIterator);
