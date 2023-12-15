@@ -1,10 +1,5 @@
 import os
-
-
-try:
-    os.mkdir("file-mapping-test")
-except:
-    pass
+import sys
 
 def createAlphabetList(start, end):
     it = start
@@ -15,21 +10,32 @@ def createAlphabetList(start, end):
     
     return alphabetList
 
+root = sys.argv[1] +  os.sep + "file-mapping-test"
+root = root.replace("/", os.sep)
+root = root.replace("\\", os.sep)
+
+try:
+    os.mkdir(root)
+except:
+    pass
+
+
+
 topList = createAlphabetList('A', 'Z')
 
 for folderName in topList:
     try:
-        os.mkdir("file-mapping-test/" + folderName)
+        os.mkdir(root + os.sep + folderName)
     except:
         pass
 
     for i in range(12, 17):
-        f = open("file-mapping-test/" + folderName + "/" + str(i) +  ".JPG", 'w')
+        f = open(root + os.sep + folderName + os.sep + str(i) +  ".JPG", 'w')
         f.close()
 
 
 for i in range(20):
-    f = open("file-mapping-test/" + str(i) + ".JPG", 'w')
+    f = open(root + os.sep + str(i) + ".JPG", 'w')
     f.close()
 
 
@@ -37,14 +43,14 @@ level2List = createAlphabetList('A', 'K')
 
 for folderName in level2List:
     try:
-        os.mkdir("file-mapping-test/A/" + folderName)
+        os.mkdir(root + os.sep + "A" + os.sep + folderName)
     except:
         pass
 
 for i in range(5, 20):
     for folderName in ['A', 'B', 'C']:
-        f = open("file-mapping-test/A/" + folderName + "/" + str(i) + ".JPG", 'w')
+        f = open(root + os.sep + "A" + os.sep + folderName + os.sep + str(i) + ".JPG", 'w')
         f.close()
 
-    f = open("file-mapping-test/A/" + str(i) + ".JPG", 'w')
+    f = open(root + os.sep + "A" + os.sep + str(i) + ".JPG", 'w')
     f.close()
