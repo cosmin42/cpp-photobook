@@ -61,3 +61,5 @@ android/google-services.json
 
 # Android Profiling
 android/*.hprof
+
+PB/test-data/file-mapping-test/
