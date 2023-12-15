@@ -16,62 +16,24 @@ namespace PB {
 class MediaMapper final : public SequentialTaskConsumer,
                           public ObservableSubject {
 public:
-  explicit MediaMapper(std::filesystem::path const &root)
-      : SequentialTaskConsumer(Context::inst().sStopSource.get_token()),
-        mRoot(root)
-  {
-    printDebug("MediaMapper constructor.\n");
-    mRecursiveIterator = std::filesystem::recursive_directory_iterator(
-        root, std::filesystem::directory_options::skip_permission_denied);
-  }
+  explicit MediaMapper(std::filesystem::path const &root);
 
-  ~MediaMapper() { printDebug("Destroying MediaMapper\n"); }
+  ~MediaMapper() = default;
 
-  void notify() override
-  {
-    for (auto observer : mObservers) {
-      observer->update(*this);
-    }
-  }
+  void notify() override;
+  void executeSingleTask() override;
+  void finish() override;
+  void aborted() override;
+  bool stoppingCondition() override;
 
-  void executeSingleTask() override
-  {
-    auto path = mRecursiveIterator->path();
-    mImportedFolders.push_back(path);
-    mRecursiveIterator++;
-
-    //TODO: Move before the execution of the first task
-    mState = MediaMapState::Started;
-    notify();
-  }
-
-  void finish() override
-  {
-    mState = MediaMapState::Finished;
-    notify();
-  }
-
-  void aborted() override
-  {
-    mState = MediaMapState::Aborted;
-    notify();
-  }
-
-  bool stoppingCondition() override
-  {
-    return mRecursiveIterator == std::filesystem::end(mRecursiveIterator);
-  }
-
-  MediaMapState state() const { return mState; }
-
-  Path root() const { return mRoot; }
-
-  std::vector<Path> importedDirectories() const { return mImportedFolders; }
+  MediaMapState     state() const;
+  Path              root() const;
+  std::vector<Path> importedDirectories() const;
 
 private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   Path                                          mRoot;
-  std::vector<Path>                             mImportedFolders;
+  std::vector<Path>                             mSubFiles;
   MediaMapState                                 mState = MediaMapState::None;
 };
 
