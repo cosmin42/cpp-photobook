@@ -18,8 +18,10 @@ void MediaMapper::notify()
 
 void MediaMapper::executeSingleTask()
 {
-  mState = MediaMapState::Started;
-  notify();
+  if (mState != MediaMapState::Started) {
+    mState = MediaMapState::Started;
+    notify();
+  }
 
   Path path = mRecursiveIterator->path();
   mSubFiles.push_back(path);
@@ -30,12 +32,14 @@ void MediaMapper::finish()
 {
   mState = MediaMapState::Finished;
   notify();
+  mState = MediaMapState::None;
 }
 
 void MediaMapper::aborted()
 {
   mState = MediaMapState::Aborted;
   notify();
+  mState = MediaMapState::None;
 }
 
 bool MediaMapper::stoppingCondition()
