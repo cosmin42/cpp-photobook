@@ -28,11 +28,6 @@ void PdfPoDoFoExport::paperProjection(Path inputPath, Path outputPath)
 
 void PdfPoDoFoExport::executeSingleTask()
 {
-  if (mIndex == mImages.size()) {
-    stop();
-    return;
-  }
-
   if (!mInitialized) {
     mDocument = std::make_shared<PoDoFo::PdfStreamedDocument>(
         (mDestination / (mName + ".pdf")).string());
@@ -59,6 +54,8 @@ void PdfPoDoFoExport::executeSingleTask()
 }
 
 void PdfPoDoFoExport::finish() { notify(); }
+
+bool PdfPoDoFoExport::stoppingCondition() { return mIndex >= mImages.size(); }
 
 std::pair<int, int> PdfPoDoFoExport::progress() const { return {mIndex, (int)mImages.size()}; }
 } // namespace PB

@@ -36,14 +36,11 @@ public:
 
   void executeSingleTask() override
   {
-    if (mRecursiveIterator == std::filesystem::end(mRecursiveIterator)) {
-      stop();
-    }
-    else {
-      auto path = mRecursiveIterator->path();
-      mImportedFolders.push_back(path);
-      mRecursiveIterator++;
-    }
+    auto path = mRecursiveIterator->path();
+    mImportedFolders.push_back(path);
+    mRecursiveIterator++;
+
+    //TODO: Move before the execution of the first task
     mState = MediaMapState::Started;
     notify();
   }
@@ -52,6 +49,11 @@ public:
   {
     mState = MediaMapState::Finished;
     notify();
+  }
+
+  bool stoppingCondition() override
+  {
+    return mRecursiveIterator == std::filesystem::end(mRecursiveIterator);
   }
 
   MediaMapState state() const { return mState; }

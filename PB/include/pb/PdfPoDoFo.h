@@ -14,6 +14,8 @@ public:
 
   void finish() override;
 
+  bool stoppingCondition() override;
+
   std::pair<int, int> progress() const;
 
 private:
