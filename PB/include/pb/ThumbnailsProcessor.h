@@ -41,7 +41,7 @@ public:
       std::vector<Path> mediaMap, std::string groupIdentifier,
       std::function<void(Path, Path, Path, int)> onThumbnailWritten);
 
-  void halt();
+  void abort();
 
 private:
   std::pair<Path, Path>                      assembleOutputPaths(int         index,
@@ -52,6 +52,6 @@ private:
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
   int                                        mScreenWidth = 0;
   int                                        mScreenHeight = 0;
-  std::vector<std::stop_source> mStopSources;
+  std::vector<std::stop_source>              mStopSources;
 };
 } // namespace PB

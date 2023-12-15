@@ -245,7 +245,7 @@ ProjectSnapshot &Photobook::activeProject() { return mProject.active(); }
 
 void Photobook::discardPhotobook()
 {
-  mThumbnailsProcessor.halt();
+  mThumbnailsProcessor.abort();
   PB::printDebug("Discard Photobook\n");
 }
 

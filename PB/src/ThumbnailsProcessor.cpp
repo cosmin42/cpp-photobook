@@ -51,7 +51,7 @@ ThumbnailsProcessor::ThumbnailsProcessor()
 {
 }
 
-ThumbnailsProcessor::~ThumbnailsProcessor() { halt(); }
+ThumbnailsProcessor::~ThumbnailsProcessor() { abort(); }
 
 void ThumbnailsProcessor::setScreenSize(std::pair<int, int> screenSize)
 {
@@ -93,7 +93,7 @@ void ThumbnailsProcessor::generateThumbnails(
   }
 }
 
-void ThumbnailsProcessor::halt()
+void ThumbnailsProcessor::abort()
 {
   for (auto &source : mStopSources) {
     source.request_stop();
