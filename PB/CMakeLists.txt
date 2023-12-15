@@ -106,6 +106,7 @@ add_library(pblib STATIC
     include/pb/TextImage.h
     include/pb/VirtualImage.h
     include/pb/Visitor.h
+    include/pb/WorkersManager.h
 
     src/Command.cpp
     src/Config.cpp
@@ -142,7 +143,8 @@ add_library(pblib STATIC
     src/util/SequentialTaskConsumer.cpp
     src/util/ParallelTaskConsumer.cpp
     src/TextImage.cpp
-    src/VirtualImage.cpp)
+    src/VirtualImage.cpp
+    src/WorkersManager.cpp)
 
 target_include_directories(pblib PUBLIC
     include
