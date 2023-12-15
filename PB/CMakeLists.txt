@@ -138,7 +138,7 @@ add_library(pblib STATIC
     src/StagedImages.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
-    src/util/Thread.cpp
+    src/util/SequentialTaskConsumer.cpp
     src/TextImage.cpp
     src/VirtualImage.cpp)
 
