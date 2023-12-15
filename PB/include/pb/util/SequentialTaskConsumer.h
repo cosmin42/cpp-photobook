@@ -30,6 +30,7 @@ public:
   virtual bool stoppingCondition() = 0;
 
 protected:
+  // TODO: Rename to halt()
   void stop();
 
 private:
