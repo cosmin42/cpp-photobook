@@ -86,29 +86,6 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
     mListener->onImageProcessed(root, full, medium, small, progress,
                                 progressCap);
   });
-
-  /*
-  mParent->post(
-      [this, root{root}, input{input}, smallOutput{smallOutput}, start{start},
-       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
-        auto image = mImageSupport.image<VirtualImage>(input);
-
-        image->setMediumSizePath(mediumOutput);
-        image->setSmallSizePath(smallOutput);
-
-        mImageSupport.updateStagedPhoto(image);
-
-        mProgress[rootPath]++;
-        if (mProgress.at(rootPath) == maxProgress) {
-
-          auto end = std::chrono::high_resolution_clock::now();
-          std::chrono::duration<double> duration = end - start;
-          PB::printDebug("Duration: %f\n", duration.count());
-
-          mParent->onFinished(rootPath);
-          mMappingJobs.erase(rootPath);
-        }
-        */
 }
 
 void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)

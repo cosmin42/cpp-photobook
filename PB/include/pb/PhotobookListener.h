@@ -21,9 +21,18 @@ public:
   virtual void onAddingUnstagedImagePlaceholder(unsigned size) = 0;
   virtual void
   onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-                                  int                           index = -1) = 0;
+                     int index = -1) = 0;
   virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
   virtual void onMappingFinished(PB::Path rootPath) = 0;
   virtual void post(std::function<void()> f) = 0;
 };
+
+class DashboardListener {
+public:
+  virtual void
+  onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata> metadata) = 0;
+
+  virtual void onProjectRead() = 0;
+};
+
 } // namespace PB

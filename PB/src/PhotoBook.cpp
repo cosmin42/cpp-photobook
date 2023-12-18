@@ -11,8 +11,6 @@ Photobook::Photobook(Path applicationLocalStatePath)
 {
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
-
-  // mImageSupport.setListener(mGallery.slot());
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -32,6 +30,11 @@ void Photobook::configure(StagedImagesListener *listener)
 void Photobook::configure(ImageMonitorListener *listener)
 {
   mImageViews.imageMonitor().setListener(listener);
+}
+
+void Photobook::configure(DashboardListener *listener)
+{
+  mDashboardListener = listener;
 }
 
 void Photobook::configureProject(PB::Project project)
@@ -76,6 +79,15 @@ void Photobook::loadProject()
   }
 
   mImageViews.stagedImages().addPictures(stage);
+}
+
+void Photobook::recallMetadata() { mPersistence->recallMetadata(); }
+
+void Photobook::recallProject(Path path) { mPersistence->recallProject(path); }
+
+void Photobook::deleteProject(std::string id)
+{
+  mPersistence->deleteMetadata(id);
 }
 
 void Photobook::addImportFolder(Path path)
@@ -186,11 +198,20 @@ bool Photobook::projectDefaultSaved()
   return true;
 }
 
-void Photobook::onProjectRead(Project project) { configureProject(project); }
+void Photobook::onProjectRead(Project project)
+{
+  configureProject(project);
+  if (mDashboardListener) {
+    mDashboardListener->onProjectRead();
+  }
+}
 
 void Photobook::onMetadataRead(ProjectMetadata projectMetadata) {}
 
-void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata) {}
+void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata)
+{
+  mDashboardListener->onProjectsMetadataLoaded(projectMetadata);
+}
 
 void Photobook::onMetadataPersistenceError(Error error) { onError(error); }
 
@@ -251,7 +272,6 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small,
 }
 
 void Photobook::onMappingAborted(Path) {}
-
 
 void Photobook::post(std::function<void()> f) { mParent->post(f); }
 

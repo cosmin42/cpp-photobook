@@ -45,12 +45,18 @@ public:
   void configure(std::shared_ptr<PhotobookListener> listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
+  void configure(DashboardListener *listener);
 
   ImageViews &imageViews();
 
   void configureProject(Project project);
 
   void loadProject();
+
+  void recallMetadata();
+  void recallProject(Path path);
+
+  void deleteProject(std::string id);
 
   void addImportFolder(Path importPath);
 
@@ -90,8 +96,9 @@ private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
 
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
-  std::shared_ptr<Persistence>             mPersistence;
+  DashboardListener                       *mDashboardListener;
   Path                                     mApplicationLocalStatePath;
+  std::shared_ptr<Persistence>             mPersistence;
   Project                                  mProject;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;

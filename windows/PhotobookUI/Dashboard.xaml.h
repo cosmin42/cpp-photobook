@@ -10,16 +10,14 @@
 #include "ProjectItem.g.h"
 
 #include <pb/Project.h>
-#include <pb/SQLPersistence.h>
-#include <pb/persistence/Persistence.h>
+#include <pb/PhotoBook.h>
+#include <pb/PhotobookListener.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct Dashboard : DashboardT<Dashboard>,
-                   public PB::PersistenceMetadataListener,
-                   public PB::PersistenceProjectListener {
+struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
 
   static PB::Path CurrentAppLocation();
 
@@ -28,7 +26,6 @@ struct Dashboard : DashboardT<Dashboard>,
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnPersistenceDataLoaded(std::vector<PB::ProjectMetadata> metadata);
   void OnError(PB::Error err);
 
   void OnListViewRightTapped(
@@ -46,12 +43,10 @@ struct Dashboard : DashboardT<Dashboard>,
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
-  void onProjectRead(PB::Project project) override;
+  void onProjectRead() override;
+
   void
-  onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata) override;
-  void onMetadataRead(PB::ProjectMetadata projectMetadata) override;
-  void onProjectPersistenceError(PB::Error) override;
-  void onMetadataPersistenceError(PB::Error) override;
+  onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata> metadata) override;
 
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem RightClickFlyout();
@@ -62,7 +57,7 @@ private:
 
   winrt::hstring mRightClickedId;
 
-  std::shared_ptr<PB::Persistence> mPersistence;
+  std::shared_ptr<PB::Photobook> mAPI = nullptr;
 };
 } // namespace winrt::PhotobookUI::implementation
 

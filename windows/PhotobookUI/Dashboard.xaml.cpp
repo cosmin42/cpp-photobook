@@ -46,62 +46,25 @@ Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout()
 
 Dashboard::Dashboard()
 {
-  mPersistence = Application::Current()
-                     .as<winrt::PhotobookUI::implementation::App>()
-                     ->api()
-                     ->persistence();
-  mPersistence->setPersistenceListener(this, this);
-
-  mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
-
   InitializeComponent();
 
+  mAPI = Application::Current()
+             .as<winrt::PhotobookUI::implementation::App>()
+             ->api();
+
+  mAPI->configure((PB::DashboardListener *)this);
+
+  mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   mMenuFlyout.Items().Append(RightClickFlyout());
 
-  mPersistence->recallMetadata();
+  mAPI->recallMetadata();
 }
 
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
-  Application::Current()
-      .as<winrt::PhotobookUI::implementation::App>()
-      ->api()
-      ->newProject();
+  mAPI->newProject();
 
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
-}
-
-void Dashboard::OnPersistenceDataLoaded(
-    std::vector<PB::ProjectMetadata> metadata)
-{
-  mProjectsList.Clear();
-
-  ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,
-                                                    RoutedEventArgs const &) {
-    auto sqrtIntF = [](int size) {
-      float root = sqrt((float)size);
-      int   intRoot = (int)floor(root);
-      return intRoot;
-    };
-
-    winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
-        obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
-            .ItemsPanelRoot()
-            .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
-
-    auto squareDimension = sqrtIntF((int)size);
-
-    wrapGrid.MaximumRowsOrColumns(squareDimension);
-  });
-
-  for (auto &project : metadata) {
-    auto [uuid, path] = project.data();
-    mProjectsList.Append(
-        ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
-                    winrt::to_hstring(path.string())));
-  }
-
-  ProjectsListView().ItemsSource(mProjectsList);
 }
 
 void Dashboard::OnError(PB::Error err)
@@ -134,7 +97,7 @@ void Dashboard::OnDeleteClicked(
       if (id == mRightClickedId) {
         mProjectsList.RemoveAt(i);
 
-        mPersistence->deleteMetadata(nativeId);
+        mAPI->deleteProject(nativeId);
         break;
       }
     }
@@ -148,8 +111,7 @@ void Dashboard::OpenProjectClicked(
         ItemClickEventArgs const &e)
 {
   auto item = e.ClickedItem().as<ProjectItem>();
-
-  mPersistence->recallProject(winrt::to_string(item.FullPath()));
+  mAPI->recallProject(winrt::to_string(item.FullPath()));
 }
 
 void Dashboard::OnNavigatedTo(
@@ -159,10 +121,7 @@ void Dashboard::OnNavigatedTo(
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
     if (winrt::to_string(source) == "new-project") {
-      Application::Current()
-          .as<winrt::PhotobookUI::implementation::App>()
-          ->api()
-          ->newProject();
+      mAPI->newProject();
 
       bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
           DispatcherQueuePriority::Normal, [this]() {
@@ -173,30 +132,42 @@ void Dashboard::OnNavigatedTo(
   }
 }
 
-void Dashboard::onProjectRead(PB::Project project)
+void Dashboard::onProjectRead()
 {
-  Application::Current()
-      .as<winrt::PhotobookUI::implementation::App>()
-      ->api()
-      ->configureProject(project);
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
-void Dashboard::onMetadataRead(PB::ProjectMetadata projectMetadata) {}
-
-void Dashboard::onMetadataRead(std::vector<PB::ProjectMetadata> projectMetadata)
+void Dashboard::onProjectsMetadataLoaded(
+    std::vector<PB::ProjectMetadata> metadata)
 {
-  OnPersistenceDataLoaded(projectMetadata);
-}
+  mProjectsList.Clear();
 
-void Dashboard::onProjectPersistenceError(PB::Error)
-{
-  PB::printError("Error writing into peristence.\n");
-}
+  ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,
+                                                    RoutedEventArgs const &) {
+    auto sqrtIntF = [](int size) {
+      float root = sqrt((float)size);
+      int   intRoot = (int)floor(root);
+      return intRoot;
+    };
 
-void Dashboard::onMetadataPersistenceError(PB::Error)
-{
-  PB::printError("Error writing into peristence.\n");
+    winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
+        obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
+            .ItemsPanelRoot()
+            .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
+
+    auto squareDimension = sqrtIntF((int)size);
+
+    wrapGrid.MaximumRowsOrColumns(squareDimension);
+  });
+
+  for (auto &project : metadata) {
+    auto [uuid, path] = project.data();
+    mProjectsList.Append(
+        ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
+                    winrt::to_hstring(path.string())));
+  }
+
+  ProjectsListView().ItemsSource(mProjectsList);
 }
 
 } // namespace winrt::PhotobookUI::implementation
