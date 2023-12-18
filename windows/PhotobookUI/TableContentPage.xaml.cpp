@@ -69,6 +69,9 @@ TableContentPage::TableContentPage()
 
   mPhotoBook->configure(ScreenSize());
   mPhotoBook->configure(mListener);
+  mPhotoBook->configure((PB::StagedImagesListener *)this);
+  mPhotoBook->configure((PB::ImageMonitorListener *)this);
+
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();
   mUnstagedImageCollection =
@@ -1023,6 +1026,16 @@ void TableContentPage::Post(std::function<void()> f)
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
   PB::basicAssert(success);
 }
+
+void TableContentPage::onPicturesAdded(int index, int size) {}
+
+void TableContentPage::onPictureRemoved(std::vector<unsigned> index) {}
+
+void TableContentPage::onImportFolderAdded() {}
+
+void TableContentPage::onImportFolderRemoved(unsigned index) {}
+
+void TableContentPage::onCleared() {}
 
 UISelectionIndex TableContentPage::SelectionIndex()
 {

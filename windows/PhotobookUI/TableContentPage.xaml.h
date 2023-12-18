@@ -23,11 +23,13 @@ enum class DragSource { None, Unstaged, Staged };
 
 struct UISelectionIndex {
   std::optional<unsigned> importListIndex;
-  std::vector<unsigned> unstagedLineIndex;
-  std::vector<unsigned> stagedPhotoIndex;
+  std::vector<unsigned>   unstagedLineIndex;
+  std::vector<unsigned>   stagedPhotoIndex;
 };
 
-struct TableContentPage : TableContentPageT<TableContentPage> {
+struct TableContentPage : TableContentPageT<TableContentPage>,
+                          public PB::StagedImagesListener,
+                          public PB::ImageMonitorListener {
 
   static PB::Path CurrentAppLocation();
 
@@ -223,6 +225,13 @@ struct TableContentPage : TableContentPageT<TableContentPage> {
   void OnError(PB::Error error);
 
   void Post(std::function<void()>);
+
+  void onPicturesAdded(int index, int size) override;
+  void onPictureRemoved(std::vector<unsigned> index) override;
+
+  void onImportFolderAdded() override;
+  void onImportFolderRemoved(unsigned index) override;
+  void onCleared() override;
 
 private:
   UISelectionIndex SelectionIndex();
