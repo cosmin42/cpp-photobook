@@ -10,17 +10,10 @@ Photobook::Photobook(Path applicationLocalStatePath)
     : mApplicationLocalStatePath(applicationLocalStatePath),
       mThumbnailsProcessor(), mExportFactory()
 {
-  printDebug("Photobook created.\n");
-
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 
   // mImageSupport.setListener(mGallery.slot());
-}
-
-Photobook::~Photobook()
-{
-  printDebug("Photobook destructed.\n");
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)

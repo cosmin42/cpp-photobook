@@ -10,7 +10,6 @@ void ImageMonitor::addRow(Path                                       path,
                           std::vector<std::shared_ptr<VirtualImage>> images)
 {
   if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
-    printDebug("Image row already imported\n");
     return;
   }
   mRowIndexes.insert({path, (int)mRowIndexes.size()});

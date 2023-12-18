@@ -36,7 +36,7 @@ class Photobook final : public Observer,
                         public PersistenceProjectListener {
 public:
   explicit Photobook(Path applicationLocalStatePath);
-  ~Photobook();
+  ~Photobook() = default;
 
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<PhotobookListener> listener);
