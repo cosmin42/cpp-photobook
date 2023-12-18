@@ -28,6 +28,7 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
+#include <pb/ImportFoldersLogic.h>
 
 namespace PB {
 
@@ -82,10 +83,9 @@ private:
   std::shared_ptr<Persistence>             mPersistence;
   Path                                     mApplicationLocalStatePath;
   Project                                  mProject;
-  std::unordered_map<Path, MediaMapper>    mMappingJobs;
+  ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
   ImageReader                              mImageReader;
-  ThumbnailsProcessor                      mThumbnailsProcessor;
   std::vector<std::shared_ptr<Exportable>> mExporters;
   std::unordered_map<Path, int>            mProgress;
   CommandStack                             mCommandStack;

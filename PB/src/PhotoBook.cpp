@@ -7,8 +7,7 @@
 
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)
-    : mApplicationLocalStatePath(applicationLocalStatePath),
-      mThumbnailsProcessor(), mExportFactory()
+    : mApplicationLocalStatePath(applicationLocalStatePath)
 {
   mPersistence =
       std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
@@ -18,7 +17,7 @@ Photobook::Photobook(Path applicationLocalStatePath)
 
 void Photobook::configure(std::pair<int, int> screenSize)
 {
-  mThumbnailsProcessor.setScreenSize(screenSize);
+  mImportLogic.configure(screenSize);
 }
 
 void Photobook::configure(std::shared_ptr<PhotobookListener> listener)
@@ -39,7 +38,7 @@ void Photobook::configureProject(PB::Project project)
 {
   mProject = project;
 
-  mThumbnailsProcessor.provideProjectDetails(project.active());
+  mImportLogic.configure(project.active());
 }
 
 void Photobook::loadProject()
@@ -79,60 +78,28 @@ void Photobook::loadProject()
   mImageViews.stagedImages().addPictures(stage);
 }
 
-void Photobook::addImportFolder(Path importPath)
+void Photobook::addImportFolder(Path path)
 {
-  auto errorOrPath = FileInfo::validInputRootPath(importPath);
-  if (std::holds_alternative<Error>(errorOrPath)) {
-    mParent->onError(std::get<Error>(errorOrPath));
-  }
-  else {
-    auto path = std::get<Path>(errorOrPath);
-    printDebug("Add Input folder %s\n", path.string().c_str());
+  auto maybeError = mImportLogic.addImportFolder(path);
 
-    if (mImageViews.imageMonitor().containsRow(path)) {
-      mParent->onError(Error() << ErrorCode::FolderAlreadyImported
-                               << "Folder already imported.");
-      return;
-    }
-
-    setChangeFunction([this](PB::Observer *current, PB::Observer *other) {
-      if (other) {
-        for (auto &[key, value] : mMappingJobs) {
-          value.dettach(current);
-          value.attach(other);
-        }
-
-        for (auto &exporter : mExporters) {
-          exporter->dettach(current);
-          exporter->attach(other);
-        }
-      }
-      else {
-        PB::basicAssert(false);
-      }
-    });
-    auto mapper = MediaMapper(path);
-    mapper.attach(this);
-    mMappingJobs.emplace(path, mapper);
-    mMappingJobs.at(importPath).start();
+  if (maybeError) {
+    mParent->onError(maybeError.value());
   }
 }
 
 void Photobook::update(ObservableSubject &subject)
 {
-  if (dynamic_cast<MediaMapper *>(&subject) != nullptr) {
-    auto &mediaMap = static_cast<MediaMapper &>(subject);
-    if (mediaMap.state() == MediaMapState::Finished) {
-      onImportFolderMapped(mediaMap.root(), mediaMap.importedDirectories());
-    }
-  }
-  else if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
+  if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
     auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
     auto [progress, maxProgress] = pdfExporter.progress();
     mParent->onExportProgressUpdate(progress, maxProgress);
     if (progress == maxProgress) {
       mParent->onExportFinished();
     }
+  }
+  else
+  {
+    PB::basicAssert(false);
   }
 }
 
@@ -238,8 +205,7 @@ ProjectSnapshot &Photobook::activeProject() { return mProject.active(); }
 
 void Photobook::discardPhotobook()
 {
-  mThumbnailsProcessor.abort();
-  PB::printDebug("Discard Photobook\n");
+  mImportLogic.stopAll();
 }
 
 void Photobook::savePhotobook()
