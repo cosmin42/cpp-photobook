@@ -85,5 +85,5 @@ jobs:
       run: python PB\test-data\generate-data.py PB\test-data
 
     - name: Tests
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: PB\build\Release\pbtests.exe
+      working-directory: ${{env.GITHUB_WORKSPACE}}\PB\build\Release\
+      run: pbtests.exe
