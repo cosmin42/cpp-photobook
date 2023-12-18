@@ -77,6 +77,7 @@ add_library(pblib STATIC
     include/pb/ImageMonitor.h
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
+    include/pb/ImportFoldersLogic.h
     include/pb/Jpg.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
@@ -121,6 +122,7 @@ add_library(pblib STATIC
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
+    src/ImportFoldersLogic.cpp
     src/Jpg.cpp
     src/Log.cpp
     src/MetadataReader.cpp
