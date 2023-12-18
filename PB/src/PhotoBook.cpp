@@ -230,51 +230,6 @@ void Photobook::onMapped(Path root, std::vector<Path> newFolders)
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
-
-  /*
-
-  auto start = std::chrono::high_resolution_clock::now();
-
-  mProgress[rootPath] = 0;
-  const int maxProgress = (int)newMediaMap.size();
-
-  auto importFolderIndex = mImageSupport.groupIndex(rootPath);
-
-  auto groupIdentifier = std::to_string(importFolderIndex) + "sep";
-
-  mThumbnailsProcessor.generateThumbnails(
-      newMediaMap, groupIdentifier,
-      [this, rootPath{rootPath}, start{start}, maxProgress{maxProgress}](
-          Path input, Path smallOutput, Path mediumOutput, int position) {
-        mParent->onProgressUpdate(rootPath, mProgress.at(rootPath),
-                                  (int)maxProgress);
-
-        mParent->onUnstagedImageAdded(rootPath, input, mediumOutput,
-                                      smallOutput, position);
-
-        mParent->post([this, rootPath{rootPath}, input{input},
-                       smallOutput{smallOutput}, start{start},
-                       mediumOutput{mediumOutput}, maxProgress{maxProgress}]() {
-          auto image = mImageSupport.image<VirtualImage>(input);
-
-          image->setMediumSizePath(mediumOutput);
-          image->setSmallSizePath(smallOutput);
-
-          mImageSupport.updateStagedPhoto(image);
-
-          mProgress[rootPath]++;
-          if (mProgress.at(rootPath) == maxProgress) {
-
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> duration = end - start;
-            PB::printDebug("Duration: %f\n", duration.count());
-
-            mParent->onFinished(rootPath);
-            mMappingJobs.erase(rootPath);
-          }
-        });
-      });
-      */
 }
 
 void Photobook::onImportStop(Path) {}
