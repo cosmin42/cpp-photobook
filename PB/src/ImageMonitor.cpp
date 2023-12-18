@@ -1,7 +1,7 @@
 #include <pb/ImageMonitor.h>
 
 namespace PB {
-void ImageMonitor::setListener(ImageMonitorListener* listener)
+void ImageMonitor::setListener(ImageMonitorListener *listener)
 {
   mListener = listener;
 }
@@ -117,6 +117,15 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
   basicAssert(index < mUnstagedImagesMatrix.at(row).size());
 
   return mUnstagedImagesMatrix.at(row).at(index);
+}
+
+std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
+{
+  basicAssert(mPositions.left.find(full) != mPositions.left.end());
+
+  auto position = mPositions.left.at(full);
+
+  return mUnstagedImagesMatrix.at(position.first).at(position.second);
 }
 
 auto ImageMonitor::statefulIterator(Path root)

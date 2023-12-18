@@ -17,6 +17,7 @@
 #include <pb/Html.h>
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>
+#include <pb/ImportFoldersLogic.h>
 #include <pb/Jpg.h>
 #include <pb/Pdf.h>
 #include <pb/PhotobookListener.h>
@@ -28,13 +29,14 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
-#include <pb/ImportFoldersLogic.h>
 
 namespace PB {
 
 class Photobook final : public Observer,
                         public PersistenceMetadataListener,
-                        public PersistenceProjectListener {
+                        public PersistenceProjectListener,
+                        public ImportFoldersLogicListener,
+                        public ThreadScheduler {
 public:
   explicit Photobook(Path applicationLocalStatePath);
   ~Photobook() = default;
@@ -75,6 +77,14 @@ public:
   std::shared_ptr<Persistence> persistence() { return mPersistence; }
 
   void newProject();
+
+  void onMapped(Path, std::vector<Path> newFolders) override;
+  void onImportStop(Path) override;
+  void onImageProcessed(Path root, Path full, Path medium, Path small,
+                        int progress, int progressCap) override;
+  void onMappingAborted(Path) override;
+
+  void post(std::function<void()> f) override;
 
 private:
   void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);

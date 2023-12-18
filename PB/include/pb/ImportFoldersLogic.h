@@ -40,6 +40,8 @@ public:
   void stopAll();
   void update(ObservableSubject &subject);
 
+  void clearJob(Path root);
+
 private:
   void setObserverManager();
 

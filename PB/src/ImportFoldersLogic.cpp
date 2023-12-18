@@ -13,10 +13,12 @@ void ImportFoldersLogic::configure(ThreadScheduler *scheduler)
   mScheduler = scheduler;
 }
 
-void ImportFoldersLogic::configure(std::pair<int, int> screenSize) {
+void ImportFoldersLogic::configure(std::pair<int, int> screenSize)
+{
   mThumbnailsProcessor.setScreenSize(screenSize);
 }
-void ImportFoldersLogic::configure(ProjectSnapshot project) {
+void ImportFoldersLogic::configure(ProjectSnapshot project)
+{
   mThumbnailsProcessor.provideProjectDetails(project);
 }
 
@@ -73,14 +75,16 @@ void ImportFoldersLogic::update(ObservableSubject &subject)
   }
 }
 
+void ImportFoldersLogic::clearJob(Path root) { mMappingJobs.erase(root); }
+
 void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
                                           Path small, int progress,
                                           int progressCap)
 {
 
   mScheduler->post([this, root, full, medium, small, progress, progressCap]() {
-    mListener->onImageProcessed(root, full, medium, small, progress, progressCap);
-
+    mListener->onImageProcessed(root, full, medium, small, progress,
+                                progressCap);
   });
 
   /*
@@ -111,9 +115,9 @@ void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
 {
   mThumbnailsProcessor.generateThumbnails(
       newFolders, root.string(),
-      [this, root{root}, start{start}, maxProgress{newFolders.size()}](
+      [this, root{root}, maxProgress{newFolders.size()}](
           Path full, Path medium, Path small, int position) {
-        onImageProcessed(root, full, medium, small, position, maxProgress);
+        onImageProcessed(root, full, medium, small, position, (int)maxProgress);
       });
 }
 } // namespace PB

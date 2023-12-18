@@ -40,6 +40,8 @@ public:
   std::vector<Path> rowList() const;
 
   std::shared_ptr<VirtualImage> image(unsigned row, unsigned index) const;
+  std::shared_ptr<VirtualImage> image(Path full) const;
+
 
   auto statefulIterator(Path root)
       -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
