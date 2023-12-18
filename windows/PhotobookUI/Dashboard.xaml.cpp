@@ -119,6 +119,7 @@ void Dashboard::OpenProjectClicked(
 void Dashboard::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs args)
 {
+  mAPI->configure((PB::DashboardListener *)this);
   if (args.Parameter() != nullptr) {
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
