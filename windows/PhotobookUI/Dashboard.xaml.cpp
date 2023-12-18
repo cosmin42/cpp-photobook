@@ -64,6 +64,8 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   mAPI->newProject();
 
+  mAPI->configure((PB::DashboardListener *)nullptr);
+
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
@@ -125,6 +127,7 @@ void Dashboard::OnNavigatedTo(
 
       bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
           DispatcherQueuePriority::Normal, [this]() {
+            mAPI->configure((PB::DashboardListener *)nullptr);
             Frame().Navigate(winrt::xaml_typename<TableContentPage>());
           });
       PB::basicAssert(success);
@@ -134,6 +137,7 @@ void Dashboard::OnNavigatedTo(
 
 void Dashboard::onProjectRead()
 {
+  mAPI->configure((PB::DashboardListener *)nullptr);
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
