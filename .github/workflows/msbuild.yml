@@ -49,7 +49,7 @@ jobs:
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
     - name: vcpkg install
-      run: vcpkg\vcpkg.exe install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows dp-thread-pool:x64-windows libharu:x64-windows sqlite3:x64-windows nlohmann-json:x64-windows
+      run: vcpkg\vcpkg.exe install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows dp-thread-pool:x64-windows libharu:x64-windows sqlite3:x64-windows nlohmann-json:x64-windows boost-bimap:x64-windows
 
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install

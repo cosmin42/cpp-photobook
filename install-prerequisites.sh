@@ -8,7 +8,7 @@ else
     cd vcpkg
     git checkout 2023.08.09
     ./bootstrap-vcpkg.sh
-    ./vcpkg install boost-program-options:x64-osx boost-uuid:x64-osx brotli:x64-osx opencv:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx dp-thread-pool:x64-osx libharu:x64-osx sqlite3:x64-osx nlohmann-json:x64-osx
+    ./vcpkg install boost-program-options:x64-osx boost-uuid:x64-osx brotli:x64-osx opencv:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx dp-thread-pool:x64-osx libharu:x64-osx sqlite3:x64-osx nlohmann-json:x64-osx boost-bimap:x64-osx
     ./vcpkg integrate install
     cd ..
 fi
