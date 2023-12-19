@@ -1120,7 +1120,6 @@ void TableContentPage::PostponeError(std::string message)
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
-  mPhotoBook->persistence()->setPersistenceListener(nullptr, nullptr);
   mPhotoBook->loadProject();
 }
 
