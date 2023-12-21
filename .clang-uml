@@ -17,4 +17,39 @@ diagrams:
     exclude:
       namespaces:
         - std
+  class_diagram:
+    type: class
+    glob:
+      - PB/src/*
+    include:
+      namespaces:
+        - PB
+      paths:
+        - PB/include
+        - PB/src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  top_level_class_diagram:
+    type: class
+    glob:
+      - PB/src/PhotoBook.cpp
+    include:
+      context:
+        - match:
+            radius: 1
+            pattern: PB::Photobook
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
   
