@@ -1,0 +1,18 @@
+compilation_database_dir: .
+output_directory: .
+diagrams:
+  include_diagram:
+    type: include
+    title: Includes diagram
+    glob:
+      - PB/src/*
+    generate_system_headers: false
+    using_namespace: PB
+    include:
+      paths:
+        - PB/include
+        - PB/src
+    exclude:
+      namespaces:
+        - std
+  
