@@ -55,7 +55,11 @@ deserialize(Json jsonData, std::string key,
 template <SerializationPrimitiveConcept T>
 std::variant<Json, Error> serialize(int depth, T object)
 {
+#ifdef _CLANG_UML_
+  Json json;
+#else
   Json json = object;
+#endif
   PB::printDebug("%sT %s\n", std::string(depth * 2, ' ').c_str(),
                  json.dump().c_str());
   return json;
@@ -70,7 +74,10 @@ std::variant<Json, Error> serialize(int                              depth,
                                     std::pair<std::string, T> const &entry)
 {
   Json json;
+#ifdef _CLANG_UML_
+#else
   json[entry.first] = entry.second;
+#endif
   PB::printDebug("%s(string, T) %s\n", std::string(depth * 2, ' ').c_str(),
                  json.dump().c_str());
   return json;

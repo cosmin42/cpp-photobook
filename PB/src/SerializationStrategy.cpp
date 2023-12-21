@@ -108,7 +108,8 @@ template <> std::variant<ProjectSnapshot, Error> deserialize(Json jsonData)
     return std::get<Error>(parentPathOrError);
   }
   projectDetails.parentDirectory(std::get<std::string>(parentPathOrError));
-
+#ifdef _CLANG_UML_
+#else
   auto importedFoldersOrError =
       deserialize<std::vector, Path>(jsonData, "imported-folders");
   if (std::holds_alternative<Error>(importedFoldersOrError)) {
@@ -124,7 +125,7 @@ template <> std::variant<ProjectSnapshot, Error> deserialize(Json jsonData)
   }
   projectDetails.setStagedImages(
       std::get<std::vector<Path>>(stagedImagesOrError));
-
+#endif
   auto paperSettingsOrError = deserialize<PaperSettings>(
       jsonData, "paper-settings", PaperSettings(), true);
   if (std::holds_alternative<Error>(paperSettingsOrError)) {

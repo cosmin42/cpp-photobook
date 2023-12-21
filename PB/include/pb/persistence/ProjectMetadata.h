@@ -1,5 +1,7 @@
 #pragma once
 
+#include <variant>
+
 #include <boost/functional/hash.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>

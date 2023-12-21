@@ -1,5 +1,7 @@
 compilation_database_dir: .
 output_directory: .
+add_compile_flags:
+  - -D_CLANG_UML_
 diagrams:
   include_diagram:
     type: include
