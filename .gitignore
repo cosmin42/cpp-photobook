@@ -63,3 +63,5 @@ android/google-services.json
 android/*.hprof
 
 PB/test-data/file-mapping-test/
+*.puml
+compile_commands.json
