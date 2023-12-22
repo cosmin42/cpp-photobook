@@ -9,7 +9,7 @@
 #include <pb/PreprocessedImage.h>
 #include <pb/StagedImages.h>
 #include <pb/VirtualImage.h>
-#include <pb/util/CircularIterator.h>
+#include <pb/util/IteratorWithState.h>
 #include <pb/util/Observable.h>
 
 namespace PB {

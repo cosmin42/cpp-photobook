@@ -10,16 +10,16 @@
 
 namespace PB {
 
-template <typename Container> class CircularIterator final {
+template <typename Container> class IteratorWithState final {
 public:
-  explicit CircularIterator(Container &container)
+  explicit IteratorWithState(Container &container)
       : mBeginIterator(container.begin())
   {
     mSize = (unsigned)container.size();
   }
 
-  CircularIterator() = default;
-  ~CircularIterator() = default;
+  IteratorWithState() = default;
+  ~IteratorWithState() = default;
 
   auto current() const -> typename Container::value_type
   {
@@ -29,7 +29,7 @@ public:
     return *tmpIterator;
   }
 
-  CircularIterator &operator[](int index)
+  IteratorWithState &operator[](int index)
   {
     if (mSize == 0) {
       return *this;

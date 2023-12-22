@@ -67,9 +67,9 @@ std::shared_ptr<VirtualImage> StagedImages::picture(unsigned index) const
 }
 
 auto StagedImages::statefullIterator()
-    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+    -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
 {
-  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+  return IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
       mStagedPhotos);
 }
 

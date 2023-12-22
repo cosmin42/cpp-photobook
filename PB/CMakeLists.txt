@@ -60,7 +60,7 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(pblib STATIC
-    include/pb/util/CircularIterator.h
+    include/pb/util/IteratorWithState.h
     include/pb/common/Log.h
     include/pb/common/${PRINTER_TYPE}.h
     include/pb/Command.h
@@ -81,7 +81,6 @@ add_library(pblib STATIC
     include/pb/Jpg.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
-    include/pb/Gallery.h
     include/pb/util/Observable.h
     include/pb/PaperSettings.h
     include/pb/Pdf.h
@@ -116,7 +115,6 @@ add_library(pblib STATIC
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/FilePersistence.cpp
-    src/Gallery.cpp
     src/Html.cpp
     src/ImageReader.cpp
     src/ImageMonitor.cpp
@@ -168,11 +166,10 @@ set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 if (LOG_LEVEL MATCHES Debug)
     add_executable(pbtests 
         tests/TestPersistence.cpp
-        tests/TestCircularIterator.cpp
+        tests/TestIteratorWithState.cpp
         tests/TestComparator.cpp
         tests/TestDataManager.cpp
         tests/TestErrors.cpp
-        tests/TestGallery.cpp
         tests/TestImageMonitor.cpp
         tests/TestParallelTaskConsumer.cpp
         tests/TestPhotobook.cpp

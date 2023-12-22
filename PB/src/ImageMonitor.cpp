@@ -129,15 +129,15 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
 }
 
 auto ImageMonitor::statefulIterator(Path root)
-    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+    -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
 {
   return statefulIterator(mRowIndexes.left.at(root));
 }
 
 auto ImageMonitor::statefulIterator(unsigned row)
-    -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>
+    -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
 {
-  return CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>(
+  return IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
       mUnstagedImagesMatrix.at(row));
 }
 

@@ -17,7 +17,7 @@
 #include <pb/Config.h>
 #include <pb/FileMapper.h>
 #include <pb/ImageOperations.h>
-#include <pb/util/CircularIterator.h>
+#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 
@@ -65,7 +65,7 @@ public:
     return inputImage;
   }
 
-  void loadBuffer(CircularIterator<std::vector<Path>> iterator)
+  void loadBuffer(IteratorWithState<std::vector<Path>> iterator)
   {
     if (!iterator.valid()) {
       return;

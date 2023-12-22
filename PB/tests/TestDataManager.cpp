@@ -10,12 +10,12 @@ class MockImageSupportListener final : public ImageSupportListener {
 public:
   void importFolderAdded(
       Path path,
-      CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) override
+      IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>) override
   {
     mImportFolders.push_back(path);
   }
   void stagePhotosUpdated(
-      CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>) override
+      IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>) override
   {
   }
 

@@ -13,7 +13,6 @@
 #include <pb/Error.h>
 #include <pb/Exporter.h>
 #include <pb/FileMapper.h>
-#include <pb/Gallery.h>
 #include <pb/Html.h>
 #include <pb/ImageReader.h>
 #include <pb/ImageSetWriter.h>

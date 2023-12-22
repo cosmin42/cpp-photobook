@@ -1,46 +1,46 @@
 #include <gtest/gtest.h>
 
-#include <pb/util/CircularIterator.h>
+#include <pb/util/IteratorWithState.h>
 
 using namespace PB;
 
-TEST(TestCircularIterator, TestEmpty)
+TEST(TestIteratorWithState, TestEmpty)
 {
-  auto it = CircularIterator<std::vector<int>>();
+  auto it = IteratorWithState<std::vector<int>>();
   ASSERT_TRUE(it.size() == 0);
   ASSERT_TRUE(!it.valid());
 }
 
-TEST(TestCircularIterator, TestFilled)
+TEST(TestIteratorWithState, TestFilled)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = CircularIterator<std::vector<int>>(v);
+  auto             it = IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
 }
 
-TEST(TestCircularIterator, TestDereference)
+TEST(TestIteratorWithState, TestDereference)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = CircularIterator<std::vector<int>>(v);
-  ASSERT_TRUE(it.size() == 5);
-  ASSERT_TRUE(it.valid());
-  ASSERT_TRUE(it.current() == 1);
-}
-
-TEST(TestCircularIterator, TestIncrementDecrmeent)
-{
-  std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = CircularIterator<std::vector<int>>(v);
+  auto             it = IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);
 }
 
-TEST(TestCircularIterator, TestIndexOperator)
+TEST(TestIteratorWithState, TestIncrementDecrmeent)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = CircularIterator<std::vector<int>>(v);
+  auto             it = IteratorWithState<std::vector<int>>(v);
+  ASSERT_TRUE(it.size() == 5);
+  ASSERT_TRUE(it.valid());
+  ASSERT_TRUE(it.current() == 1);
+}
+
+TEST(TestIteratorWithState, TestIndexOperator)
+{
+  std::vector<int> v = {1, 3, 5, 7, 9};
+  auto             it = IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);

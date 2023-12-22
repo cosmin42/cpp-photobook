@@ -7,7 +7,7 @@
 
 #include <pb/Config.h>
 #include <pb/VirtualImage.h>
-#include <pb/util/CircularIterator.h>
+#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 class ImageMonitorListener {
@@ -44,9 +44,9 @@ public:
 
 
   auto statefulIterator(Path root)
-      -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
   auto statefulIterator(unsigned row)
-      -> CircularIterator<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
   ImageMonitorListener                                   *mListener;
