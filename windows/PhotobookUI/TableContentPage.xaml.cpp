@@ -23,9 +23,9 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <pb/PaperSettings.h>
-#include <pb/RegularImage.h>
+#include <pb/image/RegularImage.h>
 #include <pb/SerializationStrategy.h>
-#include <pb/common/Log.h>
+#include <pb/config/Log.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;

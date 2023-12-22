@@ -11,7 +11,7 @@
 #include <tuple>
 #include <vector>
 
-#include <pb/common/Log.h>
+#include <pb/config/Log.h>
 #include <pb/util/Traits.h>
 #include <pb/Config.h>
 

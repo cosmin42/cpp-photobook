@@ -23,7 +23,7 @@
 #include <pb/Project.h>
 #include <pb/SQLPersistence.h>
 #include <pb/ThumbnailsProcessor.h>
-#include <pb/common/Log.h>
+#include <pb/config/Log.h>
 #include <pb/persistence/Persistence.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/FileInfo.h>

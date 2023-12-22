@@ -1,9 +1,9 @@
 #include <pb/Photobook.h>
 
 #include <pb/FilePersistence.h>
-#include <pb/RegularImage.h>
+#include <pb/image/RegularImage.h>
 #include <pb/SerializationStrategy.h>
-#include <pb/TextImage.h>
+#include <pb/image/TextImage.h>
 
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)

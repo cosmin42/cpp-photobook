@@ -1,5 +1,5 @@
 #include <pb/DataManager.h>
-#include <pb/VirtualImage.h>
+#include <pb/image/VirtualImage.h>
 
 namespace PB {
 

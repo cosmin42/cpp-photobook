@@ -6,7 +6,7 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
-#include <pb/VirtualImage.h>
+#include <pb/image/VirtualImage.h>
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {

@@ -61,8 +61,8 @@ include_directories(${CMAKE_BINARY_DIR})
 
 add_library(pblib STATIC
     include/pb/util/IteratorWithState.h
-    include/pb/common/Log.h
-    include/pb/common/${PRINTER_TYPE}.h
+    include/pb/config/Log.h
+    include/pb/config/${PRINTER_TYPE}.h
     include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
@@ -77,6 +77,9 @@ add_library(pblib STATIC
     include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
     include/pb/ImportFoldersLogic.h
+    include/pb/image/RegularImage.h
+    include/pb/image/VirtualImage.h
+    include/pb/image/TextImage.h
     include/pb/Jpg.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
@@ -91,7 +94,6 @@ add_library(pblib STATIC
     include/pb/PhotobookListener.h
     include/pb/PreprocessedImage.h
     include/pb/Project.h
-    include/pb/RegularImage.h
     include/pb/ThumbnailsProcessor.h
     include/pb/SerializationStrategy.h
     include/pb/StagedImages.h
@@ -103,8 +105,6 @@ add_library(pblib STATIC
     include/pb/util/Timer.h
     include/pb/util/SequentialTaskConsumer.h
     include/pb/util/Traits.h
-    include/pb/TextImage.h
-    include/pb/VirtualImage.h
     include/pb/Visitor.h
     include/pb/WorkersManager.h
 

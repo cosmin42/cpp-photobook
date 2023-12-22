@@ -1,4 +1,4 @@
-#include <pb/RegularImage.h>
+#include <pb/image/RegularImage.h>
 
 namespace PB {
 } // namespace PB

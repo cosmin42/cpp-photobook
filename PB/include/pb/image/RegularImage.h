@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pb/PreprocessedImage.h>
-#include <pb/VirtualImage.h>
+#include <pb/image/VirtualImage.h>
 
 namespace PB {
 class RegularImage final : public VirtualImage {

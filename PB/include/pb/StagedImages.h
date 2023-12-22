@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include <pb/VirtualImage.h>
+#include <pb/image/VirtualImage.h>
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {

@@ -2,7 +2,7 @@
 
 #include <variant>
 
-#include <pb/common/Log.h>
+#include <pb/config/Log.h>
 #include <pb/util/Concepts.h>
 
 namespace PB::Text {

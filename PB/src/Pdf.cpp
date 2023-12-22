@@ -1,6 +1,6 @@
 #include <pb/Pdf.h>
 
-#include <pb/common/Log.h>
+#include <pb/config/Log.h>
 
 namespace PB {
 

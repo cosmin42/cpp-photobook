@@ -8,7 +8,7 @@
 #include <pb/ImageMonitor.h>
 #include <pb/PreprocessedImage.h>
 #include <pb/StagedImages.h>
-#include <pb/VirtualImage.h>
+#include <pb/image/VirtualImage.h>
 #include <pb/util/IteratorWithState.h>
 #include <pb/util/Observable.h>
 
