@@ -9,9 +9,9 @@
 
 using namespace PB;
 
-class TestFileMapObserver : public PB::Observer {
+class TestFileMapObserver : public PBDev::Observer {
 public:
-  MOCK_METHOD(void, update, (PB::ObservableSubject &), (override));
+  MOCK_METHOD(void, update, (PBDev::ObservableSubject &), (override));
 };
 
 TEST(TestFilesMap, TestConstructor)

@@ -24,7 +24,7 @@ void ImportFoldersLogic::configure(ProjectSnapshot project)
 
 void ImportFoldersLogic::setObserverManager()
 {
-  setChangeFunction([this](PB::Observer *current, PB::Observer *other) {
+  setChangeFunction([this](PBDev::Observer *current, PBDev::Observer *other) {
     if (other) {
       for (auto &[key, value] : mMappingJobs) {
         value.dettach(current);
@@ -59,7 +59,7 @@ void ImportFoldersLogic::stop(Path path) {}
 
 void ImportFoldersLogic::stopAll() {}
 
-void ImportFoldersLogic::update(ObservableSubject &subject)
+void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
 {
   if (dynamic_cast<MediaMapper *>(&subject) != nullptr) {
     auto &mediaMap = static_cast<MediaMapper &>(subject);

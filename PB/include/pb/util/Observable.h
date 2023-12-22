@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 
-namespace PB {
+namespace PBDev {
 class ObservableSubject;
 
 class Observer {

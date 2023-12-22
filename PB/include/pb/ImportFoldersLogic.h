@@ -26,7 +26,7 @@ public:
   virtual void post(std::function<void()> f) = 0;
 };
 
-class ImportFoldersLogic final : public Observer {
+class ImportFoldersLogic final : public PBDev::Observer {
 public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(ThreadScheduler *scheduler);
@@ -38,7 +38,7 @@ public:
   void start(Path path);
   void stop(Path path);
   void stopAll();
-  void update(ObservableSubject &subject);
+  void update(PBDev::ObservableSubject &subject);
 
   void clearJob(Path root);
 

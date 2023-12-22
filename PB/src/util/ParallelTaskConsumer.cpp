@@ -1,8 +1,8 @@
 #include <PB/util/ParallelTaskConsumer.h>
 
-namespace PB {
+namespace PBDev {
 ParallelTaskConsumer::ParallelTaskConsumer()
-    : mPool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+    : mPool(PB::Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
 {
 }
 void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }

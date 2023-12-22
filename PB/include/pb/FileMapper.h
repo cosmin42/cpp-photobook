@@ -14,7 +14,7 @@
 namespace PB {
 
 class MediaMapper final : public SequentialTaskConsumer,
-                          public ObservableSubject {
+                          public PBDev::ObservableSubject {
 public:
   explicit MediaMapper(std::filesystem::path const &root);
 

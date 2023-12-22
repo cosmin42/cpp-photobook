@@ -31,7 +31,7 @@
 
 namespace PB {
 
-class Photobook final : public Observer,
+class Photobook final : public PBDev::Observer,
                         public PersistenceMetadataListener,
                         public PersistenceProjectListener,
                         public ImportFoldersLogicListener,
@@ -59,7 +59,7 @@ public:
 
   void addImportFolder(Path importPath);
 
-  void update(ObservableSubject &subject) override;
+  void update(PBDev::ObservableSubject &subject) override;
   void onError(Error error);
 
   void exportAlbum(std::string name, Path path);

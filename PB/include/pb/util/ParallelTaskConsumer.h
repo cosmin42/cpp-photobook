@@ -4,7 +4,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PBDev {
 class ParallelTaskConsumer {
 public:
   ParallelTaskConsumer();

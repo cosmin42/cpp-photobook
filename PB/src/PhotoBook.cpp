@@ -99,7 +99,7 @@ void Photobook::addImportFolder(Path path)
   }
 }
 
-void Photobook::update(ObservableSubject &subject)
+void Photobook::update(PBDev::ObservableSubject &subject)
 {
   if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
     auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
