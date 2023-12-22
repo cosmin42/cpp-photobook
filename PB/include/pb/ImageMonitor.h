@@ -44,9 +44,9 @@ public:
 
 
   auto statefulIterator(Path root)
-      -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
   auto statefulIterator(unsigned row)
-      -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
   ImageMonitorListener                                   *mListener;

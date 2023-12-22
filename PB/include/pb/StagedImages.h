@@ -28,7 +28,7 @@ public:
   std::shared_ptr<VirtualImage> picture(unsigned index) const;
 
   auto statefullIterator()
-      -> IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
   StagedImagesListener                      *mListener;

@@ -65,7 +65,7 @@ public:
     return inputImage;
   }
 
-  void loadBuffer(IteratorWithState<std::vector<Path>> iterator)
+  void loadBuffer(PBDev::IteratorWithState<std::vector<Path>> iterator)
   {
     if (!iterator.valid()) {
       return;

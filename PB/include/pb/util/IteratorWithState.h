@@ -5,10 +5,9 @@
 #include <optional>
 #include <vector>
 
-#include <pb/common/Log.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PBDev {
 
 template <typename Container> class IteratorWithState final {
 public:

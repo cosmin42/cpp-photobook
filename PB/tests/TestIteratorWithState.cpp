@@ -6,7 +6,7 @@ using namespace PB;
 
 TEST(TestIteratorWithState, TestEmpty)
 {
-  auto it = IteratorWithState<std::vector<int>>();
+  auto it = PBDev::IteratorWithState<std::vector<int>>();
   ASSERT_TRUE(it.size() == 0);
   ASSERT_TRUE(!it.valid());
 }
@@ -14,7 +14,7 @@ TEST(TestIteratorWithState, TestEmpty)
 TEST(TestIteratorWithState, TestFilled)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = IteratorWithState<std::vector<int>>(v);
+  auto             it = PBDev::IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
 }
@@ -22,7 +22,7 @@ TEST(TestIteratorWithState, TestFilled)
 TEST(TestIteratorWithState, TestDereference)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = IteratorWithState<std::vector<int>>(v);
+  auto             it = PBDev::IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);
@@ -31,7 +31,7 @@ TEST(TestIteratorWithState, TestDereference)
 TEST(TestIteratorWithState, TestIncrementDecrmeent)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = IteratorWithState<std::vector<int>>(v);
+  auto             it = PBDev::IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);
@@ -40,7 +40,7 @@ TEST(TestIteratorWithState, TestIncrementDecrmeent)
 TEST(TestIteratorWithState, TestIndexOperator)
 {
   std::vector<int> v = {1, 3, 5, 7, 9};
-  auto             it = IteratorWithState<std::vector<int>>(v);
+  auto             it = PBDev::IteratorWithState<std::vector<int>>(v);
   ASSERT_TRUE(it.size() == 5);
   ASSERT_TRUE(it.valid());
   ASSERT_TRUE(it.current() == 1);
