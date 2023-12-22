@@ -11,8 +11,8 @@ Persistence::Persistence(
       mPersistenceMetadataListener(persistenceMetadataListener),
       mCentral(applicationLocalStatePath)
 {
-  PB::basicAssert(persistenceProjectListener != nullptr);
-  PB::basicAssert(persistenceMetadataListener != nullptr);
+  PBDev::basicAssert(persistenceProjectListener != nullptr);
+  PBDev::basicAssert(persistenceMetadataListener != nullptr);
 
   auto maybeError = mCentral.connect();
   if (maybeError && mPersistenceMetadataListener) {
@@ -35,7 +35,7 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
 
-  PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
+  PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
   auto uuidStr = boost::uuids::to_string(projectDetails.uuid());
 
@@ -50,7 +50,7 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 
   PB::FilePersistence newProjectPersistence(filePath);
 
-  auto jsonSerialization = std::get<PB::Json>(jsonOrError);
+  auto jsonSerialization = std::get<Json>(jsonOrError);
 
   newProjectPersistence.write(
       jsonSerialization.at("root"),
@@ -109,8 +109,8 @@ void Persistence::recallProject(Path projectPath)
 {
   PB::FilePersistence projectPersistence(projectPath);
   projectPersistence.read(
-      [this](std::variant<PB::Json, PBDev::Error> jsonOrError) {
-        auto &jsonSerialization = std::get<PB::Json>(jsonOrError);
+      [this](std::variant<Json, PBDev::Error> jsonOrError) {
+        auto &jsonSerialization = std::get<Json>(jsonOrError);
         auto  projectDetailsOrError =
             PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
 
@@ -145,14 +145,14 @@ bool Persistence::isSaved(ProjectSnapshot const &projectDetails) const
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
 
-  PB::basicAssert(std::holds_alternative<PB::Json>(jsonOrError));
+  PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  return std::get<PB::Json>(jsonOrError) == mProjectCache;
+  return std::get<Json>(jsonOrError) == mProjectCache;
 }
 
 std::optional<PBDev::Error> Persistence::createSupportDirectory(Path path)
 {
-  PB::basicAssert(!path.string().empty());
+  PBDev::basicAssert(!path.string().empty());
   if (std::filesystem::exists(path)) {
     return std::nullopt;
   }

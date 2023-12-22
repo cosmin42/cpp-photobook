@@ -32,7 +32,7 @@ void ImportFoldersLogic::setObserverManager()
       }
     }
     else {
-      PB::basicAssert(false);
+      PBDev::basicAssert(false);
     }
   });
 }
@@ -71,7 +71,7 @@ void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
     }
   }
   else {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
   }
 }
 

@@ -4,7 +4,10 @@
 
 namespace PB {
 Context Context::sContext;
+}
 
+namespace PBDev
+{
 void basicAssert(int shouldBetrue, const std::source_location location)
 {
   if (!shouldBetrue) {

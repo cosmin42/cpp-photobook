@@ -107,8 +107,8 @@ void ThumbnailsProcessor::abort()
 std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 {
-  PB::basicAssert(index >= 0);
-  PB::basicAssert(mProjectDetails.supportDirName().length() > 0);
+  PBDev::basicAssert(index >= 0);
+  PBDev::basicAssert(mProjectDetails.supportDirName().length() > 0);
 
   auto smallOutputPath = mProjectDetails.parentDirectory() /
                          mProjectDetails.supportDirName() /

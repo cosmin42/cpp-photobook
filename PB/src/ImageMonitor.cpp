@@ -30,7 +30,7 @@ void ImageMonitor::addRow(Path                                       path,
 
 void ImageMonitor::removeRow(int index)
 {
-  basicAssert(!mPendingRows.contains(index));
+  PBDev::basicAssert(!mPendingRows.contains(index));
 
   for (auto i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
     mPositions.right.erase(std::pair<int, int>{index, i});
@@ -47,7 +47,7 @@ void ImageMonitor::removeRow(int index)
 void ImageMonitor::removeRow(Path path)
 {
   int index = mRowIndexes.left.at(path);
-  basicAssert(!mPendingRows.contains(index));
+  PBDev::basicAssert(!mPendingRows.contains(index));
   removeRow(index);
 
   mListener->onImportFolderRemoved(index);
@@ -55,7 +55,7 @@ void ImageMonitor::removeRow(Path path)
 
 void ImageMonitor::clear()
 {
-  basicAssert(mPendingRows.empty());
+  PBDev::basicAssert(mPendingRows.empty());
   mRowIndexes.clear();
   mPositions.clear();
   mUnstagedImagesMatrix.clear();
@@ -82,7 +82,7 @@ unsigned ImageMonitor::importListSize() const
 
 unsigned ImageMonitor::rowSize(unsigned row)
 {
-  basicAssert(row < mUnstagedImagesMatrix.size());
+  PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
   return (unsigned)mUnstagedImagesMatrix.at(row).size();
 }
 
@@ -113,15 +113,15 @@ Path ImageMonitor::rowPath(unsigned row) const
 std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
                                                   unsigned index) const
 {
-  basicAssert(row < mUnstagedImagesMatrix.size());
-  basicAssert(index < mUnstagedImagesMatrix.at(row).size());
+  PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
+  PBDev::basicAssert(index < mUnstagedImagesMatrix.at(row).size());
 
   return mUnstagedImagesMatrix.at(row).at(index);
 }
 
 std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
 {
-  basicAssert(mPositions.left.find(full) != mPositions.left.end());
+  PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
 
   auto position = mPositions.left.at(full);
 

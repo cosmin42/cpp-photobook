@@ -131,7 +131,7 @@ void Dashboard::OnNavigatedTo(
             mAPI->configure((PB::DashboardListener *)nullptr);
             Frame().Navigate(winrt::xaml_typename<TableContentPage>());
           });
-      PB::basicAssert(success);
+      PBDev::basicAssert(success);
     }
   }
 }

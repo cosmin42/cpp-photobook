@@ -77,8 +77,8 @@ OffsetFunction alignToCenter()
     auto marginHorizontal = bigWidth - smallWidth;
     auto marginVertical = bigHeight - smallHeight;
 
-    PB::basicAssert(marginHorizontal >= 0);
-    PB::basicAssert(marginVertical >= 0);
+    PBDev::basicAssert(marginHorizontal >= 0);
+    PBDev::basicAssert(marginVertical >= 0);
 
     auto marginLeft = marginHorizontal / 2;
     auto marginTop = marginVertical / 2;

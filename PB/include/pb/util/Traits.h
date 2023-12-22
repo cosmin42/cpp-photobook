@@ -7,7 +7,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace PB {
+namespace PBDev {
 
 template <class... Ts> struct overloaded : Ts... {
   using Ts::operator()...;
@@ -50,3 +50,6 @@ void basicAssert(int shouldBetrue, const std::source_location location =
                                        std::source_location::current());
 
 } // namespace PB
+
+typedef PBDev::Path Path;
+typedef PBDev::Json Json;

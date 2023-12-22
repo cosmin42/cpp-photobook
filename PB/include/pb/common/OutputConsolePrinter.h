@@ -22,7 +22,7 @@ public:
     char           buffer[MAX_PRINT_BUFFER_SIZE];
 
     auto ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
-    PB::basicAssert(ret >= 0);
+    PBDev::basicAssert(ret >= 0);
 
     OutputDebugStringA(("[" + std::string(tag) + "] " + buffer).c_str());
   }
@@ -32,7 +32,7 @@ public:
     char           buffer[MAX_PRINT_BUFFER_SIZE];
     auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
-    PB::basicAssert(ret >= 0);
+    PBDev::basicAssert(ret >= 0);
 
     OutputDebugStringA(("[" + std::string(tag) + "] " + buffer).c_str());
   }
@@ -42,7 +42,7 @@ public:
     char           buffer[MAX_PRINT_BUFFER_SIZE];
     auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
-    PB::basicAssert(ret >= 0);
+    PBDev::basicAssert(ret >= 0);
 
     OutputDebugStringA(("[" + std::string(tag) + "] " + buffer).c_str());
   }
@@ -52,7 +52,7 @@ public:
     char           buffer[MAX_PRINT_BUFFER_SIZE];
     auto           ret = vsprintf_s(buffer, sizeof(buffer), format, arglist);
 
-    PB::basicAssert(ret >= 0);
+    PBDev::basicAssert(ret >= 0);
 
     OutputDebugStringA(("[" + std::string(tag) + "] " + buffer).c_str());
   }

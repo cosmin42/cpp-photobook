@@ -8,7 +8,7 @@ ProjectMetadata::ProjectMetadata(std::string uuid, std::string path)
     mUUID = gen(uuid);
   }
   catch (...) {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
   }
   mProjectFilePath = path;
 }

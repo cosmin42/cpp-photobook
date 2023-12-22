@@ -74,7 +74,7 @@ void Photobook::loadProject()
       // mParent->onStagedImageAdded({textImage});
     }
     else {
-      PB::basicAssert(false);
+      PBDev::basicAssert(false);
     }
   }
 
@@ -110,7 +110,7 @@ void Photobook::update(PBDev::ObservableSubject &subject)
     }
   }
   else {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
   }
 }
 
@@ -170,7 +170,7 @@ void Photobook::savePhotobook(Path newPath)
       Text::serialize<ProjectSnapshot>(0, {"root", mProject.active()});
 
   if (std::holds_alternative<PBDev::Error>(projectDetailsOrError)) {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
     return;
   }
 
@@ -252,7 +252,7 @@ void Photobook::onMapped(Path root, std::vector<Path> newFolders)
       imagesSet.push_back(textImage);
     }
     else {
-      PB::basicAssert(false);
+      PBDev::basicAssert(false);
     }
   }
 

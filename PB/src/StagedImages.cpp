@@ -13,15 +13,15 @@ void StagedImages::addPictures(
   int nextIndex = (int)mStagedPhotos.size();
   mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
 
-  PB::basicAssert(mListener != nullptr);
+  PBDev::basicAssert(mListener != nullptr);
   mListener->onPicturesAdded(nextIndex, (int)pictures.size());
 }
 
 void StagedImages::addPictures(
     std::vector<std::shared_ptr<VirtualImage>> pictures, int position)
 {
-  PB::basicAssert(position > -1);
-  PB::basicAssert(position <= (int)mStagedPhotos.size());
+  PBDev::basicAssert(position > -1);
+  PBDev::basicAssert(position <= (int)mStagedPhotos.size());
 
   if (position < (int)mStagedPhotos.size()) {
     mStagedPhotos.insert(mStagedPhotos.begin() + position, pictures.begin(),
@@ -31,7 +31,7 @@ void StagedImages::addPictures(
     mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
   }
 
-  PB::basicAssert(mListener != nullptr);
+  PBDev::basicAssert(mListener != nullptr);
   mListener->onPicturesAdded(position, (int)pictures.size());
 }
 
@@ -62,7 +62,7 @@ StagedImages::stagedPhotos() const
 
 std::shared_ptr<VirtualImage> StagedImages::picture(unsigned index) const
 {
-  PB::basicAssert(index < mStagedPhotos.size());
+  PBDev::basicAssert(index < mStagedPhotos.size());
   return mStagedPhotos.at(index);
 }
 

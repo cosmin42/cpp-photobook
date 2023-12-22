@@ -35,11 +35,11 @@ auto FileInfo::isDirectory(
 auto FileInfo::validInputRootPath(std::filesystem::path const &path)
     -> std::variant<std::filesystem::path, PBDev::Error>
 {
-  return PB::compose(fileExists, isDirectory)(path);
+  return compose(fileExists, isDirectory)(path);
 }
 auto FileInfo::validOutputRootPath(std::filesystem::path const &path)
     -> std::variant<std::filesystem::path, PBDev::Error>
 {
-  return PB::compose(fileExists, isDirectory)(path);
+  return compose(fileExists, isDirectory)(path);
 }
 } // namespace PB

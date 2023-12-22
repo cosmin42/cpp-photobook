@@ -22,7 +22,7 @@ public:
 
   auto current() const -> typename Container::value_type
   {
-    PB::basicAssert(mSize > 0);
+    PBDev::basicAssert(mSize > 0);
     auto tmpIterator = mBeginIterator;
     std::advance(tmpIterator, mIndex);
     return *tmpIterator;

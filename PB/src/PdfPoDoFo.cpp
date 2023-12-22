@@ -18,7 +18,7 @@ void PdfPoDoFoExport::paperProjection(Path inputPath, Path outputPath)
       mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
   auto temporaryImage = ImageReader().read(inputPath);
-  PB::basicAssert(temporaryImage != nullptr);
+  PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize({mPaperSettings.width, mPaperSettings.height},
                   true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
@@ -40,7 +40,7 @@ void PdfPoDoFoExport::executeSingleTask()
   PoDoFo::PdfPage &pPage = mDocument->GetPages().CreatePage(
       PoDoFo::PdfPage::CreateStandardPageSize(PoDoFo::PdfPageSize::A4, true));
   auto font = mDocument->GetFonts().SearchFont("Arial");
-  PB::basicAssert(font != nullptr);
+  PBDev::basicAssert(font != nullptr);
   auto image = mDocument->CreateImage();
   image->Load(destination.string());
   PoDoFo::PdfPainter painter;

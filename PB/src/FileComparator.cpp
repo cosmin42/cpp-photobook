@@ -24,11 +24,11 @@ auto CustomComparator::operator()(std::string const &a, std::string const &b)
     return true;
   }
 
-  auto parsedA = PB::compose(PB::CustomComparator::interpretTokens,
+  auto parsedA = PBDev::compose(PB::CustomComparator::interpretTokens,
                              PB::CustomComparator::tokenizeDate,
                              PB::CustomComparator::extractPrefix)(a);
 
-  auto parsedB = PB::compose(PB::CustomComparator::interpretTokens,
+  auto parsedB = PBDev::compose(PB::CustomComparator::interpretTokens,
                              PB::CustomComparator::tokenizeDate,
                              PB::CustomComparator::extractPrefix)(b);
 
@@ -48,8 +48,8 @@ template <>
 auto CustomComparator::operator()(std::filesystem::path const &a,
                                   std::filesystem::path const &b) -> bool
 {
-  PB::basicAssert(std::filesystem::exists(a));
-  PB::basicAssert(std::filesystem::exists(b));
+  PBDev::basicAssert(std::filesystem::exists(a));
+  PBDev::basicAssert(std::filesystem::exists(b));
 
   auto filenameA = a.filename().string();
   auto filenameB = b.filename().string();
@@ -65,7 +65,7 @@ auto CustomComparator::extractPrefix(const std::string &input)
 
   if (std::regex_search(input, match, regexPattern)) {
     std::string result = match.str();
-    PB::basicAssert(result.length() > 0);
+    PBDev::basicAssert(result.length() > 0);
 
     // Remove the last "."
     result.pop_back();
@@ -89,7 +89,7 @@ auto CustomComparator::tokenizeDate(std::optional<std::string> blob)
   std::stack<std::string> tokensQueue;
 
   for (const auto &tokenRange : tokensRanges) {
-    PB::basicAssert(count < DAY_MONTH_YEAR_COUNT);
+    PBDev::basicAssert(count < DAY_MONTH_YEAR_COUNT);
     tokensQueue.push(std::string(tokenRange.begin(), tokenRange.end()));
     count++;
   }

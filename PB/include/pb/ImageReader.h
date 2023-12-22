@@ -59,7 +59,7 @@ public:
       cv::merge(matChannels, *inputImage);
     }
     else if (matChannels.size() != 4) {
-      PB::basicAssert(false);
+      PBDev::basicAssert(false);
     }
 
     return inputImage;

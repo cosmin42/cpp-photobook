@@ -143,8 +143,8 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
                                             int boundingBoxWidth,
                                             int boundingBoxHeight)
 {
-  PB::basicAssert(boundingBoxWidth > 0);
-  PB::basicAssert(boundingBoxHeight > 0);
+  PBDev::basicAssert(boundingBoxWidth > 0);
+  PBDev::basicAssert(boundingBoxHeight > 0);
   double widthRatio = (double)width / (double)boundingBoxWidth;
   double heightRatio = (double)height / (double)boundingBoxHeight;
 
@@ -156,7 +156,7 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 int TableContentPage::CanvasMinWidth()
 {
   auto paperSettings = mPhotoBook->activeProject().paperSettings();
-  PB::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
+  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -171,7 +171,7 @@ int TableContentPage::CanvasMinWidth()
 int TableContentPage::CanvasMinHeight()
 {
   auto paperSettings = mPhotoBook->activeProject().paperSettings();
-  PB::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
+  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -589,7 +589,7 @@ void TableContentPage::Right()
   int nextIndex = 0;
 
   if (!selection.unstagedLineIndex.empty()) {
-    PB::basicAssert(selection.unstagedLineIndex.size() == 1);
+    PBDev::basicAssert(selection.unstagedLineIndex.size() == 1);
 
     nextIndex = (SelectionIndex().importListIndex.value() + 1) %
                 mUnstagedImageCollection.Size();
@@ -599,7 +599,7 @@ void TableContentPage::Right()
     UnstagedListView().SelectRange({nextIndex, 1});
   }
   else if (!selection.stagedPhotoIndex.empty()) {
-    PB::basicAssert(selection.stagedPhotoIndex.size() == 1);
+    PBDev::basicAssert(selection.stagedPhotoIndex.size() == 1);
     nextIndex = (SelectionIndex().importListIndex.value() + 1) %
                 mStagedImageCollection.Size();
     StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
@@ -622,7 +622,7 @@ void TableContentPage::Left()
   int  nextIndex = 0;
 
   if (!selection.unstagedLineIndex.empty()) {
-    PB::basicAssert(selection.unstagedLineIndex.size() == 1);
+    PBDev::basicAssert(selection.unstagedLineIndex.size() == 1);
     if (selection.unstagedLineIndex.at(0) == 0) {
       nextIndex = (int)mUnstagedImageCollection.Size() - 1;
     }
@@ -635,7 +635,7 @@ void TableContentPage::Left()
     UnstagedListView().SelectRange({nextIndex, 1});
   }
   else if (!selection.stagedPhotoIndex.empty()) {
-    PB::basicAssert(selection.stagedPhotoIndex.size() == 1);
+    PBDev::basicAssert(selection.stagedPhotoIndex.size() == 1);
     if (selection.stagedPhotoIndex.at(0) == 0) {
       nextIndex = (int)mStagedImageCollection.Size() - 1;
     }
@@ -812,10 +812,10 @@ void TableContentPage::OnStagedImageCollectionChanged(
   }
   else if (changeType == winrt::Windows::Foundation::Collections::
                              CollectionChange::ItemChanged) {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
   }
   else {
-    PB::basicAssert(false);
+    PBDev::basicAssert(false);
   }
 }
 
@@ -978,7 +978,7 @@ void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 void TableContentPage::OnStagedImageAdded(
     std::vector<std::shared_ptr<PB::VirtualImage>> photos, int index)
 {
-  PB::basicAssert(index <= (int)mStagedImageCollection.Size());
+  PBDev::basicAssert(index <= (int)mStagedImageCollection.Size());
 
   if (index == (int)mStagedImageCollection.Size() || index < 0) {
     for (auto photo : photos) {
@@ -1024,7 +1024,7 @@ void TableContentPage::Post(std::function<void()> f)
 {
   bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
       DispatcherQueuePriority::Normal, [f{f}]() { f(); });
-  PB::basicAssert(success);
+  PBDev::basicAssert(success);
 }
 
 void TableContentPage::onPicturesAdded(int index, int size) {}
