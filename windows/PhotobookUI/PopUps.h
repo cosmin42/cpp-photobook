@@ -3,7 +3,7 @@
 #include <functional>
 #include <variant>
 
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 #include <pb/util/Traits.h>
 
 namespace winrt::PhotobookUI::implementation {

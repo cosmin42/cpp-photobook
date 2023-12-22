@@ -119,7 +119,7 @@ void Photobook::onImportFolderMapped(Path              rootPath,
 {
 }
 
-void Photobook::onError(Error error) { mParent->onError(error); }
+void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
@@ -169,7 +169,7 @@ void Photobook::savePhotobook(Path newPath)
   auto projectDetailsOrError =
       Text::serialize<ProjectSnapshot>(0, {"root", mProject.active()});
 
-  if (std::holds_alternative<Error>(projectDetailsOrError)) {
+  if (std::holds_alternative<PBDev::Error>(projectDetailsOrError)) {
     PB::basicAssert(false);
     return;
   }
@@ -213,9 +213,15 @@ void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata)
   mDashboardListener->onProjectsMetadataLoaded(projectMetadata);
 }
 
-void Photobook::onMetadataPersistenceError(Error error) { onError(error); }
+void Photobook::onMetadataPersistenceError(PBDev::Error error)
+{
+  onError(error);
+}
 
-void Photobook::onProjectPersistenceError(Error error) { onError(error); }
+void Photobook::onProjectPersistenceError(PBDev::Error error)
+{
+  onError(error);
+}
 
 void Photobook::newProject()
 {

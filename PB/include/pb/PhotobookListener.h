@@ -1,5 +1,5 @@
 #pragma once
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/util/Traits.h>
 
@@ -14,7 +14,7 @@ public:
   virtual void onProgressUpdate(Path, int, int) = 0;
   virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;
-  virtual void onError(Error) = 0;
+  virtual void onError(PBDev::Error) = 0;
   virtual void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
                                     PB::Path mediumPath, PB::Path smallPath,
                                     int position) = 0;

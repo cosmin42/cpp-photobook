@@ -6,11 +6,11 @@ namespace PB {
 FilePersistence::FilePersistence(Path path) : mPath(path) {}
 
 void FilePersistence::read(
-    std::function<void(std::variant<Json, Error>)> onReturn)
+    std::function<void(std::variant<Json, PBDev::Error>)> onReturn)
 {
   std::ifstream file(mPath);
   if (!file.is_open()) {
-    onReturn(Error() << ErrorCode::FileDoesNotExist);
+    onReturn(PBDev::Error() << ErrorCode::FileDoesNotExist);
     return;
   }
   Json jsonData;
@@ -20,17 +20,16 @@ void FilePersistence::read(
     onReturn(jsonData);
   }
   catch (Json::exception err) {
-    onReturn(Error() << ErrorCode::JSONParseError << err.what());
+    onReturn(PBDev::Error() << ErrorCode::JSONParseError << err.what());
   }
 }
 
-void FilePersistence::write(Json                                      jsonData,
-                            std::function<void(std::optional<Error>)> onReturn)
+void FilePersistence::write(Json                                      jsonData, std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   std::ofstream outputFile(mPath.string());
 
   if (!outputFile.is_open()) {
-    onReturn(Error() << ErrorCode::FileDoesNotExist);
+    onReturn(PBDev::Error() << ErrorCode::FileDoesNotExist);
     return;
   }
 
@@ -42,11 +41,11 @@ void FilePersistence::write(Json                                      jsonData,
     onReturn(std::nullopt);
   }
   catch (Json::exception &err) {
-    onReturn(Error() << ErrorCode::JSONParseError << err.what());
+    onReturn(PBDev::Error() << ErrorCode::JSONParseError << err.what());
   }
 }
 
-std::variant<std::unordered_map<std::string, std::string>, Error>
+std::variant<std::unordered_map<std::string, std::string>, PBDev::Error>
 FilePersistence::parseData(std::string const &rawData)
 {
   std::unordered_map<std::string, std::string> parsed;
@@ -64,7 +63,7 @@ FilePersistence::parseData(std::string const &rawData)
     }
   }
   if (pair.size() == 1) {
-    return Error() << ErrorCode::CorruptPersistenceFile;
+    return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
   return parsed;
 }

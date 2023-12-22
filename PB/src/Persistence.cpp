@@ -55,10 +55,10 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
   newProjectPersistence.write(
       jsonSerialization.at("root"),
       [this, jsonSerialization{jsonSerialization}](
-          std::optional<PB::Error> maybeError) {
+          std::optional<PBDev::Error> maybeError) {
         if (maybeError && mPersistenceProjectListener) {
           mPersistenceProjectListener->onProjectPersistenceError(
-              Error() << ErrorCode::CorruptPersistenceFile);
+              PBDev::Error() << ErrorCode::CorruptPersistenceFile);
         }
         else {
           mProjectCache = jsonSerialization;
@@ -72,10 +72,10 @@ void Persistence::persistMetadata(ProjectMetadata projectMetadata)
       boost::uuids::to_string(projectMetadata.uuid()),
       projectMetadata.projectFile().string()};
 
-  mCentral.write(entry, [this](std::optional<Error> maybeError) {
+  mCentral.write(entry, [this](std::optional<PBDev::Error> maybeError) {
     if (maybeError && mPersistenceProjectListener) {
       mPersistenceProjectListener->onProjectPersistenceError(
-          Error() << ErrorCode::CannotSaveFile);
+          PBDev::Error() << ErrorCode::CannotSaveFile);
     }
   });
 }
@@ -83,12 +83,13 @@ void Persistence::persistMetadata(ProjectMetadata projectMetadata)
 void Persistence::recallMetadata()
 {
   mCentral.read(
-      [this](std::variant<std::unordered_map<std::string, std::string>, Error>
+      [this](std::variant<std::unordered_map<std::string, std::string>,
+                          PBDev::Error>
                  mapOrError) {
-        if (std::holds_alternative<Error>(mapOrError) &&
+        if (std::holds_alternative<PBDev::Error>(mapOrError) &&
             mPersistenceMetadataListener) {
           mPersistenceMetadataListener->onMetadataPersistenceError(
-              std::get<Error>(mapOrError));
+              std::get<PBDev::Error>(mapOrError));
         }
         else {
           auto &map = std::get<std::unordered_map<std::string, std::string>>(
@@ -108,15 +109,15 @@ void Persistence::recallProject(Path projectPath)
 {
   PB::FilePersistence projectPersistence(projectPath);
   projectPersistence.read(
-      [this](std::variant<PB::Json, PB::Error> jsonOrError) {
+      [this](std::variant<PB::Json, PBDev::Error> jsonOrError) {
         auto &jsonSerialization = std::get<PB::Json>(jsonOrError);
         auto  projectDetailsOrError =
             PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
 
-        if (std::holds_alternative<PB::Error>(projectDetailsOrError) &&
+        if (std::holds_alternative<PBDev::Error>(projectDetailsOrError) &&
             mPersistenceProjectListener) {
           mPersistenceProjectListener->onProjectPersistenceError(
-              std::get<PB::Error>(projectDetailsOrError));
+              std::get<PBDev::Error>(projectDetailsOrError));
         }
         else {
           auto &projectDetails =
@@ -131,10 +132,10 @@ void Persistence::recallProject(Path projectPath)
 
 void Persistence::deleteMetadata(std::string id)
 {
-  mCentral.deleteEntry(id, [this](std::optional<PB::Error>) {
+  mCentral.deleteEntry(id, [this](std::optional<PBDev::Error>) {
     if (mPersistenceMetadataListener) {
       mPersistenceMetadataListener->onMetadataPersistenceError(
-          Error() << ErrorCode::CorruptPersistenceFile);
+          PBDev::Error() << ErrorCode::CorruptPersistenceFile);
     }
   });
 }
@@ -149,7 +150,7 @@ bool Persistence::isSaved(ProjectSnapshot const &projectDetails) const
   return std::get<PB::Json>(jsonOrError) == mProjectCache;
 }
 
-std::optional<Error> Persistence::createSupportDirectory(Path path)
+std::optional<PBDev::Error> Persistence::createSupportDirectory(Path path)
 {
   PB::basicAssert(!path.string().empty());
   if (std::filesystem::exists(path)) {
@@ -157,7 +158,7 @@ std::optional<Error> Persistence::createSupportDirectory(Path path)
   }
 
   if (!std::filesystem::create_directory(path)) {
-    return Error() << ErrorCode::CorruptPersistenceFile;
+    return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
   return std::nullopt;
 }

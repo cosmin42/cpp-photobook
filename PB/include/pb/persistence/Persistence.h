@@ -8,14 +8,14 @@ namespace PB {
 class PersistenceProjectListener {
 public:
   virtual void onProjectRead(Project project) = 0;
-  virtual void onProjectPersistenceError(Error) = 0;
+  virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 
 class PersistenceMetadataListener {
 public:
   virtual void onMetadataRead(ProjectMetadata projectMetadata) = 0;
   virtual void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) = 0;
-  virtual void onMetadataPersistenceError(Error) = 0;
+  virtual void onMetadataPersistenceError(PBDev::Error) = 0;
 };
 
 class Persistence final {
@@ -41,7 +41,7 @@ public:
 
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 
-  std::optional<Error> createSupportDirectory(Path path);
+  std::optional<PBDev::Error> createSupportDirectory(Path path);
 
 private:
   PersistenceProjectListener  *mPersistenceProjectListener;

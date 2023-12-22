@@ -20,12 +20,12 @@ std::pair<std::string, std::string> ProjectMetadata::serialize()
   return result;
 }
 
-std::variant<std::vector<ProjectMetadata>, Error> ProjectMetadata::parse(
-    std::variant<std::unordered_map<std::string, std::string>, Error>
+std::variant<std::vector<ProjectMetadata>, PBDev::Error> ProjectMetadata::parse(
+    std::variant<std::unordered_map<std::string, std::string>, PBDev::Error>
         mapOrError)
 {
-  if (std::holds_alternative<Error>(mapOrError)) {
-    return std::get<Error>(mapOrError);
+  if (std::holds_alternative<PBDev::Error>(mapOrError)) {
+    return std::get<PBDev::Error>(mapOrError);
   }
 
   auto &map =

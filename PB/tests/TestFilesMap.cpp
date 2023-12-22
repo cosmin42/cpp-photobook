@@ -1,7 +1,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 
 #include <pb/FileMapper.h>
 

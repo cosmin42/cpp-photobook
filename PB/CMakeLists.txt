@@ -66,7 +66,6 @@ add_library(pblib STATIC
     include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
-    include/pb/Error.h
     include/pb/Enums.h
     include/pb/Exportable.h
     include/pb/Exporter.h
@@ -98,6 +97,7 @@ add_library(pblib STATIC
     include/pb/StagedImages.h
     include/pb/SQLPersistence.h
     include/pb/util/Concepts.h
+    include/pb/util/Error.h
     include/pb/util/FileInfo.h
     include/pb/util/ParallelTaskConsumer.h
     include/pb/util/Timer.h

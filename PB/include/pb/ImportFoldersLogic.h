@@ -33,7 +33,7 @@ public:
   void configure(std::pair<int, int> screenSize);
   void configure(ProjectSnapshot project);
 
-  std::optional<Error> addImportFolder(Path path);
+  std::optional<PBDev::Error> addImportFolder(Path path);
 
   void start(Path path);
   void stop(Path path);

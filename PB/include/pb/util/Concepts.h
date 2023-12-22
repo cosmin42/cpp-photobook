@@ -3,7 +3,7 @@
 #include <concepts>
 #include <optional>
 
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 #include <pb/util/Traits.h>
 
 namespace PB {

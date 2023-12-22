@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <variant>
 
-namespace PB {
+namespace PBDev {
 // TODO: be implemented using std::expected
 class FileInfo {
 public:

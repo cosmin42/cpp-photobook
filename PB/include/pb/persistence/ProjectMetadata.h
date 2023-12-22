@@ -8,14 +8,14 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 class ProjectMetadata {
 public:
-  static std::variant<std::vector<ProjectMetadata>, Error>
-  parse(std::variant<std::unordered_map<std::string, std::string>, Error>
+  static std::variant<std::vector<ProjectMetadata>, PBDev::Error>
+  parse(std::variant<std::unordered_map<std::string, std::string>, PBDev::Error>
             mapOrError);
 
   static std::vector<ProjectMetadata>

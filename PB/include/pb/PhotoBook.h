@@ -10,7 +10,7 @@
 
 #include <pb/Command.h>
 #include <pb/DataManager.h>
-#include <pb/Error.h>
+#include <pb/util/Error.h>
 #include <pb/Exporter.h>
 #include <pb/FileMapper.h>
 #include <pb/Html.h>
@@ -60,7 +60,7 @@ public:
   void addImportFolder(Path importPath);
 
   void update(PBDev::ObservableSubject &subject) override;
-  void onError(Error error);
+  void onError(PBDev::Error error);
 
   void exportAlbum(std::string name, Path path);
 
@@ -76,8 +76,8 @@ public:
   void onProjectRead(Project project) override;
   void onMetadataRead(ProjectMetadata projectMetadata) override;
   void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
-  void onMetadataPersistenceError(Error) override;
-  void onProjectPersistenceError(Error) override;
+  void onMetadataPersistenceError(PBDev::Error) override;
+  void onProjectPersistenceError(PBDev::Error) override;
 
   std::shared_ptr<Persistence> persistence() { return mPersistence; }
 

@@ -4,18 +4,18 @@
 
 #include <pb/Enums.h>
 
-namespace PB {
+namespace PBDev {
 
 class [[nodiscard]] Error final {
 public:
-  [[nodiscard]] auto kind() const noexcept -> ErrorCode { return mErrorCode; }
+  [[nodiscard]] auto kind() const noexcept -> PB::ErrorCode { return mErrorCode; }
 
   [[nodiscard]] auto description() const noexcept -> std::string
   {
     return mDescription;
   }
 
-  auto operator<<(ErrorCode kind) noexcept -> Error
+  auto operator<<(PB::ErrorCode kind) noexcept -> Error
   {
     mErrorCode = kind;
     return *this;
@@ -28,7 +28,7 @@ public:
 
 private:
   std::string mDescription = "";
-  ErrorCode   mErrorCode = ErrorCode::Unknown;
+  PB::ErrorCode   mErrorCode = PB::ErrorCode::Unknown;
   [[maybe_unused]] uint8_t padding[4] = {0, 0, 0, 0};
 };
 

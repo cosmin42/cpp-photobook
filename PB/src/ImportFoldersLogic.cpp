@@ -37,11 +37,11 @@ void ImportFoldersLogic::setObserverManager()
   });
 }
 
-std::optional<Error> ImportFoldersLogic::addImportFolder(Path path)
+std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
 {
-  auto errorOrPath = FileInfo::validInputRootPath(path);
-  if (std::holds_alternative<Error>(errorOrPath)) {
-    return std::get<Error>(errorOrPath);
+  auto errorOrPath = PBDev::FileInfo::validInputRootPath(path);
+  if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
+    return std::get<PBDev::Error>(errorOrPath);
   }
 
   setObserverManager();
