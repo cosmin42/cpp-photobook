@@ -1,11 +1,9 @@
 #pragma once
 
-#include <functional>
-#include <queue>
 #include <stop_token>
 #include <thread>
 
-namespace PB {
+namespace PBDev {
 class SequentialTaskConsumer {
 public:
   explicit SequentialTaskConsumer(std::stop_token stopToken);

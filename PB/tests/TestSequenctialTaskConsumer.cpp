@@ -6,10 +6,10 @@
 // TODO: Make this OS independent
 #include <Windows.h>
 
-class TestSequentialTaskConsumer : public PB::SequentialTaskConsumer {
+class TestSequentialTaskConsumer : public PBDev::SequentialTaskConsumer {
 public:
   TestSequentialTaskConsumer(std::stop_token stopToken)
-      : SequentialTaskConsumer(stopToken)
+      : PBDev::SequentialTaskConsumer(stopToken)
   {
   }
 

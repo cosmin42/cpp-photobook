@@ -2,7 +2,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PBDev {
 SequentialTaskConsumer::SequentialTaskConsumer(std::stop_token stopToken)
     : mExternalToken(stopToken)
 {
@@ -20,7 +20,7 @@ void SequentialTaskConsumer::stop()
 
 void SequentialTaskConsumer::run(std::stop_token token)
 {
-  Timer timer;
+  PBDev::Timer timer;
   mCurrentToken = token;
   while (!mCurrentToken.stop_requested() && !mExternalToken.stop_requested()) {
     if (stoppingCondition()) {

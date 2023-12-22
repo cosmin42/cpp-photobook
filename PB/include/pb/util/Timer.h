@@ -3,7 +3,7 @@
 #include <chrono>
 #include <pb/common/Log.h>
 
-namespace PB {
+namespace PBDev {
 
 class TimerDefaultCloseFunction {
 public:
@@ -33,5 +33,5 @@ private:
   std::chrono::time_point<std::chrono::system_clock> mStart;
 };
 
-typedef Timer<TimerPrinter> TimerWithPrint;
-} // namespace PB
+typedef Timer<PB::TimerPrinter> TimerWithPrint;
+} // namespace PBDev
