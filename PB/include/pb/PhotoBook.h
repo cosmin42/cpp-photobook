@@ -21,7 +21,7 @@
 #include <pb/Pdf.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Project.h>
-#include <pb/SQLPersistence.h>
+#include <pb/persistence/SQLPersistence.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/config/Log.h>
 #include <pb/persistence/Persistence.h>

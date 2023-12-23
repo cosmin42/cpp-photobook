@@ -1,4 +1,4 @@
-#include <pb/SQLPersistence.h>
+#include <pb/persistence/SQLPersistence.h>
 
 namespace PB {
 SQLitePersistence::SQLitePersistence(Path path) : mPath(path) {}

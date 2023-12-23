@@ -1,6 +1,6 @@
 #include <pb/Photobook.h>
 
-#include <pb/FilePersistence.h>
+#include <pb/persistence/FilePersistence.h>
 #include <pb/image/RegularImage.h>
 #include <pb/SerializationStrategy.h>
 #include <pb/image/TextImage.h>

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <pb/FilePersistence.h>
+#include <pb/persistence/FilePersistence.h>
 #include <pb/Project.h>
-#include <pb/SQLPersistence.h>
+#include <pb/persistence/SQLPersistence.h>
 
 namespace PB {
 class PersistenceProjectListener {

@@ -70,7 +70,6 @@ add_library(pblib STATIC
     include/pb/Exportable.h
     include/pb/Exporter.h
     include/pb/FileMapper.h
-    include/pb/FilePersistence.h
     include/pb/Html.h
     include/pb/ImageReader.h
     include/pb/ImageMonitor.h
@@ -87,9 +86,11 @@ add_library(pblib STATIC
     include/pb/PaperSettings.h
     include/pb/Pdf.h
     include/pb/PdfPoDoFo.h
+    include/pb/persistence/FilePersistence.h
     include/pb/persistence/Persistence.h
     include/pb/persistence/ProjectSnapshot.h
     include/pb/persistence/ProjectMetadata.h
+    include/pb/persistence/SQLPersistence.h
     include/pb/Photobook.h
     include/pb/PhotobookListener.h
     include/pb/PreprocessedImage.h
@@ -97,7 +98,6 @@ add_library(pblib STATIC
     include/pb/ThumbnailsProcessor.h
     include/pb/SerializationStrategy.h
     include/pb/StagedImages.h
-    include/pb/SQLPersistence.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h

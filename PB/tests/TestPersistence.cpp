@@ -8,7 +8,7 @@ template <typename T> void testReadWrite(std::string path)
 {
   T persistence(path);
 
-  persistence.connect();
+  persistence.connect();`
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
