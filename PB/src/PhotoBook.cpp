@@ -7,10 +7,9 @@
 
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)
-    : mApplicationLocalStatePath(applicationLocalStatePath)
+    : mApplicationLocalStatePath(applicationLocalStatePath),
+      mPersistence(applicationLocalStatePath, this, this)
 {
-  mPersistence =
-      std::make_shared<PB::Persistence>(applicationLocalStatePath, this, this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -80,13 +79,13 @@ void Photobook::loadProject()
   mImageViews.stagedImages().addPictures(stage);
 }
 
-void Photobook::recallMetadata() { mPersistence->recallMetadata(); }
+void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
 
-void Photobook::recallProject(Path path) { mPersistence->recallProject(path); }
+void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
 
 void Photobook::deleteProject(std::string id)
 {
-  mPersistence->deleteMetadata(id);
+  mPersistence.deleteMetadata(id);
 }
 
 void Photobook::addImportFolder(Path path)
@@ -160,7 +159,7 @@ void Photobook::savePhotobook(Path newPath)
     mProject.updateProjectName(newPath.stem().string());
     newSaveFile = true;
 
-    mPersistence->persistMetadata(mProject.metadata());
+    mPersistence.persistMetadata(mProject.metadata());
   }
 
   mProject.active().setImportedPaths(mImageViews.imageMonitor().rowList());
@@ -175,7 +174,7 @@ void Photobook::savePhotobook(Path newPath)
     return;
   }
 
-  mPersistence->persistProject(newPath, mProject.active());
+  mPersistence.persistProject(newPath, mProject.active());
   if (newSaveFile) {
     std::filesystem::remove(oldSupportFolder);
     std::filesystem::remove(oldProjectFile);
@@ -183,8 +182,6 @@ void Photobook::savePhotobook(Path newPath)
 
   PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
-
-ProjectSnapshot Photobook::projectDetails() { return mProject.active(); }
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
@@ -228,13 +225,13 @@ void Photobook::newProject()
 {
   mProject = Project(mApplicationLocalStatePath);
 
-  mPersistence->persistProject(mProject.metadata().projectFile(),
+  mPersistence.persistProject(mProject.metadata().projectFile(),
                                mProject.active());
 
   auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
   auto fullPath = mProject.metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
-  mPersistence->persistMetadata(projectMetadata);
+  mPersistence.persistMetadata(projectMetadata);
 }
 
 void Photobook::onMapped(Path root, std::vector<Path> newFolders)

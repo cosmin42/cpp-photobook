@@ -10,22 +10,22 @@
 
 #include <pb/Command.h>
 #include <pb/DataManager.h>
-#include <pb/util/Error.h>
-#include <pb/export/Exporter.h>
-#include <pb/tasks/FileMapper.h>
-#include <pb/export/Html.h>
-#include <pb/image/ImageReader.h>
 #include <pb/ImageSetWriter.h>
 #include <pb/ImportFoldersLogic.h>
+#include <pb/PhotobookListener.h>
+#include <pb/config/Log.h>
+#include <pb/export/Exporter.h>
+#include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
-#include <pb/PhotobookListener.h>
-#include <pb/project/Project.h>
-#include <pb/persistence/SQLPersistence.h>
-#include <pb/tasks/ThumbnailsProcessor.h>
-#include <pb/config/Log.h>
+#include <pb/image/ImageReader.h>
 #include <pb/persistence/Persistence.h>
+#include <pb/persistence/SQLPersistence.h>
+#include <pb/project/Project.h>
+#include <pb/tasks/FileMapper.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Concepts.h>
+#include <pb/util/Error.h>
 #include <pb/util/FileInfo.h>
 #include <pb/util/Traits.h>
 
@@ -47,28 +47,25 @@ public:
   void configure(DashboardListener *listener);
   void configure(Project project);
 
-  ImageViews &imageViews();
-
-  void loadProject();
-
   void recallMetadata();
   void recallProject(Path path);
 
+  void loadProject();
   void deleteProject(std::string id);
+
+  ImageViews                  &imageViews();
+  ProjectSnapshot             &activeProject();
 
   void addImportFolder(Path importPath);
 
-  void update(PBDev::ObservableSubject &subject) override;
   void onError(PBDev::Error error);
 
+  void update(PBDev::ObservableSubject &subject) override;
   void exportAlbum(std::string name, Path path);
 
-  ProjectSnapshot &activeProject();
-
-  void            discardPhotobook();
-  void            savePhotobook();
-  void            savePhotobook(Path newPath);
-  ProjectSnapshot projectDetails();
+  void discardPhotobook();
+  void savePhotobook();
+  void savePhotobook(Path newPath);
 
   bool projectDefaultSaved();
 
@@ -77,8 +74,6 @@ public:
   void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
   void onMetadataPersistenceError(PBDev::Error) override;
   void onProjectPersistenceError(PBDev::Error) override;
-
-  std::shared_ptr<Persistence> persistence() { return mPersistence; }
 
   void newProject();
 
@@ -96,7 +91,7 @@ private:
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
   DashboardListener                       *mDashboardListener;
   Path                                     mApplicationLocalStatePath;
-  std::shared_ptr<Persistence>             mPersistence;
+  Persistence                              mPersistence;
   Project                                  mProject;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;

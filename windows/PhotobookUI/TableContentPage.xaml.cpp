@@ -81,7 +81,7 @@ TableContentPage::TableContentPage()
 
   MainWindow::sMainExitFunction = [this]() {
     auto projectDetails = mPhotoBook->projectDetails();
-    bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
+    bool alreadySaved = true;//mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
       ProjectExitDialogDisplay();
       mExitFlag = true;
@@ -261,7 +261,7 @@ void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
   auto projectDetails = mPhotoBook->projectDetails();
-  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
@@ -327,7 +327,7 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->projectDetails();
-  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
@@ -371,7 +371,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->projectDetails();
-  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardPhotobook();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
@@ -1134,7 +1134,7 @@ void TableContentPage::OnContentDialogSaveClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   auto projectDetails = mPhotoBook->projectDetails();
-  bool alreadySaved = mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
