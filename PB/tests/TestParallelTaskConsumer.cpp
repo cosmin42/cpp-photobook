@@ -6,7 +6,7 @@
 
 TEST(TestParallelTaskConsumer, BasicTest)
 {
-  PB::ParallelTaskConsumer consumer;
+  PBDev::ParallelTaskConsumer consumer;
   bool                     isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 

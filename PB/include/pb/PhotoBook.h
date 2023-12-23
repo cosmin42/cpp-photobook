@@ -22,7 +22,7 @@
 #include <pb/PhotobookListener.h>
 #include <pb/project/Project.h>
 #include <pb/persistence/SQLPersistence.h>
-#include <pb/ThumbnailsProcessor.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/config/Log.h>
 #include <pb/persistence/Persistence.h>
 #include <pb/util/Concepts.h>

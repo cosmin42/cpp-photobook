@@ -4,7 +4,7 @@
 
 #include <pb/Config.h>
 #include <pb/tasks/FileMapper.h>
-#include <pb/ThumbnailsProcessor.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 
 namespace PB {
 

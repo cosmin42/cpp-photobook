@@ -2,8 +2,6 @@
 
 #include <pb/util/IteratorWithState.h>
 
-using namespace PB;
-
 TEST(TestIteratorWithState, TestEmpty)
 {
   auto it = PBDev::IteratorWithState<std::vector<int>>();

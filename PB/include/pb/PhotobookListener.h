@@ -1,6 +1,6 @@
 #pragma once
 #include <pb/util/Error.h>
-#include <pb/ThumbnailsProcessor.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
