@@ -7,7 +7,7 @@ diagrams:
     type: include
     title: Includes diagram
     glob:
-      - PB/src/*
+      - PB/src/PhotoBook.cpp
     generate_system_headers: false
     using_namespace: PB
     include:
@@ -19,8 +19,9 @@ diagrams:
         - std
   class_diagram:
     type: class
+    generate_packages: true
     glob:
-      - PB/src/*
+      - PB/src/PhotoBook.cpp
     include:
       namespaces:
         - PB
@@ -52,4 +53,18 @@ diagrams:
       access:
         - protected
         - private
+  sequence_diagram:
+    type: sequence
+    combine_free_functions_into_file_participants: true
+    glob:
+      - PB/src/PhotoBook.cpp
+    include:
+      paths:
+        - PB/include
+        - PB/src
+    exclude:
+      namespaces:
+        - std
+    start_from:
+      - function: "PB::Photobook::loadProject()"
   
