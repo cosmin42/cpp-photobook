@@ -1,4 +1,4 @@
-#include <pb/PdfPoDoFo.h>
+#include <pb/export/PdfPoDoFo.h>
 
 #include <pb/ImageOperations.h>
 #include <pb/ImageReader.h>

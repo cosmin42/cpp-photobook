@@ -67,10 +67,13 @@ add_library(pblib STATIC
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
     include/pb/Enums.h
-    include/pb/Exportable.h
-    include/pb/Exporter.h
+    include/pb/export/Exportable.h
+    include/pb/export/Exporter.h
+    include/pb/export/Html.h
+    include/pb/export/Jpg.h
+    include/pb/export/Pdf.h
+    include/pb/export/PdfPoDoFo.h
     include/pb/FileMapper.h
-    include/pb/Html.h
     include/pb/ImageReader.h
     include/pb/ImageMonitor.h
     include/pb/ImageOperations.h
@@ -79,12 +82,8 @@ add_library(pblib STATIC
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
-    include/pb/Jpg.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
-    include/pb/util/Observable.h
-    include/pb/Pdf.h
-    include/pb/PdfPoDoFo.h
     include/pb/persistence/FilePersistence.h
     include/pb/persistence/Persistence.h
     include/pb/persistence/ProjectMetadata.h
@@ -101,6 +100,7 @@ add_library(pblib STATIC
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
+    include/pb/util/Observable.h
     include/pb/util/ParallelTaskConsumer.h
     include/pb/util/Timer.h
     include/pb/util/SequentialTaskConsumer.h

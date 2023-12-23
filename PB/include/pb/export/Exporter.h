@@ -1,6 +1,6 @@
 #pragma once
-#include <pb/Jpg.h>
-#include <pb/PdfPoDoFo.h>
+#include <pb/export/Jpg.h>
+#include <pb/export/PdfPoDoFo.h>
 
 namespace PB {
 template <typename ExporterType> class Exporter final {

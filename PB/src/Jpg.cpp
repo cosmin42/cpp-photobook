@@ -1,4 +1,4 @@
-#include <pb/Jpg.h>
+#include <pb/export/Jpg.h>
 
 namespace PB {
 

@@ -1,9 +1,10 @@
 #pragma once
 
-#include <pb/Exportable.h>
+#include <pb/export/Exportable.h>
+#include <pb/util/SequentialTaskConsumer.h>
 
 namespace PB {
-class JpgExport final : public Exportable {
+class HtmlExporter : public Exportable {
 public:
   void executeSingleTask() override;
 

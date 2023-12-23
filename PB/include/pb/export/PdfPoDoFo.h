@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/Exportable.h>
+#include <pb/export/Exportable.h>
 #include <podofo/podofo.h>
 
 namespace PB {

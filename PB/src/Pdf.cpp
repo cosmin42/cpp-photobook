@@ -1,4 +1,4 @@
-#include <pb/Pdf.h>
+#include <pb/export/Pdf.h>
 
 #include <pb/config/Log.h>
 
