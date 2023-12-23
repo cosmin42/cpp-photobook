@@ -45,10 +45,9 @@ public:
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
   void configure(DashboardListener *listener);
+  void configure(Project project);
 
   ImageViews &imageViews();
-
-  void configureProject(Project project);
 
   void loadProject();
 

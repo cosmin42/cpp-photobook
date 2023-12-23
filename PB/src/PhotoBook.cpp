@@ -37,7 +37,7 @@ void Photobook::configure(DashboardListener *listener)
   mDashboardListener = listener;
 }
 
-void Photobook::configureProject(PB::Project project)
+void Photobook::configure(PB::Project project)
 {
   mProject = project;
 
@@ -201,7 +201,7 @@ bool Photobook::projectDefaultSaved()
 
 void Photobook::onProjectRead(Project project)
 {
-  configureProject(project);
+  configure(project);
   if (mDashboardListener) {
     mDashboardListener->onProjectRead();
   }
