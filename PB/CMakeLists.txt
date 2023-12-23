@@ -74,11 +74,11 @@ add_library(pblib STATIC
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
     include/pb/FileMapper.h
-    include/pb/ImageReader.h
     include/pb/ImageMonitor.h
-    include/pb/ImageOperations.h
     include/pb/ImageSetWriter.h
     include/pb/ImportFoldersLogic.h
+    include/pb/image/ImageOperations.h
+    include/pb/image/ImageReader.h
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h

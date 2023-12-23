@@ -1,4 +1,4 @@
-#include <pb/ImageReader.h>
+#include <pb/image/ImageReader.h>
 
 #pragma warning(push)
 #pragma warning(disable : 5054)

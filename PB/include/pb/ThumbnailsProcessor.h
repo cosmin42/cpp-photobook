@@ -2,7 +2,7 @@
 
 #include <thread_pool/thread_pool.h>
 
-#include <pb/ImageOperations.h>
+#include <pb/image/ImageOperations.h>
 #include <pb/project/Project.h>
 
 namespace PB {

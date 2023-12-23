@@ -1,7 +1,7 @@
 #include <pb/export/PdfPoDoFo.h>
 
-#include <pb/ImageOperations.h>
-#include <pb/ImageReader.h>
+#include <pb/image/ImageOperations.h>
+#include <pb/image/ImageReader.h>
 #include <pb/ImageSetWriter.h>
 
 namespace PB {

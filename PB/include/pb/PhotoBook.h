@@ -14,7 +14,7 @@
 #include <pb/export/Exporter.h>
 #include <pb/FileMapper.h>
 #include <pb/export/Html.h>
-#include <pb/ImageReader.h>
+#include <pb/image/ImageReader.h>
 #include <pb/ImageSetWriter.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/export/Jpg.h>

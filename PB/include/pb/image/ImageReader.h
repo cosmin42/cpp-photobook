@@ -16,7 +16,7 @@
 
 #include <pb/Config.h>
 #include <pb/FileMapper.h>
-#include <pb/ImageOperations.h>
+#include <pb/image/ImageOperations.h>
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {
