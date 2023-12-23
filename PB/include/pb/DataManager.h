@@ -6,7 +6,6 @@
 
 #include <pb/Config.h>
 #include <pb/ImageMonitor.h>
-#include <pb/PreprocessedImage.h>
 #include <pb/StagedImages.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/util/IteratorWithState.h>

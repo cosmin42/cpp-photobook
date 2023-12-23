@@ -459,8 +459,7 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
 
-    auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
-        Path(fullPath), Path(mediumPath), Path(smallPath)));
+    auto regularImage = std::make_shared<PB::RegularImage>(Path(fullPath), Path(mediumPath), Path(smallPath));
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -797,8 +796,7 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto fullPath = winrt::to_string(image.FullPath());
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
-    auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
-        Path(fullPath), Path(mediumPath), Path(smallPath)));
+    auto regularImage = std::make_shared<PB::RegularImage>(Path(fullPath), Path(mediumPath), Path(smallPath));
     // mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
     mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
                                                         changedIndex);

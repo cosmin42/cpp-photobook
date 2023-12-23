@@ -90,7 +90,6 @@ add_library(pblib STATIC
     include/pb/persistence/SQLPersistence.h
     include/pb/Photobook.h
     include/pb/PhotobookListener.h
-    include/pb/PreprocessedImage.h
     include/pb/project/PaperSettings.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
@@ -129,7 +128,6 @@ add_library(pblib STATIC
     src/PdfPoDoFo.cpp
     src/Persistence.cpp
     src/Photobook.cpp
-    src/PreprocessedImage.cpp
     src/Project.cpp
     src/ProjectSnapshot.cpp
     src/ProjectMetadata.cpp

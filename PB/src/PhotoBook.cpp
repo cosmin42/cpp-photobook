@@ -57,8 +57,7 @@ void Photobook::loadProject()
 
   for (auto i = 0; i < stagedImages.size(); ++i) {
     if (std::filesystem::is_regular_file(stagedImages.at(i))) {
-      Thumbnails thumbnail(stagedImages.at(i));
-      auto       regularImage = std::make_shared<RegularImage>(thumbnail);
+      auto regularImage = std::make_shared<RegularImage>(stagedImages.at(i));
       regularImage->setFullSizePath(stagedImages.at(i));
 
       stage.push_back(regularImage);
@@ -242,7 +241,7 @@ void Photobook::onMapped(Path root, std::vector<Path> newFolders)
 
   for (auto p : newFolders) {
     if (std::filesystem::is_regular_file(p)) {
-      auto newRegularImage = std::make_shared<RegularImage>(Thumbnails(p));
+      auto newRegularImage = std::make_shared<RegularImage>(p);
       newRegularImage->setFullSizePath(p);
       imagesSet.push_back(newRegularImage);
     }

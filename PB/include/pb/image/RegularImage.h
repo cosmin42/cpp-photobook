@@ -1,32 +1,24 @@
 #pragma once
 
-#include <pb/PreprocessedImage.h>
 #include <pb/image/VirtualImage.h>
 
 namespace PB {
 class RegularImage final : public VirtualImage {
 public:
-  explicit RegularImage(Thumbnails thumbnails)
+  explicit RegularImage(Path full, Path medium, Path small)
   {
-    setSizePath(thumbnails.fullPath, thumbnails.mediumThumbnail,
-                thumbnails.smallThumbnail);
+    setSizePath(full, medium, small);
+  }
+
+  explicit RegularImage(Path full)
+  {
+    setFullSizePath(full);
   }
 
   RegularImage() = default;
   ~RegularImage() = default;
 
   VirtualImageType type() const override { return VirtualImageType::Regular; }
-
-  Thumbnails thumbnails() const
-  {
-    return Thumbnails(resources().full, resources().medium, resources().small);
-  }
-
-  void setThumbnail(Thumbnails thumbnails)
-  {
-    setSizePath(thumbnails.fullPath, thumbnails.mediumThumbnail,
-                thumbnails.smallThumbnail);
-  }
 
 private:
 };
