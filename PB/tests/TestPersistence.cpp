@@ -12,7 +12,7 @@ template <typename T> void testReadWrite(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -49,7 +49,7 @@ template <typename T> void testUpdateMap(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -71,7 +71,7 @@ template <typename T> void testUpdateMap(std::string path)
 
   map["testKey"] = "testValue2";
 
-  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -108,7 +108,7 @@ template <typename T> void testRemoveEntry(std::string path)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -130,7 +130,7 @@ template <typename T> void testRemoveEntry(std::string path)
 
   map.clear();
 
-  persistence.write(map, [map, path](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map, path](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     T persistence(path);
     persistence.connect();
@@ -171,7 +171,7 @@ TEST(TestPersistence, InsertEntry)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();
@@ -195,7 +195,7 @@ TEST(TestPersistence, InsertEntry)
 
   std::pair<std::string, std::string> pair = {"testKey", "testValue2"};
 
-  persistence.write(pair, [map](std::optional<PB::Error> maybeError) {
+  persistence.write(pair, [map](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();
@@ -228,7 +228,7 @@ TEST(TestPersistence, DeleteEntry)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();
@@ -252,7 +252,7 @@ TEST(TestPersistence, DeleteEntry)
   map.clear();
 
   persistence.deleteEntry("testKey", [map](
-                                         std::optional<PB::Error> maybeError) {
+                                         std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();
@@ -285,7 +285,7 @@ TEST(TestPersistence, DeleteNonExistentEntry)
 
   std::unordered_map<std::string, std::string> map{{"testKey", "testValue"}};
 
-  persistence.write(map, [map](std::optional<PB::Error> maybeError) {
+  persistence.write(map, [map](std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();
@@ -308,7 +308,7 @@ TEST(TestPersistence, DeleteNonExistentEntry)
   map["testKey"] = "testValue";
 
   persistence.deleteEntry("non ExistentKey", [map](
-                                         std::optional<PB::Error> maybeError) {
+                                         std::optional<PBDev::Error> maybeError) {
     ASSERT_TRUE(!maybeError.has_value());
     PB::SQLitePersistence persistence(".");
     persistence.connect();

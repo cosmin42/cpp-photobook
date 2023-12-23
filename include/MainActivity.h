@@ -13,31 +13,31 @@ public:
   void onExportProgressUpdate(int, int) {}
   void onExportFinished() {}
 
-  void onFinished(PB::Path rootPath) override {}
+  void onFinished(Path rootPath) override {}
   void onStopped() override {}
   void onStarted() override {}
   void onPaused() override {}
   void onResumed() override {}
 
-  void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
-                            PB::Path mediumPath, PB::Path smallPath,
+  void onUnstagedImageAdded(Path rootPath, Path fullPath,
+                            Path mediumPath, Path smallPath,
                             int position) override
   {
   }
 
   void post(std::function<void()>) override {}
 
-  void onProgressUpdate(PB::Path, int, int) override {}
-  void onError(PB::Error error) override {}
+  void onProgressUpdate(Path, int, int) override {}
+  void onError(PBDev::Error error) override {}
 
   void onAddingUnstagedImagePlaceholder(unsigned size) override {}
 
-  void onMappingFinished(PB::Path) override {}
+  void onMappingFinished(Path) override {}
 };
 
 class MainActivity final {
 public:
-  MainActivity() : mPhotoBook(PB::Path(".")) {}
+  MainActivity() : mPhotoBook(Path(".")) {}
   MainActivity(MainActivity const &) = delete;
   MainActivity(MainActivity &&) = delete;
   MainActivity &operator=(MainActivity const &) = delete;

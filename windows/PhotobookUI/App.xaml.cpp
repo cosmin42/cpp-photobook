@@ -22,12 +22,12 @@ using namespace Windows::Storage;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-PB::Path App::CurrentAppLocation()
+Path App::CurrentAppLocation()
 {
   Windows::Storage::StorageFolder folder =
       ApplicationData::Current().LocalFolder();
 
-  return PB::Path(winrt::to_string(folder.Path()));
+  return Path(winrt::to_string(folder.Path()));
 }
 
 /// <summary>

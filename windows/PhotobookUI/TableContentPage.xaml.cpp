@@ -40,11 +40,11 @@ using namespace Microsoft::Graphics::Canvas;
 
 namespace winrt::PhotobookUI::implementation {
 
-PB::Path TableContentPage::CurrentAppLocation()
+Path TableContentPage::CurrentAppLocation()
 {
   StorageFolder folder = ApplicationData::Current().LocalFolder();
 
-  return PB::Path(winrt::to_string(folder.Path()));
+  return Path(winrt::to_string(folder.Path()));
 }
 
 std::pair<int, int> TableContentPage::ScreenSize()
@@ -188,7 +188,7 @@ void TableContentPage::OnImportFolderAdded(IInspectable const &,
 {
   mPopups.fireFolderPicker(
       MainWindow::sMainWindowHandle,
-      [this](PB::Path path) { mPhotoBook->addImportFolder(path); });
+      [this](Path path) { mPhotoBook->addImportFolder(path); });
 }
 
 void TableContentPage::OnImportFolderRemoved(IInspectable const &,
@@ -203,7 +203,7 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
       0, mStagedImageCollection.Size()));
 
   for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
-    PB::Path fullPath =
+    Path fullPath =
         winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
 
     if (mPhotoBook->imageViews().imageMonitor().rowIndex(fullPath) ==
@@ -288,7 +288,7 @@ void TableContentPage::OnLicenseClicked(
   auto installFolder =
       Windows::ApplicationModel::Package::Current().InstalledLocation();
 
-  PB::Path installedLocation = winrt::to_string(installFolder.Path());
+  Path installedLocation = winrt::to_string(installFolder.Path());
 
   auto licensePath = installedLocation / "Assets" / "LICENSE";
 
@@ -337,13 +337,13 @@ void TableContentPage::OnSaveClicked(
   else {
     mPopups.fireSaveFilePicker(
         MainWindow::sMainWindowHandle,
-        [this](std::variant<std::string, PB::Error> result) {
+        [this](std::variant<std::string, PBDev::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
             mPhotoBook->savePhotobook(newName);
           }
           else {
-            OnError(std::get<PB::Error>(result));
+            OnError(std::get<PBDev::Error>(result));
           }
         });
   }
@@ -355,13 +355,13 @@ void TableContentPage::OnSaveAsClicked(
 {
   mPopups.fireSaveFilePicker(
       MainWindow::sMainWindowHandle,
-      [this](std::variant<std::string, PB::Error> result) {
+      [this](std::variant<std::string, PBDev::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
           mPhotoBook->savePhotobook(newName);
         }
         else {
-          OnError(std::get<PB::Error>(result));
+          OnError(std::get<PBDev::Error>(result));
         }
       });
 }
@@ -380,7 +380,7 @@ void TableContentPage::OnNewClicked(
   else {
     mPopups.fireSaveFilePicker(
         MainWindow::sMainWindowHandle,
-        [this](std::variant<std::string, PB::Error> result) {
+        [this](std::variant<std::string, PBDev::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
 
@@ -391,7 +391,7 @@ void TableContentPage::OnNewClicked(
                 winrt::box_value(winrt::to_hstring("new-project")));
           }
           else {
-            OnError(std::get<PB::Error>(result));
+            OnError(std::get<PBDev::Error>(result));
           }
         });
   }
@@ -460,7 +460,7 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     auto smallPath = winrt::to_string(image.SmallPath());
 
     auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
-        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
+        Path(fullPath), Path(mediumPath), Path(smallPath)));
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -723,7 +723,7 @@ void TableContentPage::OnCanvasDraw(
   session.DrawImage(bitmap);
 }
 
-void TableContentPage::OnMappingFinished(PB::Path rootPath)
+void TableContentPage::OnMappingFinished(Path rootPath)
 {
   mNavigationItemsCollection.Append(
       winrt::to_hstring(rootPath.filename().string()));
@@ -733,7 +733,7 @@ void TableContentPage::OnMappingFinished(PB::Path rootPath)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::OnThumbnailsProcessingFinished(PB::Path rootPath)
+void TableContentPage::OnThumbnailsProcessingFinished(Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
 
@@ -798,7 +798,7 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
     auto regularImage = std::make_shared<PB::RegularImage>(PB::Thumbnails(
-        PB::Path(fullPath), PB::Path(mediumPath), PB::Path(smallPath)));
+        Path(fullPath), Path(mediumPath), Path(smallPath)));
     // mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
     mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
                                                         changedIndex);
@@ -906,7 +906,7 @@ void TableContentPage::OnMappingPaused() {}
 
 void TableContentPage::OnMappingResumed() {}
 
-void TableContentPage::OnProgressUpdate(PB::Path rootPath, int progress,
+void TableContentPage::OnProgressUpdate(Path rootPath, int progress,
                                         int reference)
 {
   auto selection = SelectionIndex();
@@ -938,10 +938,10 @@ void TableContentPage::OnExportFinished()
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 }
 
-void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
-                                            PB::Path fullPath,
-                                            PB::Path mediumPath,
-                                            PB::Path smallPath, int position)
+void TableContentPage::OnUnstagedImageAdded(Path rootPath,
+                                            Path fullPath,
+                                            Path mediumPath,
+                                            Path smallPath, int position)
 {
   auto selection = SelectionIndex();
 
@@ -958,7 +958,7 @@ void TableContentPage::OnUnstagedImageAdded(PB::Path rootPath,
   if (mStagedImages.contains(fullPath)) {
     for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
       auto path = winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
-      if (PB::Path(path) == fullPath) {
+      if (Path(path) == fullPath) {
         mStagedImageCollection.SetAt(
             i, ImageUIData(winrt::to_hstring(fullPath.string()),
                            winrt::to_hstring(mediumPath.string()),
@@ -1010,11 +1010,11 @@ void TableContentPage::OnStagedImageRemoved(
     auto path = winrt::to_string(
         mStagedImageCollection.GetAt(removedIndexes.at(i)).FullPath());
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));
-    mStagedImages.erase(PB::Path(path));
+    mStagedImages.erase(Path(path));
   }
 }
 
-void TableContentPage::OnError(PB::Error error)
+void TableContentPage::OnError(PBDev::Error error)
 {
   GenericErrorTextBlock().Text(winrt::to_hstring(error.description()));
   Post([this]() { GenericErrorDialogDisplay(); });
@@ -1142,7 +1142,7 @@ void TableContentPage::OnContentDialogSaveClicked(
   }
   mPopups.fireSaveFilePicker(
       MainWindow::sMainWindowHandle,
-      [this](std::variant<std::string, PB::Error> result) {
+      [this](std::variant<std::string, PBDev::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
 
@@ -1151,7 +1151,7 @@ void TableContentPage::OnContentDialogSaveClicked(
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
-          OnError(std::get<PB::Error>(result));
+          OnError(std::get<PBDev::Error>(result));
         }
         if (mExitFlag) {
           Post([]() {
@@ -1181,7 +1181,7 @@ void TableContentPage::OnExportContentDialogClicked(
   }
   else {
     mPopups.fireFolderPicker(
-        MainWindow::sMainWindowHandle, [this, nativeExportName](PB::Path path) {
+        MainWindow::sMainWindowHandle, [this, nativeExportName](Path path) {
           Post([this, path{path}, nativeExportName{nativeExportName}]() {
             mPhotoBook->exportAlbum(nativeExportName, path);
           });

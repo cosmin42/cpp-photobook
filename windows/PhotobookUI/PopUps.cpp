@@ -14,7 +14,7 @@
 namespace winrt::PhotobookUI::implementation {
 
 auto PopUps::fireFolderPicker(HWND                          hWnd,
-                              std::function<void(PB::Path)> onSuccess)
+                              std::function<void(Path)> onSuccess)
     -> winrt::fire_and_forget
 {
   Windows::Storage::Pickers::FolderPicker folderPicker;
@@ -32,7 +32,7 @@ auto PopUps::fireFolderPicker(HWND                          hWnd,
 
 auto PopUps::fireSaveFilePicker(
     HWND                                                      hWnd,
-    std::function<void(std::variant<std::string, PB::Error>)> onReturn)
+    std::function<void(std::variant<std::string, PBDev::Error>)> onReturn)
     -> winrt::fire_and_forget
 {
   Windows::Storage::Pickers::FileSavePicker fileSavePicker;
@@ -56,7 +56,7 @@ auto PopUps::fireSaveFilePicker(
     onReturn(winrt::to_string(filename.Path()));
   }
   else {
-    onReturn(PB::Error() << PB::ErrorCode::CannotSaveFile);
+    onReturn(PBDev::Error() << PB::ErrorCode::CannotSaveFile);
   }
 }
 } // namespace winrt::PhotobookUI::implementation

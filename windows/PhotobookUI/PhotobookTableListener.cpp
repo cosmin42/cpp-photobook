@@ -9,13 +9,13 @@ PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
     : mParent(parent)
 {
 }
-void PhotobookTableListener::onFinished(PB::Path rootPath)
+void PhotobookTableListener::onFinished(Path rootPath)
 {
   mParent.Post(
       [this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
 }
 
-void PhotobookTableListener::onMappingFinished(PB::Path rootPath)
+void PhotobookTableListener::onMappingFinished(Path rootPath)
 {
   mParent.Post([this, rootPath]() { mParent.OnMappingFinished(rootPath); });
 }
@@ -37,7 +37,7 @@ void PhotobookTableListener::onResumed()
   mParent.Post([this]() { mParent.OnMappingResumed(); });
 }
 
-void PhotobookTableListener::onProgressUpdate(PB::Path rootPath, int progress,
+void PhotobookTableListener::onProgressUpdate(Path rootPath, int progress,
                                               int reference)
 {
   mParent.Post([this, rootPath, progress, reference]() {
@@ -70,10 +70,10 @@ void PhotobookTableListener::onStagedImageRemoved(
   mParent.OnStagedImageRemoved(removedIndexes);
 }
 
-void PhotobookTableListener::onUnstagedImageAdded(PB::Path rootPath,
-                                                  PB::Path fullPath,
-                                                  PB::Path mediumPath,
-                                                  PB::Path smallPath,
+void PhotobookTableListener::onUnstagedImageAdded(Path rootPath,
+                                                  Path fullPath,
+                                                  Path mediumPath,
+                                                  Path smallPath,
                                                   int      position)
 {
   mParent.Post([this, rootPath, fullPath, mediumPath, smallPath, position]() {
@@ -88,7 +88,7 @@ void PhotobookTableListener::onAddingUnstagedImagePlaceholder(unsigned size)
       [this, size]() { mParent.OnAddingUnstagedImagePlaceholder(size); });
 }
 
-void PhotobookTableListener::onError(PB::Error error)
+void PhotobookTableListener::onError(PBDev::Error error)
 {
   mParent.Post([error{error}, this]() { mParent.OnError(error); });
 }

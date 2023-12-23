@@ -31,7 +31,7 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
                           public PB::StagedImagesListener,
                           public PB::ImageMonitorListener {
 
-  static PB::Path CurrentAppLocation();
+  static Path CurrentAppLocation();
 
   static std::pair<int, int> ScreenSize();
 
@@ -200,20 +200,20 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   auto GenericErrorDialogDisplay() -> winrt::fire_and_forget;
   auto GenericMessageDialogDisplay() -> winrt::fire_and_forget;
 
-  void OnThumbnailsProcessingFinished(PB::Path rootPath);
-  void OnMappingFinished(PB::Path rootPath);
+  void OnThumbnailsProcessingFinished(Path rootPath);
+  void OnMappingFinished(Path rootPath);
   void OnMappingStopped();
   void OnMappingStarted();
   void OnMappingPaused();
   void OnMappingResumed();
 
-  void OnProgressUpdate(PB::Path rootPath, int progress, int reference);
+  void OnProgressUpdate(Path rootPath, int progress, int reference);
   void OnExportProgressUpdate(int progress, int reference);
 
   void OnExportFinished();
 
-  void OnUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
-                            PB::Path mediumPath, PB::Path smallPath,
+  void OnUnstagedImageAdded(Path rootPath, Path fullPath,
+                            Path mediumPath, Path smallPath,
                             int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
@@ -222,7 +222,7 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void OnStagedImageRemoved(std::vector<unsigned> removedIndexes);
 
-  void OnError(PB::Error error);
+  void OnError(PBDev::Error error);
 
   void Post(std::function<void()>);
 
@@ -264,8 +264,8 @@ private:
   std::vector<std::shared_ptr<PB::VirtualImage>> mDragAndDropSelectedImages;
   PopUps                                         mPopups;
   bool                                           mExitFlag = false;
-  std::unordered_set<PB::Path>                   mLoadedFinishedImportFolders;
-  std::unordered_set<PB::Path>                   mStagedImages;
+  std::unordered_set<Path>                   mLoadedFinishedImportFolders;
+  std::unordered_set<Path>                   mStagedImages;
   DragSource                                     mDragSource = DragSource::None;
 };
 } // namespace winrt::PhotobookUI::implementation

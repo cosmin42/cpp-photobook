@@ -6,6 +6,6 @@ using namespace PB;
 
 TEST(TestErrors, TestError)
 {
-  auto error = PB::Error() << "Test description" << PB::ErrorCode::Unknown;
+  auto error = PBDev::Error() << "Test description" << PB::ErrorCode::Unknown;
   (void)error;
 }

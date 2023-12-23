@@ -19,14 +19,14 @@ namespace winrt::PhotobookUI::implementation {
 
 struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
 
-  static PB::Path CurrentAppLocation();
+  static Path CurrentAppLocation();
 
   Dashboard();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
                          Microsoft::UI::Xaml::RoutedEventArgs const &args);
 
-  void OnError(PB::Error err);
+  void OnError(PBDev::Error err);
 
   void OnListViewRightTapped(
       winrt::Windows::Foundation::IInspectable const &,

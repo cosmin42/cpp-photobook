@@ -13,20 +13,20 @@ struct TableContentPage;
 class PhotobookTableListener : public PB::PhotobookListener {
 public:
   explicit PhotobookTableListener(TableContentPage &parent);
-  void onFinished(PB::Path rootPath) override;
+  void onFinished(Path rootPath) override;
   void onStopped() override;
   void onStarted() override;
   void onPaused() override;
   void onResumed() override;
 
-  void onProgressUpdate(PB::Path rootPath, int progress,
+  void onProgressUpdate(Path rootPath, int progress,
                         int reference) override;
   void onExportProgressUpdate(int, int) override;
 
   void onExportFinished() override;
 
-  void onUnstagedImageAdded(PB::Path rootPath, PB::Path fullPath,
-                            PB::Path mediumPath, PB::Path smallPath,
+  void onUnstagedImageAdded(Path rootPath, Path fullPath,
+                            Path mediumPath, Path smallPath,
                             int position) override;
   void onAddingUnstagedImagePlaceholder(unsigned size) override;
 
@@ -34,9 +34,9 @@ public:
                           int index = -1) override;
   void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override;
 
-  void onMappingFinished(PB::Path rootPath) override;
+  void onMappingFinished(Path rootPath) override;
 
-  void onError(PB::Error error) override;
+  void onError(PBDev::Error error) override;
 
   void post(std::function<void()> f) override;
 

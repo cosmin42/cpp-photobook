@@ -11,7 +11,7 @@
 namespace winrt::PhotobookUI::implementation {
 struct App : AppT<App> {
 
-  static PB::Path CurrentAppLocation();
+  static Path CurrentAppLocation();
 
   App();
 

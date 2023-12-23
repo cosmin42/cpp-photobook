@@ -24,12 +24,12 @@ using namespace Microsoft::UI::Dispatching;
 
 namespace winrt::PhotobookUI::implementation {
 
-PB::Path Dashboard::CurrentAppLocation()
+Path Dashboard::CurrentAppLocation()
 {
   winrt::Windows::Storage::StorageFolder folder =
       winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
 
-  return PB::Path(winrt::to_string(folder.Path()));
+  return Path(winrt::to_string(folder.Path()));
 }
 
 Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout()
@@ -69,7 +69,7 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
-void Dashboard::OnError(PB::Error err)
+void Dashboard::OnError(PBDev::Error err)
 {
   PB::printError("Error occured on the first page.\n");
 }
