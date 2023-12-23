@@ -73,7 +73,6 @@ add_library(pblib STATIC
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
-    include/pb/FileMapper.h
     include/pb/ImageMonitor.h
     include/pb/ImageSetWriter.h
     include/pb/ImportFoldersLogic.h
@@ -95,7 +94,8 @@ add_library(pblib STATIC
     include/pb/project/PaperSettings.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
-    include/pb/ThumbnailsProcessor.h
+    include/pb/tasks/FileMapper.h
+    include/pb/tasks/ThumbnailsProcessor.h
     include/pb/StagedImages.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h

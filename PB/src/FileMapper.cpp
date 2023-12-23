@@ -1,4 +1,4 @@
-#include <pb/FileMapper.h>
+#include <pb/tasks/FileMapper.h>
 
 namespace PB {
 MediaMapper::MediaMapper(std::filesystem::path const &root)

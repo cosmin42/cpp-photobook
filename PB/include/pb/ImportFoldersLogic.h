@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
-#include <pb/FileMapper.h>
+#include <pb/tasks/FileMapper.h>
 #include <pb/ThumbnailsProcessor.h>
 
 namespace PB {

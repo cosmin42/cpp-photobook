@@ -15,7 +15,7 @@
 #pragma warning(pop)
 
 #include <pb/Config.h>
-#include <pb/FileMapper.h>
+#include <pb/tasks/FileMapper.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/util/IteratorWithState.h>
 

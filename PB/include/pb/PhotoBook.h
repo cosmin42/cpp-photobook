@@ -12,7 +12,7 @@
 #include <pb/DataManager.h>
 #include <pb/util/Error.h>
 #include <pb/export/Exporter.h>
-#include <pb/FileMapper.h>
+#include <pb/tasks/FileMapper.h>
 #include <pb/export/Html.h>
 #include <pb/image/ImageReader.h>
 #include <pb/ImageSetWriter.h>

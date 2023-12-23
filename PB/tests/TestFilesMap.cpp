@@ -3,7 +3,7 @@
 
 #include <pb/util/Error.h>
 
-#include <pb/FileMapper.h>
+#include <pb/tasks/FileMapper.h>
 
 #include <Windows.h>
 
