@@ -1,4 +1,4 @@
-#include <pb/ThumbnailsProcessor.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 
 #include <pb/Config.h>
 

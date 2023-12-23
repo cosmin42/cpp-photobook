@@ -96,6 +96,8 @@ void Photobook::addImportFolder(Path path)
   if (maybeError) {
     mParent->onError(maybeError.value());
   }
+
+  mImportLogic.start(path);
 }
 
 void Photobook::update(PBDev::ObservableSubject &subject)
