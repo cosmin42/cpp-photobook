@@ -101,7 +101,6 @@ private:
   Project                                  mProject;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
-  ImageReader                              mImageReader;
   std::vector<std::shared_ptr<Exportable>> mExporters;
   std::unordered_map<Path, int>            mProgress;
   CommandStack                             mCommandStack;
