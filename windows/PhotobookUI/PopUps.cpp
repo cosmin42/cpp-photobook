@@ -9,7 +9,7 @@
 #include <winrt/Windows.Storage.Pickers.h>
 
 #include <pb/Config.h>
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 
 namespace winrt::PhotobookUI::implementation {
 

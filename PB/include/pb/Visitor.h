@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 #include <pb/persistence/ProjectMetadata.h>
 
 namespace PB {

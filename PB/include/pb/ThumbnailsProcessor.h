@@ -3,7 +3,7 @@
 #include <thread_pool/thread_pool.h>
 
 #include <pb/ImageOperations.h>
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 
 namespace PB {
 class ResizeTask final {

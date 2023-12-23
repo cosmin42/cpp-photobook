@@ -2,7 +2,7 @@
 
 #include <pb/persistence/FilePersistence.h>
 #include <pb/image/RegularImage.h>
-#include <pb/SerializationStrategy.h>
+#include <pb/persistence/SerializationStrategy.h>
 #include <pb/image/TextImage.h>
 
 namespace PB {

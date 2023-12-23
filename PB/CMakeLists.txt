@@ -83,20 +83,20 @@ add_library(pblib STATIC
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
     include/pb/util/Observable.h
-    include/pb/PaperSettings.h
     include/pb/Pdf.h
     include/pb/PdfPoDoFo.h
     include/pb/persistence/FilePersistence.h
     include/pb/persistence/Persistence.h
-    include/pb/persistence/ProjectSnapshot.h
     include/pb/persistence/ProjectMetadata.h
+    include/pb/persistence/SerializationStrategy.h
     include/pb/persistence/SQLPersistence.h
     include/pb/Photobook.h
     include/pb/PhotobookListener.h
     include/pb/PreprocessedImage.h
-    include/pb/Project.h
+    include/pb/project/PaperSettings.h
+    include/pb/project/ProjectSnapshot.h
+    include/pb/project/Project.h
     include/pb/ThumbnailsProcessor.h
-    include/pb/SerializationStrategy.h
     include/pb/StagedImages.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h

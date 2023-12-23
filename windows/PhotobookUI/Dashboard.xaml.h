@@ -9,7 +9,7 @@
 #include "Dashboard.g.h"
 #include "ProjectItem.g.h"
 
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 #include <pb/PhotoBook.h>
 #include <pb/PhotobookListener.h>
 

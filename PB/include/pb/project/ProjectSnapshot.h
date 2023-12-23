@@ -6,8 +6,8 @@
 
 #include <pb/Config.h>
 #include <pb/DataManager.h>
-#include <pb/PaperSettings.h>
-#include <pb/SerializationStrategy.h>
+#include <pb/project/PaperSettings.h>
+#include <pb/persistence/SerializationStrategy.h>
 #include <pb/persistence/ProjectMetadata.h>
 #include <pb/util/Traits.h>
 

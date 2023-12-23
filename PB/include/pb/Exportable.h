@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <pb/PaperSettings.h>
+#include <pb/project/PaperSettings.h>
 #include <pb/util/Observable.h>
 #include <pb/util/SequentialTaskConsumer.h>
 #include <pb/util/Traits.h>

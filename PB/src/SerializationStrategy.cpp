@@ -1,6 +1,6 @@
-#include <pb/SerializationStrategy.h>
+#include <pb/persistence/SerializationStrategy.h>
 
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 
 namespace PB::Text {
 

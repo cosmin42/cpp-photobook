@@ -1,4 +1,4 @@
-#include <pb/PaperSettings.h>
+#include <pb/project/PaperSettings.h>
 
 namespace PB {
 

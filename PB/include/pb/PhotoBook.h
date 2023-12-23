@@ -20,7 +20,7 @@
 #include <pb/Jpg.h>
 #include <pb/Pdf.h>
 #include <pb/PhotobookListener.h>
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 #include <pb/persistence/SQLPersistence.h>
 #include <pb/ThumbnailsProcessor.h>
 #include <pb/config/Log.h>

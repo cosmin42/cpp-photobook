@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pb/persistence/FilePersistence.h>
-#include <pb/Project.h>
+#include <pb/project/Project.h>
 #include <pb/persistence/SQLPersistence.h>
 
 namespace PB {

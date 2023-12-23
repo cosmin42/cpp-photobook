@@ -22,9 +22,9 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
-#include <pb/PaperSettings.h>
+#include <pb/project/PaperSettings.h>
 #include <pb/image/RegularImage.h>
-#include <pb/SerializationStrategy.h>
+#include <pb/persistence/SerializationStrategy.h>
 #include <pb/config/Log.h>
 
 using namespace winrt;

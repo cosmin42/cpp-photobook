@@ -1,4 +1,4 @@
-#include <pb/persistence/ProjectSnapshot.h>
+#include <pb/project/ProjectSnapshot.h>
 
 #include <algorithm>
 

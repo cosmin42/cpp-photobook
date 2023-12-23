@@ -3,7 +3,7 @@
 
 #include <pb/config/Log.h>
 #include <pb/util/Timer.h>
-#include <pb/PaperSettings.h>
+#include <pb/project/PaperSettings.h>
 
 #if __has_include(<pb/config/@PRINTER_TYPE@.h>)
 #include <pb/config/@PRINTER_TYPE@.h>
