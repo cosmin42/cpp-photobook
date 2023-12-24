@@ -2,7 +2,6 @@
 
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
-#include <pb/persistence/FilePersistence.h>
 #include <pb/persistence/SerializationStrategy.h>
 
 namespace PB {
@@ -141,14 +140,14 @@ void Photobook::exportAlbum(std::string name, Path path)
 
 ProjectSnapshot &Photobook::activeProject() { return mProject.active(); }
 
-void Photobook::discardPhotobook() { mImportLogic.stopAll(); }
+void Photobook::discardProject() { mImportLogic.stopAll(); }
 
-void Photobook::savePhotobook()
+void Photobook::saveProject()
 {
-  savePhotobook(mProject.metadata().projectFile());
+  saveProject(mProject.metadata().projectFile());
 }
 
-void Photobook::savePhotobook(Path newPath)
+void Photobook::saveProject(Path newPath)
 {
   bool newSaveFile = false;
   Path oldProjectFile = mProject.metadata().projectFile();

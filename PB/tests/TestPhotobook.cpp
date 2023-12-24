@@ -30,3 +30,16 @@ TEST(TestPhotobook, TestCreation)
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 }
+
+TEST(TestPhotobook, TestProject)
+{
+  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
+      std::make_shared<TestPhotobookStagedImagesListener>();
+
+  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
+      std::make_shared<MockPhotobookImageMonitorListener>();
+
+  PB::Photobook photobook(".");
+  photobook.configure(stagedImageListener.get());
+  photobook.configure(imageMonitorListener.get());
+}

@@ -6,7 +6,6 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/persistence/ProjectMetadata.h>
 #include <pb/project/ProjectSnapshot.h>
 #include <pb/util/Traits.h>
 

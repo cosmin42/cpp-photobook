@@ -24,6 +24,7 @@
 
 #include <pb/project/PaperSettings.h>
 #include <pb/image/RegularImage.h>
+#include <pb/image/ImageReader.h>
 #include <pb/persistence/SerializationStrategy.h>
 #include <pb/config/Log.h>
 
@@ -263,7 +264,7 @@ void TableContentPage::OnBackClicked(IInspectable const &,
   auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
-    mPhotoBook->discardPhotobook();
+    mPhotoBook->discardProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
   }
   else {
@@ -332,7 +333,7 @@ void TableContentPage::OnSaveClicked(
     return;
   }
   if (!mPhotoBook->projectDefaultSaved()) {
-    mPhotoBook->savePhotobook();
+    mPhotoBook->saveProject();
   }
   else {
     mPopups.fireSaveFilePicker(
@@ -340,7 +341,7 @@ void TableContentPage::OnSaveClicked(
         [this](std::variant<std::string, PBDev::Error> result) {
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
-            mPhotoBook->savePhotobook(newName);
+            mPhotoBook->saveProject(newName);
           }
           else {
             OnError(std::get<PBDev::Error>(result));
@@ -358,7 +359,7 @@ void TableContentPage::OnSaveAsClicked(
       [this](std::variant<std::string, PBDev::Error> result) {
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
-          mPhotoBook->savePhotobook(newName);
+          mPhotoBook->saveProject(newName);
         }
         else {
           OnError(std::get<PBDev::Error>(result));
@@ -373,7 +374,7 @@ void TableContentPage::OnNewClicked(
   auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
-    mPhotoBook->discardPhotobook();
+    mPhotoBook->discardProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
   }
@@ -384,8 +385,8 @@ void TableContentPage::OnNewClicked(
           if (std::holds_alternative<std::string>(result)) {
             auto &newName = std::get<std::string>(result);
 
-            mPhotoBook->savePhotobook(newName);
-            mPhotoBook->discardPhotobook();
+            mPhotoBook->saveProject(newName);
+            mPhotoBook->discardProject();
             Frame().Navigate(
                 winrt::xaml_typename<PhotobookUI::Dashboard>(),
                 winrt::box_value(winrt::to_hstring("new-project")));
@@ -1144,8 +1145,8 @@ void TableContentPage::OnContentDialogSaveClicked(
         if (std::holds_alternative<std::string>(result)) {
           auto &newName = std::get<std::string>(result);
 
-          mPhotoBook->savePhotobook(newName);
-          mPhotoBook->discardPhotobook();
+          mPhotoBook->saveProject(newName);
+          mPhotoBook->discardProject();
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
@@ -1193,7 +1194,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   PB::printDebug("OnContentDialogDiscardClicked\n");
-  mPhotoBook->discardPhotobook();
+  mPhotoBook->discardProject();
 
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });

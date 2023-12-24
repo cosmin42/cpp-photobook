@@ -18,9 +18,7 @@
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
-#include <pb/image/ImageReader.h>
 #include <pb/persistence/Persistence.h>
-#include <pb/persistence/SQLPersistence.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
@@ -54,6 +52,10 @@ public:
   void loadProject();
   void deleteProject(std::string id);
 
+  void discardProject();
+  void saveProject();
+  void saveProject(Path newPath);
+
   ImageViews      &imageViews();
   ProjectSnapshot &activeProject();
 
@@ -62,10 +64,6 @@ public:
   void onError(PBDev::Error error);
 
   void exportAlbum(std::string name, Path path);
-
-  void discardPhotobook();
-  void savePhotobook();
-  void savePhotobook(Path newPath);
 
   bool projectDefaultSaved();
 
