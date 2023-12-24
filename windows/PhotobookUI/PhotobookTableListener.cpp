@@ -9,32 +9,10 @@ PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
     : mParent(parent)
 {
 }
-void PhotobookTableListener::onFinished(Path rootPath)
-{
-  mParent.Post(
-      [this, rootPath]() { mParent.OnThumbnailsProcessingFinished(rootPath); });
-}
 
 void PhotobookTableListener::onMappingFinished(Path rootPath)
 {
   mParent.Post([this, rootPath]() { mParent.OnMappingFinished(rootPath); });
-}
-
-void PhotobookTableListener::onStopped()
-{
-  mParent.Post([this]() { mParent.OnMappingStopped(); });
-}
-void PhotobookTableListener::onStarted()
-{
-  mParent.Post([this]() { mParent.OnMappingStarted(); });
-}
-void PhotobookTableListener::onPaused()
-{
-  mParent.Post([this]() { mParent.OnMappingPaused(); });
-}
-void PhotobookTableListener::onResumed()
-{
-  mParent.Post([this]() { mParent.OnMappingResumed(); });
 }
 
 void PhotobookTableListener::onProgressUpdate(Path rootPath, int progress,

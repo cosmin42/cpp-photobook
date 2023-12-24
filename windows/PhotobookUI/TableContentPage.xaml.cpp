@@ -80,7 +80,7 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitFunction = [this]() {
-    auto projectDetails = mPhotoBook->projectDetails();
+    auto projectDetails = mPhotoBook->activeProject();
     bool alreadySaved = true;//mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
       ProjectExitDialogDisplay();
@@ -260,7 +260,7 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  auto projectDetails = mPhotoBook->projectDetails();
+  auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardPhotobook();
@@ -326,7 +326,7 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->projectDetails();
+  auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
@@ -370,7 +370,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->projectDetails();
+  auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardPhotobook();
@@ -1133,7 +1133,7 @@ void TableContentPage::OnContentDialogSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
-  auto projectDetails = mPhotoBook->projectDetails();
+  auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
