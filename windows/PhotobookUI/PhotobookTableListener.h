@@ -13,11 +13,6 @@ struct TableContentPage;
 class PhotobookTableListener : public PB::PhotobookListener {
 public:
   explicit PhotobookTableListener(TableContentPage &parent);
-  void onFinished(Path rootPath) override;
-  void onStopped() override;
-  void onStarted() override;
-  void onPaused() override;
-  void onResumed() override;
 
   void onProgressUpdate(Path rootPath, int progress,
                         int reference) override;

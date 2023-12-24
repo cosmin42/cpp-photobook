@@ -50,11 +50,12 @@ public:
   void recallMetadata();
   void recallProject(Path path);
 
+  void newProject();
   void loadProject();
   void deleteProject(std::string id);
 
-  ImageViews                  &imageViews();
-  ProjectSnapshot             &activeProject();
+  ImageViews      &imageViews();
+  ProjectSnapshot &activeProject();
 
   void addImportFolder(Path importPath);
 
@@ -74,8 +75,6 @@ public:
   void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
   void onMetadataPersistenceError(PBDev::Error) override;
   void onProjectPersistenceError(PBDev::Error) override;
-
-  void newProject();
 
   void onMapped(Path, std::vector<Path> newFolders) override;
   void onImportStop(Path) override;

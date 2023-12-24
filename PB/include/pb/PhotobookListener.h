@@ -6,11 +6,6 @@
 namespace PB {
 class PhotobookListener {
 public:
-  virtual void onStarted() = 0;
-  virtual void onFinished(Path) = 0;
-  virtual void onStopped() = 0;
-  virtual void onPaused() = 0;
-  virtual void onResumed() = 0;
   virtual void onProgressUpdate(Path, int, int) = 0;
   virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;

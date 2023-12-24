@@ -1,9 +1,9 @@
 #include <pb/Photobook.h>
 
-#include <pb/persistence/FilePersistence.h>
 #include <pb/image/RegularImage.h>
-#include <pb/persistence/SerializationStrategy.h>
 #include <pb/image/TextImage.h>
+#include <pb/persistence/FilePersistence.h>
+#include <pb/persistence/SerializationStrategy.h>
 
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)
@@ -226,7 +226,7 @@ void Photobook::newProject()
   mProject = Project(mApplicationLocalStatePath);
 
   mPersistence.persistProject(mProject.metadata().projectFile(),
-                               mProject.active());
+                              mProject.active());
 
   auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
   auto fullPath = mProject.metadata().projectFile();
