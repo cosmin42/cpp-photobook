@@ -13,7 +13,6 @@ public:
   virtual void onUnstagedImageAdded(Path rootPath, Path fullPath,
                                     Path mediumPath, Path smallPath,
                                     int position) = 0;
-  virtual void onAddingUnstagedImagePlaceholder(unsigned size) = 0;
   virtual void
   onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                      int index = -1) = 0;

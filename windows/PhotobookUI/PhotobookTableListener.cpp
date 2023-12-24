@@ -82,12 +82,6 @@ void PhotobookTableListener::onUnstagedImageAdded(Path rootPath,
   });
 }
 
-void PhotobookTableListener::onAddingUnstagedImagePlaceholder(unsigned size)
-{
-  mParent.Post(
-      [this, size]() { mParent.OnAddingUnstagedImagePlaceholder(size); });
-}
-
 void PhotobookTableListener::onError(PBDev::Error error)
 {
   mParent.Post([error{error}, this]() { mParent.OnError(error); });

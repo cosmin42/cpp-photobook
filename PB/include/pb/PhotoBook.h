@@ -61,7 +61,6 @@ public:
 
   void onError(PBDev::Error error);
 
-  void update(PBDev::ObservableSubject &subject) override;
   void exportAlbum(std::string name, Path path);
 
   void discardPhotobook();
@@ -70,6 +69,7 @@ public:
 
   bool projectDefaultSaved();
 
+  void update(PBDev::ObservableSubject &subject) override;
   void onProjectRead(Project project) override;
   void onMetadataRead(ProjectMetadata projectMetadata) override;
   void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
@@ -81,7 +81,6 @@ public:
   void onImageProcessed(Path root, Path full, Path medium, Path small,
                         int progress, int progressCap) override;
   void onMappingAborted(Path) override;
-
   void post(std::function<void()> f) override;
 
 private:

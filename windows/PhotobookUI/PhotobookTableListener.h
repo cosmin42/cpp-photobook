@@ -23,7 +23,6 @@ public:
   void onUnstagedImageAdded(Path rootPath, Path fullPath,
                             Path mediumPath, Path smallPath,
                             int position) override;
-  void onAddingUnstagedImagePlaceholder(unsigned size) override;
 
   void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                           int index = -1) override;
