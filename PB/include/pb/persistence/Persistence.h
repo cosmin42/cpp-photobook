@@ -38,6 +38,7 @@ public:
   void recallProject(Path projectPath);
 
   void deleteMetadata(std::string id);
+  void deleteProject(Path projectFile, Path projectFolder);
 
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 

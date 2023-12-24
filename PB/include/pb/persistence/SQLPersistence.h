@@ -20,18 +20,17 @@ public:
 
   std::optional<PBDev::Error> connect();
 
-  void
-  read(std::function<
+  void read(std::function<
             void(std::variant<std::unordered_map<std::string, std::string>,
                               PBDev::Error>)>
-           onReturn);
+                onReturn);
 
-  void write(std::pair<std::string, std::string>       entry,
+  void write(std::pair<std::string, std::string>              entry,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
-  void write(std::unordered_map<std::string, std::string> map,
+  void write(std::unordered_map<std::string, std::string>     map,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
 
-  void deleteEntry(std::string                               key,
+  void deleteEntry(std::string                                      key,
                    std::function<void(std::optional<PBDev::Error>)> onReturn);
 
 private:

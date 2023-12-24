@@ -51,7 +51,6 @@ public:
   void newProject();
   void loadProject();
   void deleteProject(std::string id);
-
   void discardProject();
   void saveProject();
   void saveProject(Path newPath);
@@ -60,12 +59,10 @@ public:
   ProjectSnapshot &activeProject();
 
   void addImportFolder(Path importPath);
+  void exportAlbum(std::string name, Path path);
+  bool projectDefaultSaved();
 
   void onError(PBDev::Error error);
-
-  void exportAlbum(std::string name, Path path);
-
-  bool projectDefaultSaved();
 
   void update(PBDev::ObservableSubject &subject) override;
   void onProjectRead(Project project) override;

@@ -33,6 +33,8 @@ public:
   Path projectFile() const;
   boost::uuids::uuid uuid() const;
 
+  bool operator==(ProjectMetadata const &other) const;
+
 private:
   boost::uuids::uuid mUUID;
   Path               mProjectFilePath;

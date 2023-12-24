@@ -140,6 +140,12 @@ void Persistence::deleteMetadata(std::string id)
   });
 }
 
+void Persistence::deleteProject(Path projectFile, Path projectFolder)
+{
+  std::filesystem::remove(projectFolder);
+  std::filesystem::remove(projectFile);
+}
+
 bool Persistence::isSaved(ProjectSnapshot const &projectDetails) const
 {
   auto jsonOrError =

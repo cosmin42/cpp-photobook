@@ -53,4 +53,9 @@ std::pair<boost::uuids::uuid, Path> ProjectMetadata::data() const
 Path ProjectMetadata::projectFile() const { return mProjectFilePath; }
 
 boost::uuids::uuid ProjectMetadata::uuid() const { return mUUID; }
+
+bool ProjectMetadata::operator==(ProjectMetadata const &other) const
+{
+  return mUUID == other.mUUID && mProjectFilePath == other.mProjectFilePath;
+}
 } // namespace PB

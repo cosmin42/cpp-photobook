@@ -147,39 +147,26 @@ void Photobook::saveProject()
   saveProject(mProject.metadata().projectFile());
 }
 
-void Photobook::saveProject(Path newPath)
+void Photobook::saveProject(Path path)
 {
-  bool newSaveFile = false;
   Path oldProjectFile = mProject.metadata().projectFile();
   Path oldSupportFolder = mProject.active().supportFolder();
 
-  if (newPath != oldProjectFile) {
-    mProject.updateProjectPath(newPath.parent_path());
-    mProject.updateProjectName(newPath.stem().string());
-    newSaveFile = true;
+  mProject.save();
 
-    mPersistence.persistMetadata(mProject.metadata());
+  mProject.updateProjectPath(path.parent_path());
+  mProject.updateProjectName(path.stem().string());
+
+  auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
+  auto fullPath = mProject.metadata().projectFile();
+  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
+
+  mPersistence.persistProject(path, mProject.active());
+  mPersistence.persistMetadata(projectMetadata);
+  
+  if (path != oldProjectFile) {
+    mPersistence.deleteProject(oldProjectFile, oldSupportFolder);
   }
-
-  mProject.active().setImportedPaths(mImageViews.imageMonitor().rowList());
-  mProject.active().setPaperSettings(mProject.active().paperSettings());
-  mProject.active().setStagedImages(mImageViews.stagedImages().stagedPhotos());
-
-  auto projectDetailsOrError =
-      Text::serialize<ProjectSnapshot>(0, {"root", mProject.active()});
-
-  if (std::holds_alternative<PBDev::Error>(projectDetailsOrError)) {
-    PBDev::basicAssert(false);
-    return;
-  }
-
-  mPersistence.persistProject(newPath, mProject.active());
-  if (newSaveFile) {
-    std::filesystem::remove(oldSupportFolder);
-    std::filesystem::remove(oldProjectFile);
-  }
-
-  PB::printDebug("Save Photobook %s\n", newPath.string().c_str());
 }
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
@@ -223,14 +210,6 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 void Photobook::newProject()
 {
   mProject = Project(mApplicationLocalStatePath);
-
-  mPersistence.persistProject(mProject.metadata().projectFile(),
-                              mProject.active());
-
-  auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
-  auto fullPath = mProject.metadata().projectFile();
-  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
-  mPersistence.persistMetadata(projectMetadata);
 }
 
 void Photobook::onMapped(Path root, std::vector<Path> newFolders)
