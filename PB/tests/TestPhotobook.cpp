@@ -27,6 +27,26 @@ public:
   MOCK_METHOD(void, onProjectRead, (), (override));
 };
 
+class TestPhotobookListener final : public PB::PhotobookListener {
+public:
+  MOCK_METHOD(void, onProgressUpdate, (Path, int, int), (override));
+  MOCK_METHOD(void, onExportProgressUpdate, (int, int), (override));
+  MOCK_METHOD(void, onExportFinished, (), (override));
+  MOCK_METHOD(void, onError, (PBDev::Error), (override));
+  MOCK_METHOD(void, onUnstagedImageAdded,
+              (Path rootPath, Path fullPath, Path mediumPath, Path smallPath,
+               int position),
+              (override));
+  MOCK_METHOD(void, onStagedImageAdded,
+              (std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+               int                                            index),
+              (override));
+  MOCK_METHOD(void, onStagedImageRemoved, (std::vector<unsigned>), (override));
+  MOCK_METHOD(void, onMappingStarted, (Path), (override));
+  MOCK_METHOD(void, onMappingFinished, (Path), (override));
+  MOCK_METHOD(void, post, (std::function<void()>), (override));
+};
+
 void clearProjectCache()
 {
   std::regex uuidRegex = std::regex(
@@ -111,42 +131,6 @@ TEST(TestPhotobook, TestMetadata)
 }
 
 TEST(TestPhotobook, TestProject)
-{
-  clearProjectCache();
-
-  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
-      std::make_shared<TestPhotobookStagedImagesListener>();
-
-  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
-      std::make_shared<MockPhotobookImageMonitorListener>();
-
-  PB::Photobook photobook(".");
-  photobook.configure(stagedImageListener.get());
-  photobook.configure(imageMonitorListener.get());
-
-  TestDashboardListener testDashboardListener;
-
-  photobook.configure((PB::DashboardListener *)&testDashboardListener);
-
-  EXPECT_CALL(testDashboardListener,
-              onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));
-
-  photobook.recallMetadata();
-
-  std::vector<PB::ProjectMetadata> projectsMetadata;
-
-  photobook.newProject();
-
-  auto uuid = photobook.activeProject().uuid();
-  auto projectPath = photobook.activeProject().parentDirectory() /
-                     (boost::uuids::to_string(uuid) + ".photobook");
-
-  EXPECT_CALL(testDashboardListener,
-              onProjectRead());
-  photobook.recallProject(projectPath);
-}
-
-TEST(TestPhotobook, TestProjectLoading)
 {
   clearProjectCache();
 
