@@ -17,6 +17,8 @@ public:
   onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                      int index = -1) = 0;
   virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
+
+  virtual void onMappingStarted(Path path) = 0;
   virtual void onMappingFinished(Path rootPath) = 0;
   virtual void post(std::function<void()> f) = 0;
 };

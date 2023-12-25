@@ -12,6 +12,8 @@ class ImportFoldersLogicListener {
 public:
   virtual ~ImportFoldersLogicListener() = default;
 
+  virtual void onMappingStarted(Path path) = 0;
+
   virtual void onMapped(Path, std::vector<Path> newFolders) = 0;
   virtual void onImportStop(Path) = 0;
 

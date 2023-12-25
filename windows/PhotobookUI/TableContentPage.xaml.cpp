@@ -261,6 +261,7 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
+
   auto projectDetails = mPhotoBook->activeProject();
   bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {

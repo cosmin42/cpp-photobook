@@ -10,9 +10,13 @@ PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
 {
 }
 
-void PhotobookTableListener::onMappingFinished(Path rootPath)
+void PhotobookTableListener::onMappingStarted(Path path) {
+  mParent.OnMappingStarted();
+}
+
+void PhotobookTableListener::onMappingFinished(Path path)
 {
-  mParent.Post([this, rootPath]() { mParent.OnMappingFinished(rootPath); });
+  mParent.Post([this, path]() { mParent.OnMappingFinished(path); });
 }
 
 void PhotobookTableListener::onProgressUpdate(Path rootPath, int progress,

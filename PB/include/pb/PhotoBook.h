@@ -55,6 +55,7 @@ public:
   void saveProject(Path newPath);
 
   void loadProject();
+  void unloadProject();
 
   ImageViews      &imageViews();
   ProjectSnapshot &activeProject();
@@ -72,6 +73,7 @@ public:
   void onMetadataPersistenceError(PBDev::Error) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
+  void onMappingStarted(Path path) override;
   void onMapped(Path, std::vector<Path> newFolders) override;
   void onImportStop(Path) override;
   void onImageProcessed(Path root, Path full, Path medium, Path small,

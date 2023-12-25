@@ -78,6 +78,10 @@ void Photobook::loadProject()
   mImageViews.stagedImages().addPictures(stage);
 }
 
+void Photobook::unloadProject() {
+  mProject = Project(mApplicationLocalStatePath);
+}
+
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
 
 void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
@@ -215,6 +219,10 @@ void Photobook::newProject()
   mProject = Project(mApplicationLocalStatePath);
 
   saveProject();
+}
+
+void Photobook::onMappingStarted(Path path) {
+
 }
 
 void Photobook::onMapped(Path root, std::vector<Path> newFolders)
