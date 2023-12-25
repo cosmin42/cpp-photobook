@@ -44,6 +44,18 @@ Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::DeleteFlyout()
   return deleteItem;
 }
 
+Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RenameFlyout()
+{
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem renameItem;
+  renameItem.Text(winrt::to_hstring("Rename"));
+
+  renameItem.Click([this](IInspectable const &obj, RoutedEventArgs const &e) {
+    OnRenameClicked(obj, e);
+  });
+
+  return renameItem;
+}
+
 Dashboard::Dashboard()
 {
   InitializeComponent();
@@ -56,6 +68,7 @@ Dashboard::Dashboard()
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   mMenuFlyout.Items().Append(DeleteFlyout());
+  mMenuFlyout.Items().Append(RenameFlyout());
 
   mAPI->recallMetadata();
 }
@@ -103,6 +116,17 @@ void Dashboard::OnDeleteClicked(
         break;
       }
     }
+  }
+  mRightClickedId = winrt::hstring();
+}
+
+void Dashboard::OnRenameClicked(
+    [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+    [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
+{
+  if (!mRightClickedId.empty()) {
+    // Not implemented
+    PBDev::basicAssert(false);
   }
   mRightClickedId = winrt::hstring();
 }

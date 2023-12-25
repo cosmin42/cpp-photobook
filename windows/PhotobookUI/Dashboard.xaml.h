@@ -36,6 +36,10 @@ struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &);
 
+  void OnRenameClicked(
+      [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
+      [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &);
+
   void OpenProjectClicked(
       [[maybe_unused]] winrt::Windows::Foundation::IInspectable const &,
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::
@@ -50,6 +54,7 @@ struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
 
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem RenameFlyout();
 
   IObservableVector<ProjectItem> mProjectsList;
 
