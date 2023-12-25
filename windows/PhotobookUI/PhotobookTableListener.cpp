@@ -10,13 +10,19 @@ PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
 {
 }
 
-void PhotobookTableListener::onMappingStarted(Path path) {
+void PhotobookTableListener::onMappingStarted(Path path)
+{
   mParent.OnMappingStarted();
 }
 
 void PhotobookTableListener::onMappingFinished(Path path)
 {
   mParent.Post([this, path]() { mParent.OnMappingFinished(path); });
+}
+
+void PhotobookTableListener::onMappingAborted(Path path)
+{
+  mParent.Post([this, path]() { mParent.OnMappingAborted(path); });
 }
 
 void PhotobookTableListener::onProgressUpdate(Path rootPath, int progress,
@@ -52,11 +58,9 @@ void PhotobookTableListener::onStagedImageRemoved(
   mParent.OnStagedImageRemoved(removedIndexes);
 }
 
-void PhotobookTableListener::onUnstagedImageAdded(Path rootPath,
-                                                  Path fullPath,
+void PhotobookTableListener::onUnstagedImageAdded(Path rootPath, Path fullPath,
                                                   Path mediumPath,
-                                                  Path smallPath,
-                                                  int      position)
+                                                  Path smallPath, int position)
 {
   mParent.Post([this, rootPath, fullPath, mediumPath, smallPath, position]() {
     mParent.OnUnstagedImageAdded(rootPath, fullPath, mediumPath, smallPath,

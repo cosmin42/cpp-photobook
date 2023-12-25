@@ -28,6 +28,7 @@ public:
 
   void onMappingStarted(Path path) override;
   void onMappingFinished(Path path) override;
+  void onMappingAborted(Path path) override;
 
   void onError(PBDev::Error error) override;
 

@@ -266,7 +266,7 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small,
   }
 }
 
-void Photobook::onMappingAborted(Path) {}
+void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
 
 void Photobook::post(std::function<void()> f) { mParent->post(f); }
 
