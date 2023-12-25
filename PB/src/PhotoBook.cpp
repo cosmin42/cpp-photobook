@@ -7,7 +7,8 @@
 namespace PB {
 Photobook::Photobook(Path applicationLocalStatePath)
     : mApplicationLocalStatePath(applicationLocalStatePath),
-      mPersistence(applicationLocalStatePath, this, this)
+      mPersistence(applicationLocalStatePath, this, this),
+      mProject(std::make_shared<Project>())
 {
 }
 
@@ -37,19 +38,19 @@ void Photobook::configure(DashboardListener *listener)
 
 void Photobook::configure(PB::Project project)
 {
-  mProject = project;
+  *mProject = project;
 
-  mImportLogic.configure(project.active());
+  mImportLogic.configure(mProject);
 }
 
 void Photobook::loadProject()
 {
-  auto importedFolders = mProject.active().importedFolderList();
+  auto importedFolders = mProject->active().importedFolderList();
   for (auto &path : importedFolders) {
     addImportFolder(path);
   }
 
-  auto stagedImages = mProject.active().stagedImagesList();
+  auto stagedImages = mProject->active().stagedImagesList();
 
   std::vector<std::shared_ptr<VirtualImage>> stage;
 
@@ -78,8 +79,9 @@ void Photobook::loadProject()
   mImageViews.stagedImages().addPictures(stage);
 }
 
-void Photobook::unloadProject() {
-  mProject = Project(mApplicationLocalStatePath);
+void Photobook::unloadProject()
+{
+  *mProject = Project(mApplicationLocalStatePath);
 }
 
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
@@ -88,8 +90,8 @@ void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
 
 void Photobook::deleteProject(std::string id)
 {
-  Path projectFile = mProject.metadata().projectFile();
-  Path supportFolder = mProject.active().supportFolder();
+  Path projectFile = mProject->metadata().projectFile();
+  Path supportFolder = mProject->active().supportFolder();
   mPersistence.deleteMetadata(id);
   mPersistence.deleteProject(projectFile, supportFolder);
 }
@@ -135,7 +137,7 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->resources().full);
   }
 
-  mExportFactory.updateConfiguration(mProject.active().paperSettings(),
+  mExportFactory.updateConfiguration(mProject->active().paperSettings(),
                                      mApplicationLocalStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
@@ -145,30 +147,30 @@ void Photobook::exportAlbum(std::string name, Path path)
   }
 }
 
-ProjectSnapshot &Photobook::activeProject() { return mProject.active(); }
+ProjectSnapshot &Photobook::activeProject() { return mProject->active(); }
 
 void Photobook::discardProject() { mImportLogic.stopAll(); }
 
 void Photobook::saveProject()
 {
-  saveProject(mProject.metadata().projectFile());
+  saveProject(mProject->metadata().projectFile());
 }
 
 void Photobook::saveProject(Path path)
 {
-  Path oldProjectFile = mProject.metadata().projectFile();
-  Path oldSupportFolder = mProject.active().supportFolder();
+  Path oldProjectFile = mProject->metadata().projectFile();
+  Path oldSupportFolder = mProject->active().supportFolder();
 
-  mProject.save();
+  mProject->save();
 
-  mProject.updateProjectPath(path.parent_path());
-  mProject.updateProjectName(path.stem().string());
+  mProject->updateProjectPath(path.parent_path());
+  mProject->updateProjectName(path.stem().string());
 
-  auto uuidStr = boost::uuids::to_string(mProject.active().uuid());
-  auto fullPath = mProject.metadata().projectFile();
+  auto uuidStr = boost::uuids::to_string(mProject->active().uuid());
+  auto fullPath = mProject->metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
 
-  mPersistence.persistProject(path, mProject.active());
+  mPersistence.persistProject(path, mProject->active());
   mPersistence.persistMetadata(projectMetadata);
 
   if (path != oldProjectFile) {
@@ -180,7 +182,7 @@ ImageViews &Photobook::imageViews() { return mImageViews; }
 
 bool Photobook::projectDefaultSaved()
 {
-  auto projectParentPath = mProject.active().parentDirectory().string();
+  auto projectParentPath = mProject->active().parentDirectory().string();
 
   if (projectParentPath.find(mApplicationLocalStatePath.string()) ==
       std::string::npos) {
@@ -216,14 +218,12 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 
 void Photobook::newProject()
 {
-  mProject = Project(mApplicationLocalStatePath);
+  *mProject = Project(mApplicationLocalStatePath);
 
   saveProject();
 }
 
-void Photobook::onMappingStarted(Path path) {
-
-}
+void Photobook::onMappingStarted(Path path) {}
 
 void Photobook::onMapped(Path root, std::vector<Path> newFolders)
 {

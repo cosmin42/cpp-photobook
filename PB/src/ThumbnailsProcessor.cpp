@@ -59,10 +59,9 @@ void ThumbnailsProcessor::setScreenSize(std::pair<int, int> screenSize)
   mScreenHeight = screenSize.second;
 }
 
-void ThumbnailsProcessor::provideProjectDetails(
-    ProjectSnapshot const &projectDetails)
+void ThumbnailsProcessor::provideProjectDetails(std::shared_ptr<Project> project)
 {
-  mProjectDetails = projectDetails;
+  mProject = project;
 }
 
 void ThumbnailsProcessor::generateThumbnails(
@@ -107,16 +106,17 @@ void ThumbnailsProcessor::abort()
 std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 {
+  auto projectDetails = mProject->active();
   PBDev::basicAssert(index >= 0);
-  PBDev::basicAssert(mProjectDetails.supportDirName().length() > 0);
+  PBDev::basicAssert(projectDetails.supportDirName().length() > 0);
 
-  auto smallOutputPath = mProjectDetails.parentDirectory() /
-                         mProjectDetails.supportDirName() /
+  auto smallOutputPath = projectDetails.parentDirectory() /
+                         projectDetails.supportDirName() /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath = mProjectDetails.parentDirectory() /
-                          mProjectDetails.supportDirName() /
+  auto mediumOutputPath = projectDetails.parentDirectory() /
+                          projectDetails.supportDirName() /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);
 

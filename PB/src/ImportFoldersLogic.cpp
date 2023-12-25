@@ -17,7 +17,7 @@ void ImportFoldersLogic::configure(std::pair<int, int> screenSize)
 {
   mThumbnailsProcessor.setScreenSize(screenSize);
 }
-void ImportFoldersLogic::configure(ProjectSnapshot project)
+void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
 {
   mThumbnailsProcessor.provideProjectDetails(project);
 }

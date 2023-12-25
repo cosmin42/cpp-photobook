@@ -35,7 +35,7 @@ public:
 
   void setScreenSize(std::pair<int, int> size);
 
-  void provideProjectDetails(ProjectSnapshot const &);
+  void provideProjectDetails(std::shared_ptr<Project>);
 
   void generateThumbnails(
       std::vector<Path> mediaMap, std::string groupIdentifier,
@@ -46,7 +46,7 @@ public:
 private:
   std::pair<Path, Path>                      assembleOutputPaths(int         index,
                                                                  std::string groupIdentifier);
-  ProjectSnapshot                            mProjectDetails;
+  std::shared_ptr<Project>                   mProject;
   dp::thread_pool<std::function<void(void)>> mResizePool;
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;

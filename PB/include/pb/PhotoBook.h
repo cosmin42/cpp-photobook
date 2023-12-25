@@ -88,7 +88,7 @@ private:
   DashboardListener                       *mDashboardListener;
   Path                                     mApplicationLocalStatePath;
   Persistence                              mPersistence;
-  Project                                  mProject;
+  std::shared_ptr<Project>                 mProject;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
   std::vector<std::shared_ptr<Exportable>> mExporters;
