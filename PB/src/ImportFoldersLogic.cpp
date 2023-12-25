@@ -27,8 +27,8 @@ void ImportFoldersLogic::setObserverManager()
   setChangeFunction([this](PBDev::Observer *current, PBDev::Observer *other) {
     if (other) {
       for (auto &[key, value] : mMappingJobs) {
-        value.dettach(current);
-        value.attach(other);
+        value->dettach(current);
+        value->attach(other);
       }
     }
     else {
@@ -43,21 +43,20 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
     return std::get<PBDev::Error>(errorOrPath);
   }
-  else
-  {
+  else {
     mListener->onMappingStarted(path);
   }
 
   setObserverManager();
 
-  auto mapper = MediaMapper(path);
-  mapper.attach(this);
-  mMappingJobs.emplace(path, mapper);
+  auto mapper = std::make_shared<MediaMapper>(path);
+  mapper->attach(this);
+  mMappingJobs[path] = mapper;
 
   return std::nullopt;
 }
 
-void ImportFoldersLogic::start(Path path) { mMappingJobs.at(path).start(); }
+void ImportFoldersLogic::start(Path path) { mMappingJobs.at(path)->start(); }
 
 void ImportFoldersLogic::stop(Path path) {}
 

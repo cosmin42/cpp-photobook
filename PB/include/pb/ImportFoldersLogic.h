@@ -52,9 +52,9 @@ private:
   void onImageProcessed(Path root, Path full, Path medium, Path small,
                         int progress, int progressCap);
 
-  ImportFoldersLogicListener           *mListener = nullptr;
-  ThreadScheduler                      *mScheduler = nullptr;
-  std::unordered_map<Path, MediaMapper> mMappingJobs;
-  ThumbnailsProcessor                   mThumbnailsProcessor;
+  ImportFoldersLogicListener                            *mListener = nullptr;
+  ThreadScheduler                                       *mScheduler = nullptr;
+  std::unordered_map<Path, std::shared_ptr<MediaMapper>> mMappingJobs;
+  ThumbnailsProcessor                                    mThumbnailsProcessor;
 };
 } // namespace PB
