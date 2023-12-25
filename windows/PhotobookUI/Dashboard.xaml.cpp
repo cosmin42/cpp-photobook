@@ -32,16 +32,16 @@ Path Dashboard::CurrentAppLocation()
   return Path(winrt::to_string(folder.Path()));
 }
 
-Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::RightClickFlyout()
+Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::DeleteFlyout()
 {
-  Microsoft::UI::Xaml::Controls::MenuFlyoutItem firstItem;
-  firstItem.Text(winrt::to_hstring("Delete"));
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem deleteItem;
+  deleteItem.Text(winrt::to_hstring("Delete"));
 
-  firstItem.Click([this](IInspectable const &obj, RoutedEventArgs const &e) {
+  deleteItem.Click([this](IInspectable const &obj, RoutedEventArgs const &e) {
     OnDeleteClicked(obj, e);
   });
 
-  return firstItem;
+  return deleteItem;
 }
 
 Dashboard::Dashboard()
@@ -55,7 +55,7 @@ Dashboard::Dashboard()
   mAPI->configure((PB::DashboardListener *)this);
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
-  mMenuFlyout.Items().Append(RightClickFlyout());
+  mMenuFlyout.Items().Append(DeleteFlyout());
 
   mAPI->recallMetadata();
 }

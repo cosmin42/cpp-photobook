@@ -49,7 +49,7 @@ struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
   onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata> metadata) override;
 
 private:
-  Microsoft::UI::Xaml::Controls::MenuFlyoutItem RightClickFlyout();
+  Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();
 
   IObservableVector<ProjectItem> mProjectsList;
 
