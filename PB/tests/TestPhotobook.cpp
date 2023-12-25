@@ -109,3 +109,115 @@ TEST(TestPhotobook, TestMetadata)
     photobook.recallMetadata();
   }
 }
+
+TEST(TestPhotobook, TestProject)
+{
+  clearProjectCache();
+
+  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
+      std::make_shared<TestPhotobookStagedImagesListener>();
+
+  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
+      std::make_shared<MockPhotobookImageMonitorListener>();
+
+  PB::Photobook photobook(".");
+  photobook.configure(stagedImageListener.get());
+  photobook.configure(imageMonitorListener.get());
+
+  TestDashboardListener testDashboardListener;
+
+  photobook.configure((PB::DashboardListener *)&testDashboardListener);
+
+  EXPECT_CALL(testDashboardListener,
+              onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));
+
+  photobook.recallMetadata();
+
+  std::vector<PB::ProjectMetadata> projectsMetadata;
+
+  photobook.newProject();
+
+  auto uuid = photobook.activeProject().uuid();
+  auto projectPath = photobook.activeProject().parentDirectory() /
+                     (boost::uuids::to_string(uuid) + ".photobook");
+
+  EXPECT_CALL(testDashboardListener,
+              onProjectRead());
+  photobook.recallProject(projectPath);
+}
+
+TEST(TestPhotobook, TestProjectLoading)
+{
+  clearProjectCache();
+
+  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
+      std::make_shared<TestPhotobookStagedImagesListener>();
+
+  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
+      std::make_shared<MockPhotobookImageMonitorListener>();
+
+  PB::Photobook photobook(".");
+  photobook.configure(stagedImageListener.get());
+  photobook.configure(imageMonitorListener.get());
+
+  TestDashboardListener testDashboardListener;
+
+  photobook.configure((PB::DashboardListener *)&testDashboardListener);
+
+  EXPECT_CALL(testDashboardListener,
+              onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));
+
+  photobook.recallMetadata();
+
+  std::vector<PB::ProjectMetadata> projectsMetadata;
+
+  photobook.newProject();
+
+  auto uuid = photobook.activeProject().uuid();
+  auto projectPath = photobook.activeProject().parentDirectory() /
+                     (boost::uuids::to_string(uuid) + ".photobook");
+
+  EXPECT_CALL(testDashboardListener, onProjectRead());
+  photobook.recallProject(projectPath);
+}
+
+TEST(TestPhotobook, TestProjectLoading)
+{
+  clearProjectCache();
+
+  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
+      std::make_shared<TestPhotobookStagedImagesListener>();
+
+  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
+      std::make_shared<MockPhotobookImageMonitorListener>();
+
+  PB::Photobook photobook(".");
+  photobook.configure(stagedImageListener.get());
+  photobook.configure(imageMonitorListener.get());
+
+  TestDashboardListener testDashboardListener;
+
+  photobook.configure((PB::DashboardListener *)&testDashboardListener);
+
+  EXPECT_CALL(testDashboardListener,
+              onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));
+
+  photobook.recallMetadata();
+
+  std::vector<PB::ProjectMetadata> projectsMetadata;
+
+  photobook.newProject();
+
+  auto uuid = photobook.activeProject().uuid();
+  auto projectPath = photobook.activeProject().parentDirectory() /
+                     (boost::uuids::to_string(uuid) + ".photobook");
+
+  EXPECT_CALL(testDashboardListener, onProjectRead());
+  photobook.recallProject(projectPath);
+
+  Sleep(3000);
+
+  photobook.loadProject();
+
+  photobook.unloadProject();
+}
