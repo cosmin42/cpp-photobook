@@ -724,16 +724,6 @@ void TableContentPage::OnCanvasDraw(
   session.DrawImage(bitmap);
 }
 
-void TableContentPage::OnMappingFinished(Path rootPath)
-{
-  mNavigationItemsCollection.Append(
-      winrt::to_hstring(rootPath.filename().string()));
-
-  MediaListView().ItemsSource(mNavigationItemsCollection);
-
-  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
-}
-
 void TableContentPage::OnThumbnailsProcessingFinished(Path rootPath)
 {
   mLoadedFinishedImportFolders.insert(rootPath);
@@ -898,13 +888,19 @@ void TableContentPage::OnStagedDragItemsStarting(
   mDragSource = DragSource::Staged;
 }
 
-void TableContentPage::OnMappingStopped() {}
+void TableContentPage::OnMappingAborted(Path path) {}
 
-void TableContentPage::OnMappingStarted() {}
+void TableContentPage::OnMappingStarted(Path path) {}
 
-void TableContentPage::OnMappingPaused() {}
+void TableContentPage::OnMappingFinished(Path path)
+{
+  mNavigationItemsCollection.Append(
+      winrt::to_hstring(path.filename().string()));
 
-void TableContentPage::OnMappingResumed() {}
+  MediaListView().ItemsSource(mNavigationItemsCollection);
+
+  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
+}
 
 void TableContentPage::OnProgressUpdate(Path rootPath, int progress,
                                         int reference)

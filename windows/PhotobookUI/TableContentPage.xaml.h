@@ -201,11 +201,11 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   auto GenericMessageDialogDisplay() -> winrt::fire_and_forget;
 
   void OnThumbnailsProcessingFinished(Path rootPath);
-  void OnMappingFinished(Path rootPath);
-  void OnMappingStopped();
-  void OnMappingStarted();
-  void OnMappingPaused();
-  void OnMappingResumed();
+
+  void OnMappingFinished(Path path);
+  void OnMappingAborted(Path path);
+  void OnMappingStarted(Path path);
+
 
   void OnProgressUpdate(Path rootPath, int progress, int reference);
   void OnExportProgressUpdate(int progress, int reference);
