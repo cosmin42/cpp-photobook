@@ -49,11 +49,12 @@ public:
   void recallProject(Path path);
 
   void newProject();
-  void loadProject();
   void deleteProject(std::string id);
   void discardProject();
   void saveProject();
   void saveProject(Path newPath);
+
+  void loadProject();
 
   ImageViews      &imageViews();
   ProjectSnapshot &activeProject();

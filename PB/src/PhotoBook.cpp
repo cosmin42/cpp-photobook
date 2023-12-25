@@ -84,7 +84,10 @@ void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
 
 void Photobook::deleteProject(std::string id)
 {
+  Path projectFile = mProject.metadata().projectFile();
+  Path supportFolder = mProject.active().supportFolder();
   mPersistence.deleteMetadata(id);
+  mPersistence.deleteProject(projectFile, supportFolder);
 }
 
 void Photobook::addImportFolder(Path path)
@@ -163,7 +166,7 @@ void Photobook::saveProject(Path path)
 
   mPersistence.persistProject(path, mProject.active());
   mPersistence.persistMetadata(projectMetadata);
-  
+
   if (path != oldProjectFile) {
     mPersistence.deleteProject(oldProjectFile, oldSupportFolder);
   }
@@ -210,6 +213,8 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 void Photobook::newProject()
 {
   mProject = Project(mApplicationLocalStatePath);
+
+  saveProject();
 }
 
 void Photobook::onMapped(Path root, std::vector<Path> newFolders)

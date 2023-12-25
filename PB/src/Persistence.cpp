@@ -132,10 +132,12 @@ void Persistence::recallProject(Path projectPath)
 
 void Persistence::deleteMetadata(std::string id)
 {
-  mCentral.deleteEntry(id, [this](std::optional<PBDev::Error>) {
+  mCentral.deleteEntry(id, [this](std::optional<PBDev::Error> maybeError) {
     if (mPersistenceMetadataListener) {
-      mPersistenceMetadataListener->onMetadataPersistenceError(
-          PBDev::Error() << ErrorCode::CorruptPersistenceFile);
+      if (maybeError) {
+        mPersistenceMetadataListener->onMetadataPersistenceError(
+            PBDev::Error() << ErrorCode::CorruptPersistenceFile);
+      }
     }
   });
 }
