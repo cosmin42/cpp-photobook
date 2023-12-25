@@ -67,7 +67,8 @@ void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
   if (dynamic_cast<MediaMapper *>(&subject) != nullptr) {
     auto &mediaMap = static_cast<MediaMapper &>(subject);
     if (mediaMap.state() == MediaMapState::Finished) {
-      mListener->onMapped(mediaMap.root(), mediaMap.importedDirectories());
+      mListener->onMappingFinished(mediaMap.root(),
+                                   mediaMap.importedDirectories());
     }
     else if (mediaMap.state() == MediaMapState::Aborted) {
       mListener->onMappingAborted(mediaMap.root());

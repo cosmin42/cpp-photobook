@@ -74,7 +74,7 @@ public:
   void onProjectPersistenceError(PBDev::Error) override;
 
   void onMappingStarted(Path path) override;
-  void onMapped(Path, std::vector<Path> newFolders) override;
+  void onMappingFinished(Path, std::vector<Path> newFolders) override;
   void onImportStop(Path) override;
   void onImageProcessed(Path root, Path full, Path medium, Path small,
                         int progress, int progressCap) override;

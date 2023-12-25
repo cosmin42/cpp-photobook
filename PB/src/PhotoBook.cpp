@@ -225,7 +225,7 @@ void Photobook::newProject()
 
 void Photobook::onMappingStarted(Path path) {}
 
-void Photobook::onMapped(Path root, std::vector<Path> newFolders)
+void Photobook::onMappingFinished(Path root, std::vector<Path> newFolders)
 {
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 

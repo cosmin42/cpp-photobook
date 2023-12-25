@@ -13,7 +13,7 @@ public:
   virtual ~ImportFoldersLogicListener() = default;
 
   virtual void onMappingStarted(Path path) = 0;
-  virtual void onMapped(Path root, std::vector<Path> newFolders) = 0;
+  virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
   virtual void onMappingAborted(Path) = 0;
 
   virtual void onImportStop(Path) = 0;
