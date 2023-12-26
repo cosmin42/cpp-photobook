@@ -13,8 +13,8 @@
 namespace winrt::PhotobookUI::implementation {
 
 ImageUIData::ImageUIData()
-    : mFullPath(winrt::to_hstring(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE)),
-      mMediumPath(winrt::to_hstring(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE)),
+    : mFullPath(winrt::to_hstring(PB::Context::LOADING_PHOTO_PLACEHOLDER)),
+      mMediumPath(winrt::to_hstring(PB::Context::LOADING_PHOTO_PLACEHOLDER)),
       mSmallPath(winrt::to_hstring(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE))
 {
 }

@@ -38,8 +38,8 @@ public:
   ImageResources resources() const { return mResources; }
 
 private:
-  ImageResources mResources = {Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE),
-                               Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE),
+  ImageResources mResources = {Path(Context::LOADING_PHOTO_PLACEHOLDER),
+                               Path(Context::LOADING_PHOTO_PLACEHOLDER),
                                Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
 };
 } // namespace PB
