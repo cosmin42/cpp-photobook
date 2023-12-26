@@ -163,11 +163,15 @@ set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 if (LOG_LEVEL MATCHES Debug)
     add_executable(pbtests 
+        tests/MockListeners.h
+
+        tests/MockListeners.cpp
         tests/TestPersistence.cpp
         tests/TestIteratorWithState.cpp
         tests/TestComparator.cpp
         tests/TestDataManager.cpp
         tests/TestErrors.cpp
+        tests/TestFolderImport.cpp
         tests/TestImageMonitor.cpp
         tests/TestParallelTaskConsumer.cpp
         tests/TestPhotobook.cpp

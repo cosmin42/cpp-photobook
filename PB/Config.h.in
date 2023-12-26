@@ -41,7 +41,7 @@ public:
 
   static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE =
     "Assets/coffee-cup.png";
-  static constexpr const char *LOADIN_PHOTO_PLACEHOLDER =
+  static constexpr const char *LOADING_PHOTO_PLACEHOLDER =
     "Assets/loading-image.png";
 
   static constexpr const char *VERSION = "0.1.0";

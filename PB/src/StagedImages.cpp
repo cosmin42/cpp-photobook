@@ -41,7 +41,7 @@ void StagedImages::addPicture(std::shared_ptr<VirtualImage> picture)
 {
   mStagedPhotos.push_back(picture);
   PBDev::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded(mStagedPhotos.size() - 1,
+  mListener->onPicturesAdded((int)mStagedPhotos.size() - 1,
                              (int)mStagedPhotos.size());
 }
 

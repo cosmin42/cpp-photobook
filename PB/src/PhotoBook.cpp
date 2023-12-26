@@ -10,6 +10,7 @@ Photobook::Photobook(Path applicationLocalStatePath)
       mPersistence(applicationLocalStatePath, this, this),
       mProject(std::make_shared<Project>())
 {
+  mImportLogic.configure((ImportFoldersLogicListener *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
