@@ -50,33 +50,7 @@ void Photobook::loadProject()
     addImportFolder(path);
   }
 
-  auto stagedImages = mProject->active().stagedImagesList();
-
-  std::vector<std::shared_ptr<VirtualImage>> stage;
-
-  for (auto i = 0; i < stagedImages.size(); ++i) {
-    if (std::filesystem::is_regular_file(stagedImages.at(i))) {
-      auto regularImage = std::make_shared<RegularImage>(stagedImages.at(i));
-      regularImage->setFullSizePath(stagedImages.at(i));
-
-      stage.push_back(regularImage);
-      // mParent->onStagedImageAdded({regularImage});
-    }
-    else if (std::filesystem::is_directory(stagedImages.at(i))) {
-      auto textImage =
-          std::make_shared<TextImage>(stagedImages.at(i).stem().string());
-      textImage->setFullSizePath(stagedImages.at(i));
-
-      // mImageSupport.stagePhoto({textImage});
-      stage.push_back(textImage);
-      // mParent->onStagedImageAdded({textImage});
-    }
-    else {
-      PBDev::basicAssert(false);
-    }
-  }
-
-  mImageViews.stagedImages().addPictures(stage);
+  loadStagedImages();
 }
 
 void Photobook::unloadProject()
@@ -107,6 +81,32 @@ void Photobook::addImportFolder(Path path)
   mImportLogic.start(path);
 }
 
+void Photobook::loadStagedImages() {
+  auto stagedImages = mProject->active().stagedImagesList();
+
+  std::vector<std::shared_ptr<VirtualImage>> stage;
+
+  for (auto i = 0; i < stagedImages.size(); ++i) {
+    if (std::filesystem::is_regular_file(stagedImages.at(i))) {
+
+      auto regularImage = std::make_shared<RegularImage>(stagedImages.at(i));
+      regularImage->setFullSizePath(stagedImages.at(i));
+
+      mImageViews.stagedImages().addPicture(regularImage);
+    }
+    else if (std::filesystem::is_directory(stagedImages.at(i))) {
+      auto textImage =
+          std::make_shared<TextImage>(stagedImages.at(i).stem().string());
+      textImage->setFullSizePath(stagedImages.at(i));
+
+      mImageViews.stagedImages().addPicture(textImage);
+    }
+    else {
+      PBDev::basicAssert(false);
+    }
+  }
+}
+
 void Photobook::update(PBDev::ObservableSubject &subject)
 {
   if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
@@ -120,11 +120,6 @@ void Photobook::update(PBDev::ObservableSubject &subject)
   else {
     PBDev::basicAssert(false);
   }
-}
-
-void Photobook::onImportFolderMapped(Path              rootPath,
-                                     std::vector<Path> newMediaMap)
-{
 }
 
 void Photobook::onError(PBDev::Error error) { mParent->onError(error); }

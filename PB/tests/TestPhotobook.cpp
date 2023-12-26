@@ -42,8 +42,11 @@ public:
                int                                            index),
               (override));
   MOCK_METHOD(void, onStagedImageRemoved, (std::vector<unsigned>), (override));
+
   MOCK_METHOD(void, onMappingStarted, (Path), (override));
   MOCK_METHOD(void, onMappingFinished, (Path), (override));
+  MOCK_METHOD(void, onMappingAborted, (Path), (override));
+
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 };
 
@@ -175,6 +178,9 @@ TEST(TestPhotobook, TestProjectLoading)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
+  std::shared_ptr<PB::PhotobookListener> photobookListener =
+      std::make_shared<TestPhotobookListener>();
+
   PB::Photobook photobook(".");
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
@@ -182,6 +188,7 @@ TEST(TestPhotobook, TestProjectLoading)
   TestDashboardListener testDashboardListener;
 
   photobook.configure((PB::DashboardListener *)&testDashboardListener);
+  photobook.configure(photobookListener);
 
   EXPECT_CALL(testDashboardListener,
               onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));

@@ -38,8 +38,6 @@ TEST(TestStagedImages, AddPictures)
 
   std::vector<std::shared_ptr<PB::VirtualImage>> pictures;
 
-  EXPECT_CALL(*listener.get(), onPicturesAdded(0, 0));
-
   stagedImages->addPictures(pictures);
 
   std::shared_ptr<PB::VirtualImage> image0 =

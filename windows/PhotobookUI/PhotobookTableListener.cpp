@@ -12,7 +12,7 @@ PhotobookTableListener::PhotobookTableListener(TableContentPage &parent)
 
 void PhotobookTableListener::onMappingStarted(Path path)
 {
-  mParent.OnMappingStarted();
+  mParent.OnMappingStarted(path);
 }
 
 void PhotobookTableListener::onMappingFinished(Path path)

@@ -2,7 +2,7 @@
 
 namespace PB {
 
-void StagedImages::setListener(StagedImagesListener* listener)
+void StagedImages::setListener(StagedImagesListener *listener)
 {
   mListener = listener;
 }
@@ -14,7 +14,9 @@ void StagedImages::addPictures(
   mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
 
   PBDev::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded(nextIndex, (int)pictures.size());
+  if (pictures.size() > 0) {
+    mListener->onPicturesAdded(nextIndex, (int)pictures.size());
+  }
 }
 
 void StagedImages::addPictures(
@@ -33,6 +35,14 @@ void StagedImages::addPictures(
 
   PBDev::basicAssert(mListener != nullptr);
   mListener->onPicturesAdded(position, (int)pictures.size());
+}
+
+void StagedImages::addPicture(std::shared_ptr<VirtualImage> picture)
+{
+  mStagedPhotos.push_back(picture);
+  PBDev::basicAssert(mListener != nullptr);
+  mListener->onPicturesAdded(mStagedPhotos.size() - 1,
+                             (int)mStagedPhotos.size());
 }
 
 void StagedImages::removePicture(std::vector<unsigned> indexes)

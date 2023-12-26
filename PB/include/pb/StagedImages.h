@@ -21,6 +21,8 @@ public:
   void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures);
   void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures,
                    int                                        position);
+  void addPicture(std::shared_ptr<VirtualImage> picture);
+
   void removePicture(std::vector<unsigned> indexes);
   void clear();
 

@@ -61,6 +61,9 @@ public:
   ProjectSnapshot &activeProject();
 
   void addImportFolder(Path importPath);
+
+  void loadStagedImages();
+
   void exportAlbum(std::string name, Path path);
   bool projectDefaultSaved();
 
@@ -82,7 +85,6 @@ public:
   void post(std::function<void()> f) override;
 
 private:
-  void onImportFolderMapped(Path rootPath, std::vector<Path> newMediaMap);
 
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
   DashboardListener                       *mDashboardListener;
