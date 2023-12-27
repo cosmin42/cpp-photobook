@@ -3,6 +3,8 @@
 #include <pb/util/FileInfo.h>
 
 namespace PB {
+int ImportFoldersLogic::thumbnailsDir = 0;
+
 void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
 {
   mListener = listener;
@@ -98,11 +100,12 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
 void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
 {
   mThumbnailsProcessor.generateThumbnails(
-      newFolders, root.string(),
+      newFolders, std::to_string(thumbnailsDir),
       [this, root{root}, maxProgress{newFolders.size()}](
           Path full, Path medium, Path small, int position) {
-        onImageProcessed(root, full, medium, small, position, (int)maxProgress);
+        onImageProcessed(root, full, medium, small, position+1, (int)maxProgress);
       });
+  thumbnailsDir++;
 }
 
 std::pair<int, int> ImportFoldersLogic::imageProcessingProgress() const
@@ -116,5 +119,10 @@ std::pair<int, int> ImportFoldersLogic::imageProcessingProgress() const
   }
 
   return {totalProgress, totalProgressCap};
+}
+
+std::pair<int, int> ImportFoldersLogic::imageProcessingProgress(Path path) const
+{
+  return mImageProcessingProgress.at(path);
 }
 } // namespace PB

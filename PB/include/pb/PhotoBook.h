@@ -95,7 +95,6 @@ private:
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
   std::vector<std::shared_ptr<Exportable>> mExporters;
-  std::unordered_map<Path, int>            mProgress;
   CommandStack                             mCommandStack;
   ExportFactory                            mExportFactory;
 };

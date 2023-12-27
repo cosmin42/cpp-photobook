@@ -22,6 +22,8 @@ public:
   virtual void onMappingFinished(Path path) = 0;
   virtual void onMappingAborted(Path path) = 0;
 
+  virtual void onImageUpdated(Path root, int row, int index) = 0;
+
   virtual void post(std::function<void()> f) = 0;
 };
 

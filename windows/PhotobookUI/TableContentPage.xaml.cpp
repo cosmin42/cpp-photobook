@@ -825,17 +825,33 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
   }
 
   auto rootPath = mPhotoBook->imageViews().imageMonitor().rowPath(index);
-  if (mLoadedFinishedImportFolders.find(rootPath) !=
-      mLoadedFinishedImportFolders.end()) {
-    auto size = iterator.size();
-    for (int i = 0; i < (int)size; ++i) {
-      auto virtualImage = iterator[i].current();
-      mUnstagedImageCollection.SetAt(
-          i, ImageUIData(
+
+  for (int i = 0; i < (int)mPhotoBook->imageViews().imageMonitor().rowSize(index);
+       ++i) {
+    auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(index, i);
+    mUnstagedImageCollection.SetAt(
+        i, ImageUIData(
+               winrt::to_hstring(virtualImage->resources().full.string()),
+               winrt::to_hstring(virtualImage->resources().medium.string()),
+               winrt::to_hstring(virtualImage->resources().small.string())));
+  }
+}
+
+void TableContentPage::UpdateUnstagedImage(int row, int index)
+{
+  auto selection = SelectionIndex();
+
+  auto importSelectedIndex = selection.importListIndex;
+
+  if (importSelectedIndex.has_value() && importSelectedIndex.value() == row) {
+    auto virtualImage =
+        mPhotoBook->imageViews().imageMonitor().image(row, index);
+
+    mUnstagedImageCollection.SetAt(
+        index, ImageUIData(
                  winrt::to_hstring(virtualImage->resources().full.string()),
                  winrt::to_hstring(virtualImage->resources().medium.string()),
                  winrt::to_hstring(virtualImage->resources().small.string())));
-    }
   }
 }
 
@@ -938,9 +954,16 @@ void TableContentPage::OnMappingFinished(Path path)
 
 void TableContentPage::OnProgressUpdate(int progress, int reference)
 {
-  MainProgressBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
-  MainProgressBar().Maximum(reference);
-  MainProgressBar().Value(progress);
+  if (progress == reference) {
+    MainProgressBar().Visibility(
+        winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
+  }
+  else {
+    MainProgressBar().Visibility(
+        winrt::Microsoft::UI::Xaml::Visibility::Visible);
+    MainProgressBar().Maximum(reference);
+    MainProgressBar().Value(progress);
+  }
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)

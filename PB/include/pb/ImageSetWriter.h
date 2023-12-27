@@ -70,7 +70,7 @@ public:
   {
     bool success = cv::imwrite(path.string(), *image);
     if (!success) {
-      printDebug("File could not be saved to %s", path.string().c_str());
+      printDebug("File could not be saved to %s\n", path.string().c_str());
     }
   }
 

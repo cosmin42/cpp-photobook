@@ -30,6 +30,8 @@ public:
   void onMappingFinished(Path path) override;
   void onMappingAborted(Path path) override;
 
+  void onImageUpdated(Path root, int row, int index) override;
+
   void onError(PBDev::Error error) override;
 
   void post(std::function<void()> f) override;

@@ -253,14 +253,20 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 void Photobook::onImportStop(Path) {}
 
 void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
-{ 
+{
   mImageViews.imageMonitor().image(full)->setSizePath(full, medium, small);
 
-  auto [progress, progressCap] = mImportLogic.imageProcessingProgress();
+  auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
+  auto [globalProgress, globalProgressCap] =
+      mImportLogic.imageProcessingProgress();
 
-  mParent->onProgressUpdate(progress, (int)progressCap);
+  mParent->onProgressUpdate(globalProgress, (int)globalProgressCap);
 
-  if (mProgress[root] == progressCap) {
+  auto [row, index] = mImageViews.imageMonitor().position(full);
+
+  mParent->onImageUpdated(root, row, index);
+
+  if (progress == progressCap) {
     auto rowIndex = mImageViews.imageMonitor().rowIndex(root);
     mImageViews.imageMonitor().completeRow(rowIndex);
 

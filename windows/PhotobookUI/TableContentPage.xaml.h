@@ -231,6 +231,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onImportFolderRemoved(unsigned index) override;
   void onCleared() override;
 
+  void UpdateUnstagedImage(int row, int index);
+
 private:
   UISelectionIndex SelectionIndex();
   bool             StagedLineEmpty();

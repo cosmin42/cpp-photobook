@@ -25,8 +25,13 @@ void PhotobookTableListener::onMappingAborted(Path path)
   mParent.Post([this, path]() { mParent.OnMappingAborted(path); });
 }
 
-void PhotobookTableListener::onProgressUpdate(int progress,
-                                              int reference)
+void PhotobookTableListener::onImageUpdated(Path root, int row, int index)
+{
+  mParent.Post(
+      [this, row, index]() { mParent.UpdateUnstagedImage(row, index); });
+}
+
+void PhotobookTableListener::onProgressUpdate(int progress, int reference)
 {
   mParent.Post([this, progress, reference]() {
     mParent.OnProgressUpdate(progress, reference);

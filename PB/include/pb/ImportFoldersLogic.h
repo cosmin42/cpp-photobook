@@ -17,7 +17,8 @@ public:
   virtual void onMappingAborted(Path) = 0;
 
   virtual void onImportStop(Path) = 0;
-  virtual void onImageProcessed(Path root, Path full, Path medium, Path small) = 0;
+  virtual void onImageProcessed(Path root, Path full, Path medium,
+                                Path small) = 0;
 };
 
 class ThreadScheduler {
@@ -44,8 +45,11 @@ public:
   void processImages(Path root, std::vector<Path> newFolders);
 
   std::pair<int, int> imageProcessingProgress() const;
+  std::pair<int, int> imageProcessingProgress(Path path) const;
 
 private:
+  static int thumbnailsDir;
+
   void setObserverManager();
 
   void onImageProcessed(Path root, Path full, Path medium, Path small,

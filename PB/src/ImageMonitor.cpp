@@ -18,7 +18,7 @@ void ImageMonitor::addRow(Path                                       path,
 
   for (auto i = 0; i < images.size(); ++i) {
     mPositions.insert({images.at(i)->resources().full,
-                       {(int)mUnstagedImagesMatrix.size(), (int)i}});
+                       {(int)mUnstagedImagesMatrix.size()-1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));
   }
@@ -123,9 +123,15 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
 {
   PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
 
-  auto position = mPositions.left.at(full);
+  auto& [row, index] = mPositions.left.at(full);
 
-  return mUnstagedImagesMatrix.at(position.first).at(position.second);
+  return mUnstagedImagesMatrix.at(row).at(index);
+}
+
+std::pair<int, int> ImageMonitor::position(Path full) const
+{
+  PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
+  return mPositions.left.at(full);
 }
 
 auto ImageMonitor::statefulIterator(Path root)
