@@ -888,12 +888,18 @@ void TableContentPage::OnStagedDragItemsStarting(
   mDragSource = DragSource::Staged;
 }
 
-void TableContentPage::OnMappingAborted(Path path) {}
+void TableContentPage::OnMappingAborted(Path path) {
+  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+}
 
-void TableContentPage::OnMappingStarted(Path path) {}
+void TableContentPage::OnMappingStarted(Path path) {
+  StatusLabelText().Text(winrt::to_hstring("Status: Mapping..."));
+}
 
 void TableContentPage::OnMappingFinished(Path path)
 {
+  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+
   mNavigationItemsCollection.Append(
       winrt::to_hstring(path.filename().string()));
 

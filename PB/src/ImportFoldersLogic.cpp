@@ -43,9 +43,6 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
     return std::get<PBDev::Error>(errorOrPath);
   }
-  else {
-    mListener->onMappingStarted(path);
-  }
 
   setObserverManager();
 
@@ -72,6 +69,9 @@ void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
     }
     else if (mediaMap.state() == MediaMapState::Aborted) {
       mListener->onMappingAborted(mediaMap.root());
+    }
+    else if (mediaMap.state() == MediaMapState::Started) {
+      mListener->onMappingStarted(mediaMap.root());
     }
   }
   else {

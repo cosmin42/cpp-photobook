@@ -82,7 +82,8 @@ void Photobook::addImportFolder(Path path)
   mImportLogic.start(path);
 }
 
-void Photobook::loadStagedImages() {
+void Photobook::loadStagedImages()
+{
   auto stagedImages = mProject->active().stagedImagesList();
 
   std::vector<std::shared_ptr<VirtualImage>> stage;
@@ -219,29 +220,41 @@ void Photobook::newProject()
   saveProject();
 }
 
-void Photobook::onMappingStarted(Path path) {}
+void Photobook::onMappingStarted(Path path)
+{
+  post([this, path{path}]() { mParent->onMappingStarted(path); });
+}
+
+void Photobook::onMappingAborted(Path path)
+{
+  post([this, path{path}]() { mParent->onMappingAborted(path); });
+}
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFolders)
 {
-  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  post([this, root, newFolders{newFolders}]() {
+    std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
-  for (auto p : newFolders) {
-    if (std::filesystem::is_regular_file(p)) {
-      auto newRegularImage = std::make_shared<RegularImage>(p);
-      newRegularImage->setFullSizePath(p);
-      imagesSet.push_back(newRegularImage);
+    for (auto p : newFolders) {
+      if (std::filesystem::is_regular_file(p)) {
+        auto newRegularImage = std::make_shared<RegularImage>(p);
+        newRegularImage->setFullSizePath(p);
+        imagesSet.push_back(newRegularImage);
+      }
+      else if (std::filesystem::is_directory(p)) {
+        auto textImage = std::make_shared<TextImage>(p.stem().string());
+        textImage->setFullSizePath(p);
+        imagesSet.push_back(textImage);
+      }
+      else {
+        PBDev::basicAssert(false);
+      }
     }
-    else if (std::filesystem::is_directory(p)) {
-      auto textImage = std::make_shared<TextImage>(p.stem().string());
-      textImage->setFullSizePath(p);
-      imagesSet.push_back(textImage);
-    }
-    else {
-      PBDev::basicAssert(false);
-    }
-  }
 
-  mImageViews.imageMonitor().addRow(root, imagesSet);
+    mImageViews.imageMonitor().addRow(root, imagesSet);
+
+    mParent->onMappingAborted(root);
+  });
 }
 
 void Photobook::onImportStop(Path) {}
@@ -261,8 +274,6 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small,
     mImportLogic.clearJob(root);
   }
 }
-
-void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
 
 void Photobook::post(std::function<void()> f) { mParent->post(f); }
 

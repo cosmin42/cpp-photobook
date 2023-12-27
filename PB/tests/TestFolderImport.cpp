@@ -37,7 +37,5 @@ TEST(TestFolderImport, Test0)
 
   photobook.addImportFolder("../test-data/");
 
-  Sleep(5000);
-
-
+  Sleep(3000);
 }
