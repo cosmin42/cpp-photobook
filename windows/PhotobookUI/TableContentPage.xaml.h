@@ -206,15 +206,13 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void OnMappingAborted(Path path);
   void OnMappingStarted(Path path);
 
-
   void OnProgressUpdate(Path rootPath, int progress, int reference);
   void OnExportProgressUpdate(int progress, int reference);
 
   void OnExportFinished();
 
-  void OnUnstagedImageAdded(Path rootPath, Path fullPath,
-                            Path mediumPath, Path smallPath,
-                            int position);
+  void OnUnstagedImageAdded(Path rootPath, Path fullPath, Path mediumPath,
+                            Path smallPath, int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
   void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
@@ -256,6 +254,9 @@ private:
       int width, int height,
       int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
+
+  void UpdateStatusBar();
+
   std::shared_ptr<PhotobookTableListener>        mListener;
   std::shared_ptr<PB::Photobook>                 mPhotoBook;
   IObservableVector<winrt::hstring>              mNavigationItemsCollection;
@@ -264,9 +265,11 @@ private:
   std::vector<std::shared_ptr<PB::VirtualImage>> mDragAndDropSelectedImages;
   PopUps                                         mPopups;
   bool                                           mExitFlag = false;
-  std::unordered_set<Path>                   mLoadedFinishedImportFolders;
-  std::unordered_set<Path>                   mStagedImages;
+  std::unordered_set<Path>                       mLoadedFinishedImportFolders;
+  std::unordered_set<Path>                       mStagedImages;
   DragSource                                     mDragSource = DragSource::None;
+
+  std::unordered_set<Path> mImportedDirectories;
 };
 } // namespace winrt::PhotobookUI::implementation
 

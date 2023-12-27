@@ -22,11 +22,11 @@
 #include <winrt/Windows.UI.ViewManagement.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
-#include <pb/project/PaperSettings.h>
-#include <pb/image/RegularImage.h>
-#include <pb/image/ImageReader.h>
-#include <pb/persistence/SerializationStrategy.h>
 #include <pb/config/Log.h>
+#include <pb/image/ImageReader.h>
+#include <pb/image/RegularImage.h>
+#include <pb/persistence/SerializationStrategy.h>
+#include <pb/project/PaperSettings.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -82,7 +82,8 @@ TableContentPage::TableContentPage()
 
   MainWindow::sMainExitFunction = [this]() {
     auto projectDetails = mPhotoBook->activeProject();
-    bool alreadySaved = true;//mPhotoBook->persistence()->isSaved(projectDetails);
+    bool alreadySaved =
+        true; // mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
       ProjectExitDialogDisplay();
       mExitFlag = true;
@@ -187,9 +188,9 @@ int TableContentPage::CanvasMinHeight()
 void TableContentPage::OnImportFolderAdded(IInspectable const &,
                                            RoutedEventArgs const &)
 {
-  mPopups.fireFolderPicker(
-      MainWindow::sMainWindowHandle,
-      [this](Path path) { mPhotoBook->addImportFolder(path); });
+  mPopups.fireFolderPicker(MainWindow::sMainWindowHandle, [this](Path path) {
+    mPhotoBook->addImportFolder(path);
+  });
 }
 
 void TableContentPage::OnImportFolderRemoved(IInspectable const &,
@@ -263,7 +264,8 @@ void TableContentPage::OnBackClicked(IInspectable const &,
 {
 
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =
+      true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
@@ -329,7 +331,8 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =
+      true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }
@@ -373,7 +376,8 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =
+      true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     mPhotoBook->discardProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
@@ -461,7 +465,8 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
 
-    auto regularImage = std::make_shared<PB::RegularImage>(Path(fullPath), Path(mediumPath), Path(smallPath));
+    auto regularImage = std::make_shared<PB::RegularImage>(
+        Path(fullPath), Path(mediumPath), Path(smallPath));
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -788,7 +793,8 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto fullPath = winrt::to_string(image.FullPath());
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
-    auto regularImage = std::make_shared<PB::RegularImage>(Path(fullPath), Path(mediumPath), Path(smallPath));
+    auto regularImage = std::make_shared<PB::RegularImage>(
+        Path(fullPath), Path(mediumPath), Path(smallPath));
     // mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
     mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
                                                         changedIndex);
@@ -888,17 +894,39 @@ void TableContentPage::OnStagedDragItemsStarting(
   mDragSource = DragSource::Staged;
 }
 
-void TableContentPage::OnMappingAborted(Path path) {
-  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+void TableContentPage::UpdateStatusBar()
+{
+  if (mImportedDirectories.empty()) {
+    StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+  }
+  else {
+    std::string names;
+    for (auto path : mImportedDirectories) {
+      names = names + path.stem().string();
+    }
+
+    StatusLabelText().Text(
+        winrt::to_hstring("Status: Mapping " + names + " ..."));
+  }
+}
+void TableContentPage::OnMappingAborted(Path path)
+{
+  PBDev::basicAssert(mImportedDirectories.contains(path));
+  mImportedDirectories.erase(path);
+  UpdateStatusBar();
 }
 
-void TableContentPage::OnMappingStarted(Path path) {
-  StatusLabelText().Text(winrt::to_hstring("Status: Mapping..."));
+void TableContentPage::OnMappingStarted(Path path)
+{
+  mImportedDirectories.insert(path);
+  UpdateStatusBar();
 }
 
 void TableContentPage::OnMappingFinished(Path path)
 {
-  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+  PBDev::basicAssert(mImportedDirectories.contains(path));
+  mImportedDirectories.erase(path);
+  UpdateStatusBar();
 
   mNavigationItemsCollection.Append(
       winrt::to_hstring(path.filename().string()));
@@ -921,7 +949,6 @@ void TableContentPage::OnProgressUpdate(Path rootPath, int progress,
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
     MainProgressBar().Maximum(reference);
     MainProgressBar().Value(progress);
-    StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
   }
 }
 
@@ -930,20 +957,17 @@ void TableContentPage::OnExportProgressUpdate(int progress, int reference)
   MainProgressBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
   MainProgressBar().Maximum(reference);
   MainProgressBar().Value(progress);
-  StatusLabelText().Text(winrt::to_hstring("Status: In progress..."));
 }
 
 void TableContentPage::OnExportFinished()
 {
-  StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   MainProgressBar().Visibility(
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 }
 
-void TableContentPage::OnUnstagedImageAdded(Path rootPath,
-                                            Path fullPath,
-                                            Path mediumPath,
-                                            Path smallPath, int position)
+void TableContentPage::OnUnstagedImageAdded(Path rootPath, Path fullPath,
+                                            Path mediumPath, Path smallPath,
+                                            int position)
 {
   auto selection = SelectionIndex();
 
@@ -1138,7 +1162,8 @@ void TableContentPage::OnContentDialogSaveClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =  true;//mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved =
+      true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
     return;
   }

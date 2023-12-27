@@ -253,7 +253,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFolders)
 
     mImageViews.imageMonitor().addRow(root, imagesSet);
 
-    mParent->onMappingAborted(root);
+    mParent->onMappingFinished(root);
   });
 }
 
