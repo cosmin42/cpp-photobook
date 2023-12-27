@@ -47,7 +47,6 @@ void ResizeTask::operator()() const
 }
 
 ThumbnailsProcessor::ThumbnailsProcessor()
-    : mResizePool(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
 {
 }
 
@@ -86,9 +85,8 @@ void ThumbnailsProcessor::generateThumbnails(
     ResizeTask resizeTask(mediaMap.at(i), smallPath, mediumPath, taskCount,
                           task, mScreenWidth, mScreenHeight,
                           mStopSources.at(mStopSources.size() - 1).get_token());
-    std::future<void> token = mResizePool.enqueue(resizeTask);
 
-    mFutures.push_back(std::move(token));
+    mParallelTaskConsumer.enqueue([resizeTask{resizeTask}]() { resizeTask(); });
   }
 }
 

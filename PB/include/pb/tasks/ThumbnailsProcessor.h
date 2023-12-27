@@ -4,6 +4,7 @@
 
 #include <pb/image/ImageOperations.h>
 #include <pb/project/Project.h>
+#include <pb/util/ParallelTaskConsumer.h>
 
 namespace PB {
 class ResizeTask final {
@@ -47,7 +48,9 @@ private:
   std::pair<Path, Path>                      assembleOutputPaths(int         index,
                                                                  std::string groupIdentifier);
   std::shared_ptr<Project>                   mProject;
-  dp::thread_pool<std::function<void(void)>> mResizePool;
+
+  PBDev::ParallelTaskConsumer mParallelTaskConsumer;
+  
   std::vector<std::future<void>>             mFutures;
   std::function<void(Path, Path, Path, int)> mThumbnailWritten;
   int                                        mScreenWidth = 0;

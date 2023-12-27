@@ -76,6 +76,7 @@ add_library(pblib STATIC
     include/pb/ImageMonitor.h
     include/pb/ImageSetWriter.h
     include/pb/ImportFoldersLogic.h
+    include/pb/image/ImageFactory.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
     include/pb/image/RegularImage.h
@@ -115,6 +116,7 @@ add_library(pblib STATIC
     src/FileComparator.cpp
     src/FilePersistence.cpp
     src/Html.cpp
+    src/ImageFactory.cpp
     src/ImageReader.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp

@@ -1,5 +1,6 @@
 #include <pb/Photobook.h>
 
+#include <pb/image/ImageFactory.h>
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
 #include <pb/persistence/SerializationStrategy.h>
@@ -230,25 +231,14 @@ void Photobook::onMappingAborted(Path path)
   post([this, path{path}]() { mParent->onMappingAborted(path); });
 }
 
-void Photobook::onMappingFinished(Path root, std::vector<Path> newFolders)
+void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
-  post([this, root, newFolders{newFolders}]() {
+  post([this, root, newFiles{newFiles}]() {
     std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
-    for (auto p : newFolders) {
-      if (std::filesystem::is_regular_file(p)) {
-        auto newRegularImage = std::make_shared<RegularImage>(p);
-        newRegularImage->setFullSizePath(p);
-        imagesSet.push_back(newRegularImage);
-      }
-      else if (std::filesystem::is_directory(p)) {
-        auto textImage = std::make_shared<TextImage>(p.stem().string());
-        textImage->setFullSizePath(p);
-        imagesSet.push_back(textImage);
-      }
-      else {
-        PBDev::basicAssert(false);
-      }
+    for (auto path : newFiles) {
+      auto virtualImage = PB::ImageFactory::createImage(path);
+      imagesSet.push_back(virtualImage);
     }
 
     mImageViews.imageMonitor().addRow(root, imagesSet);
