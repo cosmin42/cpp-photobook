@@ -81,12 +81,12 @@ public:
   void onMappingAborted(Path) override;
 
   void onImportStop(Path) override;
-  void onImageProcessed(Path root, Path full, Path medium, Path small,
-                        int progress, int progressCap) override;
+  void onImageProcessed(Path root, Path full, Path medium, Path small) override;
 
   void post(std::function<void()> f) override;
 
 private:
+
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
   DashboardListener                       *mDashboardListener;
   Path                                     mApplicationLocalStatePath;

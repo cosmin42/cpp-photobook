@@ -17,8 +17,7 @@ public:
   virtual void onMappingAborted(Path) = 0;
 
   virtual void onImportStop(Path) = 0;
-  virtual void onImageProcessed(Path root, Path full, Path medium, Path small,
-                                int progress, int progressCap) = 0;
+  virtual void onImageProcessed(Path root, Path full, Path medium, Path small) = 0;
 };
 
 class ThreadScheduler {
@@ -42,10 +41,12 @@ public:
 
   void clearJob(Path root);
 
+  void processImages(Path root, std::vector<Path> newFolders);
+
+  std::pair<int, int> imageProcessingProgress() const;
+
 private:
   void setObserverManager();
-
-  void processImages(Path root, std::vector<Path> newFolders);
 
   void onImageProcessed(Path root, Path full, Path medium, Path small,
                         int progress, int progressCap);
@@ -53,6 +54,7 @@ private:
   ImportFoldersLogicListener                            *mListener = nullptr;
   ThreadScheduler                                       *mScheduler = nullptr;
   std::unordered_map<Path, std::shared_ptr<MediaMapper>> mMappingJobs;
-  ThumbnailsProcessor                                    mThumbnailsProcessor;
+  std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
+  ThumbnailsProcessor                           mThumbnailsProcessor;
 };
 } // namespace PB

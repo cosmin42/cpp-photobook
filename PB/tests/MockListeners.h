@@ -34,7 +34,7 @@ public:
 
 class TestPhotobookListener final : public PB::PhotobookListener {
 public:
-  MOCK_METHOD(void, onProgressUpdate, (Path, int, int), (override));
+  MOCK_METHOD(void, onProgressUpdate, (int, int), (override));
   MOCK_METHOD(void, onExportProgressUpdate, (int, int), (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));

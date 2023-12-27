@@ -12,6 +12,7 @@ Photobook::Photobook(Path applicationLocalStatePath)
       mProject(std::make_shared<Project>())
 {
   mImportLogic.configure((ImportFoldersLogicListener *)this);
+  mImportLogic.configure((ThreadScheduler *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -244,21 +245,23 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
     mImageViews.imageMonitor().addRow(root, imagesSet);
 
     mParent->onMappingFinished(root);
+
+    mImportLogic.processImages(root, newFiles);
   });
 }
 
 void Photobook::onImportStop(Path) {}
 
-void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small,
-                                 int progress, int progressCap)
-{
-  mProgress[root]++;
-  mParent->onProgressUpdate(root, mProgress[root], (int)progressCap);
-
-  auto rowIndex = mImageViews.imageMonitor().rowIndex(root);
+void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
+{ 
   mImageViews.imageMonitor().image(full)->setSizePath(full, medium, small);
 
+  auto [progress, progressCap] = mImportLogic.imageProcessingProgress();
+
+  mParent->onProgressUpdate(progress, (int)progressCap);
+
   if (mProgress[root] == progressCap) {
+    auto rowIndex = mImageViews.imageMonitor().rowIndex(root);
     mImageViews.imageMonitor().completeRow(rowIndex);
 
     mImportLogic.clearJob(root);

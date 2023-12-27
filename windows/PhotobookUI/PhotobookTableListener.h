@@ -14,7 +14,7 @@ class PhotobookTableListener : public PB::PhotobookListener {
 public:
   explicit PhotobookTableListener(TableContentPage &parent);
 
-  void onProgressUpdate(Path rootPath, int progress, int reference) override;
+  void onProgressUpdate(int progress, int reference) override;
   void onExportProgressUpdate(int, int) override;
 
   void onExportFinished() override;

@@ -79,16 +79,19 @@ void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
   }
 }
 
-void ImportFoldersLogic::clearJob(Path root) { mMappingJobs.erase(root); }
+void ImportFoldersLogic::clearJob(Path root)
+{
+  mMappingJobs.erase(root);
+  mImageProcessingProgress.clear();
+}
 
 void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
                                           Path small, int progress,
                                           int progressCap)
 {
-
   mScheduler->post([this, root, full, medium, small, progress, progressCap]() {
-    mListener->onImageProcessed(root, full, medium, small, progress,
-                                progressCap);
+    mImageProcessingProgress[root] = {progress, progressCap};
+    mListener->onImageProcessed(root, full, medium, small);
   });
 }
 
@@ -100,5 +103,18 @@ void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
           Path full, Path medium, Path small, int position) {
         onImageProcessed(root, full, medium, small, position, (int)maxProgress);
       });
+}
+
+std::pair<int, int> ImportFoldersLogic::imageProcessingProgress() const
+{
+  int totalProgress = 0;
+  int totalProgressCap = 0;
+
+  for (auto [root, progress] : mImageProcessingProgress) {
+    totalProgress += progress.first;
+    totalProgressCap += progress.second;
+  }
+
+  return {totalProgress, totalProgressCap};
 }
 } // namespace PB

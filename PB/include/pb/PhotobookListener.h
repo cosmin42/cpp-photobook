@@ -6,7 +6,7 @@
 namespace PB {
 class PhotobookListener {
 public:
-  virtual void onProgressUpdate(Path, int, int) = 0;
+  virtual void onProgressUpdate(int, int) = 0;
   virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;
   virtual void onError(PBDev::Error) = 0;

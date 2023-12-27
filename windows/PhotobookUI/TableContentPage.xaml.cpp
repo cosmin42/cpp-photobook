@@ -936,20 +936,11 @@ void TableContentPage::OnMappingFinished(Path path)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::OnProgressUpdate(Path rootPath, int progress,
-                                        int reference)
+void TableContentPage::OnProgressUpdate(int progress, int reference)
 {
-  auto selection = SelectionIndex();
-
-  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
-      selection.unstagedLineIndex.at(0));
-
-  if (rootPath == selectedRootPath) {
-    MainProgressBar().Visibility(
-        winrt::Microsoft::UI::Xaml::Visibility::Visible);
-    MainProgressBar().Maximum(reference);
-    MainProgressBar().Value(progress);
-  }
+  MainProgressBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
+  MainProgressBar().Maximum(reference);
+  MainProgressBar().Value(progress);
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)
