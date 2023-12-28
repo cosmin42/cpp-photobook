@@ -99,8 +99,8 @@ void Photobook::loadStagedImages()
       mImageViews.stagedImages().addPicture(regularImage);
     }
     else if (std::filesystem::is_directory(stagedImages.at(i))) {
-      auto textImage =
-          std::make_shared<TextImage>(stagedImages.at(i).stem().string());
+      auto textImage = std::make_shared<TextImage>(
+          stagedImages.at(i).stem().string(), stagedImages.at(i));
       textImage->setFullSizePath(stagedImages.at(i));
 
       mImageViews.stagedImages().addPicture(textImage);

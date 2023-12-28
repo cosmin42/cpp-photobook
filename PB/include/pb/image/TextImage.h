@@ -5,7 +5,12 @@
 namespace PB {
 class TextImage final : public VirtualImage {
 public:
-  TextImage(std::string text) : mText(text) {}
+  explicit TextImage(std::string text, Path full) : mText(text)
+  {
+    setFullSizePath(full);
+  }
+
+  ~TextImage() = default;
 
   VirtualImageType type() const override { return VirtualImageType::Text; }
 

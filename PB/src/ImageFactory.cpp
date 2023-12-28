@@ -9,7 +9,7 @@ std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 
 std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path)
 {
-  auto textImage = std::make_shared<TextImage>(path.stem().string());
+  auto textImage = std::make_shared<TextImage>(path.stem().string(), path);
   return textImage;
 }
 
@@ -23,6 +23,7 @@ std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
   }
   else {
     PBDev::basicAssert(false);
+    return nullptr;
   }
 }
 } // namespace PB

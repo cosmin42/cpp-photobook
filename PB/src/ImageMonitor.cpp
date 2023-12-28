@@ -18,7 +18,7 @@ void ImageMonitor::addRow(Path                                       path,
 
   for (auto i = 0; i < images.size(); ++i) {
     mPositions.insert({images.at(i)->resources().full,
-                       {(int)mUnstagedImagesMatrix.size()-1, (int)i}});
+                       {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));
   }
@@ -123,7 +123,7 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
 {
   PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
 
-  auto& [row, index] = mPositions.left.at(full);
+  auto &[row, index] = mPositions.left.at(full);
 
   return mUnstagedImagesMatrix.at(row).at(index);
 }
@@ -143,6 +143,10 @@ auto ImageMonitor::statefulIterator(Path root)
 auto ImageMonitor::statefulIterator(unsigned row)
     -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
 {
+  if (row >= mUnstagedImagesMatrix.size()) {
+    return PBDev::IteratorWithState<
+        std::vector<std::shared_ptr<VirtualImage>>>();
+  }
   return PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
       mUnstagedImagesMatrix.at(row));
 }
