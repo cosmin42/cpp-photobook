@@ -148,7 +148,7 @@ auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
 }
 
 void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
-                             Path smallOutputPath, Path mediumOutputPath,
+                             Path medium, Path small,
                              ThumbnailType thumbnailsType)
 {
   if (thumbnailsType == ThumbnailType::None) {
@@ -166,7 +166,7 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
     auto mediumImagePointer = PB::Process::resize(
         cv::Size(mediumThumbnailWidth, mediumThumbnailHeight),
         true)(inputImage);
-    ImageSetWriter().write(mediumOutputPath, mediumImagePointer);
+    ImageSetWriter().write(medium, mediumImagePointer);
   }
 
   if ((thumbnailsType & ThumbnailType::Small) == ThumbnailType::Small) {
@@ -175,13 +175,12 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
                                      Context::SMALL_THUMBNAIL_HEIGHT),
                             true)(inputImage);
 
-    ImageSetWriter().write(smallOutputPath, smallImagePointer);
+    ImageSetWriter().write(small, smallImagePointer);
   }
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,
-                         std::shared_ptr<cv::Mat> image, Path smallPath,
-                         Path mediumPath)
+                         std::shared_ptr<cv::Mat> image, Path medium, Path small)
 {
   int mediumThumbnailWidth =
       std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
@@ -191,13 +190,13 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
   auto mediumImagePointer = PB::Process::resize(
       cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(image);
 
-  ImageSetWriter().write(mediumPath, mediumImagePointer);
+  ImageSetWriter().write(medium, mediumImagePointer);
 
   auto smallImagePointer = PB::Process::resize(
       cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
       true)(image);
 
-  ImageSetWriter().write(smallPath, smallImagePointer);
+  ImageSetWriter().write(small, smallImagePointer);
 }
 
 } // namespace PB::Process

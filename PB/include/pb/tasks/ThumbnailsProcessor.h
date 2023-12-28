@@ -10,8 +10,8 @@ namespace PB {
 class ResizeTask final {
 public:
   ResizeTask() = delete;
-  explicit ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
-                      Path mediumThumbnailOutputPath, unsigned totalTaskCount,
+  explicit ResizeTask(Path fullSizePath, Path medium,
+                      Path small, unsigned totalTaskCount,
                       std::function<void()> onFinish, int screenWidth,
                       int screenHeight, std::stop_token stopToken);
   ~ResizeTask() = default;

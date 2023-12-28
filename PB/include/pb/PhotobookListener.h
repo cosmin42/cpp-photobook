@@ -10,8 +10,8 @@ public:
   virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;
   virtual void onError(PBDev::Error) = 0;
-  virtual void onUnstagedImageAdded(Path rootPath, Path fullPath,
-                                    Path mediumPath, Path smallPath,
+  virtual void onUnstagedImageAdded(Path rootPath, Path full,
+                                    Path medium, Path small,
                                     int position) = 0;
   virtual void
   onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,

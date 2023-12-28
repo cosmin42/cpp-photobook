@@ -7,7 +7,6 @@
 
 #include <pb/PhotoBook.h>
 
-
 void clearProjectCache();
 
 class TestPhotobookStagedImagesListener : public PB::StagedImagesListener {
@@ -39,8 +38,7 @@ public:
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
   MOCK_METHOD(void, onUnstagedImageAdded,
-              (Path rootPath, Path fullPath, Path mediumPath, Path smallPath,
-               int position),
+              (Path rootPath, Path full, Path medium, Path small, int position),
               (override));
   MOCK_METHOD(void, onStagedImageAdded,
               (std::vector<std::shared_ptr<PB::VirtualImage>> photos,

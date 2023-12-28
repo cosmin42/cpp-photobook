@@ -3,15 +3,13 @@
 #include <pb/Config.h>
 
 namespace PB {
-ResizeTask::ResizeTask(Path fullSizePath, Path smallThumbnailOutputPath,
-                       Path mediumThumbnailOutputPath, unsigned totalTaskCount,
-                       std::function<void()> onFinish, int screenWidth,
-                       int screenHeight, std::stop_token stopToken)
-    : mFullSizePath(fullSizePath),
-      mSmallThumbnailOutputPath(smallThumbnailOutputPath),
-      mMediumThumbnailOutputPath(mediumThumbnailOutputPath),
-      mTotalTaskCount(totalTaskCount), mFinish(onFinish),
-      mScreenWidth(screenWidth), mScreenHeight(screenHeight),
+ResizeTask::ResizeTask(Path full, Path medium, Path small,
+                       unsigned totalTaskCount, std::function<void()> onFinish,
+                       int screenWidth, int screenHeight,
+                       std::stop_token stopToken)
+    : mFullSizePath(full), mSmallThumbnailOutputPath(small),
+      mMediumThumbnailOutputPath(medium), mTotalTaskCount(totalTaskCount),
+      mFinish(onFinish), mScreenWidth(screenWidth), mScreenHeight(screenHeight),
       mStopToken(stopToken)
 {
 }
@@ -30,8 +28,8 @@ void ResizeTask::operator()() const
   }
   if (Process::validExtension(mFullSizePath)) {
     Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,
-                                     mSmallThumbnailOutputPath,
-                                     mMediumThumbnailOutputPath, resizeOption);
+                                     mMediumThumbnailOutputPath,
+                                     mSmallThumbnailOutputPath, resizeOption);
   }
   else {
     std::shared_ptr<cv::Mat> image =
@@ -40,15 +38,13 @@ void ResizeTask::operator()() const
     image = PB::Process::addText(
         {3508 / 2, 2480 / 2}, mFullSizePath.stem().string(), {0, 0, 0})(image);
     Process::imageWriteThumbnail(mScreenWidth, mScreenHeight, image,
-                                 mSmallThumbnailOutputPath,
-                                 mMediumThumbnailOutputPath);
+                                 mMediumThumbnailOutputPath,
+                                 mSmallThumbnailOutputPath);
   }
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor()
-{
-}
+ThumbnailsProcessor::ThumbnailsProcessor() {}
 
 ThumbnailsProcessor::~ThumbnailsProcessor() { abort(); }
 
@@ -58,7 +54,8 @@ void ThumbnailsProcessor::setScreenSize(std::pair<int, int> screenSize)
   mScreenHeight = screenSize.second;
 }
 
-void ThumbnailsProcessor::provideProjectDetails(std::shared_ptr<Project> project)
+void ThumbnailsProcessor::provideProjectDetails(
+    std::shared_ptr<Project> project)
 {
   mProject = project;
 }
@@ -79,10 +76,10 @@ void ThumbnailsProcessor::generateThumbnails(
     auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},
                  smallPath{smallPath}, mediumPath{mediumPath}, i{i},
                  taskCount{taskCount}]() {
-      mThumbnailWritten(inputPath, smallPath, mediumPath, i);
+      mThumbnailWritten(inputPath, mediumPath, smallPath, i);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i), smallPath, mediumPath, taskCount,
+    ResizeTask resizeTask(mediaMap.at(i), mediumPath, smallPath, taskCount,
                           task, mScreenWidth, mScreenHeight,
                           mStopSources.at(mStopSources.size() - 1).get_token());
 
@@ -107,6 +104,8 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
   auto projectDetails = mProject->active();
   PBDev::basicAssert(index >= 0);
   PBDev::basicAssert(projectDetails.supportDirName().length() > 0);
+
+  groupIdentifier = groupIdentifier + mProject->active().supportDirName();
 
   auto smallOutputPath = projectDetails.parentDirectory() /
                          projectDetails.supportDirName() /
