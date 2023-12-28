@@ -6,8 +6,6 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include <thread_pool/thread_pool.h>
-
 #include <pb/Command.h>
 #include <pb/DataManager.h>
 #include <pb/ImageSetWriter.h>
@@ -21,7 +19,6 @@
 #include <pb/persistence/Persistence.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/FileMapper.h>
-#include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Concepts.h>
 #include <pb/util/Error.h>
 #include <pb/util/FileInfo.h>

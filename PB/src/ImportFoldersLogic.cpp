@@ -92,7 +92,14 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
                                           int progressCap)
 {
   mScheduler->post([this, root, full, medium, small, progress, progressCap]() {
-    mImageProcessingProgress[root] = {progress, progressCap};
+    if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
+      mImageProcessingProgress[root] = {
+          mImageProcessingProgress.at(root).first + 1, progressCap};
+    }
+    else {
+      mImageProcessingProgress[root] = {1, progressCap};
+    }
+
     mListener->onImageProcessed(root, full, medium, small);
   });
 }
@@ -103,7 +110,8 @@ void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
       newFolders, std::to_string(thumbnailsDir),
       [this, root{root}, maxProgress{newFolders.size()}](
           Path full, Path medium, Path small, int position) {
-        onImageProcessed(root, full, medium, small, position+1, (int)maxProgress);
+        onImageProcessed(root, full, medium, small, position + 1,
+                         (int)maxProgress);
       });
   thumbnailsDir++;
 }
