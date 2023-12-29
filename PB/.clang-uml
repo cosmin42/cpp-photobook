@@ -1,0 +1,231 @@
+compilation_database_dir: .
+output_directory: .
+add_compile_flags:
+  - -D_CLANG_UML_
+diagrams:
+  include_diagram:
+    type: include
+    title: Includes diagram
+    glob:
+      - src/PhotoBook.cpp
+    generate_system_headers: false
+    using_namespace: PB
+    include:
+      paths:
+        - include
+        - src
+    exclude:
+      namespaces:
+        - std
+  class_diagram_ImportFolderLogic:
+    type: class
+    generate_packages: true
+    glob:
+      - src/ImportFoldersLogic.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_Photobook:
+    type: class
+    generate_packages: true
+    glob:
+      - src/PhotoBook.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_Persistence:
+    type: class
+    generate_packages: true
+    glob:
+      - src/Persistence.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_Project:
+    type: class
+    generate_packages: true
+    glob:
+      - src/Project.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_ImportFoldersLogic:
+    type: class
+    generate_packages: true
+    glob:
+      - src/ImportFoldersLogic.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_ImportFoldersLogic:
+    type: class
+    generate_packages: true
+    glob:
+      - src/ImportFoldersLogic.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  class_diagram_ImageViews:
+    type: class
+    generate_packages: true
+    glob:
+      - src/DataManager.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  top_level_class_diagram:
+    type: class
+    glob:
+      - src/ImportFoldersLogic.cpp
+    include:
+      context:
+        - match:
+            radius: 1
+            pattern: PB::ImportFoldersLogic
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
+  sequence_diagram:
+    type: sequence
+    combine_free_functions_into_file_participants: true
+    glob:
+      - src/*.cpp
+      - src/util/*.cpp
+    include:
+      paths:
+        - include
+        - src
+    exclude:
+      namespaces:
+        - std
+    start_from:
+      - function: "PB::Photobook::addImportFolder(Path)"
+  SequentialTaskConsumer_run_sequence:
+    type: sequence
+    combine_free_functions_into_file_participants: true
+    glob:
+      - src/*.cpp
+      - src/util/*.cpp
+    include:
+      paths:
+        - include
+        - src
+    exclude:
+      namespaces:
+        - std
+    start_from:
+      - function: "PBDev::SequentialTaskConsumer::run(std::stop_token)"
+  MediaMapper_executeSingleTask_sequence:
+    type: sequence
+    combine_free_functions_into_file_participants: true
+    glob:
+      - src/*.cpp
+      - src/util/*.cpp
+    include:
+      paths:
+        - include
+        - src
+    exclude:
+      namespaces:
+        - std
+    start_from:
+      - function: "PB::MediaMapper::executeSingleTask()"
+  ImportFoldersLogic_update_sequence:
+    type: sequence
+    combine_free_functions_into_file_participants: true
+    glob:
+      - src/*.cpp
+      - src/util/*.cpp
+    include:
+      paths:
+        - include
+        - src
+    exclude:
+      namespaces:
+        - std
+    start_from:
+      - function: "PB::ImportFoldersLogic::update(PBDev::ObservableSubject &)"
+
+      

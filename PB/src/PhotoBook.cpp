@@ -1,4 +1,4 @@
-#include <pb/Photobook.h>
+#include <pb/PhotoBook.h>
 
 #include <pb/image/ImageFactory.h>
 #include <pb/image/RegularImage.h>
@@ -6,11 +6,14 @@
 #include <pb/persistence/SerializationStrategy.h>
 
 namespace PB {
-Photobook::Photobook(Path applicationLocalStatePath)
-    : mApplicationLocalStatePath(applicationLocalStatePath),
-      mPersistence(applicationLocalStatePath, this, this),
+Photobook::Photobook(Path localStatePath, Path installationPath)
+    : mPlatformInfo(
+          std::make_shared<PlatformInfo>(installationPath, localStatePath)),
+      mPersistence(localStatePath, this, this),
       mProject(std::make_shared<Project>())
 {
+  VirtualImage::platformInfo = mPlatformInfo;
+
   mImportLogic.configure((ImportFoldersLogicListener *)this);
   mImportLogic.configure((ThreadScheduler *)this);
 }
@@ -58,7 +61,7 @@ void Photobook::loadProject()
 
 void Photobook::unloadProject()
 {
-  *mProject = Project(mApplicationLocalStatePath);
+  *mProject = Project(mPlatformInfo->installationPath);
 }
 
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
@@ -137,7 +140,7 @@ void Photobook::exportAlbum(std::string name, Path path)
   }
 
   mExportFactory.updateConfiguration(mProject->active().paperSettings(),
-                                     mApplicationLocalStatePath);
+                                     mPlatformInfo->localStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {
@@ -183,7 +186,7 @@ bool Photobook::projectDefaultSaved()
 {
   auto projectParentPath = mProject->active().parentDirectory().string();
 
-  if (projectParentPath.find(mApplicationLocalStatePath.string()) ==
+  if (projectParentPath.find(mPlatformInfo->localStatePath.string()) ==
       std::string::npos) {
     return false;
   }
@@ -217,7 +220,7 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 
 void Photobook::newProject()
 {
-  *mProject = Project(mApplicationLocalStatePath);
+  *mProject = Project(mPlatformInfo->localStatePath);
 
   saveProject();
 }

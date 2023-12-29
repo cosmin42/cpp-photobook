@@ -8,7 +8,7 @@ ResizeTask::ResizeTask(Path full, Path medium, Path small,
                        int screenWidth, int screenHeight,
                        std::stop_token stopToken)
     : mFullSizePath(full), mSmallThumbnailOutputPath(small),
-      mMediumThumbnailOutputPath(medium), mTotalTaskCount(totalTaskCount),
+      mMediumThumbnailOutputPath(medium),
       mFinish(onFinish), mScreenWidth(screenWidth), mScreenHeight(screenHeight),
       mStopToken(stopToken)
 {
@@ -62,7 +62,7 @@ void ThumbnailsProcessor::provideProjectDetails(
 
 void ThumbnailsProcessor::generateThumbnails(
     std::vector<Path> mediaMap, std::string groupIdentifier,
-    std::function<void(Path, Path, Path, int)> onThumbnailWritten)
+    std::function<void(Path, Path, Path)> onThumbnailWritten)
 {
   mStopSources.push_back(std::stop_source());
 
@@ -74,9 +74,8 @@ void ThumbnailsProcessor::generateThumbnails(
     auto [smallPath, mediumPath] = assembleOutputPaths(i, groupIdentifier);
 
     auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},
-                 smallPath{smallPath}, mediumPath{mediumPath}, i{i},
-                 taskCount{taskCount}]() {
-      mThumbnailWritten(inputPath, mediumPath, smallPath, i);
+                 smallPath{smallPath}, mediumPath{mediumPath}]() {
+      mThumbnailWritten(inputPath, mediumPath, smallPath);
     };
 
     ResizeTask resizeTask(mediaMap.at(i), mediumPath, smallPath, taskCount,

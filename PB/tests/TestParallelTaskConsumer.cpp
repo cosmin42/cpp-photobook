@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-#include <PB/util/ParallelTaskConsumer.h>
+#include <pb/util/ParallelTaskConsumer.h>
 
 TEST(TestParallelTaskConsumer, BasicTest)
 {

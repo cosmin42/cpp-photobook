@@ -111,7 +111,6 @@ serialize(int depth,
   PB::printDebug("%s(args...Head) %s\n", std::string(depth * 2, ' ').c_str(),
                  std::get<Json>(headJsonOrError).dump().c_str());
 
-  auto const &[key, value] = head;
   std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
 
   PB::printDebug("%s(args...All) %s\n", std::string(depth * 2, ' ').c_str(),

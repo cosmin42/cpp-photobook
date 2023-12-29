@@ -5,7 +5,7 @@
 namespace winrt::PhotobookUI::implementation {
 struct ImageUIData : ImageUIDataT<ImageUIData> {
   ImageUIData();
-  explicit ImageUIData(winrt::hstring fullPath, winrt::hstring mediumPath,
+  explicit ImageUIData(winrt::hstring full, winrt::hstring medium,
                        winrt::hstring smallPath);
 
   winrt::hstring FullPath();

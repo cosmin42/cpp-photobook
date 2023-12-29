@@ -7,7 +7,7 @@
 #include "Dashboard.xaml.h"
 #include "MainWindow.xaml.h"
 
-#include <winrt/Windows.Storage.h>
+#include <PlatformHelper.h>
 
 using namespace winrt;
 using namespace Windows::Foundation;
@@ -21,14 +21,6 @@ using namespace Windows::Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
-
-Path App::CurrentAppLocation()
-{
-  Windows::Storage::StorageFolder folder =
-      ApplicationData::Current().LocalFolder();
-
-  return Path(winrt::to_string(folder.Path()));
-}
 
 /// <summary>
 /// Initializes the singleton application object.  This is the first line of
@@ -59,7 +51,8 @@ void App::OnLaunched(LaunchActivatedEventArgs const &e)
 {
   mWindow = make<MainWindow>();
 
-  mAPI = std::make_shared<PB::Photobook>(CurrentAppLocation());
+  mAPI = std::make_shared<PB::Photobook>(PlatformHelper::CurrentAppLocation(), PlatformHelper::CurrentAppInstallationFolder());
+
 
   Frame rootFrame = Frame();
   rootFrame.NavigationFailed({this, &App::OnNavigationFailed});

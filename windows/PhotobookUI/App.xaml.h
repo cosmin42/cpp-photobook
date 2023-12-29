@@ -6,12 +6,9 @@
 #include "App.xaml.g.h"
 
 #include <pb/PhotoBook.h>
-#include <pb/persistence/Persistence.h>
 
 namespace winrt::PhotobookUI::implementation {
 struct App : AppT<App> {
-
-  static Path CurrentAppLocation();
 
   App();
 

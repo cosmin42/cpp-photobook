@@ -1,4 +1,4 @@
-#include <PB/util/ParallelTaskConsumer.h>
+#include <pb/util/ParallelTaskConsumer.h>
 
 namespace PBDev {
 ParallelTaskConsumer::ParallelTaskConsumer()

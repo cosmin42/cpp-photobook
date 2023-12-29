@@ -89,8 +89,9 @@ add_library(pblib STATIC
     include/pb/persistence/ProjectMetadata.h
     include/pb/persistence/SerializationStrategy.h
     include/pb/persistence/SQLPersistence.h
-    include/pb/Photobook.h
+    include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
+    include/pb/Platform.h
     include/pb/project/PaperSettings.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h

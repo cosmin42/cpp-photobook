@@ -22,7 +22,7 @@ public:
 
 private:
   std::vector<Command> mCommands;
-  int                  mIndex = -1;
+  [[maybe_unused]] int mIndex = -1;
 };
 
 } // namespace PB

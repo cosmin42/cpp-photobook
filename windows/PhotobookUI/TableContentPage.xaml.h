@@ -11,7 +11,7 @@
 
 #include "TableContentPage.g.h"
 #include <PhotobookTableListener.h>
-#include <pb/Photobook.h>
+#include <pb/PhotoBook.h>
 
 #include <PopUps.h>
 
@@ -211,8 +211,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void OnExportFinished();
 
-  void OnUnstagedImageAdded(Path rootPath, Path fullPath, Path mediumPath,
-                            Path smallPath, int position);
+  void OnUnstagedImageAdded(Path rootPath, Path full, Path medium, Path small,
+                            int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
   void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
@@ -233,12 +233,17 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void UpdateUnstagedImage(int row, int index);
 
+  void UpdateUnstagedLine();
+
 private:
   UISelectionIndex SelectionIndex();
   bool             StagedLineEmpty();
   bool             UnstagedLintEmpty();
 
   void UpdateGalleryLabel();
+
+  void UpdateUnstagedPhotoLine();
+  void UpdateGallery();
 
   void PostponeError(std::string message);
 

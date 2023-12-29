@@ -84,14 +84,13 @@ void ImportFoldersLogic::update(PBDev::ObservableSubject &subject)
 void ImportFoldersLogic::clearJob(Path root)
 {
   mMappingJobs.erase(root);
-  mImageProcessingProgress.clear();
+  mImageProcessingProgress.erase(root);
 }
 
 void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
-                                          Path small, int progress,
-                                          int progressCap)
+                                          Path small, int progressCap)
 {
-  mScheduler->post([this, root, full, medium, small, progress, progressCap]() {
+  mScheduler->post([this, root, full, medium, small, progressCap]() {
     if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
       mImageProcessingProgress[root] = {
           mImageProcessingProgress.at(root).first + 1, progressCap};
@@ -109,9 +108,8 @@ void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
   mThumbnailsProcessor.generateThumbnails(
       newFolders, std::to_string(thumbnailsDir),
       [this, root{root}, maxProgress{newFolders.size()}](
-          Path full, Path medium, Path small, int position) {
-        onImageProcessed(root, full, medium, small, position + 1,
-                         (int)maxProgress);
+          Path full, Path medium, Path small) {
+        onImageProcessed(root, full, medium, small, (int)maxProgress);
       });
   thumbnailsDir++;
 }

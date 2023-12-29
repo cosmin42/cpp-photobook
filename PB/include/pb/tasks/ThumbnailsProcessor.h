@@ -22,7 +22,6 @@ private:
   Path                  mFullSizePath;
   Path                  mSmallThumbnailOutputPath;
   Path                  mMediumThumbnailOutputPath;
-  unsigned              mTotalTaskCount;
   std::function<void()> mFinish;
   int                   mScreenWidth;
   int                   mScreenHeight;
@@ -40,7 +39,7 @@ public:
 
   void generateThumbnails(
       std::vector<Path> mediaMap, std::string groupIdentifier,
-      std::function<void(Path, Path, Path, int)> onThumbnailWritten);
+      std::function<void(Path, Path, Path)> onThumbnailWritten);
 
   void abort();
 
@@ -52,7 +51,7 @@ private:
   PBDev::ParallelTaskConsumer mParallelTaskConsumer;
   
   std::vector<std::future<void>>             mFutures;
-  std::function<void(Path, Path, Path, int)> mThumbnailWritten;
+  std::function<void(Path, Path, Path)> mThumbnailWritten;
   int                                        mScreenWidth = 0;
   int                                        mScreenHeight = 0;
   std::vector<std::stop_source>              mStopSources;

@@ -52,8 +52,7 @@ private:
 
   void setObserverManager();
 
-  void onImageProcessed(Path root, Path full, Path medium, Path small,
-                        int progress, int progressCap);
+  void onImageProcessed(Path root, Path full, Path medium, Path small, int progressCap);
 
   ImportFoldersLogicListener                            *mListener = nullptr;
   ThreadScheduler                                       *mScheduler = nullptr;

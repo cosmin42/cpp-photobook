@@ -22,6 +22,7 @@
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PopUps.cpp" />
+    <ClCompile Include="PlatformHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PopUps.h" />
+    <ClInclude Include="PlatformHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Wide310x150Logo.scale-200.png">
@@ -65,6 +67,9 @@
       <Filter>Assets</Filter>
     </Image>
     <Image Include="Assets\delete-circle.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\loading-image.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>

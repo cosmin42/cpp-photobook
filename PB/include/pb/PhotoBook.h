@@ -22,7 +22,7 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/Error.h>
 #include <pb/util/FileInfo.h>
-#include <pb/util/Traits.h>
+#include <pb/Platform.h>
 
 namespace PB {
 
@@ -32,7 +32,7 @@ class Photobook final : public PBDev::Observer,
                         public ImportFoldersLogicListener,
                         public ThreadScheduler {
 public:
-  explicit Photobook(Path applicationLocalStatePath);
+  explicit Photobook(Path localStatePath, Path installationPath);
   ~Photobook() = default;
 
   void configure(std::pair<int, int> screenSize);
@@ -86,7 +86,7 @@ private:
 
   std::shared_ptr<PhotobookListener>       mParent = nullptr;
   DashboardListener                       *mDashboardListener;
-  Path                                     mApplicationLocalStatePath;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo;
   Persistence                              mPersistence;
   std::shared_ptr<Project>                 mProject;
   ImportFoldersLogic                       mImportLogic;

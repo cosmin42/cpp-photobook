@@ -19,8 +19,8 @@ public:
 
   void onExportFinished() override;
 
-  void onUnstagedImageAdded(Path rootPath, Path fullPath, Path mediumPath,
-                            Path smallPath, int position) override;
+  void onUnstagedImageAdded(Path rootPath, Path full, Path medium,
+                            Path small, int position) override;
 
   void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                           int index = -1) override;

@@ -48,6 +48,8 @@ public:
   auto statefulIterator(unsigned row)
       -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
+  void log() const;
+
 private:
   ImageMonitorListener                                   *mListener;
   boost::bimaps::bimap<Path, int>                         mRowIndexes;

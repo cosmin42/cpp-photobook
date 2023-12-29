@@ -33,9 +33,7 @@ void PhotobookTableListener::onImageUpdated(Path root, int row, int index)
 
 void PhotobookTableListener::onProgressUpdate(int progress, int reference)
 {
-  mParent.Post([this, progress, reference]() {
     mParent.OnProgressUpdate(progress, reference);
-  });
 }
 
 void PhotobookTableListener::onExportProgressUpdate(int progress, int reference)
@@ -63,12 +61,12 @@ void PhotobookTableListener::onStagedImageRemoved(
   mParent.OnStagedImageRemoved(removedIndexes);
 }
 
-void PhotobookTableListener::onUnstagedImageAdded(Path rootPath, Path fullPath,
-                                                  Path mediumPath,
-                                                  Path smallPath, int position)
+void PhotobookTableListener::onUnstagedImageAdded(Path rootPath, Path full,
+                                                  Path medium,
+                                                  Path small, int position)
 {
-  mParent.Post([this, rootPath, fullPath, mediumPath, smallPath, position]() {
-    mParent.OnUnstagedImageAdded(rootPath, fullPath, mediumPath, smallPath,
+  mParent.Post([this, rootPath, full, medium, small, position]() {
+    mParent.OnUnstagedImageAdded(rootPath, full, medium, small,
                                  position);
   });
 }

@@ -39,10 +39,11 @@ public:
   static constexpr const char *MEDIUM_THUMBNAIL_NAME = "thumbnail-medium";
   static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
 
+  // Fix separator
   static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE =
-    "Assets/coffee-cup.png";
+    "Assets\\coffee-cup.png";
   static constexpr const char *LOADING_PHOTO_PLACEHOLDER =
-    "Assets/loading-image.png";
+    "Assets\\loading-image.png";
 
   static constexpr const char *VERSION = "0.1.0";
 

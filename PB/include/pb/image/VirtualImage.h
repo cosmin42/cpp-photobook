@@ -11,6 +11,8 @@
 #include <pb/Config.h>
 #include <pb/util/Observable.h>
 
+#include <pb/Platform.h>
+
 namespace PB {
 
 struct ImageResources {
@@ -21,6 +23,8 @@ struct ImageResources {
 
 class VirtualImage {
 public:
+  static std::shared_ptr<PlatformInfo> platformInfo;
+
   virtual VirtualImageType type() const = 0;
 
   void setFullSizePath(Path path) { mResources.full = path; }
@@ -38,8 +42,10 @@ public:
   ImageResources resources() const { return mResources; }
 
 private:
-  ImageResources mResources = {Path(Context::LOADING_PHOTO_PLACEHOLDER),
-                               Path(Context::LOADING_PHOTO_PLACEHOLDER),
-                               Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
+  ImageResources mResources = {
+      platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
+      platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
+      platformInfo->installationPath /
+          Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
 };
 } // namespace PB

@@ -24,14 +24,6 @@ using namespace Microsoft::UI::Dispatching;
 
 namespace winrt::PhotobookUI::implementation {
 
-Path Dashboard::CurrentAppLocation()
-{
-  winrt::Windows::Storage::StorageFolder folder =
-      winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
-
-  return Path(winrt::to_string(folder.Path()));
-}
-
 Microsoft::UI::Xaml::Controls::MenuFlyoutItem Dashboard::DeleteFlyout()
 {
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem deleteItem;

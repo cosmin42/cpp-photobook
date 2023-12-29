@@ -50,6 +50,8 @@ public:
     std::shared_ptr<cv::Mat> inputImage =
         std::make_shared<cv::Mat>(cv::imread(path.string(), cv::IMREAD_COLOR));
 
+    PBDev::basicAssert(inputImage != nullptr);
+
     std::vector<cv::Mat> matChannels;
     cv::split(*inputImage, matChannels);
     if (matChannels.size() == 3) {

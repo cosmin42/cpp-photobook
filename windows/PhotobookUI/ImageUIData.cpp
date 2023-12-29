@@ -8,20 +8,31 @@
 #endif
 // clang-format on
 
+#include <PlatformHelper.h>
+
 #include <pb/Config.h>
 
 namespace winrt::PhotobookUI::implementation {
 
 ImageUIData::ImageUIData()
-    : mFullPath(winrt::to_hstring(PB::Context::LOADING_PHOTO_PLACEHOLDER)),
-      mMediumPath(winrt::to_hstring(PB::Context::LOADING_PHOTO_PLACEHOLDER)),
-      mSmallPath(winrt::to_hstring(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE))
+    : mFullPath(
+          winrt::to_hstring((PlatformHelper::CurrentAppInstallationFolder() /
+                             Path(PB::Context::LOADING_PHOTO_PLACEHOLDER))
+                                .string())),
+      mMediumPath(
+          winrt::to_hstring((PlatformHelper::CurrentAppInstallationFolder() /
+                             Path(PB::Context::LOADING_PHOTO_PLACEHOLDER))
+                                .string())),
+      mSmallPath(
+          winrt::to_hstring((PlatformHelper::CurrentAppInstallationFolder() /
+                             Path(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE))
+                                .string()))
 {
 }
 
-ImageUIData::ImageUIData(winrt::hstring fullPath, winrt::hstring mediumPath,
+ImageUIData::ImageUIData(winrt::hstring full, winrt::hstring medium,
                          winrt::hstring smallPath)
-    : mFullPath(fullPath), mMediumPath(mediumPath), mSmallPath(smallPath)
+    : mFullPath(full), mMediumPath(medium), mSmallPath(smallPath)
 {
 }
 

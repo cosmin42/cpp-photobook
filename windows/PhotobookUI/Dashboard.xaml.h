@@ -18,9 +18,6 @@ using namespace winrt::Windows::Foundation::Collections;
 namespace winrt::PhotobookUI::implementation {
 
 struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
-
-  static Path CurrentAppLocation();
-
   Dashboard();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,

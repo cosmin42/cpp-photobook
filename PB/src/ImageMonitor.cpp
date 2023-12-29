@@ -1,5 +1,7 @@
 #include <pb/ImageMonitor.h>
 
+#include <boost/bimap/support/lambda.hpp>
+
 namespace PB {
 void ImageMonitor::setListener(ImageMonitorListener *listener)
 {
@@ -28,20 +30,30 @@ void ImageMonitor::addRow(Path                                       path,
   mPendingRows.insert((int)mRowIndexes.size() - 1);
 }
 
-void ImageMonitor::removeRow(int index)
+void ImageMonitor::removeRow(int row)
 {
-  PBDev::basicAssert(!mPendingRows.contains(index));
+  PBDev::basicAssert(!mPendingRows.contains(row));
 
-  for (auto i = 0; i < mUnstagedImagesMatrix.at(index).size(); ++i) {
-    mPositions.right.erase(std::pair<int, int>{index, i});
+  for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
+    mPositions.right.erase(std::pair<int, int>{row, i});
   }
-  mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + index);
-  mRowIndexes.right.erase(index);
-  for (int i = index + 1; i < mRowIndexes.size() + 1; ++i) {
+  mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + row);
+  mRowIndexes.right.erase(row);
+
+  for (int i = row + 1; i < (int)mUnstagedImagesMatrix.size() + 1; ++i) {
+    for (int index = 0; index < (int)mUnstagedImagesMatrix.at(i - 1).size();
+         ++index) {
+      auto it = mPositions.right.find(std::pair<int, int>(i, index));
+      mPositions.right.modify_key(it, boost::bimaps::_key =
+                                          std::pair<int, int>(i - 1, index));
+    }
+  }
+
+  for (int i = row + 1; i < mRowIndexes.size() + 1; ++i) {
     mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
   }
 
-  mListener->onImportFolderRemoved(index);
+  mListener->onImportFolderRemoved(row);
 }
 
 void ImageMonitor::removeRow(Path path)
@@ -149,6 +161,19 @@ auto ImageMonitor::statefulIterator(unsigned row)
   }
   return PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
       mUnstagedImagesMatrix.at(row));
+}
+
+void ImageMonitor::log() const
+{
+  PB::printDebug("mRowIndexes\n");
+  for (auto it = mRowIndexes.begin(); it != mRowIndexes.end(); ++it) {
+    PB::printDebug("(%s %d)\n", it->left.stem().string().c_str(), it->right);
+  }
+  PB::printDebug("mPositions\n");
+  for (auto it = mPositions.begin(); it != mPositions.end(); ++it) {
+    PB::printDebug("(%s [%d %d])\n", it->left.stem().string().c_str(),
+                   it->right.first, it->right.second);
+  }
 }
 
 } // namespace PB

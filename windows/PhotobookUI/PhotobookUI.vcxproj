@@ -139,6 +139,7 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
     <ClInclude Include="PhotobookTableListener.h" />
+    <ClInclude Include="PlatformHelper.h" />
     <ClInclude Include="PopUps.h" />
     <ClInclude Include="ProjectItem.h" />
     <ClInclude Include="TableContentPage.xaml.h">
@@ -174,6 +175,7 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotobookTableListener.cpp" />
+    <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="PopUps.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="TableContentPage.xaml.cpp">
@@ -210,6 +212,7 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
     <Image Include="Assets\coffee-cup.png" />
     <Image Include="Assets\delete-circle.png" />
     <Image Include="Assets\folderIcon.png" />
+    <Image Include="Assets\loading-image.png" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\page-left-enabled.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
