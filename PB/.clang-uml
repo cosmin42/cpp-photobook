@@ -36,6 +36,25 @@ diagrams:
       access:
         - protected
         - private
+  class_diagram_SequentialTaskConsumer:
+    type: class
+    generate_packages: true
+    glob:
+      - src/util/SequentialTaskConsumer.cpp
+    include:
+      namespaces:
+        - PB
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
   class_diagram_Photobook:
     type: class
     generate_packages: true
@@ -182,50 +201,5 @@ diagrams:
         - std
     start_from:
       - function: "PB::Photobook::addImportFolder(Path)"
-  SequentialTaskConsumer_run_sequence:
-    type: sequence
-    combine_free_functions_into_file_participants: true
-    glob:
-      - src/*.cpp
-      - src/util/*.cpp
-    include:
-      paths:
-        - include
-        - src
-    exclude:
-      namespaces:
-        - std
-    start_from:
-      - function: "PBDev::SequentialTaskConsumer::run(std::stop_token)"
-  MediaMapper_executeSingleTask_sequence:
-    type: sequence
-    combine_free_functions_into_file_participants: true
-    glob:
-      - src/*.cpp
-      - src/util/*.cpp
-    include:
-      paths:
-        - include
-        - src
-    exclude:
-      namespaces:
-        - std
-    start_from:
-      - function: "PB::MediaMapper::executeSingleTask()"
-  ImportFoldersLogic_update_sequence:
-    type: sequence
-    combine_free_functions_into_file_participants: true
-    glob:
-      - src/*.cpp
-      - src/util/*.cpp
-    include:
-      paths:
-        - include
-        - src
-    exclude:
-      namespaces:
-        - std
-    start_from:
-      - function: "PB::ImportFoldersLogic::update(PBDev::ObservableSubject &)"
 
       
