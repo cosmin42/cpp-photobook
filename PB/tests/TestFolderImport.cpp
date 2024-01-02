@@ -34,11 +34,10 @@ TEST(TestFolderImport, Test0)
   photobook.newProject();
 
   photobook.loadProject();
-  /*
+  
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 
   photobook.addImportFolder("../test-data/");
 
   Sleep(3000);
-  */
 }
