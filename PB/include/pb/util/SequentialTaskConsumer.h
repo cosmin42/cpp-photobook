@@ -31,8 +31,6 @@ public:
     mThread = std::jthread([this](std::stop_token token) { run(token); });
   }
 
-  void abort() { mThread.request_stop(); }
-
   Task task() const { return mTask.value(); }
 
 private:
@@ -44,7 +42,7 @@ private:
     while (!mCurrentToken.stop_requested() &&
            !mExternalToken.stop_requested()) {
       if (mTask->stoppingCondition()) {
-        mListener->finished(mTask.value());
+        mThread.request_stop();
       }
       else {
         mTask->taskStep();
