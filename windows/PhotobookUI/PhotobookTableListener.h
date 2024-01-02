@@ -4,8 +4,7 @@
 
 #include <pb/DataManager.h>
 #include <pb/PhotobookListener.h>
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace winrt::PhotobookUI::implementation {
 struct TableContentPage;

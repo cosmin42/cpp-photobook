@@ -2,6 +2,8 @@
 #include <filesystem>
 #include <variant>
 
+#include <pb/util/Error.h>
+
 namespace PBDev {
 // TODO: be implemented using std::expected
 class FileInfo {

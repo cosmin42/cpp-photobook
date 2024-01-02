@@ -3,13 +3,11 @@
 #include <string>
 
 #include <pb/project/PaperSettings.h>
-#include <pb/util/Observable.h>
-#include <pb/util/SequentialTaskConsumer.h>
-#include <pb/util/Traits.h>
+#include <pb/tasks/SequentialTaskConsumer.h>
+#include <pb/util/Util.h>
 
 namespace PB {
-class Exportable: public PBDev::ObservableSubject
-{
+class Exportable : public PBDev::ObservableSubject {
 public:
   Exportable(std::stop_token stopToken, PaperSettings paperSettings,
              Path temporaryDirectory)

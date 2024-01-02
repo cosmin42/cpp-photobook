@@ -1,6 +1,6 @@
 #include <pb/ImportFoldersLogic.h>
 
-#include <pb/util/FileInfo.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 int ImportFoldersLogic::thumbnailsDir = 0;

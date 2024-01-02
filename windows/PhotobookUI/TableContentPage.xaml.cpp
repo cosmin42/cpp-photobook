@@ -23,9 +23,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 
 #include <pb/config/Log.h>
-#include <pb/image/ImageReader.h>
-#include <pb/image/RegularImage.h>
-#include <pb/persistence/SerializationStrategy.h>
+#include <pb/image/Image.h>
 #include <pb/project/PaperSettings.h>
 
 using namespace winrt;

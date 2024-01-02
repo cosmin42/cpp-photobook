@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <pb/image/VirtualImage.h>
+#include <pb/image/Image.h>
 
 namespace PB {
 

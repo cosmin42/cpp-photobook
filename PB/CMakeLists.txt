@@ -74,11 +74,12 @@ add_library(pblib STATIC
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
     include/pb/ImageMonitor.h
-    include/pb/ImageSetWriter.h
     include/pb/ImportFoldersLogic.h
+    include/pb/image/Image.h
     include/pb/image/ImageFactory.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
+    include/pb/image/ImageSetWriter.h
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
@@ -86,25 +87,27 @@ add_library(pblib STATIC
     include/pb/FileComparator.h
     include/pb/persistence/FilePersistence.h
     include/pb/persistence/Persistence.h
-    include/pb/persistence/ProjectMetadata.h
     include/pb/persistence/SerializationStrategy.h
     include/pb/persistence/SQLPersistence.h
     include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
     include/pb/Platform.h
     include/pb/project/PaperSettings.h
+    include/pb/project/ProjectMetadata.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
+    include/pb/tasks/Tasks.h
     include/pb/tasks/FileMapper.h
+    include/pb/tasks/ParallelTaskConsumer.h
+    include/pb/tasks/SequentialTaskConsumer.h
     include/pb/tasks/ThumbnailsProcessor.h
     include/pb/StagedImages.h
+    include/pb/util/Util.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
     include/pb/util/Observable.h
-    include/pb/util/ParallelTaskConsumer.h
     include/pb/util/Timer.h
-    include/pb/util/SequentialTaskConsumer.h
     include/pb/util/Traits.h
     include/pb/Visitor.h
     include/pb/WorkersManager.h

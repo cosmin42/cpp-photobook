@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pb/Enums.h>
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 struct PaperSettings {

@@ -7,7 +7,7 @@
 
 #include <pb/Config.h>
 #include <pb/project/ProjectSnapshot.h>
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 

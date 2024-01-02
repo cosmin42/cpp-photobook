@@ -1,7 +1,6 @@
 #include <pb/image/ImageOperations.h>
-
 #include <pb/image/ImageReader.h>
-#include <pb/ImageSetWriter.h>
+#include <pb/image/ImageSetWriter.h>
 
 namespace PB::Process {
 bool validExtension(std::optional<Path> path)
@@ -180,7 +179,8 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,
-                         std::shared_ptr<cv::Mat> image, Path medium, Path small)
+                         std::shared_ptr<cv::Mat> image, Path medium,
+                         Path small)
 {
   int mediumThumbnailWidth =
       std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);

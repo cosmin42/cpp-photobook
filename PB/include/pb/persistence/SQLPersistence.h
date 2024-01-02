@@ -6,7 +6,7 @@
 #include <sqlite3.h>
 
 #include <pb/Config.h>
-#include <pb/util/Error.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 

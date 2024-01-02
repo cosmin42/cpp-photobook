@@ -1,4 +1,4 @@
-#include <pb/ImageSetWriter.h>
+#include <pb/image/ImageSetWriter.h>
 
 
 namespace PB {

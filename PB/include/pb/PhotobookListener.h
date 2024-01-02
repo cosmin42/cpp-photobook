@@ -1,7 +1,6 @@
 #pragma once
 #include <pb/tasks/ThumbnailsProcessor.h>
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 class PhotobookListener {

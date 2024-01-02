@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <pb/DataManager.h>
-#include <pb/image/RegularImage.h>
-#include <pb/image/TextImage.h>
+#include <pb/image/Image.h>
 
 using namespace PB;
 /*

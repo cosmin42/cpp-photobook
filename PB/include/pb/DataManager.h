@@ -7,9 +7,8 @@
 #include <pb/Config.h>
 #include <pb/ImageMonitor.h>
 #include <pb/StagedImages.h>
-#include <pb/image/VirtualImage.h>
-#include <pb/util/IteratorWithState.h>
-#include <pb/util/Observable.h>
+#include <pb/image/Image.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 class ImageViews final {

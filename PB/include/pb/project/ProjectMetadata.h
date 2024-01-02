@@ -8,11 +8,10 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace PB {
-class ProjectMetadata {
+class ProjectMetadata final {
 public:
   static std::variant<std::vector<ProjectMetadata>, PBDev::Error>
   parse(std::variant<std::unordered_map<std::string, std::string>, PBDev::Error>
@@ -30,7 +29,7 @@ public:
 
   std::pair<boost::uuids::uuid, Path> data() const;
 
-  Path projectFile() const;
+  Path               projectFile() const;
   boost::uuids::uuid uuid() const;
 
   bool operator==(ProjectMetadata const &other) const;

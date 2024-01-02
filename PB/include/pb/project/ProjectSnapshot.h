@@ -5,11 +5,11 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/DataManager.h>
-#include <pb/project/PaperSettings.h>
+#include <pb/image/Image.h>
 #include <pb/persistence/SerializationStrategy.h>
-#include <pb/persistence/ProjectMetadata.h>
-#include <pb/util/Traits.h>
+#include <pb/project/PaperSettings.h>
+#include <pb/project/ProjectMetadata.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 class ProjectSnapshot {

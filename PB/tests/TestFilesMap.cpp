@@ -3,7 +3,7 @@
 
 #include <future>
 
-#include <pb/util/Error.h>
+#include <pb/util/Util.h>
 
 #include <pb/tasks/FileMapper.h>
 

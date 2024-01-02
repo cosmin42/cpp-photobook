@@ -1,8 +1,6 @@
 #include <pb/export/PdfPoDoFo.h>
 
-#include <pb/image/ImageOperations.h>
-#include <pb/image/ImageReader.h>
-#include <pb/ImageSetWriter.h>
+#include <pb/image/Image.h>
 
 namespace PB {
 PdfPoDoFoExport::PdfPoDoFoExport(std::stop_token stopToken,

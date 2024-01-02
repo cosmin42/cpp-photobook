@@ -1,4 +1,4 @@
-#include <pb/util/SequentialTaskConsumer.h>
+#include <pb/tasks/SequentialTaskConsumer.h>
 
 namespace PBDev {
 

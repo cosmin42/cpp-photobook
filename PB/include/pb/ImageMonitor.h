@@ -6,8 +6,8 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
-#include <pb/image/VirtualImage.h>
-#include <pb/util/IteratorWithState.h>
+#include <pb/image/Image.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 class ImageMonitorListener {

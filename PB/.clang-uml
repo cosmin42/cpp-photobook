@@ -7,7 +7,8 @@ diagrams:
     type: include
     title: Includes diagram
     glob:
-      - src/PhotoBook.cpp
+      - src/*
+      - src/util/*.cpp
     generate_system_headers: false
     using_namespace: PB
     include:

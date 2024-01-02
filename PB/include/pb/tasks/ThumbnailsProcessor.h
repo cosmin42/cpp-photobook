@@ -2,9 +2,9 @@
 
 #include <thread_pool/thread_pool.h>
 
-#include <pb/image/ImageOperations.h>
+#include <pb/image/Image.h>
 #include <pb/project/Project.h>
-#include <pb/util/ParallelTaskConsumer.h>
+#include <pb/tasks/ParallelTaskConsumer.h>
 
 namespace PB {
 class ResizeTask final {

@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <pb/Config.h>
-#include <pb/util/SequentialTaskConsumer.h>
+#include <pb/tasks/Tasks.h>
 
 // TODO: Make this OS independent
 #include <Windows.h>

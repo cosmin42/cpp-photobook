@@ -1,9 +1,6 @@
 #include <pb/PhotoBook.h>
 
-#include <pb/image/ImageFactory.h>
-#include <pb/image/RegularImage.h>
-#include <pb/image/TextImage.h>
-#include <pb/persistence/SerializationStrategy.h>
+#include <pb/image/Image.h>
 
 namespace PB {
 Photobook::Photobook(Path localStatePath, Path installationPath)

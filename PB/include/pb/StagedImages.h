@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include <pb/image/VirtualImage.h>
-#include <pb/util/IteratorWithState.h>
+#include <pb/image/Image.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 

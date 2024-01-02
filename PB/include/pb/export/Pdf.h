@@ -2,7 +2,7 @@
 
 #include <hpdf.h>
 
-#include <pb/util/Traits.h>
+#include <pb/util/Util.h>
 
 namespace PB {
 class Pdf final {
