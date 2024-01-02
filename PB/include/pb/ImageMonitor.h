@@ -12,6 +12,8 @@
 namespace PB {
 class ImageMonitorListener {
 public:
+  virtual ~ImageMonitorListener() = default;
+
   virtual void onImportFolderAdded() = 0;
   virtual void onImportFolderRemoved(unsigned index) = 0;
   virtual void onCleared() = 0;

@@ -5,8 +5,8 @@
 namespace PB {
 class JpgExport final : public Exportable {
 public:
-  void executeSingleTask() override;
+  void executeSingleTask();
 
-  void finish() override;
+  void finish();
 };
 } // namespace PB

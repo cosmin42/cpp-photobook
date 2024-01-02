@@ -61,15 +61,16 @@ std::pair<int, int> TableContentPage::ScreenSize()
 }
 
 TableContentPage::TableContentPage()
-    : mListener(std::make_shared<PhotobookTableListener>(std::ref(*this))),
-      mPhotoBook(Application::Current()
+    : mPhotoBook(Application::Current()
                      .as<winrt::PhotobookUI::implementation::App>()
                      ->api())
 {
+  mListener.configure(this);
+  mPhotoBook->configure((PB::PhotobookListener *)&mListener);
+
   InitializeComponent();
 
   mPhotoBook->configure(ScreenSize());
-  mPhotoBook->configure(mListener);
   mPhotoBook->configure((PB::StagedImagesListener *)this);
   mPhotoBook->configure((PB::ImageMonitorListener *)this);
 
@@ -636,20 +637,17 @@ void TableContentPage::OnCanvasDraw(
 
   auto session = args.DrawingSession();
 
+  if (selection.stagedPhotoIndex.empty() &&
+      selection.unstagedLineIndex.empty()) {
+    session.Clear({0, 0, 0});
+    return;
+  }
+
   int32_t portviewWidth = (int32_t)GalleryCanvas().ActualWidth();
 
   int32_t portviewHeight = (int32_t)GalleryCanvas().ActualHeight();
 
   std::shared_ptr<cv::Mat> image = nullptr;
-
-  if (!selection.importListIndex) {
-    return;
-  }
-
-  if (selection.stagedPhotoIndex.empty() &&
-      selection.unstagedLineIndex.empty()) {
-    return;
-  }
 
   std::shared_ptr<PB::VirtualImage> imagePtr = nullptr;
 
@@ -657,12 +655,18 @@ void TableContentPage::OnCanvasDraw(
     imagePtr = mPhotoBook->imageViews().imageMonitor().image(
         selection.importListIndex.value(), selection.unstagedLineIndex.at(0));
   }
+  else if (!selection.stagedPhotoIndex.empty()) {
+    imagePtr = mPhotoBook->imageViews().stagedImages().picture(
+        selection.stagedPhotoIndex.at(0));
+  }
 
   PBDev::basicAssert(imagePtr != nullptr);
 
   auto mediumThumbnailPath = imagePtr->resources().medium;
 
   PBDev::basicAssert(!mediumThumbnailPath.empty());
+
+  // Draw the image
 
   image = PB::Process::singleColorImage(portviewWidth, portviewHeight,
                                         {255, 255, 255})();
@@ -804,17 +808,9 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
   StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
       0, mStagedImageCollection.Size()));
 
-  auto navigationListIndex = MediaListView().SelectedIndex();
+  UpdateGallery();
 
-  if (navigationListIndex < 0) {
-    return;
-  }
-
-  auto unstagedPhotoIndex = UnstagedListView().SelectedIndex();
-
-  if (unstagedPhotoIndex > -1) {
-    UpdateGalleryLabel();
-  }
+  UpdateGalleryLabel();
 }
 
 void TableContentPage::OnStagedPhotosSelectionChanged(

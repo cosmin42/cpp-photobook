@@ -3,40 +3,66 @@
 #include <stop_token>
 #include <thread>
 
+#include <pb/Config.h>
+#include <pb/util/Concepts.h>
+
 namespace PBDev {
-class SequentialTaskConsumer {
+
+template <PB::TaskConcept Task> class SequentialTaskConsumerListener {
 public:
-  explicit SequentialTaskConsumer(std::stop_token stopToken);
+  virtual ~SequentialTaskConsumerListener() = default;
+  virtual void started(Task const &task) = 0;
+  virtual void finished(Task const &task) = 0;
+  virtual void aborted(Task const &task) = 0;
+};
 
-  SequentialTaskConsumer(SequentialTaskConsumer const &other)
+template <PB::TaskConcept Task> class SequentialTaskConsumer final {
+public:
+  void configure(SequentialTaskConsumerListener<Task> *listener)
   {
-    mExternalToken = other.mExternalToken;
+    mListener = listener;
   }
-  SequentialTaskConsumer(SequentialTaskConsumer &&other) noexcept
+
+  void configure(std::stop_token stopToken) { mExternalToken = stopToken; }
+  void configure(Task task) { mTask = task; }
+
+  void start()
   {
-    mExternalToken = other.mExternalToken;
+    mThread = std::jthread([this](std::stop_token token) { run(token); });
   }
-  SequentialTaskConsumer &operator=(SequentialTaskConsumer const &) = delete;
-  virtual ~SequentialTaskConsumer() = default;
 
-  void start();
+  void abort() { mThread.request_stop(); }
 
-  virtual void executeSingleTask() = 0;
-
-  virtual void finish() = 0;
-  virtual void aborted() = 0;
-
-  virtual bool stoppingCondition() = 0;
-
-protected:
-  // TODO: Rename to abort()
-  void stop();
+  Task task() const { return mTask.value(); }
 
 private:
-  void run(std::stop_token token);
+  void run(std::stop_token token)
+  {
+    PBDev::Timer timer;
+    mCurrentToken = token;
+    mListener->started(mTask.value());
+    while (!mCurrentToken.stop_requested() &&
+           !mExternalToken.stop_requested()) {
+      if (mTask->stoppingCondition()) {
+        mListener->finished(mTask.value());
+      }
+      else {
+        mTask->taskStep();
+      }
+    }
+    if (mCurrentToken.stop_requested()) {
+      mListener->finished(mTask.value());
+    }
+    else {
+      mListener->aborted(mTask.value());
+    }
+  }
 
-  std::stop_token mCurrentToken;
-  std::stop_token mExternalToken;
-  std::jthread    mThread;
+  SequentialTaskConsumerListener<Task> *mListener = nullptr;
+
+  std::stop_token     mCurrentToken;
+  std::stop_token     mExternalToken;
+  std::jthread        mThread;
+  std::optional<Task> mTask;
 };
-} // namespace PB
+} // namespace PBDev

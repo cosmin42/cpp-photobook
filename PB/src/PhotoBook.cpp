@@ -23,7 +23,7 @@ void Photobook::configure(std::pair<int, int> screenSize)
   mImportLogic.configure(screenSize);
 }
 
-void Photobook::configure(std::shared_ptr<PhotobookListener> listener)
+void Photobook::configure(PhotobookListener* listener)
 {
   mParent = listener;
 }
@@ -145,7 +145,6 @@ void Photobook::exportAlbum(std::string name, Path path)
 
   for (auto exporter : mExporters) {
     exporter->attach(this);
-    exporter->start();
   }
 }
 
@@ -225,32 +224,24 @@ void Photobook::newProject()
   saveProject();
 }
 
-void Photobook::onMappingStarted(Path path)
-{
-  post([this, path{path}]() { mParent->onMappingStarted(path); });
-}
+void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
 
-void Photobook::onMappingAborted(Path path)
-{
-  post([this, path{path}]() { mParent->onMappingAborted(path); });
-}
+void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
-  post([this, root, newFiles{newFiles}]() {
-    std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
-    for (auto path : newFiles) {
-      auto virtualImage = PB::ImageFactory::createImage(path);
-      imagesSet.push_back(virtualImage);
-    }
+  for (auto path : newFiles) {
+    auto virtualImage = PB::ImageFactory::createImage(path);
+    imagesSet.push_back(virtualImage);
+  }
 
-    mImageViews.imageMonitor().addRow(root, imagesSet);
+  mImageViews.imageMonitor().addRow(root, imagesSet);
 
-    mParent->onMappingFinished(root);
+  mParent->onMappingFinished(root);
 
-    mImportLogic.processImages(root, newFiles);
-  });
+  mImportLogic.processImages(root, newFiles);
 }
 
 void Photobook::onImportStop(Path) {}

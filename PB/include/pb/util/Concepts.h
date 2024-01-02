@@ -30,4 +30,14 @@ concept ContainerConcept = requires(T a, typename T::value_type v) {
   a.insert(a.end(), v);
 };
 
+template <typename T>
+concept TaskConcept = requires(T a) {
+  {
+    a.taskStep()
+  };
+  {
+    a.stoppingCondition()
+  } -> std::same_as<bool>;
+};
+
 } // namespace PB

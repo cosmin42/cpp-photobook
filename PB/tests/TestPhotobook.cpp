@@ -1,6 +1,5 @@
 #include "MockListeners.h"
 
-
 TEST(TestPhotobook, TestCreation)
 {
   std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
@@ -9,7 +8,7 @@ TEST(TestPhotobook, TestCreation)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  PB::Photobook photobook(".");
+  PB::Photobook photobook(".", ".");
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 }
@@ -24,7 +23,7 @@ TEST(TestPhotobook, TestMetadata)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  PB::Photobook photobook(".");
+  PB::Photobook photobook(".", ".");
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 
@@ -80,7 +79,7 @@ TEST(TestPhotobook, TestProject)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  PB::Photobook photobook(".");
+  PB::Photobook photobook(".", ".");
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 
@@ -115,17 +114,16 @@ TEST(TestPhotobook, TestProjectLoading)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  std::shared_ptr<PB::PhotobookListener> photobookListener =
-      std::make_shared<TestPhotobookListener>();
+  TestPhotobookListener photobookListener;
 
-  PB::Photobook photobook(".");
+  PB::Photobook photobook(".", ".");
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 
   TestDashboardListener testDashboardListener;
 
   photobook.configure((PB::DashboardListener *)&testDashboardListener);
-  photobook.configure(photobookListener);
+  photobook.configure((PB::PhotobookListener *)&photobookListener);
 
   EXPECT_CALL(testDashboardListener,
               onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));

@@ -1,3 +1,4 @@
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <pb/Config.h>
@@ -6,47 +7,51 @@
 // TODO: Make this OS independent
 #include <Windows.h>
 
-class TestSequentialTaskConsumer : public PBDev::SequentialTaskConsumer {
+class TaskExample {
 public:
-  TestSequentialTaskConsumer(std::stop_token stopToken)
-      : PBDev::SequentialTaskConsumer(stopToken)
-  {
-  }
-
-  void executeSingleTask() override
+  void taskStep()
   {
     mCounter++;
     Sleep(100);
   }
 
-  void finish() override { mFinish = true; }
-
-  void aborted() override { mFinish = true; }
-
-  bool stoppingCondition() override { return mCounter >= END_COUNTER; }
-
-  bool finished() const { return mFinish; }
+  bool stoppingCondition() { return mCounter >= END_COUNTER; }
 
   int counter() const { return mCounter; }
 
 private:
   static constexpr int END_COUNTER = 100;
 
-  int  mCounter = 0;
-  bool mFinish = false;
+  int mCounter = 0;
+};
+
+class TestSequentialTaskConsumerListener
+    : public PBDev::SequentialTaskConsumerListener<TaskExample> {
+public:
+  MOCK_METHOD(void, started, (TaskExample const &), (override));
+  MOCK_METHOD(void, finished, (TaskExample const &), (override));
+  MOCK_METHOD(void, aborted, (TaskExample const &), (override));
 };
 
 TEST(TestSequenctialTaskConsumer, TestCreation)
 {
-  std::stop_source           sStopSource;
-  TestSequentialTaskConsumer taskConsumer(sStopSource.get_token());
-  taskConsumer.start();
+  std::stop_source                           sStopSource;
+  TaskExample                                taskExample;
+  PBDev::SequentialTaskConsumer<TaskExample> consumer;
+  TestSequentialTaskConsumerListener         listener;
+  consumer.configure(taskExample);
+  consumer.configure(sStopSource.get_token());
+  consumer.configure(
+      (PBDev::SequentialTaskConsumerListener<TaskExample> *)&listener);
+
+  EXPECT_CALL(listener, started);
+  EXPECT_CALL(listener, aborted);
+  consumer.start();
 
   Sleep(100 * 20);
   sStopSource.request_stop();
 
-  while (!taskConsumer.finished())
-    ;
+  Sleep(150);
 
-  EXPECT_TRUE(taskConsumer.counter() < 30);
+  EXPECT_TRUE(consumer.task().counter() < 30);
 }

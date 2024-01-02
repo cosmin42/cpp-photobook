@@ -10,6 +10,7 @@ namespace PB {
 
 class StagedImagesListener {
 public:
+  virtual ~StagedImagesListener() = default;
   virtual void onPicturesAdded(int index, int size) = 0;
   virtual void onPictureRemoved(std::vector<unsigned> index) = 0;
 };

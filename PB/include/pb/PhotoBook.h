@@ -11,6 +11,7 @@
 #include <pb/ImageSetWriter.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/PhotobookListener.h>
+#include <pb/Platform.h>
 #include <pb/config/Log.h>
 #include <pb/export/Exporter.h>
 #include <pb/export/Html.h>
@@ -22,7 +23,6 @@
 #include <pb/util/Concepts.h>
 #include <pb/util/Error.h>
 #include <pb/util/FileInfo.h>
-#include <pb/Platform.h>
 
 namespace PB {
 
@@ -36,7 +36,7 @@ public:
   ~Photobook() = default;
 
   void configure(std::pair<int, int> screenSize);
-  void configure(std::shared_ptr<PhotobookListener> listener);
+  void configure(PhotobookListener *listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
   void configure(DashboardListener *listener);
@@ -83,8 +83,7 @@ public:
   void post(std::function<void()> f) override;
 
 private:
-
-  std::shared_ptr<PhotobookListener>       mParent = nullptr;
+  PhotobookListener                       *mParent = nullptr;
   DashboardListener                       *mDashboardListener;
   std::shared_ptr<PlatformInfo>            mPlatformInfo;
   Persistence                              mPersistence;

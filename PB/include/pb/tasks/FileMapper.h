@@ -13,20 +13,15 @@
 
 namespace PB {
 
-class MediaMapper final : public PBDev::SequentialTaskConsumer,
-                          public PBDev::ObservableSubject {
+class MediaMapper final {
 public:
   explicit MediaMapper(std::filesystem::path const &root);
 
   ~MediaMapper() = default;
 
-  void notify() override;
-  void executeSingleTask() override;
-  void finish() override;
-  void aborted() override;
-  bool stoppingCondition() override;
+  void taskStep();
+  bool stoppingCondition();
 
-  MediaMapState     state() const;
   Path              root() const;
   std::vector<Path> importedDirectories() const;
 
@@ -34,7 +29,6 @@ private:
   std::filesystem::recursive_directory_iterator mRecursiveIterator;
   Path                                          mRoot;
   std::vector<Path>                             mSubFiles;
-  MediaMapState                                 mState = MediaMapState::None;
 };
 
 } // namespace PB

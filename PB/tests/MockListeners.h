@@ -37,9 +37,7 @@ public:
   MOCK_METHOD(void, onExportProgressUpdate, (int, int), (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
-  MOCK_METHOD(void, onUnstagedImageAdded,
-              (Path rootPath, Path full, Path medium, Path small, int position),
-              (override));
+
   MOCK_METHOD(void, onStagedImageAdded,
               (std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                int                                            index),
@@ -49,6 +47,8 @@ public:
   MOCK_METHOD(void, onMappingStarted, (Path), (override));
   MOCK_METHOD(void, onMappingFinished, (Path), (override));
   MOCK_METHOD(void, onMappingAborted, (Path), (override));
+
+  MOCK_METHOD(void, onImageUpdated, (Path, int, int), (override));
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 };

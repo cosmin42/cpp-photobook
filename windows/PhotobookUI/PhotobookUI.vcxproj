@@ -95,7 +95,8 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xcopy /y $(VcpkgRoot)\installed\x64-windows\debug\bin\*.dll $(OutDir)\AppX\
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ECHO ON
+xcopy /y $(VcpkgRoot)\installed\x64-windows\debug\bin\*.dll $(OutDir)\AppX\
 xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(OutDir)\AppX\</Command>
     </PostBuildEvent>
     <Link>
@@ -239,6 +240,8 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
     <None Include="Assets\LICENSE">
       <DeploymentContent>true</DeploymentContent>
     </None>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

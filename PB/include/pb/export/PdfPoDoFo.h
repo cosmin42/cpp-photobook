@@ -10,13 +10,13 @@ public:
                            PaperSettings   paperSettings,
                            Path            temporaryDirectory);
 
-  void executeSingleTask() override;
+  void executeSingleTask();
 
-  void finish() override;
+  void finish();
 
-  bool stoppingCondition() override;
+  bool stoppingCondition();
 
-  void aborted() override {}
+  void aborted() {}
 
   std::pair<int, int> progress() const;
 

@@ -8,12 +8,12 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
-class Exportable : public PBDev::SequentialTaskConsumer, public PBDev::ObservableSubject {
+class Exportable: public PBDev::ObservableSubject
+{
 public:
   Exportable(std::stop_token stopToken, PaperSettings paperSettings,
              Path temporaryDirectory)
-      : PBDev::SequentialTaskConsumer(stopToken), mPaperSettings(paperSettings),
-        mTemporaryDirectory(temporaryDirectory)
+      : mPaperSettings(paperSettings), mTemporaryDirectory(temporaryDirectory)
   {
   }
 

@@ -6,8 +6,8 @@
 namespace PB {
 class HtmlExporter : public Exportable {
 public:
-  void executeSingleTask() override;
+  void executeSingleTask();
 
-  void finish() override;
+  void finish();
 };
 } // namespace PB

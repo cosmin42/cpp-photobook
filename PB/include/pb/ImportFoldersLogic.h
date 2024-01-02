@@ -23,10 +23,12 @@ public:
 
 class ThreadScheduler {
 public:
+  virtual ~ThreadScheduler() = default;
   virtual void post(std::function<void()> f) = 0;
 };
 
-class ImportFoldersLogic final : public PBDev::Observer {
+class ImportFoldersLogic final
+    : public PBDev::SequentialTaskConsumerListener<MediaMapper> {
 public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(ThreadScheduler *scheduler);
@@ -38,11 +40,14 @@ public:
   void start(Path path);
   void stop(Path path);
   void stopAll();
-  void update(PBDev::ObservableSubject &subject);
 
   void clearJob(Path root);
 
   void processImages(Path root, std::vector<Path> newFolders);
+
+  void started(MediaMapper const &) override;
+  void finished(MediaMapper const &) override;
+  void aborted(MediaMapper const &) override;
 
   std::pair<int, int> imageProcessingProgress() const;
   std::pair<int, int> imageProcessingProgress(Path path) const;
@@ -50,14 +55,14 @@ public:
 private:
   static int thumbnailsDir;
 
-  void setObserverManager();
+  void onImageProcessed(Path root, Path full, Path medium, Path small,
+                        int progressCap);
 
-  void onImageProcessed(Path root, Path full, Path medium, Path small, int progressCap);
-
-  ImportFoldersLogicListener                            *mListener = nullptr;
-  ThreadScheduler                                       *mScheduler = nullptr;
-  std::unordered_map<Path, std::shared_ptr<MediaMapper>> mMappingJobs;
+  ImportFoldersLogicListener                   *mListener = nullptr;
+  ThreadScheduler                              *mScheduler = nullptr;
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;
+  std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>
+      mMappingJobs;
 };
 } // namespace PB

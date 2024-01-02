@@ -12,15 +12,13 @@ struct TableContentPage;
 
 class PhotobookTableListener : public PB::PhotobookListener {
 public:
-  explicit PhotobookTableListener(TableContentPage &parent);
+
+  void configure(TableContentPage *parent);
 
   void onProgressUpdate(int progress, int reference) override;
   void onExportProgressUpdate(int, int) override;
 
   void onExportFinished() override;
-
-  void onUnstagedImageAdded(Path rootPath, Path full, Path medium,
-                            Path small, int position) override;
 
   void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
                           int index = -1) override;
@@ -37,6 +35,6 @@ public:
   void post(std::function<void()> f) override;
 
 private:
-  TableContentPage &mParent;
+  TableContentPage* mParent = nullptr;
 };
 } // namespace winrt::PhotobookUI::implementation
