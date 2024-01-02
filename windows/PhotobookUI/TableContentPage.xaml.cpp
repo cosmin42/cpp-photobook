@@ -41,13 +41,6 @@ using namespace Microsoft::Graphics::Canvas;
 
 namespace winrt::PhotobookUI::implementation {
 
-Path TableContentPage::CurrentAppLocation()
-{
-  StorageFolder folder = ApplicationData::Current().LocalFolder();
-
-  return Path(winrt::to_string(folder.Path()));
-}
-
 std::pair<int, int> TableContentPage::ScreenSize()
 {
   RECT windowSize;

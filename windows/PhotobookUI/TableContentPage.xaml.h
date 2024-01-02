@@ -31,8 +31,6 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
                           public PB::StagedImagesListener,
                           public PB::ImageMonitorListener {
 
-  static Path CurrentAppLocation();
-
   static std::pair<int, int> ScreenSize();
 
   TableContentPage();
