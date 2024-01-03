@@ -3,6 +3,7 @@
 #include <variant>
 
 #include <pb/util/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PBDev {
 // TODO: be implemented using std::expected
@@ -20,5 +21,7 @@ public:
       -> std::variant<std::filesystem::path, Error>;
   static auto isDirectory(std::variant<std::filesystem::path, Error> monoidPath)
       -> std::variant<std::filesystem::path, Error>;
+
+  static auto contains(Path a, Path b) -> bool;
 };
-} // namespace PB
+} // namespace PBDev

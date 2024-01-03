@@ -20,10 +20,7 @@ void Photobook::configure(std::pair<int, int> screenSize)
   mImportLogic.configure(screenSize);
 }
 
-void Photobook::configure(PhotobookListener* listener)
-{
-  mParent = listener;
-}
+void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 void Photobook::configure(StagedImagesListener *listener)
 {
   mImageViews.stagedImages().setListener(listener);
@@ -75,10 +72,14 @@ void Photobook::deleteProject(std::string id)
 
 void Photobook::addImportFolder(Path path)
 {
+  if (mImageViews.imageMonitor().containsRow(path, true)) {
+    mParent->onError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
+  }
   auto maybeError = mImportLogic.addImportFolder(path);
 
   if (maybeError) {
     mParent->onError(maybeError.value());
+    return;
   }
 
   mImportLogic.start(path);

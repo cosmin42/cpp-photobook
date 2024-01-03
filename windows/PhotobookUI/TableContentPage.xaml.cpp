@@ -778,7 +778,7 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
 
   auto importSelectedIndex = selection.importListIndex;
 
-  if (importSelectedIndex.has_value() && importSelectedIndex.value() == row) {
+  if (importSelectedIndex.has_value() && (int)importSelectedIndex.value() == row) {
     auto virtualImage =
         mPhotoBook->imageViews().imageMonitor().image(row, index);
 
@@ -989,7 +989,7 @@ void TableContentPage::OnStagedImageRemoved(
 void TableContentPage::OnError(PBDev::Error error)
 {
   GenericErrorTextBlock().Text(winrt::to_hstring(error.description()));
-  Post([this]() { GenericErrorDialogDisplay(); });
+  GenericErrorDialogDisplay();
 }
 
 void TableContentPage::Post(std::function<void()> f)

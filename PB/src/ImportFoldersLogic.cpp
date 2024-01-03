@@ -31,6 +31,12 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
     return std::get<PBDev::Error>(errorOrPath);
   }
 
+  for (auto &[key, value] : mMappingJobs) {
+    if (PBDev::FileInfo::contains(key, path)) {
+      return PBDev::Error() << PB::ErrorCode::FolderAlreadyImported;
+    }
+  }
+
   MediaMapper mapper(path);
 
   mMappingJobs[path] = PBDev::SequentialTaskConsumer<MediaMapper>();
@@ -43,7 +49,11 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   return std::nullopt;
 }
 
-void ImportFoldersLogic::start(Path path) { mMappingJobs.at(path).start(); }
+void ImportFoldersLogic::start(Path path)
+{
+  PB::printDebug("Starting %s\n", path.string().c_str());
+  mMappingJobs.at(path).start();
+}
 
 void ImportFoldersLogic::stop(Path path) {}
 

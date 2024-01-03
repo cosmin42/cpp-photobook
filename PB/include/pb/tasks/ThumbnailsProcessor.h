@@ -6,6 +6,8 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
+//#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
+
 namespace PB {
 class ResizeTask final {
 public:

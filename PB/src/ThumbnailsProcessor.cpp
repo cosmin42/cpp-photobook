@@ -41,6 +41,9 @@ void ResizeTask::operator()() const
                                  mMediumThumbnailOutputPath,
                                  mSmallThumbnailOutputPath);
   }
+#ifdef SIMULATE_SLOW_THUMBNAILS_PROCESSOR
+  Sleep(1000);
+#endif
   mFinish();
 }
 

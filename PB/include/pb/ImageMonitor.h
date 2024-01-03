@@ -36,7 +36,7 @@ public:
   unsigned importListSize() const;
   unsigned rowSize(unsigned row);
   unsigned rowIndex(Path path) const;
-  bool     containsRow(Path path) const;
+  bool     containsRow(Path path, bool subPath = false) const;
   Path     rowPath(unsigned row) const;
 
   std::vector<Path> rowList() const;

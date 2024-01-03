@@ -103,8 +103,15 @@ unsigned ImageMonitor::rowIndex(Path path) const
   return mRowIndexes.left.at(path);
 }
 
-bool ImageMonitor::containsRow(Path path) const
+bool ImageMonitor::containsRow(Path path, bool subPath) const
 {
+  if (subPath) {
+    for (auto it = mRowIndexes.begin(); it != mRowIndexes.end(); ++it) {
+      if (PBDev::FileInfo::contains(it->left, path)) {
+        return true;
+      }
+    }
+  }
   return mRowIndexes.left.find(path) != mRowIndexes.left.end();
 }
 

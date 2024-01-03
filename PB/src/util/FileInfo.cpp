@@ -12,7 +12,7 @@ auto FileInfo::fileExists(
   if (std::holds_alternative<PBDev::Error>(monoidPath)) {
     return monoidPath;
   }
-  auto& path = std::get<std::filesystem::path>(monoidPath);
+  auto &path = std::get<std::filesystem::path>(monoidPath);
   if (!std::filesystem::exists(path)) {
     return PBDev::Error() << PB::ErrorCode::FileDoesNotExist;
   }
@@ -43,4 +43,24 @@ auto FileInfo::validOutputRootPath(std::filesystem::path const &path)
 {
   return compose(fileExists, isDirectory)(path);
 }
-} // namespace PB
+
+auto FileInfo::contains(Path a, Path b) -> bool
+{
+  PBDev::basicAssert(a.is_absolute() && b.is_absolute());
+  auto aStr = a.string();
+  auto bStr = b.string();
+
+  if (aStr == bStr) {
+    return true;
+  }
+
+  if (aStr.find(bStr) != std::string::npos) {
+    return true;
+  }
+  if (bStr.find(aStr) != std::string::npos) {
+    return true;
+  }
+  return false;
+}
+
+} // namespace PBDev
