@@ -53,4 +53,6 @@ std::vector<Path> ProjectSnapshot::stagedImagesList() const
 
 PaperSettings ProjectSnapshot::paperSettings() const { return mPaperSettings; }
 
+PathCache ProjectSnapshot::pathCache() const { return mPathCache; }
+
 } // namespace PB

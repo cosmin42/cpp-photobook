@@ -18,12 +18,9 @@ void PathCache::load(Path path, std::string hash)
   mEntries.insert({path, hash});
 }
 
-void PathCache::remove(Path path) { mEntries.erase(mEntries.left.find(path)); }
+void PathCache::remove(Path path) { mEntries.left.erase(path); }
 
-void PathCache::remove(std::string hash)
-{
-  mEntries.erase(mEntries.right.find(hash));
-}
+void PathCache::remove(std::string hash) { mEntries.right.erase(hash); }
 
 std::string PathCache::hash(Path path) const { return mEntries.left.at(path); }
 
@@ -36,6 +33,6 @@ bool PathCache::contains(Path path) const
 
 bool PathCache::contains(std::string hash) const
 {
-  return mEntries.right.find(path) != mEntries.right.end();
+  return mEntries.right.find(hash) != mEntries.right.end();
 }
 } // namespace PB

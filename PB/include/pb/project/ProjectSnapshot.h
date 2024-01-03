@@ -8,6 +8,7 @@
 #include <pb/image/Image.h>
 #include <pb/persistence/SerializationStrategy.h>
 #include <pb/project/PaperSettings.h>
+#include <pb/project/PathCache.h>
 #include <pb/project/ProjectMetadata.h>
 #include <pb/util/Util.h>
 
@@ -34,6 +35,8 @@ public:
   std::vector<Path> stagedImagesList() const;
   PaperSettings     paperSettings() const;
 
+  PathCache pathCache() const;
+
 private:
   boost::uuids::uuid mUuid = boost::uuids::random_generator()();
   std::string        mSupportDirName;
@@ -43,5 +46,7 @@ private:
   std::vector<Path> mStagedImages;
 
   PaperSettings mPaperSettings;
+
+  PathCache mPathCache;
 };
 } // namespace PB
