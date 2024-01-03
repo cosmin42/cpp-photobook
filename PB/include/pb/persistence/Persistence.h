@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pb/persistence/FilePersistence.h>
-#include <pb/project/Project.h>
 #include <pb/persistence/SQLPersistence.h>
+#include <pb/project/Project.h>
 
 namespace PB {
 class PersistenceProjectListener {
@@ -20,6 +20,8 @@ public:
 
 class Persistence final {
 public:
+  static std::optional<PBDev::Error> createSupportDirectory(Path path);
+
   explicit Persistence(
       Path                         applicationLocalStatePath,
       PersistenceProjectListener  *persistenceProjectListener,
@@ -41,8 +43,6 @@ public:
   void deleteProject(Path projectFile, Path projectFolder);
 
   bool isSaved(ProjectSnapshot const &projectDetails) const;
-
-  std::optional<PBDev::Error> createSupportDirectory(Path path);
 
 private:
   PersistenceProjectListener  *mPersistenceProjectListener;

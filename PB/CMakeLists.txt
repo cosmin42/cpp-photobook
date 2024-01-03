@@ -182,6 +182,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestFolderImport.cpp
         tests/TestImageMonitor.cpp
         tests/TestParallelTaskConsumer.cpp
+        tests/TestPathCache.cpp
         tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
         tests/TestSequenctialTaskConsumer.cpp

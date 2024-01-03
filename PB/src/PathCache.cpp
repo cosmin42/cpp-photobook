@@ -10,6 +10,15 @@ bool PathCache::valid(Path path, std::string hash)
 void PathCache::newHash(Path path)
 {
   std::string hash_s = std::to_string(std::hash<std::string>{}(path.string()));
+
+  std::string suffix;
+  int         salt = 0;
+  while (contains(hash_s + suffix)) {
+    PBDev::basicAssert(salt < std::numeric_limits<int>::max());
+    suffix = std::to_string(salt);
+    salt++;
+  }
+  hash_s = hash_s + suffix;
   mEntries.insert({path, hash_s});
 }
 

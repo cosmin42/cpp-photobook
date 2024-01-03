@@ -35,7 +35,7 @@ public:
   std::vector<Path> stagedImagesList() const;
   PaperSettings     paperSettings() const;
 
-  PathCache pathCache() const;
+  PathCache& pathCache();
 
 private:
   boost::uuids::uuid mUuid = boost::uuids::random_generator()();
