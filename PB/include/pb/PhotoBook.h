@@ -81,7 +81,7 @@ public:
 
 private:
   PhotobookListener                       *mParent = nullptr;
-  DashboardListener                       *mDashboardListener;
+  DashboardListener                       *mDashboardListener = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo;
   Persistence                              mPersistence;
   std::shared_ptr<Project>                 mProject;
