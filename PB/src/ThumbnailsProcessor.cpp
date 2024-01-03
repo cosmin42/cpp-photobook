@@ -8,8 +8,8 @@ ResizeTask::ResizeTask(Path full, Path medium, Path small,
                        int screenWidth, int screenHeight,
                        std::stop_token stopToken)
     : mFullSizePath(full), mSmallThumbnailOutputPath(small),
-      mMediumThumbnailOutputPath(medium),
-      mFinish(onFinish), mScreenWidth(screenWidth), mScreenHeight(screenHeight),
+      mMediumThumbnailOutputPath(medium), mFinish(onFinish),
+      mScreenWidth(screenWidth), mScreenHeight(screenHeight),
       mStopToken(stopToken)
 {
 }
@@ -64,10 +64,9 @@ void ThumbnailsProcessor::provideProjectDetails(
 }
 
 void ThumbnailsProcessor::generateThumbnails(
-    std::vector<Path> mediaMap, std::string groupIdentifier,
+    Path root, std::vector<Path> mediaMap, std::string groupIdentifier,
     std::function<void(Path, Path, Path)> onThumbnailWritten)
 {
-  mStopSources.push_back(std::stop_source());
 
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = (unsigned)mediaMap.size();
@@ -83,21 +82,26 @@ void ThumbnailsProcessor::generateThumbnails(
 
     ResizeTask resizeTask(mediaMap.at(i), mediumPath, smallPath, taskCount,
                           task, mScreenWidth, mScreenHeight,
-                          mStopSources.at(mStopSources.size() - 1).get_token());
+                          mStopSources[root].get_token());
 
-    mParallelTaskConsumer.enqueue([resizeTask{resizeTask}]() { resizeTask(); });
+    mParallelTaskConsumer.enqueue(root,
+                                  [resizeTask{resizeTask}]() { resizeTask(); });
   }
 }
 
 void ThumbnailsProcessor::abort()
 {
-  for (auto &source : mStopSources) {
+  for (auto &[path, source] : mStopSources) {
+    PBDev::Unused(path);
     source.request_stop();
   }
 
-  for (auto &f : mFutures) {
-    f.wait();
-  }
+  mParallelTaskConsumer.wait();
+}
+
+void ThumbnailsProcessor::abort(Path path)
+{
+  mStopSources.at(path).request_stop();
 }
 
 std::pair<Path, Path>

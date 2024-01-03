@@ -6,16 +6,16 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
-//#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
+#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
 
 namespace PB {
 class ResizeTask final {
 public:
   ResizeTask() = delete;
-  explicit ResizeTask(Path fullSizePath, Path medium,
-                      Path small, unsigned totalTaskCount,
-                      std::function<void()> onFinish, int screenWidth,
-                      int screenHeight, std::stop_token stopToken);
+  explicit ResizeTask(Path fullSizePath, Path medium, Path small,
+                      unsigned totalTaskCount, std::function<void()> onFinish,
+                      int screenWidth, int screenHeight,
+                      std::stop_token stopToken);
   ~ResizeTask() = default;
 
   void operator()() const;
@@ -39,23 +39,24 @@ public:
 
   void provideProjectDetails(std::shared_ptr<Project>);
 
-  void generateThumbnails(
-      std::vector<Path> mediaMap, std::string groupIdentifier,
-      std::function<void(Path, Path, Path)> onThumbnailWritten);
+  void
+  generateThumbnails(Path root, std::vector<Path> mediaMap,
+                     std::string                           groupIdentifier,
+                     std::function<void(Path, Path, Path)> onThumbnailWritten);
 
   void abort();
+  void abort(Path path);
 
 private:
-  std::pair<Path, Path>                      assembleOutputPaths(int         index,
-                                                                 std::string groupIdentifier);
-  std::shared_ptr<Project>                   mProject;
+  std::pair<Path, Path>    assembleOutputPaths(int         index,
+                                               std::string groupIdentifier);
+  std::shared_ptr<Project> mProject;
 
   PBDev::ParallelTaskConsumer mParallelTaskConsumer;
-  
-  std::vector<std::future<void>>             mFutures;
-  std::function<void(Path, Path, Path)> mThumbnailWritten;
+
+  std::function<void(Path, Path, Path)>      mThumbnailWritten;
   int                                        mScreenWidth = 0;
   int                                        mScreenHeight = 0;
-  std::vector<std::stop_source>              mStopSources;
+  std::unordered_map<Path, std::stop_source> mStopSources;
 };
 } // namespace PB

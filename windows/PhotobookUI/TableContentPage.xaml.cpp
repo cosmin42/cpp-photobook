@@ -778,7 +778,8 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
 
   auto importSelectedIndex = selection.importListIndex;
 
-  if (importSelectedIndex.has_value() && (int)importSelectedIndex.value() == row) {
+  if (importSelectedIndex.has_value() &&
+      (int)importSelectedIndex.value() == row) {
     auto virtualImage =
         mPhotoBook->imageViews().imageMonitor().image(row, index);
 
@@ -844,9 +845,10 @@ void TableContentPage::UpdateStatusBar()
     StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   }
   else {
+    auto        pendingMappingList = mPhotoBook->pendingMappingPathList();
     std::string names;
-    for (auto path : mImportedDirectories) {
-      names = names + path.stem().string();
+    for (auto &path : pendingMappingList) {
+      names = names + ", " + path.stem().string();
     }
 
     StatusLabelText().Text(

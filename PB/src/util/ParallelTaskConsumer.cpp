@@ -10,8 +10,8 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
 [[nodiscard]] bool ParallelTaskConsumer::finished()
 {
   for (auto &future : mFutures) {
-    bool isFinished =
-        (future.wait_for(std::chrono::seconds(0)) == std::future_status::ready);
+    bool isFinished = (future.second.wait_for(std::chrono::seconds(0)) ==
+                       std::future_status::ready);
     if (!isFinished) {
       return false;
     }
@@ -19,9 +19,18 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
   return true;
 }
 
-void ParallelTaskConsumer::enqueue(std::function<void()> f)
+void ParallelTaskConsumer::enqueue(Path root, std::function<void()> f)
 {
   std::future<void> token = mPool.enqueue(f);
-  mFutures.push_back(std::move(token));
+  mFutures[root] = std::move(token);
 }
-} // namespace PB
+
+void ParallelTaskConsumer::wait()
+{
+  for (auto &[path, future] : mFutures) {
+    PBDev::Unused(path);
+    future.wait();
+  }
+}
+
+} // namespace PBDev

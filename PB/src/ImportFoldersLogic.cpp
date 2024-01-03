@@ -55,7 +55,7 @@ void ImportFoldersLogic::start(Path path)
   mMappingJobs.at(path).start();
 }
 
-void ImportFoldersLogic::stop(Path path) {}
+void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(); }
 
 void ImportFoldersLogic::stopAll() {}
 
@@ -84,7 +84,7 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
 void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
 {
   mThumbnailsProcessor.generateThumbnails(
-      newFolders, std::to_string(thumbnailsDir),
+      root, newFolders, std::to_string(thumbnailsDir),
       [this, root{root}, maxProgress{newFolders.size()}](Path full, Path medium,
                                                          Path small) {
         onImageProcessed(root, full, medium, small, (int)maxProgress);
@@ -130,5 +130,15 @@ std::pair<int, int> ImportFoldersLogic::imageProcessingProgress() const
 std::pair<int, int> ImportFoldersLogic::imageProcessingProgress(Path path) const
 {
   return mImageProcessingProgress.at(path);
+}
+
+std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
+{
+  std::vector<Path> keys;
+  for (auto &[key, value] : mMappingJobs) {
+    keys.push_back(key);
+  }
+
+  return keys;
 }
 } // namespace PB

@@ -28,6 +28,7 @@ void ImageMonitor::addRow(Path                                       path,
   mListener->onImportFolderAdded();
 
   mPendingRows.insert((int)mRowIndexes.size() - 1);
+  log();
 }
 
 void ImageMonitor::removeRow(int row)
@@ -54,6 +55,7 @@ void ImageMonitor::removeRow(int row)
   }
 
   mListener->onImportFolderRemoved(row);
+  log();
 }
 
 void ImageMonitor::removeRow(Path path)
@@ -63,6 +65,7 @@ void ImageMonitor::removeRow(Path path)
   removeRow(index);
 
   mListener->onImportFolderRemoved(index);
+  log();
 }
 
 void ImageMonitor::clear()
@@ -73,6 +76,7 @@ void ImageMonitor::clear()
   mUnstagedImagesMatrix.clear();
 
   mListener->onCleared();
+  log();
 }
 
 void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }

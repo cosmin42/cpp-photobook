@@ -85,6 +85,8 @@ void Photobook::addImportFolder(Path path)
   mImportLogic.start(path);
 }
 
+void Photobook::stopJobs(Path path) { mImportLogic.stop(path); }
+
 void Photobook::loadStagedImages()
 {
   auto stagedImages = mProject->active().stagedImagesList();
@@ -267,5 +269,10 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
 }
 
 void Photobook::post(std::function<void()> f) { mParent->post(f); }
+
+std::vector<Path> Photobook::pendingMappingPathList() const
+{
+  return mImportLogic.pendingMappingFolders();
+}
 
 } // namespace PB

@@ -52,6 +52,8 @@ public:
   std::pair<int, int> imageProcessingProgress() const;
   std::pair<int, int> imageProcessingProgress(Path path) const;
 
+  std::vector<Path> pendingMappingFolders() const;
+
 private:
   static int thumbnailsDir;
 

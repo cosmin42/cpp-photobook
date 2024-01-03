@@ -14,7 +14,7 @@ void MediaMapper::taskStep()
 #ifdef SIMULATE_SLOW_MAPPER
   Sleep(1000);
 #endif
-  PB::printDebug("Adding %s\n", path.string().c_str());
+  //PB::printDebug("Adding %s\n", path.string().c_str());
   mSubFiles.push_back(path);
   mRecursiveIterator++;
 }

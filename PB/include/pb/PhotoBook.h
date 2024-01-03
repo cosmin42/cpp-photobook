@@ -56,6 +56,8 @@ public:
 
   void addImportFolder(Path importPath);
 
+  void stopJobs(Path path);
+
   void loadStagedImages();
 
   void exportAlbum(std::string name, Path path);
@@ -78,6 +80,8 @@ public:
   void onImageProcessed(Path root, Path full, Path medium, Path small) override;
 
   void post(std::function<void()> f) override;
+
+  std::vector<Path> pendingMappingPathList() const;
 
 private:
   PhotobookListener                       *mParent = nullptr;
