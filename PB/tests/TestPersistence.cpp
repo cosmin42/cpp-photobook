@@ -1,8 +1,26 @@
 #include <gtest/gtest.h>
 
 #include <pb/Config.h>
+#include <pb/project/Project.h>
 
 using namespace PB;
+
+TEST(TestPersistence, Serialization0)
+{
+  std::string jsonResult =
+      "{\"path-cache\":{\"a/a/c\":\"9629090436824982610\",\"a/b/"
+      "c\":\"11453755272124169963\",\"a/c\":\"16582467240682114478\"}}";
+  PathCache pathCache;
+  pathCache.newHash(Path("a/b/c"));
+  pathCache.newHash(Path("a/c"));
+  pathCache.newHash(Path("a/a/c"));
+
+  auto errorOrResult =
+      PB::Text::serialize<PathCache>(0, {"cache-path", pathCache});
+  ASSERT_TRUE(std::holds_alternative<Json>(errorOrResult));
+  ASSERT_TRUE(Json::parse(jsonResult) == std::get<Json>(errorOrResult));
+}
+
 /*
 template <typename T> void testReadWrite(std::string path)
 {
@@ -252,9 +270,8 @@ TEST(TestPersistence, DeleteEntry)
   map.clear();
 
   persistence.deleteEntry("testKey", [map](
-                                         std::optional<PBDev::Error> maybeError) {
-    ASSERT_TRUE(!maybeError.has_value());
-    PB::SQLitePersistence persistence(".");
+                                         std::optional<PBDev::Error> maybeError)
+{ ASSERT_TRUE(!maybeError.has_value()); PB::SQLitePersistence persistence(".");
     persistence.connect();
     persistence.read(
         [map](std::variant<std::unordered_map<std::string, std::string>, Error>
@@ -308,9 +325,8 @@ TEST(TestPersistence, DeleteNonExistentEntry)
   map["testKey"] = "testValue";
 
   persistence.deleteEntry("non ExistentKey", [map](
-                                         std::optional<PBDev::Error> maybeError) {
-    ASSERT_TRUE(!maybeError.has_value());
-    PB::SQLitePersistence persistence(".");
+                                         std::optional<PBDev::Error> maybeError)
+{ ASSERT_TRUE(!maybeError.has_value()); PB::SQLitePersistence persistence(".");
     persistence.connect();
     persistence.read(
         [map](std::variant<std::unordered_map<std::string, std::string>, Error>
