@@ -20,6 +20,8 @@ public:
   bool contains(Path path) const;
   bool contains(std::string hash) const;
 
+  boost::bimaps::bimap<Path, std::string> data() const;
+
 private:
   boost::bimaps::bimap<Path, std::string> mEntries;
 };

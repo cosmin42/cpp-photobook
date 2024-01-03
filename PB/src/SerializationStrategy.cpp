@@ -169,6 +169,25 @@ serialize(int depth, std::pair<std::string, std::vector<Path>> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
+serialize(int depth,
+          std::pair<std::string, boost::bimaps::bimap<Path, std::string>> const
+              &entry)
+{
+  Json json;
+  json[entry.first];
+
+  for (auto bimapEntry : entry.second)
+  {
+    json[entry.first][bimapEntry.left.string()] = bimapEntry.right;
+  }
+
+  PB::printDebug("%s(bimap<Path, string>) %s\n", std::string(depth * 2, ' ').c_str(),
+                 json.dump().c_str());
+  return json;
+}
+
+template <>
+std::variant<Json, PBDev::Error>
 serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
 {
   auto &[key, paperSettings] = entry;
@@ -185,6 +204,15 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
   PB::printDebug("%s(string, PaperSettings) %s\n",
                  std::string(depth * 2, ' ').c_str(), json.dump().c_str());
   return json;
+}
+
+template <>
+std::variant<Json, PBDev::Error>
+serialize(int depth, std::pair<std::string, PathCache> const& entry)
+{
+  auto &[key, pathCache] = entry;
+  return serialize<boost::bimaps::bimap<Path, std::string>>(
+      depth + 1, {"path-cache", pathCache.data()});
 }
 
 template <>

@@ -44,4 +44,9 @@ bool PathCache::contains(std::string hash) const
 {
   return mEntries.right.find(hash) != mEntries.right.end();
 }
+
+boost::bimaps::bimap<Path, std::string> PathCache::data() const
+{
+  return mEntries;
+}
 } // namespace PB
