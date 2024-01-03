@@ -93,6 +93,7 @@ add_library(pblib STATIC
     include/pb/PhotobookListener.h
     include/pb/Platform.h
     include/pb/project/PaperSettings.h
+    include/pb/project/PathCache.h
     include/pb/project/ProjectMetadata.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
@@ -130,6 +131,7 @@ add_library(pblib STATIC
     src/Log.cpp
     src/MetadataReader.cpp
     src/PaperSettings.cpp
+    src/PathCache.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/Persistence.cpp
