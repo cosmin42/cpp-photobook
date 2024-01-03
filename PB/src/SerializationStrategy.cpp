@@ -57,6 +57,26 @@ std::variant<boost::uuids::uuid, PBDev::Error> deserialize(Json jsonData)
   }
 }
 
+template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
+{
+  boost::bimaps::bimap<Path, std::string> entries;
+  for (auto it = jsonData.begin(); it != jsonData.end(); ++it) {
+    auto pathOrError = deserialize<Path>(it.key());
+    if (std::holds_alternative<PBDev::Error>(pathOrError)) {
+      return std::get<PBDev::Error>(pathOrError);
+    }
+    auto hashOrError = deserialize<std::string>(it.value());
+    if (std::holds_alternative<PBDev::Error>(hashOrError)) {
+      return std::get<PBDev::Error>(hashOrError);
+    }
+    entries.insert(
+        {std::get<Path>(pathOrError), std::get<std::string>(hashOrError)});
+  }
+
+  PathCache patchCache(entries);
+  return patchCache;
+}
+
 template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 {
   PaperSettings paperSettings;
@@ -135,6 +155,15 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   }
   projectDetails.setPaperSettings(
       std::get<PaperSettings>(paperSettingsOrError));
+
+  auto pathCacheOrError =
+      deserialize<PathCache>(jsonData, "path-cache", PathCache(), true);
+  if (std::holds_alternative<PBDev::Error>(pathCacheOrError)) {
+    return std::get<PBDev::Error>(pathCacheOrError);
+  }
+
+  projectDetails.pathCache() = std::get<PathCache>(pathCacheOrError);
+
   return projectDetails;
 }
 
@@ -176,13 +205,12 @@ serialize(int depth,
   Json json;
   json[entry.first];
 
-  for (auto bimapEntry : entry.second)
-  {
+  for (auto bimapEntry : entry.second) {
     json[entry.first][bimapEntry.left.string()] = bimapEntry.right;
   }
 
-  PB::printDebug("%s(bimap<Path, string>) %s\n", std::string(depth * 2, ' ').c_str(),
-                 json.dump().c_str());
+  PB::printDebug("%s(bimap<Path, string>) %s\n",
+                 std::string(depth * 2, ' ').c_str(), json.dump().c_str());
   return json;
 }
 
@@ -208,7 +236,7 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int depth, std::pair<std::string, PathCache> const& entry)
+serialize(int depth, std::pair<std::string, PathCache> const &entry)
 {
   auto &[key, pathCache] = entry;
   return serialize<boost::bimaps::bimap<Path, std::string>>(

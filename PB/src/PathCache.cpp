@@ -2,6 +2,18 @@
 
 namespace PB {
 
+PathCache::PathCache(boost::bimaps::bimap<Path, std::string> data)
+{
+  mEntries = data;
+}
+
+PathCache::PathCache(PathCache const &other)
+{
+  for (auto& it : other.mEntries) {
+    mEntries.insert({it.left, it.right});
+  }
+}
+
 bool PathCache::valid(Path path, std::string hash)
 {
   return std::filesystem::exists(path);

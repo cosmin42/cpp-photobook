@@ -9,6 +9,10 @@ class PathCache final{
 public:
   static bool valid(Path path, std::string hash);
 
+  PathCache() = default;
+  explicit PathCache(boost::bimaps::bimap<Path, std::string> data);
+  PathCache(PathCache const &);
+  ~PathCache() = default;
   void newHash(Path path);
   void load(Path path, std::string hash);
   void remove(Path path);
