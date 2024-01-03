@@ -21,6 +21,26 @@ TEST(TestPersistence, Serialization0)
   ASSERT_TRUE(Json::parse(jsonResult) == std::get<Json>(errorOrResult));
 }
 
+TEST(TestPersistence, Deserialization)
+{
+  std::string jsonData =
+      "{\"path-cache\":{\"a/a/c\":\"9629090436824982610\",\"a/b/"
+      "c\":\"11453755272124169963\",\"a/c\":\"16582467240682114478\"}}";
+  Json json = Json::parse(jsonData);
+  auto pathCacheOrError =
+      PB::Text::deserialize<PathCache>(json, "path-cache", PathCache(), true);
+
+  ASSERT_FALSE(std::holds_alternative<PBDev::Error>(pathCacheOrError));
+  auto pathCache = std::get<PB::PathCache>(pathCacheOrError);
+  ASSERT_TRUE(pathCache.contains(std::string("9629090436824982610")));
+  ASSERT_TRUE(pathCache.contains(std::string("11453755272124169963")));
+  ASSERT_TRUE(pathCache.contains(std::string("16582467240682114478")));
+
+  ASSERT_TRUE(pathCache.contains(Path("a/a/c")));
+  ASSERT_TRUE(pathCache.contains(Path("a/b/c")));
+  ASSERT_TRUE(pathCache.contains(Path("a/c")));
+}
+
 /*
 template <typename T> void testReadWrite(std::string path)
 {
