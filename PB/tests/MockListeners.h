@@ -52,3 +52,18 @@ public:
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 };
+
+class TestPersistenceProjectListener final
+    : public PB::PersistenceProjectListener {
+public:
+  MOCK_METHOD(void, onProjectRead, (PB::Project), (override));
+  MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
+};
+
+class TestPersistenceMetadataListener final
+    : public PB::PersistenceMetadataListener {
+public:
+  MOCK_METHOD(void, onMetadataRead, (PB::ProjectMetadata), (override));
+  MOCK_METHOD(void, onMetadataRead, (std::vector<PB::ProjectMetadata>), (override));
+  MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
+};
