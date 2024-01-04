@@ -233,7 +233,7 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 
 void Photobook::newProject()
 {
-  *mProject = Project(mPlatformInfo->localStatePath);
+  configure(Project(mPlatformInfo->localStatePath));
 
   saveProject();
 }
