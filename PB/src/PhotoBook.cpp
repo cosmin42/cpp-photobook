@@ -85,7 +85,21 @@ void Photobook::addImportFolder(Path path)
   mImportLogic.start(path);
 }
 
-void Photobook::stopJobs(Path path) { mImportLogic.stop(path); }
+void Photobook::removeImportFolder(Path path)
+{
+  if (mImportLogic.marked(path)) {
+    return;
+  }
+
+  mImportLogic.stop(path);
+
+  if (mImageViews.imageMonitor().isPending(path)) {
+    mImportLogic.markForDeletion(path);
+  }
+  else {
+    mImageViews.imageMonitor().removeRow(path);
+  }
+}
 
 void Photobook::loadStagedImages()
 {
@@ -265,6 +279,11 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
     mImageViews.imageMonitor().completeRow(rowIndex);
 
     mImportLogic.clearJob(root);
+
+    if (mImportLogic.marked(root)) {
+      mImageViews.imageMonitor().removeRow(root);
+      mImportLogic.removeMarkForDeletion(root);
+    }
   }
 }
 

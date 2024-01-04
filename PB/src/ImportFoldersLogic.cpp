@@ -55,7 +55,7 @@ void ImportFoldersLogic::start(Path path)
   mMappingJobs.at(path).start();
 }
 
-void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(); }
+void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(path); }
 
 void ImportFoldersLogic::stopAll() {}
 
@@ -140,5 +140,19 @@ std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
   }
 
   return keys;
+}
+
+void ImportFoldersLogic::markForDeletion(Path path)
+{
+  mRemovalMarks.insert(path);
+}
+void ImportFoldersLogic::removeMarkForDeletion(Path path)
+{
+  mRemovalMarks.erase(path);
+}
+
+bool ImportFoldersLogic::marked(Path path) const
+{
+  return mRemovalMarks.contains(path);
 }
 } // namespace PB

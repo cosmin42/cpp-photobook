@@ -53,7 +53,6 @@ void ImageMonitor::removeRow(int row)
   for (int i = row + 1; i < mRowIndexes.size() + 1; ++i) {
     mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
   }
-
   mListener->onImportFolderRemoved(row);
   log();
 }
@@ -63,9 +62,6 @@ void ImageMonitor::removeRow(Path path)
   int index = mRowIndexes.left.at(path);
   PBDev::basicAssert(!mPendingRows.contains(index));
   removeRow(index);
-
-  mListener->onImportFolderRemoved(index);
-  log();
 }
 
 void ImageMonitor::clear()

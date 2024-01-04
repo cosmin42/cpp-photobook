@@ -192,7 +192,9 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
 
   PBDev::basicAssert(selectedIndex >= 0);
 
-  mPhotoBook->imageViews().imageMonitor().removeRow(selectedIndex);
+  auto rowPath = mPhotoBook->imageViews().imageMonitor().rowPath(selectedIndex);
+
+  mPhotoBook->removeImportFolder(rowPath);
 }
 
 auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
@@ -1120,6 +1122,13 @@ void TableContentPage::UpdateGallery() { GalleryCanvas().Invalidate(); }
 void TableContentPage::UpdateGalleryLabel()
 {
   auto selection = SelectionIndex();
+
+  if (!selection.importListIndex.has_value()) {
+    GalleryLeftButton().IsEnabled(false);
+    GalleryRightButton().IsEnabled(false);
+    GalleryMainText().Text(winrt::to_hstring("Nothing selected."));
+    return;
+  }
 
   // The root of the selected index
   auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(

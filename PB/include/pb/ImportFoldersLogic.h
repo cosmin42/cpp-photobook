@@ -54,6 +54,11 @@ public:
 
   std::vector<Path> pendingMappingFolders() const;
 
+  void markForDeletion(Path path);
+  void removeMarkForDeletion(Path path);
+
+  bool marked(Path path) const;
+
 private:
   static int thumbnailsDir;
 
@@ -66,5 +71,6 @@ private:
   ThumbnailsProcessor                           mThumbnailsProcessor;
   std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>
       mMappingJobs;
+  std::unordered_set<Path> mRemovalMarks;
 };
 } // namespace PB

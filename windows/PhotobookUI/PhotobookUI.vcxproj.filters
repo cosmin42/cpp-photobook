@@ -93,8 +93,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Assets\LICENSE" />
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />

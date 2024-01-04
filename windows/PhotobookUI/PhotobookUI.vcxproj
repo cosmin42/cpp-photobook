@@ -240,8 +240,6 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
     <None Include="Assets\LICENSE">
       <DeploymentContent>true</DeploymentContent>
     </None>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

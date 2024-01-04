@@ -169,6 +169,25 @@ diagrams:
       access:
         - protected
         - private
+  class_diagram_SerializationStrategy:
+    type: class
+    generate_packages: true
+    glob:
+      - src/SerializationStrategy.cpp
+    include:
+      namespaces:
+        - PB::Text
+      paths:
+        - include
+        - src
+      access:
+        - public
+    exclude:
+      namespaces:
+        - std
+      access:
+        - protected
+        - private
   top_level_class_diagram:
     type: class
     glob:

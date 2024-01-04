@@ -55,8 +55,7 @@ public:
   ProjectSnapshot &activeProject();
 
   void addImportFolder(Path importPath);
-
-  void stopJobs(Path path);
+  void removeImportFolder(Path path);
 
   void loadStagedImages();
 

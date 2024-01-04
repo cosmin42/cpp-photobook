@@ -17,6 +17,7 @@ ResizeTask::ResizeTask(Path full, Path medium, Path small,
 void ResizeTask::operator()() const
 {
   if (mStopToken.stop_requested()) {
+    mFinish();
     return;
   }
   auto resizeOption = ThumbnailType::None;
@@ -42,7 +43,7 @@ void ResizeTask::operator()() const
                                  mSmallThumbnailOutputPath);
   }
 #ifdef SIMULATE_SLOW_THUMBNAILS_PROCESSOR
-  Sleep(1000);
+  Sleep(3000);
 #endif
   mFinish();
 }
@@ -101,7 +102,9 @@ void ThumbnailsProcessor::abort()
 
 void ThumbnailsProcessor::abort(Path path)
 {
-  mStopSources.at(path).request_stop();
+  if (mStopSources.find(path) != mStopSources.end()) {
+    mStopSources.at(path).request_stop();
+  }
 }
 
 std::pair<Path, Path>

@@ -53,7 +53,7 @@ public:
   void log() const;
 
 private:
-  ImageMonitorListener                                   *mListener;
+  ImageMonitorListener                                   *mListener = nullptr;
   boost::bimaps::bimap<Path, int>                         mRowIndexes;
   boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions;
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
