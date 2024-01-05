@@ -65,9 +65,21 @@ Dashboard::Dashboard()
   mAPI->recallMetadata();
 }
 
+std::string Dashboard::GenerateProjectName()
+{
+  return PB::generateAlbumName([this](std::string name) {
+    for (auto p : mMetadata) {
+      if (p.projectFile().stem().string() == name) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
-  mAPI->newProject();
+  mAPI->newProject(GenerateProjectName());
 
   mAPI->configure((PB::DashboardListener *)nullptr);
 
@@ -140,7 +152,7 @@ void Dashboard::OnNavigatedTo(
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
     if (winrt::to_string(source) == "new-project") {
-      mAPI->newProject();
+      mAPI->newProject(GenerateProjectName());
 
       bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
           DispatcherQueuePriority::Normal, [this]() {
@@ -161,6 +173,7 @@ void Dashboard::onProjectRead()
 void Dashboard::onProjectsMetadataLoaded(
     std::vector<PB::ProjectMetadata> metadata)
 {
+  mMetadata = metadata;
   mProjectsList.Clear();
 
   ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,

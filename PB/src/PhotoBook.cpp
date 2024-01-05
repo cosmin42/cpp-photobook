@@ -212,9 +212,9 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
   onError(error);
 }
 
-void Photobook::newProject()
+void Photobook::newProject(std::string name)
 {
-  configure(Project());
+  configure(Project(name));
 
   saveProject();
 }

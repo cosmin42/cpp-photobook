@@ -9,9 +9,9 @@
 #include "Dashboard.g.h"
 #include "ProjectItem.g.h"
 
-#include <pb/project/Project.h>
 #include <pb/PhotoBook.h>
 #include <pb/PhotobookListener.h>
+#include <pb/project/Project.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -53,6 +53,8 @@ private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem RenameFlyout();
 
+  std::string GenerateProjectName();
+
   IObservableVector<ProjectItem> mProjectsList;
 
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
@@ -60,6 +62,8 @@ private:
   winrt::hstring mRightClickedId;
 
   std::shared_ptr<PB::Photobook> mAPI = nullptr;
+
+  std::vector<PB::ProjectMetadata> mMetadata;
 };
 } // namespace winrt::PhotobookUI::implementation
 

@@ -24,10 +24,16 @@ public:
     mMetadata =
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
 
-    mCache.uuid = uuid;
-    mCache.paperSettings = Context::A4_LANDSCAPE_PAPER;
+    mActive.uuid = uuid;
+    mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
 
-    mActive = mCache;
+    save();
+  }
+  explicit Project(std::string name)
+  {
+    Project();
+    mCache.name = name;
+    save();
   }
 
   Project(ProjectSnapshot projectDetails)
@@ -58,6 +64,6 @@ private:
   ProjectSnapshot mActive;
 };
 
-std::string generateAlbumName();
+std::string generateAlbumName(std::function<bool(std::string)>);
 
 } // namespace PB

@@ -42,7 +42,7 @@ public:
   void recallMetadata();
   void recallProject(Path path);
 
-  void newProject();
+  void newProject(std::string name);
   void deleteProject(std::string id);
   void discardProject();
   void saveProject();
