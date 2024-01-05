@@ -140,9 +140,8 @@ void Persistence::deleteMetadata(std::string id)
   });
 }
 
-void Persistence::deleteProject(Path projectFile, Path projectFolder)
+void Persistence::deleteProject(Path projectFile)
 {
-  std::filesystem::remove(projectFolder);
   std::filesystem::remove(projectFile);
 }
 

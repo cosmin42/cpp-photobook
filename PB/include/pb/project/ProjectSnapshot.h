@@ -18,13 +18,11 @@ public:
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }
 
-  void supportDirName(std::string const dirName) { mSupportDirName = dirName; }
-  std::string supportDirName() const { return mSupportDirName; }
-
   void parentDirectory(Path const dirName) { mParentDirectory = dirName; }
   Path parentDirectory() const { return mParentDirectory; }
 
-  Path supportFolder() const;
+  std::string name() const { return mName; }
+  void name(std::string name) { mName = name; }
 
   void setImportedPaths(std::vector<Path> paths);
   void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> paths);
@@ -35,11 +33,10 @@ public:
   std::vector<Path> stagedImagesList() const;
   PaperSettings     paperSettings() const;
 
-  PathCache& pathCache();
+  PathCache &pathCache();
 
 private:
   boost::uuids::uuid mUuid = boost::uuids::random_generator()();
-  std::string        mSupportDirName;
   Path               mParentDirectory;
 
   std::vector<Path> mImportedPaths;
@@ -48,5 +45,7 @@ private:
   PaperSettings mPaperSettings;
 
   PathCache mPathCache;
+
+  std::string mName;
 };
 } // namespace PB

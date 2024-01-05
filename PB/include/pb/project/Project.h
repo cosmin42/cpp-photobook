@@ -25,7 +25,6 @@ public:
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
 
     mCache.uuid(uuid);
-    mCache.supportDirName(boost::uuids::to_string(mCache.uuid()));
     mCache.parentDirectory(parentDirectory);
 
     mCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
@@ -53,7 +52,6 @@ public:
 
   void save() { mCache = mActive; }
 
-  void updateProjectName(std::string name) { mCache.supportDirName(name); }
   void updateProjectPath(Path path) { mCache.parentDirectory(path); }
 
 private:

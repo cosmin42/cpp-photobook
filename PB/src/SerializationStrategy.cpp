@@ -123,7 +123,7 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   if (std::holds_alternative<PBDev::Error>(nameOrError)) {
     return std::get<PBDev::Error>(nameOrError);
   }
-  projectDetails.supportDirName(std::get<std::string>(nameOrError));
+  projectDetails.name(std::get<std::string>(nameOrError));
 
   auto parentPathOrError = deserialize<std::string>(jsonData, "project-path");
   if (std::holds_alternative<PBDev::Error>(parentPathOrError)) {
@@ -253,7 +253,7 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
       serialize<boost::uuids::uuid, std::string, Path, std::vector<Path>,
                 std::vector<Path>, PaperSettings, PathCache>(
           depth + 1, {"project-uuid", projectDetails.uuid()},
-          {"project-name", projectDetails.supportDirName()},
+          {"project-name", projectDetails.name()},
           {"project-path", projectDetails.parentDirectory()},
           {"imported-folders", projectDetails.importedFolderList()},
           {"staged-images", projectDetails.stagedImagesList()},

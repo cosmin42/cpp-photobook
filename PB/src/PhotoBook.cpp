@@ -65,9 +65,8 @@ void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
 void Photobook::deleteProject(std::string id)
 {
   Path projectFile = mProject->metadata().projectFile();
-  Path supportFolder = mProject->active().supportFolder();
   mPersistence.deleteMetadata(id);
-  mPersistence.deleteProject(projectFile, supportFolder);
+  mPersistence.deleteProject(projectFile);
 }
 
 void Photobook::addImportFolder(Path path)
@@ -174,12 +173,10 @@ void Photobook::saveProject()
 void Photobook::saveProject(Path path)
 {
   Path oldProjectFile = mProject->metadata().projectFile();
-  Path oldSupportFolder = mProject->active().supportFolder();
 
   mProject->save();
 
   mProject->updateProjectPath(path.parent_path());
-  mProject->updateProjectName(path.stem().string());
 
   auto uuidStr = boost::uuids::to_string(mProject->active().uuid());
   auto fullPath = mProject->metadata().projectFile();
@@ -189,7 +186,7 @@ void Photobook::saveProject(Path path)
   mPersistence.persistMetadata(projectMetadata);
 
   if (path != oldProjectFile) {
-    mPersistence.deleteProject(oldProjectFile, oldSupportFolder);
+    mPersistence.deleteProject(oldProjectFile);
   }
 }
 

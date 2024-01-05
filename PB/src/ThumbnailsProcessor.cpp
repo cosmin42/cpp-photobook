@@ -118,7 +118,7 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 {
   auto projectDetails = mProject->active();
   PBDev::basicAssert(index >= 0);
-  PBDev::basicAssert(projectDetails.supportDirName().length() > 0);
+  PBDev::basicAssert(projectDetails.name().length() > 0);
 
   auto smallOutputPath = projectDetails.parentDirectory() / "th" /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
