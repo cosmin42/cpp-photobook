@@ -13,38 +13,16 @@
 #include <pb/util/Util.h>
 
 namespace PB {
-class ProjectSnapshot {
-public:
+struct ProjectSnapshot {
   static std::shared_ptr<PlatformInfo> platformInfo;
   static Path parentDirectory() { return platformInfo->localStatePath; }
 
-  void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
-  boost::uuids::uuid uuid() const { return mUuid; }
-
-  std::string name() const { return mName; }
-  void        name(std::string name) { mName = name; }
-
-  void setImportedPaths(std::vector<Path> paths);
-  void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> paths);
-  void setStagedImages(std::vector<Path> stagedImages);
-  void setPaperSettings(PaperSettings paperSettings);
-
-  std::vector<Path> importedFolderList() const;
-  std::vector<Path> stagedImagesList() const;
-  PaperSettings     paperSettings() const;
-
-  PathCache &pathCache();
-
-private:
-  boost::uuids::uuid mUuid = boost::uuids::random_generator()();
-
-  std::vector<Path> mImportedPaths;
-  std::vector<Path> mStagedImages;
-
-  PaperSettings mPaperSettings;
-
-  PathCache mPathCache;
-
-  std::string mName;
+  boost::uuids::uuid uuid = boost::uuids::random_generator()();
+  std::vector<Path>  importedPaths;
+  std::vector<Path>  stagedImages;
+  PaperSettings      paperSettings;
+  PathCache          pathCache;
+  std::string        name;
 };
+
 } // namespace PB

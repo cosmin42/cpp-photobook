@@ -82,7 +82,7 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
 
 void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
 {
-  auto pathHash = mProject->active().pathCache();
+  auto pathHash = mProject->active().pathCache;
   auto hash = pathHash.hashCreateIfMissing(root);
 
   mThumbnailsProcessor.generateThumbnails(

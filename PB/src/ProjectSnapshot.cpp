@@ -7,7 +7,7 @@
 namespace PB {
 
 std::shared_ptr<PlatformInfo> ProjectSnapshot::platformInfo = nullptr;
-
+/*
 void ProjectSnapshot::setImportedPaths(std::vector<Path> paths)
 {
   mImportedPaths.clear();
@@ -51,5 +51,5 @@ std::vector<Path> ProjectSnapshot::stagedImagesList() const
 PaperSettings ProjectSnapshot::paperSettings() const { return mPaperSettings; }
 
 PathCache &ProjectSnapshot::pathCache() { return mPathCache; }
-
+*/
 } // namespace PB

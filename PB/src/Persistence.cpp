@@ -37,7 +37,7 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  auto uuidStr = boost::uuids::to_string(projectDetails.uuid());
+  auto uuidStr = boost::uuids::to_string(projectDetails.uuid);
 
   auto maybeError =
       createSupportDirectory(ProjectSnapshot::parentDirectory() / "th");

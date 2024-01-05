@@ -117,13 +117,13 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   if (std::holds_alternative<PBDev::Error>(uuidOrError)) {
     return std::get<PBDev::Error>(uuidOrError);
   }
-  projectDetails.uuid(std::get<boost::uuids::uuid>(uuidOrError));
+  projectDetails.uuid = std::get<boost::uuids::uuid>(uuidOrError);
 
   auto nameOrError = deserialize<std::string>(jsonData, "project-name");
   if (std::holds_alternative<PBDev::Error>(nameOrError)) {
     return std::get<PBDev::Error>(nameOrError);
   }
-  projectDetails.name(std::get<std::string>(nameOrError));
+  projectDetails.name = std::get<std::string>(nameOrError);
 
 #ifdef _CLANG_UML_
 #else
@@ -132,24 +132,23 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   if (std::holds_alternative<PBDev::Error>(importedFoldersOrError)) {
     return std::get<PBDev::Error>(importedFoldersOrError);
   }
-  projectDetails.setImportedPaths(
-      std::get<std::vector<Path>>(importedFoldersOrError));
+  projectDetails.importedPaths =
+      std::get<std::vector<Path>>(importedFoldersOrError);
 
   auto stagedImagesOrError =
       deserialize<std::vector, Path>(jsonData, "staged-images");
   if (std::holds_alternative<PBDev::Error>(stagedImagesOrError)) {
     return std::get<PBDev::Error>(stagedImagesOrError);
   }
-  projectDetails.setStagedImages(
-      std::get<std::vector<Path>>(stagedImagesOrError));
+  projectDetails.stagedImages =
+      std::get<std::vector<Path>>(stagedImagesOrError);
 #endif
   auto paperSettingsOrError = deserialize<PaperSettings>(
       jsonData, "paper-settings", PaperSettings(), true);
   if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
     return std::get<PBDev::Error>(paperSettingsOrError);
   }
-  projectDetails.setPaperSettings(
-      std::get<PaperSettings>(paperSettingsOrError));
+  projectDetails.paperSettings = std::get<PaperSettings>(paperSettingsOrError);
 
   auto pathCacheOrError =
       deserialize<PathCache>(jsonData, "path-cache", PathCache(), true);
@@ -157,7 +156,7 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
     return std::get<PBDev::Error>(pathCacheOrError);
   }
 
-  projectDetails.pathCache() = std::get<PathCache>(pathCacheOrError);
+  projectDetails.pathCache = std::get<PathCache>(pathCacheOrError);
 
   return projectDetails;
 }
@@ -247,12 +246,12 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
   auto jsonOrError =
       serialize<boost::uuids::uuid, std::string, std::vector<Path>,
                 std::vector<Path>, PaperSettings, PathCache>(
-          depth + 1, {"project-uuid", projectDetails.uuid()},
-          {"project-name", projectDetails.name()},
-          {"imported-folders", projectDetails.importedFolderList()},
-          {"staged-images", projectDetails.stagedImagesList()},
-          {"paper-settings", projectDetails.paperSettings()},
-          {"path-cache", projectDetails.pathCache()});
+          depth + 1, {"project-uuid", projectDetails.uuid},
+          {"project-name", projectDetails.name},
+          {"imported-folders", projectDetails.importedPaths},
+          {"staged-images", projectDetails.stagedImages},
+          {"paper-settings", projectDetails.paperSettings},
+          {"path-cache", projectDetails.pathCache});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;

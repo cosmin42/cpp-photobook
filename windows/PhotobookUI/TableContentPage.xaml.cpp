@@ -149,8 +149,8 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 
 int TableContentPage::CanvasMinWidth()
 {
-  auto paperSettings = mPhotoBook->activeProject().paperSettings();
-  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
+  auto paperSettings = mPhotoBook->activeProject().paperSettings;
+  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -164,8 +164,8 @@ int TableContentPage::CanvasMinWidth()
 
 int TableContentPage::CanvasMinHeight()
 {
-  auto paperSettings = mPhotoBook->activeProject().paperSettings();
-  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings().ppi > 0);
+  auto paperSettings = mPhotoBook->activeProject().paperSettings;
+  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -472,7 +472,7 @@ void TableContentPage::UpdateCanvasSize()
             CanvasBorder().Padding().Top - CanvasBorder().Padding().Bottom);
 
   if (width > 0 && height > 0) {
-    auto paperSettings = mPhotoBook->activeProject().paperSettings();
+    auto paperSettings = mPhotoBook->activeProject().paperSettings;
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);

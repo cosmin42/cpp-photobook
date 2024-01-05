@@ -46,8 +46,7 @@ void Photobook::configure(PB::Project project)
 
 void Photobook::loadProject()
 {
-  auto importedFolders = mProject->active().importedFolderList();
-  for (auto &path : importedFolders) {
+  for (auto &path : mProject->active().importedPaths) {
     addImportFolder(path);
   }
 
@@ -100,7 +99,7 @@ void Photobook::removeImportFolder(Path path)
 
 void Photobook::loadStagedImages()
 {
-  auto stagedImages = mProject->active().stagedImagesList();
+  auto stagedImages = mProject->active().stagedImages;
 
   std::vector<std::shared_ptr<VirtualImage>> stage;
 
@@ -150,7 +149,7 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->resources().full);
   }
 
-  mExportFactory.updateConfiguration(mProject->active().paperSettings(),
+  mExportFactory.updateConfiguration(mProject->active().paperSettings,
                                      mPlatformInfo->localStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
@@ -174,7 +173,7 @@ void Photobook::saveProject(Path path)
 
   mProject->save();
 
-  auto uuidStr = boost::uuids::to_string(mProject->active().uuid());
+  auto uuidStr = boost::uuids::to_string(mProject->active().uuid);
   auto fullPath = mProject->metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
 
