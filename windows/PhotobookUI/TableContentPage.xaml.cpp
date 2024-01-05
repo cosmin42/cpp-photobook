@@ -294,22 +294,18 @@ void TableContentPage::OnSaveClicked(
   if (alreadySaved) {
     return;
   }
-  if (!mPhotoBook->projectDefaultSaved()) {
-    mPhotoBook->saveProject();
-  }
-  else {
-    mPopups.fireSaveFilePicker(
-        MainWindow::sMainWindowHandle,
-        [this](std::variant<std::string, PBDev::Error> result) {
-          if (std::holds_alternative<std::string>(result)) {
-            auto &newName = std::get<std::string>(result);
-            mPhotoBook->saveProject(newName);
-          }
-          else {
-            OnError(std::get<PBDev::Error>(result));
-          }
-        });
-  }
+  mPhotoBook->saveProject();
+  mPopups.fireSaveFilePicker(
+      MainWindow::sMainWindowHandle,
+      [this](std::variant<std::string, PBDev::Error> result) {
+        if (std::holds_alternative<std::string>(result)) {
+          auto &newName = std::get<std::string>(result);
+          mPhotoBook->saveProject(newName);
+        }
+        else {
+          OnError(std::get<PBDev::Error>(result));
+        }
+      });
 }
 
 void TableContentPage::OnSaveAsClicked(

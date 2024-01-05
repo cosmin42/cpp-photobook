@@ -6,7 +6,7 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
-#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
+//#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
 
 namespace PB {
 class ResizeTask final {
@@ -46,6 +46,9 @@ public:
 
   void abort();
   void abort(Path path);
+
+  void clearJob(Path path);
+  void clearJobs();
 
 private:
   std::pair<Path, Path>    assembleOutputPaths(int         index,

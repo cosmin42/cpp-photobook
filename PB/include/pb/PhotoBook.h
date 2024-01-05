@@ -60,7 +60,6 @@ public:
   void loadStagedImages();
 
   void exportAlbum(std::string name, Path path);
-  bool projectDefaultSaved();
 
   void onError(PBDev::Error error);
 

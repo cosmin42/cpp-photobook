@@ -195,17 +195,6 @@ void Photobook::saveProject(Path path)
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
-bool Photobook::projectDefaultSaved()
-{
-  auto projectParentPath = mProject->active().parentDirectory().string();
-
-  if (projectParentPath.find(mPlatformInfo->localStatePath.string()) ==
-      std::string::npos) {
-    return false;
-  }
-  return true;
-}
-
 void Photobook::onProjectRead(Project project)
 {
   configure(project);

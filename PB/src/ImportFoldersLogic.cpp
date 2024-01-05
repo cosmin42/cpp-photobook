@@ -150,6 +150,7 @@ void ImportFoldersLogic::markForDeletion(Path path)
 void ImportFoldersLogic::removeMarkForDeletion(Path path)
 {
   mRemovalMarks.erase(path);
+  mThumbnailsProcessor.clearJob(path);
 }
 
 bool ImportFoldersLogic::marked(Path path) const

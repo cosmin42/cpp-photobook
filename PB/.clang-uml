@@ -112,44 +112,6 @@ diagrams:
       access:
         - protected
         - private
-  class_diagram_ImportFoldersLogic:
-    type: class
-    generate_packages: true
-    glob:
-      - src/ImportFoldersLogic.cpp
-    include:
-      namespaces:
-        - PB
-      paths:
-        - include
-        - src
-      access:
-        - public
-    exclude:
-      namespaces:
-        - std
-      access:
-        - protected
-        - private
-  class_diagram_ImportFoldersLogic:
-    type: class
-    generate_packages: true
-    glob:
-      - src/ImportFoldersLogic.cpp
-    include:
-      namespaces:
-        - PB
-      paths:
-        - include
-        - src
-      access:
-        - public
-    exclude:
-      namespaces:
-        - std
-      access:
-        - protected
-        - private
   class_diagram_ImageViews:
     type: class
     generate_packages: true

@@ -98,6 +98,8 @@ void ThumbnailsProcessor::abort()
   }
 
   mParallelTaskConsumer.wait();
+
+  clearJobs();
 }
 
 void ThumbnailsProcessor::abort(Path path)
@@ -106,6 +108,10 @@ void ThumbnailsProcessor::abort(Path path)
     mStopSources.at(path).request_stop();
   }
 }
+
+void ThumbnailsProcessor::clearJob(Path path) { mStopSources.erase(path); }
+
+void ThumbnailsProcessor::clearJobs() { mStopSources.clear(); }
 
 std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
@@ -116,11 +122,11 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 
   groupIdentifier = groupIdentifier + mProject->active().supportDirName();
 
-  auto smallOutputPath = projectDetails.parentDirectory() /
+  auto smallOutputPath = projectDetails.parentDirectory() / "th" /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath = projectDetails.parentDirectory() /
+  auto mediumOutputPath = projectDetails.parentDirectory() / "th" /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);
 

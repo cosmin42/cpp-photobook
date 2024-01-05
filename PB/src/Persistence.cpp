@@ -39,10 +39,8 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
 
   auto uuidStr = boost::uuids::to_string(projectDetails.uuid());
 
-  auto supportDirectoryPath =
-      projectDetails.parentDirectory() / projectDetails.supportDirName();
-
-  auto maybeError = createSupportDirectory(supportDirectoryPath);
+  auto maybeError =
+      createSupportDirectory(projectDetails.parentDirectory() / "th");
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
