@@ -60,8 +60,6 @@ public:
   bool marked(Path path) const;
 
 private:
-  static int thumbnailsDir;
-
   void onImageProcessed(Path root, Path full, Path medium, Path small,
                         int progressCap);
 
@@ -70,7 +68,8 @@ private:
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;
   std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>
-      mMappingJobs;
+                           mMappingJobs;
   std::unordered_set<Path> mRemovalMarks;
+  std::shared_ptr<Project> mProject = nullptr;
 };
 } // namespace PB

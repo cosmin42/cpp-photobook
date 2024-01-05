@@ -21,6 +21,8 @@ public:
   std::string hash(Path path) const;
   Path        path(std::string jash) const;
 
+  std::string hashCreateIfMissing(Path path);
+
   bool contains(Path path) const;
   bool contains(std::string hash) const;
 

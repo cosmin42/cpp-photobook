@@ -9,7 +9,7 @@ PathCache::PathCache(boost::bimaps::bimap<Path, std::string> data)
 
 PathCache::PathCache(PathCache const &other)
 {
-  for (auto& it : other.mEntries) {
+  for (auto &it : other.mEntries) {
     mEntries.insert({it.left, it.right});
   }
 }
@@ -60,5 +60,14 @@ bool PathCache::contains(std::string hash) const
 boost::bimaps::bimap<Path, std::string> PathCache::data() const
 {
   return mEntries;
+}
+
+std::string PathCache::hashCreateIfMissing(Path path)
+{
+  if (!contains(path)) {
+    newHash(path);
+  }
+
+  return hash(path);
 }
 } // namespace PB

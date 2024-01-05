@@ -3,8 +3,6 @@
 #include <pb/util/Util.h>
 
 namespace PB {
-int ImportFoldersLogic::thumbnailsDir = 0;
-
 void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
 {
   mListener = listener;
@@ -22,6 +20,7 @@ void ImportFoldersLogic::configure(std::pair<int, int> screenSize)
 void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
 {
   mThumbnailsProcessor.provideProjectDetails(project);
+  mProject = project;
 }
 
 std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
@@ -83,13 +82,15 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
 
 void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
 {
+  auto pathHash = mProject->active().pathCache();
+  auto hash = pathHash.hashCreateIfMissing(root);
+
   mThumbnailsProcessor.generateThumbnails(
-      root, newFolders, std::to_string(thumbnailsDir),
+      root, newFolders, hash,
       [this, root{root}, maxProgress{newFolders.size()}](Path full, Path medium,
                                                          Path small) {
         onImageProcessed(root, full, medium, small, (int)maxProgress);
       });
-  thumbnailsDir++;
 }
 
 void ImportFoldersLogic::started(MediaMapper const &mediaMap)

@@ -117,12 +117,10 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
   groupIdentifier = groupIdentifier + mProject->active().supportDirName();
 
   auto smallOutputPath = projectDetails.parentDirectory() /
-                         projectDetails.supportDirName() /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
   auto mediumOutputPath = projectDetails.parentDirectory() /
-                          projectDetails.supportDirName() /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);
 
