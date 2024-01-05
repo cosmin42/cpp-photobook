@@ -68,6 +68,33 @@ public:
 
   std::stop_source sStopSource;
 
+  static constexpr std::vector<std::string> HAPPY_WORDS = {
+    "Joyful",       "Blissful",   "Radiant",       "Cheerful",
+    "Exuberant",    "Jubilant",   "Gleeful",       "Delighted",
+    "Content",      "Ecstatic",   "Merry",         "Jovial",
+    "Upbeat",       "Elated",     "Happy",         "Sunny",
+    "Lighthearted", "Buoyant",    "Festive",       "Vibrant",
+    "Grateful",     "Satisfied",  "Pleased",       "Overjoyed",
+    "Optimistic",   "Pleased",    "Thrilled",      "Euphoric",
+    "Playful",      "Carefree",   "Radiant",       "Wonderful",
+    "Jolly",        "Zestful",    "Bubbly",        "Heartwarming",
+    "Cheery",       "Upbeat",     "Chirpy",        "Sanguine",
+    "Enthusiastic", "Serene",     "Up-lifting",    "Giddy",
+    "Gleaming",     "Bountiful",  "Exultant",      "Merry-making",
+    "Comical",      "Hilarious",  "Dynamic",       "Sweet",
+    "Whimsical",    "Spirited",   "Sprightly",     "Delightful",
+    "Radiant",      "Uplifting",  "Optimistic",    "Tickled",
+    "Chipper",      "Pleasant",   "Buoyant",       "Lively",
+    "Sparkling",    "Tickled",    "Exhilarating",  "Bouncy",
+    "Festal",       "Vivacious",  "Gladsome",      "Pleased",
+    "Elated",       "Blithesome", "Merry-hearted", "Gleamy",
+    "Zippy",        "Snappy",     "Piquant",       "Buoyant",
+    "Enlivened",    "Beaming",    "Radiant",       "Jocund",
+    "Grinning",     "Giggly",     "Sunny",         "Uplifted",
+    "Hopeful",      "Amused",     "Merry-making",  "Overjoyed",
+    "Glad",         "Contented",  "Radiant",       "Effervescent",
+    "Spry",         "Snug",       "Jovial",        "Untroubled"};
+
 private:
   Context() = default;
   Context(Context const &) = delete;
