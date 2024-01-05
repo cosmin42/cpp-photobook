@@ -22,7 +22,8 @@ struct ProjectSnapshot {
   std::vector<Path>  stagedImages;
   PaperSettings      paperSettings;
   PathCache          pathCache;
-  std::string        name;
+  std::string        name = boost::uuids::to_string(uuid);
+  bool               neverSaved = true;
 };
 
 } // namespace PB
