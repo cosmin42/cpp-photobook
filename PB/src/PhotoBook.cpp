@@ -6,11 +6,12 @@ namespace PB {
 Photobook::Photobook(Path localStatePath, Path installationPath)
     : mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
-      mPersistence(localStatePath, this, this),
-      mProject(std::make_shared<Project>())
+      mPersistence(localStatePath, this, this)
 {
   VirtualImage::platformInfo = mPlatformInfo;
   ProjectSnapshot::platformInfo = mPlatformInfo;
+
+  mProject = std::make_shared<Project>();
 
   mImportLogic.configure((ImportFoldersLogicListener *)this);
   mImportLogic.configure((ThreadScheduler *)this);

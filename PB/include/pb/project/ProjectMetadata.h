@@ -13,19 +13,10 @@
 namespace PB {
 class ProjectMetadata final {
 public:
-  static std::variant<std::vector<ProjectMetadata>, PBDev::Error>
-  parse(std::variant<std::unordered_map<std::string, std::string>, PBDev::Error>
-            mapOrError);
-
-  static std::vector<ProjectMetadata>
-  parse(std::unordered_map<std::string, std::string> const &map);
-
   explicit ProjectMetadata(std::string uuid, std::string path);
 
   ProjectMetadata() = default;
   ~ProjectMetadata() = default;
-
-  std::pair<std::string, std::string> serialize();
 
   std::pair<boost::uuids::uuid, Path> data() const;
 

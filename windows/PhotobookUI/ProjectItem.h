@@ -4,7 +4,7 @@
 
 namespace winrt::PhotobookUI::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
-  ProjectItem(winrt::hstring itemName, winrt::hstring fullPath);
+  ProjectItem(winrt::hstring itemName, winrt::hstring fullPath, winrt::hstring name);
 
   winrt::hstring ItemId();
   winrt::hstring FullPath();

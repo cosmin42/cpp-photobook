@@ -24,7 +24,8 @@ void FilePersistence::read(
   }
 }
 
-void FilePersistence::write(Json                                      jsonData, std::function<void(std::optional<PBDev::Error>)> onReturn)
+void FilePersistence::write(
+    Json jsonData, std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   std::ofstream outputFile(mPath.string());
 

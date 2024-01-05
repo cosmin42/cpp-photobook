@@ -1,17 +1,71 @@
 #include <pb/project/Project.h>
 
 namespace PB {
-std::string
-generateAlbumName(std::function<bool(std::string)> stoppingCondition)
+
+Project::Project()
 {
-  auto size = Context::HAPPY_WORDS.size();
+  // TODO: Check if it is not redundant
+  auto uuid = boost::uuids::random_generator()();
+  auto projectPath = ProjectSnapshot::parentDirectory() /
+                     (boost::uuids::to_string(uuid) + Context::BOOK_EXTENSION);
+
+  mMetadata =
+      ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
+
+  mActive.uuid = uuid;
+  mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
+
+  save();
+}
+
+Project::Project(std::string name) : Project()
+{
+  mActive.name = name;
+  auto projectPath =
+      ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
+  mMetadata = ProjectMetadata(boost::uuids::to_string(mMetadata.uuid()),
+                              projectPath.string());
+  save();
+}
+
+std::vector<std::string> Project::HAPPY_WORDS = {
+    "Joyful",       "Blissful",   "Radiant",       "Cheerful",
+    "Exuberant",    "Jubilant",   "Gleeful",       "Delighted",
+    "Content",      "Ecstatic",   "Merry",         "Jovial",
+    "Upbeat",       "Elated",     "Happy",         "Sunny",
+    "Lighthearted", "Buoyant",    "Festive",       "Vibrant",
+    "Grateful",     "Satisfied",  "Pleased",       "Overjoyed",
+    "Optimistic",   "Pleased",    "Thrilled",      "Euphoric",
+    "Playful",      "Carefree",   "Radiant",       "Wonderful",
+    "Jolly",        "Zestful",    "Bubbly",        "Heartwarming",
+    "Cheery",       "Upbeat",     "Chirpy",        "Sanguine",
+    "Enthusiastic", "Serene",     "Up-lifting",    "Giddy",
+    "Gleaming",     "Bountiful",  "Exultant",      "Merry-making",
+    "Comical",      "Hilarious",  "Dynamic",       "Sweet",
+    "Whimsical",    "Spirited",   "Sprightly",     "Delightful",
+    "Radiant",      "Uplifting",  "Optimistic",    "Tickled",
+    "Chipper",      "Pleasant",   "Buoyant",       "Lively",
+    "Sparkling",    "Tickled",    "Exhilarating",  "Bouncy",
+    "Festal",       "Vivacious",  "Gladsome",      "Pleased",
+    "Elated",       "Blithesome", "Merry-hearted", "Gleamy",
+    "Zippy",        "Snappy",     "Piquant",       "Buoyant",
+    "Enlivened",    "Beaming",    "Radiant",       "Jocund",
+    "Grinning",     "Giggly",     "Sunny",         "Uplifted",
+    "Hopeful",      "Amused",     "Merry-making",  "Overjoyed",
+    "Glad",         "Contented",  "Radiant",       "Effervescent",
+    "Spry",         "Snug",       "Jovial",        "Untroubled"};
+
+std::string
+Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
+{
+  auto size = HAPPY_WORDS.size();
   std::srand(static_cast<unsigned int>(std::time(0)));
   int randomIndex = std::rand() % size;
   if (!stoppingCondition) {
-    return Context::HAPPY_WORDS.at(randomIndex);
+    return HAPPY_WORDS.at(randomIndex);
   }
 
-  std::string prefix = Context::HAPPY_WORDS.at(randomIndex);
+  std::string prefix = HAPPY_WORDS.at(randomIndex);
   int         index = 0;
   std::string name = prefix;
 

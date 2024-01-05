@@ -13,40 +13,9 @@ namespace PB {
 
 class Project final {
 public:
-  Project()
-  {
-    // TODO: Check if it is not redundant
-    auto uuid = boost::uuids::random_generator()();
-    auto projectPath =
-        ProjectSnapshot::parentDirectory() /
-        (boost::uuids::to_string(uuid) + Context::BOOK_EXTENSION);
+  Project();
 
-    mMetadata =
-        ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
-
-    mActive.uuid = uuid;
-    mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
-
-    save();
-  }
-  explicit Project(std::string name)
-  {
-    Project();
-    mCache.name = name;
-    save();
-  }
-
-  Project(ProjectSnapshot projectDetails)
-  {
-    auto projectPath = ProjectSnapshot::parentDirectory() /
-                       (boost::uuids::to_string(projectDetails.uuid) +
-                        Context::BOOK_EXTENSION);
-    mMetadata = ProjectMetadata(boost::uuids::to_string(projectDetails.uuid),
-                                projectPath.string());
-
-    mCache = projectDetails;
-    mActive = mCache;
-  }
+  explicit Project(std::string name);
 
   ~Project() = default;
 
@@ -56,14 +25,16 @@ public:
 
   void save() { mCache = mActive; }
 
+  static std::string generateAlbumName(std::function<bool(std::string)>);
+
 private:
+  static std::vector<std::string> HAPPY_WORDS;
+
   ProjectMetadata mMetadata;
 
   ProjectSnapshot mCache;
 
   ProjectSnapshot mActive;
 };
-
-std::string generateAlbumName(std::function<bool(std::string)>);
 
 } // namespace PB

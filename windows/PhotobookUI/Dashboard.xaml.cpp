@@ -67,7 +67,7 @@ Dashboard::Dashboard()
 
 std::string Dashboard::GenerateProjectName()
 {
-  return PB::generateAlbumName([this](std::string name) {
+  return PB::Project::generateAlbumName([this](std::string name) {
     for (auto p : mMetadata) {
       if (p.projectFile().stem().string() == name) {
         return false;
@@ -198,7 +198,7 @@ void Dashboard::onProjectsMetadataLoaded(
     auto [uuid, path] = project.data();
     mProjectsList.Append(
         ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
-                    winrt::to_hstring(path.string())));
+                    winrt::to_hstring(path.string()), winrt::to_hstring(path.stem().string())));
   }
 
   ProjectsListView().ItemsSource(mProjectsList);
