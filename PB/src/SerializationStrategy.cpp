@@ -247,17 +247,18 @@ template <>
 std::variant<Json, PBDev::Error>
 serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
 {
-  auto &[key, projectDetails] = entry;
+  auto [key, projectDetails] = entry;
 
   auto jsonOrError =
       serialize<boost::uuids::uuid, std::string, Path, std::vector<Path>,
-                std::vector<Path>, PaperSettings>(
+                std::vector<Path>, PaperSettings, PathCache>(
           depth + 1, {"project-uuid", projectDetails.uuid()},
           {"project-name", projectDetails.supportDirName()},
           {"project-path", projectDetails.parentDirectory()},
           {"imported-folders", projectDetails.importedFolderList()},
           {"staged-images", projectDetails.stagedImagesList()},
-          {"paper-settings", projectDetails.paperSettings()});
+          {"paper-settings", projectDetails.paperSettings()},
+          {"path-cache", projectDetails.pathCache()});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
