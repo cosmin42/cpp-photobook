@@ -23,7 +23,6 @@ struct ProjectSnapshot {
   PaperSettings      paperSettings;
   PathCache          pathCache;
   std::string        name = boost::uuids::to_string(uuid);
-  bool               neverSaved = true;
 };
 
 } // namespace PB
