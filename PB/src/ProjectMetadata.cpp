@@ -13,7 +13,6 @@ ProjectMetadata::ProjectMetadata(std::string uuid, std::string path)
   mProjectFilePath = path;
 }
 
-
 std::pair<boost::uuids::uuid, Path> ProjectMetadata::data() const
 {
   return {mUUID, mProjectFilePath};

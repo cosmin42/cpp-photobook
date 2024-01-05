@@ -27,7 +27,9 @@ Project::Project(std::string name) : Project()
                               projectPath.string());
   save();
 }
-
+#ifdef SIMULATE_FEW_HAPPY_WORDS
+std::vector<std::string> Project::HAPPY_WORDS = {"Joyful", "Blissful"};
+#else
 std::vector<std::string> Project::HAPPY_WORDS = {
     "Joyful",       "Blissful",   "Radiant",       "Cheerful",
     "Exuberant",    "Jubilant",   "Gleeful",       "Delighted",
@@ -54,7 +56,7 @@ std::vector<std::string> Project::HAPPY_WORDS = {
     "Hopeful",      "Amused",     "Merry-making",  "Overjoyed",
     "Glad",         "Contented",  "Radiant",       "Effervescent",
     "Spry",         "Snug",       "Jovial",        "Untroubled"};
-
+#endif
 std::string
 Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
 {

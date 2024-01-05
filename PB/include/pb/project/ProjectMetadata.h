@@ -26,7 +26,7 @@ public:
   bool operator==(ProjectMetadata const &other) const;
 
 private:
-  boost::uuids::uuid mUUID;
+  boost::uuids::uuid mUUID = boost::uuids::random_generator()();
   Path               mProjectFilePath;
 };
 } // namespace PB
