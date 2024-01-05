@@ -10,6 +10,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
       mProject(std::make_shared<Project>())
 {
   VirtualImage::platformInfo = mPlatformInfo;
+  ProjectSnapshot::platformInfo = mPlatformInfo;
 
   mImportLogic.configure((ImportFoldersLogicListener *)this);
   mImportLogic.configure((ThreadScheduler *)this);
@@ -53,10 +54,7 @@ void Photobook::loadProject()
   loadStagedImages();
 }
 
-void Photobook::unloadProject()
-{
-  *mProject = Project(mPlatformInfo->installationPath);
-}
+void Photobook::unloadProject() { *mProject = Project(); }
 
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
 
@@ -176,8 +174,6 @@ void Photobook::saveProject(Path path)
 
   mProject->save();
 
-  mProject->updateProjectPath(path.parent_path());
-
   auto uuidStr = boost::uuids::to_string(mProject->active().uuid());
   auto fullPath = mProject->metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
@@ -219,7 +215,7 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 
 void Photobook::newProject()
 {
-  configure(Project(mPlatformInfo->localStatePath));
+  configure(Project());
 
   saveProject();
 }

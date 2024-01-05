@@ -42,7 +42,7 @@ TEST(TestPhotobook, TestMetadata)
     photobook.newProject();
 
     auto uuid = photobook.activeProject().uuid();
-    auto path = photobook.activeProject().parentDirectory() /
+    auto path = PB::ProjectSnapshot::parentDirectory() /
                 (boost::uuids::to_string(uuid) + ".photobook");
 
     projectsMetadata.push_back(
@@ -97,7 +97,7 @@ TEST(TestPhotobook, TestProject)
   photobook.newProject();
 
   auto uuid = photobook.activeProject().uuid();
-  auto projectPath = photobook.activeProject().parentDirectory() /
+  auto projectPath = PB::ProjectSnapshot::parentDirectory() /
                      (boost::uuids::to_string(uuid) + ".photobook");
 
   EXPECT_CALL(testDashboardListener, onProjectRead());
@@ -135,7 +135,7 @@ TEST(TestPhotobook, TestProjectLoading)
   photobook.newProject();
 
   auto uuid = photobook.activeProject().uuid();
-  auto projectPath = photobook.activeProject().parentDirectory() /
+  auto projectPath = PB::ProjectSnapshot::parentDirectory() /
                      (boost::uuids::to_string(uuid) + ".photobook");
 
   EXPECT_CALL(testDashboardListener, onProjectRead());

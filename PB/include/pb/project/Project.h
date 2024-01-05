@@ -13,19 +13,17 @@ namespace PB {
 
 class Project final {
 public:
-  Project() = default;
-
-  Project(Path parentDirectory)
+  Project()
   {
     auto uuid = boost::uuids::random_generator()();
-    auto projectPath = parentDirectory / (boost::uuids::to_string(uuid) +
-                                          Context::BOOK_EXTENSION);
+    auto projectPath =
+        ProjectSnapshot::parentDirectory() /
+        (boost::uuids::to_string(uuid) + Context::BOOK_EXTENSION);
 
     mMetadata =
         ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
 
     mCache.uuid(uuid);
-    mCache.parentDirectory(parentDirectory);
 
     mCache.setPaperSettings(Context::A4_LANDSCAPE_PAPER);
 
@@ -34,7 +32,7 @@ public:
 
   Project(ProjectSnapshot projectDetails)
   {
-    auto projectPath = projectDetails.parentDirectory() /
+    auto projectPath = ProjectSnapshot::parentDirectory() /
                        (boost::uuids::to_string(projectDetails.uuid()) +
                         Context::BOOK_EXTENSION);
     mMetadata = ProjectMetadata(boost::uuids::to_string(projectDetails.uuid()),
@@ -51,8 +49,6 @@ public:
   ProjectSnapshot const &cache() { return mCache; }
 
   void save() { mCache = mActive; }
-
-  void updateProjectPath(Path path) { mCache.parentDirectory(path); }
 
 private:
   ProjectMetadata mMetadata;

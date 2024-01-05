@@ -125,11 +125,6 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   }
   projectDetails.name(std::get<std::string>(nameOrError));
 
-  auto parentPathOrError = deserialize<std::string>(jsonData, "project-path");
-  if (std::holds_alternative<PBDev::Error>(parentPathOrError)) {
-    return std::get<PBDev::Error>(parentPathOrError);
-  }
-  projectDetails.parentDirectory(std::get<std::string>(parentPathOrError));
 #ifdef _CLANG_UML_
 #else
   auto importedFoldersOrError =
@@ -250,11 +245,10 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
   auto [key, projectDetails] = entry;
 
   auto jsonOrError =
-      serialize<boost::uuids::uuid, std::string, Path, std::vector<Path>,
+      serialize<boost::uuids::uuid, std::string, std::vector<Path>,
                 std::vector<Path>, PaperSettings, PathCache>(
           depth + 1, {"project-uuid", projectDetails.uuid()},
           {"project-name", projectDetails.name()},
-          {"project-path", projectDetails.parentDirectory()},
           {"imported-folders", projectDetails.importedFolderList()},
           {"staged-images", projectDetails.stagedImagesList()},
           {"paper-settings", projectDetails.paperSettings()},

@@ -15,14 +15,14 @@
 namespace PB {
 class ProjectSnapshot {
 public:
+  static std::shared_ptr<PlatformInfo> platformInfo;
+  static Path parentDirectory() { return platformInfo->localStatePath; }
+
   void               uuid(boost::uuids::uuid newUuid) { mUuid = newUuid; }
   boost::uuids::uuid uuid() const { return mUuid; }
 
-  void parentDirectory(Path const dirName) { mParentDirectory = dirName; }
-  Path parentDirectory() const { return mParentDirectory; }
-
   std::string name() const { return mName; }
-  void name(std::string name) { mName = name; }
+  void        name(std::string name) { mName = name; }
 
   void setImportedPaths(std::vector<Path> paths);
   void setStagedImages(std::vector<std::shared_ptr<VirtualImage>> paths);
@@ -37,7 +37,6 @@ public:
 
 private:
   boost::uuids::uuid mUuid = boost::uuids::random_generator()();
-  Path               mParentDirectory;
 
   std::vector<Path> mImportedPaths;
   std::vector<Path> mStagedImages;
