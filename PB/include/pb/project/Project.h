@@ -58,4 +58,6 @@ private:
   ProjectSnapshot mActive;
 };
 
+std::string generateAlbumName();
+
 } // namespace PB
