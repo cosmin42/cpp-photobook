@@ -32,6 +32,8 @@ class ImportFoldersLogic final
 public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(ThreadScheduler *scheduler);
+  
+  // todo: Remove this, replace with mProject reference
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<Project> project);
 
@@ -44,7 +46,8 @@ public:
   void clearJob(Path root);
 
   void processImages(Path root, std::vector<Path> newFolders);
-
+  
+  // todo: Rename to contain mapping
   void started(MediaMapper const &) override;
   void finished(MediaMapper const &) override;
   void aborted(MediaMapper const &) override;
@@ -53,7 +56,8 @@ public:
   std::pair<int, int> imageProcessingProgress(Path path) const;
 
   std::vector<Path> pendingMappingFolders() const;
-
+  
+  // todo: marking should be externalized to photobook.
   void markForDeletion(Path path);
   void removeMarkForDeletion(Path path);
 
