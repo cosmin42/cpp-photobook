@@ -23,6 +23,17 @@ struct ProjectSnapshot {
   PaperSettings      paperSettings;
   PathCache          pathCache;
   std::string        name = boost::uuids::to_string(uuid);
+
+  bool operator==(ProjectSnapshot const &other)
+  {
+    return uuid == other.uuid &&
+           std::equal(importedPaths.begin(), importedPaths.end(),
+                      other.importedPaths.begin()) &&
+           std::equal(stagedImages.begin(), stagedImages.end(),
+                      other.stagedImages.begin()) &&
+           paperSettings == other.paperSettings &&
+           pathCache == other.pathCache && name == other.name;
+  }
 };
 
 } // namespace PB

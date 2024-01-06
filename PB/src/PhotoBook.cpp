@@ -177,7 +177,7 @@ void Photobook::saveProject(Path path)
 {
   Path oldProjectFile = mProject->metadata().projectFile();
 
-  mProject->save();
+  mProject->sync();
 
   auto uuidStr = boost::uuids::to_string(mProject->active().uuid);
   auto fullPath = mProject->metadata().projectFile();

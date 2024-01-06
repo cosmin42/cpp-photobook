@@ -28,7 +28,9 @@ public:
   ProjectSnapshot       &active() { return mActive; }
   ProjectSnapshot const &cache() { return mCache; }
 
-  void save() { mCache = mActive; }
+  void sync() { mCache = mActive; }
+
+  bool isSynced();
 
 private:
   static std::vector<std::string> HAPPY_WORDS;

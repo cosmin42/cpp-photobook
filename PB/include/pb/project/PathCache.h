@@ -5,7 +5,7 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
-class PathCache final{
+class PathCache final {
 public:
   static bool valid(Path path, std::string hash);
 
@@ -27,6 +27,19 @@ public:
   bool contains(std::string hash) const;
 
   boost::bimaps::bimap<Path, std::string> data() const;
+
+  bool operator==(PathCache const &other)
+  {
+    if (mEntries.size() != other.mEntries.size()) {
+      return false;
+    }
+    for (auto &it : mEntries) {
+      if (other.mEntries.left.find(it.left) == other.mEntries.left.end()) {
+        return false;
+      }
+    }
+    return true;
+  }
 
 private:
   boost::bimaps::bimap<Path, std::string> mEntries;

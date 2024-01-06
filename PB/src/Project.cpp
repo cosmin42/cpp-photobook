@@ -15,7 +15,7 @@ Project::Project()
   mActive.uuid = uuid;
   mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
 
-  save();
+  sync();
 }
 
 Project::Project(std::string name) : Project()
@@ -25,7 +25,7 @@ Project::Project(std::string name) : Project()
       ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
   mMetadata = ProjectMetadata(boost::uuids::to_string(mMetadata.uuid()),
                               projectPath.string());
-  save();
+  sync();
 }
 Project::Project(ProjectSnapshot snapshot)
 {
@@ -33,8 +33,8 @@ Project::Project(ProjectSnapshot snapshot)
 
   auto projectPath = ProjectSnapshot::parentDirectory() /
                      (mActive.name + Context::BOOK_EXTENSION);
-  mMetadata =
-      ProjectMetadata(boost::uuids::to_string(snapshot.uuid), projectPath.string());
+  mMetadata = ProjectMetadata(boost::uuids::to_string(snapshot.uuid),
+                              projectPath.string());
 }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
@@ -88,5 +88,7 @@ Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
   }
   return name;
 }
+
+bool Project::isSynced() { return mActive.operator==(mCache); }
 
 } // namespace PB
