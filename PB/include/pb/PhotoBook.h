@@ -44,10 +44,11 @@ public:
 
   void newProject(std::string name);
   void deleteProject(std::string id);
+
   void discardProject();
   void saveProject();
+  // todo: rename to renameProject
   void saveProject(Path newPath);
-
   void loadProject();
   void unloadProject();
 
