@@ -45,6 +45,7 @@ public:
   void newProject(std::string name);
   void deleteProject(std::string id);
 
+  // todo: reconcile discard and unload project
   void discardProject();
   void saveProject();
   // todo: rename to renameProject
