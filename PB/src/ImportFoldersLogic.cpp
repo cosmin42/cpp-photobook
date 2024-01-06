@@ -56,7 +56,12 @@ void ImportFoldersLogic::start(Path path)
 
 void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(path); }
 
-void ImportFoldersLogic::stopAll() {}
+void ImportFoldersLogic::stopAll()
+{
+  for (auto &mappingJob : mMappingJobs) {
+    mThumbnailsProcessor.abort(mappingJob.first);
+  }
+}
 
 void ImportFoldersLogic::clearJob(Path root)
 {
