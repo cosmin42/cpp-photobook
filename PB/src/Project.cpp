@@ -27,6 +27,16 @@ Project::Project(std::string name) : Project()
                               projectPath.string());
   save();
 }
+Project::Project(ProjectSnapshot snapshot)
+{
+  mActive = mCache = snapshot;
+
+  auto projectPath = ProjectSnapshot::parentDirectory() /
+                     (mActive.name + Context::BOOK_EXTENSION);
+  mMetadata =
+      ProjectMetadata(boost::uuids::to_string(snapshot.uuid), projectPath.string());
+}
+
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> Project::HAPPY_WORDS = {"Joyful", "Blissful"};
 #else

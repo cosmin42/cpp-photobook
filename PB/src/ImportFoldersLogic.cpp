@@ -138,6 +138,17 @@ std::pair<int, int> ImportFoldersLogic::imageProcessingProgress(Path path) const
   return mImageProcessingProgress.at(path);
 }
 
+std::vector<Path> ImportFoldersLogic::runningImageProcessingJobs() const
+{
+  std::vector<Path> result;
+  for (auto &[path, progress] : mImageProcessingProgress) {
+    if (progress.first != progress.second) {
+      result.push_back(path);
+    }
+  }
+  return result;
+}
+
 std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
 {
   std::vector<Path> keys;

@@ -11,8 +11,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   VirtualImage::platformInfo = mPlatformInfo;
   ProjectSnapshot::platformInfo = mPlatformInfo;
 
-  mProject = std::make_shared<Project>();
-
   mImportLogic.configure((ImportFoldersLogicListener *)this);
   mImportLogic.configure((ThreadScheduler *)this);
 }
@@ -38,9 +36,9 @@ void Photobook::configure(DashboardListener *listener)
   mDashboardListener = listener;
 }
 
-void Photobook::configure(PB::Project project)
+void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
-  *mProject = project;
+  mProject = project;
 
   mImportLogic.configure(mProject);
 }
@@ -54,7 +52,16 @@ void Photobook::loadProject()
   loadStagedImages();
 }
 
-void Photobook::unloadProject() { *mProject = Project(); }
+void Photobook::unloadProject()
+{
+  mImportLogic.stopAll();
+  if (mImportLogic.runningImageProcessingJobs().empty()) {
+    mProject = nullptr;
+  }
+  else {
+    mMarkProjectForDeletion = true;
+  }
+}
 
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
 
@@ -161,8 +168,6 @@ void Photobook::exportAlbum(std::string name, Path path)
 
 ProjectSnapshot &Photobook::activeProject() { return mProject->active(); }
 
-void Photobook::discardProject() { mImportLogic.stopAll(); }
-
 void Photobook::saveProject()
 {
   saveProject(mProject->metadata().projectFile());
@@ -188,7 +193,7 @@ void Photobook::saveProject(Path path)
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
-void Photobook::onProjectRead(Project project)
+void Photobook::onProjectRead(std::shared_ptr<Project> project)
 {
   configure(project);
   if (mDashboardListener) {
@@ -215,7 +220,7 @@ void Photobook::onProjectPersistenceError(PBDev::Error error)
 
 void Photobook::newProject(std::string name)
 {
-  configure(Project(name));
+  configure(std::make_shared<Project>(name));
 
   saveProject();
 }
@@ -266,8 +271,15 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
       mImageViews.imageMonitor().removeRow(root);
       mImportLogic.removeMarkForDeletion(root);
     }
+
+    if (mMarkProjectForDeletion) {
+      mProject = nullptr;
+      mMarkProjectForDeletion = false;
+    }
   }
 }
+
+void Photobook::onImageProcessingJobEnded(Path root) {}
 
 void Photobook::post(std::function<void()> f) { mParent->post(f); }
 

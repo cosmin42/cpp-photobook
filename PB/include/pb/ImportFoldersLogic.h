@@ -54,6 +54,7 @@ public:
 
   std::pair<int, int> imageProcessingProgress() const;
   std::pair<int, int> imageProcessingProgress(Path path) const;
+  std::vector<Path>   runningImageProcessingJobs() const;
 
   std::vector<Path> pendingMappingFolders() const;
   

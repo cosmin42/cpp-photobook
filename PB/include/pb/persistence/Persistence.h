@@ -7,7 +7,7 @@
 namespace PB {
 class PersistenceProjectListener {
 public:
-  virtual void onProjectRead(Project project) = 0;
+  virtual void onProjectRead(std::shared_ptr<Project> project) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 

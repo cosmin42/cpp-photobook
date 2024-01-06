@@ -37,7 +37,7 @@ public:
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
   void configure(DashboardListener *listener);
-  void configure(Project project);
+  void configure(std::shared_ptr<Project> project);
 
   void recallMetadata();
   void recallProject(Path path);
@@ -45,8 +45,6 @@ public:
   void newProject(std::string name);
   void deleteProject(std::string id);
 
-  // todo: reconcile discard and unload project
-  void discardProject();
   void saveProject();
   // todo: rename to renameProject
   void saveProject(Path newPath);
@@ -66,7 +64,7 @@ public:
   void onError(PBDev::Error error);
 
   void update(PBDev::ObservableSubject &subject) override;
-  void onProjectRead(Project project) override;
+  void onProjectRead(std::shared_ptr<Project> project) override;
   void onMetadataRead(ProjectMetadata projectMetadata) override;
   void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
   void onMetadataPersistenceError(PBDev::Error) override;
@@ -79,6 +77,8 @@ public:
   void onImportStop(Path) override;
   void onImageProcessed(Path root, Path full, Path medium, Path small) override;
 
+  void onImageProcessingJobEnded(Path root);
+
   void post(std::function<void()> f) override;
 
   std::vector<Path> pendingMappingPathList() const;
@@ -86,13 +86,14 @@ public:
 private:
   PhotobookListener                       *mParent = nullptr;
   DashboardListener                       *mDashboardListener = nullptr;
-  std::shared_ptr<PlatformInfo>            mPlatformInfo;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
   Persistence                              mPersistence;
-  std::shared_ptr<Project>                 mProject;
+  std::shared_ptr<Project>                 mProject = nullptr;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
   std::vector<std::shared_ptr<Exportable>> mExporters;
   CommandStack                             mCommandStack;
   ExportFactory                            mExportFactory;
+  bool                                     mMarkProjectForDeletion = false;
 };
 } // namespace PB

@@ -220,8 +220,8 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-    mPhotoBook->discardProject();
-    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+  mPhotoBook->unloadProject();
+  Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
 }
 
 void TableContentPage::OnAboutClicked(
@@ -324,7 +324,7 @@ void TableContentPage::OnNewClicked(
   bool alreadySaved =
       true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
-    mPhotoBook->discardProject();
+    mPhotoBook->unloadProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
   }
@@ -336,7 +336,7 @@ void TableContentPage::OnNewClicked(
             auto &newName = std::get<std::string>(result);
 
             mPhotoBook->saveProject(newName);
-            mPhotoBook->discardProject();
+            mPhotoBook->unloadProject();
             Frame().Navigate(
                 winrt::xaml_typename<PhotobookUI::Dashboard>(),
                 winrt::box_value(winrt::to_hstring("new-project")));
@@ -1187,7 +1187,7 @@ void TableContentPage::OnContentDialogSaveClicked(
           auto &newName = std::get<std::string>(result);
 
           mPhotoBook->saveProject(newName);
-          mPhotoBook->discardProject();
+          mPhotoBook->unloadProject();
           Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
         }
         else {
@@ -1235,7 +1235,7 @@ void TableContentPage::OnContentDialogDiscardClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   PB::printDebug("OnContentDialogDiscardClicked\n");
-  mPhotoBook->discardProject();
+  mPhotoBook->unloadProject();
 
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });

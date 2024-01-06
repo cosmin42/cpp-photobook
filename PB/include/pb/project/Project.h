@@ -15,9 +15,12 @@ namespace PB {
 
 class Project final {
 public:
+  static std::string generateAlbumName(std::function<bool(std::string)>);
+
   Project();
 
   explicit Project(std::string name);
+  explicit Project(ProjectSnapshot snapshot);
 
   ~Project() = default;
 
@@ -26,8 +29,6 @@ public:
   ProjectSnapshot const &cache() { return mCache; }
 
   void save() { mCache = mActive; }
-
-  static std::string generateAlbumName(std::function<bool(std::string)>);
 
 private:
   static std::vector<std::string> HAPPY_WORDS;

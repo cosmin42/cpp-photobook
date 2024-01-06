@@ -56,7 +56,7 @@ public:
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
 public:
-  MOCK_METHOD(void, onProjectRead, (PB::Project), (override));
+  MOCK_METHOD(void, onProjectRead, (std::shared_ptr<PB::Project>), (override));
   MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
 };
 
