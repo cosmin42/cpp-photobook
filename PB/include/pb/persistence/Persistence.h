@@ -33,7 +33,7 @@ public:
       PersistenceProjectListener  *persistenceProjectListener,
       PersistenceMetadataListener *persistenceMetadataListener);
 
-  void persistProject(Path filePath, ProjectSnapshot project);
+  void persistProject(std::string name, ProjectSnapshot project);
   void persistMetadata(ProjectMetadata projectMetadata);
 
   void recallMetadata();
@@ -45,9 +45,12 @@ public:
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 
 private:
+  void persistProject(Path filePath, ProjectSnapshot project);
+
   PersistenceProjectListener  *mPersistenceProjectListener;
   PersistenceMetadataListener *mPersistenceMetadataListener;
   SQLitePersistence            mCentral;
   Json                         mProjectCache;
+  Path                         mLocalStatePath;
 };
 } // namespace PB

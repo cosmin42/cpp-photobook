@@ -168,26 +168,28 @@ void Photobook::exportAlbum(std::string name, Path path)
 
 ProjectSnapshot &Photobook::activeProject() { return mProject->active(); }
 
-void Photobook::saveProject()
-{
-  saveProject(mProject->metadata().projectFile());
-}
+void Photobook::saveProject() { saveProject(mProject->cache().name); }
 
-void Photobook::saveProject(Path path)
+void Photobook::saveProject(std::string name)
 {
-  Path oldProjectFile = mProject->metadata().projectFile();
+  auto oldName = mProject->cache().name;
 
   mProject->sync();
 
+  Path projectPath = VirtualImage::platformInfo->localStatePath /
+                     (name + Context::BOOK_EXTENSION);
+
   auto uuidStr = boost::uuids::to_string(mProject->active().uuid);
   auto fullPath = mProject->metadata().projectFile();
-  PB::ProjectMetadata projectMetadata(uuidStr, fullPath.string());
+  PB::ProjectMetadata projectMetadata(uuidStr, projectPath.string());
 
-  mPersistence.persistProject(path, mProject->active());
+  mPersistence.persistProject(name, mProject->active());
   mPersistence.persistMetadata(projectMetadata);
 
-  if (path != oldProjectFile) {
-    mPersistence.deleteProject(oldProjectFile);
+  if (name != oldName) {
+    Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
+                          (oldName + Context::BOOK_EXTENSION);
+    mPersistence.deleteProject(oldProjectPath);
   }
 }
 

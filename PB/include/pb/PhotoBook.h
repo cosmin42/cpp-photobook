@@ -47,7 +47,7 @@ public:
 
   void saveProject();
   // todo: rename to renameProject
-  void saveProject(Path newPath);
+  void saveProject(std::string name);
   void loadProject();
   void unloadProject();
 

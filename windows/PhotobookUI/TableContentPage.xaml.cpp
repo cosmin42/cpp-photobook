@@ -1175,8 +1175,7 @@ void TableContentPage::OnContentDialogSaveClicked(
         ContentDialogButtonClickEventArgs const &)
 {
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =
-      true; // mPhotoBook->persistence()->isSaved(projectDetails);
+  bool alreadySaved = true;
   if (alreadySaved) {
     return;
   }
