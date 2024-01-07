@@ -29,6 +29,8 @@ class Photobook final : public PBDev::Observer,
                         public ImportFoldersLogicListener,
                         public ThreadScheduler {
 public:
+  static void renameProject(std::string oldName, std::string newName);
+
   explicit Photobook(Path localStatePath, Path installationPath);
   ~Photobook() = default;
 

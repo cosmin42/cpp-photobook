@@ -3,6 +3,11 @@
 #include <pb/image/Image.h>
 
 namespace PB {
+void Photobook::renameProject(std::string oldName, std::string newName)
+{
+
+}
+
 Photobook::Photobook(Path localStatePath, Path installationPath)
     : mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
