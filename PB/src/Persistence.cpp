@@ -112,7 +112,8 @@ void Persistence::recallMetadata()
 void Persistence::recallProject(Path projectPath)
 {
   PB::FilePersistence projectPersistence(projectPath);
-  projectPersistence.read([this](std::variant<Json, PBDev::Error> jsonOrError) {
+  projectPersistence.read([this, name{projectPath.stem().string()}](
+                              std::variant<Json, PBDev::Error> jsonOrError) {
     auto &jsonSerialization = std::get<Json>(jsonOrError);
     auto  projectDetailsOrError =
         PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
@@ -128,7 +129,7 @@ void Persistence::recallProject(Path projectPath)
       mProjectCache = jsonSerialization;
       if (mPersistenceProjectListener) {
         mPersistenceProjectListener->onProjectRead(
-            std::make_shared<Project>(projectDetails));
+            std::make_shared<Project>(name, projectDetails));
       }
     }
   });

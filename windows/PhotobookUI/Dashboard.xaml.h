@@ -72,6 +72,8 @@ private:
   Microsoft::UI::Xaml::Controls::MenuFlyout mMenuFlyout;
 
   winrt::hstring mRightClickedId;
+  winrt::hstring mOldProjectName;
+  winrt::hstring mProjectUUID;
 
   std::shared_ptr<PB::Photobook> mAPI = nullptr;
 

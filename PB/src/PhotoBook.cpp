@@ -3,11 +3,6 @@
 #include <pb/image/Image.h>
 
 namespace PB {
-void Photobook::renameProject(std::string oldName, std::string newName)
-{
-
-}
-
 Photobook::Photobook(Path localStatePath, Path installationPath)
     : mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
@@ -46,6 +41,31 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
   mProject = project;
 
   mImportLogic.configure(mProject);
+}
+
+void Photobook::renameProject(std::string uuid, std::string oldName,
+                              std::string newName)
+{
+  Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
+                        (oldName + Context::BOOK_EXTENSION);
+  Path newProjectPath = VirtualImage::platformInfo->localStatePath /
+                        (newName + Context::BOOK_EXTENSION);
+
+  PB::ProjectMetadata projectMetadata(uuid, newProjectPath.string());
+
+  if (mProject) {
+    mProject->active().name = newName;
+    mProject->sync();
+
+    mPersistence.persistProject(newName, mProject->active());
+  }
+  else
+  {
+  }
+  mPersistence.persistMetadata(projectMetadata);
+  if (newName != oldName) {
+    std::filesystem::rename(oldProjectPath, newProjectPath);
+  }
 }
 
 void Photobook::loadProject()

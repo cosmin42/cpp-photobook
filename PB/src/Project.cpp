@@ -27,8 +27,9 @@ Project::Project(std::string name) : Project()
                               projectPath.string());
   sync();
 }
-Project::Project(ProjectSnapshot snapshot)
+Project::Project(std::string name, ProjectSnapshot snapshot)
 {
+  snapshot.name = name;
   mActive = mCache = snapshot;
 
   auto projectPath = ProjectSnapshot::parentDirectory() /

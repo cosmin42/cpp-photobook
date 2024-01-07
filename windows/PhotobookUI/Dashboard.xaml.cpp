@@ -130,17 +130,22 @@ void Dashboard::OnRenameClicked(
 {
   if (!mRightClickedId.empty()) {
     std::string name;
+    std::string uuid;
     for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
       auto id = mProjectsList.GetAt(i).ItemId();
       if (id == mRightClickedId) {
         name = PBDev::Path(winrt::to_string(mProjectsList.GetAt(i).FullPath()))
                    .stem()
                    .string();
+        mProjectUUID = mProjectsList.GetAt(i).ItemId();
         break;
       }
     }
     PBDev::basicAssert(!name.empty());
-    RenameProjectDialogTextBox().PlaceholderText(winrt::to_hstring(name));
+
+    mOldProjectName = winrt::to_hstring(name);
+
+    RenameProjectDialogTextBox().PlaceholderText(mOldProjectName);
     RenameProjectDialogDisplay();
   }
   mRightClickedId = winrt::hstring();
@@ -155,11 +160,25 @@ void Dashboard::OpenProjectClicked(
   mAPI->recallProject(winrt::to_string(item.FullPath()));
 }
 
+// TODO: Add project name validation
 void Dashboard::OnRenameProjectDialogRename(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
+  mAPI->renameProject(winrt::to_string(mProjectUUID),
+                      winrt::to_string(mOldProjectName),
+                      winrt::to_string(RenameProjectDialogTextBox().Text()));
+
+  for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
+    auto id = mProjectsList.GetAt(i).ItemId();
+    if (id == mProjectUUID) {
+      auto element = mProjectsList.GetAt(i);
+      mProjectsList.SetAt(i, ProjectItem(element.ItemId(), element.FullPath(),
+                                         RenameProjectDialogTextBox().Text()));
+      break;
+    }
+  }
 }
 
 void Dashboard::OnRenameProjectDialogCancel(
