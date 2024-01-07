@@ -42,6 +42,18 @@ struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
       [[maybe_unused]] winrt::Microsoft::UI::Xaml::Controls::
           ItemClickEventArgs const &);
 
+  void OnRenameProjectDialogRename(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
+  void OnRenameProjectDialogCancel(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
+  auto RenameProjectDialogDisplay() -> winrt::fire_and_forget;
+
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
   void onProjectRead() override;

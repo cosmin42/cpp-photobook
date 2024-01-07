@@ -129,8 +129,19 @@ void Dashboard::OnRenameClicked(
     [[maybe_unused]] winrt::Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
   if (!mRightClickedId.empty()) {
-    // Not implemented
-    PBDev::basicAssert(false);
+    std::string name;
+    for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
+      auto id = mProjectsList.GetAt(i).ItemId();
+      if (id == mRightClickedId) {
+        name = PBDev::Path(winrt::to_string(mProjectsList.GetAt(i).FullPath()))
+                   .stem()
+                   .string();
+        break;
+      }
+    }
+    PBDev::basicAssert(!name.empty());
+    RenameProjectDialogTextBox().PlaceholderText(winrt::to_hstring(name));
+    RenameProjectDialogDisplay();
   }
   mRightClickedId = winrt::hstring();
 }
@@ -142,6 +153,25 @@ void Dashboard::OpenProjectClicked(
 {
   auto item = e.ClickedItem().as<ProjectItem>();
   mAPI->recallProject(winrt::to_string(item.FullPath()));
+}
+
+void Dashboard::OnRenameProjectDialogRename(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+}
+
+void Dashboard::OnRenameProjectDialogCancel(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+}
+
+auto Dashboard::RenameProjectDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await RenameProjectDialog().ShowAsync();
 }
 
 void Dashboard::OnNavigatedTo(
@@ -198,7 +228,8 @@ void Dashboard::onProjectsMetadataLoaded(
     auto [uuid, path] = project.data();
     mProjectsList.Append(
         ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
-                    winrt::to_hstring(path.string()), winrt::to_hstring(path.stem().string())));
+                    winrt::to_hstring(path.string()),
+                    winrt::to_hstring(path.stem().string())));
   }
 
   ProjectsListView().ItemsSource(mProjectsList);
