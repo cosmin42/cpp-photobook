@@ -150,11 +150,6 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
           KeyboardAcceleratorInvokedEventArgs const);
 
   /* Dialogs - Save */
-  void OnContentDialogSaveClicked(
-      Windows::Foundation::IInspectable const &sender,
-      Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
-          &args);
-
   void OnContentDialogDiscardClicked(
       Windows::Foundation::IInspectable const &sender,
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
@@ -165,7 +160,18 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
       Microsoft::UI::Xaml::Controls::ContentDialogButtonClickEventArgs const
           &args);
 
-  auto ProjectExitDialogDisplay() -> winrt::fire_and_forget;
+  void OnRenameProjectDialogRename(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
+  
+  void OnRenameProjectDialogCancel(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
+  auto RenameProjectDialogDisplay() -> winrt::fire_and_forget;
 
   /* Dialogs - Export */
   void OnExportContentDialogClicked(
@@ -270,6 +276,7 @@ private:
   std::vector<std::shared_ptr<PB::VirtualImage>> mDragAndDropSelectedImages;
   PopUps                                         mPopups;
   bool                                           mExitFlag = false;
+  bool                                           mNewProjectFlag = false;
   std::unordered_set<Path>                       mLoadedFinishedImportFolders;
   std::unordered_set<Path>                       mStagedImages;
   DragSource                                     mDragSource = DragSource::None;

@@ -490,26 +490,6 @@
                     </ListView>
                 </Grid>
             </Border>
-            <ContentDialog Title="Save Project"
-                           Content="Do you want to save the current project?"
-                           Foreground="{StaticResource MainFontColor}"
-                           x:Name="ProjectExitDialog"
-                           Background="{StaticResource PrimaryColor}"
-                           PrimaryButtonText="Save"
-                           PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
-                           SecondaryButtonText="Discard"
-                           SecondaryButtonStyle="{StaticResource ContentDialogSecondaryButtonStyle}"
-                           CloseButtonText="Cancel"
-                           PrimaryButtonClick="OnContentDialogSaveClicked"
-                           SecondaryButtonClick="OnContentDialogDiscardClicked"
-                           CloseButtonClick="OnContentDialogCancelClicked">
-                <ContentDialog.Resources>
-                    <SolidColorBrush x:Key="ButtonBackground"
-                                     Color="{StaticResource ButtonBackgroundColor}" />
-                    <SolidColorBrush x:Key="ButtonForeground"
-                                     Color="{StaticResource MainFontColor}" />
-                </ContentDialog.Resources>
-            </ContentDialog>
         </Grid>
         <Grid Grid.Row="3"
               Grid.Column="0">
@@ -572,6 +552,28 @@
             <TextBlock x:Name="GenericMessageTextBlock"
                        HorizontalAlignment="Left"
                        TextWrapping="WrapWholeWords" />
+        </ContentDialog>
+        <ContentDialog Title="Rename Project"
+                       Foreground="{StaticResource MainFontColor}"
+                       x:Name="RenameProjectDialog"
+                       Background="{StaticResource PrimaryColor}"
+                       PrimaryButtonText="Rename"
+                       PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
+                       CloseButtonText="Cancel"
+                       PrimaryButtonClick="OnRenameProjectDialogRename"
+                       CloseButtonClick="OnRenameProjectDialogCancel">
+            <ContentDialog.Resources>
+                <SolidColorBrush x:Key="ButtonBackground"
+                                 Color="{StaticResource ButtonBackgroundColor}" />
+                <SolidColorBrush x:Key="ButtonForeground"
+                                 Color="{StaticResource MainFontColor}" />
+            </ContentDialog.Resources>
+            <StackPanel>
+                <TextBox x:Name="RenameProjectDialogTextBox"
+                         Foreground="{StaticResource MainFontColor}"
+                         Header="Name:"
+                         PlaceholderText="Name example" />
+            </StackPanel>
         </ContentDialog>
     </Grid>
 </Page>

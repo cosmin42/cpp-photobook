@@ -59,8 +59,7 @@ void Photobook::renameProject(std::string uuid, std::string oldName,
 
     mPersistence.persistProject(newName, mProject->active());
   }
-  else
-  {
+  else {
   }
   mPersistence.persistMetadata(projectMetadata);
   if (newName != oldName) {
@@ -86,6 +85,15 @@ void Photobook::unloadProject()
   else {
     mMarkProjectForDeletion = true;
   }
+}
+
+bool Photobook::isSaved() const
+{
+  if (mProject == nullptr) {
+    return false;
+  }
+
+  return mProject->isSynced();
 }
 
 void Photobook::recallMetadata() { mPersistence.recallMetadata(); }

@@ -77,8 +77,8 @@ TableContentPage::TableContentPage()
     bool alreadySaved =
         true; // mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
-      ProjectExitDialogDisplay();
       mExitFlag = true;
+      RenameProjectDialog();
     }
     else {
       Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
@@ -197,11 +197,6 @@ void TableContentPage::OnImportFolderRemoved(IInspectable const &,
   mPhotoBook->removeImportFolder(rowPath);
 }
 
-auto TableContentPage::ProjectExitDialogDisplay() -> winrt::fire_and_forget
-{
-  co_await ProjectExitDialog().ShowAsync();
-}
-
 auto TableContentPage::ExportDialogDisplay() -> winrt::fire_and_forget
 {
   co_await ExportContentDialog().ShowAsync();
@@ -286,6 +281,8 @@ void TableContentPage::OnSaveClicked(
     return;
   }
   mPhotoBook->saveProject();
+  RenameProjectDialogDisplay();
+  /*
   mPopups.fireSaveFilePicker(
       MainWindow::sMainWindowHandle,
       [this](std::variant<std::string, PBDev::Error> result) {
@@ -297,23 +294,14 @@ void TableContentPage::OnSaveClicked(
           OnError(std::get<PBDev::Error>(result));
         }
       });
+      */
 }
 
 void TableContentPage::OnSaveAsClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  mPopups.fireSaveFilePicker(
-      MainWindow::sMainWindowHandle,
-      [this](std::variant<std::string, PBDev::Error> result) {
-        if (std::holds_alternative<std::string>(result)) {
-          auto &newName = std::get<std::string>(result);
-          mPhotoBook->saveProject(newName);
-        }
-        else {
-          OnError(std::get<PBDev::Error>(result));
-        }
-      });
+  RenameProjectDialogDisplay();
 }
 
 void TableContentPage::OnNewClicked(
@@ -321,30 +309,14 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved =
-      true; // mPhotoBook->persistence()->isSaved(projectDetails);
-  if (alreadySaved) {
+  if (mPhotoBook->isSaved()) {
     mPhotoBook->unloadProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
   }
   else {
-    mPopups.fireSaveFilePicker(
-        MainWindow::sMainWindowHandle,
-        [this](std::variant<std::string, PBDev::Error> result) {
-          if (std::holds_alternative<std::string>(result)) {
-            auto &newName = std::get<std::string>(result);
-
-            mPhotoBook->saveProject(newName);
-            mPhotoBook->unloadProject();
-            Frame().Navigate(
-                winrt::xaml_typename<PhotobookUI::Dashboard>(),
-                winrt::box_value(winrt::to_hstring("new-project")));
-          }
-          else {
-            OnError(std::get<PBDev::Error>(result));
-          }
-        });
+    mNewProjectFlag = true;
+    RenameProjectDialogDisplay();
   }
 }
 
@@ -1169,37 +1141,6 @@ void TableContentPage::OnExportClicked(
   ExportDialogDisplay();
 }
 
-void TableContentPage::OnContentDialogSaveClicked(
-    [[maybe_unused]] Windows::Foundation::IInspectable const &,
-    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
-        ContentDialogButtonClickEventArgs const &)
-{
-  auto projectDetails = mPhotoBook->activeProject();
-  bool alreadySaved = true;
-  if (alreadySaved) {
-    return;
-  }
-  mPopups.fireSaveFilePicker(
-      MainWindow::sMainWindowHandle,
-      [this](std::variant<std::string, PBDev::Error> result) {
-        if (std::holds_alternative<std::string>(result)) {
-          auto &newName = std::get<std::string>(result);
-
-          mPhotoBook->saveProject(newName);
-          mPhotoBook->unloadProject();
-          Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
-        }
-        else {
-          OnError(std::get<PBDev::Error>(result));
-        }
-        if (mExitFlag) {
-          Post([]() {
-            winrt::Microsoft::UI::Xaml::Application::Current().Exit();
-          });
-        }
-      });
-}
-
 void TableContentPage::OnExportContentDialogClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
@@ -1249,6 +1190,43 @@ void TableContentPage::OnContentDialogCancelClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &)
 {
+}
+
+// TODO: Add project name validation
+void TableContentPage::OnRenameProjectDialogRename(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+  auto activeProject = mPhotoBook->activeProject();
+  mPhotoBook->renameProject(
+      boost::uuids::to_string(activeProject.uuid), activeProject.name,
+      winrt::to_string(RenameProjectDialogTextBox().Text()));
+
+  if (mExitFlag) {
+    Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
+  if (mNewProjectFlag) {
+    mNewProjectFlag = false;
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                     winrt::box_value(winrt::to_hstring("new-project")));
+  }
+}
+
+void TableContentPage::OnRenameProjectDialogCancel(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+  if (mExitFlag) {
+    Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
+}
+
+auto TableContentPage::RenameProjectDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await RenameProjectDialog().ShowAsync();
 }
 
 } // namespace winrt::PhotobookUI::implementation

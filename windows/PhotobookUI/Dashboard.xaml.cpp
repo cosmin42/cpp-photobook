@@ -170,6 +170,7 @@ void Dashboard::OnRenameProjectDialogRename(
                       winrt::to_string(mOldProjectName),
                       winrt::to_string(RenameProjectDialogTextBox().Text()));
 
+  // TODO: improve search
   for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
     auto id = mProjectsList.GetAt(i).ItemId();
     if (id == mProjectUUID) {

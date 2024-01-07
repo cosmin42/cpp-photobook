@@ -29,34 +29,4 @@ auto PopUps::fireFolderPicker(HWND                          hWnd,
     onSuccess(winrt::to_string(folder.Path()));
   }
 }
-
-auto PopUps::fireSaveFilePicker(
-    HWND                                                      hWnd,
-    std::function<void(std::variant<std::string, PBDev::Error>)> onReturn)
-    -> winrt::fire_and_forget
-{
-  Windows::Storage::Pickers::FileSavePicker fileSavePicker;
-
-  auto initializeWithWindow{fileSavePicker.as<::IInitializeWithWindow>()};
-  initializeWithWindow->Initialize(hWnd);
-
-  auto plainTextExtensions = winrt::single_threaded_vector<winrt::hstring>();
-  plainTextExtensions.Append(winrt::to_hstring(PB::Context::BOOK_EXTENSION));
-
-  fileSavePicker.SuggestedStartLocation(
-      Windows::Storage::Pickers::PickerLocationId::DocumentsLibrary);
-  fileSavePicker.FileTypeChoices().Insert(L"Text File", plainTextExtensions);
-  fileSavePicker.DefaultFileExtension(
-      winrt::to_hstring(PB::Context::BOOK_EXTENSION));
-  fileSavePicker.SuggestedFileName(L"Untitled");
-
-  auto filename{co_await fileSavePicker.PickSaveFileAsync()};
-
-  if (filename) {
-    onReturn(winrt::to_string(filename.Path()));
-  }
-  else {
-    onReturn(PBDev::Error() << PB::ErrorCode::CannotSaveFile);
-  }
-}
 } // namespace winrt::PhotobookUI::implementation

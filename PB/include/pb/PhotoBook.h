@@ -52,6 +52,7 @@ public:
   void saveProject(std::string name);
   void loadProject();
   void unloadProject();
+  bool isSaved() const;
 
   ImageViews      &imageViews();
   ProjectSnapshot &activeProject();
