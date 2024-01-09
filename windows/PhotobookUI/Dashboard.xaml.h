@@ -11,13 +11,15 @@
 
 #include <pb/PhotoBook.h>
 #include <pb/PhotobookListener.h>
-#include <pb/project/Project.h>
 
 using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
+// TODO: Remove DashboardListener
+
+struct Dashboard : DashboardT<Dashboard>,
+                   public PB::ProjectPersistenceListener {
   Dashboard();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
@@ -58,8 +60,9 @@ struct Dashboard : DashboardT<Dashboard>, public PB::DashboardListener {
 
   void onProjectRead() override;
 
-  void
-  onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata> metadata) override;
+  void onMetadataUpdated() override;
+
+  void onPersistenceError(PBDev::Error) override;
 
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();
@@ -76,8 +79,6 @@ private:
   winrt::hstring mProjectUUID;
 
   std::shared_ptr<PB::Photobook> mAPI = nullptr;
-
-  std::vector<PB::ProjectMetadata> mMetadata;
 };
 } // namespace winrt::PhotobookUI::implementation
 

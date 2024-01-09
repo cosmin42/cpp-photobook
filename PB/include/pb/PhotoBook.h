@@ -17,6 +17,7 @@
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
 #include <pb/persistence/Persistence.h>
+#include <pb/persistence/ProjectPersistence.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/util/Util.h>
@@ -24,8 +25,7 @@
 namespace PB {
 
 class Photobook final : public PBDev::Observer,
-                        public PersistenceMetadataListener,
-                        public PersistenceProjectListener,
+                        public ProjectPersistenceListener,
                         public ImportFoldersLogicListener,
                         public ThreadScheduler {
 public:
@@ -39,23 +39,23 @@ public:
   void configure(DashboardListener *listener);
   void configure(std::shared_ptr<Project> project);
 
-  void renameProject(std::string uuid, std::string oldName, std::string newName);
+  void renameProject(std::string uuid, std::string oldName,
+                     std::string newName);
 
   void recallMetadata();
-  void recallProject(Path path);
+  void recallProject(std::string name);
 
   void newProject(std::string name);
-  void deleteProject(std::string id);
 
   void saveProject();
   // todo: rename to renameProject
   void saveProject(std::string name);
   void loadProject();
   void unloadProject();
-  bool isSaved() const;
+  bool isSaved();
 
-  ImageViews      &imageViews();
-  ProjectSnapshot &activeProject();
+  ImageViews         &imageViews();
+  ProjectPersistence &project();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -67,11 +67,12 @@ public:
   void onError(PBDev::Error error);
 
   void update(PBDev::ObservableSubject &subject) override;
-  void onProjectRead(std::shared_ptr<Project> project) override;
-  void onMetadataRead(ProjectMetadata projectMetadata) override;
-  void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) override;
-  void onMetadataPersistenceError(PBDev::Error) override;
-  void onProjectPersistenceError(PBDev::Error) override;
+
+  void onProjectRead() override;
+
+  void onMetadataUpdated() override;
+
+  void onPersistenceError(PBDev::Error) override;
 
   void onMappingStarted(Path path) override;
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
@@ -90,8 +91,7 @@ private:
   PhotobookListener                       *mParent = nullptr;
   DashboardListener                       *mDashboardListener = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  Persistence                              mPersistence;
-  std::shared_ptr<Project>                 mProject = nullptr;
+  ProjectPersistence                       mProjectPersistence;
   ImportFoldersLogic                       mImportLogic;
   ImageViews                               mImageViews;
   std::vector<std::shared_ptr<Exportable>> mExporters;

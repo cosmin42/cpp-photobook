@@ -7,14 +7,16 @@
 namespace PB {
 class PersistenceProjectListener {
 public:
+  virtual ~PersistenceProjectListener() = default;
   virtual void onProjectRead(std::shared_ptr<Project> project) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 
 class PersistenceMetadataListener {
 public:
-  virtual void onMetadataRead(ProjectMetadata projectMetadata) = 0;
-  virtual void onMetadataRead(std::vector<ProjectMetadata> projectMetadata) = 0;
+  virtual ~PersistenceMetadataListener() = default;
+  virtual void onMetadataRead(
+      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) = 0;
   virtual void onMetadataPersistenceError(PBDev::Error) = 0;
 };
 
@@ -22,16 +24,9 @@ class Persistence final {
 public:
   static std::optional<PBDev::Error> createSupportDirectory(Path path);
 
-  explicit Persistence(
-      Path                         applicationLocalStatePath,
-      PersistenceProjectListener  *persistenceProjectListener,
-      PersistenceMetadataListener *persistenceMetadataListener);
-
-  ~Persistence() = default;
-
-  void setPersistenceListener(
-      PersistenceProjectListener  *persistenceProjectListener,
-      PersistenceMetadataListener *persistenceMetadataListener);
+  void configure(Path localStatePath);
+  void configure(PersistenceProjectListener *);
+  void configure(PersistenceMetadataListener *);
 
   void persistProject(std::string name, ProjectSnapshot project);
   void persistMetadata(ProjectMetadata projectMetadata);
@@ -47,8 +42,8 @@ public:
 private:
   void persistProject(Path filePath, ProjectSnapshot project);
 
-  PersistenceProjectListener  *mPersistenceProjectListener;
-  PersistenceMetadataListener *mPersistenceMetadataListener;
+  PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
+  PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;
   SQLitePersistence            mCentral;
   Json                         mProjectCache;
   Path                         mLocalStatePath;

@@ -67,6 +67,7 @@ Dashboard::Dashboard()
 
 std::string Dashboard::GenerateProjectName()
 {
+  /*
   return PB::Project::generateAlbumName([this](std::string name) {
     for (auto p : mMetadata) {
       if (p.projectFile().stem().string() == name) {
@@ -75,6 +76,8 @@ std::string Dashboard::GenerateProjectName()
     }
     return true;
   });
+  */
+  return "";
 }
 
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
@@ -116,7 +119,9 @@ void Dashboard::OnDeleteClicked(
       if (id == mRightClickedId) {
         mProjectsList.RemoveAt(i);
 
-        mAPI->deleteProject(nativeId);
+        auto               generator = boost::uuids::string_generator();
+        boost::uuids::uuid parsedUuid = generator(nativeId);
+        mAPI->project().remove(parsedUuid);
         break;
       }
     }
@@ -220,9 +225,10 @@ void Dashboard::onProjectRead()
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 
-void Dashboard::onProjectsMetadataLoaded(
-    std::vector<PB::ProjectMetadata> metadata)
+void Dashboard::onMetadataUpdated()
 {
+
+  /*
   mMetadata = metadata;
   mProjectsList.Clear();
 
@@ -253,6 +259,9 @@ void Dashboard::onProjectsMetadataLoaded(
   }
 
   ProjectsListView().ItemsSource(mProjectsList);
+  */
 }
+
+void Dashboard::onPersistenceError(PBDev::Error) {}
 
 } // namespace winrt::PhotobookUI::implementation

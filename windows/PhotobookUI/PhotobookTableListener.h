@@ -14,6 +14,10 @@ public:
 
   void configure(TableContentPage *parent);
 
+  void onProjectRead() override;
+  void onMetadataUpdated() override;
+  void onPersistenceError(PBDev::Error) override;
+
   void onProgressUpdate(int progress, int reference) override;
   void onExportProgressUpdate(int, int) override;
 

@@ -5,8 +5,7 @@
 namespace PB {
 Photobook::Photobook(Path localStatePath, Path installationPath)
     : mPlatformInfo(
-          std::make_shared<PlatformInfo>(installationPath, localStatePath)),
-      mPersistence(localStatePath, this, this)
+          std::make_shared<PlatformInfo>(installationPath, localStatePath))
 {
   VirtualImage::platformInfo = mPlatformInfo;
   ProjectSnapshot::platformInfo = mPlatformInfo;
@@ -38,14 +37,13 @@ void Photobook::configure(DashboardListener *listener)
 
 void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
-  mProject = project;
-
-  mImportLogic.configure(mProject);
+  mImportLogic.configure(mProjectPersistence.currentProject());
 }
 
 void Photobook::renameProject(std::string uuid, std::string oldName,
                               std::string newName)
 {
+  /*
   Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
                         (oldName + Context::BOOK_EXTENSION);
   Path newProjectPath = VirtualImage::platformInfo->localStatePath /
@@ -65,46 +63,46 @@ void Photobook::renameProject(std::string uuid, std::string oldName,
   if (newName != oldName) {
     std::filesystem::rename(oldProjectPath, newProjectPath);
   }
+  */
 }
 
 void Photobook::loadProject()
 {
+  /*
   for (auto &path : mProject->active().importedPaths) {
     addImportFolder(path);
   }
 
   loadStagedImages();
+  */
 }
 
 void Photobook::unloadProject()
 {
   mImportLogic.stopAll();
   if (mImportLogic.runningImageProcessingJobs().empty()) {
-    mProject = nullptr;
+    mProjectPersistence.clear();
   }
   else {
     mMarkProjectForDeletion = true;
   }
 }
 
-bool Photobook::isSaved() const
+bool Photobook::isSaved()
 {
-  if (mProject == nullptr) {
+
+  if (mProjectPersistence.currentProject() == nullptr) {
     return false;
   }
 
-  return mProject->isSynced();
+  return mProjectPersistence.currentProject()->isSynced();
 }
 
-void Photobook::recallMetadata() { mPersistence.recallMetadata(); }
+void Photobook::recallMetadata() { mProjectPersistence.recallMetadata(); }
 
-void Photobook::recallProject(Path path) { mPersistence.recallProject(path); }
-
-void Photobook::deleteProject(std::string id)
+void Photobook::recallProject(std::string name)
 {
-  Path projectFile = mProject->metadata().projectFile();
-  mPersistence.deleteMetadata(id);
-  mPersistence.deleteProject(projectFile);
+  mProjectPersistence.recallProject(name);
 }
 
 void Photobook::addImportFolder(Path path)
@@ -140,7 +138,8 @@ void Photobook::removeImportFolder(Path path)
 
 void Photobook::loadStagedImages()
 {
-  auto stagedImages = mProject->active().stagedImages;
+  auto stagedImages =
+      mProjectPersistence.currentProject()->active().stagedImages;
 
   std::vector<std::shared_ptr<VirtualImage>> stage;
 
@@ -190,8 +189,9 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->resources().full);
   }
 
-  mExportFactory.updateConfiguration(mProject->active().paperSettings,
-                                     mPlatformInfo->localStatePath);
+  mExportFactory.updateConfiguration(
+      mProjectPersistence.currentProject()->active().paperSettings,
+      mPlatformInfo->localStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {
@@ -199,58 +199,50 @@ void Photobook::exportAlbum(std::string name, Path path)
   }
 }
 
-ProjectSnapshot &Photobook::activeProject() { return mProject->active(); }
+ProjectPersistence &Photobook::project() { return mProjectPersistence; }
 
-void Photobook::saveProject() { saveProject(mProject->cache().name); }
+void Photobook::saveProject()
+{
+  saveProject(mProjectPersistence.currentProject()->cache().name);
+}
 
 void Photobook::saveProject(std::string name)
 {
-  auto oldName = mProject->cache().name;
+  auto project = mProjectPersistence.currentProject();
+  auto oldName = project->cache().name;
 
-  mProject->sync();
+  project->sync();
 
   Path projectPath = VirtualImage::platformInfo->localStatePath /
                      (name + Context::BOOK_EXTENSION);
 
-  auto uuidStr = boost::uuids::to_string(mProject->active().uuid);
-  auto fullPath = mProject->metadata().projectFile();
+  auto                uuidStr = boost::uuids::to_string(project->active().uuid);
+  auto                fullPath = project->metadata().projectFile();
   PB::ProjectMetadata projectMetadata(uuidStr, projectPath.string());
 
-  mPersistence.persistProject(name, mProject->active());
-  mPersistence.persistMetadata(projectMetadata);
+  // mPersistence.persistProject(name, project->active());
+  // mPersistence.persistMetadata(projectMetadata);
 
   if (name != oldName) {
     Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
                           (oldName + Context::BOOK_EXTENSION);
-    mPersistence.deleteProject(oldProjectPath);
+    // mPersistence.deleteProject(oldProjectPath);
   }
 }
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
-void Photobook::onProjectRead(std::shared_ptr<Project> project)
+void Photobook::onProjectRead()
 {
-  configure(project);
-  if (mDashboardListener) {
-    mDashboardListener->onProjectRead();
-  }
+  configure(mProjectPersistence.currentProject());
+  mParent->onProjectRead();
 }
 
-void Photobook::onMetadataRead(ProjectMetadata projectMetadata) {}
+void Photobook::onMetadataUpdated() { mParent->onMetadataUpdated(); }
 
-void Photobook::onMetadataRead(std::vector<ProjectMetadata> projectMetadata)
+void Photobook::onPersistenceError(PBDev::Error error)
 {
-  mDashboardListener->onProjectsMetadataLoaded(projectMetadata);
-}
-
-void Photobook::onMetadataPersistenceError(PBDev::Error error)
-{
-  onError(error);
-}
-
-void Photobook::onProjectPersistenceError(PBDev::Error error)
-{
-  onError(error);
+  mParent->onPersistenceError(error);
 }
 
 void Photobook::newProject(std::string name)
@@ -308,7 +300,7 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
     }
 
     if (mMarkProjectForDeletion) {
-      mProject = nullptr;
+      // mProject = nullptr;
       mMarkProjectForDeletion = false;
     }
   }

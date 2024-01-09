@@ -1,9 +1,16 @@
 #include <pb/persistence/ProjectPersistence.h>
 
 namespace PB {
+ProjectPersistence::ProjectPersistence()
+{
+  mPersistence.configure((PersistenceMetadataListener *)this);
+  mPersistence.configure((PersistenceProjectListener *)this);
+}
+
 void ProjectPersistence::configure(Path localStatePath)
 {
   mLocalStatePath = localStatePath;
+  mPersistence.configure(localStatePath);
 }
 
 void ProjectPersistence::configure(ProjectPersistenceListener *listener)
@@ -74,5 +81,18 @@ void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
 {
   mListener->onPersistenceError(error);
 }
+
+void ProjectPersistence::remove(boost::uuids::uuid id) {
+  Path projectFile = mProject->metadata().projectFile();
+
+  mPersistence.deleteMetadata(boost::uuids::to_string(id));
+  mPersistence.deleteProject(projectFile);
+}
+
+void ProjectPersistence::remove(Path path) {
+
+}
+
+void ProjectPersistence::clear() { mProject = nullptr; }
 
 } // namespace PB

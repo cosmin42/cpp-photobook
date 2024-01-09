@@ -73,7 +73,7 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitFunction = [this]() {
-    auto projectDetails = mPhotoBook->activeProject();
+    auto projectDetails = mPhotoBook->project().currentProject()->active();
     bool alreadySaved =
         true; // mPhotoBook->persistence()->isSaved(projectDetails);
     if (!alreadySaved) {
@@ -149,8 +149,10 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 
 int TableContentPage::CanvasMinWidth()
 {
-  auto paperSettings = mPhotoBook->activeProject().paperSettings;
-  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings.ppi > 0);
+  auto paperSettings =
+      mPhotoBook->project().currentProject()->active().paperSettings;
+  PBDev::basicAssert(
+      mPhotoBook->project().currentProject()->active().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -164,8 +166,10 @@ int TableContentPage::CanvasMinWidth()
 
 int TableContentPage::CanvasMinHeight()
 {
-  auto paperSettings = mPhotoBook->activeProject().paperSettings;
-  PBDev::basicAssert(mPhotoBook->activeProject().paperSettings.ppi > 0);
+  auto paperSettings =
+      mPhotoBook->project().currentProject()->active().paperSettings;
+  PBDev::basicAssert(
+      mPhotoBook->project().currentProject()->active().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -274,7 +278,7 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->activeProject();
+  auto projectDetails = mPhotoBook->project().currentProject()->active();
   bool alreadySaved =
       true; // mPhotoBook->persistence()->isSaved(projectDetails);
   if (alreadySaved) {
@@ -308,7 +312,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->activeProject();
+  auto projectDetails = mPhotoBook->project().currentProject()->active();
   if (mPhotoBook->isSaved()) {
     mPhotoBook->unloadProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
@@ -435,7 +439,8 @@ void TableContentPage::UpdateCanvasSize()
             CanvasBorder().Padding().Top - CanvasBorder().Padding().Bottom);
 
   if (width > 0 && height > 0) {
-    auto paperSettings = mPhotoBook->activeProject().paperSettings;
+    auto paperSettings =
+        mPhotoBook->project().currentProject()->active().paperSettings;
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
@@ -1198,7 +1203,7 @@ void TableContentPage::OnRenameProjectDialogRename(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  auto activeProject = mPhotoBook->activeProject();
+  auto activeProject = mPhotoBook->project().currentProject()->active();
   mPhotoBook->renameProject(
       boost::uuids::to_string(activeProject.uuid), activeProject.name,
       winrt::to_string(RenameProjectDialogTextBox().Text()));

@@ -64,6 +64,5 @@ class TestPersistenceMetadataListener final
     : public PB::PersistenceMetadataListener {
 public:
   MOCK_METHOD(void, onMetadataRead, (PB::ProjectMetadata), (override));
-  MOCK_METHOD(void, onMetadataRead, (std::vector<PB::ProjectMetadata>), (override));
   MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
 };
