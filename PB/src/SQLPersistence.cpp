@@ -1,7 +1,11 @@
 #include <pb/persistence/SQLPersistence.h>
 
 namespace PB {
-SQLitePersistence::SQLitePersistence(Path path) : mPath(path) {}
+
+void SQLitePersistence::configure(Path localStatePath)
+{
+  mPath = localStatePath;
+}
 
 std::optional<PBDev::Error> SQLitePersistence::connect()
 {
@@ -54,7 +58,7 @@ void SQLitePersistence::read(
 }
 
 void SQLitePersistence::write(
-    std::pair<std::string, std::string>       entry,
+    std::pair<std::string, std::string>              entry,
     std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
@@ -136,7 +140,7 @@ void SQLitePersistence::deleteEntry(
 }
 
 void SQLitePersistence::write(
-    std::unordered_map<std::string, std::string> map,
+    std::unordered_map<std::string, std::string>     map,
     std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
@@ -146,8 +150,7 @@ void SQLitePersistence::write(
   }
 
   for (auto &[key, value] : map) {
-    write(
-        std::pair<std::string, std::string>(key, value),
+    write(std::pair<std::string, std::string>(key, value),
           [onReturn](std::optional<PBDev::Error> maybeError) {
             onReturn(maybeError);
           });

@@ -31,6 +31,12 @@ void PhotobookTableListener::configure(TableContentPage *parent)
   mParent = parent;
 }
 
+void PhotobookTableListener::onProjectRead() {}
+
+void PhotobookTableListener::onMetadataUpdated() {}
+
+void PhotobookTableListener::onPersistenceError(PBDev::Error) {}
+
 void PhotobookTableListener::onProgressUpdate(int progress, int reference)
 {
   mParent->OnProgressUpdate(progress, reference);

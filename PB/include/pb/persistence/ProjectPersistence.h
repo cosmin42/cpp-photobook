@@ -13,7 +13,7 @@ public:
 class ProjectPersistence final : public PersistenceMetadataListener,
                                  public PersistenceProjectListener {
 public:
-  ProjectPersistence() = default;
+  ProjectPersistence();
   ~ProjectPersistence() = default;
 
   void configure(Path localStatePath);
@@ -39,6 +39,11 @@ public:
   void onMetadataRead(
       boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) override;
   void onMetadataPersistenceError(PBDev::Error) override;
+
+  void remove(boost::uuids::uuid id);
+  void remove(Path path);
+
+  void clear();
 
 private:
   std::string name(boost::uuids::uuid uuid);

@@ -7,6 +7,10 @@ class PhotobookListener {
 public:
   virtual ~PhotobookListener() = default;
 
+  virtual void onProjectRead() = 0;
+  virtual void onMetadataUpdated() = 0;
+  virtual void onPersistenceError(PBDev::Error) = 0;
+
   virtual void onProgressUpdate(int, int) = 0;
   virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;

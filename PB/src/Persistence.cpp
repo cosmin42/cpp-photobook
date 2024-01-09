@@ -3,31 +3,23 @@
 #include <unordered_map>
 
 namespace PB {
-Persistence::Persistence(
-    Path                         applicationLocalStatePath,
-    PersistenceProjectListener  *persistenceProjectListener,
-    PersistenceMetadataListener *persistenceMetadataListener)
-    : mPersistenceProjectListener(persistenceProjectListener),
-      mPersistenceMetadataListener(persistenceMetadataListener),
-      mCentral(applicationLocalStatePath),
-      mLocalStatePath(applicationLocalStatePath)
-{
-  PBDev::basicAssert(persistenceProjectListener != nullptr);
-  PBDev::basicAssert(persistenceMetadataListener != nullptr);
 
+void Persistence::configure(Path localStatePath)
+{
+  mLocalStatePath = localStatePath;
+  mCentral.configure(localStatePath);
   auto maybeError = mCentral.connect();
-  if (maybeError && mPersistenceMetadataListener) {
-    mPersistenceMetadataListener->onMetadataPersistenceError(
-        maybeError.value());
-  }
+  PBDev::basicAssert(!maybeError.has_value());
 }
 
-void Persistence::setPersistenceListener(
-    PersistenceProjectListener  *persistenceProjectListener,
-    PersistenceMetadataListener *persistenceMetadataListener)
+void Persistence::configure(PersistenceProjectListener *listener)
 {
-  mPersistenceProjectListener = persistenceProjectListener;
-  mPersistenceMetadataListener = persistenceMetadataListener;
+  mPersistenceProjectListener = listener;
+}
+
+void Persistence::configure(PersistenceMetadataListener *listener)
+{
+  mPersistenceMetadataListener = listener;
 }
 
 void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
@@ -98,12 +90,15 @@ void Persistence::recallMetadata()
     else {
       auto &map =
           std::get<std::unordered_map<std::string, std::string>>(mapOrError);
-      std::vector<ProjectMetadata> projectsMetadata;
+
+      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
       for (auto &[key, value] : map) {
-        projectsMetadata.push_back(ProjectMetadata(key, value));
+        auto               generator = boost::uuids::string_generator();
+        boost::uuids::uuid parsedUuid = generator(key);
+        metadata.insert({parsedUuid, value});
       }
       if (mPersistenceMetadataListener) {
-        mPersistenceMetadataListener->onMetadataRead(projectsMetadata);
+        mPersistenceMetadataListener->onMetadataRead(metadata);
       }
     }
   });

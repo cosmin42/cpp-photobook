@@ -14,9 +14,7 @@ class SQLitePersistence final {
 public:
   static constexpr const char *DATABASE_NAME = "database.db";
 
-  explicit SQLitePersistence(Path path);
-
-  ~SQLitePersistence() = default;
+  void configure(Path localStatePath);
 
   std::optional<PBDev::Error> connect();
 
