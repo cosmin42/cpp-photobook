@@ -278,27 +278,10 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->project().currentProject()->active();
-  bool alreadySaved =
-      true; // mPhotoBook->persistence()->isSaved(projectDetails);
-  if (alreadySaved) {
+  if (mPhotoBook->project().currentProject()->isSynced()) {
     return;
   }
-  mPhotoBook->saveProject();
-  RenameProjectDialogDisplay();
-  /*
-  mPopups.fireSaveFilePicker(
-      MainWindow::sMainWindowHandle,
-      [this](std::variant<std::string, PBDev::Error> result) {
-        if (std::holds_alternative<std::string>(result)) {
-          auto &newName = std::get<std::string>(result);
-          mPhotoBook->saveProject(newName);
-        }
-        else {
-          OnError(std::get<PBDev::Error>(result));
-        }
-      });
-      */
+  mPhotoBook->project().save();
 }
 
 void TableContentPage::OnSaveAsClicked(

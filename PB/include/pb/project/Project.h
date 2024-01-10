@@ -25,7 +25,7 @@ public:
   ~Project() = default;
 
   ProjectMetadata const &metadata() { return mMetadata; }
-  ProjectSnapshot       &active() { return mActive; }
+  ProjectSnapshot const &active() { return mActive; }
   ProjectSnapshot const &cache() { return mCache; }
 
   void sync() { mCache = mActive; }

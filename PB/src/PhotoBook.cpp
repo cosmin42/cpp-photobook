@@ -174,35 +174,6 @@ void Photobook::exportAlbum(std::string name, Path path)
 
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }
 
-void Photobook::saveProject()
-{
-  saveProject(mProjectPersistence.currentProject()->cache().name);
-}
-
-void Photobook::saveProject(std::string name)
-{
-  auto project = mProjectPersistence.currentProject();
-  auto oldName = project->cache().name;
-
-  project->sync();
-
-  Path projectPath = VirtualImage::platformInfo->localStatePath /
-                     (name + Context::BOOK_EXTENSION);
-
-  auto                uuidStr = boost::uuids::to_string(project->active().uuid);
-  auto                fullPath = project->metadata().projectFile();
-  PB::ProjectMetadata projectMetadata(uuidStr, projectPath.string());
-
-  // mPersistence.persistProject(name, project->active());
-  // mPersistence.persistMetadata(projectMetadata);
-
-  if (name != oldName) {
-    Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
-                          (oldName + Context::BOOK_EXTENSION);
-    // mPersistence.deleteProject(oldProjectPath);
-  }
-}
-
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
 void Photobook::onProjectRead()
@@ -222,7 +193,7 @@ void Photobook::newProject(std::string name)
 {
   configure(std::make_shared<Project>(name));
 
-  saveProject();
+  //saveProject();
 }
 
 void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
