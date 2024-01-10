@@ -45,6 +45,10 @@ public:
 
   void clear();
 
+  bool contains(std::string name) const;
+
+  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projectsList() const;
+
 private:
   std::string name(boost::uuids::uuid uuid);
 
