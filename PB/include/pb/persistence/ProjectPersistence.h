@@ -7,6 +7,7 @@ public:
   virtual ~ProjectPersistenceListener() = default;
   virtual void onMetadataUpdated() = 0;
   virtual void onProjectRead() = 0;
+  virtual void onProjectRenamed() = 0;
   virtual void onPersistenceError(PBDev::Error) = 0;
 };
 
@@ -47,16 +48,19 @@ public:
 
   bool contains(std::string name) const;
 
-  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projectsList() const;
+  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
+  projectsList() const;
+
+  void rename(std::string newName, std::string oldName = "");
 
 private:
   std::string name(boost::uuids::uuid uuid);
 
-  ProjectPersistenceListener *mListener = nullptr;
-  Path                        mLocalStatePath;
-  Persistence                 mPersistence;
-  std::shared_ptr<Project>    mProject = nullptr;
-
+  ProjectPersistenceListener                           *mListener = nullptr;
+  Path                                                  mLocalStatePath;
+  Persistence                                           mPersistence;
+  std::shared_ptr<Project>                              mProject = nullptr;
+  std::optional<boost::uuids::uuid>                     mOpenedUUID;
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
 };
 } // namespace PB

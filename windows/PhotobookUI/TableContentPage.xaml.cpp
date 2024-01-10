@@ -1204,8 +1204,8 @@ void TableContentPage::OnRenameProjectDialogRename(
         ContentDialogButtonClickEventArgs const &args)
 {
   auto activeProject = mPhotoBook->project().currentProject()->active();
-  mPhotoBook->renameProject(
-      boost::uuids::to_string(activeProject.uuid), activeProject.name,
+
+  mPhotoBook->project().rename(
       winrt::to_string(RenameProjectDialogTextBox().Text()));
 
   if (mExitFlag) {

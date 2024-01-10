@@ -109,4 +109,31 @@ ProjectPersistence::projectsList() const
   return projects;
 }
 
+void ProjectPersistence::rename(std::string newName, std::string oldName)
+{
+  if (oldName.empty()) {
+    PBDev::basicAssert(currentProject() != nullptr);
+
+    PBDev::basicAssert(mMetadata.left.find(mOpenedUUID.value()) !=
+                       mMetadata.left.end());
+
+    oldName = mMetadata.left.find(mOpenedUUID.value())->second;
+
+    mProject->sync();
+  }
+
+  bool success =
+      mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
+  PBDev::basicAssert(success);
+
+  auto newProjectPath = mLocalStatePath / newName;
+
+  mPersistence.persistMetadata(mOpenedUUID.value(), newProjectPath);
+
+  if (newName != oldName) {
+    auto oldProjectPath = mLocalStatePath / oldName;
+    std::filesystem::rename(oldProjectPath, newProjectPath);
+  }
+}
+
 } // namespace PB

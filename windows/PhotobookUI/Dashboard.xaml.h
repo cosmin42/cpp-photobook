@@ -64,6 +64,8 @@ struct Dashboard : DashboardT<Dashboard>,
 
   void onPersistenceError(PBDev::Error) override;
 
+  void onProjectRenamed() override;
+
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem RenameFlyout();

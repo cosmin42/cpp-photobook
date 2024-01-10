@@ -40,35 +40,10 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
   mImportLogic.configure(mProjectPersistence.currentProject());
 }
 
-void Photobook::renameProject(std::string uuid, std::string oldName,
-                              std::string newName)
-{
-  /*
-  Path oldProjectPath = VirtualImage::platformInfo->localStatePath /
-                        (oldName + Context::BOOK_EXTENSION);
-  Path newProjectPath = VirtualImage::platformInfo->localStatePath /
-                        (newName + Context::BOOK_EXTENSION);
-
-  PB::ProjectMetadata projectMetadata(uuid, newProjectPath.string());
-
-  if (mProject) {
-    mProject->active().name = newName;
-    mProject->sync();
-
-    mPersistence.persistProject(newName, mProject->active());
-  }
-  else {
-  }
-  mPersistence.persistMetadata(projectMetadata);
-  if (newName != oldName) {
-    std::filesystem::rename(oldProjectPath, newProjectPath);
-  }
-  */
-}
-
 void Photobook::loadProject()
 {
-  for (auto &path : mProjectPersistence.currentProject()->active().importedPaths) {
+  for (auto &path :
+       mProjectPersistence.currentProject()->active().importedPaths) {
     addImportFolder(path);
   }
 
@@ -312,5 +287,8 @@ std::vector<Path> Photobook::pendingMappingPathList() const
 {
   return mImportLogic.pendingMappingFolders();
 }
+
+void Photobook::onProjectRenamed() {}
+
 
 } // namespace PB

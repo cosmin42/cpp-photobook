@@ -62,11 +62,10 @@ void Persistence::persistProject(std::string name, ProjectSnapshot project)
   persistProject(projectPath, project);
 }
 
-void Persistence::persistMetadata(ProjectMetadata projectMetadata)
+void Persistence::persistMetadata(boost::uuids::uuid const &id, Path path)
 {
-  std::pair<std::string, std::string> entry = {
-      boost::uuids::to_string(projectMetadata.uuid()),
-      projectMetadata.projectFile().string()};
+  std::pair<std::string, std::string> entry = {boost::uuids::to_string(id),
+                                               path.string()};
 
   mCentral.write(entry, [this](std::optional<PBDev::Error> maybeError) {
     if (maybeError && mPersistenceProjectListener) {

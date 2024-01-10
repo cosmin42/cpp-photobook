@@ -162,20 +162,8 @@ void Dashboard::OnRenameProjectDialogRename(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  mAPI->renameProject(winrt::to_string(mProjectUUID),
-                      winrt::to_string(mOldProjectName),
-                      winrt::to_string(RenameProjectDialogTextBox().Text()));
-
-  // TODO: improve search
-  for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
-    auto id = mProjectsList.GetAt(i).ItemId();
-    if (id == mProjectUUID) {
-      auto element = mProjectsList.GetAt(i);
-      mProjectsList.SetAt(i, ProjectItem(element.ItemId(), element.FullPath(),
-                                         RenameProjectDialogTextBox().Text()));
-      break;
-    }
-  }
+  mAPI->project().rename(winrt::to_string(RenameProjectDialogTextBox().Text()),
+                         winrt::to_string(mOldProjectName));
 }
 
 void Dashboard::OnRenameProjectDialogCancel(
@@ -253,5 +241,19 @@ void Dashboard::onMetadataUpdated()
 }
 
 void Dashboard::onPersistenceError(PBDev::Error) {}
+
+void Dashboard::onProjectRenamed()
+{
+  // TODO: improve search
+  for (int i = 0; i < (int)mProjectsList.Size(); ++i) {
+    auto id = mProjectsList.GetAt(i).ItemId();
+    if (id == mProjectUUID) {
+      auto element = mProjectsList.GetAt(i);
+      mProjectsList.SetAt(i, ProjectItem(element.ItemId(), element.FullPath(),
+                                         RenameProjectDialogTextBox().Text()));
+      break;
+    }
+  }
+}
 
 } // namespace winrt::PhotobookUI::implementation
