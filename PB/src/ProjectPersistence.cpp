@@ -82,17 +82,31 @@ void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
   mListener->onPersistenceError(error);
 }
 
-void ProjectPersistence::remove(boost::uuids::uuid id) {
+void ProjectPersistence::remove(boost::uuids::uuid id)
+{
   Path projectFile = mProject->metadata().projectFile();
 
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
   mPersistence.deleteProject(projectFile);
 }
 
-void ProjectPersistence::remove(Path path) {
-
-}
+void ProjectPersistence::remove(Path path) {}
 
 void ProjectPersistence::clear() { mProject = nullptr; }
+
+bool ProjectPersistence::contains(std::string name) const
+{
+  return mMetadata.right.find(name) != mMetadata.right.end();
+}
+
+std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
+ProjectPersistence::projectsList() const
+{
+  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
+  for (auto const &it : mMetadata) {
+    projects.push_back({it.left, it.right, mLocalStatePath / it.right});
+  }
+  return projects;
+}
 
 } // namespace PB

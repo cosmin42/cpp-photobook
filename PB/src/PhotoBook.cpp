@@ -68,13 +68,11 @@ void Photobook::renameProject(std::string uuid, std::string oldName,
 
 void Photobook::loadProject()
 {
-  /*
-  for (auto &path : mProject->active().importedPaths) {
+  for (auto &path : mProjectPersistence.currentProject()->active().importedPaths) {
     addImportFolder(path);
   }
 
   loadStagedImages();
-  */
 }
 
 void Photobook::unloadProject()

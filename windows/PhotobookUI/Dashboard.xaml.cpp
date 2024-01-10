@@ -67,17 +67,8 @@ Dashboard::Dashboard()
 
 std::string Dashboard::GenerateProjectName()
 {
-  /*
-  return PB::Project::generateAlbumName([this](std::string name) {
-    for (auto p : mMetadata) {
-      if (p.projectFile().stem().string() == name) {
-        return false;
-      }
-    }
-    return true;
-  });
-  */
-  return "";
+  return PB::Project::generateAlbumName(
+      [this](std::string name) { return mAPI->project().contains(name); });
 }
 
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
@@ -227,39 +218,38 @@ void Dashboard::onProjectRead()
 
 void Dashboard::onMetadataUpdated()
 {
-
-  /*
-  mMetadata = metadata;
+  auto projectsList = mAPI->project().projectsList();
   mProjectsList.Clear();
 
-  ProjectsListView().Loaded([size{metadata.size()}](IInspectable const &obj,
-                                                    RoutedEventArgs const &) {
-    auto sqrtIntF = [](int size) {
-      float root = sqrt((float)size);
-      int   intRoot = (int)floor(root);
-      return intRoot;
-    };
+  ProjectsListView().Loaded(
+      [size{projectsList.size()}](IInspectable const &obj,
+                                  RoutedEventArgs const &) {
+        auto sqrtIntF = [](int size) {
+          float root = sqrt((float)size);
+          int   intRoot = (int)floor(root);
+          return intRoot;
+        };
 
-    winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
-        obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
-            .ItemsPanelRoot()
-            .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
+        winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid wrapGrid =
+            obj.as<winrt::Microsoft::UI::Xaml::Controls::GridView>()
+                .ItemsPanelRoot()
+                .as<winrt::Microsoft::UI::Xaml::Controls::ItemsWrapGrid>();
 
-    auto squareDimension = sqrtIntF((int)size);
+        auto squareDimension = sqrtIntF((int)size);
 
-    wrapGrid.MaximumRowsOrColumns(squareDimension);
-  });
+        wrapGrid.MaximumRowsOrColumns(squareDimension);
+      });
 
-  for (auto &project : metadata) {
-    auto [uuid, path] = project.data();
-    mProjectsList.Append(
-        ProjectItem(winrt::to_hstring(boost::uuids::to_string(uuid)),
-                    winrt::to_hstring(path.string()),
-                    winrt::to_hstring(path.stem().string())));
+  for (auto &project : projectsList) {
+    auto uuid = boost::uuids::to_string(std::get<0>(project));
+    auto projectPath = std::get<2>(project).string();
+    auto projectName = std::get<1>(project);
+    mProjectsList.Append(ProjectItem(winrt::to_hstring(uuid),
+                                     winrt::to_hstring(projectPath),
+                                     winrt::to_hstring(projectName)));
   }
 
   ProjectsListView().ItemsSource(mProjectsList);
-  */
 }
 
 void Dashboard::onPersistenceError(PBDev::Error) {}
