@@ -104,7 +104,9 @@ ProjectPersistence::projectsList() const
 {
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
   for (auto const &it : mMetadata) {
-    projects.push_back({it.left, it.right, mLocalStatePath / it.right});
+    projects.push_back(
+        {it.left, it.right,
+         mLocalStatePath / (it.right + Context::BOOK_EXTENSION)});
   }
   return projects;
 }
@@ -118,22 +120,30 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
                        mMetadata.left.end());
 
     oldName = mMetadata.left.find(mOpenedUUID.value())->second;
-
-    mProject->sync();
   }
 
   bool success =
       mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
   PBDev::basicAssert(success);
 
-  auto newProjectPath = mLocalStatePath / newName;
+  auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
 
   mPersistence.persistMetadata(mOpenedUUID.value(), newProjectPath);
 
   if (newName != oldName) {
-    auto oldProjectPath = mLocalStatePath / oldName;
+    auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
   }
+}
+
+void ProjectPersistence::save()
+{
+  PBDev::basicAssert(mProject != nullptr);
+  mProject->sync();
+
+  auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
+
+  mPersistence.persistProject(name, mProject->active());
 }
 
 } // namespace PB

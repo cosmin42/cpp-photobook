@@ -53,6 +53,8 @@ public:
 
   void rename(std::string newName, std::string oldName = "");
 
+  void save();
+
 private:
   std::string name(boost::uuids::uuid uuid);
 
