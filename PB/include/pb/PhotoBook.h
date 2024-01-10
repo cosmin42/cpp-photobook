@@ -39,9 +39,6 @@ public:
   void configure(DashboardListener *listener);
   void configure(std::shared_ptr<Project> project);
 
-  void renameProject(std::string uuid, std::string oldName,
-                     std::string newName);
-
   void recallMetadata();
   void recallProject(std::string name);
 
@@ -84,6 +81,8 @@ public:
   void onImageProcessingJobEnded(Path root);
 
   void post(std::function<void()> f) override;
+
+  void onProjectRenamed() override;
 
   std::vector<Path> pendingMappingPathList() const;
 

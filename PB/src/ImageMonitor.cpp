@@ -51,7 +51,9 @@ void ImageMonitor::removeRow(int row)
   }
 
   for (int i = row + 1; i < mRowIndexes.size() + 1; ++i) {
-    mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
+    bool success =
+        mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
+    PBDev::basicAssert(success);
   }
   mListener->onImportFolderRemoved(row);
   log();

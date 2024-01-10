@@ -29,7 +29,8 @@ public:
   void configure(PersistenceMetadataListener *);
 
   void persistProject(std::string name, ProjectSnapshot project);
-  void persistMetadata(ProjectMetadata projectMetadata);
+
+  void persistMetadata(boost::uuids::uuid const &id, Path path);
 
   void recallMetadata();
   void recallProject(Path projectPath);
