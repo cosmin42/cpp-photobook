@@ -43,10 +43,8 @@ public:
   void recallProject(std::string name);
 
   void newProject(std::string name);
-
   void loadProject();
   void unloadProject();
-  bool isSaved();
 
   ImageViews         &imageViews();
   ProjectPersistence &project();

@@ -296,7 +296,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   auto projectDetails = mPhotoBook->project().currentProject()->active();
-  if (mPhotoBook->isSaved()) {
+  if (mPhotoBook->project().currentProject()->isSynced()) {
     mPhotoBook->unloadProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
@@ -815,6 +815,10 @@ void TableContentPage::OnMappingStarted(Path path)
 {
   mImportedDirectories.insert(path);
   UpdateStatusBar();
+}
+
+void TableContentPage::OnProjectRenamed() {
+
 }
 
 void TableContentPage::OnMappingFinished(Path path)

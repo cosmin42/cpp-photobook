@@ -61,16 +61,6 @@ void Photobook::unloadProject()
   }
 }
 
-bool Photobook::isSaved()
-{
-
-  if (mProjectPersistence.currentProject() == nullptr) {
-    return false;
-  }
-
-  return mProjectPersistence.currentProject()->isSynced();
-}
-
 void Photobook::recallMetadata() { mProjectPersistence.recallMetadata(); }
 
 void Photobook::recallProject(std::string name)
@@ -193,7 +183,7 @@ void Photobook::newProject(std::string name)
 {
   configure(std::make_shared<Project>(name));
 
-  //saveProject();
+  mProjectPersistence.save();
 }
 
 void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
@@ -259,7 +249,8 @@ std::vector<Path> Photobook::pendingMappingPathList() const
   return mImportLogic.pendingMappingFolders();
 }
 
-void Photobook::onProjectRenamed() {}
-
+void Photobook::onProjectRenamed() {
+    
+}
 
 } // namespace PB

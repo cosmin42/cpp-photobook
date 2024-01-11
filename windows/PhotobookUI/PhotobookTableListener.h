@@ -15,6 +15,7 @@ public:
   void configure(TableContentPage *parent);
 
   void onProjectRead() override;
+  void onProjectRenamed() override;
   void onMetadataUpdated() override;
   void onPersistenceError(PBDev::Error) override;
 
