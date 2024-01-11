@@ -210,6 +210,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void OnMappingAborted(Path path);
   void OnMappingStarted(Path path);
 
+  void OnProjectRenamed();
+
   void OnProgressUpdate(int progress, int reference);
   void OnExportProgressUpdate(int progress, int reference);
 

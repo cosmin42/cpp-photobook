@@ -33,6 +33,8 @@ void PhotobookTableListener::configure(TableContentPage *parent)
 
 void PhotobookTableListener::onProjectRead() {}
 
+void PhotobookTableListener::onProjectRenamed() { mParent->OnProjectRenamed(); }
+
 void PhotobookTableListener::onMetadataUpdated() {}
 
 void PhotobookTableListener::onPersistenceError(PBDev::Error) {}
