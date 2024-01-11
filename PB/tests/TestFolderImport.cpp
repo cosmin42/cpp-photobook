@@ -31,7 +31,7 @@ TEST(TestFolderImport, Test0)
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
-  photobook.newProject();
+  photobook.newProject("random-name");
 
   photobook.loadProject();
   

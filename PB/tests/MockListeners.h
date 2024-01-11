@@ -1,6 +1,10 @@
 #pragma once
 
 #include <regex>
+#include <string>
+
+#include <boost/bimap/bimap.hpp>
+#include <boost/uuid/uuid.hpp>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -33,6 +37,10 @@ public:
 
 class TestPhotobookListener final : public PB::PhotobookListener {
 public:
+  MOCK_METHOD(void, onProjectRead, (), (override));
+  MOCK_METHOD(void, onProjectRenamed, (), (override));
+  MOCK_METHOD(void, onMetadataUpdated, (), (override));
+  MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
   MOCK_METHOD(void, onProgressUpdate, (int, int), (override));
   MOCK_METHOD(void, onExportProgressUpdate, (int, int), (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
@@ -60,9 +68,11 @@ public:
   MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
 };
 
+typedef boost::bimaps::bimap<boost::uuids::uuid, std::string> BimapWorkaround;
+
 class TestPersistenceMetadataListener final
     : public PB::PersistenceMetadataListener {
 public:
-  MOCK_METHOD(void, onMetadataRead, (PB::ProjectMetadata), (override));
+  MOCK_METHOD(void, onMetadataRead, (BimapWorkaround), (override));
   MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
 };
