@@ -76,3 +76,14 @@ public:
   MOCK_METHOD(void, onMetadataRead, (BimapWorkaround), (override));
   MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
 };
+
+
+class TestProjectPersistenceListenerListener final
+    : public PB::ProjectPersistenceListener
+{
+  MOCK_METHOD(void, onMetadataUpdated, (), (override));
+  MOCK_METHOD(void, onProjectRead, (), (override));
+  MOCK_METHOD(void, onProjectRenamed, (), (override));
+  MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
+};
+
