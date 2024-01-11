@@ -23,7 +23,7 @@ TEST(TestParallelTaskConsumer, BasicTest)
   std::shared_ptr<int> objectToBeChaged2 = std::make_shared<int>();
   *objectToBeChaged2 = 0;
 
-  consumer.enqueue([objectToBeChaged{objectToBeChaged0}]() {
+  consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged0}]() {
     *objectToBeChaged = 1;
     Sleep(1000);
   });
@@ -34,12 +34,12 @@ TEST(TestParallelTaskConsumer, BasicTest)
   isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 
-  consumer.enqueue([objectToBeChaged{objectToBeChaged1}]() {
+  consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged1}]() {
     *objectToBeChaged = 2;
     Sleep(1000);
   });
 
-  consumer.enqueue([objectToBeChaged{objectToBeChaged2}]() {
+  consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged2}]() {
     *objectToBeChaged = 3;
     Sleep(1000);
   });

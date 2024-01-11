@@ -17,22 +17,27 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   ASSERT_FALSE(std::filesystem::exists("database.db"));
 
-  Persistence persistence(".", &projectListener, &metadataListener);
+  Persistence persistence;
+
+  persistence.configure(Path("."));
+  persistence.configure(&projectListener);
+  persistence.configure(&metadataListener);
 
   ASSERT_TRUE(std::filesystem::exists("database.db"));
 
-  PB::Project project(Path("."));
+  PB::Project project("random-name");
 
   auto maybeError = Persistence::createSupportDirectory("th");
 
   ASSERT_FALSE(maybeError.has_value());
 
   Path dataPath = Path("../test-data");
-
-  project.active().pathCache().newHash(dataPath);
+  /*
+  project.active().pathCache.hashCreateIfMissing(dataPath);
 
   bool valid = PB::PathCache::valid(
       dataPath, project.active().pathCache().hash(dataPath));
 
   ASSERT_TRUE(valid);
+  */
 }

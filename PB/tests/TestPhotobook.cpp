@@ -39,9 +39,9 @@ TEST(TestPhotobook, TestMetadata)
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
   for (int i = 0; i < 4; ++i) {
-    photobook.newProject();
+    photobook.newProject("random-name");
 
-    auto uuid = photobook.activeProject().uuid();
+    auto uuid = photobook.project().currentProject()->active().uuid;
     auto path = PB::ProjectSnapshot::parentDirectory() /
                 (boost::uuids::to_string(uuid) + ".photobook");
 
@@ -56,8 +56,7 @@ TEST(TestPhotobook, TestMetadata)
   Sleep(3000);
 
   for (int i = 0; (int)i < 4; ++i) {
-    photobook.deleteProject(
-        boost::uuids::to_string(projectsMetadata.at(0).uuid()));
+    photobook.project().remove(projectsMetadata.at(0).uuid());
     projectsMetadata.erase(projectsMetadata.begin());
 
     Sleep(3000);
@@ -94,14 +93,14 @@ TEST(TestPhotobook, TestProject)
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
-  photobook.newProject();
+  photobook.newProject("random-name");
 
-  auto uuid = photobook.activeProject().uuid();
+  auto uuid = photobook.project().currentProject()->active().uuid;
   auto projectPath = PB::ProjectSnapshot::parentDirectory() /
                      (boost::uuids::to_string(uuid) + ".photobook");
 
   EXPECT_CALL(testDashboardListener, onProjectRead());
-  photobook.recallProject(projectPath);
+  photobook.recallProject("random-name");
 }
 
 TEST(TestPhotobook, TestProjectLoading)
@@ -132,14 +131,14 @@ TEST(TestPhotobook, TestProjectLoading)
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
-  photobook.newProject();
+  photobook.newProject("random-name");
 
-  auto uuid = photobook.activeProject().uuid();
+  auto uuid = photobook.project().currentProject()->active().uuid;
   auto projectPath = PB::ProjectSnapshot::parentDirectory() /
                      (boost::uuids::to_string(uuid) + ".photobook");
 
   EXPECT_CALL(testDashboardListener, onProjectRead());
-  photobook.recallProject(projectPath);
+  photobook.recallProject("random-name");
 
   Sleep(3000);
 
