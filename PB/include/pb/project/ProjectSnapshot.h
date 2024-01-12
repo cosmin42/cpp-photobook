@@ -17,7 +17,6 @@ struct ProjectSnapshot {
   static std::shared_ptr<PlatformInfo> platformInfo;
   static Path parentDirectory() { return platformInfo->localStatePath; }
 
-  boost::uuids::uuid uuid = boost::uuids::random_generator()();
   std::vector<Path>  importedPaths;
   std::vector<Path>  stagedImages;
   PaperSettings      paperSettings;
@@ -25,8 +24,7 @@ struct ProjectSnapshot {
 
   bool operator==(ProjectSnapshot const &other)
   {
-    return uuid == other.uuid &&
-           std::equal(importedPaths.begin(), importedPaths.end(),
+    return std::equal(importedPaths.begin(), importedPaths.end(),
                       other.importedPaths.begin()) &&
            std::equal(stagedImages.begin(), stagedImages.end(),
                       other.stagedImages.begin()) &&
