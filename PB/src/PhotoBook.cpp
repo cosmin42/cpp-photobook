@@ -12,6 +12,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
 
   mImportLogic.configure((ImportFoldersLogicListener *)this);
   mImportLogic.configure((ThreadScheduler *)this);
+
+  mProjectPersistence.configure((ProjectPersistenceListener *)this);
+  mProjectPersistence.configure(localStatePath);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -249,8 +252,6 @@ std::vector<Path> Photobook::pendingMappingPathList() const
   return mImportLogic.pendingMappingFolders();
 }
 
-void Photobook::onProjectRenamed() {
-    
-}
+void Photobook::onProjectRenamed() {}
 
 } // namespace PB
