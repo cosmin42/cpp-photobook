@@ -54,9 +54,22 @@ std::vector<std::string> ProjectPersistence::projectsNames() const
   return projects;
 }
 
+void ProjectPersistence::newProject(std::string              name,
+                                    std::shared_ptr<Project> project)
+{
+  mProject = project;
+  mMetadata.insert({project->active().uuid, name});
+  save();
+}
+
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
 {
   return mMetadata.left.at(uuid);
+}
+
+Path ProjectPersistence::path(boost::uuids::uuid uuid)
+{
+  return mLocalStatePath / (mMetadata.left.at(uuid) + Context::BOOK_EXTENSION);
 }
 
 void ProjectPersistence::onProjectRead(std::shared_ptr<Project> project)
@@ -84,10 +97,8 @@ void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
 
 void ProjectPersistence::remove(boost::uuids::uuid id)
 {
-  Path projectFile = mProject->metadata().projectFile();
-
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
-  mPersistence.deleteProject(projectFile);
+  mPersistence.deleteProject(path(id));
 }
 
 void ProjectPersistence::remove(Path path) {}

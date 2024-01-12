@@ -24,7 +24,6 @@ public:
 
   ~Project() = default;
 
-  ProjectMetadata const &metadata() { return mMetadata; }
   ProjectSnapshot const &active() { return mActive; }
   ProjectSnapshot const &cache() { return mCache; }
 
@@ -34,8 +33,6 @@ public:
 
 private:
   static std::vector<std::string> HAPPY_WORDS;
-
-  ProjectMetadata mMetadata;
 
   ProjectSnapshot mCache;
 

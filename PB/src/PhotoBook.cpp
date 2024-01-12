@@ -184,9 +184,10 @@ void Photobook::onPersistenceError(PBDev::Error error)
 
 void Photobook::newProject(std::string name)
 {
-  configure(std::make_shared<Project>(name));
-
-  mProjectPersistence.save();
+  // TODO: mProjectPersistence should announce mImportLogic when the project was
+  // updated
+  mProjectPersistence.newProject(name, std::make_shared<Project>(name));
+  mImportLogic.configure(mProjectPersistence.currentProject());
 }
 
 void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
