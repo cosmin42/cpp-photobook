@@ -59,6 +59,7 @@ void ProjectPersistence::newProject(std::string              name,
 {
   mProject = project;
   mMetadata.insert({boost::uuids::random_generator()(), name});
+  mOpenedUUID = mMetadata.right.at(name);
   save();
 }
 
@@ -160,6 +161,7 @@ bool ProjectPersistence::hasProjectOpen() const
 void ProjectPersistence::save()
 {
   PBDev::basicAssert(mProject != nullptr);
+  PBDev::basicAssert(mOpenedUUID.has_value());
   mProject->sync();
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
