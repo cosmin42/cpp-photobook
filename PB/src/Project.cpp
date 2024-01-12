@@ -4,12 +4,6 @@ namespace PB {
 
 Project::Project()
 {
-  // TODO: Check if it is not redundant
-  auto uuid = boost::uuids::random_generator()();
-  auto projectPath = ProjectSnapshot::parentDirectory() /
-                     (boost::uuids::to_string(uuid) + Context::BOOK_EXTENSION);
-
-  mActive.uuid = uuid;
   mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
 
   sync();

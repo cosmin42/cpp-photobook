@@ -58,7 +58,7 @@ void ProjectPersistence::newProject(std::string              name,
                                     std::shared_ptr<Project> project)
 {
   mProject = project;
-  mMetadata.insert({project->active().uuid, name});
+  mMetadata.insert({boost::uuids::random_generator()(), name});
   save();
 }
 
@@ -145,6 +145,16 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
     auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
   }
+}
+
+boost::uuids::uuid ProjectPersistence::currentProjectUUID() const
+{
+  return mOpenedUUID.value();
+}
+
+bool ProjectPersistence::hasProjectOpen() const
+{
+  return mOpenedUUID.has_value();
 }
 
 void ProjectPersistence::save()

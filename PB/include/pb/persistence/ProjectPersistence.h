@@ -57,6 +57,9 @@ public:
 
   void save();
 
+  bool               hasProjectOpen() const;
+  boost::uuids::uuid currentProjectUUID() const;
+
 private:
   std::string name(boost::uuids::uuid uuid);
   Path        path(boost::uuids::uuid uuid);
