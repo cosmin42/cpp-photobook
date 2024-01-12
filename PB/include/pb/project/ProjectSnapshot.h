@@ -22,7 +22,6 @@ struct ProjectSnapshot {
   std::vector<Path>  stagedImages;
   PaperSettings      paperSettings;
   PathCache          pathCache;
-  std::string        name = boost::uuids::to_string(uuid);
 
   bool operator==(ProjectSnapshot const &other)
   {
@@ -32,7 +31,7 @@ struct ProjectSnapshot {
            std::equal(stagedImages.begin(), stagedImages.end(),
                       other.stagedImages.begin()) &&
            paperSettings == other.paperSettings &&
-           pathCache == other.pathCache && name == other.name;
+           pathCache == other.pathCache;
   }
 };
 

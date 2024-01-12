@@ -17,18 +17,16 @@ Project::Project()
 
 Project::Project(std::string name) : Project()
 {
-  mActive.name = name;
   auto projectPath =
       ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
   sync();
 }
 Project::Project(std::string name, ProjectSnapshot snapshot)
 {
-  snapshot.name = name;
   mActive = mCache = snapshot;
 
   auto projectPath = ProjectSnapshot::parentDirectory() /
-                     (mActive.name + Context::BOOK_EXTENSION);
+                     (name + Context::BOOK_EXTENSION);
 }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
