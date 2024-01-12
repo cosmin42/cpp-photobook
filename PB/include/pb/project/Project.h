@@ -17,8 +17,8 @@ class Project final {
 public:
   static std::string generateAlbumName(std::function<bool(std::string)>);
 
-  explicit Project(std::string name);
-  explicit Project(std::string name, ProjectSnapshot snapshot);
+  Project() = default;
+  explicit Project(ProjectSnapshot snapshot);
 
   ~Project() = default;
 

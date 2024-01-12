@@ -1,19 +1,8 @@
 #include <pb/project/Project.h>
 
 namespace PB {
-Project::Project(std::string name) // : Project()
-{
-  auto projectPath =
-      ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
-  sync();
-}
-Project::Project(std::string name, ProjectSnapshot snapshot)
-{
-  mActive = mCache = snapshot;
 
-  auto projectPath =
-      ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
-}
+Project::Project(ProjectSnapshot snapshot) { mActive = mCache = snapshot; }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> Project::HAPPY_WORDS = {"Joyful", "Blissful"};

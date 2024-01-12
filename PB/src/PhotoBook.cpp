@@ -186,7 +186,7 @@ void Photobook::newProject(std::string name)
 {
   // TODO: mProjectPersistence should announce mImportLogic when the project was
   // updated
-  mProjectPersistence.newProject(name, std::make_shared<Project>(name));
+  mProjectPersistence.newProject(name, std::make_shared<Project>());
   mImportLogic.configure(mProjectPersistence.currentProject());
 }
 
