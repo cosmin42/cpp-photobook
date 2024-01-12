@@ -9,9 +9,6 @@ Project::Project()
   auto projectPath = ProjectSnapshot::parentDirectory() /
                      (boost::uuids::to_string(uuid) + Context::BOOK_EXTENSION);
 
-  mMetadata =
-      ProjectMetadata(boost::uuids::to_string(uuid), projectPath.string());
-
   mActive.uuid = uuid;
   mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
 
@@ -23,8 +20,6 @@ Project::Project(std::string name) : Project()
   mActive.name = name;
   auto projectPath =
       ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
-  mMetadata = ProjectMetadata(boost::uuids::to_string(mMetadata.uuid()),
-                              projectPath.string());
   sync();
 }
 Project::Project(std::string name, ProjectSnapshot snapshot)
@@ -34,8 +29,6 @@ Project::Project(std::string name, ProjectSnapshot snapshot)
 
   auto projectPath = ProjectSnapshot::parentDirectory() /
                      (mActive.name + Context::BOOK_EXTENSION);
-  mMetadata = ProjectMetadata(boost::uuids::to_string(snapshot.uuid),
-                              projectPath.string());
 }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS

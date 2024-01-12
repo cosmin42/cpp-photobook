@@ -34,6 +34,8 @@ public:
 
   std::vector<std::string> projectsNames() const;
 
+  void newProject(std::string name, std::shared_ptr<Project> project);
+
   void onProjectRead(std::shared_ptr<Project> project) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
@@ -57,6 +59,7 @@ public:
 
 private:
   std::string name(boost::uuids::uuid uuid);
+  Path        path(boost::uuids::uuid uuid);
 
   ProjectPersistenceListener                           *mListener = nullptr;
   Path                                                  mLocalStatePath;
