@@ -1,15 +1,7 @@
 #include <pb/project/Project.h>
 
 namespace PB {
-
-Project::Project()
-{
-  mActive.paperSettings = Context::A4_LANDSCAPE_PAPER;
-
-  sync();
-}
-
-Project::Project(std::string name) : Project()
+Project::Project(std::string name) // : Project()
 {
   auto projectPath =
       ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
@@ -19,8 +11,8 @@ Project::Project(std::string name, ProjectSnapshot snapshot)
 {
   mActive = mCache = snapshot;
 
-  auto projectPath = ProjectSnapshot::parentDirectory() /
-                     (name + Context::BOOK_EXTENSION);
+  auto projectPath =
+      ProjectSnapshot::parentDirectory() / (name + Context::BOOK_EXTENSION);
 }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
@@ -53,6 +45,8 @@ std::vector<std::string> Project::HAPPY_WORDS = {
     "Glad",         "Contented",  "Radiant",       "Effervescent",
     "Spry",         "Snug",       "Jovial",        "Untroubled"};
 #endif
+
+// TODO: move this to ProjectPersistence
 std::string
 Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
 {
