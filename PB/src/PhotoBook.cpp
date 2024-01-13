@@ -33,11 +33,6 @@ void Photobook::configure(ImageMonitorListener *listener)
   mImageViews.imageMonitor().setListener(listener);
 }
 
-void Photobook::configure(DashboardListener *listener)
-{
-  mDashboardListener = listener;
-}
-
 void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
   mImportLogic.configure(mProjectPersistence.currentProject());

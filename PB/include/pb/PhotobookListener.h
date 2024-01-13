@@ -30,12 +30,4 @@ public:
   virtual void post(std::function<void()> f) = 0;
 };
 
-class DashboardListener {
-public:
-  virtual ~DashboardListener() = default;
-  virtual void
-  onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata> metadata) = 0;
-  virtual void onProjectRead() = 0;
-};
-
 } // namespace PB

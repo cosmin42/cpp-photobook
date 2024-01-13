@@ -16,7 +16,6 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-// TODO: Remove DashboardListener
 
 struct Dashboard : DashboardT<Dashboard>,
                    public PB::ProjectPersistenceListener {
