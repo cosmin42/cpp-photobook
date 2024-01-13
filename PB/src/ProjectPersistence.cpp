@@ -30,7 +30,8 @@ void ProjectPersistence::recallProject(boost::uuids::uuid const &uuid)
 
 void ProjectPersistence::recallProject(std::string name)
 {
-  mPersistence.recallProject(name);
+  auto projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
+  mPersistence.recallProject(projectPath);
 }
 
 void ProjectPersistence::recallMetadata() { mPersistence.recallMetadata(); }
@@ -138,11 +139,10 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
       mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
   PBDev::basicAssert(success);
 
-  auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
-
-  mPersistence.persistMetadata(mOpenedUUID.value(), newProjectPath);
+  mPersistence.persistMetadata(mOpenedUUID.value(), newName);
 
   if (newName != oldName) {
+    auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
     auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
   }
@@ -165,8 +165,8 @@ void ProjectPersistence::save()
   mProject->sync();
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-
   mPersistence.persistProject(name, mProject->active());
+  mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 
 } // namespace PB

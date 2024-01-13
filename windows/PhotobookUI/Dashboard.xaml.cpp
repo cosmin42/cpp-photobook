@@ -56,7 +56,7 @@ Dashboard::Dashboard()
              .as<winrt::PhotobookUI::implementation::App>()
              ->api();
 
-  mAPI->configure((PB::DashboardListener *)this);
+  mAPI->configure((PB::PhotobookListener *)this);
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   mMenuFlyout.Items().Append(DeleteFlyout());
@@ -75,7 +75,7 @@ void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
 {
   mAPI->newProject(GenerateProjectName());
 
-  mAPI->configure((PB::DashboardListener *)nullptr);
+  mAPI->configure((PB::PhotobookListener *)nullptr);
 
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
@@ -181,7 +181,7 @@ auto Dashboard::RenameProjectDialogDisplay() -> winrt::fire_and_forget
 void Dashboard::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs args)
 {
-  mAPI->configure((PB::DashboardListener *)this);
+  mAPI->configure((PB::PhotobookListener *)this);
   if (args.Parameter() != nullptr) {
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
@@ -190,7 +190,7 @@ void Dashboard::OnNavigatedTo(
 
       bool success = MainWindow::sMainThreadDispatcher.TryEnqueue(
           DispatcherQueuePriority::Normal, [this]() {
-            mAPI->configure((PB::DashboardListener *)nullptr);
+            mAPI->configure((PB::PhotobookListener *)nullptr);
             Frame().Navigate(winrt::xaml_typename<TableContentPage>());
           });
       PBDev::basicAssert(success);
@@ -200,7 +200,7 @@ void Dashboard::OnNavigatedTo(
 
 void Dashboard::onProjectRead()
 {
-  mAPI->configure((PB::DashboardListener *)nullptr);
+  mAPI->configure((PB::PhotobookListener *)nullptr);
   Frame().Navigate(winrt::xaml_typename<TableContentPage>());
 }
 

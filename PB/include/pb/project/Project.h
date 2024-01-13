@@ -22,8 +22,8 @@ public:
 
   ~Project() = default;
 
-  ProjectSnapshot const &active() { return mActive; }
-  ProjectSnapshot const &cache() { return mCache; }
+  ProjectSnapshot active() const { return mActive; }
+  ProjectSnapshot cache() const { return mCache; }
 
   void sync() { mCache = mActive; }
 

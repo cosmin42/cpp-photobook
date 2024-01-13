@@ -36,7 +36,6 @@ public:
   void configure(PhotobookListener *listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
-  void configure(DashboardListener *listener);
   void configure(std::shared_ptr<Project> project);
 
   void recallMetadata();
@@ -83,7 +82,6 @@ public:
 
 private:
   PhotobookListener                       *mParent = nullptr;
-  DashboardListener                       *mDashboardListener = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
   ProjectPersistence                       mProjectPersistence;
   ImportFoldersLogic                       mImportLogic;

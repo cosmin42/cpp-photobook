@@ -116,7 +116,6 @@ void ThumbnailsProcessor::clearJobs() { mStopSources.clear(); }
 std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier)
 {
-  auto projectDetails = mProject->active();
   PBDev::basicAssert(index >= 0);
 
   auto smallOutputPath = ProjectSnapshot::parentDirectory() / "th" /
