@@ -6,5 +6,6 @@
 
 TEST(ProjectPersistence, Test0)
 {
-
+  clearProjectCache();
+  TestProjectPersistenceListener testProjectPersistenceListener;
 }

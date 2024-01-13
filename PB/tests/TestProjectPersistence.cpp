@@ -25,7 +25,7 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   ASSERT_TRUE(std::filesystem::exists("database.db"));
 
-  PB::Project project("random-name");
+  PB::Project project;
 
   auto maybeError = Persistence::createSupportDirectory("th");
 
