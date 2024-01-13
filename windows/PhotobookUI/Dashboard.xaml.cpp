@@ -68,7 +68,7 @@ Dashboard::Dashboard()
 std::string Dashboard::GenerateProjectName()
 {
   return PB::Project::generateAlbumName(
-      [this](std::string name) { return mAPI->project().contains(name); });
+      [this](std::string name) { return !mAPI->project().contains(name); });
 }
 
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
