@@ -172,6 +172,7 @@ target_link_libraries(pblib PUBLIC
 set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
 
 if (LOG_LEVEL MATCHES Debug)
+    enable_testing()
     add_executable(pbtests 
         tests/MockListeners.h
         tests/MockListeners.cpp
@@ -216,4 +217,7 @@ if (LOG_LEVEL MATCHES Debug)
     COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
         "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug"      # <--this is in-file
         "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build/Debug/")                 # <--this is out-file path
+
+    include(GoogleTest)
+    gtest_discover_tests(pbtests)
 endif()
