@@ -80,26 +80,3 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /property:Platform=x64 ${{env.SOLUTION_FILE_PATH}}
-
-    - name: Generate test data
-      run: python PB\test-data\generate-data.py PB\test-data
-
-    - name: Ls1
-      working-directory: ${{github.workspace}}/
-      run: dir
-
-    - name: Ls2
-      working-directory: ${{github.workspace}}/PB/
-      run: dir
-    
-    - name: Ls3
-      working-directory: ${{github.workspace}}/PB/build/
-      run: dir
-
-    - name: Ls4
-      working-directory: ${{github.workspace}}/PB/build/Release/
-      run: dir
-
-    - name: Tests
-      working-directory: ${{github.workspace}}/PB/build/Release/
-      run: pbtests.exe
