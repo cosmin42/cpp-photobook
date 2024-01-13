@@ -85,21 +85,21 @@ jobs:
       run: python PB\test-data\generate-data.py PB\test-data
 
     - name: Ls1
-      working-directory: ${{env.GITHUB_WORKSPACE}}/
+      working-directory: ${{github.workspace}}/
       run: dir
 
     - name: Ls2
-      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/
+      working-directory: ${{github.workspace}}/PB/
       run: dir
     
     - name: Ls3
-      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/build/
+      working-directory: ${{github.workspace}}/PB/build/
       run: dir
 
     - name: Ls4
-      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/build/Release/
+      working-directory: ${{github.workspace}}/PB/build/Release/
       run: dir
 
     - name: Tests
-      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/build/Release/
+      working-directory: ${{github.workspace}}/PB/build/Release/
       run: pbtests.exe
