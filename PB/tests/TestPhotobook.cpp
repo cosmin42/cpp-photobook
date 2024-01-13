@@ -50,13 +50,13 @@ TEST(TestPhotobook, TestMetadata)
 
     photobook.recallMetadata();
   }
-  Sleep(3000);
+  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
   for (int i = 0; (int)i < 4; ++i) {
     photobook.project().remove(projectsMetadata.at(0).uuid());
     projectsMetadata.erase(projectsMetadata.begin());
 
-    Sleep(3000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
     EXPECT_CALL(testPhotobookListener, onMetadataUpdated());
 
@@ -125,7 +125,7 @@ TEST(TestPhotobook, TestProjectLoading)
   EXPECT_CALL(testPhotobookListener, onProjectRead());
   photobook.recallProject("random-name");
 
-  Sleep(3000);
+  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
   photobook.loadProject();
 
