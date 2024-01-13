@@ -84,6 +84,14 @@ jobs:
     - name: Generate test data
       run: python PB\test-data\generate-data.py PB\test-data
 
+    - name: Ls1
+      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/build/Release/
+      run: dir
+
+    - name: Ls2
+      working-directory: ${{env.GITHUB_WORKSPACE}}/
+      run: dir
+
     - name: Tests
-      working-directory: ${{env.GITHUB_WORKSPACE}}\PB\build\Release\
+      working-directory: ${{env.GITHUB_WORKSPACE}}/PB/build/Release/
       run: pbtests.exe
