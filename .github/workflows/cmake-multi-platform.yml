@@ -89,7 +89,7 @@ jobs:
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
     - name: Generate test data
-      run: python test-data\generate-data.py PB\test-data
+      run: python PB\test-data\generate-data.py PB\test-data
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}\PB\build\Release
