@@ -17,16 +17,10 @@ TEST(TestFolderImport, Test0)
   PB::Photobook photobook(".", ".");
   photobook.configure(stagedImageListener.get());
   photobook.configure((PB::ImageMonitorListener *)&imageMonitorListener);
-
-  TestDashboardListener testDashboardListener;
-
-  photobook.configure((PB::DashboardListener *)&testDashboardListener);
   photobook.configure((PB::StagedImagesListener *)&photobookListener);
   photobook.configure((PB::PhotobookListener *)&photobookListener);
 
-  EXPECT_CALL(testDashboardListener,
-              onProjectsMetadataLoaded(std::vector<PB::ProjectMetadata>()));
-
+  EXPECT_CALL(photobookListener, onMetadataUpdated());
   photobook.recallMetadata();
 
   std::vector<PB::ProjectMetadata> projectsMetadata;

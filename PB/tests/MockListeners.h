@@ -28,13 +28,6 @@ public:
   MOCK_METHOD(void, onCleared, (), (override));
 };
 
-class TestDashboardListener final : public PB::DashboardListener {
-public:
-  MOCK_METHOD(void, onProjectsMetadataLoaded,
-              (std::vector<PB::ProjectMetadata> v), (override));
-  MOCK_METHOD(void, onProjectRead, (), (override));
-};
-
 class TestPhotobookListener final : public PB::PhotobookListener {
 public:
   MOCK_METHOD(void, onProjectRead, (), (override));
@@ -78,7 +71,7 @@ public:
 };
 
 
-class TestProjectPersistenceListenerListener final
+class TestProjectPersistenceListener final
     : public PB::ProjectPersistenceListener
 {
   MOCK_METHOD(void, onMetadataUpdated, (), (override));

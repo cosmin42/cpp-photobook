@@ -11,6 +11,8 @@
 
 using namespace PB;
 
+using ::testing::_;
+
 class TestFileMapSequentialTaskConsumerListener
     : public PBDev::SequentialTaskConsumerListener<MediaMapper> {
 public:
@@ -35,7 +37,9 @@ TEST(TestFilesMap, TestSimpleCollection)
   PBDev::SequentialTaskConsumer<MediaMapper> consumer;
   consumer.configure((PBDev::SequentialTaskConsumerListener<MediaMapper>
                           *)&fileMapSequentialTaskConsumerListener);
-  
+  consumer.configure(fileMapper);
+
+  EXPECT_CALL(fileMapSequentialTaskConsumerListener, started(_));
+  EXPECT_CALL(fileMapSequentialTaskConsumerListener, finished(_));
   consumer.start();
-            
 }
