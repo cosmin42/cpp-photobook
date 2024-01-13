@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <Windows.h>
-
 #include <pb/tasks/ParallelTaskConsumer.h>
 
 TEST(TestParallelTaskConsumer, BasicTest)
@@ -25,28 +23,28 @@ TEST(TestParallelTaskConsumer, BasicTest)
 
   consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged0}]() {
     *objectToBeChaged = 1;
-    Sleep(1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
   isFinished = consumer.finished();
   EXPECT_TRUE(!isFinished);
 
-  Sleep(1500);
+  std::this_thread::sleep_for(std::chrono::milliseconds(1500));
   isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 
   consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged1}]() {
     *objectToBeChaged = 2;
-    Sleep(1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
 
   consumer.enqueue(Path(), [objectToBeChaged{objectToBeChaged2}]() {
     *objectToBeChaged = 3;
-    Sleep(1000);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   });
   isFinished = consumer.finished();
   EXPECT_TRUE(!isFinished);
 
-  Sleep(1500);
+  std::this_thread::sleep_for(std::chrono::milliseconds(1500));
   isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 

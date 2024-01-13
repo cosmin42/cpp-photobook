@@ -7,8 +7,6 @@
 
 #include <pb/tasks/FileMapper.h>
 
-#include <Windows.h>
-
 using namespace PB;
 
 using ::testing::_;

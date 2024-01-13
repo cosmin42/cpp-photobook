@@ -4,15 +4,12 @@
 #include <pb/Config.h>
 #include <pb/tasks/SequentialTaskConsumer.h>
 
-// TODO: Make this OS independent
-#include <Windows.h>
-
 class TaskExample {
 public:
   void taskStep()
   {
     mCounter++;
-    Sleep(100);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
   bool stoppingCondition() { return mCounter >= END_COUNTER; }
@@ -48,10 +45,10 @@ TEST(TestSequenctialTaskConsumer, TestCreation)
   EXPECT_CALL(listener, aborted);
   consumer.start();
 
-  Sleep(100 * 20);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100*20));
   sStopSource.request_stop();
 
-  Sleep(150);
+  std::this_thread::sleep_for(std::chrono::milliseconds(150));
 
   EXPECT_TRUE(consumer.task().counter() < 30);
 }
