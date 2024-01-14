@@ -70,7 +70,7 @@ public:
   void onMappingAborted(Path) override;
 
   void onImportStop(Path) override;
-  void onImageProcessed(Path root, Path full, Path medium, Path small) override;
+  void onImageProcessed(Path key, Path root, Path full, Path medium, Path small) override;
 
   void onImageProcessingJobEnded(Path root);
 

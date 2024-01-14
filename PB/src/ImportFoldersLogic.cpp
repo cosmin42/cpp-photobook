@@ -69,10 +69,10 @@ void ImportFoldersLogic::clearJob(Path root)
   mImageProcessingProgress.erase(root);
 }
 
-void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
+void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full, Path medium,
                                           Path small, int progressCap)
 {
-  mScheduler->post([this, root, full, medium, small, progressCap]() {
+  mScheduler->post([this, root, full, medium, small, progressCap, key{key}]() {
     if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
       mImageProcessingProgress[root] = {
           mImageProcessingProgress.at(root).first + 1, progressCap};
@@ -81,20 +81,21 @@ void ImportFoldersLogic::onImageProcessed(Path root, Path full, Path medium,
       mImageProcessingProgress[root] = {1, progressCap};
     }
 
-    mListener->onImageProcessed(root, full, medium, small);
+    mListener->onImageProcessed(key, root, full, medium, small);
   });
 }
 
-void ImportFoldersLogic::processImages(Path root, std::vector<Path> newFolders)
+void ImportFoldersLogic::processImages(Path                    root,
+                                       std::vector<std::pair<Path, Path>> newFolders)
 {
   auto pathHash = mProject->active().pathCache;
   auto hash = pathHash.hashCreateIfMissing(root);
 
   mThumbnailsProcessor.generateThumbnails(
       root, newFolders, hash,
-      [this, root{root}, maxProgress{newFolders.size()}](Path full, Path medium,
-                                                         Path small) {
-        onImageProcessed(root, full, medium, small, (int)maxProgress);
+      [this, root{root}, maxProgress{newFolders.size()}](
+          Path keyPath, Path full, Path medium, Path small) {
+        onImageProcessed(keyPath, root, full, medium, small, (int)maxProgress);
       });
 }
 

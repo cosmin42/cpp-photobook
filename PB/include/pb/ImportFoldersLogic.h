@@ -17,7 +17,7 @@ public:
   virtual void onMappingAborted(Path) = 0;
 
   virtual void onImportStop(Path) = 0;
-  virtual void onImageProcessed(Path root, Path full, Path medium,
+  virtual void onImageProcessed(Path key, Path root, Path full, Path medium,
                                 Path small) = 0;
 };
 
@@ -32,7 +32,7 @@ class ImportFoldersLogic final
 public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(ThreadScheduler *scheduler);
-  
+
   // todo: Remove this, replace with mProject reference
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<Project> project);
@@ -45,8 +45,8 @@ public:
 
   void clearJob(Path root);
 
-  void processImages(Path root, std::vector<Path> newFolders);
-  
+  void processImages(Path root, std::vector<std::pair<Path, Path>> newFolders);
+
   // todo: Rename to contain mapping
   void started(MediaMapper const &) override;
   void finished(MediaMapper const &) override;
@@ -57,7 +57,7 @@ public:
   std::vector<Path>   runningImageProcessingJobs() const;
 
   std::vector<Path> pendingMappingFolders() const;
-  
+
   // todo: marking should be externalized to photobook.
   void markForDeletion(Path path);
   void removeMarkForDeletion(Path path);
@@ -65,7 +65,7 @@ public:
   bool marked(Path path) const;
 
 private:
-  void onImageProcessed(Path root, Path full, Path medium, Path small,
+  void onImageProcessed(Path key, Path root, Path full, Path medium, Path small,
                         int progressCap);
 
   ImportFoldersLogicListener                   *mListener = nullptr;

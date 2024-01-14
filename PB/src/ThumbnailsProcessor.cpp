@@ -65,24 +65,26 @@ void ThumbnailsProcessor::provideProjectDetails(
 }
 
 void ThumbnailsProcessor::generateThumbnails(
-    Path root, std::vector<Path> mediaMap, std::string groupIdentifier,
-    std::function<void(Path, Path, Path)> onThumbnailWritten)
+    Path root, std::vector<std::pair<Path, Path>> mediaMap,
+    std::string                                 groupIdentifier,
+    std::function<void(Path, Path, Path, Path)> onThumbnailWritten)
 {
 
   mThumbnailWritten = onThumbnailWritten;
   unsigned taskCount = (unsigned)mediaMap.size();
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
-    auto &inputPath = mediaMap.at(i);
+    auto &inputPath = mediaMap.at(i).second;
     auto [smallPath, mediumPath] = assembleOutputPaths(i, groupIdentifier);
 
-    auto task = [mThumbnailWritten{mThumbnailWritten}, inputPath{inputPath},
+    auto task = [mThumbnailWritten{mThumbnailWritten},
+                 keyPath{mediaMap.at(i).first}, inputPath{inputPath},
                  smallPath{smallPath}, mediumPath{mediumPath}]() {
-      mThumbnailWritten(inputPath, mediumPath, smallPath);
+      mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i), mediumPath, smallPath, taskCount,
-                          task, mScreenWidth, mScreenHeight,
+    ResizeTask resizeTask(mediaMap.at(i).second, mediumPath, smallPath,
+                          taskCount, task, mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 
     mParallelTaskConsumer.enqueue(root,

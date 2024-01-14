@@ -6,7 +6,7 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
-//#define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
+// #define SIMULATE_SLOW_THUMBNAILS_PROCESSOR
 
 namespace PB {
 class ResizeTask final {
@@ -39,10 +39,10 @@ public:
 
   void provideProjectDetails(std::shared_ptr<Project>);
 
-  void
-  generateThumbnails(Path root, std::vector<Path> mediaMap,
-                     std::string                           groupIdentifier,
-                     std::function<void(Path, Path, Path)> onThumbnailWritten);
+  void generateThumbnails(
+      Path root, std::vector<std::pair<Path, Path>> mediaMap,
+      std::string                                 groupIdentifier,
+      std::function<void(Path, Path, Path, Path)> onThumbnailWritten);
 
   void abort();
   void abort(Path path);
@@ -57,9 +57,9 @@ private:
 
   PBDev::ParallelTaskConsumer mParallelTaskConsumer;
 
-  std::function<void(Path, Path, Path)>      mThumbnailWritten;
-  int                                        mScreenWidth = 0;
-  int                                        mScreenHeight = 0;
-  std::unordered_map<Path, std::stop_source> mStopSources;
+  std::function<void(Path, Path, Path, Path)> mThumbnailWritten;
+  int                                         mScreenWidth = 0;
+  int                                         mScreenHeight = 0;
+  std::unordered_map<Path, std::stop_source>  mStopSources;
 };
 } // namespace PB

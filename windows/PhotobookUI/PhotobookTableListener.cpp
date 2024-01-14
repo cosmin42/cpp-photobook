@@ -23,7 +23,9 @@ void PhotobookTableListener::onMappingAborted(Path path)
 void PhotobookTableListener::onImageUpdated(Path root, int row, int index)
 {
   mParent->Post(
-      [this, row, index]() { mParent->UpdateUnstagedImage(row, index); });
+      [this, row, index]() {
+          mParent->UpdateUnstagedImage(row, index);
+      });
 }
 
 void PhotobookTableListener::configure(TableContentPage *parent)

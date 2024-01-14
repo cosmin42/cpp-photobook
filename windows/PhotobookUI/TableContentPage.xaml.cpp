@@ -1071,7 +1071,8 @@ void TableContentPage::UpdateGalleryLabel()
   GalleryRightButton().IsEnabled(itemPath != nullptr);
 
   if (itemPath) {
-    GalleryMainText().Text(winrt::to_hstring(itemPath->keyPath().string()));
+    GalleryMainText().Text(
+        winrt::to_hstring(itemPath->frontend().full.stem().string()));
   }
   else if (mPhotoBook->imageViews().imageMonitor().containsRow(
                selectedRootPath)) {

@@ -190,24 +190,27 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
+  std::vector<std::pair<Path, Path>> keyAndPaths;
+
   for (auto i = 0; i < newFiles.size(); ++i) {
     auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
     imagesSet.push_back(virtualImage);
-    newFiles[i] = virtualImage->keyPath();
+    keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i)});
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
 
-  mImportLogic.processImages(root, newFiles);
+  mImportLogic.processImages(root, keyAndPaths);
 }
 
 void Photobook::onImportStop(Path) {}
 
-void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
+void Photobook::onImageProcessed(Path key, Path root, Path full, Path medium,
+                                 Path small)
 {
-  mImageViews.imageMonitor().image(full)->setSizePath(full, medium, small);
+  mImageViews.imageMonitor().image(key)->setSizePath(full, medium, small);
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
   auto [globalProgress, globalProgressCap] =
@@ -215,7 +218,7 @@ void Photobook::onImageProcessed(Path root, Path full, Path medium, Path small)
 
   mParent->onProgressUpdate(globalProgress, (int)globalProgressCap);
 
-  auto [row, index] = mImageViews.imageMonitor().position(full);
+  auto [row, index] = mImageViews.imageMonitor().position(key);
 
   mParent->onImageUpdated(root, row, index);
 
