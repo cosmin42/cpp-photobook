@@ -39,7 +39,7 @@ public:
     mResources.small = smallSizePath;
   }
 
-  ImageResources resources() const { return mResources; }
+  ImageResources frontend() const { return mResources; }
 
 private:
   ImageResources mResources = {

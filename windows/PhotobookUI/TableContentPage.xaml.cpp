@@ -602,7 +602,7 @@ void TableContentPage::OnCanvasDraw(
 
   PBDev::basicAssert(imagePtr != nullptr);
 
-  auto mediumThumbnailPath = imagePtr->resources().medium;
+  auto mediumThumbnailPath = imagePtr->frontend().medium;
 
   PBDev::basicAssert(!mediumThumbnailPath.empty());
 
@@ -715,9 +715,9 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
     auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(index, i);
     mUnstagedImageCollection.SetAt(
         i, ImageUIData(
-               winrt::to_hstring(virtualImage->resources().full.string()),
-               winrt::to_hstring(virtualImage->resources().medium.string()),
-               winrt::to_hstring(virtualImage->resources().small.string())));
+               winrt::to_hstring(virtualImage->frontend().full.string()),
+               winrt::to_hstring(virtualImage->frontend().medium.string()),
+               winrt::to_hstring(virtualImage->frontend().small.string())));
   }
 }
 
@@ -735,9 +735,9 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
     mUnstagedImageCollection.SetAt(
         index,
         ImageUIData(
-            winrt::to_hstring(virtualImage->resources().full.string()),
-            winrt::to_hstring(virtualImage->resources().medium.string()),
-            winrt::to_hstring(virtualImage->resources().small.string())));
+            winrt::to_hstring(virtualImage->frontend().full.string()),
+            winrt::to_hstring(virtualImage->frontend().medium.string()),
+            winrt::to_hstring(virtualImage->frontend().small.string())));
   }
 }
 
@@ -910,21 +910,21 @@ void TableContentPage::OnStagedImageAdded(
   if (index == (int)mStagedImageCollection.Size() || index < 0) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
-          winrt::to_hstring(photo->resources().full.string()),
-          winrt::to_hstring(photo->resources().medium.string()),
-          winrt::to_hstring(photo->resources().small.string()));
+          winrt::to_hstring(photo->frontend().full.string()),
+          winrt::to_hstring(photo->frontend().medium.string()),
+          winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.Append(winRTImage);
-      mStagedImages.insert(photo->resources().full.string());
+      mStagedImages.insert(photo->frontend().full.string());
     }
   }
   else if (index < (int)mStagedImageCollection.Size()) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
-          winrt::to_hstring(photo->resources().full.string()),
-          winrt::to_hstring(photo->resources().medium.string()),
-          winrt::to_hstring(photo->resources().small.string()));
+          winrt::to_hstring(photo->frontend().full.string()),
+          winrt::to_hstring(photo->frontend().medium.string()),
+          winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.InsertAt(index, winRTImage);
-      mStagedImages.insert(photo->resources().full.string());
+      mStagedImages.insert(photo->frontend().full.string());
     }
   }
 }
@@ -972,9 +972,9 @@ void TableContentPage::UpdateUnstagedLine()
       auto virtualImage =
           mPhotoBook->imageViews().imageMonitor().image(index, i);
       mUnstagedImageCollection.Append(ImageUIData(
-          winrt::to_hstring(virtualImage->resources().full.string()),
-          winrt::to_hstring(virtualImage->resources().medium.string()),
-          winrt::to_hstring(virtualImage->resources().small.string())));
+          winrt::to_hstring(virtualImage->frontend().full.string()),
+          winrt::to_hstring(virtualImage->frontend().medium.string()),
+          winrt::to_hstring(virtualImage->frontend().small.string())));
     }
   }
 }
@@ -1057,9 +1057,9 @@ void TableContentPage::UpdateUnstagedPhotoLine()
         mUnstagedImageCollection.SetAt(
             i,
             ImageUIData(
-                winrt::to_hstring(virtualImage->resources().full.string()),
-                winrt::to_hstring(virtualImage->resources().medium.string()),
-                winrt::to_hstring(virtualImage->resources().small.string())));
+                winrt::to_hstring(virtualImage->frontend().full.string()),
+                winrt::to_hstring(virtualImage->frontend().medium.string()),
+                   winrt::to_hstring(virtualImage->frontend().small.string())));
       }
     }
     else {
@@ -1101,7 +1101,7 @@ void TableContentPage::UpdateGalleryLabel()
 
   if (itemPath) {
     GalleryMainText().Text(
-        winrt::to_hstring(itemPath->resources().full.filename().string()));
+        winrt::to_hstring(itemPath->frontend().full.filename().string()));
   }
   else if (mPhotoBook->imageViews().imageMonitor().containsRow(
                selectedRootPath)) {

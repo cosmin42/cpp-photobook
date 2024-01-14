@@ -19,7 +19,7 @@ void ImageMonitor::addRow(Path                                       path,
   mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());
 
   for (auto i = 0; i < images.size(); ++i) {
-    mPositions.insert({images.at(i)->resources().full,
+    mPositions.insert({images.at(i)->frontend().full,
                        {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));

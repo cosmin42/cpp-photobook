@@ -149,7 +149,7 @@ void Photobook::exportAlbum(std::string name, Path path)
   auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
   std::vector<Path> fullPaths;
   for (auto photo : stagedPhotos) {
-    fullPaths.push_back(photo->resources().full);
+    fullPaths.push_back(photo->frontend().full);
   }
 
   mExportFactory.updateConfiguration(
