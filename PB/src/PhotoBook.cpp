@@ -22,7 +22,9 @@ void Photobook::configure(std::pair<int, int> screenSize)
   mImportLogic.configure(screenSize);
 }
 
-void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
+void Photobook::configure(PhotobookListener *listener) {
+    mParent = listener;
+}
 void Photobook::configure(StagedImagesListener *listener)
 {
   mImageViews.stagedImages().setListener(listener);
@@ -170,7 +172,9 @@ void Photobook::onProjectRead()
   mParent->onProjectRead();
 }
 
-void Photobook::onMetadataUpdated() { mParent->onMetadataUpdated(); }
+void Photobook::onMetadataUpdated() {
+    mParent->onMetadataUpdated();
+}
 
 void Photobook::onPersistenceError(PBDev::Error error)
 {

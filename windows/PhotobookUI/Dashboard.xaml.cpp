@@ -256,4 +256,33 @@ void Dashboard::onProjectRenamed()
   }
 }
 
+void Dashboard::onProgressUpdate([[maybe_unused]] int, [[maybe_unused]] int) {}
+void Dashboard::onExportProgressUpdate([[maybe_unused]] int,
+                                       [[maybe_unused]] int)
+{
+}
+void Dashboard::onExportFinished() {}
+void Dashboard::onError([[maybe_unused]] PBDev::Error) {}
+void Dashboard::onStagedImageAdded(
+    [[maybe_unused]] std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+    [[maybe_unused]] int                                            index)
+{
+}
+void Dashboard::onStagedImageRemoved(
+    [[maybe_unused]] std::vector<unsigned> removedIndexes)
+{
+}
+
+void Dashboard::onMappingStarted([[maybe_unused]] Path path) {}
+void Dashboard::onMappingFinished([[maybe_unused]] Path path) {}
+void Dashboard::onMappingAborted([[maybe_unused]] Path path) {}
+
+void Dashboard::onImageUpdated([[maybe_unused]] Path root,
+                               [[maybe_unused]] int  row,
+                               [[maybe_unused]] int  index)
+{
+}
+
+void Dashboard::post([[maybe_unused]] std::function<void()> f) {}
+
 } // namespace winrt::PhotobookUI::implementation

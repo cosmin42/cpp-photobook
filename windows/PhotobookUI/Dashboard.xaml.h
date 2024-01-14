@@ -17,8 +17,7 @@ using namespace winrt::Windows::Foundation::Collections;
 namespace winrt::PhotobookUI::implementation {
 
 
-struct Dashboard : DashboardT<Dashboard>,
-                   public PB::ProjectPersistenceListener {
+struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
   Dashboard();
 
   void AddProjectClicked(Windows::Foundation::IInspectable const    &sender,
@@ -56,6 +55,25 @@ struct Dashboard : DashboardT<Dashboard>,
   auto RenameProjectDialogDisplay() -> winrt::fire_and_forget;
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
+
+
+  virtual void onProgressUpdate(int, int) override;
+  virtual void onExportProgressUpdate(int, int) override;
+  virtual void onExportFinished() override;
+  virtual void onError(PBDev::Error) override;
+  virtual void
+  onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+                     int index = -1) override;
+  virtual void
+  onStagedImageRemoved(std::vector<unsigned> removedIndexes) override;
+
+  virtual void onMappingStarted(Path path) override;
+  virtual void onMappingFinished(Path path) override;
+  virtual void onMappingAborted(Path path) override;
+
+  virtual void onImageUpdated(Path root, int row, int index) override;
+
+  virtual void post(std::function<void()> f) override;
 
   void onProjectRead() override;
 
