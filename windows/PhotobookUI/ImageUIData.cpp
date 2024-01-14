@@ -30,12 +30,13 @@ ImageUIData::ImageUIData()
 {
 }
 
-ImageUIData::ImageUIData(winrt::hstring full, winrt::hstring medium,
-                         winrt::hstring smallPath)
-    : mFullPath(full), mMediumPath(medium), mSmallPath(smallPath)
+ImageUIData::ImageUIData(winrt::hstring key, winrt::hstring full,
+                         winrt::hstring medium, winrt::hstring smallPath)
+    : mKey(key), mFullPath(full), mMediumPath(medium), mSmallPath(smallPath)
 {
 }
 
+winrt::hstring ImageUIData::KeyPath() { return mKey; }
 winrt::hstring ImageUIData::FullPath() { return mFullPath; }
 winrt::hstring ImageUIData::MediumPath() { return mMediumPath; }
 winrt::hstring ImageUIData::SmallPath() { return mSmallPath; }

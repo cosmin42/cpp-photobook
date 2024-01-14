@@ -24,6 +24,7 @@
 
 #include <pb/config/Log.h>
 #include <pb/image/Image.h>
+#include <pb/image/ImageFactory.h>
 #include <pb/project/PaperSettings.h>
 
 using namespace winrt;
@@ -367,7 +368,7 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     auto image = item.as<ImageUIData>();
     auto fullPath = winrt::to_string(image.FullPath());
 
-    auto regularImage = PB::ImageFactory::createImage(fullPath);
+    auto regularImage = PB::ImageFactory::inst().createImage(fullPath);
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -675,7 +676,7 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
 
-    auto regularImage = PB::ImageFactory::createImage(fullPath);
+    auto regularImage = PB::ImageFactory::inst().createImage(fullPath);
 
     mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
                                                         changedIndex);
@@ -712,6 +713,7 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
     auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(index, i);
     mUnstagedImageCollection.SetAt(
         i, ImageUIData(
+               winrt::to_hstring(virtualImage->keyPath().string()),
                winrt::to_hstring(virtualImage->frontend().full.string()),
                winrt::to_hstring(virtualImage->frontend().medium.string()),
                winrt::to_hstring(virtualImage->frontend().small.string())));
@@ -731,6 +733,7 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
 
     mUnstagedImageCollection.SetAt(
         index, ImageUIData(
+                   winrt::to_hstring(virtualImage->keyPath().string()),
                    winrt::to_hstring(virtualImage->frontend().full.string()),
                    winrt::to_hstring(virtualImage->frontend().medium.string()),
                    winrt::to_hstring(virtualImage->frontend().small.string())));
@@ -860,35 +863,6 @@ void TableContentPage::OnExportFinished()
       winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 }
 
-void TableContentPage::OnUnstagedImageAdded(Path rootPath, Path fullPath,
-                                            Path mediumPath, Path smallPath,
-                                            int position)
-{
-  auto selection = SelectionIndex();
-
-  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
-      selection.unstagedLineIndex.at(0));
-
-  if (rootPath == selectedRootPath) {
-    mUnstagedImageCollection.SetAt(
-        position, ImageUIData(winrt::to_hstring(fullPath.string()),
-                              winrt::to_hstring(mediumPath.string()),
-                              winrt::to_hstring(smallPath.string())));
-  }
-
-  if (mStagedImages.contains(fullPath)) {
-    for (int i = 0; i < (int)mStagedImageCollection.Size(); ++i) {
-      auto path = winrt::to_string(mStagedImageCollection.GetAt(i).FullPath());
-      if (Path(path) == fullPath) {
-        mStagedImageCollection.SetAt(
-            i, ImageUIData(winrt::to_hstring(fullPath.string()),
-                           winrt::to_hstring(mediumPath.string()),
-                           winrt::to_hstring(smallPath.string())));
-      }
-    }
-  }
-}
-
 void TableContentPage::OnAddingUnstagedImagePlaceholder(unsigned size)
 {
   for (int i = 0; i < (int)size; ++i) {
@@ -904,21 +878,23 @@ void TableContentPage::OnStagedImageAdded(
   if (index == (int)mStagedImageCollection.Size() || index < 0) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
+          winrt::to_hstring(photo->keyPath().string()),
           winrt::to_hstring(photo->frontend().full.string()),
           winrt::to_hstring(photo->frontend().medium.string()),
           winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.Append(winRTImage);
-      mStagedImages.insert(photo->frontend().full.string());
+      mStagedImages.insert(photo->keyPath());
     }
   }
   else if (index < (int)mStagedImageCollection.Size()) {
     for (auto photo : photos) {
       ImageUIData winRTImage(
+          winrt::to_hstring(photo->keyPath().string()),
           winrt::to_hstring(photo->frontend().full.string()),
           winrt::to_hstring(photo->frontend().medium.string()),
           winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.InsertAt(index, winRTImage);
-      mStagedImages.insert(photo->frontend().full.string());
+      mStagedImages.insert(photo->keyPath());
     }
   }
 }
@@ -966,6 +942,7 @@ void TableContentPage::UpdateUnstagedLine()
       auto virtualImage =
           mPhotoBook->imageViews().imageMonitor().image(index, i);
       mUnstagedImageCollection.Append(ImageUIData(
+          winrt::to_hstring(virtualImage->keyPath().string()),
           winrt::to_hstring(virtualImage->frontend().full.string()),
           winrt::to_hstring(virtualImage->frontend().medium.string()),
           winrt::to_hstring(virtualImage->frontend().small.string())));
@@ -1050,6 +1027,7 @@ void TableContentPage::UpdateUnstagedPhotoLine()
         auto virtualImage = iterator[i].current();
         mUnstagedImageCollection.SetAt(
             i, ImageUIData(
+                   winrt::to_hstring(virtualImage->keyPath().string()),
                    winrt::to_hstring(virtualImage->frontend().full.string()),
                    winrt::to_hstring(virtualImage->frontend().medium.string()),
                    winrt::to_hstring(virtualImage->frontend().small.string())));
@@ -1093,8 +1071,7 @@ void TableContentPage::UpdateGalleryLabel()
   GalleryRightButton().IsEnabled(itemPath != nullptr);
 
   if (itemPath) {
-    GalleryMainText().Text(
-        winrt::to_hstring(itemPath->frontend().full.filename().string()));
+    GalleryMainText().Text(winrt::to_hstring(itemPath->keyPath().string()));
   }
   else if (mPhotoBook->imageViews().imageMonitor().containsRow(
                selectedRootPath)) {

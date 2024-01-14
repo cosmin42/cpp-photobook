@@ -1,5 +1,4 @@
 #pragma once
-#include <pb/image/ImageFactory.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/image/ImageReader.h>
 #include <pb/image/ImageSetWriter.h>

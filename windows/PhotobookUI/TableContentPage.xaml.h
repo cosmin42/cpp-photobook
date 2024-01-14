@@ -217,8 +217,6 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void OnExportFinished();
 
-  void OnUnstagedImageAdded(Path rootPath, Path full, Path medium, Path small,
-                            int position);
   void OnAddingUnstagedImagePlaceholder(unsigned size);
 
   void OnStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,

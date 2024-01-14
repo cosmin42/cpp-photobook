@@ -29,6 +29,8 @@ public:
 
   virtual std::vector<Path> resources() const = 0;
 
+  virtual Path keyPath() const = 0;
+
   void setFullSizePath(Path path) { mResources.full = path; }
   void setMediumSizePath(Path path) { mResources.medium = path; }
   void setSmallSizePath(Path path) { mResources.small = path; }

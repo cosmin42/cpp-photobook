@@ -3,7 +3,8 @@ namespace PhotobookUI {
 runtimeclass ImageUIData
 {
   ImageUIData();
-  ImageUIData(String full, String medium, String smallPath);
+  ImageUIData(String keyPath, String full, String medium, String smallPath);
+  String KeyPath { get; };
   String FullPath { get; };
   String MediumPath { get; };
   String SmallPath { get; };

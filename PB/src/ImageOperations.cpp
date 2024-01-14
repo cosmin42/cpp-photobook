@@ -178,6 +178,11 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
   }
 }
 
+void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full)
+{
+  ImageSetWriter().write(full, image);
+}
+
 void imageWriteThumbnail(int screenWidth, int screenHeight,
                          std::shared_ptr<cv::Mat> image, Path medium,
                          Path small)

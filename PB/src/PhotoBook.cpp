@@ -1,6 +1,7 @@
 #include <pb/PhotoBook.h>
 
 #include <pb/image/Image.h>
+#include <pb/image/ImageFactory.h>
 
 namespace PB {
 Photobook::Photobook(Path localStatePath, Path installationPath)
@@ -22,9 +23,7 @@ void Photobook::configure(std::pair<int, int> screenSize)
   mImportLogic.configure(screenSize);
 }
 
-void Photobook::configure(PhotobookListener *listener) {
-    mParent = listener;
-}
+void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 void Photobook::configure(StagedImagesListener *listener)
 {
   mImageViews.stagedImages().setListener(listener);
@@ -109,12 +108,12 @@ void Photobook::loadStagedImages()
   for (auto i = 0; i < stagedImages.size(); ++i) {
     if (std::filesystem::is_regular_file(stagedImages.at(i))) {
 
-      auto regularImage = ImageFactory::createImage(stagedImages.at(i));
+      auto regularImage = ImageFactory::inst().createImage(stagedImages.at(i));
 
       mImageViews.stagedImages().addPicture(regularImage);
     }
     else if (std::filesystem::is_directory(stagedImages.at(i))) {
-      auto textImage = ImageFactory::createImage(stagedImages.at(i));
+      auto textImage = ImageFactory::inst().createImage(stagedImages.at(i));
       mImageViews.stagedImages().addPicture(textImage);
     }
     else {
@@ -168,9 +167,7 @@ void Photobook::onProjectRead()
   mParent->onProjectRead();
 }
 
-void Photobook::onMetadataUpdated() {
-    mParent->onMetadataUpdated();
-}
+void Photobook::onMetadataUpdated() { mParent->onMetadataUpdated(); }
 
 void Photobook::onPersistenceError(PBDev::Error error)
 {
@@ -193,9 +190,10 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
-  for (auto path : newFiles) {
-    auto virtualImage = PB::ImageFactory::createImage(path);
+  for (auto i = 0; i < newFiles.size(); ++i) {
+    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
     imagesSet.push_back(virtualImage);
+    newFiles[i] = virtualImage->keyPath();
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);

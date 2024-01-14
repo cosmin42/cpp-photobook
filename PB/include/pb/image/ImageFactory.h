@@ -2,15 +2,23 @@
 
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
+#include <pb/project/Project.h>
 
-namespace PB
-{
-class ImageFactory
-{
+namespace PB {
+class ImageFactory final {
 public:
-  static std::shared_ptr<RegularImage> createRegularImage(Path path);
-  static std::shared_ptr<TextImage>    createTextImage(Path path);
+  static ImageFactory &inst() { return mFactory; }
 
-  static std::shared_ptr<VirtualImage> createImage(Path path);
+  void configure(std::shared_ptr<Project> project);
+
+  std::shared_ptr<RegularImage> createRegularImage(Path path);
+  std::shared_ptr<TextImage>    createTextImage(Path path);
+
+  std::shared_ptr<VirtualImage> createImage(Path path);
+
+private:
+  static ImageFactory mFactory;
+
+  std::shared_ptr<Project> mProject;
 };
-}
+} // namespace PB

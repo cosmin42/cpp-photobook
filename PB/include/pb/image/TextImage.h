@@ -5,14 +5,15 @@
 namespace PB {
 class TextImage final : public VirtualImage {
 public:
-  explicit TextImage(Path full) :
-	  mResourcePath(full) {}
+  explicit TextImage(Path full) : mResourcePath(full) {}
 
   ~TextImage() = default;
 
   VirtualImageType type() const override { return VirtualImageType::Text; }
 
   std::vector<Path> resources() const override { return {mResourcePath}; }
+
+  Path keyPath() const override { return mResourcePath; }
 
 private:
   Path mResourcePath;
