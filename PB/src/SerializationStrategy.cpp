@@ -2,6 +2,8 @@
 
 #include <pb/project/Project.h>
 
+#include <magic_enum.hpp>
+
 namespace PB::Text {
 
 template <> std::variant<Path, PBDev::Error> deserialize(Json jsonData)
@@ -246,6 +248,19 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
   json[key] = std::get<Json>(jsonOrError);
   PB::printDebug("%s(string, ProjectSnapshot) %s\n",
                  std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  return json;
+}
+
+template <>
+std::variant<Json, PBDev::Error>
+serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
+{
+  auto [key, imageType] = entry;
+
+  Json json;
+
+  json[key] = magic_enum::enum_name(imageType);
+
   return json;
 }
 
