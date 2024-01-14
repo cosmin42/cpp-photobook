@@ -5,21 +5,19 @@
 namespace PB {
 class RegularImage final : public VirtualImage {
 public:
-  explicit RegularImage(Path full, Path medium, Path small)
-  {
-    setSizePath(full, medium, small);
-  }
-
-  explicit RegularImage(Path full)
-  {
-    setFullSizePath(full);
-  }
+  explicit RegularImage(Path full) {}
 
   RegularImage() = default;
   ~RegularImage() = default;
 
   VirtualImageType type() const override { return VirtualImageType::Regular; }
 
+  std::vector<Path> resources() const override
+  {
+    return {mResourcePath};
+  }
+
 private:
+  Path mResourcePath;
 };
 } // namespace PB

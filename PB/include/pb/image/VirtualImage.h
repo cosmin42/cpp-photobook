@@ -27,6 +27,8 @@ public:
 
   virtual VirtualImageType type() const = 0;
 
+  virtual std::vector<Path> resources() const = 0;
+
   void setFullSizePath(Path path) { mResources.full = path; }
   void setMediumSizePath(Path path) { mResources.medium = path; }
   void setSmallSizePath(Path path) { mResources.small = path; }
