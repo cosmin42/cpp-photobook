@@ -41,11 +41,17 @@ public:
 
   ImageResources frontend() const { return mResources; }
 
+  bool processed() const { return mProcessed; }
+
+  void finishProcessing() { mProcessed = false; }
+
 private:
   ImageResources mResources = {
       platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
       platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
       platformInfo->installationPath /
           Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
+
+  bool mProcessed = false;
 };
 } // namespace PB
