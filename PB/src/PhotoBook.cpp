@@ -109,16 +109,12 @@ void Photobook::loadStagedImages()
   for (auto i = 0; i < stagedImages.size(); ++i) {
     if (std::filesystem::is_regular_file(stagedImages.at(i))) {
 
-      auto regularImage = std::make_shared<RegularImage>(stagedImages.at(i));
-      regularImage->setFullSizePath(stagedImages.at(i));
+      auto regularImage = ImageFactory::createImage(stagedImages.at(i));
 
       mImageViews.stagedImages().addPicture(regularImage);
     }
     else if (std::filesystem::is_directory(stagedImages.at(i))) {
-      auto textImage = std::make_shared<TextImage>(
-          stagedImages.at(i).stem().string(), stagedImages.at(i));
-      textImage->setFullSizePath(stagedImages.at(i));
-
+      auto textImage = ImageFactory::createImage(stagedImages.at(i));
       mImageViews.stagedImages().addPicture(textImage);
     }
     else {

@@ -366,11 +366,8 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
   for (auto item : args.Items()) {
     auto image = item.as<ImageUIData>();
     auto fullPath = winrt::to_string(image.FullPath());
-    auto mediumPath = winrt::to_string(image.MediumPath());
-    auto smallPath = winrt::to_string(image.SmallPath());
 
-    auto regularImage = std::make_shared<PB::RegularImage>(
-        Path(fullPath), Path(mediumPath), Path(smallPath));
+    auto regularImage = PB::ImageFactory::createImage(fullPath);
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -677,9 +674,9 @@ void TableContentPage::OnStagedImageCollectionChanged(
     auto fullPath = winrt::to_string(image.FullPath());
     auto mediumPath = winrt::to_string(image.MediumPath());
     auto smallPath = winrt::to_string(image.SmallPath());
-    auto regularImage = std::make_shared<PB::RegularImage>(
-        Path(fullPath), Path(mediumPath), Path(smallPath));
-    // mPhotoBook->imageSupport().stagePhoto({regularImage}, changedIndex);
+
+    auto regularImage = PB::ImageFactory::createImage(fullPath);
+
     mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
                                                         changedIndex);
   }
@@ -733,11 +730,10 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
         mPhotoBook->imageViews().imageMonitor().image(row, index);
 
     mUnstagedImageCollection.SetAt(
-        index,
-        ImageUIData(
-            winrt::to_hstring(virtualImage->frontend().full.string()),
-            winrt::to_hstring(virtualImage->frontend().medium.string()),
-            winrt::to_hstring(virtualImage->frontend().small.string())));
+        index, ImageUIData(
+                   winrt::to_hstring(virtualImage->frontend().full.string()),
+                   winrt::to_hstring(virtualImage->frontend().medium.string()),
+                   winrt::to_hstring(virtualImage->frontend().small.string())));
   }
 }
 
@@ -817,9 +813,7 @@ void TableContentPage::OnMappingStarted(Path path)
   UpdateStatusBar();
 }
 
-void TableContentPage::OnProjectRenamed() {
-
-}
+void TableContentPage::OnProjectRenamed() {}
 
 void TableContentPage::OnMappingFinished(Path path)
 {
@@ -1055,10 +1049,9 @@ void TableContentPage::UpdateUnstagedPhotoLine()
       for (int i = 0; i < (int)iterator.size(); ++i) {
         auto virtualImage = iterator[i].current();
         mUnstagedImageCollection.SetAt(
-            i,
-            ImageUIData(
-                winrt::to_hstring(virtualImage->frontend().full.string()),
-                winrt::to_hstring(virtualImage->frontend().medium.string()),
+            i, ImageUIData(
+                   winrt::to_hstring(virtualImage->frontend().full.string()),
+                   winrt::to_hstring(virtualImage->frontend().medium.string()),
                    winrt::to_hstring(virtualImage->frontend().small.string())));
       }
     }

@@ -9,7 +9,8 @@ std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 
 std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path)
 {
-  auto textImage = std::make_shared<TextImage>(path.stem().string(), path);
+  // path.stem().string()
+  auto textImage = std::make_shared<TextImage>(path);
   return textImage;
 }
 
