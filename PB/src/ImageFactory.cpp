@@ -24,8 +24,9 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path)
   image = PB::Process::addText({3508 / 2, 2480 / 2}, path.stem().string(),
                                {0, 0, 0})(image);
 
-  auto imagePath = VirtualImage::platformInfo->localStatePath / "th" /
-                   mProject->active().pathCache.hashCreateIfMissing(path);
+  auto imagePath =
+      VirtualImage::platformInfo->localStatePath / "th" /
+      (mProject->active().pathCache.hashCreateIfMissing(path) + ".JPG");
 
   Process::imageWriteThumbnail(image, imagePath);
 

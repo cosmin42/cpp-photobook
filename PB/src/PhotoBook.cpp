@@ -37,6 +37,7 @@ void Photobook::configure(ImageMonitorListener *listener)
 void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
   mImportLogic.configure(mProjectPersistence.currentProject());
+  ImageFactory::inst().configure(mProjectPersistence.currentProject());
 }
 
 void Photobook::loadProject()
@@ -180,6 +181,7 @@ void Photobook::newProject(std::string name)
   // updated
   mProjectPersistence.newProject(name, std::make_shared<Project>());
   mImportLogic.configure(mProjectPersistence.currentProject());
+  ImageFactory::inst().configure(mProjectPersistence.currentProject());
 }
 
 void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
