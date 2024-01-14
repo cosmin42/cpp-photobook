@@ -122,7 +122,7 @@ void Persistence::recallProject(Path projectPath)
       mProjectCache = jsonSerialization;
       if (mPersistenceProjectListener) {
         mPersistenceProjectListener->onProjectRead(
-            std::make_shared<Project>(projectDetails));
+            name, std::make_shared<Project>(projectDetails));
       }
     }
   });

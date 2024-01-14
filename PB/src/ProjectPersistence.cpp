@@ -31,6 +31,7 @@ void ProjectPersistence::recallProject(boost::uuids::uuid const &uuid)
 void ProjectPersistence::recallProject(std::string name)
 {
   auto projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
+
   mPersistence.recallProject(projectPath);
 }
 
@@ -74,9 +75,11 @@ Path ProjectPersistence::path(boost::uuids::uuid uuid)
   return mLocalStatePath / (mMetadata.left.at(uuid) + Context::BOOK_EXTENSION);
 }
 
-void ProjectPersistence::onProjectRead(std::shared_ptr<Project> project)
+void ProjectPersistence::onProjectRead(
+    std::string name, std::shared_ptr<Project> project)
 {
   mProject = project;
+  mOpenedUUID = mMetadata.right.at(name);
   mListener->onProjectRead();
 }
 
@@ -143,7 +146,7 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
         mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
     PBDev::basicAssert(success);
 
-    auto& uuid = mMetadata.right.at(newName);
+    auto &uuid = mMetadata.right.at(newName);
     mPersistence.persistMetadata(uuid, newName);
 
     auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);

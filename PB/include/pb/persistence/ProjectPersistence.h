@@ -36,7 +36,7 @@ public:
 
   void newProject(std::string name, std::shared_ptr<Project> project);
 
-  void onProjectRead(std::shared_ptr<Project> project) override;
+  void onProjectRead(std::string name, std::shared_ptr<Project> project) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
   void onMetadataRead(
