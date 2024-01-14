@@ -30,7 +30,7 @@ public:
 
   void persistProject(std::string name, ProjectSnapshot project);
 
-  void persistMetadata(boost::uuids::uuid const &id, Path path);
+  void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
   void recallMetadata();
   void recallProject(Path projectPath);

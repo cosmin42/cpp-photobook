@@ -153,7 +153,8 @@ void Dashboard::OpenProjectClicked(
         ItemClickEventArgs const &e)
 {
   auto item = e.ClickedItem().as<ProjectItem>();
-  mAPI->recallProject(winrt::to_string(item.FullPath()));
+  auto projectName = winrt::to_string(item.Name());
+  mAPI->recallProject(projectName);
 }
 
 // TODO: Add project name validation
