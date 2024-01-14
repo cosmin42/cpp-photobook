@@ -126,8 +126,11 @@ ProjectPersistence::projectsList() const
 
 void ProjectPersistence::rename(std::string newName, std::string oldName)
 {
+
   if (oldName.empty()) {
     PBDev::basicAssert(currentProject() != nullptr);
+
+    PBDev::basicAssert(mOpenedUUID.has_value());
 
     PBDev::basicAssert(mMetadata.left.find(mOpenedUUID.value()) !=
                        mMetadata.left.end());
@@ -135,16 +138,18 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
     oldName = mMetadata.left.find(mOpenedUUID.value())->second;
   }
 
-  bool success =
-      mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
-  PBDev::basicAssert(success);
-
-  mPersistence.persistMetadata(mOpenedUUID.value(), newName);
-
   if (newName != oldName) {
+    bool success =
+        mMetadata.right.replace_key(mMetadata.right.find(oldName), newName);
+    PBDev::basicAssert(success);
+
+    auto& uuid = mMetadata.right.at(newName);
+    mPersistence.persistMetadata(uuid, newName);
+
     auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
     auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
+    mListener->onMetadataUpdated();
   }
 }
 
