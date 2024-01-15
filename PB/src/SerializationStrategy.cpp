@@ -263,5 +263,55 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
 
   return json;
 }
+/*
+template <>
+std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, RegularImage> const& entry)
+{
+auto [key, image] = entry;
 
+auto jsonOrError =
+      serialize<VirtualImageType::RegularImage, Path, Path, Path, Path, Path, Path>(
+          depth + 1, {"img-type", image.type()},
+          {"key-path", image.kryPath()},
+          {"frontend-full", image.frontend().full},
+          {"frontend-medium", image.frontend().medium},
+          {"frontend-small", image.frontend().small},
+          {"resource", image.resources()});
+
+  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
+    return jsonOrError;
+  }
+  
+  Json json;
+  json[key] = std::get<Json>(jsonOrError);
+  PB::printDebug("%s(string, RegularImage) %s\n",
+                 std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  return json;
+}
+
+template <>
+std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, TextImage> const& entry)
+{
+auto [key, image] = entry;
+
+auto jsonOrError =
+      serialize<VirtualImageType::TextImage, Path, Path, Path, Path, Path, Path>(
+          depth + 1, {"img-type", image.type()},
+          {"key-path", image.kryPath()},
+          {"frontend-full", image.frontend().full},
+          {"frontend-medium", image.frontend().medium},
+          {"frontend-small", image.frontend().small},
+          {"resource", image.resources()});
+
+  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
+    return jsonOrError;
+  }
+  
+  Json json;
+  json[key] = std::get<Json>(jsonOrError);
+  PB::printDebug("%s(string, RegularImage) %s\n",
+                 std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  return json;
+}
+*/
 } // namespace PB::Text
