@@ -45,6 +45,9 @@ public:
   std::shared_ptr<VirtualImage> image(Path full) const;
   std::pair<int, int>           position(Path full) const;
 
+  std::vector<std::vector<std::shared_ptr<VirtualImage>>> const &
+  unstaged() const;
+
   auto statefulIterator(Path root)
       -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
   auto statefulIterator(unsigned row)

@@ -155,6 +155,12 @@ std::pair<int, int> ImageMonitor::position(Path full) const
   return mPositions.left.at(full);
 }
 
+std::vector<std::vector<std::shared_ptr<VirtualImage>>> const &
+ImageMonitor::unstaged() const
+{
+  return mUnstagedImagesMatrix;
+}
+
 auto ImageMonitor::statefulIterator(Path root)
     -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
 {
