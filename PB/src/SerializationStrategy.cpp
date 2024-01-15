@@ -261,6 +261,9 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
 
   json[key] = magic_enum::enum_name(imageType);
 
+  PB::printDebug("%s(string, RegularImage) %s\n",
+                 std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+
   return json;
 }
 

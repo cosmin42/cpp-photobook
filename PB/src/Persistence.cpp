@@ -22,7 +22,10 @@ void Persistence::configure(PersistenceMetadataListener *listener)
   mPersistenceMetadataListener = listener;
 }
 
-void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
+void Persistence::persistProject(
+    Path filePath, ProjectSnapshot projectDetails,
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+        &unstagedImages)
 {
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
@@ -54,10 +57,13 @@ void Persistence::persistProject(Path filePath, ProjectSnapshot projectDetails)
       });
 }
 
-void Persistence::persistProject(std::string name, ProjectSnapshot project)
+void Persistence::persistProject(
+    std::string name, ProjectSnapshot project,
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+        &unstagedImages)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
-  persistProject(projectPath, project);
+  persistProject(projectPath, project, unstagedImages);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,

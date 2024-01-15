@@ -8,7 +8,8 @@ namespace PB {
 class PersistenceProjectListener {
 public:
   virtual ~PersistenceProjectListener() = default;
-  virtual void onProjectRead(std::string name, std::shared_ptr<Project> project) = 0;
+  virtual void onProjectRead(std::string              name,
+                             std::shared_ptr<Project> project) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 
@@ -28,7 +29,10 @@ public:
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
-  void persistProject(std::string name, ProjectSnapshot project);
+  void
+  persistProject(std::string name, ProjectSnapshot project,
+                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                     &unstagedImages);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
@@ -41,7 +45,10 @@ public:
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 
 private:
-  void persistProject(Path filePath, ProjectSnapshot project);
+  void
+  persistProject(Path filePath, ProjectSnapshot project,
+                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                     &unstagedImages);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;

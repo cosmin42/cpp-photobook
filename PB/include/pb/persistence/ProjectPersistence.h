@@ -36,7 +36,8 @@ public:
 
   void newProject(std::string name, std::shared_ptr<Project> project);
 
-  void onProjectRead(std::string name, std::shared_ptr<Project> project) override;
+  void onProjectRead(std::string              name,
+                     std::shared_ptr<Project> project) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
   void onMetadataRead(
@@ -55,7 +56,8 @@ public:
 
   void rename(std::string newName, std::string oldName = "");
 
-  void save();
+  void save(std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                &unstagedImages);
 
   bool               hasProjectOpen() const;
   boost::uuids::uuid currentProjectUUID() const;

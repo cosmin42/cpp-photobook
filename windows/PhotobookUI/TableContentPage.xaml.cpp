@@ -282,7 +282,8 @@ void TableContentPage::OnSaveClicked(
   if (mPhotoBook->project().currentProject()->isSynced()) {
     return;
   }
-  mPhotoBook->project().save();
+  mPhotoBook->project().save(
+      mPhotoBook->imageViews().imageMonitor().unstaged());
 }
 
 void TableContentPage::OnSaveAsClicked(
