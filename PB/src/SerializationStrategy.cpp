@@ -264,19 +264,22 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
   return json;
 }
 
+// TODO: Find alternative to shared_ptr const&
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int depth, std::pair<std::string, RegularImage> const &entry)
+serialize(int                                                          depth,
+          std::pair<std::string, std::shared_ptr<RegularImage>> const &entry)
 {
   auto [key, image] = entry;
 
-  auto resources = std::vector<Path>{image.resources()};
+  auto resources = std::vector<Path>{image->resources()};
   auto jsonOrError =
       serialize<VirtualImageType, Path, Path, Path, Path, std::vector<Path>>(
-          depth + 1, {"img-type", image.type()}, {"key-path", image.keyPath()},
-          {"frontend-full", image.frontend().full},
-          {"frontend-medium", image.frontend().medium},
-          {"frontend-small", image.frontend().small}, {"resource", resources});
+          depth + 1, {"img-type", image->type()},
+          {"key-path", image->keyPath()},
+          {"frontend-full", image->frontend().full},
+          {"frontend-medium", image->frontend().medium},
+          {"frontend-small", image->frontend().small}, {"resource", resources});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
@@ -291,17 +294,19 @@ serialize(int depth, std::pair<std::string, RegularImage> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int depth, std::pair<std::string, TextImage> const &entry)
+serialize(int                                                       depth,
+          std::pair<std::string, std::shared_ptr<TextImage>> const &entry)
 {
   auto [key, image] = entry;
 
-  auto resources = std::vector<Path>{image.resources()};
+  auto resources = std::vector<Path>{image->resources()};
   auto jsonOrError =
       serialize<VirtualImageType, Path, Path, Path, Path, std::vector<Path>>(
-          depth + 1, {"img-type", image.type()}, {"key-path", image.keyPath()},
-          {"frontend-full", image.frontend().full},
-          {"frontend-medium", image.frontend().medium},
-          {"frontend-small", image.frontend().small}, {"resource", resources});
+          depth + 1, {"img-type", image->type()},
+          {"key-path", image->keyPath()},
+          {"frontend-full", image->frontend().full},
+          {"frontend-medium", image->frontend().medium},
+          {"frontend-small", image->frontend().small}, {"resource", resources});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
