@@ -271,7 +271,7 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
 template <>
 std::variant<Json, PBDev::Error>
 serialize(int                                                          depth,
-          std::pair<std::string, std::shared_ptr<RegularImage>> const &entry)
+          std::pair<std::string, std::shared_ptr<VirtualImage>> const &entry)
 {
   auto [key, image] = entry;
 
@@ -295,30 +295,4 @@ serialize(int                                                          depth,
   return json;
 }
 
-template <>
-std::variant<Json, PBDev::Error>
-serialize(int                                                       depth,
-          std::pair<std::string, std::shared_ptr<TextImage>> const &entry)
-{
-  auto [key, image] = entry;
-
-  auto resources = std::vector<Path>{image->resources()};
-  auto jsonOrError =
-      serialize<VirtualImageType, Path, Path, Path, Path, std::vector<Path>>(
-          depth + 1, {"img-type", image->type()},
-          {"key-path", image->keyPath()},
-          {"frontend-full", image->frontend().full},
-          {"frontend-medium", image->frontend().medium},
-          {"frontend-small", image->frontend().small}, {"resource", resources});
-
-  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
-    return jsonOrError;
-  }
-
-  Json json;
-  json[key] = std::get<Json>(jsonOrError);
-  PB::printDebug("%s(string, RegularImage) %s\n",
-                 std::string(depth * 2, ' ').c_str(), json.dump().c_str());
-  return json;
-}
 } // namespace PB::Text

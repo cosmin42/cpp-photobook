@@ -32,6 +32,13 @@ void Persistence::persistProject(
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
+  auto imageJsonOrError =
+      PB::Text::serialize<PB::ProjectSnapshot>(0, {"unstaged", projectDetails});
+
+  PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
+
+  std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
+
   auto maybeError =
       createSupportDirectory(ProjectSnapshot::parentDirectory() / "th");
 
