@@ -263,25 +263,25 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
 
   return json;
 }
-/*
-template <>
-std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, RegularImage> const& entry)
-{
-auto [key, image] = entry;
 
-auto jsonOrError =
-      serialize<VirtualImageType::RegularImage, Path, Path, Path, Path, Path, std::vector<Path>>(
-          depth + 1, {"img-type", image.type()},
-          {"key-path", image.kryPath()},
+template <>
+std::variant<Json, PBDev::Error>
+serialize(int depth, std::pair<std::string, RegularImage> const &entry)
+{
+  auto [key, image] = entry;
+
+  auto resources = std::vector<Path>{image.resources()};
+  auto jsonOrError =
+      serialize<VirtualImageType, Path, Path, Path, Path, std::vector<Path>>(
+          depth + 1, {"img-type", image.type()}, {"key-path", image.keyPath()},
           {"frontend-full", image.frontend().full},
           {"frontend-medium", image.frontend().medium},
-          {"frontend-small", image.frontend().small},
-          {"resource", {image.resources()}});
+          {"frontend-small", image.frontend().small}, {"resource", resources});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
   }
-  
+
   Json json;
   json[key] = std::get<Json>(jsonOrError);
   PB::printDebug("%s(string, RegularImage) %s\n",
@@ -290,28 +290,27 @@ auto jsonOrError =
 }
 
 template <>
-std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, TextImage> const& entry)
+std::variant<Json, PBDev::Error>
+serialize(int depth, std::pair<std::string, TextImage> const &entry)
 {
-auto [key, image] = entry;
+  auto [key, image] = entry;
 
-auto jsonOrError =
-      serialize<VirtualImageType::TextImage, Path, Path, Path, Path, Path, std::vector<Path>>(
-          depth + 1, {"img-type", image.type()},
-          {"key-path", image.kryPath()},
+  auto resources = std::vector<Path>{image.resources()};
+  auto jsonOrError =
+      serialize<VirtualImageType, Path, Path, Path, Path, std::vector<Path>>(
+          depth + 1, {"img-type", image.type()}, {"key-path", image.keyPath()},
           {"frontend-full", image.frontend().full},
           {"frontend-medium", image.frontend().medium},
-          {"frontend-small", image.frontend().small},
-          {"resource", {image.resources()}});
+          {"frontend-small", image.frontend().small}, {"resource", resources});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
   }
-  
+
   Json json;
   json[key] = std::get<Json>(jsonOrError);
   PB::printDebug("%s(string, RegularImage) %s\n",
                  std::string(depth * 2, ' ').c_str(), json.dump().c_str());
   return json;
 }
-*/
 } // namespace PB::Text
