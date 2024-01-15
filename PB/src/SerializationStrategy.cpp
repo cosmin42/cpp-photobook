@@ -270,13 +270,13 @@ std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, Reg
 auto [key, image] = entry;
 
 auto jsonOrError =
-      serialize<VirtualImageType::RegularImage, Path, Path, Path, Path, Path, Path>(
+      serialize<VirtualImageType::RegularImage, Path, Path, Path, Path, Path, std::vector<Path>>(
           depth + 1, {"img-type", image.type()},
           {"key-path", image.kryPath()},
           {"frontend-full", image.frontend().full},
           {"frontend-medium", image.frontend().medium},
           {"frontend-small", image.frontend().small},
-          {"resource", image.resources()});
+          {"resource", {image.resources()}});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
@@ -295,13 +295,13 @@ std::variant<Json, RegularImage> serialize(int depth, std::pair<std::string, Tex
 auto [key, image] = entry;
 
 auto jsonOrError =
-      serialize<VirtualImageType::TextImage, Path, Path, Path, Path, Path, Path>(
+      serialize<VirtualImageType::TextImage, Path, Path, Path, Path, Path, std::vector<Path>>(
           depth + 1, {"img-type", image.type()},
           {"key-path", image.kryPath()},
           {"frontend-full", image.frontend().full},
           {"frontend-medium", image.frontend().medium},
           {"frontend-small", image.frontend().small},
-          {"resource", image.resources()});
+          {"resource", {image.resources()}});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
