@@ -295,4 +295,35 @@ serialize(int                                                          depth,
   return json;
 }
 
+template <>
+std::variant<Json, PBDev::Error> serialize(
+    int depth,
+    std::pair<std::string,
+              std::vector<std::vector<std::shared_ptr<VirtualImage>>>> const
+        &entry)
+{
+
+  auto [key, imageMatrix] = entry;
+
+  Json matrix;
+
+  matrix[key];
+
+  for (int i = 0; i < imageMatrix.size(); ++i) {
+    Json line;
+    for (int j = 0; j < imageMatrix.at(i).size(); ++j) {
+      auto jasonOrError = serialize<std::shared_ptr<VirtualImage>>(
+          depth + 1, {"placeholder", imageMatrix.at(i).at(j)});
+      if (std::holds_alternative<PBDev::Error>(jasonOrError)) {
+        return jasonOrError;
+      }
+      line.push_back(std::get<Json>(jasonOrError)["placeholder"]);
+    }
+
+    matrix[key].push_back(line);
+  }
+
+  return matrix;
+}
+
 } // namespace PB::Text

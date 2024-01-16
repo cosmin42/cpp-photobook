@@ -32,8 +32,9 @@ void Persistence::persistProject(
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  auto imageJsonOrError =
-      PB::Text::serialize<PB::ProjectSnapshot>(0, {"unstaged", projectDetails});
+  auto imageJsonOrError = PB::Text::serialize<
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
+      0, {"unstaged", unstagedImages});
 
   PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
 
@@ -51,9 +52,8 @@ void Persistence::persistProject(
   auto jsonSerialization = std::get<Json>(jsonOrError);
 
   newProjectPersistence.write(
-      jsonSerialization.at("root"),
-      [this, jsonSerialization{jsonSerialization}](
-          std::optional<PBDev::Error> maybeError) {
+      jsonSerialization, [this, jsonSerialization{jsonSerialization}](
+                             std::optional<PBDev::Error> maybeError) {
         if (maybeError && mPersistenceProjectListener) {
           mPersistenceProjectListener->onProjectPersistenceError(
               PBDev::Error() << ErrorCode::CorruptPersistenceFile);

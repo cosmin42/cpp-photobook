@@ -279,9 +279,6 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  if (mPhotoBook->project().currentProject()->isSynced()) {
-    return;
-  }
   mPhotoBook->project().save(
       mPhotoBook->imageViews().imageMonitor().unstaged());
 }
