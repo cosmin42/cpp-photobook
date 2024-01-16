@@ -57,7 +57,8 @@ public:
   void rename(std::string newName, std::string oldName = "");
 
   void save(std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                &unstagedImages);
+                                                             &unstagedImages,
+            std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
 
   bool               hasProjectOpen() const;
   boost::uuids::uuid currentProjectUUID() const;

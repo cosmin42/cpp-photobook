@@ -29,10 +29,11 @@ public:
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
-  void
-  persistProject(std::string name, ProjectSnapshot project,
-                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                     &unstagedImages);
+  void persistProject(
+      std::string name, ProjectSnapshot project,
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                                                       &unstagedImages,
+      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
@@ -45,10 +46,11 @@ public:
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 
 private:
-  void
-  persistProject(Path filePath, ProjectSnapshot project,
-                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                     &unstagedImages);
+  void persistProject(
+      Path filePath, ProjectSnapshot project,
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                                                       &unstagedImages,
+      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;

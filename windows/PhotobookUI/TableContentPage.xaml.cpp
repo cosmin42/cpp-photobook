@@ -279,8 +279,10 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
+  // TODO: Raname the blow stupid repetition
   mPhotoBook->project().save(
-      mPhotoBook->imageViews().imageMonitor().unstaged());
+      mPhotoBook->imageViews().imageMonitor().unstaged(),
+      mPhotoBook->imageViews().stagedImages().stagedPhotos());
 }
 
 void TableContentPage::OnSaveAsClicked(

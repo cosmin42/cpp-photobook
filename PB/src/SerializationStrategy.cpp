@@ -326,4 +326,29 @@ std::variant<Json, PBDev::Error> serialize(
   return matrix;
 }
 
+template <>
+std::variant<Json, PBDev::Error>
+serialize(int                                                          depth,
+          std::pair<std::string,
+                    std::vector<std::shared_ptr<VirtualImage>>> const &entry)
+{
+
+  auto [key, imageMatrix] = entry;
+
+  Json line;
+
+  line[key];
+
+  for (int i = 0; i < imageMatrix.size(); ++i) {
+    auto jasonOrError = serialize<std::shared_ptr<VirtualImage>>(
+        depth + 1, {"placeholder", imageMatrix.at(i)});
+    if (std::holds_alternative<PBDev::Error>(jasonOrError)) {
+      return jasonOrError;
+    }
+    line[key].push_back(std::get<Json>(jasonOrError)["placeholder"]);
+  }
+
+  return line;
+}
+
 } // namespace PB::Text

@@ -62,7 +62,7 @@ void ProjectPersistence::newProject(std::string              name,
   mProject = project;
   mMetadata.insert({boost::uuids::random_generator()(), name});
   mOpenedUUID = mMetadata.right.at(name);
-  save({});
+  save({}, {});
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
@@ -75,8 +75,8 @@ Path ProjectPersistence::path(boost::uuids::uuid uuid)
   return mLocalStatePath / (mMetadata.left.at(uuid) + Context::BOOK_EXTENSION);
 }
 
-void ProjectPersistence::onProjectRead(
-    std::string name, std::shared_ptr<Project> project)
+void ProjectPersistence::onProjectRead(std::string              name,
+                                       std::shared_ptr<Project> project)
 {
   mProject = project;
   mOpenedUUID = mMetadata.right.at(name);
@@ -168,14 +168,16 @@ bool ProjectPersistence::hasProjectOpen() const
 
 void ProjectPersistence::save(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-        &unstagedImages)
+                                                     &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
 {
   PBDev::basicAssert(mProject != nullptr);
   PBDev::basicAssert(mOpenedUUID.has_value());
   mProject->sync();
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-  mPersistence.persistProject(name, mProject->active(), unstagedImages);
+  mPersistence.persistProject(name, mProject->active(), unstagedImages,
+                              stagedImages);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 

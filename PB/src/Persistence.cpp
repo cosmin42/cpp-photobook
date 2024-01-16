@@ -25,7 +25,8 @@ void Persistence::configure(PersistenceMetadataListener *listener)
 void Persistence::persistProject(
     Path filePath, ProjectSnapshot projectDetails,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-        &unstagedImages)
+                                                     &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
 {
   auto jsonOrError =
       PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
@@ -35,6 +36,14 @@ void Persistence::persistProject(
   auto imageJsonOrError = PB::Text::serialize<
       std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
       0, {"unstaged", unstagedImages});
+
+  PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
+
+  std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
+
+  imageJsonOrError =
+      PB::Text::serialize<std::vector<std::shared_ptr<VirtualImage>>>(
+          0, {"staged", stagedImages});
 
   PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
 
@@ -67,10 +76,11 @@ void Persistence::persistProject(
 void Persistence::persistProject(
     std::string name, ProjectSnapshot project,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-        &unstagedImages)
+                                                     &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
-  persistProject(projectPath, project, unstagedImages);
+  persistProject(projectPath, project, unstagedImages, stagedImages);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,
