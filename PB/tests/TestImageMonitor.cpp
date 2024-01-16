@@ -12,6 +12,8 @@ public:
 
 class ImageMonitorVirtualImage : public PB::VirtualImage {
   MOCK_METHOD(PB::VirtualImageType, type, (), (const override));
+  MOCK_METHOD(std::vector<Path>, resources, (), (const override));
+  MOCK_METHOD(Path, keyPath, (), (const override));
 };
 
 TEST(TestImageMonitor, TestCreation)
