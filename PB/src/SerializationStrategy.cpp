@@ -115,24 +115,6 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
 {
   ProjectSnapshot projectDetails;
 
-#ifdef _CLANG_UML_
-#else
-  auto importedFoldersOrError =
-      deserialize<std::vector, Path>(jsonData, "imported-folders");
-  if (std::holds_alternative<PBDev::Error>(importedFoldersOrError)) {
-    return std::get<PBDev::Error>(importedFoldersOrError);
-  }
-  projectDetails.importedPaths =
-      std::get<std::vector<Path>>(importedFoldersOrError);
-
-  auto stagedImagesOrError =
-      deserialize<std::vector, Path>(jsonData, "staged-images");
-  if (std::holds_alternative<PBDev::Error>(stagedImagesOrError)) {
-    return std::get<PBDev::Error>(stagedImagesOrError);
-  }
-  projectDetails.stagedImages =
-      std::get<std::vector<Path>>(stagedImagesOrError);
-#endif
   auto paperSettingsOrError = deserialize<PaperSettings>(
       jsonData, "paper-settings", PaperSettings(), true);
   if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
