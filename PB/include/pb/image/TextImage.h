@@ -6,23 +6,9 @@ namespace PB {
 class TextImage final : public VirtualImage {
 public:
   explicit TextImage(Path full) : mResourcePath(full) {}
-
+  explicit TextImage(Path full, Path medium, Path small, bool processed,
+                     std::vector<Path> resourcePath);
   ~TextImage() = default;
-
-/*
-void configure(Path resourcePath)
-{
-  mProcessed = false;
-  mResourcePath = resourcePath;
-}
-
-void configure(Path resourcePath, Path full, Path medium, Path small)
-{
-  mProcessed = true;
-  mResourcePath = resourcePath;
-  setImages(full, medium, small);
-}
-*/
 
   VirtualImageType type() const override { return VirtualImageType::Text; }
 

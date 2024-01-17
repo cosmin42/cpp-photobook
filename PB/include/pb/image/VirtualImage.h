@@ -25,32 +25,34 @@ class VirtualImage {
 public:
   static std::shared_ptr<PlatformInfo> platformInfo;
 
+  virtual ~VirtualImage() = default;
+
   virtual VirtualImageType type() const = 0;
 
   virtual std::vector<Path> resources() const = 0;
 
   virtual Path keyPath() const = 0;
 
-  void setFullSizePath(Path path) { mResources.full = path; }
-  void setMediumSizePath(Path path) { mResources.medium = path; }
-  void setSmallSizePath(Path path) { mResources.small = path; }
+  void setFullSizePath(Path path) { mFrontend.full = path; }
+  void setMediumSizePath(Path path) { mFrontend.medium = path; }
+  void setSmallSizePath(Path path) { mFrontend.small = path; }
 
   void setSizePath(Path fullSizePath, Path mediumSizePath = Path(),
                    Path smallSizePath = Path())
   {
-    mResources.full = fullSizePath;
-    mResources.medium = mediumSizePath;
-    mResources.small = smallSizePath;
+    mFrontend.full = fullSizePath;
+    mFrontend.medium = mediumSizePath;
+    mFrontend.small = smallSizePath;
   }
 
-  ImageResources frontend() const { return mResources; }
+  ImageResources frontend() const { return mFrontend; }
 
   bool processed() const { return mProcessed; }
 
   void finishProcessing() { mProcessed = false; }
 
-private:
-  ImageResources mResources = {
+protected:
+  ImageResources mFrontend = {
       platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
       platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
       platformInfo->installationPath /
