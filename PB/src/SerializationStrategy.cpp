@@ -142,20 +142,52 @@ deserialize(Json jsonData)
 
   PBDev::basicAssert(!imageType.empty());
 
-  if (imageType == "Regular")
-  {
-
+  auto frontendFullOrError = deserialize<Path>(jsonData, "frontend-full");
+  if (std::holds_alternative<PBDev::Error>(frontendFullOrError)) {
+    return std::get<PBDev::Error>(frontendFullOrError);
   }
-  else if (imageType == "Text")
-  {
 
+  auto frontendMediumOrError = deserialize<Path>(jsonData, "frontend-medium");
+  if (std::holds_alternative<PBDev::Error>(frontendMediumOrError)) {
+    return std::get<PBDev::Error>(frontendMediumOrError);
   }
-  else
-  {
+
+  auto frontendSmallOrError = deserialize<Path>(jsonData, "frontend-small");
+  if (std::holds_alternative<PBDev::Error>(frontendSmallOrError)) {
+    return std::get<PBDev::Error>(frontendSmallOrError);
+  }
+
+  auto processingFinishedOrError =
+      deserialize<bool>(jsonData, "processing-finished");
+  if (std::holds_alternative<PBDev::Error>(processingFinishedOrError)) {
+    return std::get<PBDev::Error>(processingFinishedOrError);
+  }
+
+  auto resourcesOrError = deserialize<std::vector, Path>(jsonData, "resource");
+  if (std::holds_alternative<PBDev::Error>(resourcesOrError)) {
+    return std::get<PBDev::Error>(resourcesOrError);
+  }
+
+  auto frontendFull = std::get<Path>(frontendFullOrError);
+  auto frontendMedium = std::get<Path>(frontendMediumOrError);
+  auto frontendSmall = std::get<Path>(frontendSmallOrError);
+  auto processingFinished = std::get<bool>(processingFinishedOrError);
+
+  if (imageType == "Regular") {
+    auto imagePtr = std::make_shared<RegularImage>(
+        frontendFull, frontendMedium, frontendSmall, processingFinished,
+        std::get<std::vector<Path>>(resourcesOrError));
+    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
+  }
+  else if (imageType == "Text") {
+    auto imagePtr = std::make_shared<TextImage>(
+        frontendFull, frontendMedium, frontendSmall, processingFinished,
+        std::get<std::vector<Path>>(resourcesOrError));
+    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
+  }
+  else {
     PBDev::basicAssert(false);
   }
-
-
   return nullptr;
 }
 
