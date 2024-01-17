@@ -113,6 +113,7 @@ template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 template <>
 std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
 {
+  auto            x = jsonData.dump();
   ProjectSnapshot projectDetails;
 
   auto paperSettingsOrError = deserialize<PaperSettings>(
@@ -131,6 +132,31 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   projectDetails.pathCache = std::get<PathCache>(pathCacheOrError);
 
   return projectDetails;
+}
+
+template <>
+std::variant<std::shared_ptr<VirtualImage>, PBDev::Error>
+deserialize(Json jsonData)
+{
+  auto imageType = jsonData.at("img-type").get<std::string>();
+
+  PBDev::basicAssert(!imageType.empty());
+
+  if (imageType == "Regular")
+  {
+
+  }
+  else if (imageType == "Text")
+  {
+
+  }
+  else
+  {
+    PBDev::basicAssert(false);
+  }
+
+
+  return nullptr;
 }
 
 template <>

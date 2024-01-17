@@ -22,7 +22,8 @@ std::variant<T, PBDev::Error> deserialize(Json jsonData, std::string key,
   return PBDev::Error() << ErrorCode::JSONParseError;
 }
 
-template <template <typename> typename Container, typename T>
+template <template <typename> typename Container,
+          SerializationPrimitiveConcept T>
 std::variant<Container<T>, PBDev::Error> deserialize(Json jsonData)
 {
   Container<T> result;
@@ -38,7 +39,8 @@ std::variant<Container<T>, PBDev::Error> deserialize(Json jsonData)
   return result;
 }
 
-template <template <typename> typename Container, typename T>
+template <template <typename> typename Container,
+          SerializationPrimitiveConcept T>
 std::variant<Container<T>, PBDev::Error>
 deserialize(Json jsonData, std::string key,
             Container<T> defaultValue = Container<T>(), bool optional = false)
