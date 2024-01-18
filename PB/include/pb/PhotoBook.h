@@ -59,7 +59,9 @@ public:
 
   void update(PBDev::ObservableSubject &subject) override;
 
-  void onProjectRead() override;
+  void onProjectRead(
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) override;
 
   void onMetadataUpdated() override;
 

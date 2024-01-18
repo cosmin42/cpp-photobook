@@ -75,12 +75,14 @@ Path ProjectPersistence::path(boost::uuids::uuid uuid)
   return mLocalStatePath / (mMetadata.left.at(uuid) + Context::BOOK_EXTENSION);
 }
 
-void ProjectPersistence::onProjectRead(std::string              name,
-                                       std::shared_ptr<Project> project)
+void ProjectPersistence::onProjectRead(
+    std::string name, std::shared_ptr<Project> project,
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>>              &stagedImages)
 {
   mProject = project;
   mOpenedUUID = mMetadata.right.at(name);
-  mListener->onProjectRead();
+  mListener->onProjectRead(unstagedImages, stagedImages);
 }
 
 void ProjectPersistence::onProjectPersistenceError(PBDev::Error error)

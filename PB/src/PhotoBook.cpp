@@ -162,7 +162,9 @@ ProjectPersistence &Photobook::project() { return mProjectPersistence; }
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 
-void Photobook::onProjectRead()
+void Photobook::onProjectRead(
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>>              &stagedImages)
 {
   configure(mProjectPersistence.currentProject());
   mParent->onProjectRead();

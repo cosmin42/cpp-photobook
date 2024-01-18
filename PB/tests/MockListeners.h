@@ -13,6 +13,10 @@
 
 void clearProjectCache();
 
+typedef std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
+                                                       VirtualImageMatrix;
+typedef std::vector<std::shared_ptr<PB::VirtualImage>> VirtualImageLine;
+
 class TestPhotobookStagedImagesListener : public PB::StagedImagesListener {
 public:
   MOCK_METHOD(void, onPicturesAdded, (int index, int size), (override));
@@ -57,7 +61,10 @@ public:
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
 public:
-  MOCK_METHOD(void, onProjectRead, (std::string, std::shared_ptr<PB::Project>), (override));
+  MOCK_METHOD(void, onProjectRead,
+              (std::string, std::shared_ptr<PB::Project>, VirtualImageMatrix &,
+               VirtualImageLine &),
+              (override));
   MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
 };
 
@@ -70,13 +77,11 @@ public:
   MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
 };
 
-
 class TestProjectPersistenceListener final
-    : public PB::ProjectPersistenceListener
-{
+    : public PB::ProjectPersistenceListener {
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
-  MOCK_METHOD(void, onProjectRead, (), (override));
+  MOCK_METHOD(void, onProjectRead, (VirtualImageMatrix &, VirtualImageLine &),
+              (override));
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
 };
-

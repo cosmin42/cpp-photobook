@@ -9,7 +9,9 @@ class PersistenceProjectListener {
 public:
   virtual ~PersistenceProjectListener() = default;
   virtual void onProjectRead(std::string              name,
-                             std::shared_ptr<Project> project) = 0;
+                             std::shared_ptr<Project> project,
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> & unstagedImages,
+      std::vector<std::shared_ptr<VirtualImage>>& stagedImages) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 

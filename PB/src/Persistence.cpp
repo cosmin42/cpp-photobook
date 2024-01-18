@@ -145,12 +145,17 @@ void Persistence::recallProject(Path projectPath)
 
     auto unstagedImagesOrError = PB::Text::deserialize<
         std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
-        jsonSerialization);
+        jsonSerialization.at("unstaged"));
+
+    std::vector<std::shared_ptr<VirtualImage>> stagedImages;
 
     mProjectCache = jsonSerialization;
     if (mPersistenceProjectListener) {
       mPersistenceProjectListener->onProjectRead(
-          name, std::make_shared<Project>(projectDetails));
+          name, std::make_shared<Project>(projectDetails),
+          std::get<std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
+              unstagedImagesOrError),
+          stagedImages);
     }
   });
 }
