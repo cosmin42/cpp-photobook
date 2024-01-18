@@ -138,15 +138,19 @@ void Persistence::recallProject(Path projectPath)
         mPersistenceProjectListener) {
       mPersistenceProjectListener->onProjectPersistenceError(
           std::get<PBDev::Error>(projectDetailsOrError));
+      return;
     }
-    else {
-      auto &projectDetails =
-          std::get<PB::ProjectSnapshot>(projectDetailsOrError);
-      mProjectCache = jsonSerialization;
-      if (mPersistenceProjectListener) {
-        mPersistenceProjectListener->onProjectRead(
-            name, std::make_shared<Project>(projectDetails));
-      }
+
+    auto &projectDetails = std::get<PB::ProjectSnapshot>(projectDetailsOrError);
+
+    auto unstagedImagesOrError = PB::Text::deserialize<
+        std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
+        jsonSerialization);
+
+    mProjectCache = jsonSerialization;
+    if (mPersistenceProjectListener) {
+      mPersistenceProjectListener->onProjectRead(
+          name, std::make_shared<Project>(projectDetails));
     }
   });
 }

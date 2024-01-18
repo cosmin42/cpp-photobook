@@ -111,30 +111,6 @@ template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 }
 
 template <>
-std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
-{
-  auto            x = jsonData.dump();
-  ProjectSnapshot projectDetails;
-
-  auto paperSettingsOrError = deserialize<PaperSettings>(
-      jsonData, "paper-settings", PaperSettings(), true);
-  if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
-    return std::get<PBDev::Error>(paperSettingsOrError);
-  }
-  projectDetails.paperSettings = std::get<PaperSettings>(paperSettingsOrError);
-
-  auto pathCacheOrError =
-      deserialize<PathCache>(jsonData, "path-cache", PathCache(), true);
-  if (std::holds_alternative<PBDev::Error>(pathCacheOrError)) {
-    return std::get<PBDev::Error>(pathCacheOrError);
-  }
-
-  projectDetails.pathCache = std::get<PathCache>(pathCacheOrError);
-
-  return projectDetails;
-}
-
-template <>
 std::variant<std::shared_ptr<VirtualImage>, PBDev::Error>
 deserialize(Json jsonData)
 {
@@ -189,6 +165,54 @@ deserialize(Json jsonData)
     PBDev::basicAssert(false);
   }
   return nullptr;
+}
+
+template <>
+std::variant<std::vector<std::vector<std::shared_ptr<VirtualImage>>>,
+             PBDev::Error>
+deserialize(Json jsonData)
+{
+  std::vector<std::vector<std::shared_ptr<VirtualImage>>> result;
+
+  for (auto &jsonLineData : jsonData) {
+    std::vector<std::shared_ptr<VirtualImage>> line;
+    for (auto &jsonElement : jsonLineData) {
+      auto imageOrError =
+          deserialize<std::shared_ptr<VirtualImage>>(jsonElement);
+      if (std::holds_alternative<PBDev::Error>(imageOrError)) {
+        return std::get<PBDev::Error>(imageOrError);
+      }
+      auto virtualImage = std::get<std::shared_ptr<VirtualImage>>(imageOrError);
+      line.push_back(virtualImage);
+    }
+    result.push_back(line);
+  }
+
+  return result;
+}
+
+template <>
+std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
+{
+  auto            x = jsonData.dump();
+  ProjectSnapshot projectDetails;
+
+  auto paperSettingsOrError = deserialize<PaperSettings>(
+      jsonData, "paper-settings", PaperSettings(), true);
+  if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
+    return std::get<PBDev::Error>(paperSettingsOrError);
+  }
+  projectDetails.paperSettings = std::get<PaperSettings>(paperSettingsOrError);
+
+  auto pathCacheOrError =
+      deserialize<PathCache>(jsonData, "path-cache", PathCache(), true);
+  if (std::holds_alternative<PBDev::Error>(pathCacheOrError)) {
+    return std::get<PBDev::Error>(pathCacheOrError);
+  }
+
+  projectDetails.pathCache = std::get<PathCache>(pathCacheOrError);
+
+  return projectDetails;
 }
 
 template <>
