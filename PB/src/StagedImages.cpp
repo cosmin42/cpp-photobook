@@ -7,6 +7,14 @@ void StagedImages::setListener(StagedImagesListener *listener)
   mListener = listener;
 }
 
+void StagedImages::configure(
+    std::vector<std::shared_ptr<VirtualImage>> &stagedImages)
+{
+  for (int i = 0; i < stagedImages.size(); ++i) {
+    mStagedPhotos.push_back(stagedImages.at(i));
+  }
+}
+
 void StagedImages::addPictures(
     std::vector<std::shared_ptr<VirtualImage>> pictures)
 {
