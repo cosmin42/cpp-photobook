@@ -23,6 +23,9 @@ class ImageMonitor {
 public:
   void setListener(ImageMonitorListener *listener);
 
+  void configure(
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages);
+
   void addRow(Path path, std::vector<std::shared_ptr<VirtualImage>> images);
   void removeRow(int index);
   void removeRow(Path path);

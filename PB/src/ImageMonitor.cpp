@@ -8,6 +8,14 @@ void ImageMonitor::setListener(ImageMonitorListener *listener)
   mListener = listener;
 }
 
+void ImageMonitor::configure(
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages)
+{
+  for (int i = 0; i < unstagedImages.size(); ++i) {
+    mUnstagedImagesMatrix.push_back(unstagedImages.at(i));
+  }
+}
+
 void ImageMonitor::addRow(Path                                       path,
                           std::vector<std::shared_ptr<VirtualImage>> images)
 {

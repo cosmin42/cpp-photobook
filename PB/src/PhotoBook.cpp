@@ -167,6 +167,7 @@ void Photobook::onProjectRead(
     std::vector<std::shared_ptr<VirtualImage>>              &stagedImages)
 {
   configure(mProjectPersistence.currentProject());
+
   mParent->onProjectRead();
 }
 
