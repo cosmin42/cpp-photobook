@@ -62,7 +62,7 @@ void ProjectPersistence::newProject(std::string              name,
   mProject = project;
   mMetadata.insert({boost::uuids::random_generator()(), name});
   mOpenedUUID = mMetadata.right.at(name);
-  save({}, {});
+  save({}, {}, {});
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
@@ -171,7 +171,8 @@ bool ProjectPersistence::hasProjectOpen() const
 void ProjectPersistence::save(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+    std::vector<Path> const                          &roots)
 {
   PBDev::basicAssert(mProject != nullptr);
   PBDev::basicAssert(mOpenedUUID.has_value());
@@ -179,7 +180,7 @@ void ProjectPersistence::save(
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
   mPersistence.persistProject(name, mProject->active(), unstagedImages,
-                              stagedImages);
+                              stagedImages, roots);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 

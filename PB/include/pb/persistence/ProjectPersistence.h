@@ -62,7 +62,8 @@ public:
 
   void save(std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                              &unstagedImages,
-            std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
+            std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+            std::vector<Path> const                          &root);
 
   bool               hasProjectOpen() const;
   boost::uuids::uuid currentProjectUUID() const;

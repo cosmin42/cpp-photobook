@@ -282,7 +282,8 @@ void TableContentPage::OnSaveClicked(
   // TODO: Raname the blow stupid repetition
   mPhotoBook->project().save(
       mPhotoBook->imageViews().imageMonitor().unstaged(),
-      mPhotoBook->imageViews().stagedImages().stagedPhotos());
+      mPhotoBook->imageViews().stagedImages().stagedPhotos(),
+      mPhotoBook->imageViews().imageMonitor().rowList());
 }
 
 void TableContentPage::OnSaveAsClicked(

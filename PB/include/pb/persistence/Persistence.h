@@ -8,10 +8,10 @@ namespace PB {
 class PersistenceProjectListener {
 public:
   virtual ~PersistenceProjectListener() = default;
-  virtual void onProjectRead(std::string              name,
-                             std::shared_ptr<Project> project,
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>> & unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>>& stagedImages) = 0;
+  virtual void onProjectRead(
+      std::string name, std::shared_ptr<Project> project,
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 
@@ -35,7 +35,8 @@ public:
       std::string name, ProjectSnapshot project,
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                        &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
+      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+      std::vector<Path> const& roots);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
@@ -48,11 +49,12 @@ public:
   bool isSaved(ProjectSnapshot const &projectDetails) const;
 
 private:
-  void persistProject(
-      Path filePath, ProjectSnapshot project,
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                                                       &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
+  void
+  persistProject(Path filePath, ProjectSnapshot project,
+                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                     &unstagedImages,
+                 std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+                 std::vector<Path> const                          &roots);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;
