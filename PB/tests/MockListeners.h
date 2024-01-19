@@ -17,6 +17,8 @@ typedef std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
                                                        VirtualImageMatrix;
 typedef std::vector<std::shared_ptr<PB::VirtualImage>> VirtualImageLine;
 
+typedef std::vector<Path> &RootsVector;
+
 class TestPhotobookStagedImagesListener : public PB::StagedImagesListener {
 public:
   MOCK_METHOD(void, onPicturesAdded, (int index, int size), (override));
@@ -63,7 +65,7 @@ class TestPersistenceProjectListener final
 public:
   MOCK_METHOD(void, onProjectRead,
               (std::string, std::shared_ptr<PB::Project>, VirtualImageMatrix &,
-               VirtualImageLine &),
+               VirtualImageLine &, RootsVector),
               (override));
   MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
 };
@@ -80,7 +82,8 @@ public:
 class TestProjectPersistenceListener final
     : public PB::ProjectPersistenceListener {
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
-  MOCK_METHOD(void, onProjectRead, (VirtualImageMatrix &, VirtualImageLine &),
+  MOCK_METHOD(void, onProjectRead,
+              (VirtualImageMatrix &, VirtualImageLine &, RootsVector),
               (override));
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));

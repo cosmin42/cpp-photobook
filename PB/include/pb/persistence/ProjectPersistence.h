@@ -8,7 +8,8 @@ public:
   virtual void onMetadataUpdated() = 0;
   virtual void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) = 0;
+      std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+      std::vector<Path>                                       &roots) = 0;
   virtual void onProjectRenamed() = 0;
   virtual void onPersistenceError(PBDev::Error) = 0;
 };
@@ -41,7 +42,8 @@ public:
   void onProjectRead(
       std::string name, std::shared_ptr<Project> project,
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) override;
+      std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+      std::vector<Path>                                       &roots) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
   void onMetadataRead(

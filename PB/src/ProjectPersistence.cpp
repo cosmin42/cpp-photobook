@@ -78,11 +78,12 @@ Path ProjectPersistence::path(boost::uuids::uuid uuid)
 void ProjectPersistence::onProjectRead(
     std::string name, std::shared_ptr<Project> project,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-    std::vector<std::shared_ptr<VirtualImage>>              &stagedImages)
+    std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+    std::vector<Path>                                       &roots)
 {
   mProject = project;
   mOpenedUUID = mMetadata.right.at(name);
-  mListener->onProjectRead(unstagedImages, stagedImages);
+  mListener->onProjectRead(unstagedImages, stagedImages, roots);
 }
 
 void ProjectPersistence::onProjectPersistenceError(PBDev::Error error)

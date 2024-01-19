@@ -11,7 +11,8 @@ public:
   virtual void onProjectRead(
       std::string name, std::shared_ptr<Project> project,
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) = 0;
+      std::vector<std::shared_ptr<VirtualImage>> &stagedImages,
+      std::vector<Path>& roots) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
 };
 

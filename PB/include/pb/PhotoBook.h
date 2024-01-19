@@ -61,7 +61,8 @@ public:
 
   void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> &stagedImages) override;
+      std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+      std::vector<Path>                                       &roots) override;
 
   void onMetadataUpdated() override;
 
@@ -72,7 +73,8 @@ public:
   void onMappingAborted(Path) override;
 
   void onImportStop(Path) override;
-  void onImageProcessed(Path key, Path root, Path full, Path medium, Path small) override;
+  void onImageProcessed(Path key, Path root, Path full, Path medium,
+                        Path small) override;
 
   void onImageProcessingJobEnded(Path root);
 

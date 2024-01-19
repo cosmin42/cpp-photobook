@@ -174,7 +174,7 @@ void Persistence::recallProject(Path projectPath)
           name, std::make_shared<Project>(projectDetails),
           std::get<std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
               unstagedImagesOrError),
-          stagedImages);
+          stagedImages, std::get<std::vector<Path>>(importedFoldersOrError));
     }
   });
 }
