@@ -31,6 +31,7 @@ class MockPhotobookImageMonitorListener final
 public:
   MOCK_METHOD(void, onImportFolderAdded, (), (override));
   MOCK_METHOD(void, onImportFolderRemoved, (unsigned index), (override));
+  MOCK_METHOD(void, onRefresh, (), (override));
   MOCK_METHOD(void, onCleared, (), (override));
 };
 

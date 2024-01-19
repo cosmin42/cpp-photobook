@@ -931,6 +931,10 @@ void TableContentPage::onPictureRemoved(std::vector<unsigned> index) {}
 
 void TableContentPage::onImportFolderAdded() {}
 
+void TableContentPage::onRefresh() {
+
+}
+
 void TableContentPage::UpdateUnstagedLine()
 {
   // TODO: Improvements can be done here (clearing is not always necessary)

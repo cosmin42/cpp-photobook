@@ -16,6 +16,7 @@ public:
 
   virtual void onImportFolderAdded() = 0;
   virtual void onImportFolderRemoved(unsigned index) = 0;
+  virtual void onRefresh() = 0;
   virtual void onCleared() = 0;
 };
 
@@ -24,7 +25,8 @@ public:
   void setListener(ImageMonitorListener *listener);
 
   void configure(
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages);
+      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+      std::vector<Path>                                       &roots);
 
   void addRow(Path path, std::vector<std::shared_ptr<VirtualImage>> images);
   void removeRow(int index);

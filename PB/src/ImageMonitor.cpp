@@ -9,10 +9,18 @@ void ImageMonitor::setListener(ImageMonitorListener *listener)
 }
 
 void ImageMonitor::configure(
-    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages)
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
+    std::vector<Path>                                       &roots)
 {
+  for (int i = 0; i < roots.size(); ++i) {
+    mRowIndexes.insert({roots.at(i), i});
+  }
+
   for (int i = 0; i < unstagedImages.size(); ++i) {
     mUnstagedImagesMatrix.push_back(unstagedImages.at(i));
+    for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
+      mPositions.insert({mUnstagedImagesMatrix.at(i).at(j)->keyPath(), {i, j}});
+    }
   }
 }
 

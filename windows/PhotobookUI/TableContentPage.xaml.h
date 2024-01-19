@@ -232,6 +232,7 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onPictureRemoved(std::vector<unsigned> index) override;
 
   void onImportFolderAdded() override;
+  void onRefresh() override;
   void onImportFolderRemoved(unsigned index) override;
   void onCleared() override;
 

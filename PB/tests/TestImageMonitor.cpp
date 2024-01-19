@@ -3,10 +3,12 @@
 
 #include <pb/ImageMonitor.h>
 
+// TODO: Remove redundant listeners
 class MockImageMonitorListener final : public PB::ImageMonitorListener {
 public:
   MOCK_METHOD(void, onImportFolderAdded, (), (override));
   MOCK_METHOD(void, onImportFolderRemoved, (unsigned index), (override));
+  MOCK_METHOD(void, onRefresh, (), (override));
   MOCK_METHOD(void, onCleared, (), (override));
 };
 
