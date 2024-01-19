@@ -159,7 +159,7 @@ void Persistence::recallProject(Path projectPath)
     std::vector<std::shared_ptr<VirtualImage>> stagedImages;
 
     auto importedFoldersOrError = PB::Text::deserialize<std::vector, Path>(
-        jsonSerialization, "imported-folders");
+        jsonSerialization, "row-paths");
 
     if (std::holds_alternative<PBDev::Error>(importedFoldersOrError) &&
         mPersistenceProjectListener) {
