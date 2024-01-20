@@ -4,9 +4,8 @@
 
 namespace PB {
 ResizeTask::ResizeTask(Path full, Path medium, Path small,
-                       unsigned totalTaskCount, std::function<void()> onFinish,
-                       int screenWidth, int screenHeight,
-                       std::stop_token stopToken)
+                       std::function<void()> onFinish, int screenWidth,
+                       int screenHeight, std::stop_token stopToken)
     : mFullSizePath(full), mSmallThumbnailOutputPath(small),
       mMediumThumbnailOutputPath(medium), mFinish(onFinish),
       mScreenWidth(screenWidth), mScreenHeight(screenHeight),
@@ -71,7 +70,6 @@ void ThumbnailsProcessor::generateThumbnails(
 {
 
   mThumbnailWritten = onThumbnailWritten;
-  unsigned taskCount = (unsigned)mediaMap.size();
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
     auto &inputPath = mediaMap.at(i).second;
@@ -83,8 +81,8 @@ void ThumbnailsProcessor::generateThumbnails(
       mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i).second, mediumPath, smallPath,
-                          taskCount, task, mScreenWidth, mScreenHeight,
+    ResizeTask resizeTask(mediaMap.at(i).second, mediumPath, smallPath, task,
+                          mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 
     mParallelTaskConsumer.enqueue(root,

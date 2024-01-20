@@ -13,9 +13,8 @@ class ResizeTask final {
 public:
   ResizeTask() = delete;
   explicit ResizeTask(Path fullSizePath, Path medium, Path small,
-                      unsigned totalTaskCount, std::function<void()> onFinish,
-                      int screenWidth, int screenHeight,
-                      std::stop_token stopToken);
+                      std::function<void()> onFinish, int screenWidth,
+                      int screenHeight, std::stop_token stopToken);
   ~ResizeTask() = default;
 
   void operator()() const;
