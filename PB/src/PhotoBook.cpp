@@ -55,6 +55,7 @@ void Photobook::unloadProject()
   mImportLogic.stopAll();
   if (mImportLogic.runningImageProcessingJobs().empty()) {
     mProjectPersistence.clear();
+    mImageViews.imageMonitor().clear();
   }
   else {
     mMarkProjectForDeletion = true;
@@ -241,8 +242,8 @@ void Photobook::onImageProcessed(Path key, Path root, Path full, Path medium,
     }
 
     if (mMarkProjectForDeletion) {
-      // mProject = nullptr;
       mMarkProjectForDeletion = false;
+      mImageViews.imageMonitor().clear();
     }
   }
 }
