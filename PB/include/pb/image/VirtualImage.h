@@ -49,7 +49,7 @@ public:
 
   bool processed() const { return mProcessed; }
 
-  void finishProcessing() { mProcessed = false; }
+  void finishProcessing() { mProcessed = true; }
 
 protected:
   ImageResources mFrontend = {

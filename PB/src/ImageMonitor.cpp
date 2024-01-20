@@ -93,7 +93,13 @@ void ImageMonitor::clear()
   log();
 }
 
-void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
+void ImageMonitor::completeRow(int index)
+{
+  for (auto imagePtr : mUnstagedImagesMatrix.at(index)) {
+    imagePtr->finishProcessing();
+  }
+  mPendingRows.erase(index);
+}
 
 bool ImageMonitor::isPending(Path path) const
 {
