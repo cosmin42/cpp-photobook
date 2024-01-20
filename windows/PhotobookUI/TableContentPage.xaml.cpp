@@ -482,10 +482,17 @@ void TableContentPage::OnDropIntoStagedPhotos(
   PB::printDebug("Insertion position: %d\n", insertPostion);
   // WORKAROUND END
 
-  mPhotoBook->imageViews().stagedImages().addPictures(
-      mDragAndDropSelectedImages, insertPostion);
+  std::vector<std::shared_ptr<PB::VirtualImage>> copyOfDraggedImages;
 
-  OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
+  for (int i = 0; i < (int)mDragAndDropSelectedImages.size(); ++i) {
+    copyOfDraggedImages.push_back(
+        PB::ImageFactory::inst().copyImage(mDragAndDropSelectedImages.at(i)));
+  }
+
+  mPhotoBook->imageViews().stagedImages().addPictures(copyOfDraggedImages,
+                                                      insertPostion);
+
+  OnStagedImageAdded(copyOfDraggedImages, insertPostion);
 
   mDragAndDropSelectedImages.clear();
 }
