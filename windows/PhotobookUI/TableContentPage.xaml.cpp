@@ -925,9 +925,16 @@ void TableContentPage::Post(std::function<void()> f)
   PBDev::basicAssert(success);
 }
 
-void TableContentPage::onPicturesAdded(int index, int size) {}
+void TableContentPage::onPicturesAdded(int index, int size)
+{
+  UNUSED(index);
+  UNUSED(size);
+}
 
-void TableContentPage::onPictureRemoved(std::vector<unsigned> index) {}
+void TableContentPage::onPictureRemoved(std::vector<unsigned> index)
+{
+  UNUSED(index);
+}
 
 void TableContentPage::onImportFolderAdded() {}
 

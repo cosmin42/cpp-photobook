@@ -49,7 +49,12 @@ std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map,
 void basicAssert(int shouldBetrue, const std::source_location location =
                                        std::source_location::current());
 
-} // namespace PB
+} // namespace PBDev
 
 typedef PBDev::Path Path;
 typedef PBDev::Json Json;
+
+#define UNUSED(x)                                                              \
+  do {                                                                         \
+    (void)x;                                                                   \
+  } while (0);
