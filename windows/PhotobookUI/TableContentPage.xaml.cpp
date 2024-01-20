@@ -931,7 +931,7 @@ void TableContentPage::onPictureRemoved(std::vector<unsigned> index) {}
 
 void TableContentPage::onImportFolderAdded() {}
 
-void TableContentPage::onRefresh()
+void TableContentPage::LoadImages()
 {
   auto rowList = mPhotoBook->imageViews().imageMonitor().rowList();
   if (rowList.empty()) {
@@ -963,6 +963,8 @@ void TableContentPage::onRefresh()
                winrt::to_hstring(virtualImage->frontend().small.string())));
   }
 }
+
+void TableContentPage::onRefresh() { LoadImages(); }
 
 void TableContentPage::UpdateUnstagedLine()
 {
@@ -1128,7 +1130,7 @@ void TableContentPage::PostponeError(std::string message)
 void TableContentPage::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs e)
 {
-  mPhotoBook->loadProject();
+  LoadImages();
 }
 
 void TableContentPage::OnExportClicked(

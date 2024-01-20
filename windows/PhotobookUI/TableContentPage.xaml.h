@@ -269,6 +269,8 @@ private:
 
   void UpdateStatusBar();
 
+  void LoadImages();
+
   PhotobookTableListener                         mListener;
   std::shared_ptr<PB::Photobook>                 mPhotoBook;
   IObservableVector<winrt::hstring>              mNavigationItemsCollection;

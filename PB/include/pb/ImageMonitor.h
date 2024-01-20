@@ -24,7 +24,7 @@ class ImageMonitor {
 public:
   void setListener(ImageMonitorListener *listener);
 
-  void configure(
+  void replaceImageMonitorData(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
       std::vector<Path>                                       &roots);
 

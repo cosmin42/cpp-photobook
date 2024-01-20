@@ -8,7 +8,7 @@ void ImageMonitor::setListener(ImageMonitorListener *listener)
   mListener = listener;
 }
 
-void ImageMonitor::configure(
+void ImageMonitor::replaceImageMonitorData(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
     std::vector<Path>                                       &roots)
 {

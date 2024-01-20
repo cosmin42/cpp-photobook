@@ -168,7 +168,7 @@ void Photobook::onProjectRead(
     std::vector<Path>                                       &roots)
 {
   configure(mProjectPersistence.currentProject());
-  mImageViews.imageMonitor().configure(unstagedImages, roots);
+  mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
   mParent->onProjectRead();
 }
