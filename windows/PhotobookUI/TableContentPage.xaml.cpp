@@ -931,8 +931,37 @@ void TableContentPage::onPictureRemoved(std::vector<unsigned> index) {}
 
 void TableContentPage::onImportFolderAdded() {}
 
-void TableContentPage::onRefresh() {
+void TableContentPage::onRefresh()
+{
+  auto rowList = mPhotoBook->imageViews().imageMonitor().rowList();
+  if (rowList.empty()) {
+    return;
+  }
 
+  for (int i = 0; i < rowList.size(); ++i) {
+    mNavigationItemsCollection.Append(
+        winrt::to_hstring(rowList.at(i).filename().string()));
+  }
+
+  MediaListView().ItemsSource(mNavigationItemsCollection);
+
+  MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
+
+  auto lastRowIndex = (int)(rowList.size() - 1);
+  auto rootPath = mPhotoBook->imageViews().imageMonitor().rowPath(lastRowIndex);
+
+  for (int i = 0;
+       i < (int)mPhotoBook->imageViews().imageMonitor().rowSize(lastRowIndex);
+       ++i) {
+    auto virtualImage =
+        mPhotoBook->imageViews().imageMonitor().image(lastRowIndex, i);
+    mUnstagedImageCollection.SetAt(
+        i, ImageUIData(
+               winrt::to_hstring(virtualImage->keyPath().string()),
+               winrt::to_hstring(virtualImage->frontend().full.string()),
+               winrt::to_hstring(virtualImage->frontend().medium.string()),
+               winrt::to_hstring(virtualImage->frontend().small.string())));
+  }
 }
 
 void TableContentPage::UpdateUnstagedLine()
