@@ -367,9 +367,9 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
   mDragSource = DragSource::Unstaged;
   for (auto item : args.Items()) {
     auto image = item.as<ImageUIData>();
-    auto fullPath = winrt::to_string(image.FullPath());
+    auto keyPath = winrt::to_string(image.KeyPath());
 
-    auto regularImage = PB::ImageFactory::inst().createImage(fullPath);
+    auto regularImage = PB::ImageFactory::inst().createImage(keyPath);
 
     mDragAndDropSelectedImages.push_back(regularImage);
   }
@@ -449,7 +449,7 @@ void TableContentPage::OnDropIntoStagedPhotos(
 {
   PB::printDebug("Drop on staged list view.\n");
 
-  // WORKAROUND
+  // WORKAROUND BEGIN
   // https://stackoverflow.com/questions/77401865/winui3-listview-insertionmark-functionality-with-c-winrt/77406535#77406535
   auto dropRelativeToStageListViewPosition =
       args.GetPosition(sender.as<Microsoft::UI::Xaml::Controls::ListView>());
@@ -480,12 +480,10 @@ void TableContentPage::OnDropIntoStagedPhotos(
   }
 
   PB::printDebug("Insertion position: %d\n", insertPostion);
+  // WORKAROUND END
 
-  // WORKAROUND
   mPhotoBook->imageViews().stagedImages().addPictures(
       mDragAndDropSelectedImages, insertPostion);
-  // mPhotoBook->imageSupport().stagePhoto(mDragAndDropSelectedImages,
-  //                                       insertPostion);
 
   OnStagedImageAdded(mDragAndDropSelectedImages, insertPostion);
 
