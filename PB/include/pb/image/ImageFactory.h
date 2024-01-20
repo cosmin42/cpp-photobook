@@ -15,6 +15,7 @@ public:
   std::shared_ptr<TextImage>    createTextImage(Path path);
 
   std::shared_ptr<VirtualImage> createImage(Path path);
+  std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
 
 private:
   static ImageFactory mFactory;

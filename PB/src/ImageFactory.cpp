@@ -47,4 +47,23 @@ std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
     return nullptr;
   }
 }
+
+std::shared_ptr<VirtualImage>
+ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
+{
+  if (image->type() == VirtualImageType::Regular) {
+    return std::make_shared<RegularImage>(
+        image->frontend().full, image->frontend().medium,
+        image->frontend().small, image->processed(), image->resources());
+  }
+  else if (image->type() == VirtualImageType::Text) {
+    return std::make_shared<TextImage>(
+        image->frontend().full, image->frontend().medium,
+        image->frontend().small, image->processed(), image->resources());
+  }
+  else {
+    PBDev::basicAssert(false);
+    return nullptr;
+  }
+}
 } // namespace PB
