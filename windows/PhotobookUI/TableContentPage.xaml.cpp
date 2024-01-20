@@ -368,10 +368,9 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
   for (auto item : args.Items()) {
     auto image = item.as<ImageUIData>();
     auto keyPath = winrt::to_string(image.KeyPath());
+    auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(keyPath);
 
-    auto regularImage = PB::ImageFactory::inst().createImage(keyPath);
-
-    mDragAndDropSelectedImages.push_back(regularImage);
+    mDragAndDropSelectedImages.push_back(virtualImage);
   }
 }
 
