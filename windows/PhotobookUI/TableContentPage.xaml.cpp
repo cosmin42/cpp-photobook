@@ -772,6 +772,7 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   }
 
   UpdateGalleryLabel();
+  GalleryCanvas().Invalidate();
 }
 
 void TableContentPage::OnStagedDragItemsCompleted(
