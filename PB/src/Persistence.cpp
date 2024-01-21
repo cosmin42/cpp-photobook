@@ -156,7 +156,23 @@ void Persistence::recallProject(Path projectPath)
         std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
         jsonSerialization.at("unstaged"));
 
-    std::vector<std::shared_ptr<VirtualImage>> stagedImages;
+    if (std::holds_alternative<PBDev::Error>(unstagedImagesOrError) &&
+        mPersistenceProjectListener) {
+      mPersistenceProjectListener->onProjectPersistenceError(
+          std::get<PBDev::Error>(unstagedImagesOrError));
+      return;
+    }
+
+    auto stagedImagesOrError =
+        PB::Text::deserialize<std::vector<std::shared_ptr<VirtualImage>>>(
+            jsonSerialization.at("staged"));
+
+    if (std::holds_alternative<PBDev::Error>(stagedImagesOrError) &&
+        mPersistenceProjectListener) {
+      mPersistenceProjectListener->onProjectPersistenceError(
+          std::get<PBDev::Error>(stagedImagesOrError));
+      return;
+    }
 
     auto importedFoldersOrError = PB::Text::deserialize<std::vector, Path>(
         jsonSerialization, "row-paths");
@@ -174,7 +190,9 @@ void Persistence::recallProject(Path projectPath)
           name, std::make_shared<Project>(projectDetails),
           std::get<std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
               unstagedImagesOrError),
-          stagedImages, std::get<std::vector<Path>>(importedFoldersOrError));
+          std::get<std::vector<std::shared_ptr<VirtualImage>>>(
+              stagedImagesOrError),
+          std::get<std::vector<Path>>(importedFoldersOrError));
     }
   });
 }

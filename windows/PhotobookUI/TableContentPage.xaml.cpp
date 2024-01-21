@@ -974,14 +974,11 @@ void TableContentPage::LoadImages()
   auto stagedPictures = mPhotoBook->imageViews().stagedImages().stagedPhotos();
 
   for (int i = 0; i < (int)stagedPictures.size(); ++i) {
-    mStagedImageCollection.SetAt(
-        i,
-        ImageUIData(
-            winrt::to_hstring(stagedPictures.at(i)->keyPath().string()),
-            winrt::to_hstring(stagedPictures.at(i)->frontend().full.string()),
-            winrt::to_hstring(stagedPictures.at(i)->frontend().medium.string()),
-            winrt::to_hstring(
-                stagedPictures.at(i)->frontend().small.string())));
+    mStagedImageCollection.Append(ImageUIData(
+        winrt::to_hstring(stagedPictures.at(i)->keyPath().string()),
+        winrt::to_hstring(stagedPictures.at(i)->frontend().full.string()),
+        winrt::to_hstring(stagedPictures.at(i)->frontend().medium.string()),
+        winrt::to_hstring(stagedPictures.at(i)->frontend().small.string())));
   }
 }
 
