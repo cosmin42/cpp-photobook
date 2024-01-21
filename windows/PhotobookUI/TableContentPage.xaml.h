@@ -281,7 +281,6 @@ private:
   bool                                           mExitFlag = false;
   bool                                           mNewProjectFlag = false;
   std::unordered_set<Path>                       mLoadedFinishedImportFolders;
-  std::unordered_set<Path>                       mStagedImages;
   DragSource                                     mDragSource = DragSource::None;
 
   std::unordered_set<Path> mImportedDirectories;

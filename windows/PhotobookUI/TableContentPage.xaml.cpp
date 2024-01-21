@@ -888,7 +888,6 @@ void TableContentPage::OnStagedImageAdded(
           winrt::to_hstring(photo->frontend().medium.string()),
           winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.Append(winRTImage);
-      mStagedImages.insert(photo->keyPath());
     }
   }
   else if (index < (int)mStagedImageCollection.Size()) {
@@ -899,7 +898,6 @@ void TableContentPage::OnStagedImageAdded(
           winrt::to_hstring(photo->frontend().medium.string()),
           winrt::to_hstring(photo->frontend().small.string()));
       mStagedImageCollection.InsertAt(index, winRTImage);
-      mStagedImages.insert(photo->keyPath());
     }
   }
 }
@@ -912,7 +910,6 @@ void TableContentPage::OnStagedImageRemoved(
     auto path = winrt::to_string(
         mStagedImageCollection.GetAt(removedIndexes.at(i)).FullPath());
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));
-    mStagedImages.erase(Path(path));
   }
 }
 
