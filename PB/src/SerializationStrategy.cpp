@@ -138,25 +138,20 @@ deserialize(Json jsonData)
   if (std::holds_alternative<PBDev::Error>(processingFinishedOrError)) {
     return std::get<PBDev::Error>(processingFinishedOrError);
   }
-
+#ifndef _CLANG_UML_
   auto resourcesOrError = deserialize<std::vector, Path>(jsonData, "resource");
   if (std::holds_alternative<PBDev::Error>(resourcesOrError)) {
     return std::get<PBDev::Error>(resourcesOrError);
   }
-
+#endif
   auto frontendFull = std::get<Path>(frontendFullOrError);
   auto frontendMedium = std::get<Path>(frontendMediumOrError);
   auto frontendSmall = std::get<Path>(frontendSmallOrError);
   auto processingFinished = std::get<bool>(processingFinishedOrError);
 
-  if (imageType == "Regular") {
+#ifndef _CLANG_UML_
+  if (imageType == "Regular" || imageType == "Text") {
     auto imagePtr = std::make_shared<RegularImage>(
-        frontendFull, frontendMedium, frontendSmall, processingFinished,
-        std::get<std::vector<Path>>(resourcesOrError));
-    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
-  }
-  else if (imageType == "Text") {
-    auto imagePtr = std::make_shared<TextImage>(
         frontendFull, frontendMedium, frontendSmall, processingFinished,
         std::get<std::vector<Path>>(resourcesOrError));
     return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
@@ -164,6 +159,7 @@ deserialize(Json jsonData)
   else {
     PBDev::basicAssert(false);
   }
+#endif
   return nullptr;
 }
 

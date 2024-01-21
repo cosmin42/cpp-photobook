@@ -173,7 +173,12 @@ void Persistence::recallProject(Path projectPath)
           std::get<PBDev::Error>(stagedImagesOrError));
       return;
     }
+#ifdef _CLANG_UML_
+    std::variant<std::vector<std::vector<std::shared_ptr<VirtualImage>>>,
+                 PBDev::Error>
+        importedFoldersOrError;
 
+#else
     auto importedFoldersOrError = PB::Text::deserialize<std::vector, Path>(
         jsonSerialization, "row-paths");
 
@@ -183,8 +188,10 @@ void Persistence::recallProject(Path projectPath)
           std::get<PBDev::Error>(importedFoldersOrError));
       return;
     }
+#endif
 
     mProjectCache = jsonSerialization;
+#ifndef _CLANG_UML_
     if (mPersistenceProjectListener) {
       mPersistenceProjectListener->onProjectRead(
           name, std::make_shared<Project>(projectDetails),
@@ -194,6 +201,7 @@ void Persistence::recallProject(Path projectPath)
               stagedImagesOrError),
           std::get<std::vector<Path>>(importedFoldersOrError));
     }
+#endif
   });
 }
 
