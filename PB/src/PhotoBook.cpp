@@ -149,9 +149,8 @@ void Photobook::exportAlbum(std::string name, Path path)
     fullPaths.push_back(photo->frontend().full);
   }
 
-  mExportFactory.updateConfiguration(
-      mProjectPersistence.currentProject()->active().paperSettings,
-      mPlatformInfo->localStatePath);
+  mExportFactory.configure(mProjectPersistence.currentProject());
+  mExportFactory.configure(mPlatformInfo->localStatePath);
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {

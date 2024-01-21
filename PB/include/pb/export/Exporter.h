@@ -17,12 +17,8 @@ private:
 
 class ExportFactory final {
 public:
-  void updateConfiguration(PaperSettings paperSettings,
-                           Path           temporaryDirectory)
-  {
-    mPaperSettings = paperSettings;
-    mTemporaryDirectory = temporaryDirectory;
-  }
+  void configure(std::shared_ptr<Project> project) { mProject = project; }
+  void configure(Path localStatePath) { mTemporaryDirectory = localStatePath; }
 
   std::shared_ptr<Exportable> makePdf(std::string name, Path destination,
                                       std::vector<Path> images)
@@ -36,7 +32,8 @@ public:
   }
 
 private:
-  PaperSettings mPaperSettings;
-  Path          mTemporaryDirectory = Path();
+  std::shared_ptr<Project> mProject;
+  PaperSettings            mPaperSettings;
+  Path                     mTemporaryDirectory = Path();
 };
 } // namespace PB
