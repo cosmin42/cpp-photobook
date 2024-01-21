@@ -192,6 +192,23 @@ deserialize(Json jsonData)
 }
 
 template <>
+std::variant<std::vector<std::shared_ptr<VirtualImage>>, PBDev::Error>
+deserialize(Json jsonData)
+{
+  std::vector<std::shared_ptr<VirtualImage>> line;
+  for (auto &jsonElement : jsonData) {
+    auto imageOrError = deserialize<std::shared_ptr<VirtualImage>>(jsonElement);
+    if (std::holds_alternative<PBDev::Error>(imageOrError)) {
+      return std::get<PBDev::Error>(imageOrError);
+    }
+    auto virtualImage = std::get<std::shared_ptr<VirtualImage>>(imageOrError);
+    line.push_back(virtualImage);
+  }
+
+  return line;
+}
+
+template <>
 std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
 {
   auto            x = jsonData.dump();

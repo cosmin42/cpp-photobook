@@ -970,6 +970,19 @@ void TableContentPage::LoadImages()
                winrt::to_hstring(virtualImage->frontend().medium.string()),
                winrt::to_hstring(virtualImage->frontend().small.string())));
   }
+
+  auto stagedPictures = mPhotoBook->imageViews().stagedImages().stagedPhotos();
+
+  for (int i = 0; i < (int)stagedPictures.size(); ++i) {
+    mStagedImageCollection.SetAt(
+        i,
+        ImageUIData(
+            winrt::to_hstring(stagedPictures.at(i)->keyPath().string()),
+            winrt::to_hstring(stagedPictures.at(i)->frontend().full.string()),
+            winrt::to_hstring(stagedPictures.at(i)->frontend().medium.string()),
+            winrt::to_hstring(
+                stagedPictures.at(i)->frontend().small.string())));
+  }
 }
 
 void TableContentPage::onRefresh() { LoadImages(); }
