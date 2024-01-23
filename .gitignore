@@ -66,3 +66,4 @@ PB/test-data/file-mapping-test/
 *.puml
 compile_commands.json
 out/
+windows/PhotobookUI/ARM64/
