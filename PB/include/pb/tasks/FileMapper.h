@@ -20,7 +20,8 @@ public:
   ~MediaMapper() = default;
 
   void taskStep();
-  bool stoppingCondition();
+  int  stepsCount() const;
+  bool stoppingCondition() const;
 
   Path              root() const;
   std::vector<Path> importedDirectories() const;

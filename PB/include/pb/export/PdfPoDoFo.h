@@ -13,6 +13,7 @@ public:
   ~PdfExportTask() = default;
 
   bool stoppingCondition() const;
+  int  stepsCount() const;
   void taskStep();
 
 private:

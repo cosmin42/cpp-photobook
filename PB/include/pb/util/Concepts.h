@@ -38,6 +38,9 @@ concept TaskConcept = requires(T a) {
   {
     a.stoppingCondition()
   } -> std::same_as<bool>;
+  {
+    a.stepsCount()
+  } -> std::same_as<int>;
 };
 
 } // namespace PB

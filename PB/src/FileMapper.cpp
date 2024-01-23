@@ -14,12 +14,11 @@ void MediaMapper::taskStep()
 #ifdef SIMULATE_SLOW_MAPPER
   std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 #endif
-  //PB::printDebug("Adding %s\n", path.string().c_str());
   mSubFiles.push_back(path);
   mRecursiveIterator++;
 }
 
-bool MediaMapper::stoppingCondition()
+bool MediaMapper::stoppingCondition() const
 {
   return mRecursiveIterator == std::filesystem::end(mRecursiveIterator);
 }
@@ -27,4 +26,6 @@ bool MediaMapper::stoppingCondition()
 Path MediaMapper::root() const { return mRoot; }
 
 std::vector<Path> MediaMapper::importedDirectories() const { return mSubFiles; }
+
+int MediaMapper::stepsCount() const { return 0; }
 } // namespace PB

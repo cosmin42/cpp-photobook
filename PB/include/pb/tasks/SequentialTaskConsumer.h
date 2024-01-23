@@ -14,6 +14,7 @@ public:
   virtual void STCStarted(Task const &task) = 0;
   virtual void STCFinished(Task const &task) = 0;
   virtual void STCAborted(Task const &task) = 0;
+  virtual void STCUpdate(Task const &task){};
 };
 
 template <PB::TaskConcept Task> class SequentialTaskConsumer final {
@@ -38,6 +39,7 @@ private:
   {
     PBDev::Timer timer;
     mCurrentToken = token;
+    auto stepsCap = mTask->stepsCount();
     mListener->STCStarted(mTask.value());
     while (!mCurrentToken.stop_requested() &&
            !mExternalToken.stop_requested()) {
@@ -46,6 +48,10 @@ private:
       }
       else {
         mTask->taskStep();
+        if (stepsCap > 0) {
+          // TODO: Compute the current step
+          mListener->STCUpdate(mTask.value());
+        }
       }
     }
     if (mCurrentToken.stop_requested()) {

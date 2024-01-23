@@ -82,11 +82,10 @@ public:
 
   void onProjectRenamed() override;
 
-  void STCStarted(PdfExportTask const &task) override {}
-
-  void STCFinished(PdfExportTask const &task) override {}
-
-  void STCAborted(PdfExportTask const &task) override {}
+  void STCStarted(PdfExportTask const &task) override;
+  void STCFinished(PdfExportTask const &task) override;
+  void STCAborted(PdfExportTask const &task) override;
+  void STCUpdate(PdfExportTask const &task) override;
 
   std::vector<Path> pendingMappingPathList() const;
 

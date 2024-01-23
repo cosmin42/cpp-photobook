@@ -21,6 +21,8 @@ bool PdfExportTask::stoppingCondition() const
   return mIndex >= mStagedImages.size();
 }
 
+int PdfExportTask::stepsCount() const { return (int)mStagedImages.size(); }
+
 void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
 {
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(

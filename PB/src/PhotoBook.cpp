@@ -269,4 +269,9 @@ std::vector<Path> Photobook::pendingMappingPathList() const
 
 void Photobook::onProjectRenamed() {}
 
+void Photobook::STCStarted(PdfExportTask const &task) {}
+void Photobook::STCFinished(PdfExportTask const &task) {}
+void Photobook::STCAborted(PdfExportTask const &task) {}
+void Photobook::STCUpdate(PdfExportTask const &task) {}
+
 } // namespace PB
