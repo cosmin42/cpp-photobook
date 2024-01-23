@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pb/export/Exportable.h>
+#include <pb/project/Project.h>
 #include <podofo/podofo.h>
 
 namespace PB {
@@ -26,21 +27,18 @@ private:
   PaperSettings mPaperSettings;
 };
 */
-class PdfPoDoFoExport final : public Exportable {
+class PdfPoDoFoExport final {
 public:
-  explicit PdfPoDoFoExport(std::stop_token stopToken,
-                           PaperSettings   paperSettings,
-                           Path            temporaryDirectory);
+  explicit PdfPoDoFoExport();
+  ~PdfPoDoFoExport() = default;
+  PdfPoDoFoExport(PdfPoDoFoExport const &other) {}
+  PdfPoDoFoExport &operator=(PdfPoDoFoExport const &other) { return *this; }
 
-  void executeSingleTask();
+  void configure(std::shared_ptr<PB::Project> project);
+  void configure(std::shared_ptr<PB::PlatformInfo> platformInfo);
 
-  void finish();
-
+  void taskStep();
   bool stoppingCondition();
-
-  void aborted() {}
-
-  std::pair<int, int> progress() const;
 
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";

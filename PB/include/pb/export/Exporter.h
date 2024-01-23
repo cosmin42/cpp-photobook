@@ -23,17 +23,19 @@ public:
   std::shared_ptr<Exportable> makePdf(std::string name, Path destination,
                                       std::vector<Path> images)
   {
+    /*
     std::shared_ptr<Exportable> exporter = std::make_shared<PdfPoDoFoExport>(
-        Context::inst().sStopSource.get_token(), mPaperSettings,
-        mTemporaryDirectory);
+        Context::inst().sStopSource.get_token(),
+        mProject->active().paperSettings, mTemporaryDirectory);
     exporter->configureExport(name, destination, images);
 
     return exporter;
+    */
+    return nullptr;
   }
 
 private:
   std::shared_ptr<Project> mProject;
-  PaperSettings            mPaperSettings;
   Path                     mTemporaryDirectory = Path();
 };
 } // namespace PB

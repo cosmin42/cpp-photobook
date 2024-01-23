@@ -12,6 +12,7 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/config/Log.h>
+#include <pb/export/ExportLogic.h>
 #include <pb/export/Exporter.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
@@ -24,10 +25,11 @@
 
 namespace PB {
 
-class Photobook final : public PBDev::Observer,
-                        public ProjectPersistenceListener,
-                        public ImportFoldersLogicListener,
-                        public ThreadScheduler {
+class Photobook final
+    : public ProjectPersistenceListener,
+      public ImportFoldersLogicListener,
+      public ThreadScheduler,
+      public PBDev::SequentialTaskConsumerListener<PdfPoDoFoExport> {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
   ~Photobook() = default;
@@ -57,8 +59,6 @@ public:
 
   void onError(PBDev::Error error);
 
-  void update(PBDev::ObservableSubject &subject) override;
-
   void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
       std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
@@ -82,6 +82,12 @@ public:
 
   void onProjectRenamed() override;
 
+  void started(PdfPoDoFoExport const &task) override {}
+
+  void finished(PdfPoDoFoExport const &task) override {}
+
+  void aborted(PdfPoDoFoExport const &task) override {}
+
   std::vector<Path> pendingMappingPathList() const;
 
 private:
@@ -94,5 +100,7 @@ private:
   CommandStack                             mCommandStack;
   ExportFactory                            mExportFactory;
   bool                                     mMarkProjectForDeletion = false;
+
+  ExportLogic<PB::PdfPoDoFoExport> mExportLogic;
 };
 } // namespace PB

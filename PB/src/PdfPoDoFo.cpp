@@ -3,28 +3,26 @@
 #include <pb/image/Image.h>
 
 namespace PB {
-PdfPoDoFoExport::PdfPoDoFoExport(std::stop_token stopToken,
-                                 PaperSettings   paperSettings,
-                                 Path            temporaryDirectory)
-    : Exportable(stopToken, paperSettings, temporaryDirectory)
+PdfPoDoFoExport::PdfPoDoFoExport()
 {
 }
 
-void PdfPoDoFoExport::paperProjection(Path inputPath, Path outputPath)
+void PdfPoDoFoExport::configure(std::stop_token stopToken)
 {
-  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
-      mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath);
-  PBDev::basicAssert(temporaryImage != nullptr);
-  Process::resize({mPaperSettings.width, mPaperSettings.height},
-                  true)(temporaryImage);
-  PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
-
-  ImageSetWriter().write(outputPath, image);
 }
 
-void PdfPoDoFoExport::executeSingleTask()
+void PdfPoDoFoExport::configure(std::shared_ptr<PB::Project> project)
+{
+
+}
+
+void PdfPoDoFoExport::configure(std::shared_ptr<PB::PlatformInfo> platformInfo)
+{
+
+}
+
+void PdfPoDoFoExport::taskStep()
 {
   if (!mInitialized) {
     mDocument = std::make_shared<PoDoFo::PdfStreamedDocument>(
@@ -46,14 +44,27 @@ void PdfPoDoFoExport::executeSingleTask()
   painter.DrawImage(*image, 0, 0);
   painter.FinishDrawing();
 
-  notify();
-
   mIndex++;
 }
 
-void PdfPoDoFoExport::finish() { notify(); }
+void PdfPoDoFoExport::paperProjection(Path inputPath, Path outputPath)
+{
+  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
+      mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
-bool PdfPoDoFoExport::stoppingCondition() { return mIndex >= mImages.size(); }
+  auto temporaryImage = ImageReader().read(inputPath);
+  PBDev::basicAssert(temporaryImage != nullptr);
+  Process::resize({mPaperSettings.width, mPaperSettings.height},
+                  true)(temporaryImage);
+  PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
-std::pair<int, int> PdfPoDoFoExport::progress() const { return {mIndex, (int)mImages.size()}; }
+  ImageSetWriter().write(outputPath, image);
+}
+
+bool PdfPoDoFoExport::stoppingCondition()
+{
+  return true;
+  /* mIndex >= mImages.size();*/
+}
+
 } // namespace PB

@@ -16,6 +16,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
 
   mProjectPersistence.configure((ProjectPersistenceListener *)this);
   mProjectPersistence.configure(localStatePath);
+
+  mExportLogic.configure(
+      (PBDev::SequentialTaskConsumerListener<PdfPoDoFoExport> *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -24,6 +27,7 @@ void Photobook::configure(std::pair<int, int> screenSize)
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
+
 void Photobook::configure(StagedImagesListener *listener)
 {
   mImageViews.stagedImages().setListener(listener);
@@ -38,6 +42,7 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
   mImportLogic.configure(mProjectPersistence.currentProject());
   ImageFactory::inst().configure(mProjectPersistence.currentProject());
+  mExportLogic.configure(mProjectPersistence.currentProject(), mPlatformInfo);
 }
 
 void Photobook::loadProject()
@@ -127,6 +132,7 @@ void Photobook::loadStagedImages()
 void Photobook::update(PBDev::ObservableSubject &subject)
 {
   if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
+
     auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
     auto [progress, maxProgress] = pdfExporter.progress();
     mParent->onExportProgressUpdate(progress, maxProgress);
@@ -143,6 +149,8 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
+  mExportLogic.start(Context::inst().sStopSource);
+
   auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
   std::vector<Path> fullPaths;
   for (auto photo : stagedPhotos) {
@@ -154,8 +162,10 @@ void Photobook::exportAlbum(std::string name, Path path)
   mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
 
   for (auto exporter : mExporters) {
-    exporter->attach(this);
+    // exporter->attach(this);
   }
+
+  mExportLogic.start(Context::inst().sStopSource);
 }
 
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }

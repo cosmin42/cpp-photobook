@@ -69,6 +69,7 @@ add_library(pblib STATIC
     include/pb/Enums.h
     include/pb/export/Exportable.h
     include/pb/export/Exporter.h
+    include/pb/export/ExportLogic.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
@@ -118,6 +119,7 @@ add_library(pblib STATIC
     src/Config.cpp
     src/DataManager.cpp
     src/Enums.cpp
+    src/ExportLogic.cpp
     src/FileMapper.cpp
     src/FileComparator.cpp
     src/FilePersistence.cpp
