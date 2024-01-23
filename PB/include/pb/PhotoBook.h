@@ -13,7 +13,6 @@
 #include <pb/Platform.h>
 #include <pb/config/Log.h>
 #include <pb/export/ExportLogic.h>
-#include <pb/export/Exporter.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
@@ -96,7 +95,6 @@ private:
   ImportFoldersLogic             mImportLogic;
   ImageViews                     mImageViews;
   CommandStack                   mCommandStack;
-  ExportFactory                  mExportFactory;
   bool                           mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask> mExportLogic;
 };

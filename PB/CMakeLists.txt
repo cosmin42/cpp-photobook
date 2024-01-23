@@ -67,7 +67,6 @@ add_library(pblib STATIC
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
     include/pb/Enums.h
-    include/pb/export/Exporter.h
     include/pb/export/ExportLogic.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
