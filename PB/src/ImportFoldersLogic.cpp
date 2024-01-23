@@ -99,14 +99,14 @@ void ImportFoldersLogic::processImages(Path                    root,
       });
 }
 
-void ImportFoldersLogic::started(MediaMapper const &mediaMap)
+void ImportFoldersLogic::STCStarted(MediaMapper const &mediaMap)
 {
   mScheduler->post([this, mediaMap{mediaMap}]() {
     mListener->onMappingStarted(mediaMap.root());
   });
 }
 
-void ImportFoldersLogic::finished(MediaMapper const &mediaMap)
+void ImportFoldersLogic::STCFinished(MediaMapper const &mediaMap)
 {
   mScheduler->post([this, mediaMap{mediaMap}]() {
     mListener->onMappingFinished(mediaMap.root(),
@@ -114,7 +114,7 @@ void ImportFoldersLogic::finished(MediaMapper const &mediaMap)
   });
 }
 
-void ImportFoldersLogic::aborted(MediaMapper const &mediaMap)
+void ImportFoldersLogic::STCAborted(MediaMapper const &mediaMap)
 {
   mScheduler->post([this, mediaMap{mediaMap}]() {
     mListener->onMappingAborted(mediaMap.root());

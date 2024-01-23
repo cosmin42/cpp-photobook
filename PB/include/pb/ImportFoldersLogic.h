@@ -48,9 +48,9 @@ public:
   void processImages(Path root, std::vector<std::pair<Path, Path>> newFolders);
 
   // todo: Rename to contain mapping
-  void started(MediaMapper const &) override;
-  void finished(MediaMapper const &) override;
-  void aborted(MediaMapper const &) override;
+  void STCStarted(MediaMapper const &) override;
+  void STCFinished(MediaMapper const &) override;
+  void STCAborted(MediaMapper const &) override;
 
   std::pair<int, int> imageProcessingProgress() const;
   std::pair<int, int> imageProcessingProgress(Path path) const;

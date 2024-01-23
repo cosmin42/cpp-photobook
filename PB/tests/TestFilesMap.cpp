@@ -15,9 +15,9 @@ class TestFileMapSequentialTaskConsumerListener
     : public PBDev::SequentialTaskConsumerListener<MediaMapper> {
 public:
   ~TestFileMapSequentialTaskConsumerListener() = default;
-  MOCK_METHOD(void, started, (PB::MediaMapper const &), (override));
-  MOCK_METHOD(void, finished, (PB::MediaMapper const &), (override));
-  MOCK_METHOD(void, aborted, (PB::MediaMapper const &), (override));
+  MOCK_METHOD(void, STCStarted, (PB::MediaMapper const &), (override));
+  MOCK_METHOD(void, STCFinished, (PB::MediaMapper const &), (override));
+  MOCK_METHOD(void, SRCAborted, (PB::MediaMapper const &), (override));
 };
 
 TEST(TestFilesMap, TestConstructor)
@@ -37,7 +37,7 @@ TEST(TestFilesMap, TestSimpleCollection)
                           *)&fileMapSequentialTaskConsumerListener);
   consumer.configure(fileMapper);
 
-  EXPECT_CALL(fileMapSequentialTaskConsumerListener, started(_));
-  EXPECT_CALL(fileMapSequentialTaskConsumerListener, finished(_));
+  EXPECT_CALL(fileMapSequentialTaskConsumerListener, STCStarted(_));
+  EXPECT_CALL(fileMapSequentialTaskConsumerListener, STCFinished(_));
   consumer.start();
 }

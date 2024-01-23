@@ -11,9 +11,9 @@ namespace PBDev {
 template <PB::TaskConcept Task> class SequentialTaskConsumerListener {
 public:
   virtual ~SequentialTaskConsumerListener() = default;
-  virtual void started(Task const &task) = 0;
-  virtual void finished(Task const &task) = 0;
-  virtual void aborted(Task const &task) = 0;
+  virtual void STCStarted(Task const &task) = 0;
+  virtual void STCFinished(Task const &task) = 0;
+  virtual void STCAborted(Task const &task) = 0;
 };
 
 template <PB::TaskConcept Task> class SequentialTaskConsumer final {
@@ -38,7 +38,7 @@ private:
   {
     PBDev::Timer timer;
     mCurrentToken = token;
-    mListener->started(mTask.value());
+    mListener->STCStarted(mTask.value());
     while (!mCurrentToken.stop_requested() &&
            !mExternalToken.stop_requested()) {
       if (mTask->stoppingCondition()) {
@@ -49,10 +49,10 @@ private:
       }
     }
     if (mCurrentToken.stop_requested()) {
-      mListener->finished(mTask.value());
+      mListener->STCFinished(mTask.value());
     }
     else {
-      mListener->aborted(mTask.value());
+      mListener->STCAborted(mTask.value());
     }
   }
 
