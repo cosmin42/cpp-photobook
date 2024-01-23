@@ -17,7 +17,7 @@ public:
   ~TestFileMapSequentialTaskConsumerListener() = default;
   MOCK_METHOD(void, STCStarted, (PB::MediaMapper const &), (override));
   MOCK_METHOD(void, STCFinished, (PB::MediaMapper const &), (override));
-  MOCK_METHOD(void, SRCAborted, (PB::MediaMapper const &), (override));
+  MOCK_METHOD(void, STCAborted, (PB::MediaMapper const &), (override));
 };
 
 TEST(TestFilesMap, TestConstructor)

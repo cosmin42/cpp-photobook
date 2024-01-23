@@ -16,6 +16,8 @@ public:
 
   int counter() const { return mCounter; }
 
+  int stepsCount() const { return END_COUNTER; }
+
 private:
   static constexpr int END_COUNTER = 100;
 
@@ -25,9 +27,9 @@ private:
 class TestSequentialTaskConsumerListener
     : public PBDev::SequentialTaskConsumerListener<TaskExample> {
 public:
-  MOCK_METHOD(void, started, (TaskExample const &), (override));
-  MOCK_METHOD(void, finished, (TaskExample const &), (override));
-  MOCK_METHOD(void, aborted, (TaskExample const &), (override));
+  MOCK_METHOD(void, STCStarted, (TaskExample const &), (override));
+  MOCK_METHOD(void, STCFinished, (TaskExample const &), (override));
+  MOCK_METHOD(void, STCAborted, (TaskExample const &), (override));
 };
 
 TEST(TestSequenctialTaskConsumer, TestCreation)
@@ -41,11 +43,11 @@ TEST(TestSequenctialTaskConsumer, TestCreation)
   consumer.configure(
       (PBDev::SequentialTaskConsumerListener<TaskExample> *)&listener);
 
-  EXPECT_CALL(listener, started);
-  EXPECT_CALL(listener, aborted);
+  EXPECT_CALL(listener, STCStarted);
+  EXPECT_CALL(listener, STCAborted);
   consumer.start();
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(100*20));
+  std::this_thread::sleep_for(std::chrono::milliseconds(100 * 20));
   sStopSource.request_stop();
 
   std::this_thread::sleep_for(std::chrono::milliseconds(150));
