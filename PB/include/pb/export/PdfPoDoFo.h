@@ -1,6 +1,5 @@
 #pragma once
 
-#include <pb/export/Exportable.h>
 #include <pb/project/Project.h>
 #include <podofo/podofo.h>
 

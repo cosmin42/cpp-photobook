@@ -1,9 +1,8 @@
 #pragma once
 
-#include <pb/export/Exportable.h>
 
 namespace PB {
-class JpgExport final : public Exportable {
+class JpgExport final {
 public:
   void executeSingleTask();
 

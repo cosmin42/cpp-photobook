@@ -1,10 +1,9 @@
 #pragma once
 
-#include <pb/export/Exportable.h>
 #include <pb/tasks/Tasks.h>
 
 namespace PB {
-class HtmlExporter : public Exportable {
+class HtmlExporter {
 public:
   void executeSingleTask();
 

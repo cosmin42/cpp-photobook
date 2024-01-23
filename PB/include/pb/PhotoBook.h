@@ -91,16 +91,14 @@ public:
   std::vector<Path> pendingMappingPathList() const;
 
 private:
-  PhotobookListener                       *mParent = nullptr;
-  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  ProjectPersistence                       mProjectPersistence;
-  ImportFoldersLogic                       mImportLogic;
-  ImageViews                               mImageViews;
-  std::vector<std::shared_ptr<Exportable>> mExporters;
-  CommandStack                             mCommandStack;
-  ExportFactory                            mExportFactory;
-  bool                                     mMarkProjectForDeletion = false;
-
+  PhotobookListener             *mParent = nullptr;
+  std::shared_ptr<PlatformInfo>  mPlatformInfo = nullptr;
+  ProjectPersistence             mProjectPersistence;
+  ImportFoldersLogic             mImportLogic;
+  ImageViews                     mImageViews;
+  CommandStack                   mCommandStack;
+  ExportFactory                  mExportFactory;
+  bool                           mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask> mExportLogic;
 };
 } // namespace PB

@@ -150,7 +150,7 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 void Photobook::exportAlbum(std::string name, Path path)
 {
   mExportLogic.start(Context::inst().sStopSource);
-
+  /*
   auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
   std::vector<Path> fullPaths;
   for (auto photo : stagedPhotos) {
@@ -166,6 +166,7 @@ void Photobook::exportAlbum(std::string name, Path path)
   }
 
   mExportLogic.start(Context::inst().sStopSource);
+  */
 }
 
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }
