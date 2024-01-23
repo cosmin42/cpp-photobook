@@ -40,7 +40,10 @@ void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
 void PdfExportTask::taskStep()
 {
   Path tmpImageDestination = mLocalStatePath / TEMPORARY_PHOTO;
-  writeImage(mStagedImages.at(mIndex)->frontend().full, tmpImageDestination);
+
+  auto virtualImage = mStagedImages.at(mIndex);
+
+  writeImage(virtualImage->frontend().full, tmpImageDestination);
 
   PoDoFo::PdfPage &pPage = mDocument->GetPages().CreatePage(
       PoDoFo::PdfPage::CreateStandardPageSize(PoDoFo::PdfPageSize::A4, true));

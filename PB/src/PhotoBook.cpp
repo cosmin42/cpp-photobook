@@ -149,7 +149,8 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
-  mExportLogic.start(Context::inst().sStopSource);
+  mExportLogic.configure(mImageViews.stagedImages().stagedPhotos());
+  mExportLogic.start(Context::inst().sStopSource, path / (name + ".pdf"));
   /*
   auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
   std::vector<Path> fullPaths;

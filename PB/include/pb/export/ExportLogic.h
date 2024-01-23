@@ -38,26 +38,27 @@ public:
     }
   }
 
-  void start(std::stop_source &stopSource)
+  void start(std::stop_source &stopSource, Path pdfPath)
   {
-    start<ExporterTypes...>(stopSource, stopSource.get_token());
+    start<ExporterTypes...>(stopSource, stopSource.get_token(), pdfPath);
   }
 
 private:
-  template <typename T> T makeTask()
+  template <typename T> T makeTask(Path pdfPath)
   {
-    T task{Path(), mPlatformInfo->localStatePath, mProject->active().paperSettings,
-           mPtrImages};
+    T task{pdfPath, mPlatformInfo->localStatePath,
+           mProject->active().paperSettings, mPtrImages};
     return task;
   }
 
   template <typename T>
-  void start(std::stop_source &stopSource, std::stop_token stopToken)
+  void start(std::stop_source &stopSource, std::stop_token stopToken,
+             Path pdfPath)
   {
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(stopToken);
 
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
-        .configure(makeTask<T>());
+        .configure(makeTask<T>(pdfPath));
 
     auto listener =
         std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners);
