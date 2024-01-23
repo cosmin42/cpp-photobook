@@ -57,6 +57,10 @@ void PdfExportTask::taskStep()
   painter.FinishDrawing();
 
   mIndex++;
+
+  if (mIndex == stepsCount()) {
+    mDocument.reset();
+  }
 }
 
 } // namespace PB
