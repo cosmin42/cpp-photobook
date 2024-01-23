@@ -31,6 +31,13 @@ public:
     std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners) = listener;
   }
 
+  void configure(std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+  {
+    for (auto &it : stagedImages) {
+      mPtrImages.push_back(it);
+    }
+  }
+
   void start(std::stop_source &stopSource)
   {
     start<ExporterTypes...>(stopSource, stopSource.get_token());
@@ -39,9 +46,8 @@ public:
 private:
   template <typename T> T makeTask()
   {
-    T task{};
-    task.configure(mPlatformInfo);
-    task.configure(mProject);
+    T task{Path(), mPlatformInfo->localStatePath, mProject->active().paperSettings,
+           mPtrImages};
     return task;
   }
 
@@ -73,5 +79,7 @@ private:
                                     mListeners;
   std::shared_ptr<PB::Project>      mProject;
   std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
+
+  std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
 };
 } // namespace PB

@@ -18,7 +18,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   mProjectPersistence.configure(localStatePath);
 
   mExportLogic.configure(
-      (PBDev::SequentialTaskConsumerListener<PdfPoDoFoExport> *)this);
+      (PBDev::SequentialTaskConsumerListener<PdfExportTask> *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -128,7 +128,7 @@ void Photobook::loadStagedImages()
     }
   }
 }
-
+/*
 void Photobook::update(PBDev::ObservableSubject &subject)
 {
   if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
@@ -144,7 +144,7 @@ void Photobook::update(PBDev::ObservableSubject &subject)
     PBDev::basicAssert(false);
   }
 }
-
+*/
 void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)

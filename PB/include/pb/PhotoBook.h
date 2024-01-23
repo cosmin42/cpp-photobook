@@ -29,7 +29,7 @@ class Photobook final
     : public ProjectPersistenceListener,
       public ImportFoldersLogicListener,
       public ThreadScheduler,
-      public PBDev::SequentialTaskConsumerListener<PdfPoDoFoExport> {
+      public PBDev::SequentialTaskConsumerListener<PdfExportTask> {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
   ~Photobook() = default;
@@ -82,11 +82,11 @@ public:
 
   void onProjectRenamed() override;
 
-  void started(PdfPoDoFoExport const &task) override {}
+  void started(PdfExportTask const &task) override {}
 
-  void finished(PdfPoDoFoExport const &task) override {}
+  void finished(PdfExportTask const &task) override {}
 
-  void aborted(PdfPoDoFoExport const &task) override {}
+  void aborted(PdfExportTask const &task) override {}
 
   std::vector<Path> pendingMappingPathList() const;
 
@@ -101,6 +101,6 @@ private:
   ExportFactory                            mExportFactory;
   bool                                     mMarkProjectForDeletion = false;
 
-  ExportLogic<PB::PdfPoDoFoExport> mExportLogic;
+  ExportLogic<PB::PdfExportTask> mExportLogic;
 };
 } // namespace PB
