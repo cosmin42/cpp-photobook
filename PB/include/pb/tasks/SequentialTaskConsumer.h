@@ -14,7 +14,7 @@ public:
   virtual void STCStarted(Task const &task) = 0;
   virtual void STCFinished(Task const &task) = 0;
   virtual void STCAborted(Task const &task) = 0;
-  virtual void STCUpdate(Task const &task){};
+  virtual void STCUpdate(Task const &){};
 };
 
 template <PB::TaskConcept Task> class SequentialTaskConsumer final {
