@@ -46,4 +46,6 @@ enum class PaperType {
 enum class VirtualImageType { None, Text, Regular, Test };
 
 enum class JobType { None, Map, ThumbnailsProcess, Export, Full };
+
+enum class ProgressType { None, Defined, Undefined };
 } // namespace PB

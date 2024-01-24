@@ -10,7 +10,15 @@ void ProgressManager::configure(ProgressManagerListener *listener)
 void ProgressManager::subscribe(std::string name, JobType jobType,
                                 int progressCap = 0)
 {
-  mProgress[name] = ProgressInfo{jobType, 0, progressCap};
+  if (progressCap == 0) {
+    mProgress[name] =
+        ProgressInfo{jobType, ProgressType::Undefined, 0, progressCap};
+  }
+  else {
+    mProgress[name] =
+        ProgressInfo{jobType, ProgressType::Defined, 0, progressCap};
+  }
+
   mListener->progressUpdate(names(), totalDefiniteProgress(),
                             totalIndefiniteProgress());
 }

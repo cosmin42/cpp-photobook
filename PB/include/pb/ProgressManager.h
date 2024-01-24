@@ -10,9 +10,10 @@
 namespace PB {
 
 struct ProgressInfo {
-  JobType jobType = JobType::None;
-  int     progress = 0;
-  int     progressCap = 0;
+  JobType      jobType = JobType::None;
+  ProgressType progressType;
+  int          progress = 0;
+  int          progressCap = 0;
 };
 
 class ProgressManagerListener {
