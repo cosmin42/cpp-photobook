@@ -165,7 +165,6 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
       [[maybe_unused]] Microsoft::UI::Xaml::Controls::
           ContentDialogButtonClickEventArgs const &args);
 
-  
   void OnRenameProjectDialogCancel(
       [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
       [[maybe_unused]] Microsoft::UI::Xaml::Controls::
@@ -213,7 +212,9 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void OnProjectRenamed();
 
   void OnProgressUpdate(int progress, int reference);
-  void onProgressUpdate(std::string name, PB::ProgressInfo progressInfo);
+  void onProgressUpdate(std::vector<std::string> names,
+                        PB::ProgressInfo         definedProgress,
+                        PB::ProgressInfo         undefinedProgress);
 
   void OnExportProgressUpdate(int progress, int reference);
 

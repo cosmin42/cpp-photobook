@@ -76,9 +76,10 @@ void PhotobookTableListener::onError(PBDev::Error error)
 
 void PhotobookTableListener::post(std::function<void()> f) { mParent->Post(f); }
 
-void PhotobookTableListener::onProgressUpdate(std::string      name,
-                                              PB::ProgressInfo progressInfo)
+void PhotobookTableListener::onProgressUpdate(
+    std::vector<std::string> names, PB::ProgressInfo definedProgress,
+    PB::ProgressInfo undefinedProgress)
 {
-  mParent->onProgressUpdate(name, progressInfo);
+  mParent->onProgressUpdate(names, definedProgress, undefinedProgress);
 }
 } // namespace winrt::PhotobookUI::implementation

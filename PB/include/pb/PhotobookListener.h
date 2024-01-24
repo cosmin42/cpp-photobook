@@ -30,8 +30,9 @@ public:
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onProgressUpdate(std::string  name,
-                                ProgressInfo progressInfo) = 0;
+  virtual void onProgressUpdate(std::vector<std::string> names,
+                                PB::ProgressInfo         definedProgress,
+                                PB::ProgressInfo         undefinedProgress) = 0;
 };
 
 } // namespace PB

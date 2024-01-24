@@ -11,7 +11,8 @@ void ProgressManager::subscribe(std::string name, JobType jobType,
                                 int progressCap = 0)
 {
   mProgress[name] = ProgressInfo{jobType, 0, progressCap};
-  mListener->progressStarted(name, mProgress.at(name));
+  mListener->progressUpdate(names(), totalDefiniteProgress(),
+                            totalIndefiniteProgress());
 }
 
 void ProgressManager::update(std::string name)
@@ -25,13 +26,15 @@ void ProgressManager::update(std::string name)
     finish(name);
   }
 
-  mListener->progressUpdate(name, progressInfo);
+  mListener->progressUpdate(names(), totalDefiniteProgress(),
+                            totalIndefiniteProgress());
 }
 
 void ProgressManager::abort(std::string name)
 {
   mProgress.erase(name);
-  mListener->progressAborted(name);
+  mListener->progressUpdate(names(), totalDefiniteProgress(),
+                            totalIndefiniteProgress());
 }
 
 void ProgressManager::finish(std::string name) { mProgress.erase(name); }
@@ -62,5 +65,15 @@ ProgressInfo ProgressManager::totalIndefiniteProgress() const
     }
   }
   return totalProgressInfo;
+}
+
+std::vector<std::string> ProgressManager::names() const
+{
+  std::vector<std::string> result;
+  for (auto [name, progress] : mProgress) {
+    result.push_back(name);
+  }
+
+  return result;
 }
 } // namespace PB

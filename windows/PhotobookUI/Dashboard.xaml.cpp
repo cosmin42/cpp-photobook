@@ -257,8 +257,9 @@ void Dashboard::onProjectRenamed()
   }
 }
 
-void Dashboard::onProgressUpdate(std::string      name,
-                                 PB::ProgressInfo progressInfo)
+void Dashboard::onProgressUpdate(std::vector<std::string> names,
+                                 PB::ProgressInfo         definedProgress,
+                                 PB::ProgressInfo         undefinedProgress)
 {
 }
 

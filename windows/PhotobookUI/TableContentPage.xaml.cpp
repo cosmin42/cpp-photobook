@@ -856,10 +856,10 @@ void TableContentPage::OnProgressUpdate(int progress, int reference)
   }
 }
 
-void TableContentPage::onProgressUpdate(std::string  name,
-                                      PB::ProgressInfo progressInfo)
+void TableContentPage::onProgressUpdate(std::vector<std::string> names,
+                                        PB::ProgressInfo definedProgress,
+                                        PB::ProgressInfo undefinedProgress)
 {
-
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)

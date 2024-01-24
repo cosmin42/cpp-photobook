@@ -81,8 +81,9 @@ struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
 
   void onProjectRenamed() override;
 
-  void onProgressUpdate(std::string      name,
-                        PB::ProgressInfo progressInfo) override;
+  void onProgressUpdate(std::vector<std::string> names,
+                        PB::ProgressInfo             definedProgress,
+                        PB::ProgressInfo             undefinedProgress) override;
 
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();

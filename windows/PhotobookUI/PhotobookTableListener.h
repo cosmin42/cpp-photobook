@@ -38,8 +38,9 @@ public:
 
   void post(std::function<void()> f) override;
 
-  void onProgressUpdate(std::string      name,
-                        PB::ProgressInfo progressInfo) override;
+  void onProgressUpdate(std::vector<std::string> names,
+                        PB::ProgressInfo         definedProgress,
+                        PB::ProgressInfo         undefinedProgress) override;
 
 private:
   TableContentPage *mParent = nullptr;

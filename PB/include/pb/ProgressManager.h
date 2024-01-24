@@ -15,9 +15,9 @@ struct ProgressInfo {
 
 class ProgressManagerListener {
 public:
-  virtual void progressStarted(std::string name, ProgressInfo progressInfo) = 0;
-  virtual void progressUpdate(std::string name, ProgressInfo progressInfo) = 0;
-  virtual void progressAborted(std::string name) = 0;
+  virtual void progressUpdate(std::vector<std::string> names,
+                              ProgressInfo             definedProgress,
+                              ProgressInfo             undefinedProgress) = 0;
 };
 
 class ProgressManager final {
@@ -31,10 +31,12 @@ public:
   void abort(std::string name);
   void finish(std::string name);
 
+private:
   ProgressInfo totalDefiniteProgress() const;
   ProgressInfo totalIndefiniteProgress() const;
 
-private:
+  std::vector<std::string> names() const;
+
   ProgressManagerListener *mListener = nullptr;
 
   std::unordered_map<std::string, ProgressInfo> mProgress;
