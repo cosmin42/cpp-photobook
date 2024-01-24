@@ -27,7 +27,7 @@ namespace PB {
 class Photobook final
     : public ProjectPersistenceListener,
       public ImportFoldersLogicListener,
-      public ThreadScheduler,
+      public PBDev::ThreadScheduler,
       public PBDev::SequentialTaskConsumerListener<PdfExportTask> {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
@@ -97,5 +97,6 @@ private:
   CommandStack                   mCommandStack;
   bool                           mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask> mExportLogic;
+
 };
 } // namespace PB

@@ -21,17 +21,11 @@ public:
                                 Path small) = 0;
 };
 
-class ThreadScheduler {
-public:
-  virtual ~ThreadScheduler() = default;
-  virtual void post(std::function<void()> f) = 0;
-};
-
 class ImportFoldersLogic final
     : public PBDev::SequentialTaskConsumerListener<MediaMapper> {
 public:
   void configure(ImportFoldersLogicListener *listener);
-  void configure(ThreadScheduler *scheduler);
+  void configure(PBDev::ThreadScheduler *scheduler);
 
   // todo: Remove this, replace with mProject reference
   void configure(std::pair<int, int> screenSize);
@@ -69,7 +63,7 @@ private:
                         int progressCap);
 
   ImportFoldersLogicListener                   *mListener = nullptr;
-  ThreadScheduler                              *mScheduler = nullptr;
+  PBDev::ThreadScheduler                       *mScheduler = nullptr;
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;
   std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>

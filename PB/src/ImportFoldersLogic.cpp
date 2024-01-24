@@ -8,7 +8,7 @@ void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
   mListener = listener;
 }
 
-void ImportFoldersLogic::configure(ThreadScheduler *scheduler)
+void ImportFoldersLogic::configure(PBDev::ThreadScheduler *scheduler)
 {
   mScheduler = scheduler;
 }

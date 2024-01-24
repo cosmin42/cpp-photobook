@@ -12,7 +12,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   ProjectSnapshot::platformInfo = mPlatformInfo;
 
   mImportLogic.configure((ImportFoldersLogicListener *)this);
-  mImportLogic.configure((ThreadScheduler *)this);
+  mImportLogic.configure((PBDev::ThreadScheduler *)this);
 
   mProjectPersistence.configure((ProjectPersistenceListener *)this);
   mProjectPersistence.configure(localStatePath);
