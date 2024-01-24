@@ -98,5 +98,6 @@ private:
   CommandStack                   mCommandStack;
   bool                           mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask> mExportLogic;
+  ProgressManager                mProgressManager;
 };
 } // namespace PB

@@ -16,6 +16,8 @@ public:
   int  stepsCount() const;
   void taskStep();
 
+  std::string name() const;
+
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";
 

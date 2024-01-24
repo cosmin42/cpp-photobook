@@ -63,4 +63,6 @@ void PdfExportTask::taskStep()
   }
 }
 
+std::string PdfExportTask::name() const { return mPdfPath.filename().string(); }
+
 } // namespace PB
