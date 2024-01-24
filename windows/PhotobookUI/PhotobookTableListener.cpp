@@ -39,18 +39,6 @@ void PhotobookTableListener::onMetadataUpdated() {}
 
 void PhotobookTableListener::onPersistenceError(PBDev::Error) {}
 
-void PhotobookTableListener::onProgressUpdate(int progress, int reference)
-{
-  mParent->OnProgressUpdate(progress, reference);
-}
-
-void PhotobookTableListener::onExportProgressUpdate(int progress, int reference)
-{
-  mParent->Post([this, progress, reference]() {
-    mParent->OnExportProgressUpdate(progress, reference);
-  });
-}
-
 void PhotobookTableListener::onExportFinished()
 {
   mParent->Post([this]() { mParent->OnExportFinished(); });

@@ -793,43 +793,30 @@ void TableContentPage::OnStagedDragItemsStarting(
   mDragSource = DragSource::Staged;
 }
 
-void TableContentPage::UpdateStatusBar()
+void TableContentPage::UpdateStatusBar(std::vector<std::string> names)
 {
-  if (mImportedDirectories.empty()) {
+  if (names.empty()) {
     StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   }
   else {
-    auto        pendingMappingList = mPhotoBook->pendingMappingPathList();
-    std::string names;
-    for (auto &path : pendingMappingList) {
-      names = names + ", " + path.stem().string();
+    std::string concatenatedStrings;
+
+    for (auto const &name : names) {
+      concatenatedStrings = concatenatedStrings + ", " + name;
     }
 
     StatusLabelText().Text(
-        winrt::to_hstring("Status: Mapping " + names + " ..."));
+        winrt::to_hstring("Status: Mapping " + concatenatedStrings + " ..."));
   }
 }
-void TableContentPage::OnMappingAborted(Path path)
-{
-  PBDev::basicAssert(mImportedDirectories.contains(path));
-  mImportedDirectories.erase(path);
-  UpdateStatusBar();
-}
+void TableContentPage::OnMappingAborted(Path path) {}
 
-void TableContentPage::OnMappingStarted(Path path)
-{
-  mImportedDirectories.insert(path);
-  UpdateStatusBar();
-}
+void TableContentPage::OnMappingStarted(Path path) {}
 
 void TableContentPage::OnProjectRenamed() {}
 
 void TableContentPage::OnMappingFinished(Path path)
 {
-  PBDev::basicAssert(mImportedDirectories.contains(path));
-  mImportedDirectories.erase(path);
-  UpdateStatusBar();
-
   mNavigationItemsCollection.Append(
       winrt::to_hstring(path.filename().string()));
 
@@ -838,9 +825,11 @@ void TableContentPage::OnMappingFinished(Path path)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::OnProgressUpdate(int progress, int reference)
+void TableContentPage::onProgressUpdate(std::vector<std::string> names,
+                                        PB::ProgressInfo definedProgress,
+                                        PB::ProgressInfo undefinedProgress)
 {
-  if (progress == reference) {
+  if (definedProgress.progressCap == 0) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 
@@ -849,17 +838,13 @@ void TableContentPage::OnProgressUpdate(int progress, int reference)
   else {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
-    MainProgressBar().Maximum(reference);
-    MainProgressBar().Value(progress);
+    MainProgressBar().Maximum(definedProgress.progressCap);
+    MainProgressBar().Value(definedProgress.progress);
 
     StatusLabelText().Text(winrt::to_hstring("Status: Processing..."));
   }
-}
 
-void TableContentPage::onProgressUpdate(std::vector<std::string> names,
-                                        PB::ProgressInfo definedProgress,
-                                        PB::ProgressInfo undefinedProgress)
-{
+  UpdateStatusBar(names);
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)

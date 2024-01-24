@@ -13,8 +13,6 @@ public:
   virtual void onMetadataUpdated() = 0;
   virtual void onPersistenceError(PBDev::Error) = 0;
 
-  virtual void onProgressUpdate(int, int) = 0;
-  virtual void onExportProgressUpdate(int, int) = 0;
   virtual void onExportFinished() = 0;
   virtual void onError(PBDev::Error) = 0;
   virtual void

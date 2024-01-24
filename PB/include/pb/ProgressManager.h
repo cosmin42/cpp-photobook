@@ -5,6 +5,8 @@
 
 #include <pb/Enums.h>
 
+#include <pb/Config.h>
+
 namespace PB {
 
 struct ProgressInfo {

@@ -263,11 +263,6 @@ void Dashboard::onProgressUpdate(std::vector<std::string> names,
 {
 }
 
-void Dashboard::onProgressUpdate([[maybe_unused]] int, [[maybe_unused]] int) {}
-void Dashboard::onExportProgressUpdate([[maybe_unused]] int,
-                                       [[maybe_unused]] int)
-{
-}
 void Dashboard::onExportFinished() {}
 void Dashboard::onError([[maybe_unused]] PBDev::Error) {}
 void Dashboard::onStagedImageAdded(

@@ -55,8 +55,6 @@ struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
-  virtual void onProgressUpdate(int, int) override;
-  virtual void onExportProgressUpdate(int, int) override;
   virtual void onExportFinished() override;
   virtual void onError(PBDev::Error) override;
   virtual void

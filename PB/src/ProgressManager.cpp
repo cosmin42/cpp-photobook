@@ -71,7 +71,9 @@ std::vector<std::string> ProgressManager::names() const
 {
   std::vector<std::string> result;
   for (auto [name, progress] : mProgress) {
-    result.push_back(name);
+    if (progress.jobType == JobType::Map) {
+      result.push_back(Path(name).filename().string());
+    }
   }
 
   return result;

@@ -19,9 +19,6 @@ public:
   void onMetadataUpdated() override;
   void onPersistenceError(PBDev::Error) override;
 
-  void onProgressUpdate(int progress, int reference) override;
-  void onExportProgressUpdate(int, int) override;
-
   void onExportFinished() override;
 
   void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
