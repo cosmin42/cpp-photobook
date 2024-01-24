@@ -28,10 +28,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -39,10 +35,6 @@
     <ProjectConfiguration Include="Debug|ARM64">
       <Configuration>Debug</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -88,7 +80,7 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\build\include;$(VcpkgRoot)\installed\x64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\third-party\podofo-build\include;$(SolutionDir)..\..\PB\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\build-$(Platform)\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\third-party\podofo-build\include;$(SolutionDir)..\..\PB\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\..\PB\build\include;$(VcpkgRoot)\installed\ARM64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\third-party\podofo-build\include;$(SolutionDir)..\..\PB\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">stdcpp20</LanguageStandard>
     </ClCompile>
@@ -98,23 +90,32 @@
     </PreBuildEvent>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ECHO ON
-xcopy /y $(VcpkgRoot)\installed\x64-windows\debug\bin\*.dll $(OutDir)\AppX\
-xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(OutDir)\AppX\</Command>
+xcopy /y $(VcpkgRoot)\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)\AppX\
+xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*.dll $(OutDir)\AppX\</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\podofo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\podofo.lib;pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Link>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\include;$(VcpkgRoot)\installed\x64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\build\include;$(SolutionDir)..\..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\include;$(VcpkgRoot)\installed\x64-windows\include\thread-pool-0.6.2;$(SolutionDir)..\..\PB\build-$(Platform)\include;$(SolutionDir)..\..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\podofo.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\podofo.lib;pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\podofo.lib;pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\*.dll $(OutDir)\AppX\</Command>
@@ -243,11 +244,6 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(O
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\PB\build\pblib.vcxproj">
-      <Project>{4d898e61-5742-370e-b025-ddab686b7b27}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\Righteous-Regular.ttf" />

@@ -42,6 +42,9 @@ if (STATIC_CHECK)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
 endif()
 
+set(PBLIB_LIBRARY_NAME pblib-${CMAKE_GENERATOR_PLATFORM})
+set(PBLIB_TESTS_LIBRARY_NAME pbtests-${CMAKE_GENERATOR_PLATFORM})
+
 find_package(Boost REQUIRED program_options)
 find_package(exiv2 CONFIG REQUIRED)
 if (LOG_LEVEL MATCHES Debug)
@@ -59,7 +62,7 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
 include_directories(${CMAKE_BINARY_DIR})
 
-add_library(pblib STATIC
+add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/IteratorWithState.h
     include/pb/config/Log.h
     include/pb/config/${PRINTER_TYPE}.h
@@ -154,12 +157,12 @@ add_library(pblib STATIC
     src/VirtualImage.cpp
     src/WorkersManager.cpp)
 
-target_include_directories(pblib PUBLIC
+target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
     include
     third-party/windows/pdfium/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-target_link_libraries(pblib PUBLIC
+target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     opencv_core
     Boost::boost
     Boost::program_options
@@ -169,10 +172,10 @@ target_link_libraries(pblib PUBLIC
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json)
 
-set_target_properties(pblib PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 if (LOG_LEVEL MATCHES Debug)
-    add_executable(pbtests 
+    add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
         tests/MockListeners.h
         tests/MockListeners.cpp
         tests/TestPersistence.cpp
@@ -192,11 +195,11 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestThirdPartyLinks.cpp
         tests/TestFilesMap.cpp)
 
-    target_include_directories(pbtests PRIVATE
+    target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         include
         ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-    target_link_libraries(pbtests
+    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME}
         opencv_core
         opencv_imgcodecs
         Boost::boost
@@ -209,11 +212,11 @@ if (LOG_LEVEL MATCHES Debug)
         unofficial::sqlite3::sqlite3
         bcrypt
         nlohmann_json::nlohmann_json
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug/podofo.lib
-        pblib)
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
+        ${PBLIB_LIBRARY_NAME})
 
-    add_custom_command(TARGET pbtests POST_BUILD        # Adds a post-build event to MyTest
+    add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
     COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
-        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/x64/Debug"      # <--this is in-file
+        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
         "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build/Debug/")                 # <--this is out-file path
 endif()

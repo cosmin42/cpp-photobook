@@ -67,3 +67,4 @@ PB/test-data/file-mapping-test/
 compile_commands.json
 out/
 windows/PhotobookUI/ARM64/
+PB/build*
