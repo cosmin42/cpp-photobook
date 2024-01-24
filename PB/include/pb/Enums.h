@@ -43,11 +43,7 @@ enum class PaperType {
   Custom
 };
 
-enum class VirtualImageType
-{
-	None,
-	Text,
-	Regular,
-	Test
-};
+enum class VirtualImageType { None, Text, Regular, Test };
+
+enum class JobType { None, Map, ThumbnailsProcess, Export };
 } // namespace PB

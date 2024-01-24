@@ -100,6 +100,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/project/ProjectMetadata.h
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
+    include/pb/ProgressManager.h
     include/pb/tasks/Tasks.h
     include/pb/tasks/FileMapper.h
     include/pb/tasks/ParallelTaskConsumer.h
@@ -140,6 +141,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/PdfPoDoFo.cpp
     src/Persistence.cpp
     src/Photobook.cpp
+    src/ProgressManager.cpp
     src/Project.cpp
     src/ProjectSnapshot.cpp
     src/ProjectMetadata.cpp

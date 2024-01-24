@@ -11,6 +11,7 @@
 #include <pb/ImportFoldersLogic.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
+#include <pb/ProgressManager.h>
 #include <pb/config/Log.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
@@ -97,6 +98,5 @@ private:
   CommandStack                   mCommandStack;
   bool                           mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask> mExportLogic;
-
 };
 } // namespace PB
