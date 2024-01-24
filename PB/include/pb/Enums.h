@@ -45,5 +45,5 @@ enum class PaperType {
 
 enum class VirtualImageType { None, Text, Regular, Test };
 
-enum class JobType { None, Map, ThumbnailsProcess, Export };
+enum class JobType { None, Map, ThumbnailsProcess, Export, Full };
 } // namespace PB

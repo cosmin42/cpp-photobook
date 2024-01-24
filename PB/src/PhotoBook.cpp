@@ -19,6 +19,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
 
   mExportLogic.configure(
       (PBDev::SequentialTaskConsumerListener<PdfExportTask> *)this);
+
+  mProgressManager.configure((PB::ProgressManagerListener *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
@@ -201,9 +203,17 @@ void Photobook::newProject(std::string name)
   ImageFactory::inst().configure(mProjectPersistence.currentProject());
 }
 
-void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
+void Photobook::onMappingStarted(Path path)
+{
+  mProgressManager.subscribe(path.string(), JobType::Map);
+  mParent->onMappingStarted(path);
+}
 
-void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
+void Photobook::onMappingAborted(Path path)
+{
+  mProgressManager.abort(path.string());
+  mParent->onMappingAborted(path);
+}
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
@@ -220,6 +230,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mImageViews.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
+  mProgressManager.finish(root.string());
 
   mImportLogic.processImages(root, keyAndPaths);
 }

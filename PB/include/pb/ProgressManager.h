@@ -29,6 +29,10 @@ public:
   void subscribe(std::string name, JobType jobType, int progressCap = 0);
   void update(std::string name);
   void abort(std::string name);
+  void finish(std::string name);
+
+  ProgressInfo totalDefiniteProgress() const;
+  ProgressInfo totalIndefiniteProgress() const;
 
 private:
   ProgressManagerListener *mListener = nullptr;
