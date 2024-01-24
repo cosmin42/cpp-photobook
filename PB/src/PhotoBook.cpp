@@ -270,9 +270,20 @@ std::vector<Path> Photobook::pendingMappingPathList() const
 
 void Photobook::onProjectRenamed() {}
 
-void Photobook::STCStarted(PdfExportTask const &task) {}
+void Photobook::STCStarted(PdfExportTask const &task)
+{
+  mProgressManager.subscribe(task.name(), JobType::Export, task.stepsCount());
+}
+
 void Photobook::STCFinished(PdfExportTask const &task) {}
-void Photobook::STCAborted(PdfExportTask const &task) {}
-void Photobook::STCUpdate(PdfExportTask const &task) {}
+void Photobook::STCAborted(PdfExportTask const &task)
+{
+  mProgressManager.abort(task.name());
+}
+
+void Photobook::STCUpdate(PdfExportTask const &task)
+{
+  mProgressManager.update(task.name());
+}
 
 } // namespace PB

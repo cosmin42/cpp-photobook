@@ -1,4 +1,5 @@
 #pragma once
+#include <pb/ProgressManager.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Util.h>
 
@@ -28,6 +29,9 @@ public:
   virtual void onImageUpdated(Path root, int row, int index) = 0;
 
   virtual void post(std::function<void()> f) = 0;
+
+  virtual void onProgressUpdate(std::string  name,
+                                ProgressInfo progressInfo) = 0;
 };
 
 } // namespace PB

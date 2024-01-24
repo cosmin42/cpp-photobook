@@ -23,9 +23,7 @@ void PhotobookTableListener::onMappingAborted(Path path)
 void PhotobookTableListener::onImageUpdated(Path root, int row, int index)
 {
   mParent->Post(
-      [this, row, index]() {
-          mParent->UpdateUnstagedImage(row, index);
-      });
+      [this, row, index]() { mParent->UpdateUnstagedImage(row, index); });
 }
 
 void PhotobookTableListener::configure(TableContentPage *parent)
@@ -77,4 +75,10 @@ void PhotobookTableListener::onError(PBDev::Error error)
 }
 
 void PhotobookTableListener::post(std::function<void()> f) { mParent->Post(f); }
+
+void PhotobookTableListener::onProgressUpdate(std::string      name,
+                                              PB::ProgressInfo progressInfo)
+{
+  mParent->onProgressUpdate(name, progressInfo);
+}
 } // namespace winrt::PhotobookUI::implementation

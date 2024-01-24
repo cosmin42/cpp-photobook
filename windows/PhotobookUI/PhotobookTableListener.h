@@ -4,6 +4,7 @@
 
 #include <pb/DataManager.h>
 #include <pb/PhotobookListener.h>
+#include <pb/ProgressManager.h>
 #include <pb/util/Util.h>
 
 namespace winrt::PhotobookUI::implementation {
@@ -11,7 +12,6 @@ struct TableContentPage;
 
 class PhotobookTableListener : public PB::PhotobookListener {
 public:
-
   void configure(TableContentPage *parent);
 
   void onProjectRead() override;
@@ -38,7 +38,10 @@ public:
 
   void post(std::function<void()> f) override;
 
+  void onProgressUpdate(std::string      name,
+                        PB::ProgressInfo progressInfo) override;
+
 private:
-  TableContentPage* mParent = nullptr;
+  TableContentPage *mParent = nullptr;
 };
 } // namespace winrt::PhotobookUI::implementation

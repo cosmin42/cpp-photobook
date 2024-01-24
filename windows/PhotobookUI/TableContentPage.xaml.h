@@ -213,6 +213,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void OnProjectRenamed();
 
   void OnProgressUpdate(int progress, int reference);
+  void onProgressUpdate(std::string name, PB::ProgressInfo progressInfo);
+
   void OnExportProgressUpdate(int progress, int reference);
 
   void OnExportFinished();

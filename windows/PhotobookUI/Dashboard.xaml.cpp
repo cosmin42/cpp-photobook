@@ -257,6 +257,11 @@ void Dashboard::onProjectRenamed()
   }
 }
 
+void Dashboard::onProgressUpdate(std::string      name,
+                                 PB::ProgressInfo progressInfo)
+{
+}
+
 void Dashboard::onProgressUpdate([[maybe_unused]] int, [[maybe_unused]] int) {}
 void Dashboard::onExportProgressUpdate([[maybe_unused]] int,
                                        [[maybe_unused]] int)

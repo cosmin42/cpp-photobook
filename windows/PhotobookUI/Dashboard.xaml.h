@@ -16,7 +16,6 @@ using namespace winrt::Windows::Foundation::Collections;
 
 namespace winrt::PhotobookUI::implementation {
 
-
 struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
   Dashboard();
 
@@ -56,7 +55,6 @@ struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
 
   void OnNavigatedTo(Microsoft::UI::Xaml::Navigation::NavigationEventArgs);
 
-
   virtual void onProgressUpdate(int, int) override;
   virtual void onExportProgressUpdate(int, int) override;
   virtual void onExportFinished() override;
@@ -82,6 +80,9 @@ struct Dashboard : DashboardT<Dashboard>, public PB::PhotobookListener {
   void onPersistenceError(PBDev::Error) override;
 
   void onProjectRenamed() override;
+
+  void onProgressUpdate(std::string      name,
+                        PB::ProgressInfo progressInfo) override;
 
 private:
   Microsoft::UI::Xaml::Controls::MenuFlyoutItem DeleteFlyout();

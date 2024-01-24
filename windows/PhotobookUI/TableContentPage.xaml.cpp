@@ -856,6 +856,12 @@ void TableContentPage::OnProgressUpdate(int progress, int reference)
   }
 }
 
+void TableContentPage::onProgressUpdate(std::string  name,
+                                      PB::ProgressInfo progressInfo)
+{
+
+}
+
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)
 {
   MainProgressBar().Visibility(winrt::Microsoft::UI::Xaml::Visibility::Visible);
