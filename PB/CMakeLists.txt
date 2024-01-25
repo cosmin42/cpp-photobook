@@ -220,5 +220,5 @@ if (LOG_LEVEL MATCHES Debug)
     add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
     COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
         "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
-        "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build/Debug/")                 # <--this is out-file path
+        "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
 endif()
