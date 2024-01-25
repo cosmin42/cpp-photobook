@@ -829,7 +829,9 @@ void TableContentPage::onProgressUpdate(std::vector<std::string> names,
                                         PB::ProgressInfo definedProgress,
                                         PB::ProgressInfo undefinedProgress)
 {
-  if (definedProgress.progressCap == 0) {
+  PBDev::basicAssert(definedProgress.progressType != PB::ProgressType::None);
+
+  if (definedProgress.progressType == PB::ProgressType::Undefined) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
 

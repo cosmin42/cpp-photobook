@@ -8,7 +8,7 @@ void ProgressManager::configure(ProgressManagerListener *listener)
 }
 
 void ProgressManager::subscribe(std::string name, JobType jobType,
-                                int progressCap = 0)
+                                int progressCap)
 {
   if (progressCap == 0) {
     mProgress[name] =
@@ -25,9 +25,8 @@ void ProgressManager::subscribe(std::string name, JobType jobType,
 
 void ProgressManager::update(std::string name)
 {
-  auto progressInfo = mProgress.at(name);
+  auto &progressInfo = mProgress.at(name);
   progressInfo.progress++;
-  mProgress[name] = progressInfo;
 
   if (progressInfo.progressCap > 0 &&
       progressInfo.progressCap == progressInfo.progress) {

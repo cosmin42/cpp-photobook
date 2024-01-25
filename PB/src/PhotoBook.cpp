@@ -205,14 +205,14 @@ void Photobook::newProject(std::string name)
 
 void Photobook::onMappingStarted(Path path)
 {
-  mProgressManager.subscribe(path.string(), JobType::Map);
   mParent->onMappingStarted(path);
+  mProgressManager.subscribe(path.string(), JobType::Map);
 }
 
 void Photobook::onMappingAborted(Path path)
 {
-  mProgressManager.abort(path.string());
   mParent->onMappingAborted(path);
+  mProgressManager.abort(path.string());
 }
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
@@ -232,6 +232,8 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mParent->onMappingFinished(root);
   mProgressManager.finish(root.string());
 
+  mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
+                             keyAndPaths.size());
   mImportLogic.processImages(root, keyAndPaths);
 }
 
@@ -246,7 +248,7 @@ void Photobook::onImageProcessed(Path key, Path root, Path full, Path medium,
   auto [globalProgress, globalProgressCap] =
       mImportLogic.imageProcessingProgress();
 
-  mParent->onProgressUpdate(globalProgress, (int)globalProgressCap);
+  mProgressManager.update(root.string());
 
   auto [row, index] = mImageViews.imageMonitor().position(key);
 

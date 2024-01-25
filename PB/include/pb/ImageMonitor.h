@@ -62,8 +62,8 @@ public:
 
 private:
   ImageMonitorListener                                   *mListener = nullptr;
-  boost::bimaps::bimap<Path, int>                         mRowIndexes;
-  boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions;
+  boost::bimaps::bimap<Path, int>                         mRowIndexes = {};
+  boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions = {};
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;
   std::unordered_set<int>                                 mPendingRows;
 };
