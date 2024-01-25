@@ -27,7 +27,9 @@ void ImageMonitor::replaceImageMonitorData(
 void ImageMonitor::addRow(Path                                       path,
                           std::vector<std::shared_ptr<VirtualImage>> images)
 {
-  PBDev::basicAssert(mRowIndexes.left.find(path) == mRowIndexes.left.end());
+  if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
+    return;
+  }
   mRowIndexes.insert({path, (int)mRowIndexes.size()});
 
   mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());

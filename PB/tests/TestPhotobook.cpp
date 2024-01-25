@@ -129,5 +129,7 @@ TEST(TestPhotobook, TestProjectLoading)
 
   photobook.loadProject();
 
+  EXPECT_CALL(*(MockPhotobookImageMonitorListener *)imageMonitorListener.get(),
+              onCleared());
   photobook.unloadProject();
 }

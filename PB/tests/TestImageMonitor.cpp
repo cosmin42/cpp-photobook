@@ -13,9 +13,16 @@ public:
 };
 
 class ImageMonitorVirtualImage : public PB::VirtualImage {
+public:
+  explicit ImageMonitorVirtualImage(Path path) : mPath(path) {}
+  ~ImageMonitorVirtualImage() = default;
   MOCK_METHOD(PB::VirtualImageType, type, (), (const override));
   MOCK_METHOD(std::vector<Path>, resources, (), (const override));
-  MOCK_METHOD(Path, keyPath, (), (const override));
+
+  Path keyPath() const override { return mPath; }
+
+private:
+  Path mPath;
 };
 
 TEST(TestImageMonitor, TestCreation)
@@ -48,11 +55,13 @@ TEST(TestImageMonitor, TestAdding)
 
   imageMonitor.setListener(listenerPtr.get());
 
-  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>()};
+  auto img0 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/c.jpg"));
+  auto img1 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/d.jpg"));
+  auto img2 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/e.jpg"));
+  auto img3 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/f.jpg"));
+
+  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {img0, img1,
+                                                                img2, img3};
 
   EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
 
@@ -91,11 +100,13 @@ TEST(TestImageMonitor, TestRemoving)
 
   imageMonitor.setListener(listenerPtr.get());
 
-  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>()};
+  auto img0 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/c.jpg"));
+  auto img1 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/d.jpg"));
+  auto img2 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/e.jpg"));
+  auto img3 = std::make_shared<ImageMonitorVirtualImage>(Path("a/b/f.jpg"));
+
+  std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow = {img0, img1,
+                                                                img2, img3};
 
   EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
 
@@ -113,8 +124,8 @@ TEST(TestImageMonitor, TestRemoving)
   EXPECT_EQ(imageMonitor.rowPath(0), Path("a/b"));
 
   std::vector<std::shared_ptr<PB::VirtualImage>> newImageRow2 = {
-      std::make_shared<ImageMonitorVirtualImage>(),
-      std::make_shared<ImageMonitorVirtualImage>()};
+      std::make_shared<ImageMonitorVirtualImage>(Path("a/b/1.jpg")),
+      std::make_shared<ImageMonitorVirtualImage>(Path("a/b/2.jpg"))};
 
   EXPECT_CALL(*listenerPtr.get(), onImportFolderAdded());
 
@@ -156,5 +167,4 @@ TEST(TestImageMonitor, TestRemoving)
 
   EXPECT_EQ(imageMonitor.isPending(Path("a/b")), false);
   EXPECT_EQ(imageMonitor.isPending(Path("b/c")), false);
-
 }
