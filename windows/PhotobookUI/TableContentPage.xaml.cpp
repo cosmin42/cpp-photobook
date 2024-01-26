@@ -58,13 +58,22 @@ TableContentPage::TableContentPage()
                      ->api())
 {
   mListener.configure(this);
-  mPhotoBook->configure((PB::PhotobookListener *)&mListener);
+
+  auto photobookListener = dynamic_cast<PB::PhotobookListener *>(&mListener);
+  PBDev::basicAssert(photobookListener != nullptr);
+  mPhotoBook->configure(photobookListener);
 
   InitializeComponent();
 
   mPhotoBook->configure(ScreenSize());
+
+  auto stagedImageListener = dynamic_cast<PB::StagedImagesListener *>(this);
+  PBDev::basicAssert(stagedImageListener != nullptr);
   mPhotoBook->configure((PB::StagedImagesListener *)this);
-  mPhotoBook->configure((PB::ImageMonitorListener *)this);
+
+  auto imageMonitorListener = dynamic_cast<PB::ImageMonitorListener *>(this);
+  PBDev::basicAssert(imageMonitorListener != nullptr);
+  mPhotoBook->configure(imageMonitorListener);
 
   mNavigationItemsCollection =
       winrt::single_threaded_observable_vector<winrt::hstring>();

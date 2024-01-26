@@ -11,16 +11,32 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   VirtualImage::platformInfo = mPlatformInfo;
   ProjectSnapshot::platformInfo = mPlatformInfo;
 
-  mImportLogic.configure((ImportFoldersLogicListener *)this);
-  mImportLogic.configure((PBDev::ThreadScheduler *)this);
+  auto importFoldersLogicListener =
+      dynamic_cast<ImportFoldersLogicListener *>(this);
+  PBDev::basicAssert(importFoldersLogicListener != nullptr);
+  mImportLogic.configure(importFoldersLogicListener);
 
-  mProjectPersistence.configure((ProjectPersistenceListener *)this);
+  auto threadScheduler = dynamic_cast<PBDev::ThreadScheduler *>(this);
+  PBDev::basicAssert(threadScheduler != nullptr);
+  mImportLogic.configure(threadScheduler);
+
+  auto projectPersistenceListener =
+      dynamic_cast<ProjectPersistenceListener *>(this);
+  PBDev::basicAssert(projectPersistenceListener != nullptr);
+  mProjectPersistence.configure(projectPersistenceListener);
+
+  auto sequentialConsumerListenerPdf =
+      dynamic_cast<PBDev::SequentialTaskConsumerListener<PdfExportTask> *>(
+          this);
+  PBDev::basicAssert(sequentialConsumerListenerPdf != nullptr);
+  mExportLogic.configure(sequentialConsumerListenerPdf);
+
+  auto progressManagerListener =
+      dynamic_cast<PB::ProgressManagerListener *>(this);
+  PBDev::basicAssert(progressManagerListener != nullptr);
+  mProgressManager.configure(progressManagerListener);
+
   mProjectPersistence.configure(localStatePath);
-
-  mExportLogic.configure(
-      (PBDev::SequentialTaskConsumerListener<PdfExportTask> *)this);
-
-  mProgressManager.configure((PB::ProgressManagerListener *)this);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)

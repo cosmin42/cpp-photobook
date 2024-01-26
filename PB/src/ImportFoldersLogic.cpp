@@ -42,8 +42,10 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
 
   mMappingJobs.at(path).configure(mapper);
 
-  mMappingJobs.at(path).configure(
-      (SequentialTaskConsumerListener<MediaMapper> *)this);
+  auto stcMediaMapper =
+      dynamic_cast<SequentialTaskConsumerListener<MediaMapper> *>(this);
+  PBDev::basicAssert(stcMediaMapper != nullptr);
+  mMappingJobs.at(path).configure(stcMediaMapper);
 
   return std::nullopt;
 }
@@ -69,8 +71,9 @@ void ImportFoldersLogic::clearJob(Path root)
   mImageProcessingProgress.erase(root);
 }
 
-void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full, Path medium,
-                                          Path small, int progressCap)
+void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
+                                          Path medium, Path small,
+                                          int progressCap)
 {
   mScheduler->post([this, root, full, medium, small, progressCap, key{key}]() {
     if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
@@ -85,8 +88,8 @@ void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full, Path m
   });
 }
 
-void ImportFoldersLogic::processImages(Path                    root,
-                                       std::vector<std::pair<Path, Path>> newFolders)
+void ImportFoldersLogic::processImages(
+    Path root, std::vector<std::pair<Path, Path>> newFolders)
 {
   auto pathHash = mProject->active().pathCache;
   auto hash = pathHash.hashCreateIfMissing(root);

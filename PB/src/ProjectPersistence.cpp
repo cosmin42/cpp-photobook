@@ -3,8 +3,15 @@
 namespace PB {
 ProjectPersistence::ProjectPersistence()
 {
-  mPersistence.configure((PersistenceMetadataListener *)this);
-  mPersistence.configure((PersistenceProjectListener *)this);
+  auto persistenceMetadataListener =
+      dynamic_cast<PersistenceMetadataListener *>(this);
+  PBDev::basicAssert(persistenceMetadataListener != nullptr);
+  mPersistence.configure(persistenceMetadataListener);
+
+  auto persistenceProjectListener =
+      dynamic_cast<PersistenceProjectListener *>(this);
+  PBDev::basicAssert(persistenceProjectListener != nullptr);
+  mPersistence.configure(persistenceProjectListener);
 }
 
 void ProjectPersistence::configure(Path localStatePath)

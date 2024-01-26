@@ -56,7 +56,9 @@ Dashboard::Dashboard()
              .as<winrt::PhotobookUI::implementation::App>()
              ->api();
 
-  mAPI->configure((PB::PhotobookListener *)this);
+  auto photobookListener = dynamic_cast<PB::PhotobookListener *>(this);
+  PBDev::basicAssert(photobookListener != nullptr);
+  mAPI->configure(photobookListener);
 
   mProjectsList = winrt::single_threaded_observable_vector<ProjectItem>();
   mMenuFlyout.Items().Append(DeleteFlyout());
@@ -182,7 +184,9 @@ auto Dashboard::RenameProjectDialogDisplay() -> winrt::fire_and_forget
 void Dashboard::OnNavigatedTo(
     Microsoft::UI::Xaml::Navigation::NavigationEventArgs args)
 {
-  mAPI->configure((PB::PhotobookListener *)this);
+  auto photobookListener = dynamic_cast<PB::PhotobookListener *>(this);
+  PBDev::basicAssert(photobookListener != nullptr);
+  mAPI->configure(photobookListener);
   if (args.Parameter() != nullptr) {
     winrt::hstring source = unbox_value<winrt::hstring>(args.Parameter());
 
