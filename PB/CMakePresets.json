@@ -31,6 +31,28 @@
       },
       "architecture":"x64",
       "binaryDir":"build"
+    },
+    {
+      "name": "pblib-android-debug",
+      "description": "Debug Android Configuration",
+      "generator": "MinGW Makefiles",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE":"$env{ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"StandardPrinter",
+        "CMAKE_BUILD_TYPE":"Debug",
+        "ANDROID_ABI":"x86_64",
+        "ANDROID_NDK":"$env{ANDROID_NDK_HOME}",
+        "ANDROID_PLATFORM":"android-32",
+        "CMAKE_ANDROID_ARCH_ABI":"x86_64",
+        "CMAKE_ANDROID_NDK":"$env{ANDROID_NDK_HOME}",
+        "CMAKE_SYSTEM_NAME":"Android",
+        "CMAKE_SYSTEM_VERSION":"32",
+        "ANDROID_NATIVE_API_LEVEL":"32",
+        "CMAKE_MAKE_PROGRAM":"$env{ANDROID_NDK_HOME}/prebuilt/windows-x86_64/bin/make.exe"
+      },
+      "binaryDir":"build-android-x86_64"
     }
   ]
 }
