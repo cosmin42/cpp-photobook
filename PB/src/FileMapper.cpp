@@ -1,7 +1,8 @@
 #include <pb/tasks/FileMapper.h>
 
 namespace PB {
-MediaMapper::MediaMapper(std::filesystem::path const &root) : mRoot(root)
+
+MediaMapper::MediaMapper(Path const &root) : mRoot(root)
 {
   mRecursiveIterator = std::filesystem::recursive_directory_iterator(
       root, std::filesystem::directory_options::skip_permission_denied);

@@ -299,4 +299,11 @@ void Photobook::STCUpdate(PdfExportTask const &task)
   mProgressManager.update(task.name());
 }
 
+void Photobook::progressUpdate(std::vector<std::string> names,
+                               ProgressInfo             definedProgress,
+                               ProgressInfo             undefinedProgress)
+{
+  mParent->onProgressUpdate(names, definedProgress, undefinedProgress);
+}
+
 } // namespace PB

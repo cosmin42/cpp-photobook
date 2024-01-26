@@ -29,7 +29,8 @@ class Photobook final
     : public ProjectPersistenceListener,
       public ImportFoldersLogicListener,
       public PBDev::ThreadScheduler,
-      public PBDev::SequentialTaskConsumerListener<PdfExportTask> {
+      public PBDev::SequentialTaskConsumerListener<PdfExportTask>,
+      public ProgressManagerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
   ~Photobook() = default;
@@ -86,6 +87,10 @@ public:
   void STCFinished(PdfExportTask const &task) override;
   void STCAborted(PdfExportTask const &task) override;
   void STCUpdate(PdfExportTask const &task) override;
+
+  void progressUpdate(std::vector<std::string> names,
+                      ProgressInfo             definedProgress,
+                      ProgressInfo             undefinedProgress) override;
 
   std::vector<Path> pendingMappingPathList() const;
 
