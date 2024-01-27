@@ -211,9 +211,10 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void OnProjectRenamed();
 
-  void onProgressUpdate(std::vector<std::string> names,
+  void onProgressUpdate(std::vector<std::string> definedProgressNames,
+                        std::vector<std::string> undefinedProgressNames,
                         PB::ProgressInfo         definedProgress,
-                        PB::ProgressInfo         undefinedProgress);
+                        [[maybe_unused]] PB::ProgressInfo         undefinedProgress);
 
   void OnExportProgressUpdate(int progress, int reference);
 

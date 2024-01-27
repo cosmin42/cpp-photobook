@@ -834,9 +834,11 @@ void TableContentPage::OnMappingFinished(Path path)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::onProgressUpdate(std::vector<std::string> names,
-                                        PB::ProgressInfo definedProgress,
-                                        PB::ProgressInfo undefinedProgress)
+void TableContentPage::onProgressUpdate(
+    std::vector<std::string>          definedProgressNames,
+    std::vector<std::string>          undefinedProgressNames,
+    PB::ProgressInfo                  definedProgress,
+    [[maybe_unused]] PB::ProgressInfo undefinedProgress)
 {
   PBDev::basicAssert(definedProgress.progressType != PB::ProgressType::None);
 
@@ -855,7 +857,7 @@ void TableContentPage::onProgressUpdate(std::vector<std::string> names,
     StatusLabelText().Text(winrt::to_hstring("Status: Processing..."));
   }
 
-  UpdateStatusBar(names);
+  UpdateStatusBar(definedProgressNames);
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)

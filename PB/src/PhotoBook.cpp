@@ -146,46 +146,13 @@ void Photobook::loadStagedImages()
     }
   }
 }
-/*
-void Photobook::update(PBDev::ObservableSubject &subject)
-{
-  if (dynamic_cast<PdfPoDoFoExport *>(&subject) != nullptr) {
 
-    auto &pdfExporter = static_cast<PdfPoDoFoExport &>(subject);
-    auto [progress, maxProgress] = pdfExporter.progress();
-    mParent->onExportProgressUpdate(progress, maxProgress);
-    if (progress == maxProgress) {
-      mParent->onExportFinished();
-    }
-  }
-  else {
-    PBDev::basicAssert(false);
-  }
-}
-*/
 void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
   mExportLogic.configure(mImageViews.stagedImages().stagedPhotos());
   mExportLogic.start(Context::inst().sStopSource, path / (name + ".pdf"));
-  /*
-  auto              stagedPhotos = mImageViews.stagedImages().stagedPhotos();
-  std::vector<Path> fullPaths;
-  for (auto photo : stagedPhotos) {
-    fullPaths.push_back(photo->frontend().full);
-  }
-
-  mExportFactory.configure(mProjectPersistence.currentProject());
-  mExportFactory.configure(mPlatformInfo->localStatePath);
-  mExporters.push_back(mExportFactory.makePdf(name, path, fullPaths));
-
-  for (auto exporter : mExporters) {
-    // exporter->attach(this);
-  }
-
-  mExportLogic.start(Context::inst().sStopSource);
-  */
 }
 
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }
@@ -249,7 +216,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mProgressManager.finish(root.string());
 
   mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
-                             keyAndPaths.size());
+                             (int)keyAndPaths.size());
   mImportLogic.processImages(root, keyAndPaths);
 }
 
@@ -304,7 +271,7 @@ void Photobook::STCStarted(PdfExportTask const &task)
   mProgressManager.subscribe(task.name(), JobType::Export, task.stepsCount());
 }
 
-void Photobook::STCFinished(PdfExportTask const &task) {}
+void Photobook::STCFinished([[maybe_unused]] PdfExportTask const &task) {}
 void Photobook::STCAborted(PdfExportTask const &task)
 {
   mProgressManager.abort(task.name());
@@ -315,11 +282,13 @@ void Photobook::STCUpdate(PdfExportTask const &task)
   mProgressManager.update(task.name());
 }
 
-void Photobook::progressUpdate(std::vector<std::string> names,
-                               ProgressInfo             definedProgress,
-                               ProgressInfo             undefinedProgress)
+void Photobook::progressUpdate(std::vector<std::string> definedProgressNames,
+                               std::vector<std::string> undefinedProgressNames,
+                               PB::ProgressInfo         definedProgress,
+                               PB::ProgressInfo         undefinedProgress)
 {
-  mParent->onProgressUpdate(names, definedProgress, undefinedProgress);
+  mParent->onProgressUpdate(definedProgressNames, undefinedProgressNames,
+                            definedProgress, undefinedProgress);
 }
 
 } // namespace PB

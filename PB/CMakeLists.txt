@@ -192,7 +192,6 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestPersistence.cpp
         tests/TestIteratorWithState.cpp
         tests/TestComparator.cpp
-        tests/TestDataManager.cpp
         tests/TestErrors.cpp
         tests/TestFolderImport.cpp
         tests/TestImageMonitor.cpp

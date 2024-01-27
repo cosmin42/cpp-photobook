@@ -52,8 +52,8 @@ private:
   }
 
   template <typename T>
-  void start(std::stop_source &stopSource, std::stop_token stopToken,
-             Path pdfPath)
+  void start([[maybe_unused]] std::stop_source &stopSource,
+             std::stop_token stopToken, Path pdfPath)
   {
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(stopToken);
 

@@ -19,8 +19,10 @@ void ProgressManager::subscribe(std::string name, JobType jobType,
         ProgressInfo{jobType, ProgressType::Defined, 0, progressCap};
   }
 
-  mListener->progressUpdate(names(), totalDefiniteProgress(),
-                            totalIndefiniteProgress());
+  auto tasksNames = names();
+
+  mListener->progressUpdate(tasksNames.first, tasksNames.second,
+                            totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::update(std::string name)
@@ -33,15 +35,20 @@ void ProgressManager::update(std::string name)
     finish(name);
   }
 
-  mListener->progressUpdate(names(), totalDefiniteProgress(),
-                            totalIndefiniteProgress());
+  auto tasksNames = names();
+
+  mListener->progressUpdate(tasksNames.first, tasksNames.second,
+                            totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::abort(std::string name)
 {
   mProgress.erase(name);
-  mListener->progressUpdate(names(), totalDefiniteProgress(),
-                            totalIndefiniteProgress());
+
+  auto tasksNames = names();
+
+  mListener->progressUpdate(tasksNames.first, tasksNames.second,
+                            totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::finish(std::string name) { mProgress.erase(name); }
@@ -74,15 +81,25 @@ ProgressInfo ProgressManager::totalIndefiniteProgress() const
   return totalProgressInfo;
 }
 
-std::vector<std::string> ProgressManager::names() const
+std::pair<std::vector<std::string>, std::vector<std::string>>
+ProgressManager::names() const
 {
-  std::vector<std::string> result;
+  std::vector<std::string> definedNames;
+  std::vector<std::string> undefinedNames;
   for (auto [name, progress] : mProgress) {
-    if (progress.jobType == JobType::Map) {
-      result.push_back(Path(name).filename().string());
+    if (progress.progressType == ProgressType::Defined) {
+      if (progress.jobType == JobType::Map) {
+        definedNames.push_back(Path(name).filename().string());
+      }
+      else {
+        definedNames.push_back(name);
+      }
+    }
+    else {
+      undefinedNames.push_back(name);
     }
   }
 
-  return result;
+  return {definedNames, undefinedNames};
 }
 } // namespace PB

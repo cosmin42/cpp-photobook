@@ -88,9 +88,10 @@ public:
   void STCAborted(PdfExportTask const &task) override;
   void STCUpdate(PdfExportTask const &task) override;
 
-  void progressUpdate(std::vector<std::string> names,
-                      ProgressInfo             definedProgress,
-                      ProgressInfo             undefinedProgress) override;
+  void progressUpdate(std::vector<std::string> definedProgressNames,
+                      std::vector<std::string> undefinedProgressNames,
+                      PB::ProgressInfo         definedProgress,
+                      PB::ProgressInfo         undefinedProgress) override;
 
   std::vector<Path> pendingMappingPathList() const;
 
