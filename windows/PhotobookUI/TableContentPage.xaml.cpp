@@ -916,7 +916,9 @@ void TableContentPage::OnStagedImageRemoved(
 
 void TableContentPage::OnError(PBDev::Error error)
 {
-  GenericErrorTextBlock().Text(winrt::to_hstring(error.description()));
+  auto errorString = std::string(magic_enum::enum_name(error.kind()));
+  GenericErrorTextBlock().Text(
+      winrt::to_hstring("Code: " + errorString + "."));
   GenericErrorDialogDisplay();
 }
 
