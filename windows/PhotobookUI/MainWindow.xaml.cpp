@@ -37,7 +37,7 @@ MainWindow::MainWindow()
 {
   InitializeComponent();
 
-  Title(winrt::to_hstring(std::string("Photobook ") + PB::Context::VERSION));
+  Title(winrt::to_hstring(std::string("Infinite Photobook ") + PB::Context::VERSION));
 
   sMainThreadDispatcher =
       winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
