@@ -2,6 +2,8 @@
 
 #include <pb/image/Image.h>
 
+// #define SIMULATE_SLOW_EXPORTER
+
 namespace PB {
 PdfExportTask::PdfExportTask(
     Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
@@ -61,6 +63,10 @@ void PdfExportTask::taskStep()
   if (mIndex == stepsCount()) {
     mDocument.reset();
   }
+
+#ifdef SIMULATE_SLOW_EXPORTER
+  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#endif
 }
 
 std::string PdfExportTask::name() const { return mPdfPath.filename().string(); }

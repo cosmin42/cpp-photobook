@@ -96,7 +96,9 @@ void Photobook::addImportFolder(Path path)
 {
   if (mImageViews.imageMonitor().containsRow(path, true)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
+    return;
   }
+
   auto maybeError = mImportLogic.addImportFolder(path);
 
   if (maybeError) {

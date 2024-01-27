@@ -350,18 +350,12 @@ void TableContentPage::OnKeyPressed(
 
   switch (key) {
   case Windows::System::VirtualKey::Delete: {
-    auto                  ranges = StagedListView().SelectedRanges();
-    std::vector<unsigned> selectedIndexes;
-    for (auto range : ranges) {
-      for (auto i = range.FirstIndex(); i <= range.LastIndex(); ++i) {
-        selectedIndexes.push_back(i);
-      }
-    }
 
-    if (selectedIndexes.size() > 0) {
-      mPhotoBook->imageViews().stagedImages().removePicture(selectedIndexes);
-      OnStagedImageRemoved(selectedIndexes);
-    }
+    auto selection = SelectionIndex();
+
+    mPhotoBook->imageViews().stagedImages().removePicture(
+        selection.stagedPhotoIndex);
+    OnStagedImageRemoved(selection.stagedPhotoIndex);
   }
   default: {
   }
@@ -916,6 +910,8 @@ void TableContentPage::OnStagedImageRemoved(
         mStagedImageCollection.GetAt(removedIndexes.at(i)).FullPath());
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));
   }
+
+  UpdateGallery();
 }
 
 void TableContentPage::OnError(PBDev::Error error)

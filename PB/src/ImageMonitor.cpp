@@ -131,7 +131,7 @@ bool ImageMonitor::containsRow(Path path, bool subPath) const
 {
   if (subPath) {
     for (auto it = mRowIndexes.begin(); it != mRowIndexes.end(); ++it) {
-      if (PBDev::FileInfo::contains(it->left, path)) {
+      if (it->left == path) {
         return true;
       }
     }
