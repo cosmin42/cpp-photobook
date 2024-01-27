@@ -19,6 +19,8 @@ using namespace Windows::UI::Core;
 
 #include <microsoft.ui.xaml.window.h>
 
+#include <pb/Config.h>
+
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
@@ -34,6 +36,8 @@ winrt::Microsoft::UI::Dispatching::DispatcherQueue
 MainWindow::MainWindow()
 {
   InitializeComponent();
+
+  Title(winrt::to_hstring(std::string("Photobook ") + PB::Context::VERSION));
 
   sMainThreadDispatcher =
       winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
