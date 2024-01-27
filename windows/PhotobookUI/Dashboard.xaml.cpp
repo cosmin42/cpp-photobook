@@ -266,6 +266,10 @@ void Dashboard::onProgressUpdate(
     std::vector<std::string> undefinedProgressNames,
     PB::ProgressInfo definedProgress, PB::ProgressInfo undefinedProgress)
 {
+  UNUSED(definedProgressNames)
+  UNUSED(undefinedProgressNames);
+  UNUSED(definedProgress);
+  UNUSED(undefinedProgress);
 }
 
 void Dashboard::onExportFinished() {}
