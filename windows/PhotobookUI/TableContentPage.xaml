@@ -523,16 +523,87 @@
                        CloseButtonText="Cancel">
             <StackPanel>
                 <CheckBox x:Name="OptionPDFCheckBox"
-                          Foreground="{StaticResource MainFontColor}"
-                          Content="PDF" />
+                          Foreground="#FFFFFF"
+                          Content="PDF">
+                    <CheckBox.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed"
+                                                     Color="White" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </CheckBox.Resources>
+                </CheckBox>
                 <CheckBox x:Name="OptionJPGCheckBox"
-                          Foreground="{StaticResource MainFontColor}"
-                          Content="JPG"
-                          IsEnabled="False" />
+                          Foreground="#FFFFFF"
+                          Content="JPG">
+                    <CheckBox.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed"
+                                                     Color="White" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </CheckBox.Resources>
+                </CheckBox>
                 <TextBox x:Name="ExportNameTextBox"
-                         Foreground="{StaticResource MainFontColor}"
                          Header="Name:"
-                         PlaceholderText="Photobook1" />
+                         PlaceholderText="Photobook1">
+                    <TextBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       Foreground="White" />
+                        </DataTemplate>
+                    </TextBox.HeaderTemplate>
+                </TextBox>
             </StackPanel>
         </ContentDialog>
         <ContentDialog x:Name="GenericErrorDialog"
