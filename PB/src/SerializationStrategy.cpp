@@ -311,9 +311,8 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
   auto [key, projectDetails] = entry;
 
   auto jsonOrError =
-      serialize<std::vector<Path>, std::vector<Path>, PaperSettings, PathCache>(
+      serialize<std::vector<Path>, PaperSettings, PathCache>(
           depth + 1, {"imported-folders", projectDetails.importedPaths},
-          {"staged-images", projectDetails.stagedImages},
           {"paper-settings", projectDetails.paperSettings},
           {"path-cache", projectDetails.pathCache});
 
