@@ -596,7 +596,7 @@
                 </CheckBox>
                 <TextBox x:Name="ExportNameTextBox"
                          Header="Name:"
-                         PlaceholderText="Photobook1">
+                         PlaceholderText="Photobook Name">
                     <TextBox.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}"

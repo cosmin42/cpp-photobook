@@ -289,8 +289,13 @@ void Photobook::progressUpdate(std::vector<std::string> definedProgressNames,
                                PB::ProgressInfo         definedProgress,
                                PB::ProgressInfo         undefinedProgress)
 {
-  mParent->onProgressUpdate(definedProgressNames, undefinedProgressNames,
-                            definedProgress, undefinedProgress);
+  post([this, definedProgressNames{definedProgressNames},
+        undefinedProgressNames{undefinedProgressNames},
+        definedProgress{definedProgress},
+        undefinedProgress{undefinedProgress}]() {
+    mParent->onProgressUpdate(definedProgressNames, undefinedProgressNames,
+                              definedProgress, undefinedProgress);
+  });
 }
 
 } // namespace PB
