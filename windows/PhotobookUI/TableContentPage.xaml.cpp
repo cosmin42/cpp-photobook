@@ -352,10 +352,10 @@ void TableContentPage::OnKeyPressed(
   case Windows::System::VirtualKey::Delete: {
 
     auto selection = SelectionIndex();
+    OnStagedImageRemoved(selection.stagedPhotoIndex);
 
     mPhotoBook->imageViews().stagedImages().removePicture(
         selection.stagedPhotoIndex);
-    OnStagedImageRemoved(selection.stagedPhotoIndex);
   }
   default: {
   }
@@ -769,8 +769,8 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
   UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
       0, mUnstagedImageCollection.Size()));
 
-  auto stagedImagesIndex = StagedListView().SelectedIndex();
-  if (stagedImagesIndex < 0) {
+  auto selection = SelectionIndex();
+  if (selection.stagedPhotoIndex.empty()) {
     return;
   }
 
