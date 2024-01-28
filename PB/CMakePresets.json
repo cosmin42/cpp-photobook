@@ -17,7 +17,7 @@
         "PRINTER_TYPE":"OutputConsolePrinter"
       },
       "architecture":"x64",
-      "binaryDir":"build"
+      "binaryDir":"build-x64"
     },
     {
       "name": "pblib-release",
@@ -30,7 +30,7 @@
         "PRINTER_TYPE":"OutputConsolePrinter"
       },
       "architecture":"x64",
-      "binaryDir":"build"
+      "binaryDir":"build-x64"
     },
     {
       "name": "pblib-android-debug",
