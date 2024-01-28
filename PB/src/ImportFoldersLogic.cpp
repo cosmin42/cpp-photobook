@@ -114,6 +114,7 @@ void ImportFoldersLogic::STCFinished(MediaMapper const &mediaMap)
   mScheduler->post([this, mediaMap{mediaMap}]() {
     if (mediaMap.importedDirectories().empty()) {
       mListener->onMappingAborted(mediaMap.root());
+      mListener->onError(PBDev::Error() << ErrorCode::NoImages);
     }
     else {
       mListener->onMappingFinished(mediaMap.root(),

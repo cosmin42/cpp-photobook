@@ -19,6 +19,8 @@ public:
   virtual void onImportStop(Path) = 0;
   virtual void onImageProcessed(Path key, Path root, Path full, Path medium,
                                 Path small) = 0;
+
+  virtual void onError(PBDev::Error error) = 0;
 };
 
 class ImportFoldersLogic final

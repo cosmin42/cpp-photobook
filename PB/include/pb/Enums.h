@@ -18,7 +18,9 @@ enum class ErrorCode {
   SQLiteError,
 
   FolderAlreadyImported,
-  JSONParseError
+  JSONParseError,
+
+  NoImages
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };
