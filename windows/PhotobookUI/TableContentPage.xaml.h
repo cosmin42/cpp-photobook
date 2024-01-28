@@ -214,7 +214,7 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
   void onProgressUpdate(std::vector<std::string> definedProgressNames,
                         std::vector<std::string> undefinedProgressNames,
                         PB::ProgressInfo         definedProgress,
-                        [[maybe_unused]] PB::ProgressInfo         undefinedProgress);
+                        [[maybe_unused]] PB::ProgressInfo undefinedProgress);
 
   void OnExportProgressUpdate(int progress, int reference);
 
@@ -260,7 +260,7 @@ private:
   void UpdateUnstagedImagesView(int index);
 
   void OnStagedImageCollectionChanged(
-      IObservableVector<ImageUIData> const                     &sender,
+      [[maybe_unused]] IObservableVector<ImageUIData> const    &sender,
       winrt::Windows::Foundation::Collections::CollectionChange changeType,
       int                                                       changedIndex);
 

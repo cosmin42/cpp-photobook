@@ -670,7 +670,7 @@ void TableContentPage::OnImportSelectionChanged(
 }
 
 void TableContentPage::OnStagedImageCollectionChanged(
-    IObservableVector<ImageUIData> const                     &sender,
+    [[maybe_unused]] IObservableVector<ImageUIData> const    &sender,
     winrt::Windows::Foundation::Collections::CollectionChange changeType,
     int                                                       changedIndex)
 {
