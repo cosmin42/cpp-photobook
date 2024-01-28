@@ -789,7 +789,7 @@ void TableContentPage::OnStagedDragItemsStarting(
 void TableContentPage::UpdateStatusBar(std::vector<std::string> names)
 {
   if (names.empty()) {
-    StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
+    StatusLabelText().Text(winrt::to_hstring("Status: Idle."));
   }
   else {
     std::string concatenatedStrings;
