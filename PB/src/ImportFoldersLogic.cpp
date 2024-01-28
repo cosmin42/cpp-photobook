@@ -112,8 +112,13 @@ void ImportFoldersLogic::STCStarted(MediaMapper const &mediaMap)
 void ImportFoldersLogic::STCFinished(MediaMapper const &mediaMap)
 {
   mScheduler->post([this, mediaMap{mediaMap}]() {
-    mListener->onMappingFinished(mediaMap.root(),
-                                 mediaMap.importedDirectories());
+    if (mediaMap.importedDirectories().empty()) {
+      mListener->onMappingAborted(mediaMap.root());
+    }
+    else {
+      mListener->onMappingFinished(mediaMap.root(),
+                                   mediaMap.importedDirectories());
+    }
   });
 }
 
