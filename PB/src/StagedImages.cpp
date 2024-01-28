@@ -62,6 +62,23 @@ void StagedImages::removePicture(std::vector<unsigned> indexes)
   mListener->onPictureRemoved(indexes);
 }
 
+void StagedImages::stashImages(std::vector<unsigned> indexes)
+{
+  PBDev::basicAssert(mStash.empty());
+  std::sort(indexes.begin(), indexes.end(), std::greater<int>());
+  for (int i = 0; i < (int)indexes.size(); ++i) {
+    mStash.push_back(mStagedPhotos.at(i));
+    mStagedPhotos.erase(mStagedPhotos.begin() + indexes.at(i));
+  }
+  mListener->onPictureRemoved(indexes);
+}
+
+void StagedImages::popImages(int position)
+{
+  addPictures(mStash, position);
+  mStash.clear();
+}
+
 void StagedImages::clear()
 {
   std::vector<unsigned> clearedIndexes;

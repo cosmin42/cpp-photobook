@@ -679,21 +679,11 @@ void TableContentPage::OnStagedImageCollectionChanged(
   }
   if (changeType ==
       winrt::Windows::Foundation::Collections::CollectionChange::ItemInserted) {
-    auto image = sender.GetAt(changedIndex);
-    auto fullPath = winrt::to_string(image.FullPath());
-    auto mediumPath = winrt::to_string(image.MediumPath());
-    auto smallPath = winrt::to_string(image.SmallPath());
-
-    auto regularImage = PB::ImageFactory::inst().createImage(fullPath);
-
-    mPhotoBook->imageViews().stagedImages().addPictures({regularImage},
-                                                        changedIndex);
+    mPhotoBook->imageViews().stagedImages().popImages(changedIndex);
   }
   else if (changeType == winrt::Windows::Foundation::Collections::
                              CollectionChange::ItemRemoved) {
-
-    // mPhotoBook->imageSupport().unstagePhoto({changedIndex});
-    mPhotoBook->imageViews().stagedImages().removePicture(
+    mPhotoBook->imageViews().stagedImages().stashImages(
         {(unsigned)changedIndex});
   }
   else if (changeType == winrt::Windows::Foundation::Collections::
@@ -917,8 +907,7 @@ void TableContentPage::OnStagedImageRemoved(
 void TableContentPage::OnError(PBDev::Error error)
 {
   auto errorString = std::string(magic_enum::enum_name(error.kind()));
-  GenericErrorTextBlock().Text(
-      winrt::to_hstring("Code: " + errorString + "."));
+  GenericErrorTextBlock().Text(winrt::to_hstring("Code: " + errorString + "."));
   GenericErrorDialogDisplay();
 }
 

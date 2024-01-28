@@ -29,6 +29,9 @@ public:
   void removePicture(std::vector<unsigned> indexes);
   void clear();
 
+  void stashImages(std::vector<unsigned> indexes);
+  void popImages(int position);
+
   std::vector<std::shared_ptr<VirtualImage>> const &stagedPhotos() const;
   std::shared_ptr<VirtualImage> picture(unsigned index) const;
 
@@ -38,5 +41,6 @@ public:
 private:
   StagedImagesListener                      *mListener;
   std::vector<std::shared_ptr<VirtualImage>> mStagedPhotos;
+  std::vector<std::shared_ptr<VirtualImage>> mStash;
 };
 } // namespace PB
