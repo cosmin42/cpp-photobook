@@ -982,6 +982,10 @@ void TableContentPage::LoadImages()
         winrt::to_hstring(stagedPictures.at(i)->frontend().medium.string()),
         winrt::to_hstring(stagedPictures.at(i)->frontend().small.string())));
   }
+
+  if (!stagedPictures.empty()) {
+    StagedListView().SelectRange({0, 1});
+  }
 }
 
 void TableContentPage::onRefresh() { LoadImages(); }
