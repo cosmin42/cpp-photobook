@@ -926,7 +926,17 @@ void TableContentPage::onPicturesAdded(int index, int size)
 
 void TableContentPage::onPictureRemoved(std::vector<unsigned> index)
 {
-  UNUSED(index);
+  if (index.empty() ||
+      mPhotoBook->imageViews().stagedImages().stagedPhotos().empty()) {
+    return;
+  }
+  auto selection = SelectionIndex();
+
+  if (selection.stagedPhotoIndex.empty()) {
+    auto newSelectionIndex = std::max<int>((int)index.at(0) - 1, 0);
+
+    StagedListView().SelectRange({newSelectionIndex, 1});
+  }
 }
 
 void TableContentPage::onImportFolderAdded() {}
