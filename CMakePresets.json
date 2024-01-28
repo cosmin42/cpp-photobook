@@ -17,7 +17,7 @@
         "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"x64",
-      "binaryDir":"build"
+      "binaryDir":"build-x64"
     },
     {
       "name": "pb-console-release",
@@ -30,7 +30,33 @@
         "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"x64",
-      "binaryDir":"build"
+      "binaryDir":"build-x64"
+    },
+    {
+      "name": "pb-console-debug-arm64",
+      "description": "Debug configuration",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"StandardPrinter"
+      },
+      "architecture":"ARM64",
+      "binaryDir":"build-ARM64"
+    },
+    {
+      "name": "pb-console-release-arm64",
+      "description": "Release configuration",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"StandardPrinter"
+      },
+      "architecture":"ARM64",
+      "binaryDir":"build-ARM64"
     }
   ]
 }

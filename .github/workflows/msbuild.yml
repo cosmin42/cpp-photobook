@@ -48,13 +48,15 @@ jobs:
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
-    - name: vcpkg install
+    - name: vcpkg install x64
       run: vcpkg\vcpkg.exe install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows dp-thread-pool:x64-windows libharu:x64-windows sqlite3:x64-windows nlohmann-json:x64-windows boost-bimap:x64-windows
 
+    - name: vcpkg install ARM64
+      run: vcpkg\vcpkg.exe install boost-program-options:arm64-windows opencv:arm64-windows boost-uuid:arm64-windows expat:arm64-windows brotli:arm64-windows inih:arm64-windows magic-enum:arm64-windows exiv2:arm64-windows gtest:arm64-windows dp-thread-pool:arm64-windows libharu:arm64-windows sqlite3:arm64-windows nlohmann-json:arm64-windows boost-bimap:arm64-windows
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install
 
-    - name: Run CMake consuming CMakePreset.json and run vcpkg to build dependencies
+    - name: Run CMake pb-release
       uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
@@ -67,6 +69,19 @@ jobs:
         # run vcpkg and install all dependencies specified in vcpkg.json.
         configurePreset: 'pblib-release'
 
+    - name: Run CMake pb-release-arm64
+      uses: lukka/run-cmake@v10
+      with:
+        # This is the default path to the CMakeLists.txt along side the
+        # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
+        # located elsewhere.
+        cmakeListsTxtPath: '${{ github.workspace }}/PB/CMakeLists.txt'
+
+        # This is the name of the CMakePresets.json's configuration to use to generate
+        # the project files. This configuration leverages the vcpkg.cmake toolchain file to
+        # run vcpkg and install all dependencies specified in vcpkg.json.
+        configurePreset: 'pblib-release'
+  
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
