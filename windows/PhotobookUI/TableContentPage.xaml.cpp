@@ -662,6 +662,11 @@ void TableContentPage::OnImportSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
+  auto selection = SelectionIndex();
+
+  if (selection.importListIndex) {
+    UnstagedListView().SelectRange({0, 1});
+  }
   UpdateUnstagedPhotoLine();
 
   UpdateGallery();
