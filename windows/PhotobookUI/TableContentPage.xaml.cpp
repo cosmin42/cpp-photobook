@@ -801,15 +801,18 @@ void TableContentPage::UpdateStatusBar(PB::ProgressInfo defined,
     std::string concatenatedStrings;
 
     for (auto const &name : defined.jobsProgress) {
-      concatenatedStrings = concatenatedStrings + name + ", ";
+      concatenatedStrings =
+          std::string(magic_enum::enum_name(defined.jobType)) +
+          " " + concatenatedStrings + name + ", ";
     }
 
     for (auto const &name : undefined.jobsProgress) {
-      concatenatedStrings = concatenatedStrings + name + ", ";
+      concatenatedStrings =
+          std::string(magic_enum::enum_name(undefined.jobType)) +
+          " " + concatenatedStrings + name + ", ";
     }
 
-    StatusLabelText().Text(winrt::to_hstring("Status: Processing " +
-                                             concatenatedStrings + " ..."));
+    StatusLabelText().Text(winrt::to_hstring(concatenatedStrings));
   }
 }
 void TableContentPage::OnMappingAborted(Path path) {}

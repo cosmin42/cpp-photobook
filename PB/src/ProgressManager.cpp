@@ -39,8 +39,6 @@ void ProgressManager::abort(std::string name)
 {
   mProgress.erase(name);
 
-  auto tasksNames = names();
-
   mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
@@ -74,31 +72,20 @@ ProgressInfo ProgressManager::totalIndefiniteProgress() const
   for (auto [name, progressInfo] : mProgress) {
     if (progressInfo.progressCap == 0) {
       totalProgressInfo.progress += progressInfo.progress;
-      totalProgressInfo.jobsProgress.push_back(name);
+      if (progressInfo.jobType == JobType::Map) {
+        totalProgressInfo.jobsProgress.push_back(
+            Path(name).filename().string());
+      }
+      else if (progressInfo.jobType == JobType::ThumbnailsProcess) {
+        totalProgressInfo.jobsProgress.push_back(
+            Path(name).filename().string());
+      }
+      else {
+        totalProgressInfo.jobsProgress.push_back(name);
+      }
     }
   }
   return totalProgressInfo;
 }
 
-std::pair<std::vector<std::string>, std::vector<std::string>>
-ProgressManager::names() const
-{
-  std::vector<std::string> definedNames;
-  std::vector<std::string> undefinedNames;
-  for (auto [name, progress] : mProgress) {
-    if (progress.progressType == ProgressType::Defined) {
-      definedNames.push_back(name);
-    }
-    else {
-      if (progress.jobType == JobType::Map) {
-        undefinedNames.push_back(Path(name).filename().string());
-      }
-      else {
-        undefinedNames.push_back(name);
-      }
-    }
-  }
-
-  return {definedNames, undefinedNames};
-}
 } // namespace PB

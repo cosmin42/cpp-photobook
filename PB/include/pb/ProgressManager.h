@@ -19,8 +19,8 @@ struct ProgressInfo {
 
 class ProgressManagerListener {
 public:
-  virtual void progressUpdate(PB::ProgressInfo         definedProgress,
-                              PB::ProgressInfo         undefinedProgress) = 0;
+  virtual void progressUpdate(PB::ProgressInfo definedProgress,
+                              PB::ProgressInfo undefinedProgress) = 0;
 };
 
 class ProgressManager final {
@@ -37,8 +37,6 @@ public:
 private:
   ProgressInfo totalDefiniteProgress() const;
   ProgressInfo totalIndefiniteProgress() const;
-
-  std::pair<std::vector<std::string>, std::vector<std::string>> names() const;
 
   ProgressManagerListener *mListener = nullptr;
 
