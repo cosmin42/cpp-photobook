@@ -35,9 +35,7 @@ public:
 
   void post(std::function<void()> f) override;
 
-  void onProgressUpdate(std::vector<std::string> definedProgressNames,
-                        std::vector<std::string> undefinedProgressNames,
-                        PB::ProgressInfo         definedProgress,
+  void onProgressUpdate(PB::ProgressInfo         definedProgress,
                         PB::ProgressInfo         undefinedProgress) override;
 
 private:

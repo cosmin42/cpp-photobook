@@ -42,8 +42,7 @@ public:
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
   MOCK_METHOD(void, onProgressUpdate,
-              (std::vector<std::string>, std::vector<std::string>,
-               PB::ProgressInfo, PB::ProgressInfo),
+              (PB::ProgressInfo, PB::ProgressInfo),
               (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));

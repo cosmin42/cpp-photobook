@@ -10,17 +10,16 @@
 namespace PB {
 
 struct ProgressInfo {
-  JobType      jobType = JobType::None;
-  ProgressType progressType;
-  int          progress = 0;
-  int          progressCap = 0;
+  JobType                  jobType = JobType::None;
+  ProgressType             progressType;
+  int                      progress = 0;
+  int                      progressCap = 0;
+  std::vector<std::string> jobsProgress;
 };
 
 class ProgressManagerListener {
 public:
-  virtual void progressUpdate(std::vector<std::string> definedProgressNames,
-                              std::vector<std::string> undefinedProgressNames,
-                              PB::ProgressInfo         definedProgress,
+  virtual void progressUpdate(PB::ProgressInfo         definedProgress,
                               PB::ProgressInfo         undefinedProgress) = 0;
 };
 
@@ -39,8 +38,7 @@ private:
   ProgressInfo totalDefiniteProgress() const;
   ProgressInfo totalIndefiniteProgress() const;
 
-  std::pair<std::vector<std::string>, std::vector<std::string>>
-  names() const;
+  std::pair<std::vector<std::string>, std::vector<std::string>> names() const;
 
   ProgressManagerListener *mListener = nullptr;
 

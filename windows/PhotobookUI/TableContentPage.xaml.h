@@ -211,10 +211,8 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
 
   void OnProjectRenamed();
 
-  void onProgressUpdate(std::vector<std::string> definedProgressNames,
-                        std::vector<std::string> undefinedProgressNames,
-                        PB::ProgressInfo         definedProgress,
-                        [[maybe_unused]] PB::ProgressInfo undefinedProgress);
+  void onProgressUpdate(PB::ProgressInfo definedProgress,
+                        PB::ProgressInfo undefinedProgress);
 
   void OnExportProgressUpdate(int progress, int reference);
 
@@ -270,7 +268,7 @@ private:
       int boundingBoxWidth = PB::Context::CANVAS_MIN_MAX_WIDTH,
       int boundingBoxHeight = PB::Context::CANVAS_MIN_MAX_HEIGHT);
 
-  void UpdateStatusBar(std::vector<std::string> names);
+  void UpdateStatusBar(PB::ProgressInfo defined, PB::ProgressInfo undefined);
 
   void LoadImages();
 

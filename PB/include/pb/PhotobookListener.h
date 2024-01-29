@@ -28,9 +28,7 @@ public:
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onProgressUpdate(std::vector<std::string> definedProgressNames,
-                                std::vector<std::string> undefinedProgressNames,
-                                PB::ProgressInfo         definedProgress,
+  virtual void onProgressUpdate(PB::ProgressInfo         definedProgress,
                                 PB::ProgressInfo         undefinedProgress) = 0;
 };
 

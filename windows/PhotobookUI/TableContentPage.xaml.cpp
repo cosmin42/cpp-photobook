@@ -791,20 +791,25 @@ void TableContentPage::OnStagedDragItemsStarting(
   mDragSource = DragSource::Staged;
 }
 
-void TableContentPage::UpdateStatusBar(std::vector<std::string> names)
+void TableContentPage::UpdateStatusBar(PB::ProgressInfo defined,
+                                       PB::ProgressInfo undefined)
 {
-  if (names.empty()) {
+  if (defined.jobsProgress.empty() && undefined.jobsProgress.empty()) {
     StatusLabelText().Text(winrt::to_hstring("Status: Idle."));
   }
   else {
     std::string concatenatedStrings;
 
-    for (auto const &name : names) {
-      concatenatedStrings = concatenatedStrings + ", " + name;
+    for (auto const &name : defined.jobsProgress) {
+      concatenatedStrings = concatenatedStrings + name + ", ";
     }
 
-    StatusLabelText().Text(
-        winrt::to_hstring("Status: Mapping " + concatenatedStrings + " ..."));
+    for (auto const &name : undefined.jobsProgress) {
+      concatenatedStrings = concatenatedStrings + name + ", ";
+    }
+
+    StatusLabelText().Text(winrt::to_hstring("Status: Processing " +
+                                             concatenatedStrings + " ..."));
   }
 }
 void TableContentPage::OnMappingAborted(Path path) {}
@@ -823,30 +828,23 @@ void TableContentPage::OnMappingFinished(Path path)
   MediaListView().SelectedIndex(mNavigationItemsCollection.Size() - 1);
 }
 
-void TableContentPage::onProgressUpdate(
-    std::vector<std::string>          definedProgressNames,
-    std::vector<std::string>          undefinedProgressNames,
-    PB::ProgressInfo                  definedProgress,
-    [[maybe_unused]] PB::ProgressInfo undefinedProgress)
+void TableContentPage::onProgressUpdate(PB::ProgressInfo definedProgress,
+                                        PB::ProgressInfo undefinedProgress)
 {
   PBDev::basicAssert(definedProgress.progressType != PB::ProgressType::None);
 
-  if (definedProgress.progressType == PB::ProgressType::Undefined) {
+  if (definedProgress.jobsProgress.empty()) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
-
-    StatusLabelText().Text(winrt::to_hstring("Status: Idle"));
   }
   else {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Visible);
     MainProgressBar().Maximum(definedProgress.progressCap);
     MainProgressBar().Value(definedProgress.progress);
-
-    StatusLabelText().Text(winrt::to_hstring("Status: Processing..."));
   }
 
-  UpdateStatusBar(definedProgressNames);
+  UpdateStatusBar(definedProgress, undefinedProgress);
 }
 
 void TableContentPage::OnExportProgressUpdate(int progress, int reference)

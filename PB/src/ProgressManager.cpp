@@ -19,10 +19,7 @@ void ProgressManager::subscribe(std::string name, JobType jobType,
         ProgressInfo{jobType, ProgressType::Defined, 0, progressCap};
   }
 
-  auto tasksNames = names();
-
-  mListener->progressUpdate(tasksNames.first, tasksNames.second,
-                            totalDefiniteProgress(), totalIndefiniteProgress());
+  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::update(std::string name)
@@ -35,10 +32,7 @@ void ProgressManager::update(std::string name)
     finish(name);
   }
 
-  auto tasksNames = names();
-
-  mListener->progressUpdate(tasksNames.first, tasksNames.second,
-                            totalDefiniteProgress(), totalIndefiniteProgress());
+  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::abort(std::string name)
@@ -47,8 +41,7 @@ void ProgressManager::abort(std::string name)
 
   auto tasksNames = names();
 
-  mListener->progressUpdate(tasksNames.first, tasksNames.second,
-                            totalDefiniteProgress(), totalIndefiniteProgress());
+  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
 void ProgressManager::finish(std::string name) { mProgress.erase(name); }
@@ -60,9 +53,11 @@ ProgressInfo ProgressManager::totalDefiniteProgress() const
   totalProgressInfo.jobType = JobType::Full;
 
   for (auto [name, progressInfo] : mProgress) {
-    if (progressInfo.progressCap > 0) {
+    PBDev::basicAssert(progressInfo.progressType != ProgressType::None);
+    if (progressInfo.progressType == ProgressType::Defined) {
       totalProgressInfo.progressCap += progressInfo.progressCap;
       totalProgressInfo.progress += progressInfo.progress;
+      totalProgressInfo.jobsProgress.push_back(name);
     }
   }
   return totalProgressInfo;
@@ -71,11 +66,11 @@ ProgressInfo ProgressManager::totalDefiniteProgress() const
 ProgressInfo ProgressManager::totalIndefiniteProgress() const
 {
   ProgressInfo totalProgressInfo;
-
+  totalProgressInfo.jobType = JobType::Full;
   for (auto [name, progressInfo] : mProgress) {
     if (progressInfo.progressCap == 0) {
-      totalProgressInfo.jobType = JobType::Full;
       totalProgressInfo.progress += progressInfo.progress;
+      totalProgressInfo.jobsProgress.push_back(name);
     }
   }
   return totalProgressInfo;
@@ -88,15 +83,15 @@ ProgressManager::names() const
   std::vector<std::string> undefinedNames;
   for (auto [name, progress] : mProgress) {
     if (progress.progressType == ProgressType::Defined) {
-      if (progress.jobType == JobType::Map) {
-        definedNames.push_back(Path(name).filename().string());
-      }
-      else {
-        definedNames.push_back(name);
-      }
+      definedNames.push_back(name);
     }
     else {
-      undefinedNames.push_back(name);
+      if (progress.jobType == JobType::Map) {
+        undefinedNames.push_back(Path(name).filename().string());
+      }
+      else {
+        undefinedNames.push_back(name);
+      }
     }
   }
 
