@@ -831,9 +831,8 @@ void TableContentPage::OnMappingFinished(Path path)
 void TableContentPage::onProgressUpdate(PB::ProgressInfo definedProgress,
                                         PB::ProgressInfo undefinedProgress)
 {
-  PBDev::basicAssert(definedProgress.progressType != PB::ProgressType::None);
-
-  if (definedProgress.jobsProgress.empty()) {
+  if (definedProgress.jobsProgress.empty() ||
+      definedProgress.progressType == PB::ProgressType::None) {
     MainProgressBar().Visibility(
         winrt::Microsoft::UI::Xaml::Visibility::Collapsed);
   }

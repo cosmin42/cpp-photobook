@@ -44,7 +44,11 @@ void ProgressManager::abort(std::string name)
   mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
 }
 
-void ProgressManager::finish(std::string name) { mProgress.erase(name); }
+void ProgressManager::finish(std::string name)
+{
+  mProgress.erase(name);
+  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
+}
 
 ProgressInfo ProgressManager::totalDefiniteProgress() const
 {
