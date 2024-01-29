@@ -33,6 +33,19 @@
       "binaryDir":"build-x64"
     },
     {
+      "name": "pblib-release-arm64",
+      "description": "Release configuration",
+      "hidden": false,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "LOG_LEVEL":"Debug",
+        "PRINTER_TYPE":"OutputConsolePrinter"
+      },
+      "architecture":"ARM64",
+      "binaryDir":"build-ARM64"
+    },
+    {
       "name": "pblib-android-debug",
       "description": "Debug Android Configuration",
       "generator": "MinGW Makefiles",
