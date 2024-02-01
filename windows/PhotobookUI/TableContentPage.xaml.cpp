@@ -802,14 +802,15 @@ void TableContentPage::UpdateStatusBar(PB::ProgressInfo defined,
 
     for (auto const &name : defined.jobsProgress) {
       concatenatedStrings =
-          std::string(magic_enum::enum_name(defined.jobType)) +
-          " " + concatenatedStrings + name + ", ";
+          std::string(magic_enum::enum_name(defined.jobType)) + " " +
+          concatenatedStrings + name + ", ";
     }
 
     for (auto const &name : undefined.jobsProgress) {
       concatenatedStrings =
-          std::string(magic_enum::enum_name(undefined.jobType)) +
-          " " + concatenatedStrings + name + ", ";
+          std::string(magic_enum::enum_name(undefined.jobType)) + " " +
+          concatenatedStrings + name + "(" +
+          std::to_string(undefined.progress) + ")" + ", ";
     }
 
     StatusLabelText().Text(winrt::to_hstring(concatenatedStrings));
