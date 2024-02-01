@@ -4,8 +4,8 @@
 namespace PB {
 class JpgExport final {
 public:
-  void executeSingleTask();
-
-  void finish();
+  bool stoppingCondition() const;
+  int  stepsCount() const;
+  void taskStep();
 };
 } // namespace PB

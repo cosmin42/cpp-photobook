@@ -2,7 +2,9 @@
 
 namespace PB {
 
-void JpgExport::executeSingleTask() {}
+bool JpgExport::stoppingCondition() const { return true; }
 
-void JpgExport::finish() {}
+int JpgExport::stepsCount() const { return 0; }
+
+void JpgExport::taskStep() {}
 } // namespace PB
