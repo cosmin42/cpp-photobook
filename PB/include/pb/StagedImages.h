@@ -39,7 +39,7 @@ public:
       -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
-  StagedImagesListener                      *mListener;
+  StagedImagesListener                      *mListener = nullptr;
   std::vector<std::shared_ptr<VirtualImage>> mStagedPhotos;
   std::vector<std::shared_ptr<VirtualImage>> mStash;
 };

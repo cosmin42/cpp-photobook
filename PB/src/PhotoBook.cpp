@@ -31,6 +31,11 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   PBDev::basicAssert(sequentialConsumerListenerPdf != nullptr);
   mExportLogic.configure(sequentialConsumerListenerPdf);
 
+  auto sequentialConsumerListenerJpg =
+      dynamic_cast<PBDev::SequentialTaskConsumerListener<JpgExport> *>(this);
+  PBDev::basicAssert(sequentialConsumerListenerJpg != nullptr);
+  mExportLogic.configure(sequentialConsumerListenerJpg);
+
   auto progressManagerListener =
       dynamic_cast<PB::ProgressManagerListener *>(this);
   PBDev::basicAssert(progressManagerListener != nullptr);
@@ -313,7 +318,7 @@ void Photobook::STCStarted(JpgExport const &task)
   mProgressManager.subscribe(task.name(), JobType::ExportJpg,
                              task.stepsCount());
 }
-void Photobook::STCFinished(JpgExport const &task) {}
+void Photobook::STCFinished([[maybe_unused]] JpgExport const &task) {}
 void Photobook::STCAborted(JpgExport const &task)
 {
   mProgressManager.abort(task.name());

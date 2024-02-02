@@ -14,9 +14,12 @@ JpgExport::JpgExport(
   }
 }
 
-bool JpgExport::stoppingCondition() const { return true; }
+bool JpgExport::stoppingCondition() const
+{
+  return mIndex >= mStagedImages.size();
+}
 
-int JpgExport::stepsCount() const { return 0; }
+int JpgExport::stepsCount() const { return (int)mStagedImages.size(); }
 
 void JpgExport::taskStep()
 {
