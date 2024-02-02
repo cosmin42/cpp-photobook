@@ -1179,10 +1179,10 @@ void TableContentPage::OnExportContentDialogClicked(
   std::string              nativeExportName = winrt::to_string(exportName);
   std::set<PB::ExportType> exportSelection;
 
-  if (OptionPDFCheckBox().IsChecked()) {
+  if (OptionPDFCheckBox().IsChecked().as<bool>()) {
     exportSelection.insert(PB::ExportType::Pdf);
   }
-  if (OptionJPGCheckBox().IsChecked()) {
+  if (OptionJPGCheckBox().IsChecked().as<bool>()) {
     exportSelection.insert(PB::ExportType::Jpg);
   }
   if (exportSelection.empty()) {
