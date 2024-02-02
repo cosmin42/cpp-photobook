@@ -56,7 +56,7 @@ public:
 
   void loadStagedImages();
 
-  void exportAlbum(std::string name, Path path);
+  void exportPDFAlbum(std::string name, Path path);
 
   void onError(PBDev::Error error);
 

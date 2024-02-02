@@ -151,7 +151,7 @@ void Photobook::loadStagedImages()
 
 void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
-void Photobook::exportAlbum(std::string name, Path path)
+void Photobook::exportPDFAlbum(std::string name, Path path)
 {
   PdfExportTask task(
       path / (name + ".pdf"), mPlatformInfo->localStatePath,
