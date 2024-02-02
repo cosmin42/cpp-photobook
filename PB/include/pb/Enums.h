@@ -51,4 +51,6 @@ enum class VirtualImageType { None, Text, Regular, Test };
 enum class JobType { None, Map, ThumbnailsProcess, Export, Full };
 
 enum class ProgressType { None, Defined, Undefined };
+
+enum class ExportType { None = 0x0, Pdf = 0x1, Jpg = 0x2, Html = 0x4 };
 } // namespace PB

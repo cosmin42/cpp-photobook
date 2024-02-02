@@ -16,11 +16,10 @@
 #include <pb/util/Util.h>
 
 namespace PB {
-enum class ExportType { PDF, JPG_COLLECTION, HTML };
 
 class ImageSetWriter final {
 public:
-  ImageSetWriter() : mExportType(ExportType::JPG_COLLECTION){};
+  ImageSetWriter() : mExportType(ExportType::Jpg){};
 
   explicit ImageSetWriter(ExportType type) : mExportType(type) {}
 

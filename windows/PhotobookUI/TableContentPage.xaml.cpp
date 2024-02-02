@@ -1175,10 +1175,17 @@ void TableContentPage::OnExportContentDialogClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  auto        exportName = ExportNameTextBox().Text();
-  std::string nativeExportName = winrt::to_string(exportName);
+  auto                     exportName = ExportNameTextBox().Text();
+  std::string              nativeExportName = winrt::to_string(exportName);
+  std::set<PB::ExportType> exportSelection;
 
-  if (!OptionPDFCheckBox().IsChecked()) {
+  if (OptionPDFCheckBox().IsChecked()) {
+    exportSelection.insert(PB::ExportType::Pdf);
+  }
+  if (OptionJPGCheckBox().IsChecked()) {
+    exportSelection.insert(PB::ExportType::Jpg);
+  }
+  if (exportSelection.empty()) {
     PostponeError("Check a format!");
   }
 
