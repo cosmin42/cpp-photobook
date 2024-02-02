@@ -30,6 +30,7 @@ class Photobook final
       public ImportFoldersLogicListener,
       public PBDev::ThreadScheduler,
       public PBDev::SequentialTaskConsumerListener<PdfExportTask>,
+      public PBDev::SequentialTaskConsumerListener<JpgExport>,
       public ProgressManagerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
@@ -88,6 +89,11 @@ public:
   void STCFinished(PdfExportTask const &task) override;
   void STCAborted(PdfExportTask const &task) override;
   void STCUpdate(PdfExportTask const &task) override;
+
+  void STCStarted(JpgExport const &task) override;
+  void STCFinished(JpgExport const &task) override;
+  void STCAborted(JpgExport const &task) override;
+  void STCUpdate(JpgExport const &task) override;
 
   void progressUpdate(PB::ProgressInfo definedProgress,
                       PB::ProgressInfo undefinedProgress) override;

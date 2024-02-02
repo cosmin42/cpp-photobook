@@ -15,6 +15,8 @@ public:
   int  stepsCount() const;
   void taskStep();
 
+  std::string name() const;
+
 private:
   struct JPG_TEMPLATE_PARAMS {
     static constexpr const char *JPG_NAME_TEMPLATE = "PHOTO_0000000.JPG";

@@ -293,7 +293,8 @@ void Photobook::onProjectRenamed() {}
 
 void Photobook::STCStarted(PdfExportTask const &task)
 {
-  mProgressManager.subscribe(task.name(), JobType::Export, task.stepsCount());
+  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
+                             task.stepsCount());
 }
 
 void Photobook::STCFinished([[maybe_unused]] PdfExportTask const &task) {}
@@ -303,6 +304,21 @@ void Photobook::STCAborted(PdfExportTask const &task)
 }
 
 void Photobook::STCUpdate(PdfExportTask const &task)
+{
+  mProgressManager.update(task.name());
+}
+
+void Photobook::STCStarted(JpgExport const &task)
+{
+  mProgressManager.subscribe(task.name(), JobType::ExportJpg,
+                             task.stepsCount());
+}
+void Photobook::STCFinished(JpgExport const &task) {}
+void Photobook::STCAborted(JpgExport const &task)
+{
+  mProgressManager.abort(task.name());
+}
+void Photobook::STCUpdate(JpgExport const &task)
 {
   mProgressManager.update(task.name());
 }

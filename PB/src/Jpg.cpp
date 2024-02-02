@@ -32,6 +32,11 @@ void JpgExport::taskStep()
 #endif
 }
 
+std::string JpgExport::name() const
+{
+  return mRoot.parent_path().filename().string();
+}
+
 void JpgExport::writeImage(Path inputPath, Path outputPath) const
 {
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(

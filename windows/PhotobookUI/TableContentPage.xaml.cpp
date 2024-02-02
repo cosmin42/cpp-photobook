@@ -1197,9 +1197,16 @@ void TableContentPage::OnExportContentDialogClicked(
   }
   else {
     mPopups.fireFolderPicker(
-        MainWindow::sMainWindowHandle, [this, nativeExportName](Path path) {
-          Post([this, path{path}, nativeExportName{nativeExportName}]() {
-            mPhotoBook->exportPDFAlbum(nativeExportName, path);
+        MainWindow::sMainWindowHandle,
+        [this, nativeExportName, exportSelection{exportSelection}](Path path) {
+          Post([this, path{path}, nativeExportName{nativeExportName},
+                exportSelection{exportSelection}]() {
+            if (exportSelection.contains(PB::ExportType::Pdf)) {
+              mPhotoBook->exportPDFAlbum(nativeExportName, path);
+            }
+            if (exportSelection.contains(PB::ExportType::Jpg)) {
+              mPhotoBook->exportJPGAlbum(nativeExportName, path);
+            }
           });
         });
   }
