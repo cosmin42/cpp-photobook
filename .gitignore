@@ -68,3 +68,5 @@ compile_commands.json
 out/
 windows/PhotobookUI/ARM64/
 PB/build*
+build-x64*
+build-ARM64*
