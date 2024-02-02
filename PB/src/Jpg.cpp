@@ -6,7 +6,20 @@ bool JpgExport::stoppingCondition() const { return true; }
 
 int JpgExport::stepsCount() const { return 0; }
 
-void JpgExport::taskStep() {}
+void JpgExport::taskStep() {
+/*
+    Path imagePath = mRoot / makeName(mIndex);
+
+    auto virtualImage = mStagedImages.at(mIndex);
+    writeImage(virtualImage->frontend().full, imagePath);
+
+    mindex++;
+
+#ifdef SIMULATE_SLOW_EXPORTER
+  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+#endif
+*/
+}
 /*
 std::string makeName(unsigned counter)
 {
