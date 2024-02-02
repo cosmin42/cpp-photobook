@@ -32,7 +32,8 @@ void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
 
   auto temporaryImage = ImageReader().read(inputPath);
   PBDev::basicAssert(temporaryImage != nullptr);
-  Process::resize({mPaperSettings.width, mPaperSettings.height},
+  Process::resize({mPaperSettings.width * 72 / mPaperSettings.ppi,
+                   mPaperSettings.height * 72 / mPaperSettings.ppi},
                   true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
