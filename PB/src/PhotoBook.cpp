@@ -153,8 +153,12 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportAlbum(std::string name, Path path)
 {
-  mExportLogic.configure(mImageViews.stagedImages().stagedPhotos());
-  mExportLogic.start(Context::inst().sStopSource, path / (name + ".pdf"));
+  PdfExportTask task(
+      path / (name + ".pdf"), mPlatformInfo->localStatePath,
+      mProjectPersistence.currentProject()->active().paperSettings,
+      mImageViews.stagedImages().stagedPhotos());
+
+  mExportLogic.start(Context::inst().sStopSource, task);
 }
 
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }

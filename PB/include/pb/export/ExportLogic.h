@@ -31,34 +31,14 @@ public:
     std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners) = listener;
   }
 
-  void configure(std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
-  {
-    for (auto &it : stagedImages) {
-      mPtrImages.push_back(it);
-    }
-  }
-
-  void start(std::stop_source &stopSource, Path pdfPath)
-  {
-    start<ExporterTypes...>(stopSource, stopSource.get_token(), pdfPath);
-  }
-
-private:
-  template <typename T> T makeTask(Path pdfPath)
-  {
-    T task{pdfPath, mPlatformInfo->localStatePath,
-           mProject->active().paperSettings, mPtrImages};
-    return task;
-  }
-
   template <typename T>
-  void start([[maybe_unused]] std::stop_source &stopSource,
-             std::stop_token stopToken, Path pdfPath)
+  void start(std::stop_source& stopSource, T task)
   {
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(stopToken);
+    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
+        .configure(stopSource.get_token());
 
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
-        .configure(makeTask<T>(pdfPath));
+        .configure(task);
 
     auto listener =
         std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners);
@@ -67,13 +47,8 @@ private:
 
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).start();
   }
-  /*
-  template <typename Head, typename... Tail>
-  void start(std::stop_source &stopSource, std::stop_token stopToken)
-  {
-    start<Head>(stopToken);
-    start<Tail...>(stopSource, stopSource.get_token());
-  }*/
+
+private:
 
   std::tuple<PBDev::SequentialTaskConsumer<ExporterTypes>...> mExporters;
   std::tuple<PBDev::SequentialTaskConsumerListener<ExporterTypes> *...>

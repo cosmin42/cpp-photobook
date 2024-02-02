@@ -101,7 +101,7 @@ private:
   ImageViews                     mImageViews;
   CommandStack                   mCommandStack;
   bool                           mMarkProjectForDeletion = false;
-  ExportLogic<PB::PdfExportTask> mExportLogic;
+  ExportLogic<PB::PdfExportTask /*, PB::JpgExport*/> mExportLogic;
   ProgressManager                mProgressManager;
 };
 } // namespace PB
