@@ -6,9 +6,9 @@
 namespace PB {
 struct PaperSettings {
   PaperType type = PaperType::A4_Landscape;
-  int       ppi = 72;
-  int       width = 842;
-  int       height = 595;
+  int       ppi = 300;
+  int       width = 3508;
+  int       height = 2480;
 };
 } // namespace PB
 
