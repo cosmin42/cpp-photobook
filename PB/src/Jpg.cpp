@@ -1,42 +1,64 @@
 #include <pb/export/Jpg.h>
 
+#include <string>
+
 namespace PB {
+
+JpgExport::JpgExport(
+    Path root, PaperSettings paperSettings,
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+    : mRoot(root), mPaperSettings{paperSettings}
+{
+  for (auto const &it : stagedImages) {
+    mStagedImages.push_back(it);
+  }
+}
 
 bool JpgExport::stoppingCondition() const { return true; }
 
 int JpgExport::stepsCount() const { return 0; }
 
-void JpgExport::taskStep() {
-/*
-    Path imagePath = mRoot / makeName(mIndex);
+void JpgExport::taskStep()
+{
+  Path imagePath = mRoot / makeName(mIndex);
 
-    auto virtualImage = mStagedImages.at(mIndex);
-    writeImage(virtualImage->frontend().full, imagePath);
+  auto virtualImage = mStagedImages.at(mIndex);
+  writeImage(virtualImage->frontend().full, imagePath);
 
-    mindex++;
+  mIndex++;
 
 #ifdef SIMULATE_SLOW_EXPORTER
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 #endif
-*/
 }
-/*
-std::string makeName(unsigned counter)
-{
-    struct JPG_TEMPLATE_PARAMS
-    {
-        static constexpr const char* JPG_NAME_TEMPLATE = "PHOTO_0000000.JPG";
-        static constexpr unsigned PLACEHOLDER_SIZE = 7;
-        static constexpr unsigned PLACEHOLDER_OFFSET = 6;
-    };
-    
-    auto counterStr = std::to_string(counter);
-    PBDev::basicAssert(counterStr.size() <= JPG_TEMPLATE_PARAMS::PLACEHOLDER_SIZE);
-    std::string result = JPG_TEMPLATE_PARAMS::JPG_NAME_TEMPLATE;
-    unsigned replaceOffset = JPG_TEMPLATE_PARAMS::PLACEHOLDER_OFFSET + (JPG_TEMPLATE_PARAMS::PLACEHOLDER_SIZE-counterStr.length());
-    result.replace(replaceOffset, counterStr.size(), counterStr);
 
-    return result;
+void JpgExport::writeImage(Path inputPath, Path outputPath) const
+{
+  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
+      mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
+
+  auto temporaryImage = ImageReader().read(inputPath);
+  PBDev::basicAssert(temporaryImage != nullptr);
+  Process::resize({mPaperSettings.width, mPaperSettings.height},
+                  true)(temporaryImage);
+  PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
+
+  ImageSetWriter().write(outputPath, image);
 }
-*/
+
+std::string JpgExport::makeName(unsigned counter)
+{
+
+  auto counterStr = std::to_string(counter);
+  PBDev::basicAssert(counterStr.size() <=
+                     JPG_TEMPLATE_PARAMS::PLACEHOLDER_SIZE);
+  std::string result = JPG_TEMPLATE_PARAMS::JPG_NAME_TEMPLATE;
+  unsigned    replaceOffset =
+      JPG_TEMPLATE_PARAMS::PLACEHOLDER_OFFSET +
+      (JPG_TEMPLATE_PARAMS::PLACEHOLDER_SIZE - (unsigned)counterStr.length());
+  result.replace(replaceOffset, counterStr.size(), counterStr);
+
+  return result;
+}
+
 } // namespace PB
