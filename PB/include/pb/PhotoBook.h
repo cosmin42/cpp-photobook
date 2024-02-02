@@ -57,6 +57,7 @@ public:
   void loadStagedImages();
 
   void exportPDFAlbum(std::string name, Path path);
+  void exportJPGAlbum(std::string name, Path path);
 
   void onError(PBDev::Error error);
 
@@ -88,20 +89,20 @@ public:
   void STCAborted(PdfExportTask const &task) override;
   void STCUpdate(PdfExportTask const &task) override;
 
-  void progressUpdate(PB::ProgressInfo         definedProgress,
-                      PB::ProgressInfo         undefinedProgress) override;
+  void progressUpdate(PB::ProgressInfo definedProgress,
+                      PB::ProgressInfo undefinedProgress) override;
 
   std::vector<Path> pendingMappingPathList() const;
 
 private:
-  PhotobookListener             *mParent = nullptr;
-  std::shared_ptr<PlatformInfo>  mPlatformInfo = nullptr;
-  ProjectPersistence             mProjectPersistence;
-  ImportFoldersLogic             mImportLogic;
-  ImageViews                     mImageViews;
-  CommandStack                   mCommandStack;
-  bool                           mMarkProjectForDeletion = false;
-  ExportLogic<PB::PdfExportTask /*, PB::JpgExport*/> mExportLogic;
-  ProgressManager                mProgressManager;
+  PhotobookListener                            *mParent = nullptr;
+  std::shared_ptr<PlatformInfo>                 mPlatformInfo = nullptr;
+  ProjectPersistence                            mProjectPersistence;
+  ImportFoldersLogic                            mImportLogic;
+  ImageViews                                    mImageViews;
+  CommandStack                                  mCommandStack;
+  bool                                          mMarkProjectForDeletion = false;
+  ExportLogic<PB::PdfExportTask, PB::JpgExport> mExportLogic;
+  ProgressManager                               mProgressManager;
 };
 } // namespace PB

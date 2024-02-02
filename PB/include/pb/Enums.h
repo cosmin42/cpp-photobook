@@ -20,7 +20,8 @@ enum class ErrorCode {
   FolderAlreadyImported,
   JSONParseError,
 
-  NoImages
+  NoImages,
+  CannotExport
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };

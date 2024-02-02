@@ -161,6 +161,25 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
   mExportLogic.start(Context::inst().sStopSource, task);
 }
 
+void Photobook::exportJPGAlbum(std::string name, Path path)
+{
+  auto newFolder = path / name;
+  if (std::filesystem::exists(newFolder)) {
+    mParent->onError(PBDev::Error()
+                     << ErrorCode::CannotExport << newFolder.string());
+  }
+  else {
+    auto success = std::filesystem::create_directories(newFolder);
+    PBDev::basicAssert(success);
+
+    JpgExport task(newFolder,
+                   mProjectPersistence.currentProject()->active().paperSettings,
+                   mImageViews.stagedImages().stagedPhotos());
+
+    mExportLogic.start(Context::inst().sStopSource, task);
+  }
+}
+
 ProjectPersistence &Photobook::project() { return mProjectPersistence; }
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
