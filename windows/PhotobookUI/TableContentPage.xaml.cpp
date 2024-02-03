@@ -239,7 +239,7 @@ void TableContentPage::OnAboutClicked(
 {
   GenericMessageTextBlock().Text(
       winrt::to_hstring("Version: " + std::string(PB::Context::VERSION) +
-                        "\nEmail: cosmin@mandelbrot-code.com"));
+                        "\nEmail: ionut.cosmin.mihai@gmail.com"));
   GenericMessageDialogDisplay();
 }
 
