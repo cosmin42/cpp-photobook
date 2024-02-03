@@ -643,7 +643,14 @@
                 <TextBox x:Name="RenameProjectDialogTextBox"
                          Foreground="{StaticResource MainFontColor}"
                          Header="Name:"
-                         PlaceholderText="Name example" />
+                         PlaceholderText="Name example">
+                    <TextBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       Foreground="White" />
+                        </DataTemplate>
+                    </TextBox.HeaderTemplate>
+                </TextBox>
             </StackPanel>
         </ContentDialog>
     </Grid>
