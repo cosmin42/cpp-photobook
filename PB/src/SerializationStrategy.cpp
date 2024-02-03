@@ -207,7 +207,6 @@ deserialize(Json jsonData)
 template <>
 std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
 {
-  auto            x = jsonData.dump();
   ProjectSnapshot projectDetails;
 
   auto paperSettingsOrError = deserialize<PaperSettings>(
@@ -311,8 +310,8 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
   auto [key, projectDetails] = entry;
 
   auto jsonOrError =
-      serialize<std::vector<Path>, PaperSettings, PathCache>(
-          depth + 1, {"imported-folders", projectDetails.importedPaths},
+      serialize<PaperSettings, PathCache>(
+          depth + 1,
           {"paper-settings", projectDetails.paperSettings},
           {"path-cache", projectDetails.pathCache});
 

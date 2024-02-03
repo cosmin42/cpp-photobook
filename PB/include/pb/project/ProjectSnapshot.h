@@ -17,22 +17,16 @@ struct ProjectSnapshot {
   static std::shared_ptr<PlatformInfo> platformInfo;
   static Path parentDirectory() { return platformInfo->localStatePath; }
 
-  std::vector<Path> importedPaths;
-  std::vector<Path> stagedImages;
-  PaperSettings     paperSettings = Context::A4_LANDSCAPE_PAPER;
-  PathCache         pathCache;
+  PaperSettings paperSettings = Context::A4_LANDSCAPE_PAPER;
+  PathCache     pathCache;
 
   bool operator==(ProjectSnapshot const &other)
   {
-    bool eqImportedPath = std::equal(importedPaths.begin(), importedPaths.end(),
-                                     other.importedPaths.begin());
-    bool eqStagedImages = std::equal(stagedImages.begin(), stagedImages.end(),
-                                     other.stagedImages.begin());
     bool eqPaperSettings = paperSettings == other.paperSettings;
 
     bool eqPathCache = pathCache == other.pathCache;
 
-    return eqImportedPath && eqStagedImages && eqPaperSettings && eqPathCache;
+    return eqPaperSettings && eqPathCache;
   }
 };
 
