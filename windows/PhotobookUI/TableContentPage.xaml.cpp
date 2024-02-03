@@ -393,15 +393,6 @@ void TableContentPage::OnClickedOutsideList(
   auto framework = args.OriginalSource().as<FrameworkElement>();
 
   auto image = framework.DataContext().as<ImageUIData>();
-
-  if (!image) {
-
-    // StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-    //     0, mStagedImageCollection.Size()));
-
-    // UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-    //     0, mUnstagedImageCollection.Size()));
-  }
 }
 void TableContentPage::UnstagedSelectAllInvoked(
     winrt::Microsoft::UI::Xaml::Input::KeyboardAccelerator const,

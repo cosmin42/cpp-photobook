@@ -24,11 +24,15 @@ struct ProjectSnapshot {
 
   bool operator==(ProjectSnapshot const &other)
   {
-    return std::equal(importedPaths.begin(), importedPaths.end(),
-                      other.importedPaths.begin()) &&
-           std::equal(stagedImages.begin(), stagedImages.end(),
-                      other.stagedImages.begin()) &&
-           paperSettings == other.paperSettings && pathCache == other.pathCache;
+    bool eqImportedPath = std::equal(importedPaths.begin(), importedPaths.end(),
+                                     other.importedPaths.begin());
+    bool eqStagedImages = std::equal(stagedImages.begin(), stagedImages.end(),
+                                     other.stagedImages.begin());
+    bool eqPaperSettings = paperSettings == other.paperSettings;
+
+    bool eqPathCache = pathCache == other.pathCache;
+
+    return eqImportedPath && eqStagedImages && eqPaperSettings && eqPathCache;
   }
 };
 

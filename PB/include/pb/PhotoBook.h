@@ -46,7 +46,6 @@ public:
   void recallProject(std::string name);
 
   void newProject(std::string name);
-  void loadProject();
   void unloadProject();
 
   ImageViews         &imageViews();
@@ -54,8 +53,6 @@ public:
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
-
-  void loadStagedImages();
 
   void exportPDFAlbum(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);

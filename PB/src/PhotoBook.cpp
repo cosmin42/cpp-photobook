@@ -68,16 +68,6 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
   mExportLogic.configure(mProjectPersistence.currentProject(), mPlatformInfo);
 }
 
-void Photobook::loadProject()
-{
-  for (auto &path :
-       mProjectPersistence.currentProject()->active().importedPaths) {
-    addImportFolder(path);
-  }
-
-  loadStagedImages();
-}
-
 void Photobook::unloadProject()
 {
   mImportLogic.stopAll();
@@ -127,30 +117,6 @@ void Photobook::removeImportFolder(Path path)
   }
   else {
     mImageViews.imageMonitor().removeRow(path);
-  }
-}
-
-void Photobook::loadStagedImages()
-{
-  auto stagedImages =
-      mProjectPersistence.currentProject()->active().stagedImages;
-
-  std::vector<std::shared_ptr<VirtualImage>> stage;
-
-  for (auto i = 0; i < stagedImages.size(); ++i) {
-    if (std::filesystem::is_regular_file(stagedImages.at(i))) {
-
-      auto regularImage = ImageFactory::inst().createImage(stagedImages.at(i));
-
-      mImageViews.stagedImages().addPicture(regularImage);
-    }
-    else if (std::filesystem::is_directory(stagedImages.at(i))) {
-      auto textImage = ImageFactory::inst().createImage(stagedImages.at(i));
-      mImageViews.stagedImages().addPicture(textImage);
-    }
-    else {
-      PBDev::basicAssert(false);
-    }
   }
 }
 
