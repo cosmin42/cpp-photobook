@@ -748,8 +748,14 @@ void TableContentPage::OnUnstagedPhotosSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
-  StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-      0, mStagedImageCollection.Size()));
+  auto selection = SelectionIndex();
+
+  if (!mLinesExclusiveSelection) {
+    mLinesExclusiveSelection = true;
+    StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mStagedImageCollection.Size()));
+  }
+  mLinesExclusiveSelection = false;
 
   UpdateGallery();
 
@@ -761,13 +767,13 @@ void TableContentPage::OnStagedPhotosSelectionChanged(
     [[maybe_unused]] ::winrt::Microsoft::UI::Xaml::Controls::
         SelectionChangedEventArgs const &)
 {
-  UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
-      0, mUnstagedImageCollection.Size()));
-
   auto selection = SelectionIndex();
-  if (selection.stagedPhotoIndex.empty()) {
-    return;
+  if (!mLinesExclusiveSelection) {
+    mLinesExclusiveSelection = true;
+    UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
+        0, mUnstagedImageCollection.Size()));
   }
+  mLinesExclusiveSelection = false;
 
   UpdateGalleryLabel();
   GalleryCanvas().Invalidate();

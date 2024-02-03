@@ -283,6 +283,7 @@ private:
   bool                                           mNewProjectFlag = false;
   std::unordered_set<Path>                       mLoadedFinishedImportFolders;
   DragSource                                     mDragSource = DragSource::None;
+  bool mLinesExclusiveSelection = false;
 
   std::unordered_set<Path> mImportedDirectories;
 };
