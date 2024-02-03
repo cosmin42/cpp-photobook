@@ -13,6 +13,11 @@
 
 namespace PB::Process {
 
+struct CVFontInfo {
+  cv::Scalar color;
+  unsigned        pixelSize;
+};
+
 typedef std::function<std::pair<int, int>(int, int, int, int)> OffsetFunction;
 
 OffsetFunction alignToCenter();
@@ -29,7 +34,7 @@ auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
 auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
     -> std::function<std::shared_ptr<cv::Mat>()>;
 
-auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
+auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 
 void readImageWriteThumbnail(int width, int height, Path full, Path medium,
@@ -39,5 +44,7 @@ void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full);
 
 void imageWriteThumbnail(int width, int height, std::shared_ptr<cv::Mat> image,
                          Path medium, Path small);
+
+unsigned pointsFromPixels(double points, unsigned ppi);
 
 } // namespace PB::Process

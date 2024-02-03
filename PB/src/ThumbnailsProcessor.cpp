@@ -32,14 +32,7 @@ void ResizeTask::operator()() const
                                      mSmallThumbnailOutputPath, resizeOption);
   }
   else {
-    std::shared_ptr<cv::Mat> image =
-        PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
-
-    image = PB::Process::addText(
-        {3508 / 2, 2480 / 2}, mFullSizePath.stem().string(), {0, 0, 0})(image);
-    Process::imageWriteThumbnail(mScreenWidth, mScreenHeight, image,
-                                 mMediumThumbnailOutputPath,
-                                 mSmallThumbnailOutputPath);
+    PBDev::basicAssert(false);
   }
 #ifdef SIMULATE_SLOW_THUMBNAILS_PROCESSOR
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -81,7 +74,7 @@ void ThumbnailsProcessor::generateThumbnails(
       mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i).second, mediumPath, smallPath, task,
+    ResizeTask resizeTask(mediaMap.at(i).first, mediumPath, smallPath, task,
                           mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 

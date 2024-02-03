@@ -21,8 +21,13 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path)
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
 
+  Process::CVFontInfo fontInfo;
+  fontInfo.color = {0, 0, 0};
+  fontInfo.pixelSize =
+      Process::pointsFromPixels(24, mProject->active().paperSettings.ppi);
+
   image = PB::Process::addText({3508 / 2, 2480 / 2}, path.stem().string(),
-                               {0, 0, 0})(image);
+                               fontInfo)(image);
 
   auto imagePath =
       VirtualImage::platformInfo->localStatePath / "th" /

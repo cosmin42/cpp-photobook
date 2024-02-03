@@ -131,15 +131,18 @@ auto singleColorImage(int32_t width, int32_t height, cv::Scalar color)
   return f;
 }
 
-auto addText(cv::Size offset, std::string const &text, cv::Scalar color)
+auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
 {
-  auto f = [offset{offset}, text{text}, color{color}](
+  auto f = [offset{offset}, text{text}, fontInfo{fontInfo}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    auto size = cv::getTextSize(text, cv::FONT_HERSHEY_DUPLEX, 1.0, 2, 0);
+    constexpr int thickness = 8;
 
-    cv::putText(*image, text, offset - (size / 2), cv::FONT_HERSHEY_DUPLEX, 1.0,
-                color, 2, cv::LINE_AA);
+    auto size = cv::getTextSize(text, cv::FONT_HERSHEY_DUPLEX,
+                                fontInfo.pixelSize, thickness, 0);
+
+    cv::putText(*image, text, offset - (size / 2), cv::FONT_HERSHEY_DUPLEX,
+                fontInfo.pixelSize, fontInfo.color, thickness, cv::LINE_AA);
     return image;
   };
 
@@ -202,6 +205,11 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
       true)(image);
 
   ImageSetWriter().write(small, smallImagePointer);
+}
+
+unsigned pointsFromPixels(double points, unsigned ppi)
+{
+  return (unsigned)(points * ppi) / 72;
 }
 
 } // namespace PB::Process
