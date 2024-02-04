@@ -86,7 +86,7 @@ private:
   Persistence                                           mPersistence;
   std::shared_ptr<Project>                              mProject = nullptr;
   std::optional<boost::uuids::uuid>                     mOpenedUUID;
-  boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
+  MetadataPack                                          mMetadataPack;
   Json                                                  mJson;
 };
 } // namespace PB

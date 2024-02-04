@@ -116,14 +116,8 @@ void Persistence::recallMetadata()
         else {
           auto &metadataPack = std::get<MetadataPack>(metadataPackOrError);
 
-          boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
-          for (auto &[key, value] : metadataPack.metadata) {
-            auto               generator = boost::uuids::string_generator();
-            boost::uuids::uuid parsedUuid = generator(key);
-            metadata.insert({parsedUuid, value});
-          }
           if (mPersistenceMetadataListener) {
-            mPersistenceMetadataListener->onMetadataRead(metadata);
+            mPersistenceMetadataListener->onMetadataRead(metadataPack.metadata);
           }
         }
       });
