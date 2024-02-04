@@ -1,18 +1,32 @@
 #pragma once
 
+#include <unordered_set>
+
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/util/Traits.h>
 
 namespace PB {
+struct PathProjectAssociationHash {
+  size_t operator()(const std::pair<Path, std::string> &x) const
+  {
+    return (std::hash<Path>{}(x.first)) ^ std::hash<std::string>{}(x.second);
+  }
+};
+
 class PathCache final {
 public:
   static bool valid(Path path, std::string hash);
 
   PathCache() = default;
-  explicit PathCache(boost::bimaps::bimap<Path, std::string> data);
+  explicit PathCache(std::string projectName);
   PathCache(PathCache const &);
   ~PathCache() = default;
+
+  void configure(boost::bimaps::bimap<Path, std::string> data);
+  void configure(
+      std::unordered_set<std::pair<Path, std::string>> pathProjectAssociation);
+
   void newHash(Path path);
   void load(Path path, std::string hash);
   void remove(Path path);
@@ -42,6 +56,9 @@ public:
   }
 
 private:
+  std::string                             mProjectName;
   boost::bimaps::bimap<Path, std::string> mEntries;
+  std::unordered_set<std::pair<Path, std::string>, PathProjectAssociationHash>
+      mPathProjectAssociation;
 };
 } // namespace PB

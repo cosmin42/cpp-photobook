@@ -2,15 +2,25 @@
 
 namespace PB {
 
-PathCache::PathCache(boost::bimaps::bimap<Path, std::string> data)
-{
-  mEntries = data;
-}
+PathCache::PathCache(std::string projectName) : mProjectName(projectName) {}
 
 PathCache::PathCache(PathCache const &other)
 {
   for (auto &it : other.mEntries) {
     mEntries.insert({it.left, it.right});
+  }
+}
+
+void PathCache::configure(boost::bimaps::bimap<Path, std::string> data)
+{
+  mEntries = data;
+}
+
+void PathCache::configure(
+    std::unordered_set<std::pair<Path, std::string>> pathProjectAssociation)
+{
+  for (auto &entry : pathProjectAssociation) {
+    mPathProjectAssociation.insert(std::move(entry));
   }
 }
 
@@ -32,6 +42,7 @@ void PathCache::newHash(Path path)
   }
   hash_s = hash_s + suffix;
   mEntries.insert({path, hash_s});
+  mPathProjectAssociation.insert({path, mProjectName});
 }
 
 void PathCache::load(Path path, std::string hash)

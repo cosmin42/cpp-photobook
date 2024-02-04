@@ -75,7 +75,8 @@ template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
         {std::get<Path>(pathOrError), std::get<std::string>(hashOrError)});
   }
 
-  PathCache patchCache(entries);
+  PathCache patchCache;
+  patchCache.configure(entries);
   return patchCache;
 }
 
