@@ -22,10 +22,7 @@ std::optional<PBDev::Error> SQLitePersistence::connect()
 }
 
 void SQLitePersistence::read(
-    std::function<
-        void(std::variant<std::unordered_map<std::string, std::string>,
-                          PBDev::Error>)>
-        onReturn)
+    std::function<void(std::variant<MetadataPack, PBDev::Error>)> onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
   if (maybeError.has_value()) {
@@ -33,7 +30,7 @@ void SQLitePersistence::read(
     return;
   }
 
-  std::unordered_map<std::string, std::string> readMap;
+  MetadataPack metadataPack;
 
   sqlite3_stmt *stmt;
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS, -1,
@@ -50,11 +47,11 @@ void SQLitePersistence::read(
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
     const char *path =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-    readMap[uuid] = path;
+    metadataPack.metadata[uuid] = path;
   }
 
   sqlite3_finalize(stmt);
-  onReturn(readMap);
+  onReturn(metadataPack);
 }
 
 void SQLitePersistence::write(
@@ -140,7 +137,7 @@ void SQLitePersistence::deleteEntry(
 }
 
 void SQLitePersistence::write(
-    std::unordered_map<std::string, std::string>     map,
+    MetadataPack                                     metadataPack,
     std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
@@ -149,7 +146,7 @@ void SQLitePersistence::write(
     return;
   }
 
-  for (auto &[key, value] : map) {
+  for (auto &[key, value] : metadataPack.metadata) {
     write(std::pair<std::string, std::string>(key, value),
           [onReturn](std::optional<PBDev::Error> maybeError) {
             onReturn(maybeError);
@@ -169,7 +166,7 @@ void SQLitePersistence::write(
   while (sqlite3_step(stmt) == SQLITE_ROW) {
     const char *uuid =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-    if (map.find(uuid) == map.end()) {
+    if (metadataPack.metadata.find(uuid) == metadataPack.metadata.end()) {
       char *errMsg = nullptr;
 
       std::string query = "DELETE FROM PROJECTS_REGISTER WHERE uuid = '" +
