@@ -170,7 +170,19 @@ struct TableContentPage : TableContentPageT<TableContentPage>,
       [[maybe_unused]] Microsoft::UI::Xaml::Controls::
           ContentDialogButtonClickEventArgs const &args);
 
+  void OnSaveProject(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
+  void OnCancelSavingProject(
+      [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+      [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+          ContentDialogButtonClickEventArgs const &args);
+
   auto RenameProjectDialogDisplay() -> winrt::fire_and_forget;
+
+  auto SaveProjectDialogDisplay() -> winrt::fire_and_forget;
 
   /* Dialogs - Export */
   void OnExportContentDialogClicked(

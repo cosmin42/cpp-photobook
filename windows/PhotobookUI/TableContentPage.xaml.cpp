@@ -317,7 +317,7 @@ void TableContentPage::OnNewClicked(
   }
   else {
     mNewProjectFlag = true;
-    RenameProjectDialogDisplay();
+    SaveProjectDialogDisplay();
   }
 }
 
@@ -1270,6 +1270,29 @@ void TableContentPage::OnRenameProjectDialogCancel(
 auto TableContentPage::RenameProjectDialogDisplay() -> winrt::fire_and_forget
 {
   co_await RenameProjectDialog().ShowAsync();
+}
+
+auto TableContentPage::SaveProjectDialogDisplay() -> winrt::fire_and_forget
+{
+  co_await SaveProjectDialog().ShowAsync();
+}
+
+void TableContentPage::OnSaveProject(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
+  mPhotoBook->project().save(
+      mPhotoBook->imageViews().imageMonitor().unstaged(),
+      mPhotoBook->imageViews().stagedImages().stagedPhotos(),
+      mPhotoBook->imageViews().imageMonitor().rowList());
+}
+
+void TableContentPage::OnCancelSavingProject(
+    [[maybe_unused]] Windows::Foundation::IInspectable const &sender,
+    [[maybe_unused]] Microsoft::UI::Xaml::Controls::
+        ContentDialogButtonClickEventArgs const &args)
+{
 }
 
 } // namespace winrt::PhotobookUI::implementation

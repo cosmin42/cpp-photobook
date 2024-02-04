@@ -653,5 +653,21 @@
                 </TextBox>
             </StackPanel>
         </ContentDialog>
+        <ContentDialog Title="Save Project"
+                       Foreground="{StaticResource MainFontColor}"
+                       x:Name="SaveProjectDialog"
+                       Background="{StaticResource PrimaryColor}"
+                       PrimaryButtonText="Yes"
+                       PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
+                       CloseButtonText="No"
+                       PrimaryButtonClick="OnSaveProject"
+                       CloseButtonClick="OnCancelSavingProject">
+            <ContentDialog.Resources>
+                <SolidColorBrush x:Key="ButtonBackground"
+                                 Color="{StaticResource ButtonBackgroundColor}" />
+                <SolidColorBrush x:Key="ButtonForeground"
+                                 Color="{StaticResource MainFontColor}" />
+            </ContentDialog.Resources>
+        </ContentDialog>
     </Grid>
 </Page>
