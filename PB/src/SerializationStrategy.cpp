@@ -150,8 +150,15 @@ deserialize(Json jsonData)
   auto processingFinished = std::get<bool>(processingFinishedOrError);
 
 #ifndef _CLANG_UML_
-  if (imageType == "Regular" || imageType == "Text") {
+
+  if (imageType == "Regular") {
     auto imagePtr = std::make_shared<RegularImage>(
+        frontendFull, frontendMedium, frontendSmall, processingFinished,
+        std::get<std::vector<Path>>(resourcesOrError));
+    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
+  }
+  else if (imageType == "Text") {
+    auto imagePtr = std::make_shared<TextImage>(
         frontendFull, frontendMedium, frontendSmall, processingFinished,
         std::get<std::vector<Path>>(resourcesOrError));
     return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
@@ -309,11 +316,9 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
 {
   auto [key, projectDetails] = entry;
 
-  auto jsonOrError =
-      serialize<PaperSettings, PathCache>(
-          depth + 1,
-          {"paper-settings", projectDetails.paperSettings},
-          {"path-cache", projectDetails.pathCache});
+  auto jsonOrError = serialize<PaperSettings, PathCache>(
+      depth + 1, {"paper-settings", projectDetails.paperSettings},
+      {"path-cache", projectDetails.pathCache});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;

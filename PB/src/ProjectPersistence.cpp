@@ -110,7 +110,11 @@ void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
   mListener->onPersistenceError(error);
 }
 
-void ProjectPersistence::onJsonRead(Json json) { mJson = json; }
+void ProjectPersistence::onJsonRead(Json json)
+{
+  mJson = json;
+  std::string loadedJson = mJson.dump();
+}
 
 void ProjectPersistence::remove(boost::uuids::uuid id)
 {
@@ -190,13 +194,12 @@ bool ProjectPersistence::isSaved(
 {
   auto currentJson = Persistence::serialization(
       mProject->active(), unstagedImages, stagedImages, roots);
-  if (currentJson.is_null())
-  {
+  if (currentJson.is_null()) {
     PB::printDebug("Current NULL\n");
   }
-  std::string s = currentJson.dump();
+  std::string currentJsonDump = currentJson.dump();
 
-  std::string s2 = mJson.dump();
+  std::string diskJsonDump = mJson.dump();
 
   return currentJson == mJson;
 }
