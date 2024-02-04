@@ -1289,6 +1289,9 @@ void TableContentPage::OnSaveProject(
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
+  if (mExitFlag) {
+    Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
 }
 
 void TableContentPage::OnCancelSavingProject(
@@ -1296,6 +1299,9 @@ void TableContentPage::OnCancelSavingProject(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
+  if (mExitFlag) {
+    Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
 }
 
 } // namespace winrt::PhotobookUI::implementation
