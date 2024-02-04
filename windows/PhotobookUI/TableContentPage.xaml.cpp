@@ -84,14 +84,17 @@ TableContentPage::TableContentPage()
 
   MainWindow::sMainExitFunction = [this]() {
     auto projectDetails = mPhotoBook->project().currentProject()->active();
-    bool alreadySaved =
-        true; // mPhotoBook->persistence()->isSaved(projectDetails);
-    if (!alreadySaved) {
-      mExitFlag = true;
-      RenameProjectDialog();
+    auto isSaved = mPhotoBook->project().isSaved(
+        mPhotoBook->imageViews().imageMonitor().unstaged(),
+        mPhotoBook->imageViews().stagedImages().stagedPhotos(),
+        mPhotoBook->imageViews().imageMonitor().rowList());
+
+    if (isSaved) {
+      Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
     }
     else {
-      Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+      mExitFlag = true;
+      SaveProjectDialogDisplay();
     }
   };
 
