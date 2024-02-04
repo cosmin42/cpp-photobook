@@ -1170,7 +1170,12 @@ void TableContentPage::OnExportClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const &,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &)
 {
-  ExportDialogDisplay();
+  if (mStagedImageCollection.Size() == 0) {
+    PostponeError("There is no staged photo!");
+  }
+  else {
+    ExportDialogDisplay();
+  }
 }
 
 void TableContentPage::OnExportContentDialogClicked(
@@ -1194,9 +1199,6 @@ void TableContentPage::OnExportContentDialogClicked(
 
   if (nativeExportName.empty()) {
     PostponeError("The given name must not be empty!");
-  }
-  else if (mStagedImageCollection.Size() == 0) {
-    PostponeError("There is no staged photo!");
   }
   else {
     mPopups.fireFolderPicker(
