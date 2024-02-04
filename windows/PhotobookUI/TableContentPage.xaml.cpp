@@ -306,8 +306,11 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto projectDetails = mPhotoBook->project().currentProject()->active();
-  if (mPhotoBook->project().currentProject()->isSynced()) {
+  auto isSaved = mPhotoBook->project().isSaved(
+      mPhotoBook->imageViews().imageMonitor().unstaged(),
+      mPhotoBook->imageViews().stagedImages().stagedPhotos(),
+      mPhotoBook->imageViews().imageMonitor().rowList());
+  if (isSaved) {
     mPhotoBook->unloadProject();
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));

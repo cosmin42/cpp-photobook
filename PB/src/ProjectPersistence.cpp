@@ -110,6 +110,8 @@ void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
   mListener->onPersistenceError(error);
 }
 
+void ProjectPersistence::onJsonRead(Json json) { mJson = json; }
+
 void ProjectPersistence::remove(boost::uuids::uuid id)
 {
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
@@ -118,7 +120,11 @@ void ProjectPersistence::remove(boost::uuids::uuid id)
 
 void ProjectPersistence::remove(Path path) {}
 
-void ProjectPersistence::clear() { mProject = nullptr; }
+void ProjectPersistence::clear()
+{
+  mJson.clear();
+  mProject = nullptr;
+}
 
 bool ProjectPersistence::contains(std::string name) const
 {
@@ -176,6 +182,25 @@ bool ProjectPersistence::hasProjectOpen() const
   return mOpenedUUID.has_value();
 }
 
+bool ProjectPersistence::isSaved(
+    std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                                                     &unstagedImages,
+    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+    std::vector<Path> const                          &roots)
+{
+  auto currentJson = Persistence::serialization(
+      mProject->active(), unstagedImages, stagedImages, roots);
+  if (currentJson.is_null())
+  {
+    PB::printDebug("Current NULL\n");
+  }
+  std::string s = currentJson.dump();
+
+  std::string s2 = mJson.dump();
+
+  return currentJson == mJson;
+}
+
 void ProjectPersistence::save(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
@@ -184,11 +209,12 @@ void ProjectPersistence::save(
 {
   PBDev::basicAssert(mProject != nullptr);
   PBDev::basicAssert(mOpenedUUID.has_value());
-  mProject->sync();
+
+  mJson = Persistence::serialization(mProject->active(), unstagedImages,
+                                     stagedImages, roots);
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-  mPersistence.persistProject(name, mProject->active(), unstagedImages,
-                              stagedImages, roots);
+  mPersistence.persistProject(name, mJson);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 

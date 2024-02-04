@@ -19,15 +19,6 @@ struct ProjectSnapshot {
 
   PaperSettings paperSettings = Context::A4_LANDSCAPE_PAPER;
   PathCache     pathCache;
-
-  bool operator==(ProjectSnapshot const &other)
-  {
-    bool eqPaperSettings = paperSettings == other.paperSettings;
-
-    bool eqPathCache = pathCache == other.pathCache;
-
-    return eqPaperSettings && eqPathCache;
-  }
 };
 
 } // namespace PB

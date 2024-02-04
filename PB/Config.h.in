@@ -47,19 +47,19 @@ public:
 
   static constexpr const char *VERSION = "0.1.0";
 
-  static constexpr PaperSettings A4_LANDSCAPE_PAPER = {PaperType::A4_Landscape,
-                                                       72, 842, 595};
   static constexpr PaperSettings A5_LANDSCAPE_PAPER = {PaperType::A5_Landscape,
-                                                       72, 595, 421};
+                                                       300, 2480, 1754};
+  static constexpr PaperSettings A4_LANDSCAPE_PAPER = {PaperType::A4_Landscape,
+                                                       300, 3508, 2480};
   static constexpr PaperSettings A3_LANDSCAPE_PAPER = {PaperType::A3_Landscape,
-                                                       72, 1190, 842};
+                                                       300, 4920, 3508};
 
-  static constexpr PaperSettings A4_PORTRAIT_PAPER = {PaperType::A4_Portrait,
-                                                      72, 595, 842};
   static constexpr PaperSettings A5_PORTRAIT_PAPER = {PaperType::A5_Portrait,
-                                                      72, 421, 595};
+                                                      300, 1754, 2480};
+  static constexpr PaperSettings A4_PORTRAIT_PAPER = {PaperType::A4_Portrait,
+                                                      300, 2480, 3508};
   static constexpr PaperSettings A3_PORTRAIT_PAPER = {PaperType::A3_Portrait,
-                                                      72, 842, 1190};
+                                                      300, 3508, 4920};
 
   static constexpr int MIN_PAPER_WIDTH = 200;
   static constexpr int MIN_PAPER_HEIGHT = 200;

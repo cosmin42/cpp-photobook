@@ -50,6 +50,8 @@ public:
       boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) override;
   void onMetadataPersistenceError(PBDev::Error) override;
 
+  void onJsonRead(Json json) override;
+
   void remove(boost::uuids::uuid id);
   void remove(Path path);
 
@@ -70,6 +72,11 @@ public:
   bool               hasProjectOpen() const;
   boost::uuids::uuid currentProjectUUID() const;
 
+  bool isSaved(std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                                                                &unstagedImages,
+               std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+               std::vector<Path> const                          &roots);
+
 private:
   std::string name(boost::uuids::uuid uuid);
   Path        path(boost::uuids::uuid uuid);
@@ -80,5 +87,6 @@ private:
   std::shared_ptr<Project>                              mProject = nullptr;
   std::optional<boost::uuids::uuid>                     mOpenedUUID;
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
+  Json                                                  mJson;
 };
 } // namespace PB

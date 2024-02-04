@@ -11,9 +11,10 @@ public:
   virtual void onProjectRead(
       std::string name, std::shared_ptr<Project> project,
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> &stagedImages,
-      std::vector<Path>& roots) = 0;
+      std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+      std::vector<Path>                                       &roots) = 0;
   virtual void onProjectPersistenceError(PBDev::Error) = 0;
+  virtual void onJsonRead(Json json) = 0;
 };
 
 class PersistenceMetadataListener {
@@ -28,16 +29,18 @@ class Persistence final {
 public:
   static std::optional<PBDev::Error> createSupportDirectory(Path path);
 
+  static Json
+  serialization(ProjectSnapshot project,
+                std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+                    &unstagedImages,
+                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
+                std::vector<Path> const                          &roots);
+
   void configure(Path localStatePath);
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
-  void persistProject(
-      std::string name, ProjectSnapshot project,
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                                                       &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
-      std::vector<Path> const& roots);
+  void persistProject(std::string name, Json json);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
@@ -47,15 +50,8 @@ public:
   void deleteMetadata(std::string id);
   void deleteProject(Path projectFile);
 
-  bool isSaved(ProjectSnapshot const &projectDetails) const;
-
 private:
-  void
-  persistProject(Path filePath, ProjectSnapshot project,
-                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                     &unstagedImages,
-                 std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
-                 std::vector<Path> const                          &roots);
+  void persistProject(Path filePath, Json json);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;

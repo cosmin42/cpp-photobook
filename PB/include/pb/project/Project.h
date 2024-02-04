@@ -13,6 +13,7 @@
 
 namespace PB {
 
+// TODO: Merge Project with ProjectSnapshot.
 class Project final {
 public:
   static std::string generateAlbumName(std::function<bool(std::string)>);
@@ -23,16 +24,9 @@ public:
   ~Project() = default;
 
   ProjectSnapshot active() const { return mActive; }
-  ProjectSnapshot cache() const { return mCache; }
-
-  void sync() { mCache = mActive; }
-
-  bool isSynced();
 
 private:
   static std::vector<std::string> HAPPY_WORDS;
-
-  ProjectSnapshot mCache;
 
   ProjectSnapshot mActive;
 };

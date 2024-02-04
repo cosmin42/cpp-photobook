@@ -2,7 +2,7 @@
 
 namespace PB {
 
-Project::Project(ProjectSnapshot snapshot) { mActive = mCache = snapshot; }
+Project::Project(ProjectSnapshot snapshot) { mActive = snapshot; }
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> Project::HAPPY_WORDS = {"Joyful", "Blissful"};
@@ -57,7 +57,5 @@ Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
   }
   return name;
 }
-
-bool Project::isSynced() { return mActive.operator==(mCache); }
 
 } // namespace PB

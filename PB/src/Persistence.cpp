@@ -22,8 +22,8 @@ void Persistence::configure(PersistenceMetadataListener *listener)
   mPersistenceMetadataListener = listener;
 }
 
-void Persistence::persistProject(
-    Path filePath, ProjectSnapshot projectDetails,
+Json Persistence::serialization(
+    ProjectSnapshot projectDetails,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
@@ -57,6 +57,11 @@ void Persistence::persistProject(
 
   std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
 
+  return std::get<Json>(jsonOrError);
+}
+
+void Persistence::persistProject(Path filePath, Json jsonSerialization)
+{
   auto maybeError =
       createSupportDirectory(ProjectSnapshot::parentDirectory() / "th");
 
@@ -65,8 +70,6 @@ void Persistence::persistProject(
   }
 
   PB::FilePersistence newProjectPersistence(filePath);
-
-  auto jsonSerialization = std::get<Json>(jsonOrError);
 
   newProjectPersistence.write(
       jsonSerialization, [this, jsonSerialization{jsonSerialization}](
@@ -81,15 +84,10 @@ void Persistence::persistProject(
       });
 }
 
-void Persistence::persistProject(
-    std::string name, ProjectSnapshot project,
-    std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                                                     &unstagedImages,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
-    std::vector<Path> const                          &roots)
+void Persistence::persistProject(std::string name, Json json)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
-  persistProject(projectPath, project, unstagedImages, stagedImages, roots);
+  persistProject(projectPath, json);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,
@@ -193,6 +191,7 @@ void Persistence::recallProject(Path projectPath)
     mProjectCache = jsonSerialization;
 #ifndef _CLANG_UML_
     if (mPersistenceProjectListener) {
+      mPersistenceProjectListener->onJsonRead(jsonSerialization);
       mPersistenceProjectListener->onProjectRead(
           name, std::make_shared<Project>(projectDetails),
           std::get<std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
@@ -220,16 +219,6 @@ void Persistence::deleteMetadata(std::string id)
 void Persistence::deleteProject(Path projectFile)
 {
   std::filesystem::remove(projectFile);
-}
-
-bool Persistence::isSaved(ProjectSnapshot const &projectDetails) const
-{
-  auto jsonOrError =
-      PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
-
-  PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
-
-  return std::get<Json>(jsonOrError) == mProjectCache;
 }
 
 std::optional<PBDev::Error> Persistence::createSupportDirectory(Path path)
