@@ -76,16 +76,19 @@ public:
                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
                std::vector<Path> const                          &roots);
 
+  std::shared_ptr<MetadataPack> metadataPack() const;
+
 private:
   std::string name(boost::uuids::uuid uuid);
   Path        path(boost::uuids::uuid uuid);
 
-  ProjectPersistenceListener                           *mListener = nullptr;
-  Path                                                  mLocalStatePath;
-  Persistence                                           mPersistence;
-  std::shared_ptr<Project>                              mProject = nullptr;
-  std::optional<boost::uuids::uuid>                     mOpenedUUID;
-  MetadataPack                                          mMetadataPack;
-  Json                                                  mJson;
+  ProjectPersistenceListener       *mListener = nullptr;
+  Path                              mLocalStatePath;
+  Persistence                       mPersistence;
+  std::shared_ptr<Project>          mProject = nullptr;
+  std::optional<boost::uuids::uuid> mOpenedUUID;
+  std::shared_ptr<MetadataPack>     mMetadataPack =
+      std::make_shared<MetadataPack>();
+  Json mJson;
 };
 } // namespace PB
