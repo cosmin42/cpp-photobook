@@ -67,6 +67,7 @@ public:
                                                              &unstagedImages,
             std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
             std::vector<Path> const                          &root);
+  void addCache(Path path, Path cache, std::string projectName);
 
   bool               hasProjectOpen() const;
   boost::uuids::uuid currentProjectUUID() const;

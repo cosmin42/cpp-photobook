@@ -71,7 +71,7 @@ void SQLitePersistence::write(
   }
 
   auto &[key, value] = entry;
-  auto maybePairOrError = queryProjectEntry(key);
+  auto maybePairOrError = queryProjectEntry(key, "PROJECTS_REGISTER");
 
   if (std::holds_alternative<PBDev::Error>(maybePairOrError)) {
     onReturn(std::get<PBDev::Error>(maybePairOrError));
@@ -103,6 +103,86 @@ void SQLitePersistence::write(
     }
     onReturn(std::nullopt);
   }
+}
+
+void SQLitePersistence::write(
+    std::pair<std::string, std::string>              pathCache,
+    std::pair<std::string, std::string>              pathProject,
+    std::function<void(std::optional<PBDev::Error>)> onReturn)
+{
+  auto maybeError = createProjectsRegisterIfNotExisting();
+  if (maybeError.has_value()) {
+    onReturn(maybeError.value());
+    return;
+  }
+
+  auto &[key, value] = pathCache;
+  auto maybePairOrError = queryProjectEntry(key, "CACHE_PATH");
+
+  if (std::holds_alternative<PBDev::Error>(maybePairOrError)) {
+    onReturn(std::get<PBDev::Error>(maybePairOrError));
+  }
+  else {
+    auto &maybePair =
+        std::get<std::optional<std::pair<std::string, std::string>>>(
+            maybePairOrError);
+
+    std::string query;
+    if (maybePair.has_value()) {
+      query = "UPDATE CACHE_PATH SET path = '" + value +
+              "' WHERE cache_path = '" + key + "';";
+    }
+    else {
+      query = "INSERT INTO CACHE_PATH (path, project_name) VALUES ('" + key +
+              "', '" + value + "');";
+    }
+
+    char *errMsg = nullptr;
+
+    auto success = sqlite3_exec(mDatabaseHandle.get(), query.c_str(), nullptr,
+                                nullptr, &errMsg);
+
+    if (success != SQLITE_OK) {
+      sqlite3_free(errMsg);
+      onReturn(PBDev::Error() << ErrorCode::SQLiteError);
+      return;
+    }
+  }
+
+  auto &[pathKey, pathValue] = pathProject;
+  maybePairOrError = queryProjectEntry(pathKey, "PROJECT_PATH");
+
+  if (std::holds_alternative<PBDev::Error>(maybePairOrError)) {
+    onReturn(std::get<PBDev::Error>(maybePairOrError));
+  }
+  else {
+    auto &maybePair =
+        std::get<std::optional<std::pair<std::string, std::string>>>(
+            maybePairOrError);
+
+    std::string query;
+    if (maybePair.has_value()) {
+      query = "UPDATE PROJECT_PATH SET path = '" + pathValue +
+              "' WHERE cache_path = '" + pathKey + "';";
+    }
+    else {
+      query = "INSERT INTO PROJECT_PATH (path, cache_path) VALUES ('" +
+              pathKey + "', '" + pathValue + "');";
+    }
+
+    char *errMsg = nullptr;
+
+    auto success = sqlite3_exec(mDatabaseHandle.get(), query.c_str(), nullptr,
+                                nullptr, &errMsg);
+
+    if (success != SQLITE_OK) {
+      sqlite3_free(errMsg);
+      onReturn(PBDev::Error() << ErrorCode::SQLiteError);
+      return;
+    }
+  }
+
+  onReturn(std::nullopt);
 }
 
 void SQLitePersistence::deleteEntry(
@@ -233,10 +313,11 @@ SQLitePersistence::createProjectsRegisterIfNotExisting()
 }
 
 std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
-SQLitePersistence::queryProjectEntry(std::string searchedUUID)
+SQLitePersistence::queryProjectEntry(std::string searchedUUID,
+                                     std::string tableName)
 {
   std::string query =
-      "SELECT * FROM PROJECTS_REGISTER WHERE uuid='" + searchedUUID + "'";
+      "SELECT * FROM " + tableName + " WHERE uuid='" + searchedUUID + "'";
 
   sqlite3_stmt *stmt;
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), query.c_str(), -1,
