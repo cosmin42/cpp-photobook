@@ -77,7 +77,7 @@ typedef boost::bimaps::bimap<boost::uuids::uuid, std::string> BimapWorkaround;
 class TestPersistenceMetadataListener final
     : public PB::PersistenceMetadataListener {
 public:
-  MOCK_METHOD(void, onMetadataRead, (BimapWorkaround), (override));
+  MOCK_METHOD(void, onMetadataRead, (MetadataPack), (override));
   MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
 };
 

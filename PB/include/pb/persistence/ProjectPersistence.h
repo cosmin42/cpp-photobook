@@ -46,8 +46,7 @@ public:
       std::vector<Path>                                       &roots) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
-  void onMetadataRead(
-      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) override;
+  void onMetadataRead(MetadataPack metadataPack) override;
   void onMetadataPersistenceError(PBDev::Error) override;
 
   void onJsonRead(Json json) override;
