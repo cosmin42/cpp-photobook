@@ -224,9 +224,9 @@ void ProjectPersistence::save(
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 
-std::shared_ptr<MetadataPack> ProjectPersistence::metadataPack() const
+std::shared_ptr<PathCache> ProjectPersistence::pathCache() const
 {
-  return mMetadataPack;
+  return mPathCache;
 }
 
 } // namespace PB

@@ -76,7 +76,7 @@ public:
                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
                std::vector<Path> const                          &roots);
 
-  std::shared_ptr<MetadataPack> metadataPack() const;
+  std::shared_ptr<PathCache> pathCache() const;
 
 private:
   std::string name(boost::uuids::uuid uuid);
@@ -89,6 +89,7 @@ private:
   std::optional<boost::uuids::uuid> mOpenedUUID;
   std::shared_ptr<MetadataPack>     mMetadataPack =
       std::make_shared<MetadataPack>();
-  Json mJson;
+  std::shared_ptr<PathCache> mPathCache = std::make_shared<PathCache>();
+  Json                       mJson;
 };
 } // namespace PB

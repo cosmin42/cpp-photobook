@@ -13,7 +13,6 @@ public:
   static bool valid(Path path, std::string hash);
 
   PathCache() = default;
-  explicit PathCache(std::string projectName);
   PathCache(PathCache const &);
   ~PathCache() = default;
 
@@ -21,7 +20,7 @@ public:
   void configure(
       std::unordered_set<std::pair<Path, std::string>> pathProjectAssociation);
 
-  void newHash(Path path);
+  void newHash(Path path, std::string projectName);
   void load(Path path, std::string hash);
   void remove(Path path);
   void remove(std::string hash);
@@ -29,7 +28,7 @@ public:
   std::string hash(Path path) const;
   Path        path(std::string jash) const;
 
-  std::string hashCreateIfMissing(Path path);
+  std::string hashCreateIfMissing(Path path, std::string projectName);
 
   bool contains(Path path) const;
   bool contains(std::string hash) const;
@@ -50,7 +49,6 @@ public:
   }
 
 private:
-  std::string                             mProjectName;
   boost::bimaps::bimap<Path, std::string> mEntries;
   std::unordered_set<std::pair<Path, std::string>, PathProjectAssociationHash>
       mPathProjectAssociation;

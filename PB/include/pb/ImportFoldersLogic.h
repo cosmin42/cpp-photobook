@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
+#include <pb/MetadataPack.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 
@@ -31,7 +32,8 @@ public:
 
   // todo: Remove this, replace with mProject reference
   void configure(std::pair<int, int> screenSize);
-  void configure(std::shared_ptr<Project> project);
+  void configure(std::shared_ptr<Project> project, std::string projectName);
+  void configure(std::shared_ptr<PathCache> pathCache);
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
@@ -69,8 +71,9 @@ private:
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;
   std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>
-                           mMappingJobs;
-  std::unordered_set<Path> mRemovalMarks;
-  std::shared_ptr<Project> mProject = nullptr;
+                             mMappingJobs;
+  std::unordered_set<Path>   mRemovalMarks;
+  std::shared_ptr<PathCache> mPathCache = nullptr;
+  std::string                mProjectName;
 };
 } // namespace PB

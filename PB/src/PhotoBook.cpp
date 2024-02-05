@@ -63,7 +63,7 @@ void Photobook::configure(ImageMonitorListener *listener)
 
 void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
-  mImportLogic.configure(mProjectPersistence.currentProject());
+  mImportLogic.configure(mProjectPersistence.currentProject(), mName);
   ImageFactory::inst().configure(mProjectPersistence.currentProject());
   mExportLogic.configure(mProjectPersistence.currentProject(), mPlatformInfo);
 }
@@ -85,6 +85,7 @@ void Photobook::recallMetadata() { mProjectPersistence.recallMetadata(); }
 void Photobook::recallProject(std::string name)
 {
   mProjectPersistence.recallProject(name);
+  mName = name;
 }
 
 void Photobook::addImportFolder(Path path)
@@ -178,7 +179,7 @@ void Photobook::newProject(std::string name)
   // TODO: mProjectPersistence should announce mImportLogic when the project was
   // updated
   mProjectPersistence.newProject(name, std::make_shared<Project>());
-  mImportLogic.configure(mProjectPersistence.currentProject());
+  mImportLogic.configure(mProjectPersistence.currentProject(), name);
   ImageFactory::inst().configure(mProjectPersistence.currentProject());
 }
 
@@ -201,7 +202,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   std::vector<std::pair<Path, Path>> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
+    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i), mName);
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i)});
   }

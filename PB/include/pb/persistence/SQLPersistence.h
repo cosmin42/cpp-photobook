@@ -3,22 +3,13 @@
 #include <optional>
 #include <variant>
 
-#include <boost/bimap/bimap.hpp>
-#include <boost/uuid/uuid.hpp>
-
 #include <sqlite3.h>
 
 #include <pb/Config.h>
 #include <pb/util/Util.h>
+#include <pb/MetadataPack.h>
 
 namespace PB {
-
-struct MetadataPack {
-  boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
-  boost::bimaps::bimap<Path, std::string>               pathCache;
-  std::unordered_set<std::pair<Path, std::string>, PathProjectAssociationHash>
-      pathProject;
-};
 
 class SQLitePersistence final {
 public:

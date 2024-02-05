@@ -107,5 +107,6 @@ private:
   bool                                          mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask, PB::JpgExport> mExportLogic;
   ProgressManager                               mProgressManager;
+  std::string                                   mName;
 };
 } // namespace PB

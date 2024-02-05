@@ -17,10 +17,16 @@ void ImportFoldersLogic::configure(std::pair<int, int> screenSize)
 {
   mThumbnailsProcessor.setScreenSize(screenSize);
 }
-void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
+void ImportFoldersLogic::configure(std::shared_ptr<Project> project,
+                                   std::string              projectName)
 {
   mThumbnailsProcessor.provideProjectDetails(project);
-  mProject = project;
+  mProjectName = projectName;
+}
+
+void ImportFoldersLogic::configure(std::shared_ptr<PathCache> patchCache)
+{
+  mPathCache = patchCache;
 }
 
 std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
@@ -91,8 +97,7 @@ void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
 void ImportFoldersLogic::processImages(
     Path root, std::vector<std::pair<Path, Path>> newFolders)
 {
-  auto pathHash = mProject->active().pathCache;
-  auto hash = pathHash.hashCreateIfMissing(root);
+  auto hash = mPathCache->hashCreateIfMissing(root, mProjectName);
 
   mThumbnailsProcessor.generateThumbnails(
       root, newFolders, hash,
