@@ -222,7 +222,7 @@ void Persistence::deleteProject(Path projectFile)
 {
   auto projectName = projectFile.stem().string();
   auto thumbnailsPath = mLocalStatePath / "th" / projectFile.stem().string();
-  std::filesystem::remove(thumbnailsPath);
+  std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
 }
 
