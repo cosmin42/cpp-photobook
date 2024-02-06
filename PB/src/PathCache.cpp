@@ -21,7 +21,8 @@ bool PathCache::valid(Path path, std::string hash)
 
 void PathCache::newHash(Path path)
 {
-  std::string hash_s = std::to_string(std::hash<std::string>{}(path.string()));
+  std::string hash_s =
+      std::to_string(std::hash<std::string>{}(path.filename().string()));
 
   std::string suffix;
   int         salt = 0;
