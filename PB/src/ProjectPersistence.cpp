@@ -171,7 +171,9 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
 
     auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
     auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
-    std::filesystem::rename(oldProjectPath, newProjectPath);
+    std::filesystem::rename(mLocalStatePath, newProjectPath);
+    std::filesystem::rename(mLocalStatePath / "th" / oldName,
+                            mLocalStatePath / "th" / newName);
     mListener->onMetadataUpdated();
   }
 }
