@@ -60,10 +60,11 @@ Json Persistence::serialization(
   return std::get<Json>(jsonOrError);
 }
 
-void Persistence::persistProject(Path filePath, Json jsonSerialization, std::string projectName)
+void Persistence::persistProject(Path filePath, Json jsonSerialization,
+                                 std::string projectName)
 {
-  auto maybeError =
-      createSupportDirectory(ProjectSnapshot::parentDirectory() / "th", projectName);
+  auto maybeError = createSupportDirectory(
+      ProjectSnapshot::parentDirectory() / "th", projectName);
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
@@ -84,7 +85,8 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization, std::str
       });
 }
 
-void Persistence::persistProject(std::string name, Json json, std::string projectName)
+void Persistence::persistProject(std::string name, Json json,
+                                 std::string projectName)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
   persistProject(projectPath, json, projectName);
@@ -218,6 +220,9 @@ void Persistence::deleteMetadata(std::string id)
 
 void Persistence::deleteProject(Path projectFile)
 {
+  auto projectName = projectFile.stem().string();
+  auto thumbnailsPath = mLocalStatePath / "th" / projectFile.stem().string();
+  std::filesystem::remove(thumbnailsPath);
   std::filesystem::remove(projectFile);
 }
 
