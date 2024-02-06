@@ -7,6 +7,12 @@
 #include <pb/util/Traits.h>
 
 namespace PB {
+struct PathProjectAssociationHash {
+  size_t operator()(const std::pair<Path, std::string> &x) const
+  {
+    return (std::hash<Path>{}(x.first)) ^ std::hash<std::string>{}(x.second);
+  }
+};
 
 class PathCache final {
 public:

@@ -54,15 +54,6 @@ void basicAssert(int shouldBetrue, const std::source_location location =
 typedef PBDev::Path Path;
 typedef PBDev::Json Json;
 
-namespace PB {
-struct PathProjectAssociationHash {
-  size_t operator()(const std::pair<Path, std::string> &x) const
-  {
-    return (std::hash<Path>{}(x.first)) ^ std::hash<std::string>{}(x.second);
-  }
-};
-} // namespace PB
-
 #define UNUSED(x)                                                              \
   do {                                                                         \
     (void)x;                                                                   \
