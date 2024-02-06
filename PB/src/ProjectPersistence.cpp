@@ -46,19 +46,19 @@ void ProjectPersistence::recallMetadata() { mPersistence.recallMetadata(); }
 
 boost::uuids::uuid ProjectPersistence::uuid(std::string name)
 {
-  return mMetadataPack->metadata.right.at(name);
+  return mMetadataPack.metadata.right.at(name);
 }
 
 bool ProjectPersistence::hasUUID(std::string name) const
 {
-  return mMetadataPack->metadata.right.find(name) !=
-         mMetadataPack->metadata.right.end();
+  return mMetadataPack.metadata.right.find(name) !=
+         mMetadataPack.metadata.right.end();
 }
 
 std::vector<std::string> ProjectPersistence::projectsNames() const
 {
   std::vector<std::string> projects;
-  for (auto &it : mMetadataPack->metadata) {
+  for (auto &it : mMetadataPack.metadata) {
     projects.push_back(it.right);
   }
   return projects;
@@ -68,20 +68,20 @@ void ProjectPersistence::newProject(std::string              name,
                                     std::shared_ptr<Project> project)
 {
   mProject = project;
-  mMetadataPack->metadata.insert({boost::uuids::random_generator()(), name});
-  mOpenedUUID = mMetadataPack->metadata.right.at(name);
+  mMetadataPack.metadata.insert({boost::uuids::random_generator()(), name});
+  mOpenedUUID = mMetadataPack.metadata.right.at(name);
   save({}, {}, {});
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
 {
-  return mMetadataPack->metadata.left.at(uuid);
+  return mMetadataPack.metadata.left.at(uuid);
 }
 
 Path ProjectPersistence::path(boost::uuids::uuid uuid)
 {
   return mLocalStatePath /
-         (mMetadataPack->metadata.left.at(uuid) + Context::BOOK_EXTENSION);
+         (mMetadataPack.metadata.left.at(uuid) + Context::BOOK_EXTENSION);
 }
 
 void ProjectPersistence::onProjectRead(
@@ -91,7 +91,7 @@ void ProjectPersistence::onProjectRead(
     std::vector<Path>                                       &roots)
 {
   mProject = project;
-  mOpenedUUID = mMetadataPack->metadata.right.at(name);
+  mOpenedUUID = mMetadataPack.metadata.right.at(name);
   mListener->onProjectRead(unstagedImages, stagedImages, roots);
 }
 
@@ -102,7 +102,7 @@ void ProjectPersistence::onProjectPersistenceError(PBDev::Error error)
 
 void ProjectPersistence::onMetadataRead(MetadataPack metadataPack)
 {
-  mMetadataPack = std::make_shared<MetadataPack>(metadataPack);
+  mMetadataPack = metadataPack;
   mListener->onMetadataUpdated();
 }
 
@@ -133,15 +133,15 @@ void ProjectPersistence::clear()
 
 bool ProjectPersistence::contains(std::string name) const
 {
-  return mMetadataPack->metadata.right.find(name) !=
-         mMetadataPack->metadata.right.end();
+  return mMetadataPack.metadata.right.find(name) !=
+         mMetadataPack.metadata.right.end();
 }
 
 std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
 ProjectPersistence::projectsList() const
 {
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
-  for (auto const &it : mMetadataPack->metadata) {
+  for (auto const &it : mMetadataPack.metadata) {
     projects.push_back(
         {it.left, it.right,
          mLocalStatePath / (it.right + Context::BOOK_EXTENSION)});
@@ -157,18 +157,18 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
 
     PBDev::basicAssert(mOpenedUUID.has_value());
 
-    PBDev::basicAssert(mMetadataPack->metadata.left.find(mOpenedUUID.value()) !=
-                       mMetadataPack->metadata.left.end());
+    PBDev::basicAssert(mMetadataPack.metadata.left.find(mOpenedUUID.value()) !=
+                       mMetadataPack.metadata.left.end());
 
-    oldName = mMetadataPack->metadata.left.find(mOpenedUUID.value())->second;
+    oldName = mMetadataPack.metadata.left.find(mOpenedUUID.value())->second;
   }
 
   if (newName != oldName) {
-    bool success = mMetadataPack->metadata.right.replace_key(
-        mMetadataPack->metadata.right.find(oldName), newName);
+    bool success = mMetadataPack.metadata.right.replace_key(
+        mMetadataPack.metadata.right.find(oldName), newName);
     PBDev::basicAssert(success);
 
-    auto &uuid = mMetadataPack->metadata.right.at(newName);
+    auto &uuid = mMetadataPack.metadata.right.at(newName);
     mPersistence.persistMetadata(uuid, newName);
 
     auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
@@ -219,14 +219,9 @@ void ProjectPersistence::save(
                                      stagedImages, roots);
 
   auto const &name =
-      mMetadataPack->metadata.left.find(mOpenedUUID.value())->second;
+      mMetadataPack.metadata.left.find(mOpenedUUID.value())->second;
   mPersistence.persistProject(name, mJson);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
-}
-
-std::shared_ptr<MetadataPack> ProjectPersistence::metadataPack() const
-{
-  return mMetadataPack;
 }
 
 } // namespace PB
