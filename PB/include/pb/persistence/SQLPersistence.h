@@ -24,11 +24,6 @@ public:
 
   void write(std::pair<std::string, std::string>              entry,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
-
-  void write(std::pair<std::string, std::string>              pathCache,
-             std::pair<std::string, std::string>              pathProject,
-             std::function<void(std::optional<PBDev::Error>)> onReturn);
-
   void write(MetadataPack                                     metadataPack,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
 
@@ -39,7 +34,7 @@ private:
   std::optional<PBDev::Error> createProjectsRegisterIfNotExisting();
 
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
-  queryProjectEntry(std::string searchedUUID, std::string tableName);
+  queryProjectEntry(std::string searchedUUID);
 
   std::optional<PBDev::Error> createTable(const char *request);
 
@@ -51,14 +46,14 @@ private:
       ");";
 
   static constexpr const char *CREATE_PATH_CACHE_TABLE =
-      "CREATE TABLE IF NOT EXISTS CACHE_PATH ("
+      "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    path TEXT NOT NULL,"
       "    cache_path TEXT NOT NULL"
       ");";
 
   static constexpr const char *CREATE_PROJECT_PATH_TABLE =
-      "CREATE TABLE IF NOT EXISTS PROJECT_PATH ("
+      "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    path TEXT NOT NULL,"
       "    project_name TEXT NOT NULL"

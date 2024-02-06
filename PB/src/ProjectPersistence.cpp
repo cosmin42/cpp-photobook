@@ -224,12 +224,6 @@ void ProjectPersistence::save(
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 
-void ProjectPersistence::addCache(Path path, Path cache,
-                                  std::string projectName)
-{
-  mPersistence.persistCache(path, cache, projectName);
-}
-
 std::shared_ptr<PathCache> ProjectPersistence::pathCache() const
 {
   return mPathCache;

@@ -43,8 +43,6 @@ public:
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
-  void persistCache(Path path, Path cache, std::string projectName);
-
   void recallMetadata();
   void recallProject(Path projectPath);
 

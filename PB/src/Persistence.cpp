@@ -104,21 +104,6 @@ void Persistence::persistMetadata(boost::uuids::uuid const &id,
   });
 }
 
-void Persistence::persistCache(Path path, Path cache, std::string projectName)
-{
-  std::pair<std::string, std::string> pathCache = {path.string(),
-                                                   cache.string()};
-  std::pair<std::string, std::string> pathProject = {path.string(),
-                                                     projectName};
-  mCentral.write(pathCache, pathProject,
-                 [this](std::optional<PBDev::Error> maybeError) {
-                   if (maybeError && mPersistenceProjectListener) {
-                     mPersistenceProjectListener->onProjectPersistenceError(
-                         PBDev::Error() << ErrorCode::CannotSaveFile);
-                   }
-                 });
-}
-
 void Persistence::recallMetadata()
 {
   mCentral.read(
