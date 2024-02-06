@@ -59,6 +59,27 @@ std::variant<boost::uuids::uuid, PBDev::Error> deserialize(Json jsonData)
   }
 }
 
+template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
+{
+  boost::bimaps::bimap<Path, std::string> entries;
+  for (auto it = jsonData.begin(); it != jsonData.end(); ++it) {
+    auto pathOrError = deserialize<Path>(it.key());
+    if (std::holds_alternative<PBDev::Error>(pathOrError)) {
+      return std::get<PBDev::Error>(pathOrError);
+    }
+    auto hashOrError = deserialize<std::string>(it.value());
+    if (std::holds_alternative<PBDev::Error>(hashOrError)) {
+      return std::get<PBDev::Error>(hashOrError);
+    }
+    entries.insert(
+        {std::get<Path>(pathOrError), std::get<std::string>(hashOrError)});
+  }
+
+  PathCache patchCache;
+  patchCache.configure(entries);
+  return patchCache;
+}
+
 template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 {
   PaperSettings paperSettings;
@@ -203,6 +224,14 @@ std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
   }
   projectDetails.paperSettings = std::get<PaperSettings>(paperSettingsOrError);
 
+  auto pathCacheOrError =
+      deserialize<PathCache>(jsonData, "path-cache", PathCache(), true);
+  if (std::holds_alternative<PBDev::Error>(pathCacheOrError)) {
+    return std::get<PBDev::Error>(pathCacheOrError);
+  }
+
+  projectDetails.pathCache = std::get<PathCache>(pathCacheOrError);
+
   return projectDetails;
 }
 
@@ -275,12 +304,22 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
+serialize(int depth, std::pair<std::string, PathCache> const &entry)
+{
+  auto &[key, pathCache] = entry;
+  return serialize<boost::bimaps::bimap<Path, std::string>>(
+      depth + 1, {"path-cache", pathCache.data()});
+}
+
+template <>
+std::variant<Json, PBDev::Error>
 serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
 {
   auto [key, projectDetails] = entry;
 
-  auto jsonOrError = serialize<PaperSettings>(
-      depth + 1, {"paper-settings", projectDetails.paperSettings});
+  auto jsonOrError = serialize<PaperSettings, PathCache>(
+      depth + 1, {"paper-settings", projectDetails.paperSettings},
+      {"path-cache", projectDetails.pathCache});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;

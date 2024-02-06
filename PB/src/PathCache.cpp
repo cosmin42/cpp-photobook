@@ -2,6 +2,7 @@
 
 namespace PB {
 
+PathCache::PathCache(std::string projectName) : mProjectName(projectName) {}
 
 PathCache::PathCache(PathCache const &other)
 {
@@ -28,7 +29,7 @@ bool PathCache::valid(Path path, std::string hash)
   return std::filesystem::exists(path);
 }
 
-void PathCache::newHash(Path path, std::string name)
+void PathCache::newHash(Path path)
 {
   std::string hash_s = std::to_string(std::hash<std::string>{}(path.string()));
 
@@ -41,7 +42,7 @@ void PathCache::newHash(Path path, std::string name)
   }
   hash_s = hash_s + suffix;
   mEntries.insert({path, hash_s});
-  mPathProjectAssociation.insert({path, name});
+  mPathProjectAssociation.insert({path, mProjectName});
 }
 
 void PathCache::load(Path path, std::string hash)
@@ -72,13 +73,11 @@ boost::bimaps::bimap<Path, std::string> PathCache::data() const
   return mEntries;
 }
 
-std::string PathCache::hashCreateIfMissing(Path path, std::string projectName)
+std::string PathCache::hashCreateIfMissing(Path path)
 {
   if (!contains(path)) {
-    newHash(path, projectName);
+    newHash(path);
   }
-
-  mPathProjectAssociation.insert({path, projectName});
 
   return hash(path);
 }

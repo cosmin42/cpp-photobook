@@ -10,21 +10,13 @@ void ImageFactory::configure(std::shared_ptr<Project> project)
   mProject = project;
 }
 
-void ImageFactory::configure(std::shared_ptr<PathCache> pathCache)
-{
-  mPathCache = pathCache;
-}
-
-std::shared_ptr<RegularImage>
-ImageFactory::createRegularImage(Path                         path,
-                                 [[maybe_unused]] std::string projectName)
+std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 {
   auto regularImage = std::make_shared<RegularImage>(path);
   return regularImage;
 }
 
-std::shared_ptr<TextImage>
-ImageFactory::createTextImage(Path path, std::string projectName)
+std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path)
 {
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
@@ -39,8 +31,7 @@ ImageFactory::createTextImage(Path path, std::string projectName)
 
   auto imagePath =
       VirtualImage::platformInfo->localStatePath / "th" /
-      (mPathCache->hashCreateIfMissing(path, projectName) +
-       ".JPG");
+      (mProject->active().pathCache.hashCreateIfMissing(path) + ".JPG");
 
   Process::imageWriteThumbnail(image, imagePath);
 
@@ -48,14 +39,13 @@ ImageFactory::createTextImage(Path path, std::string projectName)
   return textImage;
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::createImage(Path        path,
-                                                        std::string projectName)
+std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
 {
   if (std::filesystem::is_regular_file(path)) {
-    return createRegularImage(path, projectName);
+    return createRegularImage(path);
   }
   else if (std::filesystem::is_directory(path)) {
-    return createTextImage(path, projectName);
+    return createTextImage(path);
   }
   else {
     PBDev::basicAssert(false);
