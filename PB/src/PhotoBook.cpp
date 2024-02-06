@@ -84,6 +84,7 @@ void Photobook::recallMetadata() { mProjectPersistence.recallMetadata(); }
 
 void Photobook::recallProject(std::string name)
 {
+  mProjectName = name;
   mProjectPersistence.recallProject(name);
 }
 
@@ -175,6 +176,7 @@ void Photobook::onPersistenceError(PBDev::Error error)
 
 void Photobook::newProject(std::string name)
 {
+  mProjectName = name;
   // TODO: mProjectPersistence should announce mImportLogic when the project was
   // updated
   mProjectPersistence.newProject(name, std::make_shared<Project>());
@@ -201,7 +203,8 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   std::vector<std::pair<Path, Path>> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
+    auto virtualImage =
+        PB::ImageFactory::inst().createImage(newFiles.at(i), mProjectName);
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i)});
   }
@@ -213,7 +216,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
                              (int)keyAndPaths.size());
-  mImportLogic.processImages(root, keyAndPaths);
+  mImportLogic.processImages(mProjectName, root, keyAndPaths);
 }
 
 void Photobook::onImportStop(Path) {}
@@ -259,6 +262,8 @@ std::vector<Path> Photobook::pendingMappingPathList() const
 {
   return mImportLogic.pendingMappingFolders();
 }
+
+std::string Photobook::projectName() const { return mProjectName; }
 
 void Photobook::onProjectRenamed() {}
 

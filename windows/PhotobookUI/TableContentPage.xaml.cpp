@@ -293,6 +293,7 @@ void TableContentPage::OnSaveClicked(
 {
   // TODO: Raname the blow stupid repetition
   mPhotoBook->project().save(
+      mPhotoBook->projectName(),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
@@ -1288,6 +1289,7 @@ void TableContentPage::OnSaveProject(
         ContentDialogButtonClickEventArgs const &args)
 {
   mPhotoBook->project().save(
+      mPhotoBook->projectName(),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());

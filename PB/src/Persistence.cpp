@@ -60,10 +60,10 @@ Json Persistence::serialization(
   return std::get<Json>(jsonOrError);
 }
 
-void Persistence::persistProject(Path filePath, Json jsonSerialization)
+void Persistence::persistProject(Path filePath, Json jsonSerialization, std::string projectName)
 {
   auto maybeError =
-      createSupportDirectory(ProjectSnapshot::parentDirectory() / "th");
+      createSupportDirectory(ProjectSnapshot::parentDirectory() / "th", projectName);
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
@@ -84,10 +84,10 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization)
       });
 }
 
-void Persistence::persistProject(std::string name, Json json)
+void Persistence::persistProject(std::string name, Json json, std::string projectName)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
-  persistProject(projectPath, json);
+  persistProject(projectPath, json, projectName);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,
@@ -221,7 +221,8 @@ void Persistence::deleteProject(Path projectFile)
   std::filesystem::remove(projectFile);
 }
 
-std::optional<PBDev::Error> Persistence::createSupportDirectory(Path path)
+std::optional<PBDev::Error>
+Persistence::createSupportDirectory(Path path, std::string projectName)
 {
   PBDev::basicAssert(!path.string().empty());
   if (std::filesystem::exists(path)) {
@@ -231,6 +232,15 @@ std::optional<PBDev::Error> Persistence::createSupportDirectory(Path path)
   if (!std::filesystem::create_directory(path)) {
     return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
+
+  if (std::filesystem::exists(path / projectName)) {
+    return std::nullopt;
+  }
+
+  if (!std::filesystem::create_directory(path / projectName)) {
+    return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
+  }
+
   return std::nullopt;
 }
 

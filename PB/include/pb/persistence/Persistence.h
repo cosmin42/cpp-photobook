@@ -27,7 +27,7 @@ public:
 
 class Persistence final {
 public:
-  static std::optional<PBDev::Error> createSupportDirectory(Path path);
+  static std::optional<PBDev::Error> createSupportDirectory(Path path, std::string projectName);
 
   static Json
   serialization(ProjectSnapshot project,
@@ -40,7 +40,7 @@ public:
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
-  void persistProject(std::string name, Json json);
+  void persistProject(std::string name, Json json, std::string projectName);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
 
@@ -51,7 +51,7 @@ public:
   void deleteProject(Path projectFile);
 
 private:
-  void persistProject(Path filePath, Json json);
+  void persistProject(Path filePath, Json json, std::string projectName);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;

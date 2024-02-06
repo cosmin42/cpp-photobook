@@ -97,6 +97,8 @@ public:
 
   std::vector<Path> pendingMappingPathList() const;
 
+  std::string projectName() const;
+
 private:
   PhotobookListener                            *mParent = nullptr;
   std::shared_ptr<PlatformInfo>                 mPlatformInfo = nullptr;
@@ -107,5 +109,6 @@ private:
   bool                                          mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask, PB::JpgExport> mExportLogic;
   ProgressManager                               mProgressManager;
+  std::string                                   mProjectName;
 };
 } // namespace PB

@@ -27,7 +27,7 @@ TEST(TestProjectPersistence, CreateNewProject)
 
   PB::Project project;
 
-  auto maybeError = Persistence::createSupportDirectory("th");
+  auto maybeError = Persistence::createSupportDirectory("th", "project-name");
 
   ASSERT_FALSE(maybeError.has_value());
 
