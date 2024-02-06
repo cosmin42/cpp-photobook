@@ -100,9 +100,10 @@ void ProjectPersistence::onProjectPersistenceError(PBDev::Error error)
   mListener->onPersistenceError(error);
 }
 
-void ProjectPersistence::onMetadataRead(MetadataPack metadataPack)
+void ProjectPersistence::onMetadataRead(
+    boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata)
 {
-  mMetadataPack = metadataPack;
+  mMetadataPack.metadata = metadata;
   mListener->onMetadataUpdated();
 }
 

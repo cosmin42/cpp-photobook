@@ -20,7 +20,8 @@ public:
 class PersistenceMetadataListener {
 public:
   virtual ~PersistenceMetadataListener() = default;
-  virtual void onMetadataRead(MetadataPack metadataPack) = 0;
+  virtual void onMetadataRead(
+      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) = 0;
   virtual void onMetadataPersistenceError(PBDev::Error) = 0;
 };
 

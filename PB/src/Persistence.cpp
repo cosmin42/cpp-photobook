@@ -117,7 +117,7 @@ void Persistence::recallMetadata()
           auto &metadataPack = std::get<MetadataPack>(metadataPackOrError);
 
           if (mPersistenceMetadataListener) {
-            mPersistenceMetadataListener->onMetadataRead(metadataPack);
+            mPersistenceMetadataListener->onMetadataRead(metadataPack.metadata);
           }
         }
       });
