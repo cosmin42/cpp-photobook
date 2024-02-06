@@ -127,8 +127,6 @@ TEST(TestPhotobook, TestProjectLoading)
 
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
-  photobook.loadProject();
-
   EXPECT_CALL(*(MockPhotobookImageMonitorListener *)imageMonitorListener.get(),
               onCleared());
   photobook.unloadProject();

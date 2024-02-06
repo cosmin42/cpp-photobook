@@ -26,8 +26,6 @@ TEST(TestFolderImport, Test0)
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
   photobook.newProject("random-name");
-
-  photobook.loadProject();
   
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 

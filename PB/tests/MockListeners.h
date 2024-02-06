@@ -41,8 +41,7 @@ public:
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
-  MOCK_METHOD(void, onProgressUpdate,
-              (PB::ProgressInfo, PB::ProgressInfo),
+  MOCK_METHOD(void, onProgressUpdate, (PB::ProgressInfo, PB::ProgressInfo),
               (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
@@ -70,6 +69,7 @@ public:
                VirtualImageLine &, RootsVector),
               (override));
   MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
+  MOCK_METHOD(void, onJsonRead, (Json), (override));
 };
 
 typedef boost::bimaps::bimap<boost::uuids::uuid, std::string> BimapWorkaround;
