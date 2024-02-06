@@ -22,7 +22,10 @@ std::optional<PBDev::Error> SQLitePersistence::connect()
 }
 
 void SQLitePersistence::read(
-    std::function<void(std::variant<MetadataPack, PBDev::Error>)> onReturn)
+    std::function<
+        void(std::variant<std::unordered_map<std::string, std::string>,
+                          PBDev::Error>)>
+        onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
   if (maybeError.has_value()) {
@@ -30,7 +33,7 @@ void SQLitePersistence::read(
     return;
   }
 
-  MetadataPack metadataPack;
+  std::unordered_map<std::string, std::string> readMap;
 
   sqlite3_stmt *stmt;
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS, -1,
@@ -47,11 +50,11 @@ void SQLitePersistence::read(
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
     const char *path =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-    metadataPack.metadata[uuid] = path;
+    readMap[uuid] = path;
   }
 
   sqlite3_finalize(stmt);
-  onReturn(metadataPack);
+  onReturn(readMap);
 }
 
 void SQLitePersistence::write(
@@ -137,7 +140,7 @@ void SQLitePersistence::deleteEntry(
 }
 
 void SQLitePersistence::write(
-    MetadataPack                                     metadataPack,
+    std::unordered_map<std::string, std::string>     map,
     std::function<void(std::optional<PBDev::Error>)> onReturn)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
@@ -146,7 +149,7 @@ void SQLitePersistence::write(
     return;
   }
 
-  for (auto &[key, value] : metadataPack.metadata) {
+  for (auto &[key, value] : map) {
     write(std::pair<std::string, std::string>(key, value),
           [onReturn](std::optional<PBDev::Error> maybeError) {
             onReturn(maybeError);
@@ -166,7 +169,7 @@ void SQLitePersistence::write(
   while (sqlite3_step(stmt) == SQLITE_ROW) {
     const char *uuid =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-    if (metadataPack.metadata.find(uuid) == metadataPack.metadata.end()) {
+    if (map.find(uuid) == map.end()) {
       char *errMsg = nullptr;
 
       std::string query = "DELETE FROM PROJECTS_REGISTER WHERE uuid = '" +

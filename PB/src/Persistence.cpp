@@ -106,27 +106,30 @@ void Persistence::persistMetadata(boost::uuids::uuid const &id,
 
 void Persistence::recallMetadata()
 {
-  mCentral.read(
-      [this](std::variant<MetadataPack, PBDev::Error> metadataPackOrError) {
-        if (std::holds_alternative<PBDev::Error>(metadataPackOrError) &&
-            mPersistenceMetadataListener) {
-          mPersistenceMetadataListener->onMetadataPersistenceError(
-              std::get<PBDev::Error>(metadataPackOrError));
-        }
-        else {
-          auto &metadataPack = std::get<MetadataPack>(metadataPackOrError);
+  mCentral.read([this](
+                    std::variant<std::unordered_map<std::string, std::string>,
+                                 PBDev::Error>
+                        mapOrError) {
+    if (std::holds_alternative<PBDev::Error>(mapOrError) &&
+        mPersistenceMetadataListener) {
+      mPersistenceMetadataListener->onMetadataPersistenceError(
+          std::get<PBDev::Error>(mapOrError));
+    }
+    else {
+      auto &map =
+          std::get<std::unordered_map<std::string, std::string>>(mapOrError);
 
-          boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
-          for (auto &[key, value] : metadataPack.metadata) {
-            auto               generator = boost::uuids::string_generator();
-            boost::uuids::uuid parsedUuid = generator(key);
-            metadata.insert({parsedUuid, value});
-          }
-          if (mPersistenceMetadataListener) {
-            mPersistenceMetadataListener->onMetadataRead(metadata);
-          }
-        }
-      });
+      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
+      for (auto &[key, value] : map) {
+        auto               generator = boost::uuids::string_generator();
+        boost::uuids::uuid parsedUuid = generator(key);
+        metadata.insert({parsedUuid, value});
+      }
+      if (mPersistenceMetadataListener) {
+        mPersistenceMetadataListener->onMetadataRead(metadata);
+      }
+    }
+  });
 }
 
 void Persistence::recallProject(Path projectPath)
