@@ -37,27 +37,11 @@ private:
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
   queryProjectEntry(std::string searchedUUID);
 
-  std::optional<PBDev::Error> createTable(const char *request);
-
   static constexpr const char *CREATE_PROJECTS_REGISTER =
       "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    uuid TEXT NOT NULL,"
       "    path TEXT"
-      ");";
-
-  static constexpr const char *CREATE_PATH_CACHE_TABLE =
-      "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
-      "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
-      "    path TEXT NOT NULL,"
-      "    cache_path TEXT NOT NULL"
-      ");";
-
-  static constexpr const char *CREATE_PROJECT_PATH_TABLE =
-      "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
-      "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
-      "    path TEXT NOT NULL,"
-      "    project_name TEXT NOT NULL"
       ");";
 
   static constexpr const char *SELECT_PROJECTS =

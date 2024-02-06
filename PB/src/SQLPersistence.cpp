@@ -191,35 +191,16 @@ void SQLitePersistence::write(
   onReturn(std::nullopt);
 }
 
-std::optional<PBDev::Error> SQLitePersistence::createTable(const char *request)
+std::optional<PBDev::Error>
+SQLitePersistence::createProjectsRegisterIfNotExisting()
 {
   char *errMsg = nullptr;
-  auto  success =
-      sqlite3_exec(mDatabaseHandle.get(), request, nullptr, nullptr, &errMsg);
+  auto  success = sqlite3_exec(mDatabaseHandle.get(), CREATE_PROJECTS_REGISTER,
+                               nullptr, nullptr, &errMsg);
 
   if (success != SQLITE_OK) {
     sqlite3_free(errMsg);
     return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
-  }
-  return std::nullopt;
-}
-
-std::optional<PBDev::Error>
-SQLitePersistence::createProjectsRegisterIfNotExisting()
-{
-  auto maybeError = createTable(CREATE_PROJECTS_REGISTER);
-  if (maybeError) {
-    return maybeError;
-  }
-
-  maybeError = createTable(CREATE_PATH_CACHE_TABLE);
-  if (maybeError) {
-    return maybeError;
-  }
-
-  maybeError = createTable(CREATE_PROJECT_PATH_TABLE);
-  if (maybeError) {
-    return maybeError;
   }
 
   return std::nullopt;
