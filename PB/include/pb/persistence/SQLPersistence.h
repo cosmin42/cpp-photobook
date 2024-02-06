@@ -4,7 +4,6 @@
 #include <variant>
 
 #include <boost/bimap/bimap.hpp>
-#include <boost/uuid/uuid.hpp>
 
 #include <sqlite3.h>
 
@@ -14,8 +13,8 @@
 namespace PB {
 
 struct MetadataPack {
-  boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
-  boost::bimaps::bimap<Path, std::string>               pathCache;
+  std::unordered_map<std::string, std::string> metadata;
+  boost::bimaps::bimap<Path, std::string>      pathCache;
   std::unordered_set<std::pair<Path, std::string>, PathProjectAssociationHash>
       pathProject;
 };

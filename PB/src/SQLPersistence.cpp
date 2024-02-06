@@ -1,9 +1,5 @@
 #include <pb/persistence/SQLPersistence.h>
 
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
-
 namespace PB {
 
 void SQLitePersistence::configure(Path localStatePath)
@@ -51,9 +47,7 @@ void SQLitePersistence::read(
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
     const char *path =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-    auto               generator = boost::uuids::string_generator();
-    boost::uuids::uuid parsedUuid = generator(uuid);
-    metadataPack.metadata.insert({parsedUuid, path});
+    metadataPack.metadata[uuid] = path;
   }
 
   sqlite3_finalize(stmt);
@@ -153,8 +147,7 @@ void SQLitePersistence::write(
   }
 
   for (auto &[key, value] : metadataPack.metadata) {
-    auto keyString = boost::uuids::to_string(key);
-    write(std::pair<std::string, std::string>(keyString, value),
+    write(std::pair<std::string, std::string>(key, value),
           [onReturn](std::optional<PBDev::Error> maybeError) {
             onReturn(maybeError);
           });
@@ -173,10 +166,7 @@ void SQLitePersistence::write(
   while (sqlite3_step(stmt) == SQLITE_ROW) {
     const char *uuid =
         reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-    auto               generator = boost::uuids::string_generator();
-    boost::uuids::uuid parsedUuid = generator(uuid);
-    if (metadataPack.metadata.left.find(parsedUuid) ==
-        metadataPack.metadata.left.end()) {
+    if (metadataPack.metadata.find(uuid) == metadataPack.metadata.end()) {
       char *errMsg = nullptr;
 
       std::string query = "DELETE FROM PROJECTS_REGISTER WHERE uuid = '" +
