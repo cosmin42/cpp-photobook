@@ -31,18 +31,16 @@ ImageFactory::createTextImage(Path path, std::string projectName)
                                fontInfo)(image);
 
   auto imagePath =
-      Path() /
+      VirtualImage::platformInfo->localStatePath / "th" / projectName /
       (mProject->active().pathCache.hashCreateIfMissing(path) + ".JPG");
 
-  Process::imageWriteThumbnail(
-      image, VirtualImage::platformInfo->localStatePath / imagePath);
+  Process::imageWriteThumbnail(image, imagePath);
 
   auto textImage = std::make_shared<TextImage>(imagePath);
   return textImage;
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::createImage(Path        path,
-                                                        std::string projectName)
+std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path, std::string projectName)
 {
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);

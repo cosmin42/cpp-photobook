@@ -24,7 +24,6 @@ struct ImageResources {
 class VirtualImage {
 public:
   static std::shared_ptr<PlatformInfo> platformInfo;
-  static std::string                   projectName;
 
   virtual ~VirtualImage() = default;
 
@@ -46,25 +45,7 @@ public:
     mFrontend.small = smallSizePath;
   }
 
-  ImageResources frontend() const
-  {
-    ImageResources frontend = mFrontend;
-    if (frontend.full.is_relative()) {
-      frontend.full =
-          platformInfo->localStatePath / "th" / projectName / frontend.full;
-    }
-    if (frontend.medium.is_relative()) {
-      frontend.medium =
-          platformInfo->localStatePath / "th" / projectName / frontend.medium;
-    }
-    if (frontend.small.is_relative()) {
-      frontend.small =
-          platformInfo->localStatePath / "th" / projectName / frontend.small;
-    }
-    return frontend;
-  }
-
-  ImageResources rawFrontend() const { return mFrontend; }
+  ImageResources frontend() const { return mFrontend; }
 
   bool processed() const { return mProcessed; }
 

@@ -359,9 +359,9 @@ serialize(int                                                          depth,
   auto jsonOrError = serialize<VirtualImageType, Path, Path, Path, Path,
                                std::vector<Path>, bool>(
       depth + 1, {"img-type", image->type()}, {"key-path", image->keyPath()},
-      {"frontend-full", image->rawFrontend().full},
-      {"frontend-medium", image->rawFrontend().medium},
-      {"frontend-small", image->rawFrontend().small}, {"resource", resources},
+      {"frontend-full", image->frontend().full},
+      {"frontend-medium", image->frontend().medium},
+      {"frontend-small", image->frontend().small}, {"resource", resources},
       {"processing-finished", image->processed()});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
