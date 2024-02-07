@@ -42,6 +42,7 @@ private:
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    uuid TEXT NOT NULL,"
       "    path TEXT"
+      "    thumbnails TEXT"
       ");";
 
   static constexpr const char *SELECT_PROJECTS =

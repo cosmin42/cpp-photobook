@@ -89,14 +89,14 @@ void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
 }
 
 void ImportFoldersLogic::processImages(
-    std::string projectName, Path root,
+    std::string thumbnailsDirectoryName, Path root,
     std::vector<std::pair<Path, Path>> newFolders)
 {
   auto pathHash = mProject->active().pathCache;
   auto hash = pathHash.hashCreateIfMissing(root);
 
   mThumbnailsProcessor.generateThumbnails(
-      projectName, root, newFolders, hash,
+      thumbnailsDirectoryName, root, newFolders, hash,
       [this, root{root}, maxProgress{newFolders.size()}](
           Path keyPath, Path full, Path medium, Path small) {
         onImageProcessed(keyPath, root, full, medium, small, (int)maxProgress);

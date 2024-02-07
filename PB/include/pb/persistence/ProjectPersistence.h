@@ -64,7 +64,7 @@ public:
 
   void rename(std::string newName, std::string oldName = "");
 
-  void save(std::string projectName, std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
+  void save(std::string thumbnailsDirectoryName, std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                              &unstagedImages,
             std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
             std::vector<Path> const                          &root);

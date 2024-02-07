@@ -203,8 +203,9 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   std::vector<std::pair<Path, Path>> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage =
-        PB::ImageFactory::inst().createImage(newFiles.at(i), mProjectName);
+    auto virtualImage = PB::ImageFactory::inst().createImage(
+        newFiles.at(i),
+        boost::uuids::to_string(project().currentProjectUUID()));
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i)});
   }
@@ -216,7 +217,9 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
                              (int)keyAndPaths.size());
-  mImportLogic.processImages(mProjectName, root, keyAndPaths);
+  mImportLogic.processImages(
+      boost::uuids::to_string(project().currentProjectUUID()), root,
+      keyAndPaths);
 }
 
 void Photobook::onImportStop(Path) {}

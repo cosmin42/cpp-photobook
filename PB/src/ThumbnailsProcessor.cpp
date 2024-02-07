@@ -57,7 +57,7 @@ void ThumbnailsProcessor::provideProjectDetails(
 }
 
 void ThumbnailsProcessor::generateThumbnails(
-    std::string projectName, Path root,
+    std::string thumbnailsDirectoryName, Path root,
     std::vector<std::pair<Path, Path>> mediaMap, std::string groupIdentifier,
     std::function<void(Path, Path, Path, Path)> onThumbnailWritten)
 {
@@ -67,7 +67,7 @@ void ThumbnailsProcessor::generateThumbnails(
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
     auto &inputPath = mediaMap.at(i).second;
     auto [smallPath, mediumPath] =
-        assembleOutputPaths(i, groupIdentifier, projectName);
+        assembleOutputPaths(i, groupIdentifier, thumbnailsDirectoryName);
 
     auto task = [mThumbnailWritten{mThumbnailWritten},
                  keyPath{mediaMap.at(i).first}, inputPath{inputPath},
@@ -109,17 +109,17 @@ void ThumbnailsProcessor::clearJobs() { mStopSources.clear(); }
 
 std::pair<Path, Path>
 ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
-                                         std::string projectName)
+                                         std::string thumbnailsDirectoryName)
 {
   PBDev::basicAssert(index >= 0);
 
   auto smallOutputPath = ProjectSnapshot::parentDirectory() / "th" /
-                         projectName /
+                         thumbnailsDirectoryName /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
   auto mediumOutputPath = ProjectSnapshot::parentDirectory() / "th" /
-                          projectName /
+                          thumbnailsDirectoryName /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);
 

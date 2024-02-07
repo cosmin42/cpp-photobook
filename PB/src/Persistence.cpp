@@ -61,10 +61,10 @@ Json Persistence::serialization(
 }
 
 void Persistence::persistProject(Path filePath, Json jsonSerialization,
-                                 std::string projectName)
+                                 std::string thumbnailsDirectoryName)
 {
   auto maybeError = createSupportDirectory(
-      ProjectSnapshot::parentDirectory() / "th", projectName);
+      ProjectSnapshot::parentDirectory() / "th", thumbnailsDirectoryName);
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
@@ -86,10 +86,10 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization,
 }
 
 void Persistence::persistProject(std::string name, Json json,
-                                 std::string projectName)
+                                 std::string thumbnailsDirectoryName)
 {
   Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
-  persistProject(projectPath, json, projectName);
+  persistProject(projectPath, json, thumbnailsDirectoryName);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,
@@ -218,16 +218,18 @@ void Persistence::deleteMetadata(std::string id)
   });
 }
 
-void Persistence::deleteProject(Path projectFile)
+void Persistence::deleteProject(Path        projectFile,
+                                std::string thumbnailsDirectoryName)
 {
   auto projectName = projectFile.stem().string();
-  auto thumbnailsPath = mLocalStatePath / "th" / projectFile.stem().string();
+  auto thumbnailsPath = mLocalStatePath / "th" / thumbnailsDirectoryName;
   std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
 }
 
 std::optional<PBDev::Error>
-Persistence::createSupportDirectory(Path path, std::string projectName)
+Persistence::createSupportDirectory(Path        path,
+                                    std::string thumbnailDirectoryName)
 {
   PBDev::basicAssert(!path.string().empty());
   if (std::filesystem::exists(path)) {
@@ -238,11 +240,11 @@ Persistence::createSupportDirectory(Path path, std::string projectName)
     return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
 
-  if (std::filesystem::exists(path / projectName)) {
+  if (std::filesystem::exists(path / thumbnailDirectoryName)) {
     return std::nullopt;
   }
 
-  if (!std::filesystem::create_directory(path / projectName)) {
+  if (!std::filesystem::create_directory(path / thumbnailDirectoryName)) {
     return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
 

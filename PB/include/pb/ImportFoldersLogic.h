@@ -41,7 +41,8 @@ public:
 
   void clearJob(Path root);
 
-  void processImages(std::string projectName, Path root, std::vector<std::pair<Path, Path>> newFolders);
+  void processImages(std::string thumbnailsDirectoryName, Path root,
+                     std::vector<std::pair<Path, Path>> newFolders);
 
   // todo: Rename to contain mapping
   void STCStarted(MediaMapper const &) override;

@@ -69,7 +69,8 @@ void ProjectPersistence::newProject(std::string              name,
   mProject = project;
   mMetadata.insert({boost::uuids::random_generator()(), name});
   mOpenedUUID = mMetadata.right.at(name);
-  save(name, {}, {}, {});
+  auto thumbnailsDirectoryName = boost::uuids::to_string(mMetadata.right.at(name));
+  save(thumbnailsDirectoryName, {}, {}, {});
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
@@ -119,7 +120,7 @@ void ProjectPersistence::onJsonRead(Json json)
 void ProjectPersistence::remove(boost::uuids::uuid id)
 {
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
-  mPersistence.deleteProject(path(id));
+  mPersistence.deleteProject(path(id), boost::uuids::to_string(id));
 }
 
 void ProjectPersistence::remove(Path path) {}
@@ -211,7 +212,7 @@ bool ProjectPersistence::isSaved(
 }
 
 void ProjectPersistence::save(
-    std::string projectName,
+    std::string thumbnailsDirectoryName,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
@@ -224,7 +225,7 @@ void ProjectPersistence::save(
                                      stagedImages, roots);
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-  mPersistence.persistProject(name, mJson, projectName);
+  mPersistence.persistProject(name, mJson, thumbnailsDirectoryName);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 

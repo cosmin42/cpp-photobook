@@ -293,7 +293,7 @@ void TableContentPage::OnSaveClicked(
 {
   // TODO: Raname the blow stupid repetition
   mPhotoBook->project().save(
-      mPhotoBook->projectName(),
+      boost::uuids::to_string(mPhotoBook->project().currentProjectUUID()),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
@@ -1289,7 +1289,7 @@ void TableContentPage::OnSaveProject(
         ContentDialogButtonClickEventArgs const &args)
 {
   mPhotoBook->project().save(
-      mPhotoBook->projectName(),
+      boost::uuids::to_string(mPhotoBook->project().currentProjectUUID()),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
