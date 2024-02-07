@@ -233,6 +233,12 @@ Persistence::createSupportDirectory(Path        path,
 {
   PBDev::basicAssert(!path.string().empty());
 
+  if (!std::filesystem::exists(path)) {
+    if (!std::filesystem::create_directory(path)) {
+      return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
+    }
+  }
+
   if (std::filesystem::exists(path / thumbnailDirectoryName)) {
     return std::nullopt;
   }
@@ -241,13 +247,6 @@ Persistence::createSupportDirectory(Path        path,
     return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
   }
 
-  if (std::filesystem::exists(path)) {
-    return std::nullopt;
-  }
-
-  if (!std::filesystem::create_directory(path)) {
-    return PBDev::Error() << ErrorCode::CorruptPersistenceFile;
-  }
   return std::nullopt;
 }
 
