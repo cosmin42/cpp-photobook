@@ -75,9 +75,18 @@ void ThumbnailsProcessor::generateThumbnails(
       mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i).first, mediumPath, smallPath, task,
-                          mScreenWidth, mScreenHeight,
-                          mStopSources[root].get_token());
+    auto fullPath = mediaMap.at(i).first;
+
+    if (fullPath.is_relative()) {
+      fullPath = ProjectSnapshot::parentDirectory() / "th" / projectName / fullPath;
+    }
+
+    ResizeTask resizeTask(
+        fullPath,
+        ProjectSnapshot::parentDirectory() / "th" / projectName / mediumPath,
+        ProjectSnapshot::parentDirectory() / "th" / projectName / smallPath,
+        task, mScreenWidth,
+        mScreenHeight, mStopSources[root].get_token());
 
     mParallelTaskConsumer.enqueue(root,
                                   [resizeTask{resizeTask}]() { resizeTask(); });
@@ -113,15 +122,13 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
 {
   PBDev::basicAssert(index >= 0);
 
-  auto smallOutputPath = ProjectSnapshot::parentDirectory() / "th" /
-                         projectName /
-                         (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
-                          std::to_string(index) + Context::JPG_EXTENSION);
+  auto smallOutputPath =
+      Path() / (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
+                std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath = ProjectSnapshot::parentDirectory() / "th" /
-                          projectName /
-                          (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
-                           std::to_string(index) + Context::JPG_EXTENSION);
+  auto mediumOutputPath =
+      Path() / (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
+                std::to_string(index) + Context::JPG_EXTENSION);
 
   return {smallOutputPath, mediumOutputPath};
 }

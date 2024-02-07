@@ -85,6 +85,7 @@ void Photobook::recallMetadata() { mProjectPersistence.recallMetadata(); }
 void Photobook::recallProject(std::string name)
 {
   mProjectName = name;
+  VirtualImage::projectName = name;
   mProjectPersistence.recallProject(name);
 }
 
@@ -177,6 +178,7 @@ void Photobook::onPersistenceError(PBDev::Error error)
 void Photobook::newProject(std::string name)
 {
   mProjectName = name;
+  VirtualImage::projectName = name;
   // TODO: mProjectPersistence should announce mImportLogic when the project was
   // updated
   mProjectPersistence.newProject(name, std::make_shared<Project>());
