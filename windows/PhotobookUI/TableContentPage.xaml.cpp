@@ -1268,19 +1268,11 @@ void TableContentPage::OnRenameProjectDialogRename(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  auto activeProject = mPhotoBook->project().currentProject()->active();
-
   mPhotoBook->project().rename(
       winrt::to_string(RenameProjectDialogTextBox().Text()));
 
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
-  }
-  if (mNewProjectFlag) {
-    mNewProjectFlag = false;
-    mPhotoBook->unloadProject();
-    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
-                     winrt::box_value(winrt::to_hstring("new-project")));
   }
 }
 
@@ -1316,6 +1308,12 @@ void TableContentPage::OnSaveProject(
       mPhotoBook->imageViews().imageMonitor().rowList());
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
+  if (mNewProjectFlag) {
+    mNewProjectFlag = false;
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                     winrt::box_value(winrt::to_hstring("new-project")));
   }
 }
 
