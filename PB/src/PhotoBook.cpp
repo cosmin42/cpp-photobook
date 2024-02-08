@@ -125,8 +125,9 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportPDFAlbum(std::string name, Path path)
 {
+  auto          pdfName = path / (name + ".pdf");
   PdfExportTask task(
-      path / (name + ".pdf"), mPlatformInfo->localStatePath,
+      pdfName, mPlatformInfo->localStatePath,
       mProjectPersistence.currentProject()->active().paperSettings,
       mImageViews.stagedImages().stagedPhotos());
 
