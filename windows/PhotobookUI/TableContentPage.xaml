@@ -78,7 +78,7 @@
                                                              Key="S" />
                                     </MenuFlyoutItem.KeyboardAccelerators>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Save As"
+                                <MenuFlyoutItem Text="Rename"
                                                 Click="OnSaveAsClicked" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Import Media"
