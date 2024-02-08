@@ -374,13 +374,23 @@ void TableContentPage::OnUnstagedPhotosDragStarted(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         DragItemsStartingEventArgs const &args)
 {
-  mDragSource = DragSource::Unstaged;
+  bool allowDrag = true;
   for (auto item : args.Items()) {
     auto image = item.as<ImageUIData>();
+    if (!image.Processed()) {
+      allowDrag = false;
+      break;
+    }
     auto keyPath = winrt::to_string(image.KeyPath());
     auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(keyPath);
 
     mDragAndDropSelectedImages.push_back(virtualImage);
+  }
+  if (allowDrag) {
+    mDragSource = DragSource::Unstaged;
+  }
+  else {
+    mDragSource = DragSource::None;
   }
 }
 
@@ -447,6 +457,9 @@ void TableContentPage::OnDropIntoStagedPhotos(
     [[maybe_unused]] Windows::Foundation::IInspectable const  &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::DragEventArgs const &args)
 {
+  if (mDragSource == DragSource::None) {
+    return;
+  }
   PB::printDebug("Drop on staged list view.\n");
 
   // WORKAROUND BEGIN
