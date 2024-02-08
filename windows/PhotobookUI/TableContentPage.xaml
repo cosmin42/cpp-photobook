@@ -616,7 +616,7 @@
                        HorizontalAlignment="Left" />
         </ContentDialog>
         <ContentDialog x:Name="GnericMessage"
-                       Title="Photobook Maker"
+                       Title="Infinite Photobook"
                        PrimaryButtonText="Ok"
                        Foreground="{StaticResource MainFontColor}"
                        Background="{StaticResource PrimaryColor}">
