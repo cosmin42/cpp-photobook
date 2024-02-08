@@ -26,13 +26,15 @@ ImageUIData::ImageUIData()
       mSmallPath(
           winrt::to_hstring((PlatformHelper::CurrentAppInstallationFolder() /
                              Path(PB::Context::PHOTO_TIMELINE_DEFAULT_IMAGE))
-                                .string()))
+                                .string())),
+      mProcessed(false)
 {
 }
 
 ImageUIData::ImageUIData(winrt::hstring key, winrt::hstring full,
-                         winrt::hstring medium, winrt::hstring smallPath)
-    : mKey(key), mFullPath(full), mMediumPath(medium), mSmallPath(smallPath)
+                         winrt::hstring medium, winrt::hstring smallPath, bool processed)
+    : mKey(key), mFullPath(full), mMediumPath(medium), mSmallPath(smallPath),
+      mProcessed(processed)
 {
 }
 
@@ -40,5 +42,7 @@ winrt::hstring ImageUIData::KeyPath() { return mKey; }
 winrt::hstring ImageUIData::FullPath() { return mFullPath; }
 winrt::hstring ImageUIData::MediumPath() { return mMediumPath; }
 winrt::hstring ImageUIData::SmallPath() { return mSmallPath; }
+
+bool ImageUIData::Processed() { return mProcessed; }
 
 } // namespace winrt::PhotobookUI::implementation

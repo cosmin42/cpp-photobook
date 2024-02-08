@@ -713,11 +713,12 @@ void TableContentPage::UpdateUnstagedImagesView(int index)
        i < (int)mPhotoBook->imageViews().imageMonitor().rowSize(index); ++i) {
     auto virtualImage = mPhotoBook->imageViews().imageMonitor().image(index, i);
     mUnstagedImageCollection.SetAt(
-        i, ImageUIData(
-               winrt::to_hstring(virtualImage->keyPath().string()),
-               winrt::to_hstring(virtualImage->frontend().full.string()),
-               winrt::to_hstring(virtualImage->frontend().medium.string()),
-               winrt::to_hstring(virtualImage->frontend().small.string())));
+        i,
+        ImageUIData(winrt::to_hstring(virtualImage->keyPath().string()),
+                    winrt::to_hstring(virtualImage->frontend().full.string()),
+                    winrt::to_hstring(virtualImage->frontend().medium.string()),
+                    winrt::to_hstring(virtualImage->frontend().small.string()),
+                    virtualImage->processed()));
   }
 }
 
@@ -733,11 +734,12 @@ void TableContentPage::UpdateUnstagedImage(int row, int index)
         mPhotoBook->imageViews().imageMonitor().image(row, index);
 
     mUnstagedImageCollection.SetAt(
-        index, ImageUIData(
-                   winrt::to_hstring(virtualImage->keyPath().string()),
-                   winrt::to_hstring(virtualImage->frontend().full.string()),
-                   winrt::to_hstring(virtualImage->frontend().medium.string()),
-                   winrt::to_hstring(virtualImage->frontend().small.string())));
+        index,
+        ImageUIData(winrt::to_hstring(virtualImage->keyPath().string()),
+                    winrt::to_hstring(virtualImage->frontend().full.string()),
+                    winrt::to_hstring(virtualImage->frontend().medium.string()),
+                    winrt::to_hstring(virtualImage->frontend().small.string()),
+                    virtualImage->processed()));
   }
 }
 
@@ -885,7 +887,8 @@ void TableContentPage::OnStagedImageAdded(
           winrt::to_hstring(photo->keyPath().string()),
           winrt::to_hstring(photo->frontend().full.string()),
           winrt::to_hstring(photo->frontend().medium.string()),
-          winrt::to_hstring(photo->frontend().small.string()));
+          winrt::to_hstring(photo->frontend().small.string()),
+          photo->processed());
       mStagedImageCollection.Append(winRTImage);
     }
   }
@@ -895,7 +898,8 @@ void TableContentPage::OnStagedImageAdded(
           winrt::to_hstring(photo->keyPath().string()),
           winrt::to_hstring(photo->frontend().full.string()),
           winrt::to_hstring(photo->frontend().medium.string()),
-          winrt::to_hstring(photo->frontend().small.string()));
+          winrt::to_hstring(photo->frontend().small.string()),
+          photo->processed());
       mStagedImageCollection.InsertAt(index, winRTImage);
     }
   }
@@ -976,11 +980,12 @@ void TableContentPage::LoadImages()
     auto virtualImage =
         mPhotoBook->imageViews().imageMonitor().image(lastRowIndex, i);
     mUnstagedImageCollection.SetAt(
-        i, ImageUIData(
-               winrt::to_hstring(virtualImage->keyPath().string()),
-               winrt::to_hstring(virtualImage->frontend().full.string()),
-               winrt::to_hstring(virtualImage->frontend().medium.string()),
-               winrt::to_hstring(virtualImage->frontend().small.string())));
+        i,
+        ImageUIData(winrt::to_hstring(virtualImage->keyPath().string()),
+                    winrt::to_hstring(virtualImage->frontend().full.string()),
+                    winrt::to_hstring(virtualImage->frontend().medium.string()),
+                    winrt::to_hstring(virtualImage->frontend().small.string()),
+                    virtualImage->processed()));
   }
 
   auto stagedPictures = mPhotoBook->imageViews().stagedImages().stagedPhotos();
@@ -990,7 +995,8 @@ void TableContentPage::LoadImages()
         winrt::to_hstring(stagedPictures.at(i)->keyPath().string()),
         winrt::to_hstring(stagedPictures.at(i)->frontend().full.string()),
         winrt::to_hstring(stagedPictures.at(i)->frontend().medium.string()),
-        winrt::to_hstring(stagedPictures.at(i)->frontend().small.string())));
+        winrt::to_hstring(stagedPictures.at(i)->frontend().small.string()),
+        stagedPictures.at(i)->processed()));
   }
 
   if (!stagedPictures.empty()) {
@@ -1015,7 +1021,8 @@ void TableContentPage::UpdateUnstagedLine()
           winrt::to_hstring(virtualImage->keyPath().string()),
           winrt::to_hstring(virtualImage->frontend().full.string()),
           winrt::to_hstring(virtualImage->frontend().medium.string()),
-          winrt::to_hstring(virtualImage->frontend().small.string())));
+          winrt::to_hstring(virtualImage->frontend().small.string()),
+          virtualImage->processed()));
     }
   }
 }
@@ -1100,7 +1107,8 @@ void TableContentPage::UpdateUnstagedPhotoLine()
                    winrt::to_hstring(virtualImage->keyPath().string()),
                    winrt::to_hstring(virtualImage->frontend().full.string()),
                    winrt::to_hstring(virtualImage->frontend().medium.string()),
-                   winrt::to_hstring(virtualImage->frontend().small.string())));
+                   winrt::to_hstring(virtualImage->frontend().small.string()),
+                   virtualImage->processed()));
       }
     }
     else {
