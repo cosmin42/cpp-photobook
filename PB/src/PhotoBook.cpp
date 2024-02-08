@@ -165,6 +165,17 @@ void Photobook::onProjectRead(
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
   mParent->onProjectRead();
+
+  auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
+
+  for (auto &unprocessedImage : unprocessedImages) {
+    mProgressManager.subscribe(unprocessedImage.root.string(),
+                               JobType::ThumbnailsProcess,
+                               (int)unprocessedImage.images.size());
+    mImportLogic.processImages(
+        boost::uuids::to_string(project().currentProjectUUID()),
+        unprocessedImage);
+  }
 }
 
 void Photobook::onMetadataUpdated() { mParent->onMetadataUpdated(); }
@@ -217,9 +228,11 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
                              (int)keyAndPaths.size());
+
+  RowProcessingData rowProcessingData = {root, keyAndPaths};
   mImportLogic.processImages(
-      boost::uuids::to_string(project().currentProjectUUID()), root,
-      keyAndPaths);
+      boost::uuids::to_string(project().currentProjectUUID()),
+      rowProcessingData);
 }
 
 void Photobook::onImportStop(Path) {}

@@ -20,6 +20,10 @@ void ImageMonitor::replaceImageMonitorData(
     mUnstagedImagesMatrix.push_back(unstagedImages.at(i));
     for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
       mPositions.insert({mUnstagedImagesMatrix.at(i).at(j)->keyPath(), {i, j}});
+      if (!mUnstagedImagesMatrix.at(i).at(j)->processed())
+      {
+        mPendingRows.insert(i);
+      }
     }
   }
 }
@@ -175,6 +179,25 @@ std::pair<int, int> ImageMonitor::position(Path full) const
 {
   PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
   return mPositions.left.at(full);
+}
+
+std::vector<RowProcessingData> ImageMonitor::unprocessedImages()
+{
+  std::vector<RowProcessingData> allRowsProcessingData;
+
+  for (int i = 0; i < mUnstagedImagesMatrix.size(); ++i) {
+    RowProcessingData rowProcessingData;
+    rowProcessingData.root = mRowIndexes.right.at(i);
+    for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
+      if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
+        rowProcessingData.images.push_back(
+            {mUnstagedImagesMatrix.at(i).at(j)->keyPath(),
+             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0)});
+      }
+    }
+    allRowsProcessingData.push_back(rowProcessingData);
+  }
+  return allRowsProcessingData;
 }
 
 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const &

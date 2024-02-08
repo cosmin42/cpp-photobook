@@ -6,6 +6,7 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
+#include <pb/RowProcessingData.h>
 #include <pb/image/Image.h>
 #include <pb/util/Util.h>
 
@@ -49,6 +50,8 @@ public:
   std::shared_ptr<VirtualImage> image(unsigned row, unsigned index) const;
   std::shared_ptr<VirtualImage> image(Path full) const;
   std::pair<int, int>           position(Path full) const;
+
+  std::vector<RowProcessingData> unprocessedImages();
 
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> const &
   unstaged() const;

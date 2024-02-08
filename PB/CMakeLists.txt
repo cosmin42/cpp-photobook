@@ -110,6 +110,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
     include/pb/ProgressManager.h
+    include/pb/RowProcessingData.h
     include/pb/tasks/Tasks.h
     include/pb/tasks/FileMapper.h
     include/pb/tasks/ParallelTaskConsumer.h
