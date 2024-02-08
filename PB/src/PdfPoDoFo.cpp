@@ -27,14 +27,14 @@ int PdfExportTask::stepsCount() const { return (int)mStagedImages.size(); }
 
 void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
 {
-  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
-      mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
+  auto imageWidth = mPaperSettings.width * 72 / mPaperSettings.ppi;
+  auto imageHeight = mPaperSettings.height * 72 / mPaperSettings.ppi;
+  std::shared_ptr<cv::Mat> image =
+      PB::Process::singleColorImage(imageWidth, imageHeight, {255, 255, 255})();
 
   auto temporaryImage = ImageReader().read(inputPath);
   PBDev::basicAssert(temporaryImage != nullptr);
-  Process::resize({mPaperSettings.width * 72 / mPaperSettings.ppi,
-                   mPaperSettings.height * 72 / mPaperSettings.ppi},
-                  true)(temporaryImage);
+  Process::resize({imageWidth, imageHeight}, true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
   ImageSetWriter().write(outputPath, image);
