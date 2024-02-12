@@ -296,6 +296,7 @@ private:
   std::unordered_set<Path>                       mLoadedFinishedImportFolders;
   DragSource                                     mDragSource = DragSource::None;
   bool mLinesExclusiveSelection = false;
+  bool mBackFlag = false;
 
   std::unordered_set<Path> mImportedDirectories;
 };

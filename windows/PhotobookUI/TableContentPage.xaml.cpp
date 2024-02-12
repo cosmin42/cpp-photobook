@@ -232,8 +232,18 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  mPhotoBook->unloadProject();
-  Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+  auto isSaved = mPhotoBook->project().isSaved(
+      mPhotoBook->imageViews().imageMonitor().unstaged(),
+      mPhotoBook->imageViews().stagedImages().stagedPhotos(),
+      mPhotoBook->imageViews().imageMonitor().rowList());
+  if (!isSaved) {
+    mBackFlag = true;
+    SaveProjectDialogDisplay();
+  }
+  else {
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+  }
 }
 
 void TableContentPage::OnAboutClicked(
@@ -1315,6 +1325,11 @@ void TableContentPage::OnSaveProject(
     Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
                      winrt::box_value(winrt::to_hstring("new-project")));
   }
+  if (mBackFlag) {
+    mBackFlag = false;
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
+  }
 }
 
 void TableContentPage::OnCancelSavingProject(
@@ -1324,6 +1339,17 @@ void TableContentPage::OnCancelSavingProject(
 {
   if (mExitFlag) {
     Post([]() { winrt::Microsoft::UI::Xaml::Application::Current().Exit(); });
+  }
+  if (mNewProjectFlag) {
+    mNewProjectFlag = false;
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>(),
+                     winrt::box_value(winrt::to_hstring("new-project")));
+  }
+  if (mBackFlag) {
+    mBackFlag = false;
+    mPhotoBook->unloadProject();
+    Frame().Navigate(winrt::xaml_typename<PhotobookUI::Dashboard>());
   }
 }
 

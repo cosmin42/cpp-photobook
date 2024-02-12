@@ -74,6 +74,7 @@ void Photobook::unloadProject()
   if (mImportLogic.runningImageProcessingJobs().empty()) {
     mProjectPersistence.clear();
     mImageViews.imageMonitor().clear();
+    mImageViews.stagedImages().clear();
   }
   else {
     mMarkProjectForDeletion = true;
