@@ -529,8 +529,8 @@ void TableContentPage::Right()
   if (!selection.unstagedLineIndex.empty()) {
     PBDev::basicAssert(selection.unstagedLineIndex.size() == 1);
 
-    nextIndex = (SelectionIndex().importListIndex.value() + 1) %
-                mUnstagedImageCollection.Size();
+    nextIndex = (selection.unstagedLineIndex.at(0) + 1) %
+                (int)mUnstagedImageCollection.Size();
 
     UnstagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
         0, mUnstagedImageCollection.Size()));
@@ -538,8 +538,8 @@ void TableContentPage::Right()
   }
   else if (!selection.stagedPhotoIndex.empty()) {
     PBDev::basicAssert(selection.stagedPhotoIndex.size() == 1);
-    nextIndex = (SelectionIndex().importListIndex.value() + 1) %
-                mStagedImageCollection.Size();
+    nextIndex = (selection.stagedPhotoIndex.at(0) + 1) %
+                (int)mStagedImageCollection.Size();
     StagedListView().DeselectRange(Microsoft::UI::Xaml::Data::ItemIndexRange(
         0, mStagedImageCollection.Size()));
     StagedListView().SelectRange({nextIndex, 1});
@@ -1134,17 +1134,6 @@ void TableContentPage::UpdateGalleryLabel()
 {
   auto selection = SelectionIndex();
 
-  if (!selection.importListIndex.has_value()) {
-    GalleryLeftButton().IsEnabled(false);
-    GalleryRightButton().IsEnabled(false);
-    GalleryMainText().Text(winrt::to_hstring("Nothing selected."));
-    return;
-  }
-
-  // The root of the selected index
-  auto selectedRootPath = mPhotoBook->imageViews().imageMonitor().rowPath(
-      selection.importListIndex.value());
-
   std::shared_ptr<PB::VirtualImage> itemPath = nullptr;
 
   if (!selection.stagedPhotoIndex.empty()) {
@@ -1155,23 +1144,19 @@ void TableContentPage::UpdateGalleryLabel()
     itemPath = mPhotoBook->imageViews().imageMonitor().image(
         selection.importListIndex.value(), selection.unstagedLineIndex.at(0));
   }
+  else {
+    GalleryLeftButton().IsEnabled(false);
+    GalleryRightButton().IsEnabled(false);
+    GalleryMainText().Text(winrt::to_hstring("Nothing selected."));
+    return;
+  }
 
+  GalleryMainText().Text(
+      winrt::to_hstring(itemPath->keyPath().stem().string()));
+
+  // TODO: Make this better
   GalleryLeftButton().IsEnabled(itemPath != nullptr);
   GalleryRightButton().IsEnabled(itemPath != nullptr);
-
-  if (itemPath) {
-    GalleryMainText().Text(
-        winrt::to_hstring(itemPath->frontend().full.stem().string()));
-  }
-  else if (mPhotoBook->imageViews().imageMonitor().containsRow(
-               selectedRootPath)) {
-    auto rootName = mPhotoBook->imageViews().imageMonitor().rowPath(
-        selection.importListIndex.value());
-    GalleryMainText().Text(winrt::to_hstring(rootName.filename().string()));
-  }
-  else {
-    GalleryMainText().Text(winrt::to_hstring("Nothing selected."));
-  }
 }
 
 void TableContentPage::PostponeError(std::string message)
