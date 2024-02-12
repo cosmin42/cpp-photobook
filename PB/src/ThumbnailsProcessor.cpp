@@ -58,24 +58,24 @@ void ThumbnailsProcessor::provideProjectDetails(
 
 void ThumbnailsProcessor::generateThumbnails(
     std::string thumbnailsDirectoryName, Path root,
-    std::vector<std::pair<Path, Path>> mediaMap, std::string groupIdentifier,
+    std::vector<ProcessingData> mediaMap, std::string groupIdentifier,
     std::function<void(Path, Path, Path, Path)> onThumbnailWritten)
 {
 
   mThumbnailWritten = onThumbnailWritten;
 
   for (auto i = 0; i < (int)mediaMap.size(); ++i) {
-    auto &inputPath = mediaMap.at(i).second;
-    auto [smallPath, mediumPath] =
-        assembleOutputPaths(i, groupIdentifier, thumbnailsDirectoryName);
+    auto &inputPath = mediaMap.at(i).resource;
+    auto [smallPath, mediumPath] = assembleOutputPaths(
+        mediaMap.at(i).position, groupIdentifier, thumbnailsDirectoryName);
 
     auto task = [mThumbnailWritten{mThumbnailWritten},
-                 keyPath{mediaMap.at(i).first}, inputPath{inputPath},
+                 keyPath{mediaMap.at(i).keyPath}, inputPath{inputPath},
                  smallPath{smallPath}, mediumPath{mediumPath}]() {
       mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
     };
 
-    ResizeTask resizeTask(mediaMap.at(i).first, mediumPath, smallPath, task,
+    ResizeTask resizeTask(mediaMap.at(i).keyPath, mediumPath, smallPath, task,
                           mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 

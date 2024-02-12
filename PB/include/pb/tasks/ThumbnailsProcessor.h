@@ -2,6 +2,7 @@
 
 #include <thread_pool/thread_pool.h>
 
+#include <pb/RowProcessingData.h>
 #include <pb/image/Image.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
@@ -39,8 +40,8 @@ public:
   void provideProjectDetails(std::shared_ptr<Project>);
 
   void generateThumbnails(
-      std::string projectName, Path root,
-      std::vector<std::pair<Path, Path>> mediaMap, std::string groupIdentifier,
+      std::string projectName, Path root, std::vector<ProcessingData> mediaMap,
+      std::string                                 groupIdentifier,
       std::function<void(Path, Path, Path, Path)> onThumbnailWritten);
 
   void abort();

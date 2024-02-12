@@ -192,7 +192,7 @@ std::vector<RowProcessingData> ImageMonitor::unprocessedImages()
       if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
         rowProcessingData.images.push_back(
             {mUnstagedImagesMatrix.at(i).at(j)->keyPath(),
-             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0)});
+             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0), (unsigned)j});
       }
     }
     if (!rowProcessingData.images.empty()) {

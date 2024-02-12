@@ -213,14 +213,14 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
-  std::vector<std::pair<Path, Path>> keyAndPaths;
+  std::vector<ProcessingData> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
     auto virtualImage = PB::ImageFactory::inst().createImage(
         newFiles.at(i),
         boost::uuids::to_string(project().currentProjectUUID()));
     imagesSet.push_back(virtualImage);
-    keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i)});
+    keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i), (unsigned)i});
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
