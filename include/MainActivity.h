@@ -25,7 +25,10 @@ public:
   virtual void onMetadataUpdated() override {}
   virtual void onPersistenceError(PBDev::Error) override {}
 
-  virtual void onProgressUpdate(int, int) override {}
+  virtual void onProgressUpdate(PB::ProgressInfo definedProgress,
+                                PB::ProgressInfo undefinedProgress) override
+  {
+  }
   virtual void onExportFinished() override {}
 
   virtual void onStagedImageRemoved(std::vector<unsigned>) override {}

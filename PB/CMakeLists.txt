@@ -210,7 +210,7 @@ if (LOG_LEVEL MATCHES Debug)
         include
         ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME}
+    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         opencv_core
         opencv_imgcodecs
         Boost::boost
