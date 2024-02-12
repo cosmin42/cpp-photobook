@@ -42,8 +42,8 @@ struct PdfSplittedString
  *  a font object first. You can reuse this font object as often
  *  as you want.
  *
- *  Use PdfDocument::CreateFont to create a new font object.
- *  It will choose a correct subclass using PdfFontFactory.
+ *  Use methods in PdfFontManager, which you can access with
+ *  PdfDocument::GetFonts(), to retrieve a font object.
  *
  *  This is only an abstract base class which is implemented
  *  for different font formats.
@@ -187,7 +187,7 @@ public:
     double GetWordSpacingLength(const PdfTextState& state) const;
 
     /**
-     *  \remarks Doesn't throw if characater glyph could not be found
+     *  \remarks Doesn't throw if character glyph could not be found
      */
     double GetCharLength(char32_t codePoint, const PdfTextState& state, bool ignoreCharSpacing = false) const;
 
@@ -354,7 +354,7 @@ protected:
 
     virtual PdfObject* getDescendantFontObject();
 
-    /** Inititialization tasks for imported/created from scratch fonts
+    /** Initialization tasks for imported/created from scratch fonts
      */
     virtual void initImported();
 
@@ -371,7 +371,7 @@ private:
     void EmbedFont();
 
     /**
-     * Perform inititialization tasks for fonts imported or created
+     * Perform initialization tasks for fonts imported or created
      * from scratch
      */
     void InitImported(bool wantEmbed, bool wantSubset);

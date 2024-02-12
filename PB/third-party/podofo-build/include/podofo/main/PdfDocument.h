@@ -20,6 +20,7 @@
 
 namespace PoDoFo {
 
+class PdfAction;
 class PdfDestination;
 class PdfFileSpec;
 class PdfInfo;
@@ -68,20 +69,20 @@ public:
      *                 or return nullptr if it does not exist
      *  \returns the Names dictionary
      */
-    PdfNameTree& GetOrCreateNameTree();
+    PdfNameTree& GetOrCreateNames();
 
     /** Get access to the AcroForm dictionary
      *
      *  \param create create the object if it does not exist (ePdfCreateObject)
      *                 or return nullptr if it does not exist
-     *  \param eDefaultAppearance specifies if a default appearence shall be created
+     *  \param eDefaultAppearance specifies if a default appearance shall be created
      *
      *  \returns PdfObject the AcroForm dictionary
      */
     PdfAcroForm& GetOrCreateAcroForm(PdfAcroFormDefaulAppearance eDefaultAppearance = PdfAcroFormDefaulAppearance::BlackText12pt);
 
     /** Attach a file to the document.
-     *  \param rFileSpec a file specification
+     *  \param fileSpec a file specification
      */
     void AttachFile(const PdfFileSpec& fileSpec);
 
@@ -101,12 +102,21 @@ public:
 
     void CollectGarbage();
 
-    /** Constuct a new PdfImage object
+    /** Construct a new PdfImage object
      *  \param prefix optional prefix for XObject-name
      */
     std::unique_ptr<PdfImage> CreateImage(const std::string_view& prefix = { });
 
     std::unique_ptr<PdfXObjectForm> CreateXObjectForm(const Rect& rect, const std::string_view& prefix = { });
+
+    std::unique_ptr<PdfDestination> CreateDestination();
+
+    template <typename Taction>
+    std::unique_ptr<Taction> CreateAction();
+
+    std::unique_ptr<PdfAction> CreateAction(PdfActionType type);
+
+    std::unique_ptr<PdfFileSpec> CreateFileSpec();
 
     /** Checks if printing this document is allowed.
      *  Every PDF-consuming application has to adhere to this value!
@@ -179,6 +189,18 @@ public:
      *  \see PdfEncrypt to set own document permissions.
      */
     bool IsHighPrintAllowed() const;
+
+    PdfAcroForm& MustGetAcroForm();
+
+    const PdfAcroForm& MustGetAcroForm() const;
+
+    PdfNameTree& MustGetNames();
+
+    const PdfNameTree& MustGetNames() const;
+
+    PdfOutlines& MustGetOutlines();
+
+    const PdfOutlines& MustGetOutlines() const;
 
 public:
     virtual const PdfEncrypt* GetEncrypt() const = 0;
@@ -288,7 +310,7 @@ protected:
     void Init();
 
     /** Clear all internal variables
-     *  and reset PdfDocument to an intial state.
+     *  and reset PdfDocument to an initial state.
      */
     void Clear();
 
@@ -311,6 +333,8 @@ private:
     // Called by PdfXObjectForm
     Rect FillXObjectFromPage(PdfXObjectForm& xobj, const PdfPage& page, bool useTrimBox);
 
+    PdfInfo& GetOrCreateInfo();
+
 private:
     void append(const PdfDocument& doc, bool appendAll);
     /** Recursively changes every PdfReference in the PdfObject and in any child
@@ -324,10 +348,10 @@ private:
 
     void deletePages(unsigned atIndex, unsigned pageCount);
 
+    PdfAction* createAction(const std::type_info& typeInfo);
+
 private:
     PdfDocument& operator=(const PdfDocument&) = delete;
-
-    PdfInfo& GetOrCreateInfo();
 
 private:
     PdfIndirectObjectList m_Objects;
@@ -342,6 +366,12 @@ private:
     std::unique_ptr<PdfOutlines> m_Outlines;
     std::unique_ptr<PdfNameTree> m_NameTree;
 };
+
+template<typename Taction>
+std::unique_ptr<Taction> PdfDocument::CreateAction()
+{
+    return std::unique_ptr<Taction>(static_cast<Taction*>(createAction(typeid(Taction))));
+}
 
 };
 

@@ -32,6 +32,10 @@ PdfParserObject::PdfParserObject(PdfDocument& doc, InputStreamDevice& device, ss
 {
 }
 
+PdfParserObject::PdfParserObject(InputStreamDevice& device,
+    const PdfReference& indirectReference, ssize_t offset)
+    : PdfParserObject(nullptr, indirectReference, device, offset) { }
+
 PdfParserObject::PdfParserObject(InputStreamDevice& device, ssize_t offset)
     : PdfParserObject(nullptr, PdfReference(), device, offset) { }
 
@@ -180,7 +184,7 @@ void PdfParserObject::parseStream()
         {
             // Skip spaces between the stream keyword and the carriage return/line
             // feed or line feed. Actually, this is not required by PDF Reference,
-            // but certain PDFs have additionals whitespaces
+            // but certain PDFs have additional whitespaces
             case ' ':
             case '\t':
                 (void)m_device->ReadChar();
@@ -253,7 +257,7 @@ void PdfParserObject::checkReference(PdfTokenizer& tokenizer)
     {
         PoDoFo::LogMessage(PdfLogSeverity::Warning,
             "Found object with reference {} different than reported {} in XRef sections",
-            GetIndirectReference().ToString(), reference.ToString());
+            reference.ToString(), GetIndirectReference().ToString());
     }
 }
 

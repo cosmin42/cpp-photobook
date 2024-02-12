@@ -16,10 +16,12 @@
 #include "PdfVariant.h"
 #include "PdfFont.h"
 #include "PdfCMapEncoding.h"
+#include "PdfEncodingMapFactory.h"
 
 using namespace std;
 using namespace PoDoFo;
 
+static void collectCharCodeToGIDMap(FT_Face face, bool symbolFont, unordered_map<unsigned, unsigned>& codeToGidMap);
 static int determineType1FontWeight(const string_view& weight);
 
 PdfFontMetricsFreetype::PdfFontMetricsFreetype(const FreeTypeFacePtr& face, const datahandle& data,
@@ -34,21 +36,17 @@ PdfFontMetricsFreetype::PdfFontMetricsFreetype(const FreeTypeFacePtr& face, cons
     if (face == nullptr)
         PODOFO_RAISE_ERROR_INFO(PdfErrorCode::InvalidHandle, "The buffer can't be null");
 
-    initFromFace(refMetrics);
+    init(refMetrics);
 }
 
-PdfFontMetricsFreetype::PdfFontMetricsFreetype(const FreeTypeFacePtr& face, const datahandle& data)
-    : PdfFontMetricsFreetype(face, data, nullptr)
-{
-}
-
-unique_ptr<PdfFontMetricsFreetype> PdfFontMetricsFreetype::FromMetrics(const PdfFontMetrics& metrics)
+unique_ptr<PdfFontMetricsFreetype> PdfFontMetricsFreetype::CreateSubstituteMetrics(
+    const PdfFontMetrics& metrics)
 {
     return unique_ptr<PdfFontMetricsFreetype>(new PdfFontMetricsFreetype(metrics.GetFaceHandle(),
         metrics.GetFontFileDataHandle(), &metrics));
 }
 
-unique_ptr<PdfFontMetricsFreetype> PdfFontMetricsFreetype::FromFace(FT_Face face)
+unique_ptr<PdfFontMetricsFreetype> PdfFontMetricsFreetype::CreateFromFace(FT_Face face)
 {
     if (face == nullptr)
         PODOFO_RAISE_ERROR_INFO(PdfErrorCode::InvalidHandle, "The face can't be null");
@@ -61,10 +59,8 @@ unique_ptr<PdfFontMetricsFreetype> PdfFontMetricsFreetype::FromFace(FT_Face face
     return unique_ptr<PdfFontMetricsFreetype>(new PdfFontMetricsFreetype(newface, buffer));
 }
 
-void PdfFontMetricsFreetype::initFromFace(const PdfFontMetrics* refMetrics)
+void PdfFontMetricsFreetype::init(const PdfFontMetrics* refMetrics)
 {
-    FT_Error rc;
-
     if (!FT::TryGetFontFileFormat(m_Face.get(), m_FontFileType))
         PODOFO_RAISE_ERROR_INFO(PdfErrorCode::InvalidFontData, "Unsupported font type");
 
@@ -80,37 +76,28 @@ void PdfFontMetricsFreetype::initFromFace(const PdfFontMetrics* refMetrics)
     if (m_Face->family_name != nullptr)
         m_FontFamilyName = m_Face->family_name;
 
-    m_HasUnicodeMapping = false;
-    m_HasSymbolCharset = false;
-
-    // Try to get a unicode charmap
-    rc = FT_Select_Charmap(m_Face.get(), FT_ENCODING_UNICODE);
-    if (rc == 0)
-    {
-        m_HasUnicodeMapping = true;
-    }
-    else
-    {
-        // Try to determine if it is a symbol font
-        for (int c = 0; c < m_Face->num_charmaps; c++)
-        {
-            FT_CharMap charmap = m_Face->charmaps[c];
-            if (charmap->encoding == FT_ENCODING_MS_SYMBOL)
-            {
-                m_HasUnicodeMapping = true;
-                m_HasSymbolCharset = true;
-                rc = FT_Set_Charmap(m_Face.get(), charmap);
-                break;
-            }
-        }
-    }
-
     // calculate the line spacing now, as it changes only with the font size
     m_LineSpacing = m_Face->height / (double)m_Face->units_per_EM;
     m_UnderlineThickness = m_Face->underline_thickness / (double)m_Face->units_per_EM;
     m_UnderlinePosition = m_Face->underline_position / (double)m_Face->units_per_EM;
     m_Ascent = m_Face->ascender / (double)m_Face->units_per_EM;
     m_Descent = m_Face->descender / (double)m_Face->units_per_EM;
+
+    // Try to select an unicode charmap
+    if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_UNICODE) == 0)
+    {
+        m_HasUnicodeMapping = true;
+    }
+    else if (refMetrics == nullptr || !refMetrics->IsObjectLoaded())
+    {
+        // Avoid try to create fallback maps from loaded metrics,
+        // they may be fake char maps for subsets
+        m_HasUnicodeMapping = tryBuildFallbackUnicodeMap();
+    }
+    else
+    {
+        m_HasUnicodeMapping = false;
+    }
 
     // Set some default values, in case the font has no direct values
     if (refMetrics == nullptr)
@@ -198,8 +185,7 @@ void PdfFontMetricsFreetype::initFromFace(const PdfFontMetrics* refMetrics)
 
     // FontInfo Table is available only in type1 fonts
     PS_FontInfoRec type1Info;
-    rc = FT_Get_PS_Font_Info(m_Face.get(), &type1Info);
-    if (rc == 0)
+    if (FT_Get_PS_Font_Info(m_Face.get(), &type1Info) == 0)
     {
         m_ItalicAngle = (double)type1Info.italic_angle;
         if (type1Info.weight != nullptr)
@@ -233,7 +219,7 @@ void PdfFontMetricsFreetype::ensureLengthsReady()
             m_Length1 = (unsigned)m_Data.view().size();
             break;
         default:
-            // Other font types dont't need lengths
+            // Other font types don't need lengths
             break;
     }
 
@@ -356,10 +342,25 @@ bool PdfFontMetricsFreetype::HasUnicodeMapping() const
 
 bool PdfFontMetricsFreetype::TryGetGID(char32_t codePoint, unsigned& gid) const
 {
-    if (m_HasSymbolCharset)
-        codePoint = codePoint | 0xF000;
+    if (!m_HasUnicodeMapping)
+    {
+        gid = 0;
+        return false;
+    }
 
-    // NOTE: FT_Get_Char_Index returns 0 when no map is selected
+    if (m_fallbackUnicodeMap != nullptr)
+    {
+        auto found = m_fallbackUnicodeMap->find(codePoint);
+        if (found == m_fallbackUnicodeMap->end())
+        {
+            gid = 0;
+            return false;
+        }
+
+        gid = found->second;
+        return true;
+    }
+
     gid = FT_Get_Char_Index(m_Face.get(), codePoint);
     return gid != 0;
 }
@@ -379,6 +380,86 @@ unique_ptr<PdfCMapEncoding> PdfFontMetricsFreetype::CreateToUnicodeMap(const Pdf
     }
 
     return std::make_unique<PdfCMapEncoding>(std::move(map));
+}
+
+bool PdfFontMetricsFreetype::tryBuildFallbackUnicodeMap()
+{
+    auto os2Table = static_cast<TT_OS2*>(FT_Get_Sfnt_Table(m_Face.get(), FT_SFNT_OS2));
+    if (os2Table != nullptr)
+    {
+        // https://learn.microsoft.com/en-us/typography/opentype/spec/recom#panose-values
+        // "If the font is a symbol font, the first byte of the PANOSE
+        // value must be set to 'Latin Pictorial' (value = 5)"
+        constexpr unsigned char LatinPictorial = 5;
+        if (os2Table->panose[0] == LatinPictorial)
+        {
+            // For symbol encodings we will interpret Unicode code points
+            // as character codes with 1:1 mapping when mapping to GID.
+            // This appears to be what Adobe actually does in its products
+            m_fallbackUnicodeMap.reset(new unordered_map<uint32_t, unsigned>());
+            if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_MS_SYMBOL) == 0)
+            {
+                // If a symbol encoding is available, just collect that
+                collectCharCodeToGIDMap(m_Face.get(), true, *m_fallbackUnicodeMap);
+            }
+            else
+            {
+                // If the symbol encoding is not available, just collect
+                // the default selected charmap
+                collectCharCodeToGIDMap(m_Face.get(), false, *m_fallbackUnicodeMap);
+            }
+
+            return true;
+        }
+    }
+
+    // Try to create an Unicode to GID char map from legacy "encodings"
+    // (or better charmaps), as reported by FreeType
+
+    if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_APPLE_ROMAN) == 0)
+    {
+        unordered_map<unsigned, unsigned> codeToGIDmap;
+        collectCharCodeToGIDMap(m_Face.get(), false, codeToGIDmap);
+        m_fallbackUnicodeMap.reset(new unordered_map<uint32_t, unsigned>());
+        auto encoding = PdfEncodingMapFactory::MacRomanEncodingInstance();
+        encoding->CreateUnicodeToGIDMap(codeToGIDmap, *m_fallbackUnicodeMap);
+        return true;
+    }
+
+    if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_ADOBE_LATIN_1) == 0)
+    {
+        unordered_map<unsigned, unsigned> codeToGIDmap;
+        collectCharCodeToGIDMap(m_Face.get(), false, codeToGIDmap);
+        m_fallbackUnicodeMap.reset(new unordered_map<uint32_t, unsigned>());
+        auto encoding = PdfEncodingMapFactory::AppleLatin1EncodingInstance();
+        encoding->CreateUnicodeToGIDMap(codeToGIDmap, *m_fallbackUnicodeMap);
+        return true;
+    }
+
+    if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_ADOBE_STANDARD) == 0)
+    {
+        unordered_map<unsigned, unsigned> codeToGIDmap;
+        collectCharCodeToGIDMap(m_Face.get(), false, codeToGIDmap);
+        m_fallbackUnicodeMap.reset(new unordered_map<uint32_t, unsigned>());
+        auto encoding = PdfEncodingMapFactory::StandardEncodingInstance();
+        encoding->CreateUnicodeToGIDMap(codeToGIDmap, *m_fallbackUnicodeMap);
+        return true;
+    }
+
+    if (FT_Select_Charmap(m_Face.get(), FT_ENCODING_ADOBE_EXPERT) == 0)
+    {
+        unordered_map<unsigned, unsigned> codeToGIDmap;
+        collectCharCodeToGIDMap(m_Face.get(), false, codeToGIDmap);
+        m_fallbackUnicodeMap.reset(new unordered_map<uint32_t, unsigned>());
+        auto encoding = PdfEncodingMapFactory::MacExpertEncodingInstance();
+        encoding->CreateUnicodeToGIDMap(codeToGIDmap, *m_fallbackUnicodeMap);
+        return true;
+    }
+
+    // CHECK-ME1: Try to merge maps if multiple encodings?
+    // CHECK-ME2: Support more encodings as reported by FreeType?
+    PoDoFo::LogMessage(PdfLogSeverity::Warning, "Could not create an unicode map for the font {}", m_FontName);
+    return false;
 }
 
 PdfFontDescriptorFlags PdfFontMetricsFreetype::GetFlags() const
@@ -532,6 +613,33 @@ double PdfFontMetricsFreetype::GetItalicAngle() const
 PdfFontFileType PdfFontMetricsFreetype::GetFontFileType() const
 {
     return m_FontFileType;
+}
+
+void collectCharCodeToGIDMap(FT_Face face, bool symbolFont, unordered_map<unsigned, unsigned>& codeToGidMap)
+{
+    FT_ULong charcode;
+    FT_UInt gid;
+
+    if (symbolFont)
+    {
+        charcode = FT_Get_First_Char(face, &gid);
+        while (gid != 0)
+        {
+            // https://learn.microsoft.com/en-us/typography/opentype/spec/recom#non-standard-symbol-fonts
+            // "The character codes should start at 0xF000". We recover the intended code
+            codeToGidMap[(unsigned)charcode ^ 0xF000U] = gid;
+            charcode = FT_Get_Next_Char(face, charcode, &gid);
+        }
+    }
+    else
+    {
+        charcode = FT_Get_First_Char(face, &gid);
+        while (gid != 0)
+        {
+            codeToGidMap[(unsigned)charcode] = gid;
+            charcode = FT_Get_Next_Char(face, charcode, &gid);
+        }
+    }
 }
 
 int determineType1FontWeight(const string_view& weightraw)

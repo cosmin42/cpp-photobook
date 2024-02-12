@@ -27,7 +27,9 @@ enum class PdfNameLimits
 
 class PODOFO_API PdfNameTree final : public PdfDictionaryElement
 {
-public:
+    friend class PdfDocument;
+
+private:
     /** Create a new PdfNameTree object
      *  \param parent parent of this action
      */
@@ -39,6 +41,7 @@ public:
      */
     PdfNameTree(PdfObject& obj);
 
+public:
     /** Insert a key and value in one of the dictionaries of the name tree.
      *  \param tree name of the tree to search for the key.
      *  \param key the key to insert. If it exists, it will be overwritten.
@@ -86,7 +89,7 @@ public:
     void ToDictionary(const PdfName& dictionary, PdfDictionary& dict);
 
     /**
-     * I have made it for access to "JavaScript" dictonary. This is "document-level javascript storage"
+     * I have made it for access to "JavaScript" dictionary. This is "document-level javascript storage"
      *  \param create if true the javascript node is created if it does not exists.
      */
     PdfObject* GetJavaScriptNode(bool create = false) const;

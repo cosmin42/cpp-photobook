@@ -22,8 +22,9 @@ enum class PdfAcroFormDefaulAppearance
 class PODOFO_API PdfAcroForm final : public PdfDictionaryElement
 {
     friend class PdfField;
+    friend class PdfDocument;
 
-public:
+private:
     /** Create a new PdfAcroForm dictionary object
      *  \param doc parent of this action
      *  \param defaultAppearance specifies if a default appearance should be added
@@ -36,6 +37,7 @@ public:
      */
     PdfAcroForm(PdfObject& obj);
 
+public:
     /** Set the value of the NeedAppearances key in the interactive forms
      *  dictionary.
      *
@@ -79,7 +81,7 @@ public:
      */
     void RemoveFieldAt(unsigned index);
 
-    /** Delete the field with the given object referece
+    /** Delete the field with the given object reference
      *  \param ref the object reference
      */
     void RemoveField(const PdfReference& ref);
