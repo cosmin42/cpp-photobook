@@ -1227,19 +1227,22 @@ void TableContentPage::OnExportContentDialogClicked(
     PostponeError("The given name must not be empty!");
   }
   else {
-    mPopups.fireFolderPicker(
-        MainWindow::sMainWindowHandle,
-        [this, nativeExportName, exportSelection{exportSelection}](Path path) {
-          Post([this, path{path}, nativeExportName{nativeExportName},
-                exportSelection{exportSelection}]() {
-            if (exportSelection.contains(PB::ExportType::Pdf)) {
-              mPhotoBook->exportPDFAlbum(nativeExportName, path);
-            }
-            if (exportSelection.contains(PB::ExportType::Jpg)) {
-              mPhotoBook->exportJPGAlbum(nativeExportName, path);
-            }
+    if (!exportSelection.empty()) {
+      mPopups.fireFolderPicker(
+          MainWindow::sMainWindowHandle,
+          [this, nativeExportName,
+           exportSelection{exportSelection}](Path path) {
+            Post([this, path{path}, nativeExportName{nativeExportName},
+                  exportSelection{exportSelection}]() {
+              if (exportSelection.contains(PB::ExportType::Pdf)) {
+                mPhotoBook->exportPDFAlbum(nativeExportName, path);
+              }
+              if (exportSelection.contains(PB::ExportType::Jpg)) {
+                mPhotoBook->exportJPGAlbum(nativeExportName, path);
+              }
+            });
           });
-        });
+    }
   }
 }
 
