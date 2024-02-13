@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhotobookUI", "PhotobookUI.vcxproj", "{89AA7E2F-2234-47F8-9C83-1291D94A2545}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BFB5EE2-1DB2-3BC3-81E9-78536D688777} = {3BFB5EE2-1DB2-3BC3-81E9-78536D688777}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pblib-x64", "..\..\PB\build-x64\pblib-x64.vcxproj", "{3BFB5EE2-1DB2-3BC3-81E9-78536D688777}"
 EndProject
@@ -15,7 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pbtests-ARM64", "..\..\PB\b
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhotobookAdapter", "..\PhotobookAdapter\PhotobookAdapter.vcxproj", "{BC728A85-20E4-441B-B501-9E12498E0EB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotobookNetAdapter", "..\PhotobookNetAdapter\PhotobookNetAdapter.csproj", "{2A9ACD5D-C004-4F7C-9777-7B1F92CA6E51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotobookNetAdapter", "..\PhotobookNetAdapter\PhotobookNetAdapter.csproj", "{2A9ACD5D-C004-4F7C-9777-7B1F92CA6E51}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{107F44FF-28A6-4ADF-8F62-721C021BFF80}"
 	ProjectSection(SolutionItems) = preProject
