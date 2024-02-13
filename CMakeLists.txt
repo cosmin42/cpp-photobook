@@ -24,6 +24,8 @@ add_executable(PhotoBook
     src/PBArgsListener.cpp
     main.cpp)
 
+set_target_properties(PhotoBook PROPERTIES VS_GLOBAL_VcpkgEnabled true)
+
 target_include_directories(PhotoBook PRIVATE PB/include include build-${CMAKE_GENERATOR_PLATFORM}/PB/include vcpkg/installed/${CMAKE_GENERATOR_PLATFORM}-windows/include/thread-pool-0.6.2)
 
 target_link_libraries(PhotoBook PRIVATE ${PBLIB_LIBRARY_NAME})
