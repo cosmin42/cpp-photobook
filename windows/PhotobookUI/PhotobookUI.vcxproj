@@ -69,7 +69,18 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros">
+    <PackageCertificateThumbprint>A6B14BC40B6AC26595670670BAAEBE42252E4238</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <AppInstallerUri>C:\Program Files</AppInstallerUri>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -106,6 +117,11 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*
       <AdditionalDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\$(Configuration)\podofo.lib;pblib-$(Platform).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">ECHO ON
+xcopy /y $(VcpkgRoot)\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)\AppX\
+xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*.dll $(OutDir)\AppX\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
@@ -125,7 +141,12 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*
       <AdditionalLibraryDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\*.dll $(OutDir)\AppX\</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\*.dll $(OutDir)
+xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\x64\Release\*.dll $(OutDir)AppX\</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\ARM64\Release\*.dll $(OutDir)
+xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\ARM64\Release\*.dll $(OutDir)AppX\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup Condition="'$(WindowsPackageType)'!='None' and Exists('Package.appxmanifest')">
@@ -247,10 +268,191 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\brotlicommon.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\brotlidec.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\bz2d.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\fontconfig-1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\freetyped.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\iconv-2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\jpeg62.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\libcrypto-3-arm64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\libexpatd.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\liblzma.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\libpng16d.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\libxml2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\podofo.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\tiffd.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Debug\zlibd1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\brotlicommon.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\brotlidec.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\bz2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\fontconfig-1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\freetype.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\iconv-2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\jpeg62.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\libcrypto-3-arm64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\libexpat.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\liblzma.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\libpng16.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\libxml2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\podofo.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\tiff.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\arm64\Release\zlib1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\brotlicommon.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\brotlidec.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\bz2d.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\fontconfig-1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\freetyped.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\iconv-2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\jpeg62.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\libcrypto-3-x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\libexpatd.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\liblzma.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\libpng16d.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\libxml2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\podofo.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\tiffd.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Debug\zlibd1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\brotlicommon.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\brotlidec.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\bz2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\fontconfig-1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\freetype.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\iconv-2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\jpeg62.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\libcrypto-3-x64.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\libexpat.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\liblzma.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\libpng16.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\libxml2.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\podofo.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\tiff.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\..\PB\third-party\podofo-build\lib\x64\Release\zlib1.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="Assets\LICENSE">
       <DeploymentContent>true</DeploymentContent>
     </None>
     <None Include="packages.config" />
+    <None Include="PhotobookUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Assets\Fonts\Righteous-Regular.ttf" />
@@ -264,6 +466,9 @@ xcopy /y $(SolutionDir)..\..\PB\third-party\podofo-build\lib\$(Platform)\Debug\*
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
