@@ -3,13 +3,6 @@ PB/build/*
 PB/include/Config.h
 .vscode/*
 .commit-check.yml
-windows/EasyPhotoBook/EasyPhotoBook/obj/*
-windows/EasyPhotoBook/.vs/*
-windows/EasyPhotoBook/EasyPhotoBook/bin/*
-windows/EasyPhotoBook/x64/*
-windows/EasyPhotoBook/packages/*
-windows/EasyPhotoBook/CppAdapter/obj/*
-windows/EasyPhotoBook/CppAdapter/bin/*
 windows/PhotobookUI/packages/*
 windows/PhotobookUI/x64/*
 windows/PhotobookUI/obj/*
@@ -17,11 +10,18 @@ windows/PhotobookUI/_build/*
 windows/PhotobookUI/.vs/*
 windows/PhotobookUI/Generated\ Files/*
 windows/PhotobookUI/enc_temp_folder/*
-windows/CppWinRTProjection/x64/*
-windows/CppWinRTProjection/Generated\ Files/*
-windows/CppProjection/obj/*
-windows/CppProjection/bin/*
 windows/PhotobookUI/bin/*
+
+windows/PhotobookAdapter/packages/*
+windows/PhotobookAdapter/x64/*
+windows/PhotobookAdapter/obj/*
+windows/PhotobookAdapter/_build/*
+windows/PhotobookAdapter/.vs/*
+windows/PhotobookAdapter/Generated\ Files/*
+windows/PhotobookAdapter/enc_temp_folder/*
+windows/PhotobookAdapter/bin/*
+
+
 osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
 vcpkg/*
 vcpkg
