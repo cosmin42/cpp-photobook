@@ -64,6 +64,11 @@ public:
   static constexpr int MIN_PAPER_WIDTH = 200;
   static constexpr int MIN_PAPER_HEIGHT = 200;
 
+  static constexpr bool SIMULATE_FEW_HAPPY_WORDS = false;
+  static constexpr bool SIMULATE_SLOW_MAPPER = false;
+  static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
+  static constexpr bool SIMULATE_SLOW_EXPORTER = false;
+
   Log const &printer() { return mLogPrinter; }
 
   std::stop_source sStopSource;
