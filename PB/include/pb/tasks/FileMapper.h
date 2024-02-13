@@ -9,8 +9,6 @@
 #include <pb/tasks/SequentialTaskConsumer.h>
 #include <pb/util/Util.h>
 
-// #define SIMULATE_SLOW_MAPPER
-
 namespace PB {
 
 class MediaMapper final {

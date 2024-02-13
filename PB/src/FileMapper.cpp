@@ -23,9 +23,9 @@ void MediaMapper::taskStep()
 
   mRecursiveIterator++;
 
-#ifdef SIMULATE_SLOW_MAPPER
-  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-#endif
+  if (Context::SIMULATE_SLOW_MAPPER) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  }
 }
 
 bool MediaMapper::stoppingCondition() const
