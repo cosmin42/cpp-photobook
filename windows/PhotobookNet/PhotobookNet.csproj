@@ -12,6 +12,9 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="TableContentPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <Page Remove="ColorScheme.xaml" />
   </ItemGroup>
 
@@ -44,6 +47,9 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="TableContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- 
