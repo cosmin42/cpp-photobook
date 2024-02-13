@@ -48,7 +48,7 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        echo "build-output-dir=${{ github.workspace }}/build-x64" >> "$GITHUB_OUTPUT"
 
     - uses: lukka/get-cmake@latest
 
@@ -92,7 +92,7 @@ jobs:
       run: python PB\test-data\generate-data.py PB\test-data
 
     - name: Test
-      working-directory: ${{ github.workspace }}\PB\build\Debug
+      working-directory: ${{ github.workspace }}\PB\build-x64\Release
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
