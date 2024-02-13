@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -56,11 +57,11 @@ namespace PhotobookNet
         private async void OnGalleryLeft(object sender, RoutedEventArgs args) { }
 
         private async void OnGalleryRight(object sender, RoutedEventArgs args) { }
-        //private async void OnCanvasDraw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args);
+        private async void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args) { }
         
         /* Book Lines */
 
-        private async void OnNavigatedTo(NavigationEventArgs args) { }
+        protected override async void OnNavigatedTo(NavigationEventArgs args) { }
 
         private async void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args) { }
 
@@ -103,8 +104,7 @@ namespace PhotobookNet
         /* #18 */
         private async void OnKeyDown(object sender, KeyRoutedEventArgs arg) { }
 
-        private async void
-        OnKeyDown(KeyRoutedEventArgs arg)
+        protected override async void OnKeyDown(KeyRoutedEventArgs arg)
         { }
 
         private async void OnTableContentSizeChanged(object sender, SizeChangedEventArgs args)
