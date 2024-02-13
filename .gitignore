@@ -21,6 +21,8 @@ windows/PhotobookAdapter/Generated\ Files/*
 windows/PhotobookAdapter/enc_temp_folder/*
 windows/PhotobookAdapter/bin/*
 
+windows/PhotobookNetAdapter/obj/*
+windows/PhotobookNetAdapter/bin/*
 
 osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
 vcpkg/*
