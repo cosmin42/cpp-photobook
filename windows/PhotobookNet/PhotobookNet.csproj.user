@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <None Update="ColorScheme.xaml">
+      <SubType>Designer</SubType>
+    </None>
     <None Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </None>

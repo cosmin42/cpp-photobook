@@ -28,9 +28,28 @@ namespace PhotobookNet
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
-            myButton.Content = "Clicked";
+
+        }
+
+        private async void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
+        {
+
+        }
+
+        private async void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs args)
+        {
+
+        }
+
+        private async void OpenProjectClicked(object sender, ItemClickEventArgs args)
+        {
+
+        }
+
+        private async void AddProjectClicked(object sender, RoutedEventArgs args)
+        {
         }
     }
 }

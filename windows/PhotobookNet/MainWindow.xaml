@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Window
-    x:Class="PhotobookNet.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PhotobookNet"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-    </StackPanel>
+<Window x:Class="PhotobookNet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="using:PhotobookNet"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d">
+    <Grid Background="#1A2224">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="ColorScheme.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid x:Name="ProjectsGridName">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Margin="0,0,10,0">
+                <Button Click="AddProjectClicked"
+                        Background="{StaticResource ButtonBackgroundColor}"
+                        Foreground="{StaticResource MainFontColor}"
+                        Width="100"
+                        Height="100"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">+</Button>
+            </Grid>
+            <GridView Grid.Row="0"
+                      Grid.Column="1"
+                      x:Name="ProjectsListView"
+                      RightTapped="OnListViewRightTapped"
+                      ItemClick="OpenProjectClicked"
+                      IsItemClickEnabled="True"
+                      SelectionMode="None"
+                      VerticalAlignment="Center">
+                <!--<GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:ProjectItem">
+                        <Grid Width="100"
+                              Height="100"
+                              Background="{StaticResource ButtonBackgroundColor}"
+                              Margin="2,15, 2, 2">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="{x:Bind Name}"
+                                       Foreground="{StaticResource MainFontColor}"
+                                       TextWrapping="Wrap"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>-->
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="1" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
+        </Grid>
+        <ContentDialog Title="Rename Project"
+                       Foreground="{StaticResource MainFontColor}"
+                       x:Name="RenameProjectDialog"
+                       Background="{StaticResource PrimaryColor}"
+                       PrimaryButtonText="Rename"
+                       PrimaryButtonStyle="{StaticResource ContentDialogPrimaryButtonStyle}"
+                       CloseButtonText="Cancel"
+                       PrimaryButtonClick="OnRenameProjectDialogRename"
+                       CloseButtonClick="OnRenameProjectDialogCancel">
+            <ContentDialog.Resources>
+                <SolidColorBrush x:Key="ButtonBackground"
+                                 Color="{StaticResource ButtonBackgroundColor}" />
+                <SolidColorBrush x:Key="ButtonForeground"
+                                 Color="{StaticResource MainFontColor}" />
+            </ContentDialog.Resources>
+            <StackPanel>
+                <TextBox x:Name="RenameProjectDialogTextBox"
+                         Foreground="{StaticResource MainFontColor}"
+                         Header="Name:"
+                         PlaceholderText="Name example">
+                    <TextBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       Foreground="White" />
+                        </DataTemplate>
+                    </TextBox.HeaderTemplate>
+                </TextBox>
+            </StackPanel>
+        </ContentDialog>
+    </Grid>
 </Window>
