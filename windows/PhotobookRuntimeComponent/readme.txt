@@ -1,5 +1,5 @@
 ========================================================================
-    PhotobookAdapter Project Overview
+    PhotobookRuntimeComponent Project Overview
 ========================================================================
 
 This project demonstrates how to get started authoring Windows Runtime

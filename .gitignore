@@ -12,14 +12,16 @@ windows/PhotobookUI/Generated\ Files/*
 windows/PhotobookUI/enc_temp_folder/*
 windows/PhotobookUI/bin/*
 
-windows/PhotobookAdapter/packages/*
-windows/PhotobookAdapter/x64/*
-windows/PhotobookAdapter/obj/*
-windows/PhotobookAdapter/_build/*
-windows/PhotobookAdapter/.vs/*
-windows/PhotobookAdapter/Generated\ Files/*
-windows/PhotobookAdapter/enc_temp_folder/*
-windows/PhotobookAdapter/bin/*
+windows/PhotobookRuntimeComponent/packages/*
+windows/PhotobookRuntimeComponent/x64/*
+windows/PhotobookRuntimeComponent/obj/*
+windows/PhotobookRuntimeComponent/_build/*
+windows/PhotobookRuntimeComponent/.vs/*
+windows/PhotobookRuntimeComponent/Generated\ Files/*
+windows/PhotobookRuntimeComponent/enc_temp_folder/*
+windows/PhotobookRuntimeComponent/bin/*
+
+windows/PhotobookUI/PhotobookUI_TemporaryKey.pfx
 
 windows/PhotobookNetAdapter/obj/*
 windows/PhotobookNetAdapter/bin/*

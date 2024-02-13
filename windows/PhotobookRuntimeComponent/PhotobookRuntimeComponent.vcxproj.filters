@@ -21,7 +21,7 @@
     <Midl Include="Class.idl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PhotobookAdapter.def" />
+    <None Include="PhotobookRuntimeComponent.def" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
