@@ -9,8 +9,8 @@
 
   <Identity
     Name="238bcc7f-ac0c-41ba-85b2-fa967b60e9bb"
-    Publisher="CN=ionut"
-    Version="1.0.0.0" />
+    Publisher="CN=Cosmin Mihai"
+    Version="0.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="238bcc7f-ac0c-41ba-85b2-fa967b60e9bb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -41,6 +41,8 @@
         Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
