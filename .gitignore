@@ -21,6 +21,9 @@ windows/PhotobookRuntimeComponent/Generated\ Files/*
 windows/PhotobookRuntimeComponent/enc_temp_folder/*
 windows/PhotobookRuntimeComponent/bin/*
 
+windows/PhotobookNet/obj/*
+windows/PhotobookNet/bin/*
+
 windows/PhotobookUI/PhotobookUI_TemporaryKey.pfx
 
 windows/PhotobookNetAdapter/obj/*

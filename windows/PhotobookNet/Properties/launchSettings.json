@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PhotobookNet (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PhotobookNet (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
