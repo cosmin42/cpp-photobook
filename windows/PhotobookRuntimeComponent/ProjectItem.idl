@@ -1,0 +1,11 @@
+namespace PhotobookUI {
+/*
+runtimeclass ProjectItem
+{
+  ProjectItem(String itemId, String fullPath, String name);
+  String ItemId { get; };
+  String FullPath { get; };
+  String Name { get; };
+}
+*/
+} // namespace PhotobookUI
