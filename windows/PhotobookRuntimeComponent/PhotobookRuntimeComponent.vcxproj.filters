@@ -12,6 +12,7 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ProjectItem.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />
