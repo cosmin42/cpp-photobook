@@ -48,7 +48,7 @@ enum class PaperType {
 
 enum class VirtualImageType { None, Text, Regular, Test };
 
-enum class JobType { None, Map, ThumbnailsProcess, ExportPdf, ExportJpg, Full };
+enum class JobType { None, Map, ThumbnailsProcess, ExportPdf, ExportJpg, Full, ExportLibharu };
 
 enum class ProgressType { None, Defined, Undefined };
 

@@ -31,6 +31,7 @@ class Photobook final
       public PBDev::ThreadScheduler,
       public PBDev::SequentialTaskConsumerListener<PdfExportTask>,
       public PBDev::SequentialTaskConsumerListener<JpgExport>,
+      public PBDev::SequentialTaskConsumerListener<PdfLibharuExportTask>,
       public ProgressManagerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath);
@@ -92,6 +93,11 @@ public:
   void STCAborted(JpgExport const &task) override;
   void STCUpdate(JpgExport const &task) override;
 
+  void STCStarted(PdfLibharuExportTask const &task) override;
+  void STCFinished(PdfLibharuExportTask const &task) override;
+  void STCAborted(PdfLibharuExportTask const &task) override;
+  void STCUpdate(PdfLibharuExportTask const &task) override;
+
   void progressUpdate(PB::ProgressInfo definedProgress,
                       PB::ProgressInfo undefinedProgress) override;
 
@@ -100,15 +106,16 @@ public:
   std::string projectName() const;
 
 private:
-  PhotobookListener                            *mParent = nullptr;
-  std::shared_ptr<PlatformInfo>                 mPlatformInfo = nullptr;
-  ProjectPersistence                            mProjectPersistence;
-  ImportFoldersLogic                            mImportLogic;
-  ImageViews                                    mImageViews;
-  CommandStack                                  mCommandStack;
-  bool                                          mMarkProjectForDeletion = false;
-  ExportLogic<PB::PdfExportTask, PB::JpgExport> mExportLogic;
-  ProgressManager                               mProgressManager;
-  std::string                                   mProjectName;
+  PhotobookListener            *mParent = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  ProjectPersistence            mProjectPersistence;
+  ImportFoldersLogic            mImportLogic;
+  ImageViews                    mImageViews;
+  CommandStack                  mCommandStack;
+  bool                          mMarkProjectForDeletion = false;
+  ExportLogic<PB::PdfExportTask, PB::JpgExport, PB::PdfLibharuExportTask>
+                  mExportLogic;
+  ProgressManager mProgressManager;
+  std::string     mProjectName;
 };
 } // namespace PB

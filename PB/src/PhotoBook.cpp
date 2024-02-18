@@ -220,7 +220,8 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
         newFiles.at(i),
         boost::uuids::to_string(project().currentProjectUUID()));
     imagesSet.push_back(virtualImage);
-    keyAndPaths.push_back({virtualImage->keyPath(), newFiles.at(i), (unsigned)i});
+    keyAndPaths.push_back(
+        {virtualImage->keyPath(), newFiles.at(i), (unsigned)i});
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
@@ -314,6 +315,23 @@ void Photobook::STCAborted(JpgExport const &task)
   mProgressManager.abort(task.name());
 }
 void Photobook::STCUpdate(JpgExport const &task)
+{
+  mProgressManager.update(task.name());
+}
+
+void Photobook::STCStarted(PdfLibharuExportTask const &task)
+{
+  mProgressManager.subscribe(task.name(), JobType::ExportLibharu,
+                             task.stepsCount());
+}
+void Photobook::STCFinished([[maybe_unused]] PdfLibharuExportTask const &task)
+{
+}
+void Photobook::STCAborted(PdfLibharuExportTask const &task)
+{
+  mProgressManager.abort(task.name());
+}
+void Photobook::STCUpdate(PdfLibharuExportTask const &task)
 {
   mProgressManager.update(task.name());
 }

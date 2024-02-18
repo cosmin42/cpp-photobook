@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
 #include <pb/tasks/SequentialTaskConsumer.h>
 
@@ -31,14 +32,12 @@ public:
     std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners) = listener;
   }
 
-  template <typename T>
-  void start(std::stop_source& stopSource, T task)
+  template <typename T> void start(std::stop_source &stopSource, T task)
   {
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
         .configure(stopSource.get_token());
 
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
-        .configure(task);
+    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(task);
 
     auto listener =
         std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners);
@@ -49,7 +48,6 @@ public:
   }
 
 private:
-
   std::tuple<PBDev::SequentialTaskConsumer<ExporterTypes>...> mExporters;
   std::tuple<PBDev::SequentialTaskConsumerListener<ExporterTypes> *...>
                                     mListeners;

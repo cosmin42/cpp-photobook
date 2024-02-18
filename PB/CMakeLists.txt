@@ -84,6 +84,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
+    include/pb/export/PdfLibharu.h
     include/pb/ImageMonitor.h
     include/pb/ImportFoldersLogic.h
     include/pb/image/Image.h
@@ -149,6 +150,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/PathCache.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
+    src/PdfLibharu.cpp
     src/Persistence.cpp
     src/Photobook.cpp
     src/ProgressManager.cpp
