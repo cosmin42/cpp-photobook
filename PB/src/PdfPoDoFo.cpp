@@ -70,6 +70,9 @@ void PdfExportTask::taskStep()
 #endif
 }
 
-std::string PdfExportTask::name() const { return mPdfPath.filename().string(); }
+std::string PdfExportTask::name() const
+{
+  return mPdfPath.filename().string() + "podofo";
+}
 
 } // namespace PB
