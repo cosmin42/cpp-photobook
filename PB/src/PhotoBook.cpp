@@ -25,9 +25,14 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   PBDev::basicAssert(projectPersistenceListener != nullptr);
   mProjectPersistence.configure(projectPersistenceListener);
 
-  auto sequentialConsumerListenerPdf =
+  auto sequentialConsumerListenerPdfOptimized =
       dynamic_cast<PBDev::SequentialTaskConsumerListener<PdfExportTask> *>(
           this);
+  PBDev::basicAssert(sequentialConsumerListenerPdfOptimized != nullptr);
+  mExportLogic.configure(sequentialConsumerListenerPdfOptimized);
+
+  auto sequentialConsumerListenerPdf = dynamic_cast<
+      PBDev::SequentialTaskConsumerListener<PdfLibharuExportTask> *>(this);
   PBDev::basicAssert(sequentialConsumerListenerPdf != nullptr);
   mExportLogic.configure(sequentialConsumerListenerPdf);
 
@@ -128,6 +133,17 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
 {
   auto          pdfName = path / (name + ".pdf");
   PdfExportTask task(
+      pdfName, mPlatformInfo->localStatePath,
+      mProjectPersistence.currentProject()->active().paperSettings,
+      mImageViews.stagedImages().stagedPhotos());
+
+  mExportLogic.start(Context::inst().sStopSource, task);
+}
+
+void Photobook::exportPDFLibharu(std::string name, Path path)
+{
+  auto                 pdfName = path / (name + "-libharu" + ".pdf");
+  PdfLibharuExportTask task(
       pdfName, mPlatformInfo->localStatePath,
       mProjectPersistence.currentProject()->active().paperSettings,
       mImageViews.stagedImages().stagedPhotos());

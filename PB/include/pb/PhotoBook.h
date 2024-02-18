@@ -56,6 +56,7 @@ public:
   void removeImportFolder(Path path);
 
   void exportPDFAlbum(std::string name, Path path);
+  void exportPDFLibharu(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);
 
   void onError(PBDev::Error error);

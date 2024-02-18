@@ -1204,6 +1204,9 @@ void TableContentPage::OnExportContentDialogClicked(
   if (OptionJPGCheckBox().IsChecked().as<bool>()) {
     exportSelection.insert(PB::ExportType::Jpg);
   }
+  if (OptionPDFLibharuCheckBox().IsChecked().as<bool>()) {
+    exportSelection.insert(PB::ExportType::PdfLibharu);
+  }
   if (exportSelection.empty()) {
     PostponeError("Check a format!");
   }
@@ -1224,6 +1227,9 @@ void TableContentPage::OnExportContentDialogClicked(
               }
               if (exportSelection.contains(PB::ExportType::Jpg)) {
                 mPhotoBook->exportJPGAlbum(nativeExportName, path);
+              }
+              if (exportSelection.contains(PB::ExportType::PdfLibharu)) {
+                mPhotoBook->exportPDFLibharu(nativeExportName, path);
               }
             });
           });

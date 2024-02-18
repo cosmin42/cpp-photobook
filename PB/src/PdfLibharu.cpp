@@ -40,6 +40,24 @@ void PdfLibharuExportTask::taskStep()
 
   auto virtualImage = mStagedImages.at(mIndex);
 
+  writeImage(virtualImage->frontend().full, tmpImageDestination);
+
+  HPDF_Page page = HPDF_AddPage(mPDFFile);
+
+  HPDF_Page_SetWidth(page, (HPDF_REAL)mPaperSettings.width);
+  HPDF_Page_SetHeight(page, (HPDF_REAL)mPaperSettings.height);
+
+  HPDF_Image image = HPDF_LoadJpegImageFromFile(
+      mPDFFile, tmpImageDestination.string().c_str());
+
+  if (!image) {
+    HPDF_Free(mPDFFile);
+    return;
+  }
+
+  HPDF_Page_DrawImage(page, image, 0, 0, (HPDF_REAL)mPaperSettings.width,
+                      (HPDF_REAL)mPaperSettings.height);
+
   mIndex++;
 
   if (mIndex == stepsCount()) {
