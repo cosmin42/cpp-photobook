@@ -19,8 +19,6 @@ public:
 
   static constexpr LogLevel logLevel() { return LogLevel::@LOG_LEVEL@; }
 
-  static constexpr const char* PERSISTENCE_FILENAME = "persistent.txt";
-
   static constexpr const char *JPG_EXTENSION = ".jpg";
   static constexpr const char *BOOK_EXTENSION = ".photobook";
 

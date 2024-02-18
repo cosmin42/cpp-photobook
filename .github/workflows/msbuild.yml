@@ -10,10 +10,12 @@ on:
     branches: [ "main" ]
     paths:
       - 'windows/**'
+      - 'PB/**'
   pull_request:
     branches: [ "main" ]
     paths:
       - 'windows/**'
+      - 'PB/**'
 
 env:
   # Path to the solution file relative to the root of the project.
