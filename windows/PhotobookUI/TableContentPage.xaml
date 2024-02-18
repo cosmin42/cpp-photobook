@@ -524,6 +524,42 @@
             <StackPanel>
                 <CheckBox x:Name="OptionPDFCheckBox"
                           Foreground="#FFFFFF"
+                          Content="PDF (Memory Optimized)">
+                    <CheckBox.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeChecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUnchecked"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPointerOver"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUncheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxForegroundCheckedPressed"
+                                                     Color="White" />
+                                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPressed"
+                                                     Color="White" />
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </CheckBox.Resources>
+                </CheckBox>
+                <CheckBox x:Name="OptionPDFLibharuCheckBox"
+                          Foreground="#FFFFFF"
                           Content="PDF">
                     <CheckBox.Resources>
                         <ResourceDictionary>
