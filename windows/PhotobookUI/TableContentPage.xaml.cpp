@@ -1209,6 +1209,7 @@ void TableContentPage::OnExportContentDialogClicked(
   }
   if (exportSelection.empty()) {
     PostponeError("Check a format!");
+    return;
   }
 
   if (nativeExportName.empty()) {
