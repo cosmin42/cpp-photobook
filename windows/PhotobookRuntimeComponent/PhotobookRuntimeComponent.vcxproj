@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.props')" />
+  <Import Project="..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.props" Condition="Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.props')" />
   <Import Project="..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.props" Condition="Exists('..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.props')" />
   <Import Project="..\PhotoBookUI\packages\Microsoft.Windows.CppWinRT.2.0.240111.5\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\PhotoBookUI\packages\Microsoft.Windows.CppWinRT.2.0.240111.5\build\native\Microsoft.Windows.CppWinRT.props')" />
   <PropertyGroup Label="Globals">
@@ -16,7 +16,7 @@
     <ApplicationType>Windows Store</ApplicationType>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
     <WindowsTargetPlatformVersion Condition=" '$(WindowsTargetPlatformVersion)' == '' ">10.0.22621.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.17763.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
     <DesktopCompatible>true</DesktopCompatible>
     <UseWinUI>true</UseWinUI>
   </PropertyGroup>
@@ -92,9 +92,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
-      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).g.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)_g.h</HeaderFileName>
       <PrependWithABINamepsace Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PrependWithABINamepsace>
     </Midl>
   </ItemDefinitionGroup>
@@ -148,7 +149,7 @@
     <Import Project="..\PhotoBookUI\packages\Microsoft.Windows.CppWinRT.2.0.240111.5\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\PhotoBookUI\packages\Microsoft.Windows.CppWinRT.2.0.240111.5\build\native\Microsoft.Windows.CppWinRT.targets')" />
     <Import Project="..\PhotoBookUI\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets" Condition="Exists('..\PhotoBookUI\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" />
     <Import Project="..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.targets" Condition="Exists('..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.targets')" />
-    <Import Project="..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.targets')" />
+    <Import Project="..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.targets" Condition="Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -159,7 +160,7 @@
     <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.Windows.ImplementationLibrary.1.0.240122.1\build\native\Microsoft.Windows.ImplementationLibrary.targets'))" />
     <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.props')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.props'))" />
     <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.Windows.SDK.BuildTools.10.0.22621.2428\build\Microsoft.Windows.SDK.BuildTools.targets'))" />
-    <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.props'))" />
-    <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.231219000\build\native\Microsoft.WindowsAppSDK.targets'))" />
+    <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.props')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.props'))" />
+    <Error Condition="!Exists('..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\PhotoBookUI\packages\Microsoft.WindowsAppSDK.1.4.240211001\build\native\Microsoft.WindowsAppSDK.targets'))" />
   </Target>
 </Project>
