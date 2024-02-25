@@ -77,3 +77,4 @@ windows/PhotobookUI/ARM64/
 PB/build*
 build-x64*
 build-ARM64*
+windows/PhotobookRuntimeComponent/*_g.h
