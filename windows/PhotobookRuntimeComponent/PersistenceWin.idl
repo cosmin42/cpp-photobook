@@ -1,0 +1,6 @@
+namespace PhotobookRuntimeComponent {
+
+[default_interface] runtimeclass PersistenceWin {
+  PersistenceWin();
+}
+} // namespace PhotobookRuntimeComponent

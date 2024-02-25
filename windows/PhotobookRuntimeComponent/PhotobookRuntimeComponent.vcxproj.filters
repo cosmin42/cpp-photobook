@@ -15,14 +15,17 @@
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
+    <ClCompile Include="PersistenceWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhotobookWin.h" />
+    <ClInclude Include="PersistenceWin.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
     <Midl Include="PhotobookWin.idl" />
+    <Midl Include="PersistenceWin.idl" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ProjectItem.idl" />
