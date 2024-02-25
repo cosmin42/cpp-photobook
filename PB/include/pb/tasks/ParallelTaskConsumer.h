@@ -18,8 +18,8 @@ public:
   [[nodiscard]] bool finished();
 
 private:
-  std::stop_source                                   mSubTasksSources;
-  dp::thread_pool<std::function<void(void)>>         mPool;
+  std::stop_source                            mSubTasksSources;
+  dp::thread_pool<std::function<void(void)>>  mPool;
   std::unordered_map<Path, std::future<void>> mFutures;
 };
 } // namespace PBDev

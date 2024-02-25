@@ -1,7 +1,5 @@
 #pragma once
 
-#include <thread_pool/thread_pool.h>
-
 #include <pb/RowProcessingData.h>
 #include <pb/image/Image.h>
 #include <pb/project/Project.h>

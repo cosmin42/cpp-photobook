@@ -294,4 +294,7 @@
       <Filter>arm64-debug</Filter>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
+  </ItemGroup>
 </Project>
