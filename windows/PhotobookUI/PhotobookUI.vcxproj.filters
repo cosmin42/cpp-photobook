@@ -108,9 +108,6 @@
     <None Include="PhotobookUI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
-  </ItemGroup>
-  <ItemGroup>
     <Font Include="Assets\Fonts\Righteous-Regular.ttf">
       <Filter>Assets\Fonts</Filter>
     </Font>
