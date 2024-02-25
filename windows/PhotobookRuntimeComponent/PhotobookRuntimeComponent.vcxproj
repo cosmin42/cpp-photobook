@@ -113,6 +113,7 @@
     <ClInclude Include="Class.h">
       <DependentUpon>Class.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="PhotobookWin.h" />
     <ClInclude Include="ProjectItem.h">
       <DependentUpon>ProjectItem.cpp</DependentUpon>
     </ClInclude>
@@ -122,6 +123,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="PhotobookWin.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
@@ -130,6 +132,7 @@
       <SubType>Code</SubType>
       <DependentUpon>Class.cpp</DependentUpon>
     </Midl>
+    <Midl Include="PhotobookWin.idl" />
     <Midl Include="ProjectItem.idl">
       <SubType>Code</SubType>
       <DependentUpon>ProjectItem.cpp</DependentUpon>

@@ -1,0 +1,6 @@
+
+namespace PhotobookRuntimeComponent {
+
+[default_interface] runtimeclass PhotobookWin { PhotobookWin(); }
+
+} // namespace PhotobookRuntimeComponent

@@ -14,12 +14,15 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="PhotobookWin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PhotobookWin.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
+    <Midl Include="PhotobookWin.idl" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ProjectItem.idl" />
@@ -30,5 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)..\..\natvis\wil.natvis" />
   </ItemGroup>
 </Project>
