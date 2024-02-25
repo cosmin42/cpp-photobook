@@ -16,4 +16,17 @@ using namespace winrt::Windows::Storage;
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
+void PhotobookWin::recallMetadata() { mPhotobook->recallMetadata(); }
+
+void PhotobookWin::recallProject(winrt::hstring const name)
+{
+  auto stlName = winrt::to_string(name);
+  mPhotobook->recallProject(stlName);
+}
+
+void PhotobookWin::newProject(winrt::hstring const name)
+{
+  auto stlName = winrt::to_string(name);
+  mPhotobook->newProject(stlName);
+}
 } // namespace winrt::PhotobookRuntimeComponent::implementation

@@ -8,6 +8,11 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   PhotobookWin() {}
 
+  void recallMetadata();
+  void recallProject(winrt::hstring const name);
+
+  void newProject(winrt::hstring const name);
+
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
 };

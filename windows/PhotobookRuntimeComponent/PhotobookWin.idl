@@ -1,6 +1,11 @@
 
 namespace PhotobookRuntimeComponent {
 
-[default_interface] runtimeclass PhotobookWin { PhotobookWin(); }
+[default_interface] runtimeclass PhotobookWin {
+  PhotobookWin();
+  void recallMetadata();
+  void recallProject(String name);
 
+  void newProject(String name);
+}
 } // namespace PhotobookRuntimeComponent
