@@ -24,7 +24,7 @@ env:
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  BUILD_CONFIGURATION: Release
+  BUILD_CONFIGURATION: Debug
 
 permissions:
   contents: read
@@ -58,7 +58,7 @@ jobs:
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install
 
-    - name: Run CMake pb-release
+    - name: Run CMake pb-debug
       uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
@@ -69,9 +69,9 @@ jobs:
         # This is the name of the CMakePresets.json's configuration to use to generate
         # the project files. This configuration leverages the vcpkg.cmake toolchain file to
         # run vcpkg and install all dependencies specified in vcpkg.json.
-        configurePreset: 'pblib-release'
+        configurePreset: 'pblib-debug'
 
-    - name: Run CMake pb-release-arm64
+    - name: Run CMake pb-debug-arm64
       uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
@@ -114,7 +114,7 @@ jobs:
       run: python PB\test-data\generate-data.py PB\test-data
 
     - name: Test
-      working-directory: ${{ github.workspace }}\PB\build-x64\Release
+      working-directory: ${{ github.workspace }}\PB\build-x64\Debug
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
