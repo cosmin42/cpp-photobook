@@ -95,6 +95,90 @@ void SQLitePersistence::readPathCache(
   onReturn(readMap);
 }
 
+std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
+{
+  auto maybeError = createPathCacheRegisterIfNotExisting();
+  if (maybeError.has_value()) {
+    return maybeError.value();
+  }
+
+  sqlite3_stmt *stmt;
+  std::string   selectionQuery =
+      "SELECT * FROM CACHE_REGISTER WHERE cache_path = ' " + hash + "';";
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+                                    &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
+  }
+
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    sqlite3_finalize(stmt);
+    return true;
+  }
+  sqlite3_finalize(stmt);
+  return false;
+}
+
+std::variant<std::string, PBDev::Error>
+SQLitePersistence::getPathHash(Path path)
+{
+  auto maybeError = createPathCacheRegisterIfNotExisting();
+  if (maybeError.has_value()) {
+    return maybeError.value();
+  }
+
+  sqlite3_stmt *stmt;
+  std::string   selectionQuery =
+      "SELECT * FROM CACHE_REGISTER WHERE path = ' " + path.string() + "';";
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+                                    &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
+  }
+
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    const char *pathHash =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+    sqlite3_finalize(stmt);
+    return pathHash;
+  }
+  sqlite3_finalize(stmt);
+  return PBDev::Error();
+}
+
+std::variant<std::string, PBDev::Error> SQLitePersistence::pathHash(Path path)
+{
+  auto maybeError = createPathCacheRegisterIfNotExisting();
+  if (maybeError.has_value()) {
+    return maybeError.value();
+  }
+
+  int salt = 0;
+
+  static constexpr int MAX_ITERATIONS = 200;
+
+  std::string hash_s =
+      std::to_string(std::hash<std::string>{}(path.filename().string()));
+
+  while (salt < MAX_ITERATIONS) {
+    auto complete_hash = hash_s + std::to_string(salt);
+    auto hasHashOrError = hasHash(complete_hash);
+    assert(std::holds_alternative<bool>(hasHashOrError));
+    auto hasHash = std::get<bool>(hasHashOrError);
+    if (!hasHash) {
+      return complete_hash;
+    }
+    salt++;
+  }
+#if defined(_MSC_VER) && !defined(__clang__) // MSVC
+  __assume(false);
+#else // GCC, Clang
+  __builtin_unreachable();
+#endif
+}
+
 void SQLitePersistence::write(
     std::pair<std::string, std::string>              entry,
     std::function<void(std::optional<PBDev::Error>)> onReturn)

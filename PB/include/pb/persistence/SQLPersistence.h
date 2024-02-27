@@ -24,7 +24,13 @@ public:
                 onReturn);
 
   void
-  readPathCache(std::string uuid, std::function<boost::bimaps::bimap<Path, std::string>> entries);
+  readPathCache(std::string                                            uuid,
+                std::function<boost::bimaps::bimap<Path, std::string>> entries);
+
+  std::variant<std::string, PBDev::Error> getPathHash(Path path);
+  std::variant<bool, PBDev::Error>        hasHash(std::string hash);
+
+  std::variant<std::string, PBDev::Error> pathHash(Path path);
 
   void write(std::pair<std::string, std::string>              entry,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
