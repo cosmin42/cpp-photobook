@@ -23,6 +23,9 @@ public:
                               PBDev::Error>)>
                 onReturn);
 
+  void
+  readPathCache(std::string uuid, std::function<boost::bimaps::bimap<Path, std::string>> entries);
+
   void write(std::pair<std::string, std::string>              entry,
              std::function<void(std::optional<PBDev::Error>)> onReturn);
   void write(std::unordered_map<std::string, std::string>     map,
@@ -33,6 +36,7 @@ public:
 
 private:
   std::optional<PBDev::Error> createProjectsRegisterIfNotExisting();
+  std::optional<PBDev::Error> createPathCacheRegisterIfNotExisting();
 
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
   queryProjectEntry(std::string searchedUUID);
@@ -43,6 +47,14 @@ private:
       "    uuid TEXT NOT NULL,"
       "    path TEXT"
       "    thumbnails TEXT"
+      ");";
+
+  static constexpr const char *CREATE_PATH_CACHE =
+      "CREATE TABLE IF NOT EXISTS CACHE_REGISTER ("
+      "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "    uuid TEXT NOT NULL,"
+      "    path TEXT NOT NULL"
+      "    cache_path TEXT NOT NULL"
       ");";
 
   static constexpr const char *SELECT_PROJECTS =

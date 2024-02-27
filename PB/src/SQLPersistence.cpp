@@ -57,6 +57,44 @@ void SQLitePersistence::read(
   onReturn(readMap);
 }
 
+void SQLitePersistence::readPathCache(
+    std::string uuid,
+    std::function<void(
+        std::variant<boost::bimaps::bimap<Path, std::string>, PBDev::Error>)>
+        onReturn)
+{
+  auto maybeError = createPathCacheRegisterIfNotExisting();
+  if (maybeError.has_value()) {
+    onReturn(maybeError.value());
+    return;
+  }
+
+  boost::bimaps::bimap<Path, std::string> readMap;
+
+  sqlite3_stmt *stmt;
+  std::string   selectionQuery =
+      "SELECT * FROM CACHE_REGISTER WHERE uuid = ' " + uuid + "';";
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+                                    &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    onReturn(PBDev::Error()
+             << ErrorCode::SQLiteError << std::to_string(success));
+    return;
+  }
+
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    const char *path =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
+    const char *pathHash =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+    readMap.insert({Path(path), pathHash});
+  }
+
+  sqlite3_finalize(stmt);
+  onReturn(readMap);
+}
+
 void SQLitePersistence::write(
     std::pair<std::string, std::string>              entry,
     std::function<void(std::optional<PBDev::Error>)> onReturn)
@@ -197,6 +235,21 @@ SQLitePersistence::createProjectsRegisterIfNotExisting()
   char *errMsg = nullptr;
   auto  success = sqlite3_exec(mDatabaseHandle.get(), CREATE_PROJECTS_REGISTER,
                                nullptr, nullptr, &errMsg);
+
+  if (success != SQLITE_OK) {
+    sqlite3_free(errMsg);
+    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
+  }
+
+  return std::nullopt;
+}
+
+std::optional<PBDev::Error>
+SQLitePersistence::createPathCacheRegisterIfNotExisting()
+{
+  char *errMsg = nullptr;
+  auto success = sqlite3_exec(mDatabaseHandle.get(), CREATE_PATH_CACHE, nullptr,
+                              nullptr, &errMsg);
 
   if (success != SQLITE_OK) {
     sqlite3_free(errMsg);

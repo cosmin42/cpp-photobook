@@ -46,8 +46,8 @@ public:
 
   auto loadImage(Path const path) -> std::shared_ptr<cv::Mat>
   {
-    std::shared_ptr<cv::Mat> inputImage =
-        std::make_shared<cv::Mat>(cv::imread(path.string(), cv::IMREAD_COLOR));
+    auto image = cv::imread(path.string(), cv::IMREAD_COLOR);
+    std::shared_ptr<cv::Mat> inputImage = std::make_shared<cv::Mat>(image);
 
     PBDev::basicAssert(inputImage != nullptr);
 
