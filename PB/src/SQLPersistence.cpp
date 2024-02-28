@@ -74,7 +74,8 @@ void SQLitePersistence::readPathCache(
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE uuid = ' " + uuid + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
+                                    selectionQuery.c_str(), -1,
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {
@@ -105,7 +106,7 @@ std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE cache_path = ' " + hash + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery.c_str(), -1,
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {
@@ -131,7 +132,7 @@ SQLitePersistence::getPathHash(Path path)
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE path = ' " + path.string() + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery, -1,
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery.c_str(), -1,
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {

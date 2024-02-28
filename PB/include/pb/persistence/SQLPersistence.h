@@ -3,6 +3,8 @@
 #include <optional>
 #include <variant>
 
+#include <boost/bimap/bimap.hpp>
+
 #include <sqlite3.h>
 
 #include <pb/Config.h>
@@ -23,9 +25,11 @@ public:
                               PBDev::Error>)>
                 onReturn);
 
-  void
-  readPathCache(std::string                                            uuid,
-                std::function<boost::bimaps::bimap<Path, std::string>> entries);
+  void readPathCache(
+      std::string uuid,
+      std::function<void(
+          std::variant<boost::bimaps::bimap<Path, std::string>, PBDev::Error>)>
+          onReturn);
 
   std::variant<std::string, PBDev::Error> getPathHash(Path path);
   std::variant<bool, PBDev::Error>        hasHash(std::string hash);
