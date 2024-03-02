@@ -325,7 +325,21 @@ std::string SQLitePersistence::computeHash(std::string key)
   return std::to_string(std::hash<std::string>{}(key));
 }
 
-bool SQLitePersistence::tryHash(std::string hash) { return true; }
+bool SQLitePersistence::tryHash(std::string hash)
+{
+  sqlite3_stmt *stmt;
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PATH_CACHE,
+                                    -1, &stmt, nullptr);
+  PBDev::basicAssert(success == SQLITE_OK);
+
+  if (sqlite3_step(stmt) == SQLITE_ROW) {
+    sqlite3_finalize(stmt);
+    return true;
+  }
+
+  sqlite3_finalize(stmt);
+  return false;
+}
 
 std::string SQLitePersistence::saltHash(std::string hash)
 {

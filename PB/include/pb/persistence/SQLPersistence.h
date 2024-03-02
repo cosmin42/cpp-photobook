@@ -77,6 +77,10 @@ private:
 
   static constexpr const char *SELECT_PROJECTS =
       "SELECT * FROM PROJECTS_REGISTER;";
+
+  static constexpr const char *SELECT_PATH_CACHE =
+      "SELECT * FROM CACHE_REGISTER;";
+
   SQLitePersistenceListener *mListener = nullptr;
   Path                       mPath;
   std::shared_ptr<sqlite3>   mDatabaseHandle = nullptr;
