@@ -320,6 +320,11 @@ void SQLitePersistence::maybeCreateHashPathsTable()
   PBDev::basicAssert(success == SQLITE_OK);
 }
 
+std::string SQLitePersistence::computeHash(std::string key)
+{
+  return std::to_string(std::hash<std::string>{}(key));
+}
+
 std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
 SQLitePersistence::queryProjectEntry(std::string searchedUUID)
 {

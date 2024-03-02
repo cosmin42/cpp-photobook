@@ -52,6 +52,7 @@ public:
 private:
   std::optional<PBDev::Error> createProjectsRegisterIfNotExisting();
   void                        maybeCreateHashPathsTable();
+  std::string                 computeHash(std::string key);
 
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
   queryProjectEntry(std::string searchedUUID);
