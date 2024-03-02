@@ -51,7 +51,7 @@ public:
 
 private:
   std::optional<PBDev::Error> createProjectsRegisterIfNotExisting();
-  std::optional<PBDev::Error> createPathCacheRegisterIfNotExisting();
+  void                        maybeCreateHashPathsTable();
 
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
   queryProjectEntry(std::string searchedUUID);

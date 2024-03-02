@@ -65,11 +65,7 @@ void SQLitePersistence::readPathCache(
         std::variant<boost::bimaps::bimap<Path, std::string>, PBDev::Error>)>
         onReturn)
 {
-  auto maybeError = createPathCacheRegisterIfNotExisting();
-  if (maybeError.has_value()) {
-    onReturn(maybeError.value());
-    return;
-  }
+  maybeCreateHashPathsTable();
 
   boost::bimaps::bimap<Path, std::string> readMap;
 
@@ -99,10 +95,7 @@ void SQLitePersistence::readPathCache(
 
 std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
 {
-  auto maybeError = createPathCacheRegisterIfNotExisting();
-  if (maybeError.has_value()) {
-    return maybeError.value();
-  }
+  maybeCreateHashPathsTable();
 
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
@@ -125,10 +118,7 @@ std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
 std::variant<std::string, PBDev::Error>
 SQLitePersistence::getPathHash(Path path)
 {
-  auto maybeError = createPathCacheRegisterIfNotExisting();
-  if (maybeError.has_value()) {
-    return maybeError.value();
-  }
+  maybeCreateHashPathsTable();
 
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
@@ -152,10 +142,7 @@ SQLitePersistence::getPathHash(Path path)
 
 std::variant<std::string, PBDev::Error> SQLitePersistence::pathHash(Path path)
 {
-  auto maybeError = createPathCacheRegisterIfNotExisting();
-  if (maybeError.has_value()) {
-    return maybeError.value();
-  }
+  maybeCreateHashPathsTable();
 
   int salt = 0;
 
@@ -324,19 +311,13 @@ SQLitePersistence::createProjectsRegisterIfNotExisting()
   return std::nullopt;
 }
 
-std::optional<PBDev::Error>
-SQLitePersistence::createPathCacheRegisterIfNotExisting()
+void SQLitePersistence::maybeCreateHashPathsTable()
 {
   char *errMsg = nullptr;
   auto success = sqlite3_exec(mDatabaseHandle.get(), CREATE_PATH_CACHE, nullptr,
                               nullptr, &errMsg);
-
-  if (success != SQLITE_OK) {
-    sqlite3_free(errMsg);
-    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
-  }
-
-  return std::nullopt;
+  sqlite3_free(errMsg);
+  PBDev::basicAssert(success == SQLITE_OK);
 }
 
 std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
