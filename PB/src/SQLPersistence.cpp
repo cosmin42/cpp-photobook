@@ -7,6 +7,12 @@ void SQLitePersistence::configure(Path localStatePath)
   mPath = localStatePath;
 }
 
+void SQLitePersistence::configureSQLiteListener(
+    SQLitePersistenceListener *listener)
+{
+  mListener = listener;
+}
+
 std::optional<PBDev::Error> SQLitePersistence::connect()
 {
   auto databaseFilePath = mPath / DATABASE_NAME;
@@ -21,15 +27,11 @@ std::optional<PBDev::Error> SQLitePersistence::connect()
   return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
 }
 
-void SQLitePersistence::read(
-    std::function<
-        void(std::variant<std::unordered_map<std::string, std::string>,
-                          PBDev::Error>)>
-        onReturn)
+void SQLitePersistence::read()
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
   if (maybeError.has_value()) {
-    onReturn(maybeError.value());
+    mListener->onSQLiteMetadataError(maybeError.value());
     return;
   }
 
@@ -40,8 +42,8 @@ void SQLitePersistence::read(
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {
-    onReturn(PBDev::Error()
-             << ErrorCode::SQLiteError << std::to_string(success));
+    mListener->onSQLiteMetadataError(PBDev::Error() << ErrorCode::SQLiteError
+                                                    << std::to_string(success));
     return;
   }
 
@@ -54,7 +56,7 @@ void SQLitePersistence::read(
   }
 
   sqlite3_finalize(stmt);
-  onReturn(readMap);
+  mListener->onSQLiteMetadataRead(readMap);
 }
 
 void SQLitePersistence::readPathCache(
@@ -75,8 +77,7 @@ void SQLitePersistence::readPathCache(
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE uuid = ' " + uuid + "';";
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
-                                    selectionQuery.c_str(), -1,
-                                    &stmt, nullptr);
+                                    selectionQuery.c_str(), -1, &stmt, nullptr);
 
   if (success != SQLITE_OK) {
     onReturn(PBDev::Error()
@@ -106,8 +107,8 @@ std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE cache_path = ' " + hash + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery.c_str(), -1,
-                                    &stmt, nullptr);
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
+                                    selectionQuery.c_str(), -1, &stmt, nullptr);
 
   if (success != SQLITE_OK) {
     return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
@@ -132,8 +133,8 @@ SQLitePersistence::getPathHash(Path path)
   sqlite3_stmt *stmt;
   std::string   selectionQuery =
       "SELECT * FROM CACHE_REGISTER WHERE path = ' " + path.string() + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), selectionQuery.c_str(), -1,
-                                    &stmt, nullptr);
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
+                                    selectionQuery.c_str(), -1, &stmt, nullptr);
 
   if (success != SQLITE_OK) {
     return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
@@ -180,13 +181,11 @@ std::variant<std::string, PBDev::Error> SQLitePersistence::pathHash(Path path)
 #endif
 }
 
-void SQLitePersistence::write(
-    std::pair<std::string, std::string>              entry,
-    std::function<void(std::optional<PBDev::Error>)> onReturn)
+void SQLitePersistence::write(std::pair<std::string, std::string> entry)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
   if (maybeError.has_value()) {
-    onReturn(maybeError.value());
+    mListener->onSQLiteMetadataError(maybeError.value());
     return;
   }
 
@@ -194,7 +193,7 @@ void SQLitePersistence::write(
   auto maybePairOrError = queryProjectEntry(key);
 
   if (std::holds_alternative<PBDev::Error>(maybePairOrError)) {
-    onReturn(std::get<PBDev::Error>(maybePairOrError));
+    mListener->onSQLiteMetadataError(std::get<PBDev::Error>(maybePairOrError));
   }
   else {
     auto &maybePair =
@@ -218,23 +217,23 @@ void SQLitePersistence::write(
 
     if (success != SQLITE_OK) {
       sqlite3_free(errMsg);
-      onReturn(PBDev::Error() << ErrorCode::SQLiteError);
+      mListener->onSQLiteMetadataError(PBDev::Error()
+                                       << ErrorCode::SQLiteError);
       return;
     }
-    onReturn(std::nullopt);
+    mListener->onSQLiteMetadataWritten();
   }
 }
 
-void SQLitePersistence::deleteEntry(
-    std::string key, std::function<void(std::optional<PBDev::Error>)> onReturn)
+void SQLitePersistence::deleteEntry(std::string key)
 {
   sqlite3_stmt *stmt;
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS, -1,
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {
-    onReturn(PBDev::Error()
-             << ErrorCode::SQLiteError << std::to_string(success));
+    mListener->onSQLiteMetadataError(PBDev::Error() << ErrorCode::SQLiteError
+                                                    << std::to_string(success));
     return;
   }
 
@@ -252,31 +251,27 @@ void SQLitePersistence::deleteEntry(
 
       if (success != SQLITE_OK) {
         sqlite3_free(errMsg);
-        onReturn(PBDev::Error() << ErrorCode::SQLiteError);
+        mListener->onSQLiteMetadataError(PBDev::Error()
+                                         << ErrorCode::SQLiteError);
         return;
       }
     }
   }
 
   sqlite3_finalize(stmt);
-  onReturn(std::nullopt);
+  mListener->onSQLiteEntryDeleted();
 }
 
-void SQLitePersistence::write(
-    std::unordered_map<std::string, std::string>     map,
-    std::function<void(std::optional<PBDev::Error>)> onReturn)
+void SQLitePersistence::write(std::unordered_map<std::string, std::string> map)
 {
   auto maybeError = createProjectsRegisterIfNotExisting();
   if (maybeError.has_value()) {
-    onReturn(maybeError.value());
+    mListener->onSQLiteMetadataError(maybeError.value());
     return;
   }
 
   for (auto &[key, value] : map) {
-    write(std::pair<std::string, std::string>(key, value),
-          [onReturn](std::optional<PBDev::Error> maybeError) {
-            onReturn(maybeError);
-          });
+    write(std::pair<std::string, std::string>(key, value));
   }
 
   sqlite3_stmt *stmt;
@@ -284,8 +279,8 @@ void SQLitePersistence::write(
                                     &stmt, nullptr);
 
   if (success != SQLITE_OK) {
-    onReturn(PBDev::Error()
-             << ErrorCode::SQLiteError << std::to_string(success));
+    mListener->onSQLiteMetadataError(PBDev::Error() << ErrorCode::SQLiteError
+                                                    << std::to_string(success));
     return;
   }
 
@@ -303,15 +298,15 @@ void SQLitePersistence::write(
 
       if (success != SQLITE_OK) {
         sqlite3_free(errMsg);
-        onReturn(PBDev::Error() << ErrorCode::SQLiteError);
+        mListener->onSQLiteMetadataError(PBDev::Error()
+                                         << ErrorCode::SQLiteError);
         return;
       }
     }
   }
 
   sqlite3_finalize(stmt);
-
-  onReturn(std::nullopt);
+  mListener->onSQLiteMetadataWritten();
 }
 
 std::optional<PBDev::Error>

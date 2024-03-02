@@ -25,7 +25,7 @@ public:
   virtual void onMetadataPersistenceError(PBDev::Error) = 0;
 };
 
-class Persistence final {
+class Persistence final : SQLitePersistenceListener {
 public:
   static std::optional<PBDev::Error>
   createSupportDirectory(Path path, std::string thumbnailDirectoryName);
@@ -51,6 +51,12 @@ public:
 
   void deleteMetadata(std::string id);
   void deleteProject(Path projectFile, std::string thumbnailsDirectoryName);
+
+  virtual void onSQLiteMetadataRead(
+      std::unordered_map<std::string, std::string> map) override;
+  virtual void onSQLiteMetadataWritten() override;
+  virtual void onSQLiteEntryDeleted() override;
+  virtual void onSQLiteMetadataError(PBDev::Error) override;
 
 private:
   void persistProject(Path filePath, Json json,

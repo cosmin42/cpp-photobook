@@ -8,6 +8,7 @@ void Persistence::configure(Path localStatePath)
 {
   mLocalStatePath = localStatePath;
   mCentral.configure(localStatePath);
+  mCentral.configureSQLiteListener((SQLitePersistenceListener *)this);
   auto maybeError = mCentral.connect();
   PBDev::basicAssert(!maybeError.has_value());
 }
@@ -98,41 +99,10 @@ void Persistence::persistMetadata(boost::uuids::uuid const &id,
   std::pair<std::string, std::string> entry = {boost::uuids::to_string(id),
                                                name};
 
-  mCentral.write(entry, [this](std::optional<PBDev::Error> maybeError) {
-    if (maybeError && mPersistenceProjectListener) {
-      mPersistenceProjectListener->onProjectPersistenceError(
-          PBDev::Error() << ErrorCode::CannotSaveFile);
-    }
-  });
+  mCentral.write(entry);
 }
 
-void Persistence::recallMetadata()
-{
-  mCentral.read([this](
-                    std::variant<std::unordered_map<std::string, std::string>,
-                                 PBDev::Error>
-                        mapOrError) {
-    if (std::holds_alternative<PBDev::Error>(mapOrError) &&
-        mPersistenceMetadataListener) {
-      mPersistenceMetadataListener->onMetadataPersistenceError(
-          std::get<PBDev::Error>(mapOrError));
-    }
-    else {
-      auto &map =
-          std::get<std::unordered_map<std::string, std::string>>(mapOrError);
-
-      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
-      for (auto &[key, value] : map) {
-        auto               generator = boost::uuids::string_generator();
-        boost::uuids::uuid parsedUuid = generator(key);
-        metadata.insert({parsedUuid, value});
-      }
-      if (mPersistenceMetadataListener) {
-        mPersistenceMetadataListener->onMetadataRead(metadata);
-      }
-    }
-  });
-}
+void Persistence::recallMetadata() { mCentral.read(); }
 
 void Persistence::recallProject(Path projectPath)
 {
@@ -206,17 +176,7 @@ void Persistence::recallProject(Path projectPath)
   });
 }
 
-void Persistence::deleteMetadata(std::string id)
-{
-  mCentral.deleteEntry(id, [this](std::optional<PBDev::Error> maybeError) {
-    if (mPersistenceMetadataListener) {
-      if (maybeError) {
-        mPersistenceMetadataListener->onMetadataPersistenceError(
-            PBDev::Error() << ErrorCode::CorruptPersistenceFile);
-      }
-    }
-  });
-}
+void Persistence::deleteMetadata(std::string id) { mCentral.deleteEntry(id); }
 
 void Persistence::deleteProject(Path        projectFile,
                                 std::string thumbnailsDirectoryName)
@@ -225,6 +185,26 @@ void Persistence::deleteProject(Path        projectFile,
   auto thumbnailsPath = mLocalStatePath / "th" / thumbnailsDirectoryName;
   std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
+}
+
+void Persistence::onSQLiteMetadataRead(
+    std::unordered_map<std::string, std::string> map)
+{
+  boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata;
+  for (auto &[key, value] : map) {
+    auto               generator = boost::uuids::string_generator();
+    boost::uuids::uuid parsedUuid = generator(key);
+    metadata.insert({parsedUuid, value});
+  }
+  if (mPersistenceMetadataListener) {
+    mPersistenceMetadataListener->onMetadataRead(metadata);
+  }
+}
+void Persistence::onSQLiteMetadataWritten() {}
+void Persistence::onSQLiteEntryDeleted() {}
+void Persistence::onSQLiteMetadataError(PBDev::Error error)
+{
+  mPersistenceMetadataListener->onMetadataPersistenceError(error);
 }
 
 std::optional<PBDev::Error>
