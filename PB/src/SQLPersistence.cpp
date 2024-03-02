@@ -59,62 +59,6 @@ void SQLitePersistence::read()
   mListener->onSQLiteMetadataRead(readMap);
 }
 
-void SQLitePersistence::readPathCache(
-    std::string uuid,
-    std::function<void(
-        std::variant<boost::bimaps::bimap<Path, std::string>, PBDev::Error>)>
-        onReturn)
-{
-  maybeCreateHashPathsTable();
-
-  boost::bimaps::bimap<Path, std::string> readMap;
-
-  sqlite3_stmt *stmt;
-  std::string   selectionQuery =
-      "SELECT * FROM CACHE_REGISTER WHERE uuid = ' " + uuid + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
-                                    selectionQuery.c_str(), -1, &stmt, nullptr);
-
-  if (success != SQLITE_OK) {
-    onReturn(PBDev::Error()
-             << ErrorCode::SQLiteError << std::to_string(success));
-    return;
-  }
-
-  while (sqlite3_step(stmt) == SQLITE_ROW) {
-    const char *path =
-        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-    const char *pathHash =
-        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-    readMap.insert({Path(path), pathHash});
-  }
-
-  sqlite3_finalize(stmt);
-  onReturn(readMap);
-}
-
-std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
-{
-  maybeCreateHashPathsTable();
-
-  sqlite3_stmt *stmt;
-  std::string   selectionQuery =
-      "SELECT * FROM CACHE_REGISTER WHERE cache_path = ' " + hash + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
-                                    selectionQuery.c_str(), -1, &stmt, nullptr);
-
-  if (success != SQLITE_OK) {
-    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
-  }
-
-  while (sqlite3_step(stmt) == SQLITE_ROW) {
-    sqlite3_finalize(stmt);
-    return true;
-  }
-  sqlite3_finalize(stmt);
-  return false;
-}
-
 std::string SQLitePersistence::hash(Path path, std::string id)
 {
   maybeCreateHashPathsTable();
@@ -147,59 +91,6 @@ void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
     sqlite3_free(errMsg);
     PBDev::basicAssert(false);
   }
-}
-
-std::variant<std::string, PBDev::Error>
-SQLitePersistence::getPathHash(Path path)
-{
-  maybeCreateHashPathsTable();
-
-  sqlite3_stmt *stmt;
-  std::string   selectionQuery =
-      "SELECT * FROM CACHE_REGISTER WHERE path = ' " + path.string() + "';";
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(),
-                                    selectionQuery.c_str(), -1, &stmt, nullptr);
-
-  if (success != SQLITE_OK) {
-    return PBDev::Error() << ErrorCode::SQLiteError << std::to_string(success);
-  }
-
-  while (sqlite3_step(stmt) == SQLITE_ROW) {
-    const char *pathHash =
-        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-    sqlite3_finalize(stmt);
-    return pathHash;
-  }
-  sqlite3_finalize(stmt);
-  return PBDev::Error();
-}
-
-std::variant<std::string, PBDev::Error> SQLitePersistence::pathHash(Path path)
-{
-  maybeCreateHashPathsTable();
-
-  int salt = 0;
-
-  static constexpr int MAX_ITERATIONS = 200;
-
-  std::string hash_s =
-      std::to_string(std::hash<std::string>{}(path.filename().string()));
-
-  while (salt < MAX_ITERATIONS) {
-    auto complete_hash = hash_s + std::to_string(salt);
-    auto hasHashOrError = hasHash(complete_hash);
-    assert(std::holds_alternative<bool>(hasHashOrError));
-    auto hasHash = std::get<bool>(hasHashOrError);
-    if (!hasHash) {
-      return complete_hash;
-    }
-    salt++;
-  }
-#if defined(_MSC_VER) && !defined(__clang__) // MSVC
-  __assume(false);
-#else // GCC, Clang
-  __builtin_unreachable();
-#endif
 }
 
 void SQLitePersistence::write(std::pair<std::string, std::string> entry)
@@ -248,6 +139,7 @@ void SQLitePersistence::write(std::pair<std::string, std::string> entry)
 
 void SQLitePersistence::deleteEntry(std::string key)
 {
+  PBDev::basicAssert(!key.empty());
   sqlite3_stmt *stmt;
   auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PROJECTS, -1,
                                     &stmt, nullptr);
