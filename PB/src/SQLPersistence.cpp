@@ -76,6 +76,34 @@ std::string SQLitePersistence::hash(Path path, std::string id)
   return hash;
 }
 
+boost::bimaps::bimap<Path, std::string>
+SQLitePersistence::hashSet(std::string id)
+{
+  std::string query = "SELECT * FROM PROJECTS_REGISTER WHERE uuid='" + id + "'";
+
+  sqlite3_stmt *stmt;
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), query.c_str(), -1,
+                                    &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    return boost::bimaps::bimap<Path, std::string>{};
+  }
+
+  boost::bimaps::bimap<Path, std::string> set;
+
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    const char *path =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
+    const char *hash =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+
+    set.insert({Path(path), hash});
+  }
+
+  sqlite3_finalize(stmt);
+  return set;
+}
+
 void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
 {
   std::string query;

@@ -36,6 +36,7 @@ public:
   void write(std::unordered_map<std::string, std::string> map);
 
   std::string hash(Path path, std::string id);
+  boost::bimaps::bimap<Path, std::string> hashSet(std::string id);
   void deleteEntry(std::string key);
 
 private:
