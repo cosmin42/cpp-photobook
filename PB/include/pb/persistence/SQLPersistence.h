@@ -56,6 +56,8 @@ private:
   bool                        tryHash(std::string hash);
   std::string                 saltHash(std::string hash);
 
+  std::optional<std::string> databaseHashByPath(Path path);
+
   std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
   queryProjectEntry(std::string searchedUUID);
 

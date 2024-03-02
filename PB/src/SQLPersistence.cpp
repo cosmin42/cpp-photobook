@@ -354,6 +354,30 @@ std::string SQLitePersistence::saltHash(std::string hash)
   return "";
 }
 
+std::optional<std::string> SQLitePersistence::databaseHashByPath(Path path)
+{
+  std::string query =
+      "SELECT * FROM PROJECTS_REGISTER WHERE path='" + path.string() + "'";
+
+  sqlite3_stmt *stmt;
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), query.c_str(), -1,
+                                    &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    return std::nullopt;
+  }
+
+  while (sqlite3_step(stmt) == SQLITE_ROW) {
+    const char *hash =
+        reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
+    sqlite3_finalize(stmt);
+    return hash;
+  }
+
+  sqlite3_finalize(stmt);
+  return std::nullopt;
+}
+
 std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
 SQLitePersistence::queryProjectEntry(std::string searchedUUID)
 {
