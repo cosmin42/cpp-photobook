@@ -12,6 +12,15 @@
 
 namespace PB {
 
+class SQLitePersistenceListener {
+public:
+  virtual void
+  onSQLiteMetadataRead(std::unordered_map<std::string, std::string> map) = 0;
+  virtual void onSQLiteMetadataWritten() = 0;
+  virtual void onSQLiteEntryDeleted() = 0;
+  virtual void onSQLiteMetadataError(PBDev::Error) = 0;
+};
+
 class SQLitePersistence final {
 public:
   static constexpr const char *DATABASE_NAME = "database.db";
@@ -69,8 +78,8 @@ private:
 
   static constexpr const char *SELECT_PROJECTS =
       "SELECT * FROM PROJECTS_REGISTER;";
-
-  Path                     mPath;
-  std::shared_ptr<sqlite3> mDatabaseHandle = nullptr;
+  SQLitePersistenceListener *mListener = nullptr;
+  Path                       mPath;
+  std::shared_ptr<sqlite3>   mDatabaseHandle = nullptr;
 };
 } // namespace PB
