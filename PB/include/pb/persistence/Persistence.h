@@ -52,6 +52,8 @@ public:
   void deleteMetadata(std::string id);
   void deleteProject(Path projectFile, std::string thumbnailsDirectoryName);
 
+  std::string hash(Path path, boost::uuids::uuid id);
+
   virtual void onSQLiteMetadataRead(
       std::unordered_map<std::string, std::string> map) override;
   virtual void onSQLiteMetadataWritten() override;

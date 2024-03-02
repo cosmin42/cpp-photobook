@@ -187,6 +187,11 @@ void Persistence::deleteProject(Path        projectFile,
   std::filesystem::remove(projectFile);
 }
 
+std::string Persistence::hash(Path path, boost::uuids::uuid id)
+{
+  return mCentral.hash(path, boost::uuids::to_string(id));
+}
+
 void Persistence::onSQLiteMetadataRead(
     std::unordered_map<std::string, std::string> map)
 {
