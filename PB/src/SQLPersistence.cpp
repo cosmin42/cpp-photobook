@@ -115,6 +115,23 @@ std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
   return false;
 }
 
+void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
+{
+  std::string query;
+  query = "INSERT INTO CACHE_REGISTER (uuid, path, cache_path) VALUES ('" + id +
+          "', '" + path.string() + "'" + ", '" + hash + "');";
+
+  char *errMsg = nullptr;
+
+  auto success = sqlite3_exec(mDatabaseHandle.get(), query.c_str(), nullptr,
+                              nullptr, &errMsg);
+
+  if (success != SQLITE_OK) {
+    sqlite3_free(errMsg);
+    PBDev::basicAssert(false);
+  }
+}
+
 std::variant<std::string, PBDev::Error>
 SQLitePersistence::getPathHash(Path path)
 {

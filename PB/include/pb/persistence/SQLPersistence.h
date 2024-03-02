@@ -55,6 +55,7 @@ private:
   std::string                 computeHash(std::string key);
   bool                        tryHash(std::string hash);
   std::string                 saltHash(std::string hash);
+  void insertHash(std::string id, Path path, std::string hash);
 
   std::optional<std::string> databaseHashByPath(Path path);
 
