@@ -42,6 +42,8 @@ public:
   std::variant<std::string, PBDev::Error> getPathHash(Path path);
   std::variant<bool, PBDev::Error>        hasHash(std::string hash);
 
+  std::string hash(Path path, std::string id);
+
   std::variant<std::string, PBDev::Error> pathHash(Path path);
 
   void write(std::pair<std::string, std::string> entry);

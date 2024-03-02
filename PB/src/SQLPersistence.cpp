@@ -115,6 +115,23 @@ std::variant<bool, PBDev::Error> SQLitePersistence::hasHash(std::string hash)
   return false;
 }
 
+std::string SQLitePersistence::hash(Path path, std::string id)
+{
+  maybeCreateHashPathsTable();
+
+  auto maybeHash = databaseHashByPath(path);
+
+  if (maybeHash) {
+    insertHash(id, path, maybeHash.value());
+    return maybeHash.value();
+  }
+  auto coreHash = computeHash(path.string());
+  auto hash = saltHash(coreHash);
+
+  insertHash(id, path, hash);
+  return hash;
+}
+
 void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
 {
   std::string query;
