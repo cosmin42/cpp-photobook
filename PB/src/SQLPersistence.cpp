@@ -325,6 +325,21 @@ std::string SQLitePersistence::computeHash(std::string key)
   return std::to_string(std::hash<std::string>{}(key));
 }
 
+bool SQLitePersistence::tryHash(std::string hash) { return true; }
+
+std::string SQLitePersistence::saltHash(std::string hash)
+{
+  static constexpr int MAX_HASH_ATTEMPTS = 200;
+  for (int i = 0; i < MAX_HASH_ATTEMPTS; ++i) {
+    std::string hashAttempt = hash + std::to_string(i);
+    if (tryHash(hashAttempt)) {
+      return hashAttempt;
+    }
+  }
+  PBDev::basicAssert(false);
+  return "";
+}
+
 std::variant<std::optional<std::pair<std::string, std::string>>, PBDev::Error>
 SQLitePersistence::queryProjectEntry(std::string searchedUUID)
 {
