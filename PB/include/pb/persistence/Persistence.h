@@ -50,7 +50,8 @@ public:
   void recallProject(Path projectPath);
 
   void deleteMetadata(std::string id);
-  void deleteProject(Path projectFile, std::string thumbnailsDirectoryName);
+  void deleteProject(Path projectFile, std::string thumbnailsDirectoryName,
+                     boost::uuids::uuid id);
 
   std::string hash(Path path, boost::uuids::uuid id);
   boost::bimaps::bimap<Path, std::string> hashSet(boost::uuids::uuid id);

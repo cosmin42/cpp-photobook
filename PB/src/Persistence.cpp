@@ -178,9 +178,12 @@ void Persistence::recallProject(Path projectPath)
 
 void Persistence::deleteMetadata(std::string id) { mCentral.deleteEntry(id); }
 
-void Persistence::deleteProject(Path        projectFile,
-                                std::string thumbnailsDirectoryName)
+void Persistence::deleteProject(Path               projectFile,
+                                std::string        thumbnailsDirectoryName,
+                                boost::uuids::uuid id)
 {
+  mCentral.deleteEntry(projectFile.stem().string());
+  mCentral.deleteHash(boost::uuids::to_string(id));
   auto projectName = projectFile.stem().string();
   auto thumbnailsPath = mLocalStatePath / "th" / thumbnailsDirectoryName;
   std::filesystem::remove_all(thumbnailsPath);

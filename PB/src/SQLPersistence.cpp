@@ -104,6 +104,10 @@ SQLitePersistence::hashSet(std::string id)
   return set;
 }
 
+void SQLitePersistence::deleteHash(std::string id) {
+
+}
+
 void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
 {
   std::string query;

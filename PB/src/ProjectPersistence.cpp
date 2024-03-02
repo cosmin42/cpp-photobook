@@ -120,7 +120,7 @@ void ProjectPersistence::onJsonRead(Json json)
 void ProjectPersistence::remove(boost::uuids::uuid id)
 {
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
-  mPersistence.deleteProject(path(id), boost::uuids::to_string(id));
+  mPersistence.deleteProject(path(id), boost::uuids::to_string(id), id);
 }
 
 void ProjectPersistence::remove(Path path) {}
