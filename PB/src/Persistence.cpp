@@ -192,6 +192,12 @@ std::string Persistence::hash(Path path, boost::uuids::uuid id)
   return mCentral.hash(path, boost::uuids::to_string(id));
 }
 
+boost::bimaps::bimap<Path, std::string>
+Persistence::hashSet(boost::uuids::uuid id)
+{
+  return mCentral.hashSet(boost::uuids::to_string(id));
+}
+
 void Persistence::onSQLiteMetadataRead(
     std::unordered_map<std::string, std::string> map)
 {

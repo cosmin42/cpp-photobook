@@ -53,6 +53,7 @@ public:
   void deleteProject(Path projectFile, std::string thumbnailsDirectoryName);
 
   std::string hash(Path path, boost::uuids::uuid id);
+  boost::bimaps::bimap<Path, std::string> hashSet(boost::uuids::uuid id);
 
   virtual void onSQLiteMetadataRead(
       std::unordered_map<std::string, std::string> map) override;
