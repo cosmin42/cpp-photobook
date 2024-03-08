@@ -91,6 +91,7 @@ void PdfLibharuExportTask::writeImage(Path inputPath, Path outputPath) const
   Process::resize({imageWidth, imageHeight}, true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
-  ImageSetWriter().write(outputPath, image);
+  bool success = cv::imwrite(outputPath.string(), *image);
+  PBDev::basicAssert(success);
 }
 } // namespace PB

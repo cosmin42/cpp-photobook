@@ -12,9 +12,9 @@ public:
   void configure(std::shared_ptr<Project> project);
 
   std::shared_ptr<RegularImage> createRegularImage(Path path);
-  std::shared_ptr<TextImage>    createTextImage(Path path, std::string projectName);
+  std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
 
-  std::shared_ptr<VirtualImage> createImage(Path path, std::string projectName);
+  std::shared_ptr<VirtualImage> createImage(Path path, Path hashPath);
   std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
 
 private:

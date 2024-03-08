@@ -458,6 +458,11 @@ xcopy /y $(SOlutionDir)..\..\PB\third-party\podofo-build\lib\ARM64\Release\*.dll
   <ItemGroup>
     <Font Include="Assets\Fonts\Righteous-Regular.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Condition="'$(Platform)'=='x64'" Include="..\..\PB\build-x64\pblib-x64.vcxproj">
+      <Project>{3bfb5ee2-1db2-3bc3-81e9-78536d688777}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if

@@ -18,7 +18,6 @@ struct ProjectSnapshot {
   static Path parentDirectory() { return platformInfo->localStatePath; }
 
   PaperSettings paperSettings = Context::A4_LANDSCAPE_PAPER;
-  PathCache     pathCache;
 };
 
 } // namespace PB

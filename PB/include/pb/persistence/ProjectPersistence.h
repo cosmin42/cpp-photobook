@@ -25,7 +25,7 @@ public:
 
   std::shared_ptr<Project> currentProject();
 
-  void recallProject(boost::uuids::uuid const &uuid);
+  void recallProject(boost::uuids::uuid const uuid);
 
   void recallProject(std::string name);
 
@@ -77,10 +77,13 @@ public:
                                                                 &unstagedImages,
                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
                std::vector<Path> const                          &roots);
+  Path hash(Path path);
 
 private:
   std::string name(boost::uuids::uuid uuid);
   Path        path(boost::uuids::uuid uuid);
+
+  Path formPath(std::string hash);
 
   ProjectPersistenceListener                           *mListener = nullptr;
   Path                                                  mLocalStatePath;
@@ -88,6 +91,7 @@ private:
   std::shared_ptr<Project>                              mProject = nullptr;
   std::optional<boost::uuids::uuid>                     mOpenedUUID;
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
+  boost::bimaps::bimap<Path, Path>                      mCurrentHashes;
   Json                                                  mJson;
 };
 } // namespace PB

@@ -51,7 +51,8 @@ void JpgExport::writeImage(Path inputPath, Path outputPath) const
                   true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
-  ImageSetWriter().write(outputPath, image);
+  bool success = cv::imwrite(outputPath.string(), *image);
+  PBDev::basicAssert(success);
 }
 
 std::string JpgExport::makeName(unsigned counter)

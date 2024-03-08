@@ -58,7 +58,7 @@ std::variant<boost::uuids::uuid, PBDev::Error> deserialize(Json jsonData)
     return PBDev::Error() << ErrorCode::JSONParseError;
   }
 }
-
+/*
 template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
 {
   boost::bimaps::bimap<Path, std::string> entries;
@@ -78,7 +78,7 @@ template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
   PathCache patchCache(entries);
   return patchCache;
 }
-
+*/
 template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 {
   PaperSettings paperSettings;

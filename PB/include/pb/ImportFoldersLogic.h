@@ -3,9 +3,9 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
+#include <pb/RowProcessingData.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
-#include <pb/RowProcessingData.h>
 
 namespace PB {
 
@@ -42,7 +42,8 @@ public:
 
   void clearJob(Path root);
 
-  void processImages(std::string thumbnailsDirectoryName, RowProcessingData rowProcessingData);
+  void processImages(std::string       thumbnailsDirectoryName,
+                     RowProcessingData rowProcessingData, std::string hash);
 
   // todo: Rename to contain mapping
   void STCStarted(MediaMapper const &) override;

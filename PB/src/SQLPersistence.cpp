@@ -79,6 +79,7 @@ std::string SQLitePersistence::hash(Path path, std::string id)
 boost::bimaps::bimap<Path, std::string>
 SQLitePersistence::hashSet(std::string id)
 {
+  maybeCreateHashPathsTable();
   std::string query = "SELECT * FROM PROJECTS_REGISTER WHERE uuid='" + id + "'";
 
   sqlite3_stmt *stmt;
@@ -104,9 +105,7 @@ SQLitePersistence::hashSet(std::string id)
   return set;
 }
 
-void SQLitePersistence::deleteHash(std::string id) {
-
-}
+void SQLitePersistence::deleteHash(std::string id) {}
 
 void SQLitePersistence::insertHash(std::string id, Path path, std::string hash)
 {
@@ -286,17 +285,19 @@ std::string SQLitePersistence::computeHash(std::string key)
 bool SQLitePersistence::tryHash(std::string hash)
 {
   sqlite3_stmt *stmt;
-  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), SELECT_PATH_CACHE,
-                                    -1, &stmt, nullptr);
+  std::string   query =
+      "SELECT * FROM CACHE_REGISTER WHERE cache_path='" + hash + "'";
+  auto success = sqlite3_prepare_v2(mDatabaseHandle.get(), query.c_str(), -1,
+                                    &stmt, nullptr);
   PBDev::basicAssert(success == SQLITE_OK);
 
   if (sqlite3_step(stmt) == SQLITE_ROW) {
     sqlite3_finalize(stmt);
-    return true;
+    return false;
   }
 
   sqlite3_finalize(stmt);
-  return false;
+  return true;
 }
 
 std::string SQLitePersistence::saltHash(std::string hash)

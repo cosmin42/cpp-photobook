@@ -30,9 +30,24 @@ std::shared_ptr<Project> ProjectPersistence::currentProject()
   return mProject;
 }
 
-void ProjectPersistence::recallProject(boost::uuids::uuid const &uuid)
+void ProjectPersistence::recallProject(boost::uuids::uuid const uuid)
 {
+  auto hashSet = mPersistence.hashSet(uuid);
+  for (auto it : hashSet) {
+    mCurrentHashes.insert({it.left, formPath(it.right)});
+  }
   mPersistence.recallProject(name(uuid));
+}
+
+Path ProjectPersistence::hash(Path path)
+{
+  if (mCurrentHashes.left.find(path) != mCurrentHashes.left.end()) {
+    return mCurrentHashes.left.at(path);
+  }
+
+  auto hash = mPersistence.hash(path, currentProjectUUID());
+  mCurrentHashes.insert({path, formPath(hash)});
+  return mCurrentHashes.left.at(path);
 }
 
 void ProjectPersistence::recallProject(std::string name)
@@ -69,13 +84,23 @@ void ProjectPersistence::newProject(std::string              name,
   mProject = project;
   mMetadata.insert({boost::uuids::random_generator()(), name});
   mOpenedUUID = mMetadata.right.at(name);
-  auto thumbnailsDirectoryName = boost::uuids::to_string(mMetadata.right.at(name));
+  auto thumbnailsDirectoryName =
+      boost::uuids::to_string(mMetadata.right.at(name));
   save(thumbnailsDirectoryName, {}, {}, {});
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
 {
   return mMetadata.left.at(uuid);
+}
+
+Path ProjectPersistence::formPath(std::string hash)
+{
+  auto id = currentProjectUUID();
+  auto r = mMetadata.left.at(id);
+
+  return VirtualImage::platformInfo->localStatePath / "th" /
+         boost::uuids::to_string(currentProjectUUID()) / (hash + ".JPG");
 }
 
 Path ProjectPersistence::path(boost::uuids::uuid uuid)

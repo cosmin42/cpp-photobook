@@ -57,7 +57,7 @@ private:
       "CREATE TABLE IF NOT EXISTS PROJECTS_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    uuid TEXT NOT NULL,"
-      "    path TEXT"
+      "    path TEXT,"
       "    thumbnails TEXT"
       ");";
 
@@ -65,7 +65,7 @@ private:
       "CREATE TABLE IF NOT EXISTS CACHE_REGISTER ("
       "    id INTEGER PRIMARY KEY AUTOINCREMENT,"
       "    uuid TEXT NOT NULL,"
-      "    path TEXT NOT NULL"
+      "    path TEXT NOT NULL,"
       "    cache_path TEXT NOT NULL"
       ");";
 

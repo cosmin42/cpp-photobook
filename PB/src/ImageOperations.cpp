@@ -168,7 +168,8 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
     auto mediumImagePointer = PB::Process::resize(
         cv::Size(mediumThumbnailWidth, mediumThumbnailHeight),
         true)(inputImage);
-    ImageSetWriter().write(medium, mediumImagePointer);
+    bool success = cv::imwrite(medium.string(), *mediumImagePointer);
+    PBDev::basicAssert(success);
   }
 
   if ((thumbnailsType & ThumbnailType::Small) == ThumbnailType::Small) {
@@ -177,13 +178,16 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
                                      Context::SMALL_THUMBNAIL_HEIGHT),
                             true)(inputImage);
 
-    ImageSetWriter().write(small, smallImagePointer);
+    bool success = cv::imwrite(small.string(), *smallImagePointer);
+    PBDev::basicAssert(success);
   }
 }
 
 void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full)
 {
-  ImageSetWriter().write(full, image);
+  bool success = cv::imwrite(full.string(), *image);
+  PBDev::basicAssert(success);
+
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,
@@ -198,13 +202,15 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
   auto mediumImagePointer = PB::Process::resize(
       cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(image);
 
-  ImageSetWriter().write(medium, mediumImagePointer);
+  bool success = cv::imwrite(medium.string(), *mediumImagePointer);
+  PBDev::basicAssert(success);
 
   auto smallImagePointer = PB::Process::resize(
       cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
       true)(image);
 
-  ImageSetWriter().write(small, smallImagePointer);
+  success = cv::imwrite(small.string(), *smallImagePointer);
+  PBDev::basicAssert(success);
 }
 
 unsigned pointsFromPixels(double points, unsigned ppi)

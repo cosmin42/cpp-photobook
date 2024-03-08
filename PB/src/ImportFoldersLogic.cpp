@@ -89,11 +89,9 @@ void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
 }
 
 void ImportFoldersLogic::processImages(std::string thumbnailsDirectoryName,
-                                       RowProcessingData rowProcessingData)
+                                       RowProcessingData rowProcessingData,
+                                       std::string       hash)
 {
-  auto pathHash = mProject->active().pathCache;
-  auto hash = pathHash.hashCreateIfMissing(rowProcessingData.root);
-
   mThumbnailsProcessor.generateThumbnails(
       thumbnailsDirectoryName, rowProcessingData.root, rowProcessingData.images,
       hash,

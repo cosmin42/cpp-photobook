@@ -190,9 +190,10 @@ void Photobook::onProjectRead(
     mProgressManager.subscribe(unprocessedImage.root.string(),
                                JobType::ThumbnailsProcess,
                                (int)unprocessedImage.images.size());
+    auto imageHash = mProjectPersistence.hash(unprocessedImage.root);
     mImportLogic.processImages(
         boost::uuids::to_string(project().currentProjectUUID()),
-        unprocessedImage);
+        unprocessedImage, imageHash.stem().string());
   }
 }
 
@@ -233,8 +234,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   for (auto i = 0; i < newFiles.size(); ++i) {
     auto virtualImage = PB::ImageFactory::inst().createImage(
-        newFiles.at(i),
-        boost::uuids::to_string(project().currentProjectUUID()));
+        newFiles.at(i), mProjectPersistence.hash(newFiles.at(i)));
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back(
         {virtualImage->keyPath(), newFiles.at(i), (unsigned)i});
@@ -249,9 +249,10 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
                              (int)keyAndPaths.size());
 
   RowProcessingData rowProcessingData = {root, keyAndPaths};
+  auto imageHash = mProjectPersistence.hash(rowProcessingData.root);
   mImportLogic.processImages(
       boost::uuids::to_string(project().currentProjectUUID()),
-      rowProcessingData);
+      rowProcessingData, imageHash.stem().string());
 }
 
 void Photobook::onImportStop(Path) {}
