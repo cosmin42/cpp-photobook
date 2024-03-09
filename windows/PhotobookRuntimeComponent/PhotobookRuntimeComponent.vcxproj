@@ -135,6 +135,7 @@
     <ClInclude Include="PersistenceWin.h" />
     <ClInclude Include="PhotobookWin.h" />
     <ClInclude Include="PlatformHelper.h" />
+    <ClInclude Include="ProgressInfo.h" />
     <ClInclude Include="ProjectItem.h">
       <DependentUpon>ProjectItem.cpp</DependentUpon>
     </ClInclude>
@@ -150,6 +151,7 @@
     <ClInclude Include="ImageResources.h">
       <DependentUpon>ImageResources.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="VirtualImagePtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageResources.cpp" />
@@ -162,9 +164,11 @@
     <ClCompile Include="PhotobookListener.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
+    <ClCompile Include="ProgressInfo.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="VirtualImagePtr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl">
@@ -173,6 +177,7 @@
     </Midl>
     <Midl Include="PersistenceWin.idl" />
     <Midl Include="PhotobookWin.idl" />
+    <Midl Include="ProgressInfo.idl" />
     <Midl Include="ProjectItem.idl">
       <SubType>Code</SubType>
       <DependentUpon>ProjectItem.cpp</DependentUpon>
@@ -193,6 +198,7 @@
       <SubType>Code</SubType>
       <DependentUpon>ImageResources.cpp</DependentUpon>
     </Midl>
+    <Midl Include="VirtualImagePtr.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

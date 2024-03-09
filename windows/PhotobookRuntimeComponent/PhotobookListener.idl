@@ -1,5 +1,34 @@
+import "PBError.idl";
 
 namespace PhotobookRuntimeComponent {
 
-interface PhotobookListener { void f(); };
-}
+interface PhotobookListener
+{
+  void OnProjectRead();
+  
+  void OnProjectRenamed();
+  void OnMetadataUpdated();
+  void OnPersistenceError(PBError error);
+
+  void OnExportFinished();
+  void OnError(PBError error);
+
+  /*
+  virtual void onStagedImageAdded(
+      std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+      int                                            index = -1) = 0;
+  virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
+
+  virtual void onMappingStarted(Path path) = 0;
+  virtual void onMappingFinished(Path path) = 0;
+  virtual void onMappingAborted(Path path) = 0;
+
+  virtual void onImageUpdated(Path root, int row, int index) = 0;
+
+  virtual void post(std::function<void()> f) = 0;
+
+  virtual void onProgressUpdate(PB::ProgressInfo definedProgress,
+                                PB::ProgressInfo undefinedProgress) = 0;
+                                */
+};
+} // namespace PhotobookRuntimeComponent

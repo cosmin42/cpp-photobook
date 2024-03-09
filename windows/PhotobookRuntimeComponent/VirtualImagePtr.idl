@@ -1,0 +1,28 @@
+import "ImageResources.idl";
+
+namespace PhotobookRuntimeComponent {
+
+enum VirtualImageType { None, Text, Regular, Test };
+
+runtimeclass VirtualImagePtr
+{
+  VirtualImageType Imagetype();
+
+  IVector<String> resources();
+
+  String keyPath();
+
+  void setFullSizePath(String path);
+  void setMediumSizePath(String path);
+  void setSmallSizePath(String path);
+
+  void setSizePath(String fullSizePath, String mediumSizePath,
+                   String smallSizePath);
+
+  ImageResources frontend();
+
+  Boolean processed();
+
+  void finishProcessing();
+}
+} // namespace PhotobookRuntimeComponent

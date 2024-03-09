@@ -6,7 +6,12 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ImageResources : ImageResourcesT<ImageResources> {
-  ImageResources() {}
+
+  explicit ImageResources(PB::ImageResources imageResources)
+      : mImageResource(imageResources)
+  {
+  }
+  ~ImageResources() = default;
 
   winrt::hstring fullPath();
   winrt::hstring mediumPath();
