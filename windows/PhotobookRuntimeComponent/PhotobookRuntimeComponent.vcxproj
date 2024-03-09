@@ -141,6 +141,9 @@
     <ClInclude Include="ImageUIData.h">
       <DependentUpon>ImageUIData.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="PhotobookListener.h">
+      <DependentUpon>PhotobookListener.cpp</DependentUpon>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -148,6 +151,7 @@
     </ClCompile>
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="PersistenceWin.cpp" />
+    <ClCompile Include="PhotobookListener.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
@@ -168,6 +172,10 @@
     <Midl Include="ImageUIData.idl">
       <SubType>Code</SubType>
       <DependentUpon>ImageUIData.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="PhotobookListener.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>PhotobookListener.cpp</DependentUpon>
     </Midl>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,5 @@
+
+namespace PhotobookRuntimeComponent {
+
+interface PhotobookListener { void f(); };
+}

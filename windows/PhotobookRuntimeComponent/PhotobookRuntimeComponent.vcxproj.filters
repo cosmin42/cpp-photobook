@@ -18,6 +18,7 @@
     <ClCompile Include="PersistenceWin.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
+    <ClCompile Include="PhotobookListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="PersistenceWin.h" />
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PlatformHelper.h" />
+    <ClInclude Include="PhotobookListener.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
@@ -32,6 +34,7 @@
     <Midl Include="PersistenceWin.idl" />
     <Midl Include="ImageUIData.idl" />
     <Midl Include="ProjectItem.idl" />
+    <Midl Include="PhotobookListener.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />
