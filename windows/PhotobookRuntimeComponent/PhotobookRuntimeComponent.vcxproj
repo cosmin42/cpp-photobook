@@ -151,10 +151,21 @@
     <ClInclude Include="ImageResources.h">
       <DependentUpon>ImageResources.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="StagedImages.h">
+      <DependentUpon>StagedImages.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="ImageMonitor.h">
+      <DependentUpon>ImageMonitor.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="ImageViews.h">
+      <DependentUpon>ImageViews.cpp</DependentUpon>
+    </ClInclude>
     <ClInclude Include="VirtualImagePtr.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImageMonitor.cpp" />
     <ClCompile Include="ImageResources.cpp" />
+    <ClCompile Include="ImageViews.cpp" />
     <ClCompile Include="PBError.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -168,6 +179,7 @@
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="StagedImages.cpp" />
     <ClCompile Include="VirtualImagePtr.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +209,18 @@
     <Midl Include="ImageResources.idl">
       <SubType>Code</SubType>
       <DependentUpon>ImageResources.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="StagedImages.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>StagedImages.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="ImageMonitor.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>ImageMonitor.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="ImageViews.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>ImageViews.cpp</DependentUpon>
     </Midl>
     <Midl Include="VirtualImagePtr.idl" />
   </ItemGroup>

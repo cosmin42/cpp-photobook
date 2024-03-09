@@ -1,0 +1,11 @@
+import "ImageMonitor.idl";
+import "StagedImages.idl";
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass ImageViews
+{
+  ImageMonitor imageMonitor();
+  StagedImages stagedImages();
+}
+} // namespace PhotobookRuntimeComponent

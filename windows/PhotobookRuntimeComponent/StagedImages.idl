@@ -1,0 +1,9 @@
+import "VirtualImagePtr.idl";
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass StagedImages
+{
+  void addPictures(IVector<VirtualImagePtr> pictures);
+}
+} // namespace PhotobookRuntimeComponent

@@ -1,0 +1,9 @@
+import "VirtualImagePtr.idl";
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass ImageMonitor
+{
+  void replaceImageMonitorData(IVector<VirtualImagePtr> unstagedImages, IVector<String> roots);
+}
+} // namespace PhotobookRuntimeComponent
