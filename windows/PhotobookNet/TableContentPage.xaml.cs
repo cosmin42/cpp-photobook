@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using PhotobookRuntimeComponent;
+using System.Collections.Generic;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -13,7 +15,7 @@ namespace PhotobookNet
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TableContentPage : Page
+    public sealed partial class TableContentPage : Page, PhotobookListener
     {
         public TableContentPage()
         {
@@ -58,7 +60,7 @@ namespace PhotobookNet
 
         private async void OnGalleryRight(object sender, RoutedEventArgs args) { }
         private async void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args) { }
-        
+
         /* Book Lines */
 
         protected override async void OnNavigatedTo(NavigationEventArgs args) { }
@@ -109,6 +111,71 @@ namespace PhotobookNet
 
         private async void OnTableContentSizeChanged(object sender, SizeChangedEventArgs args)
         { }
+
+        public void OnProjectRead()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnProjectRenamed()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnMetadataUpdated()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnPersistenceError(PBError error)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnExportFinished()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnError(PBError error)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnStagedImageRemoved(IList<uint> removedIndexes)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnMappingStarted(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnMappingFinished(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnMappingAborted(string path)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnImageUpdated(string root, int row, int index)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
+        {
+            throw new System.NotImplementedException();
+        }
 
         int CanvasMinWidth { get; set; }
         int CanvasMinHeight { get; set; }

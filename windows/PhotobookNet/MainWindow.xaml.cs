@@ -23,7 +23,7 @@ namespace PhotobookNet
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainWindow : Window, PhotobookListener
     {
         public MainWindow()
         {
@@ -52,6 +52,71 @@ namespace PhotobookNet
 
         private async void AddProjectClicked(object sender, RoutedEventArgs args)
         {
+        }
+
+        public void OnProjectRead()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnProjectRenamed()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMetadataUpdated()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnPersistenceError(PBError error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnExportFinished()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnError(PBError error)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnStagedImageRemoved(IList<uint> removedIndexes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMappingStarted(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMappingFinished(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnMappingAborted(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnImageUpdated(string root, int row, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
+        {
+            throw new NotImplementedException();
         }
     }
 }
