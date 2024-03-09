@@ -19,6 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhotobookRuntimeComponent", "..\PhotobookRuntimeComponent\PhotobookRuntimeComponent.vcxproj", "{00E3527E-115B-4837-B1AC-05B3C3A9E412}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3BFB5EE2-1DB2-3BC3-81E9-78536D688777} = {3BFB5EE2-1DB2-3BC3-81E9-78536D688777}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotobookNet", "..\PhotobookNet\PhotobookNet.csproj", "{043FE4A8-C1EB-4040-8D25-03ACE6DF7C6D}"
 EndProject

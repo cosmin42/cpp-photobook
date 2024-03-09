@@ -109,5 +109,8 @@ namespace PhotobookNet
 
         private async void OnTableContentSizeChanged(object sender, SizeChangedEventArgs args)
         { }
+
+        int CanvasMinWidth { get; set; }
+        int CanvasMinHeight { get; set; }
     }
 }

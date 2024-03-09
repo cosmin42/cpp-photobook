@@ -16,18 +16,21 @@
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
     <ClCompile Include="PersistenceWin.cpp" />
+    <ClCompile Include="ImageUIData.cpp" />
+    <ClCompile Include="PlatformHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhotobookWin.h" />
     <ClInclude Include="PersistenceWin.h" />
+    <ClInclude Include="ImageUIData.h" />
+    <ClInclude Include="PlatformHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
     <Midl Include="PhotobookWin.idl" />
     <Midl Include="PersistenceWin.idl" />
-  </ItemGroup>
-  <ItemGroup>
+    <Midl Include="ImageUIData.idl" />
     <Midl Include="ProjectItem.idl" />
   </ItemGroup>
   <ItemGroup>

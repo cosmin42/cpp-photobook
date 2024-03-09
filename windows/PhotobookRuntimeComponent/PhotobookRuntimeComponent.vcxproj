@@ -134,8 +134,12 @@
     </ClInclude>
     <ClInclude Include="PersistenceWin.h" />
     <ClInclude Include="PhotobookWin.h" />
+    <ClInclude Include="PlatformHelper.h" />
     <ClInclude Include="ProjectItem.h">
       <DependentUpon>ProjectItem.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="ImageUIData.h">
+      <DependentUpon>ImageUIData.cpp</DependentUpon>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +149,9 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="PersistenceWin.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
+    <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
+    <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +164,10 @@
     <Midl Include="ProjectItem.idl">
       <SubType>Code</SubType>
       <DependentUpon>ProjectItem.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="ImageUIData.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>ImageUIData.cpp</DependentUpon>
     </Midl>
   </ItemGroup>
   <ItemGroup>

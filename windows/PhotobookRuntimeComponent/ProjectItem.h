@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ProjectItem.g.h"
-// #include "ProjectItem.h"
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ProjectItem : ProjectItemT<ProjectItem> {
