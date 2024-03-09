@@ -1,0 +1,14 @@
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass ImageResources
+{
+  String fullPath();
+  String mediumPath();
+  String smallPath();
+
+  void setFullPath(String fullPath);
+  void setMediumPath(String mediumPath);
+  void setSmallPath(String smallPath);
+}
+} // namespace PhotobookRuntimeComponent

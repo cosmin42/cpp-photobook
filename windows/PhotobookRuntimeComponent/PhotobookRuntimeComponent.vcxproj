@@ -144,11 +144,15 @@
     <ClInclude Include="PhotobookListener.h">
       <DependentUpon>PhotobookListener.cpp</DependentUpon>
     </ClInclude>
-     <ClInclude Include="PBError.h">
+    <ClInclude Include="PBError.h">
       <DependentUpon>PBError.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="ImageResources.h">
+      <DependentUpon>ImageResources.cpp</DependentUpon>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ImageResources.cpp" />
     <ClCompile Include="PBError.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -184,6 +188,10 @@
     <Midl Include="PBError.idl">
       <SubType>Code</SubType>
       <DependentUpon>PBError.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="ImageResources.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>ImageResources.cpp</DependentUpon>
     </Midl>
   </ItemGroup>
   <ItemGroup>
