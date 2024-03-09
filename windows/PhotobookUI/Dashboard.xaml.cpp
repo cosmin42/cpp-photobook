@@ -70,7 +70,7 @@ Dashboard::Dashboard()
 std::string Dashboard::GenerateProjectName()
 {
   return PB::Project::generateAlbumName(
-      [this](std::string name) { return !mAPI->project().contains(name); });
+      [this](std::string name) { return !mAPI->project()->contains(name); });
 }
 
 void Dashboard::AddProjectClicked(IInspectable const &, RoutedEventArgs const &)
@@ -114,7 +114,7 @@ void Dashboard::OnDeleteClicked(
 
         auto               generator = boost::uuids::string_generator();
         boost::uuids::uuid parsedUuid = generator(nativeId);
-        mAPI->project().remove(parsedUuid);
+        mAPI->project()->remove(parsedUuid);
         break;
       }
     }
@@ -165,7 +165,7 @@ void Dashboard::OnRenameProjectDialogRename(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  mAPI->project().rename(winrt::to_string(RenameProjectDialogTextBox().Text()),
+  mAPI->project()->rename(winrt::to_string(RenameProjectDialogTextBox().Text()),
                          winrt::to_string(mOldProjectName));
 }
 
@@ -211,7 +211,7 @@ void Dashboard::onProjectRead()
 
 void Dashboard::onMetadataUpdated()
 {
-  auto projectsList = mAPI->project().projectsList();
+  auto projectsList = mAPI->project()->projectsList();
   mProjectsList.Clear();
 
   ProjectsListView().Loaded(

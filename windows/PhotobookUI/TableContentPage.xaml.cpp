@@ -83,8 +83,8 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitFunction = [this]() {
-    auto projectDetails = mPhotoBook->project().currentProject()->active();
-    auto isSaved = mPhotoBook->project().isSaved(
+    auto projectDetails = mPhotoBook->project()->currentProject()->active();
+    auto isSaved = mPhotoBook->project()->isSaved(
         mPhotoBook->imageViews().imageMonitor().unstaged(),
         mPhotoBook->imageViews().stagedImages().stagedPhotos(),
         mPhotoBook->imageViews().imageMonitor().rowList());
@@ -163,9 +163,9 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 int TableContentPage::CanvasMinWidth()
 {
   auto paperSettings =
-      mPhotoBook->project().currentProject()->active().paperSettings;
+      mPhotoBook->project()->currentProject()->active().paperSettings;
   PBDev::basicAssert(
-      mPhotoBook->project().currentProject()->active().paperSettings.ppi > 0);
+      mPhotoBook->project()->currentProject()->active().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -180,9 +180,9 @@ int TableContentPage::CanvasMinWidth()
 int TableContentPage::CanvasMinHeight()
 {
   auto paperSettings =
-      mPhotoBook->project().currentProject()->active().paperSettings;
+      mPhotoBook->project()->currentProject()->active().paperSettings;
   PBDev::basicAssert(
-      mPhotoBook->project().currentProject()->active().paperSettings.ppi > 0);
+      mPhotoBook->project()->currentProject()->active().paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -232,7 +232,7 @@ auto TableContentPage::GenericMessageDialogDisplay() -> winrt::fire_and_forget
 void TableContentPage::OnBackClicked(IInspectable const &,
                                      RoutedEventArgs const &)
 {
-  auto isSaved = mPhotoBook->project().isSaved(
+  auto isSaved = mPhotoBook->project()->isSaved(
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
@@ -302,8 +302,8 @@ void TableContentPage::OnSaveClicked(
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
   // TODO: Raname the blow stupid repetition
-  mPhotoBook->project().save(
-      boost::uuids::to_string(mPhotoBook->project().currentProjectUUID()),
+  mPhotoBook->project()->save(
+      boost::uuids::to_string(mPhotoBook->project()->currentProjectUUID()),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
@@ -320,7 +320,7 @@ void TableContentPage::OnNewClicked(
     [[maybe_unused]] Windows::Foundation::IInspectable const    &sender,
     [[maybe_unused]] Microsoft::UI::Xaml::RoutedEventArgs const &args)
 {
-  auto isSaved = mPhotoBook->project().isSaved(
+  auto isSaved = mPhotoBook->project()->isSaved(
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());
@@ -442,7 +442,7 @@ void TableContentPage::UpdateCanvasSize()
 
   if (width > 0 && height > 0) {
     auto paperSettings =
-        mPhotoBook->project().currentProject()->active().paperSettings;
+        mPhotoBook->project()->currentProject()->active().paperSettings;
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
@@ -1267,7 +1267,7 @@ void TableContentPage::OnRenameProjectDialogRename(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  mPhotoBook->project().rename(
+  mPhotoBook->project()->rename(
       winrt::to_string(RenameProjectDialogTextBox().Text()));
 
   if (mExitFlag) {
@@ -1300,8 +1300,8 @@ void TableContentPage::OnSaveProject(
     [[maybe_unused]] Microsoft::UI::Xaml::Controls::
         ContentDialogButtonClickEventArgs const &args)
 {
-  mPhotoBook->project().save(
-      boost::uuids::to_string(mPhotoBook->project().currentProjectUUID()),
+  mPhotoBook->project()->save(
+      boost::uuids::to_string(mPhotoBook->project()->currentProjectUUID()),
       mPhotoBook->imageViews().imageMonitor().unstaged(),
       mPhotoBook->imageViews().stagedImages().stagedPhotos(),
       mPhotoBook->imageViews().imageMonitor().rowList());

@@ -40,7 +40,7 @@ TEST(TestPhotobook, TestMetadata)
     std::string name = "random-name" + std::to_string(i);
     photobook.newProject(name);
 
-    auto uuid = photobook.project().currentProjectUUID();
+    auto uuid = photobook.project()->currentProjectUUID();
     auto path = PB::ProjectSnapshot::parentDirectory() / name;
 
     projectsMetadata.push_back(
@@ -53,7 +53,7 @@ TEST(TestPhotobook, TestMetadata)
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
   for (int i = 0; (int)i < 4; ++i) {
-    photobook.project().remove(projectsMetadata.at(0).uuid());
+    photobook.project()->remove(projectsMetadata.at(0).uuid());
     projectsMetadata.erase(projectsMetadata.begin());
 
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
@@ -87,7 +87,7 @@ TEST(TestPhotobook, TestProject)
 
   photobook.newProject("random-name");
 
-  auto uuid = photobook.project().currentProjectUUID();
+  auto uuid = photobook.project()->currentProjectUUID();
   auto projectPath =
       PB::ProjectSnapshot::parentDirectory() / "random-name.photobook";
 
@@ -118,7 +118,7 @@ TEST(TestPhotobook, TestProjectLoading)
 
   photobook.newProject("random-name");
 
-  auto uuid = photobook.project().currentProjectUUID();
+  auto uuid = photobook.project()->currentProjectUUID();
   auto projectPath =
       PB::ProjectSnapshot::parentDirectory() / "random-name.photobook";
 

@@ -50,7 +50,7 @@ public:
   void unloadProject();
 
   ImageViews         &imageViews();
-  ProjectPersistence &project();
+  std::shared_ptr<ProjectPersistence> project();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -107,13 +107,13 @@ public:
   std::string projectName() const;
 
 private:
-  PhotobookListener            *mParent = nullptr;
-  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
-  ProjectPersistence            mProjectPersistence;
-  ImportFoldersLogic            mImportLogic;
-  ImageViews                    mImageViews;
-  CommandStack                  mCommandStack;
-  bool                          mMarkProjectForDeletion = false;
+  PhotobookListener                  *mParent = nullptr;
+  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectPersistence> mProjectPersistence = nullptr;
+  ImportFoldersLogic                  mImportLogic;
+  ImageViews                          mImageViews;
+  CommandStack                        mCommandStack;
+  bool                                mMarkProjectForDeletion = false;
   ExportLogic<PB::PdfExportTask, PB::JpgExport, PB::PdfLibharuExportTask>
                   mExportLogic;
   ProgressManager mProgressManager;
