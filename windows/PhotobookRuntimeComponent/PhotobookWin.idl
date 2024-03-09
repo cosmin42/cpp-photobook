@@ -1,12 +1,23 @@
+import "PBError.idl";
 
 namespace PhotobookRuntimeComponent {
 
 // TODO: Change the filters to have idl at the top, not cpp
-[default_interface] runtimeclass PhotobookWin {
-  PhotobookWin();
-  void recallMetadata();
-  void recallProject(String name);
+runtimeclass PhotobookWin
+{
+  PhotobookWin(String localStatePath, String installPath);
 
-  void newProject(String name);
+  void RecallMetadata();
+  void RecallProject(String name);
+
+  void NewProject(String name);
+  void UnloadProject();
+
+  void AddImportFolder(String importPath);
+  void RemoveImportFolder(String path);
+
+  void ExportPDFAlbum(String name, String path);
+  void ExportPDFLibharu(String name, String path);
+  void ExportJPGAlbum(String name, String path);
 }
 } // namespace PhotobookRuntimeComponent

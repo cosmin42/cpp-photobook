@@ -16,17 +16,39 @@ using namespace winrt::Windows::Storage;
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
-void PhotobookWin::recallMetadata() { mPhotobook->recallMetadata(); }
+void PhotobookWin::RecallMetadata() { mPhotobook->recallMetadata(); }
 
-void PhotobookWin::recallProject(winrt::hstring const name)
+void PhotobookWin::RecallProject(winrt::hstring name)
 {
-  auto stlName = winrt::to_string(name);
-  mPhotobook->recallProject(stlName);
+  mPhotobook->recallProject(winrt::to_string(name));
 }
 
-void PhotobookWin::newProject(winrt::hstring const name)
+void PhotobookWin::NewProject(winrt::hstring name)
 {
-  auto stlName = winrt::to_string(name);
-  mPhotobook->newProject(stlName);
+  mPhotobook->newProject(winrt::to_string(name));
 }
+void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
+
+void PhotobookWin::AddImportFolder(winrt::hstring importPath)
+{
+  mPhotobook->addImportFolder(winrt::to_string(importPath));
+}
+void PhotobookWin::RemoveImportFolder(winrt::hstring path)
+{
+  mPhotobook->removeImportFolder(winrt::to_string(path));
+}
+
+void PhotobookWin::ExportPDFAlbum(winrt::hstring name, winrt::hstring path)
+{
+  mPhotobook->exportPDFAlbum(winrt::to_string(name), winrt::to_string(path));
+}
+void PhotobookWin::ExportPDFLibharu(winrt::hstring name, winrt::hstring path)
+{
+  mPhotobook->exportPDFLibharu(winrt::to_string(name), winrt::to_string(path));
+}
+void PhotobookWin::ExportJPGAlbum(winrt::hstring name, winrt::hstring path)
+{
+  mPhotobook->exportJPGAlbum(winrt::to_string(name), winrt::to_string(path));
+}
+
 } // namespace winrt::PhotobookRuntimeComponent::implementation
