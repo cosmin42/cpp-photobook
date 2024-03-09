@@ -144,8 +144,12 @@
     <ClInclude Include="PhotobookListener.h">
       <DependentUpon>PhotobookListener.cpp</DependentUpon>
     </ClInclude>
+     <ClInclude Include="PBError.h">
+      <DependentUpon>PBError.cpp</DependentUpon>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PBError.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -176,6 +180,10 @@
     <Midl Include="PhotobookListener.idl">
       <SubType>Code</SubType>
       <DependentUpon>PhotobookListener.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="PBError.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>PBError.cpp</DependentUpon>
     </Midl>
   </ItemGroup>
   <ItemGroup>

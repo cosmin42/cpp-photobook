@@ -1,6 +1,7 @@
 
 namespace PhotobookRuntimeComponent {
 
+// TODO: Change the filters to have idl at the top, not cpp
 [default_interface] runtimeclass PhotobookWin {
   PhotobookWin();
   void recallMetadata();

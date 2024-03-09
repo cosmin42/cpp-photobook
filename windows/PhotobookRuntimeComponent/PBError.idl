@@ -1,0 +1,31 @@
+namespace PhotobookRuntimeComponent {
+
+enum PBErrorCode {
+  Unknown,
+  InvalidFile,
+  FileDoesNotExist,
+  NotADirectory,
+  InputOutputFilesNotSet,
+  CorruptPersistenceFile,
+  InvalidPersistenceMap,
+  CannotSaveFile,
+  InvalidUUID,
+  InvalidProjectDescription,
+  ProjectPathDoesNotExist,
+
+  CouldNotLoadProjectFromGenericPersistence,
+  SQLiteError,
+
+  FolderAlreadyImported,
+  JSONParseError,
+
+  NoImages,
+  CannotExport
+};
+
+runtimeclass PBError
+{
+  String      description();
+  PBErrorCode errorCode();
+}
+} // namespace PhotobookRuntimeComponent
