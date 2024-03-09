@@ -1,11 +1,13 @@
 import "PBError.idl";
+import "VirtualImagePtr.idl";
+import "ProgressInfo.idl";
 
 namespace PhotobookRuntimeComponent {
 
 interface PhotobookListener
 {
   void OnProjectRead();
-  
+
   void OnProjectRenamed();
   void OnMetadataUpdated();
   void OnPersistenceError(PBError error);
@@ -13,22 +15,16 @@ interface PhotobookListener
   void OnExportFinished();
   void OnError(PBError error);
 
-  /*
-  virtual void onStagedImageAdded(
-      std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-      int                                            index = -1) = 0;
-  virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
+  void OnStagedImageAdded(IVector<VirtualImagePtr> photos, Int32 index);
+  void OnStagedImageRemoved(IVector<UInt32> removedIndexes) = 0;
 
-  virtual void onMappingStarted(Path path) = 0;
-  virtual void onMappingFinished(Path path) = 0;
-  virtual void onMappingAborted(Path path) = 0;
+  void OnMappingStarted(String path);
+  void OnMappingFinished(String path);
+  void OnMappingAborted(String path);
 
-  virtual void onImageUpdated(Path root, int row, int index) = 0;
+  void OnImageUpdated(String root, Int32 row, Int32 index);
 
-  virtual void post(std::function<void()> f) = 0;
-
-  virtual void onProgressUpdate(PB::ProgressInfo definedProgress,
-                                PB::ProgressInfo undefinedProgress) = 0;
-                                */
+  void OnProgressUpdate(ProgressInfo definedProgress,
+                        ProgressInfo undefinedProgress);
 };
 } // namespace PhotobookRuntimeComponent
