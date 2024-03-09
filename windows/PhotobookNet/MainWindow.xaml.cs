@@ -28,7 +28,6 @@ namespace PhotobookNet
         public MainWindow()
         {
             this.InitializeComponent();
-            var c = new Class();
         }
 
         private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
