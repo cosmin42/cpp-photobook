@@ -66,6 +66,8 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
 
   void finishProcessing() { mVirtualImage->finishProcessing(); }
 
+  std::shared_ptr<PB::VirtualImage> unwrap() { return mVirtualImage; }
+
 private:
   std::shared_ptr<PB::VirtualImage> mVirtualImage;
 };

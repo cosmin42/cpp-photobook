@@ -4,6 +4,33 @@ namespace PhotobookRuntimeComponent {
 
 runtimeclass ImageMonitor
 {
-  void replaceImageMonitorData(IVector<VirtualImagePtr> unstagedImages, IVector<String> roots);
+  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr> > unstagedImages,
+                               IVector<String>                   roots);
+
+  void AddRow(String path, IVector<VirtualImagePtr> images);
+  void RemoveRowByIndex(Int32 index);
+  void RemoveRowByPath(String path);
+
+  void Clear();
+
+  void    CompleteRow(Int32 index);
+  Boolean IsPendingByPath(String path);
+  Boolean IsPendingByIndex(Int32 index);
+
+  UInt32  ImportListSize();
+  UInt32  RowSize(UInt32 row);
+  UInt32  RowIndex(String path);
+  Boolean ContainsRow(String path, Boolean subPath);
+  String  RowPath(UInt32 row);
+
+  IVector<String> RowList();
+
+  VirtualImagePtr Image(UInt32 row, UInt32 index);
+  VirtualImagePtr Image(String full);
+  // std::pair<Int32, Int32>       position(Path full) const;
+
+  // std::vector<RowProcessingData> unprocessedImages();
+
+  IVector<IVector<VirtualImagePtr> > Unstaged();
 }
 } // namespace PhotobookRuntimeComponent
