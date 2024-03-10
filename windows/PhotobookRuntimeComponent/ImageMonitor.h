@@ -2,6 +2,8 @@
 
 #include "ImageMonitor.g.h"
 #include "Int32Pair.g.h"
+#include "ProcessingData.g.h"
+#include "RowProcessingData.g.h"
 
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
@@ -9,6 +11,58 @@
 #include <pb/ImageMonitor.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
+
+struct ProcessingData : ProcessingDataT<ProcessingData> {
+  ProcessingData(PB::ProcessingData processingData)
+      : mProcessingData(processingData)
+  {
+  }
+
+  ~ProcessingData() = default;
+  winrt::hstring KeyPath()
+  {
+    return winrt::to_hstring(mProcessingData.keyPath.string());
+  }
+
+  winrt::hstring Resource()
+  {
+    return winrt::to_hstring(mProcessingData.resource.string());
+  }
+
+  unsigned Position() { return mProcessingData.position; }
+
+private:
+  PB::ProcessingData mProcessingData;
+};
+
+struct RowProcessingData : RowProcessingDataT<RowProcessingData> {
+  RowProcessingData(PB::RowProcessingData rowProcessingData)
+      : mRowProcessingData(rowProcessingData)
+  {
+  }
+
+  ~RowProcessingData() = default;
+
+  winrt::hstring Root()
+  {
+    return winrt::to_hstring(mRowProcessingData.root.string());
+  }
+  Windows::Foundation::Collections::IVector<
+      PhotobookRuntimeComponent::ProcessingData>
+  Images()
+  {
+    auto nativeImages = mRowProcessingData.images;
+    auto managedImages = winrt::single_threaded_vector<
+        PhotobookRuntimeComponent::ProcessingData>();
+    for (int i = 0; i < (int)nativeImages.size(); ++i) {
+      managedImages.Append(winrt::make<ProcessingData>(nativeImages.at(i)));
+    }
+    return managedImages;
+  }
+
+private:
+  PB::RowProcessingData mRowProcessingData;
+};
 
 struct Int32Pair : Int32PairT<Int32Pair> {
   Int32Pair() {}

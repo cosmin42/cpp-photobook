@@ -8,9 +8,22 @@ runtimeclass Int32Pair
   Int32 Second();
 }
 
+runtimeclass ProcessingData
+{
+  String KeyPath();
+  String Resource();
+  UInt32 Position();
+}
+
+runtimeclass RowProcessingData
+{
+  String                  Root();
+  IVector<ProcessingData> Images();
+}
+
 runtimeclass ImageMonitor
 {
-  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr>> unstagedImages,
+  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr> > unstagedImages,
                                IVector<String>                   roots);
 
   void AddRow(String path, IVector<VirtualImagePtr> images);
@@ -37,6 +50,6 @@ runtimeclass ImageMonitor
 
   // std::vector<RowProcessingData> unprocessedImages();
 
-  IVector<IVector<VirtualImagePtr>> Unstaged();
+  IVector<IVector<VirtualImagePtr> > Unstaged();
 }
 } // namespace PhotobookRuntimeComponent
