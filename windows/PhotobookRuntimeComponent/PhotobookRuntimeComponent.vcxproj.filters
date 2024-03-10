@@ -19,6 +19,14 @@
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="PhotobookListener.cpp" />
+    <ClCompile Include="ImageMonitor.cpp" />
+    <ClCompile Include="ImageResources.cpp" />
+    <ClCompile Include="ImageViews.cpp" />
+    <ClCompile Include="PBError.cpp" />
+    <ClCompile Include="ProgressInfo.cpp" />
+    <ClCompile Include="StagedImages.cpp" />
+    <ClCompile Include="VirtualImagePtr.cpp" />
+    <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -27,6 +35,9 @@
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PlatformHelper.h" />
     <ClInclude Include="PhotobookListener.h" />
+    <ClInclude Include="ProgressInfo.h" />
+    <ClInclude Include="VirtualImagePtr.h" />
+    <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
@@ -35,6 +46,9 @@
     <Midl Include="ImageUIData.idl" />
     <Midl Include="ProjectItem.idl" />
     <Midl Include="PhotobookListener.idl" />
+    <Midl Include="ProgressInfo.idl" />
+    <Midl Include="VirtualImagePtr.idl" />
+    <Midl Include="Settings.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />

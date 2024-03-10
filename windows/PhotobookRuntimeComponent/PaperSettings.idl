@@ -1,0 +1,21 @@
+namespace PhotobookRuntimeComponent {
+
+enum PaperType {
+  None,
+  A4_Landscape,
+  A4_Portrait,
+  A5_Landscape,
+  A5_Portrait,
+  A3_Landscape,
+  A3_Portrait,
+  Custom
+};
+
+runtimeclass PaperSettings
+{
+  PaperType Type();
+  Int32     Ppi();
+  Int32     Width();
+  Int32     Height();
+}
+} // namespace PhotobookRuntimeComponent

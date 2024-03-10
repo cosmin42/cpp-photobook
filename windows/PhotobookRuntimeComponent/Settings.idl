@@ -1,0 +1,48 @@
+import "VirtualImagePtr.idl";
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass Settings
+{
+  /*
+  std::shared_ptr<Project> currentProject();
+  */
+  void recallProject(String projectId);
+
+  void recallProjectByName(String name);
+
+  void recallMetadata();
+
+  String projectId(String name);
+
+  Boolean hasUUID(String name);
+
+  IVector<String> projectsNames();
+
+  // void newProject(String name, std::shared_ptr<Project> project);
+
+  void removeById(String projectId);
+  void removeByPath(String path);
+
+  void clear();
+
+  Boolean contains(String name);
+
+  // std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
+  // projectsList()
+  //     const;
+
+  void rename(String newName, String oldName);
+
+  void save(String                            thumbnailsDirectoryName,
+            IVector<IVector<VirtualImagePtr> > unstagedImages,
+            IVector<VirtualImagePtr> stagedImages, IVector<String> root);
+
+  Boolean hasProjectOpen();
+  String  currentProjectUUID();
+
+  Boolean isSaved(IVector<IVector<VirtualImagePtr> > unstagedImages,
+                  IVector<VirtualImagePtr> stagedImages, IVector<String> roots);
+  String  hash(String path);
+}
+} // namespace PhotobookRuntimeComponent

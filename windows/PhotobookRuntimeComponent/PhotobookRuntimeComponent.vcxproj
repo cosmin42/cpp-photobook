@@ -160,12 +160,22 @@
     <ClInclude Include="ImageViews.h">
       <DependentUpon>ImageViews.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Settings.h">
+      <DependentUpon>Settings.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="PaperSettings.h">
+      <DependentUpon>PaperSettings.cpp</DependentUpon>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <DependentUpon>Project.cpp</DependentUpon>
+    </ClInclude>
     <ClInclude Include="VirtualImagePtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageMonitor.cpp" />
     <ClCompile Include="ImageResources.cpp" />
     <ClCompile Include="ImageViews.cpp" />
+    <ClCompile Include="PaperSettings.cpp" />
     <ClCompile Include="PBError.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -176,9 +186,11 @@
     <ClCompile Include="PhotobookWin.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="ProgressInfo.cpp" />
+    <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StagedImages.cpp" />
     <ClCompile Include="VirtualImagePtr.cpp" />
   </ItemGroup>
@@ -221,6 +233,18 @@
     <Midl Include="ImageViews.idl">
       <SubType>Code</SubType>
       <DependentUpon>ImageViews.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="Settings.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>Settings.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="Project.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>Project.cpp</DependentUpon>
+    </Midl>
+    <Midl Include="PaperSettings.idl">
+      <SubType>Code</SubType>
+      <DependentUpon>PaperSettings.cpp</DependentUpon>
     </Midl>
     <Midl Include="VirtualImagePtr.idl" />
   </ItemGroup>
