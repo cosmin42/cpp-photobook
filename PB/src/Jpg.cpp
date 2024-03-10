@@ -1,5 +1,8 @@
 #include <pb/export/Jpg.h>
 
+#include <pb/image/ImageOperations.h>
+#include <pb/image/ImageReader.h>
+
 #include <string>
 
 namespace PB {

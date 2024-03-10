@@ -10,7 +10,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
       mProjectPersistence(std::make_shared<ProjectPersistence>())
 {
   VirtualImage::platformInfo = mPlatformInfo;
-  ProjectSnapshot::platformInfo = mPlatformInfo;
+  Project::platformInfo = mPlatformInfo;
 
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);
@@ -135,7 +135,7 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
   auto          pdfName = path / (name + ".pdf");
   PdfExportTask task(
       pdfName, mPlatformInfo->localStatePath,
-      mProjectPersistence->currentProject()->active().paperSettings,
+      mProjectPersistence->currentProject()->paperSettings,
       mImageViews.stagedImages().stagedPhotos());
 
   mExportLogic.start(Context::inst().sStopSource, task);
@@ -146,7 +146,7 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
   auto                 pdfName = path / (name + "-libharu" + ".pdf");
   PdfLibharuExportTask task(
       pdfName, mPlatformInfo->localStatePath,
-      mProjectPersistence->currentProject()->active().paperSettings,
+      mProjectPersistence->currentProject()->paperSettings,
       mImageViews.stagedImages().stagedPhotos());
 
   mExportLogic.start(Context::inst().sStopSource, task);
@@ -164,7 +164,7 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
     PBDev::basicAssert(success);
 
     JpgExport task(newFolder,
-                   mProjectPersistence->currentProject()->active().paperSettings,
+                   mProjectPersistence->currentProject()->paperSettings,
                    mImageViews.stagedImages().stagedPhotos());
 
     mExportLogic.start(Context::inst().sStopSource, task);

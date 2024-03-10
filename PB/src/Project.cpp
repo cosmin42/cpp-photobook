@@ -2,8 +2,6 @@
 
 namespace PB {
 
-Project::Project(ProjectSnapshot snapshot) { mActive = snapshot; }
-
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> Project::HAPPY_WORDS = {"Joyful", "Blissful"};
 #else
@@ -57,5 +55,7 @@ Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
   }
   return name;
 }
+
+std::shared_ptr<PlatformInfo> Project::platformInfo = nullptr;
 
 } // namespace PB

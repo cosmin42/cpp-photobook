@@ -1,7 +1,11 @@
 #include <pb/persistence/SerializationStrategy.h>
 
+#include <pb/image/RegularImage.h>
+#include <pb/image/TextImage.h>
+#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 
+#include <boost/bimap/bimap.hpp>
 #include <magic_enum.hpp>
 
 namespace PB::Text {
@@ -211,10 +215,9 @@ deserialize(Json jsonData)
   return line;
 }
 
-template <>
-std::variant<ProjectSnapshot, PBDev::Error> deserialize(Json jsonData)
+template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
 {
-  ProjectSnapshot projectDetails;
+  Project projectDetails;
 
   auto paperSettingsOrError = deserialize<PaperSettings>(
       jsonData, "paper-settings", PaperSettings(), true);
@@ -295,7 +298,7 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
+serialize(int depth, std::pair<std::string, Project> const &entry)
 {
   auto [key, projectDetails] = entry;
 
@@ -308,7 +311,7 @@ serialize(int depth, std::pair<std::string, ProjectSnapshot> const &entry)
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
-  PB::printDebug("%s(string, ProjectSnapshot) %s\n",
+  PB::printDebug("%s(string, Project) %s\n",
                  std::string(depth * 2, ' ').c_str(), json.dump().c_str());
   return json;
 }

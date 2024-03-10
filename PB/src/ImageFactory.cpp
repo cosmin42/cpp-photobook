@@ -25,7 +25,7 @@ ImageFactory::createTextImage(Path path, Path hashPath)
   Process::CVFontInfo fontInfo;
   fontInfo.color = {0, 0, 0};
   fontInfo.pixelSize =
-      Process::pointsFromPixels(24, mProject->active().paperSettings.ppi);
+      Process::pointsFromPixels(24, mProject->paperSettings.ppi);
 
   image = PB::Process::addText({3508 / 2, 2480 / 2}, path.stem().string(),
                                fontInfo)(image);

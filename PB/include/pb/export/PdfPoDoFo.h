@@ -1,6 +1,8 @@
 #pragma once
 
+#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
+
 #include <podofo/podofo.h>
 
 namespace PB {

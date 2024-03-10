@@ -6,6 +6,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
+#include <pb/Platform.h>
 #include <pb/project/ProjectSnapshot.h>
 #include <pb/util/Util.h>
 
@@ -17,18 +18,15 @@ namespace PB {
 class Project final {
 public:
   static std::string generateAlbumName(std::function<bool(std::string)>);
+  static std::shared_ptr<PlatformInfo> platformInfo;
+  static Path parentDirectory() { return platformInfo->localStatePath; }
 
-  Project() = default;
-  explicit Project(ProjectSnapshot snapshot);
+  PaperSettings paperSettings = Context::A4_LANDSCAPE_PAPER;
 
   ~Project() = default;
 
-  ProjectSnapshot active() const { return mActive; }
-
 private:
   static std::vector<std::string> HAPPY_WORDS;
-
-  ProjectSnapshot mActive;
 };
 
 } // namespace PB

@@ -83,7 +83,6 @@ TableContentPage::TableContentPage()
       winrt::single_threaded_observable_vector<ImageUIData>();
 
   MainWindow::sMainExitFunction = [this]() {
-    auto projectDetails = mPhotoBook->project()->currentProject()->active();
     auto isSaved = mPhotoBook->project()->isSaved(
         mPhotoBook->imageViews().imageMonitor().unstaged(),
         mPhotoBook->imageViews().stagedImages().stagedPhotos(),
@@ -163,9 +162,9 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 int TableContentPage::CanvasMinWidth()
 {
   auto paperSettings =
-      mPhotoBook->project()->currentProject()->active().paperSettings;
+      mPhotoBook->project()->currentProject()->paperSettings;
   PBDev::basicAssert(
-      mPhotoBook->project()->currentProject()->active().paperSettings.ppi > 0);
+      mPhotoBook->project()->currentProject()->paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -180,9 +179,9 @@ int TableContentPage::CanvasMinWidth()
 int TableContentPage::CanvasMinHeight()
 {
   auto paperSettings =
-      mPhotoBook->project()->currentProject()->active().paperSettings;
+      mPhotoBook->project()->currentProject()->paperSettings;
   PBDev::basicAssert(
-      mPhotoBook->project()->currentProject()->active().paperSettings.ppi > 0);
+      mPhotoBook->project()->currentProject()->paperSettings.ppi > 0);
 
   double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height);
 
@@ -442,7 +441,7 @@ void TableContentPage::UpdateCanvasSize()
 
   if (width > 0 && height > 0) {
     auto paperSettings =
-        mPhotoBook->project()->currentProject()->active().paperSettings;
+        mPhotoBook->project()->currentProject()->paperSettings;
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);

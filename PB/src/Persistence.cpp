@@ -1,5 +1,7 @@
 #include <pb/persistence/Persistence.h>
 
+#include <pb/persistence/SerializationStrategy.h>
+
 #include <unordered_map>
 
 namespace PB {
@@ -24,14 +26,14 @@ void Persistence::configure(PersistenceMetadataListener *listener)
 }
 
 Json Persistence::serialization(
-    ProjectSnapshot projectDetails,
+    Project projectDetails,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
     std::vector<Path> const                          &roots)
 {
   auto jsonOrError =
-      PB::Text::serialize<PB::ProjectSnapshot>(0, {"root", projectDetails});
+      PB::Text::serialize<PB::Project>(0, {"root", projectDetails});
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
@@ -65,7 +67,7 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization,
                                  std::string thumbnailsDirectoryName)
 {
   auto maybeError = createSupportDirectory(
-      ProjectSnapshot::parentDirectory() / "th", thumbnailsDirectoryName);
+      Project::parentDirectory() / "th", thumbnailsDirectoryName);
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
@@ -111,7 +113,7 @@ void Persistence::recallProject(Path projectPath)
                               std::variant<Json, PBDev::Error> jsonOrError) {
     auto &jsonSerialization = std::get<Json>(jsonOrError);
     auto  projectDetailsOrError =
-        PB::Text::deserialize<PB::ProjectSnapshot>(jsonSerialization);
+        PB::Text::deserialize<PB::Project>(jsonSerialization);
 
     if (std::holds_alternative<PBDev::Error>(projectDetailsOrError) &&
         mPersistenceProjectListener) {
@@ -120,7 +122,7 @@ void Persistence::recallProject(Path projectPath)
       return;
     }
 
-    auto &projectDetails = std::get<PB::ProjectSnapshot>(projectDetailsOrError);
+    auto &projectDetails = std::get<PB::Project>(projectDetailsOrError);
 
     auto unstagedImagesOrError = PB::Text::deserialize<
         std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(

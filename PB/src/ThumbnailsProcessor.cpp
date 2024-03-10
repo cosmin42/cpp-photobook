@@ -113,12 +113,12 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
 {
   PBDev::basicAssert(index >= 0);
 
-  auto smallOutputPath = ProjectSnapshot::parentDirectory() / "th" /
+  auto smallOutputPath = Project::parentDirectory() / "th" /
                          thumbnailsDirectoryName /
                          (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + Context::JPG_EXTENSION);
 
-  auto mediumOutputPath = ProjectSnapshot::parentDirectory() / "th" /
+  auto mediumOutputPath = Project::parentDirectory() / "th" /
                           thumbnailsDirectoryName /
                           (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + Context::JPG_EXTENSION);

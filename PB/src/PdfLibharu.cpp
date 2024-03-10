@@ -1,5 +1,7 @@
 #include <pb/export/PdfLibharu.h>
 
+#include <pb/image/ImageOperations.h>
+#include <pb/image/ImageReader.h>
 #include <pb/project/Project.h>
 
 namespace PB {

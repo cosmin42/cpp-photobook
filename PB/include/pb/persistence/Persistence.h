@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pb/image/VirtualImage.h>
 #include <pb/persistence/FilePersistence.h>
 #include <pb/persistence/SQLPersistence.h>
 #include <pb/project/Project.h>
@@ -31,7 +32,7 @@ public:
   createSupportDirectory(Path path, std::string thumbnailDirectoryName);
 
   static Json
-  serialization(ProjectSnapshot project,
+  serialization(Project project,
                 std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                     &unstagedImages,
                 std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
