@@ -19,6 +19,7 @@ struct ProcessingData : ProcessingDataT<ProcessingData> {
   }
 
   ~ProcessingData() = default;
+
   winrt::hstring KeyPath()
   {
     return winrt::to_hstring(mProcessingData.keyPath.string());
@@ -29,7 +30,7 @@ struct ProcessingData : ProcessingDataT<ProcessingData> {
     return winrt::to_hstring(mProcessingData.resource.string());
   }
 
-  unsigned Position() { return mProcessingData.position; }
+  unsigned Position() const { return mProcessingData.position; }
 
 private:
   PB::ProcessingData mProcessingData;

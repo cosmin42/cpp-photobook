@@ -2,6 +2,8 @@
 
 #include "PhotobookWin.g.h"
 
+#include "ImageViews.h"
+
 #include <pb/PhotoBook.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
@@ -19,6 +21,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void NewProject(winrt::hstring name);
   void UnloadProject();
+
+  PhotobookRuntimeComponent::ImageViews GetImageViews()
+  {
+    return winrt::make<ImageViews>(mPhotobook->imageViews());
+  }
 
   void AddImportFolder(winrt::hstring importPath);
   void RemoveImportFolder(winrt::hstring path);

@@ -1,4 +1,5 @@
 import "PBError.idl";
+import "ImageViews.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -15,6 +16,8 @@ runtimeclass PhotobookWin
 
   void AddImportFolder(String importPath);
   void RemoveImportFolder(String path);
+
+  ImageViews GetImageViews();
 
   void ExportPDFAlbum(String name, String path);
   void ExportPDFLibharu(String name, String path);
