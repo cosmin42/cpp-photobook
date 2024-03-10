@@ -10,8 +10,8 @@ struct ImageViews : ImageViewsT<ImageViews> {
   ImageViews() {}
   ~ImageViews() = default;
 
-  ImageMonitor imageMonitor() { return winrt::make<ImageMonitor>(); }
-  StagedImages stagedImages() { return winrt::make<StagedImages>(); }
+  ImageMonitor ImageMonitor() { return winrt::make<ImageMonitor>(); }
+  StagedImages StagedImages() { return winrt::make<StagedImages>(); }
 
 private:
 };

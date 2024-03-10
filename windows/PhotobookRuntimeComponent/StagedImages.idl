@@ -4,6 +4,17 @@ namespace PhotobookRuntimeComponent {
 
 runtimeclass StagedImages
 {
-  void addPictures(IVector<VirtualImagePtr> pictures);
+  void AddPictures(IVector<VirtualImagePtr> pictures);
+  void AddPictures(IVector<VirtualImagePtr> pictures, Int32 position);
+  void AddPicture(VirtualImagePtr picture);
+
+  void RemovePicture(IVector<UInt32> indexes);
+  void Clear();
+
+  void StashImages(IVector<UInt32> indexes);
+  void PopImages(Int32 position);
+
+  IVector<VirtualImagePtr> StagedPhotos();
+  VirtualImagePtr          Picture(Int32 index);
 }
 } // namespace PhotobookRuntimeComponent

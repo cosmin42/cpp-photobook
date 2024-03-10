@@ -5,7 +5,7 @@ namespace PhotobookRuntimeComponent {
 
 runtimeclass ImageViews
 {
-  ImageMonitor imageMonitor();
-  StagedImages stagedImages();
+  ImageMonitor ImageMonitor();
+  StagedImages StagedImages();
 }
 } // namespace PhotobookRuntimeComponent
