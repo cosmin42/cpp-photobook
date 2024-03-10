@@ -16,10 +16,10 @@ struct StagedImages : StagedImagesT<StagedImages> {
                        pictures)
   {
     std::vector<std::shared_ptr<PB::VirtualImage>> nativePictures;
-    for (int i = 0; i < (int)pictures.Size(); ++i) {
+    for (auto &&picture : pictures) {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                              VirtualImagePtr>(pictures.GetAt(i))
+                              VirtualImagePtr>(picture)
               ->unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
@@ -32,10 +32,10 @@ struct StagedImages : StagedImagesT<StagedImages> {
                    int position)
   {
     std::vector<std::shared_ptr<PB::VirtualImage>> nativePictures;
-    for (int i = 0; i < (int)pictures.Size(); ++i) {
+    for (auto &&picture : pictures) {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                              VirtualImagePtr>(pictures.GetAt(i))
+                              VirtualImagePtr>(picture)
               ->unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
@@ -49,7 +49,6 @@ struct StagedImages : StagedImagesT<StagedImages> {
             winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
             picture)
             ->unwrap();
-
     mStagedImages.addPicture(nativeImagePtr);
   }
 
@@ -57,11 +56,9 @@ struct StagedImages : StagedImagesT<StagedImages> {
   RemovePicture(Windows::Foundation::Collections::IVector<unsigned> indexes)
   {
     std::vector<unsigned> nativeIndexes;
-
-    for (int i = 0; i < (int)indexes.Size(); ++i) {
-      nativeIndexes.push_back(indexes.GetAt(i));
+    for (auto &&index : indexes) {
+      nativeIndexes.push_back(index);
     }
-
     mStagedImages.removePicture(nativeIndexes);
   }
 
@@ -85,7 +82,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
   {
     auto stagedPhotos = winrt::single_threaded_vector<
         PhotobookRuntimeComponent::VirtualImagePtr>();
-    for (auto photo : mStagedImages.stagedPhotos()) {
+    for (auto &&photo : mStagedImages.stagedPhotos()) {
       stagedPhotos.Append(
           winrt::make<
               PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
@@ -93,6 +90,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
     }
     return stagedPhotos;
   }
+
   PhotobookRuntimeComponent::VirtualImagePtr Picture(int index)
   {
     return winrt::make<
