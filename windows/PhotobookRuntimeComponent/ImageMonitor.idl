@@ -46,9 +46,9 @@ runtimeclass ImageMonitor
 
   VirtualImagePtr Image(UInt32 row, UInt32 index);
   VirtualImagePtr Image(String full);
-  Int32Pair       position(String full);
+  Int32Pair       Position(String full);
 
-  // std::vector<RowProcessingData> unprocessedImages();
+  IVector<RowProcessingData> UnprocessedImages();
 
   IVector<IVector<VirtualImagePtr> > Unstaged();
 }

@@ -198,14 +198,27 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
     return winrt::make<VirtualImagePtr>(imagePtr);
   }
 
-  PhotobookRuntimeComponent::Int32Pair position(winrt::hstring full)
+  PhotobookRuntimeComponent::Int32Pair Position(winrt::hstring full)
   {
     auto nativePath = winrt::to_string(full);
     auto positionPair = mImageMonitor.position(nativePath);
     return winrt::make<Int32Pair>(positionPair.first, positionPair.second);
   }
 
-  // std::vector<RowProcessingData> unprocessedImages();
+  Windows::Foundation::Collections::IVector<
+      PhotobookRuntimeComponent::RowProcessingData>
+  UnprocessedImages()
+  {
+    auto nativeUnprocessedImages = mImageMonitor.unprocessedImages();
+    auto managedUnprocessedImages = winrt::single_threaded_vector<
+        PhotobookRuntimeComponent::RowProcessingData>();
+
+    for (int i = 0; i < (int)nativeUnprocessedImages.size(); ++i) {
+      managedUnprocessedImages.Append(
+          winrt::make<RowProcessingData>(nativeUnprocessedImages.at(i)));
+    }
+    return managedUnprocessedImages;
+  }
 
   Windows::Foundation::Collections::IVector<
       Windows::Foundation::Collections::IVector<
