@@ -2,9 +2,15 @@ import "VirtualImagePtr.idl";
 
 namespace PhotobookRuntimeComponent {
 
+runtimeclass Int32Pair
+{
+  Int32 First();
+  Int32 Second();
+}
+
 runtimeclass ImageMonitor
 {
-  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr> > unstagedImages,
+  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr>> unstagedImages,
                                IVector<String>                   roots);
 
   void AddRow(String path, IVector<VirtualImagePtr> images);
@@ -27,10 +33,10 @@ runtimeclass ImageMonitor
 
   VirtualImagePtr Image(UInt32 row, UInt32 index);
   VirtualImagePtr Image(String full);
-  // std::pair<Int32, Int32>       position(Path full) const;
+  Int32Pair       position(String full);
 
   // std::vector<RowProcessingData> unprocessedImages();
 
-  IVector<IVector<VirtualImagePtr> > Unstaged();
+  IVector<IVector<VirtualImagePtr>> Unstaged();
 }
 } // namespace PhotobookRuntimeComponent

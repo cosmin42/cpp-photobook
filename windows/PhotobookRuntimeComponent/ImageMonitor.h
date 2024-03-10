@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ImageMonitor.g.h"
+#include "Int32Pair.g.h"
 
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
@@ -8,6 +9,21 @@
 #include <pb/ImageMonitor.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
+
+struct Int32Pair : Int32PairT<Int32Pair> {
+  Int32Pair() {}
+  explicit Int32Pair(int first, int second) : mPair(first, second) {}
+  ~Int32Pair() = default;
+
+  int First() { return mPair.first; }
+  int Second() { return mPair.second; }
+
+  std::pair<int, int> unwrap() { return mPair; }
+
+private:
+  std::pair<int, int> mPair;
+};
+
 struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   ImageMonitor(PB::ImageMonitor &monitor) : mImageMonitor(monitor) {}
   ~ImageMonitor() = default;
@@ -73,25 +89,31 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   void Clear() { mImageMonitor.clear(); }
 
   void CompleteRow(int index) { mImageMonitor.completeRow(index); }
+
   bool IsPendingByPath(winrt::hstring path)
   {
     PBDev::Path nativePath = winrt::to_string(path);
     return mImageMonitor.isPending(nativePath);
   }
+
   bool IsPendingByIndex(int index) { return mImageMonitor.isPending(index); }
 
   unsigned ImportListSize() { return mImageMonitor.importListSize(); }
+
   unsigned RowSize(unsigned row) { return mImageMonitor.rowSize(row); }
+
   unsigned RowIndex(winrt::hstring path)
   {
     PBDev::Path nativePath = winrt::to_string(path);
     return mImageMonitor.rowIndex(nativePath);
   }
+
   bool ContainsRow(winrt::hstring path, bool subPath)
   {
     PBDev::Path nativePath = winrt::to_string(path);
     return mImageMonitor.containsRow(nativePath, subPath);
   }
+
   winrt::hstring RowPath(unsigned row)
   {
     return winrt::to_hstring(mImageMonitor.rowPath(row).string());
@@ -115,12 +137,19 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
     auto imagePtr = mImageMonitor.image(row, index);
     return winrt::make<VirtualImagePtr>(imagePtr);
   }
+
   PhotobookRuntimeComponent::VirtualImagePtr Image(winrt::hstring full)
   {
     auto imagePtr = mImageMonitor.image(winrt::to_string(full));
     return winrt::make<VirtualImagePtr>(imagePtr);
   }
-  // std::pair<Int32, Int32>       position(Path full) const;
+
+  PhotobookRuntimeComponent::Int32Pair position(winrt::hstring full)
+  {
+    auto nativePath = winrt::to_string(full);
+    auto positionPair = mImageMonitor.position(nativePath);
+    return winrt::make<Int32Pair>(positionPair.first, positionPair.second);
+  }
 
   // std::vector<RowProcessingData> unprocessedImages();
 
