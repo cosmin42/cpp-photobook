@@ -1,5 +1,6 @@
 import "PBError.idl";
 import "ImageViews.idl";
+import "PhotobookListener.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -7,6 +8,8 @@ namespace PhotobookRuntimeComponent {
 runtimeclass PhotobookWin
 {
   PhotobookWin(String localStatePath, String installPath);
+
+  void ConfigurePhotobookListener(PhotobookListener listener);
 
   void RecallMetadata();
   void RecallProject(String name);

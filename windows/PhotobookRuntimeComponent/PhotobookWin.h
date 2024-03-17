@@ -16,6 +16,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   ~PhotobookWin() = default;
 
+  void ConfigurePhotobookListener(PhotobookListener listener) {}
+
   void RecallMetadata();
   void RecallProject(winrt::hstring name);
 
