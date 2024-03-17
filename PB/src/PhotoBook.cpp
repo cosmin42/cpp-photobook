@@ -4,6 +4,8 @@
 #include <pb/image/ImageFactory.h>
 
 namespace PB {
+
+// TODO: Break this into multiple methods
 Photobook::Photobook(Path localStatePath, Path installationPath)
     : mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
@@ -133,10 +135,9 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 void Photobook::exportPDFAlbum(std::string name, Path path)
 {
   auto          pdfName = path / (name + ".pdf");
-  PdfExportTask task(
-      pdfName, mPlatformInfo->localStatePath,
-      mProjectPersistence->currentProject()->paperSettings,
-      mImageViews.stagedImages().stagedPhotos());
+  PdfExportTask task(pdfName, mPlatformInfo->localStatePath,
+                     mProjectPersistence->currentProject()->paperSettings,
+                     mImageViews.stagedImages().stagedPhotos());
 
   mExportLogic.start(Context::inst().sStopSource, task);
 }
@@ -171,7 +172,10 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   }
 }
 
-std::shared_ptr<ProjectPersistence> Photobook::project() { return mProjectPersistence; }
+std::shared_ptr<ProjectPersistence> Photobook::project()
+{
+  return mProjectPersistence;
+}
 
 ImageViews &Photobook::imageViews() { return mImageViews; }
 

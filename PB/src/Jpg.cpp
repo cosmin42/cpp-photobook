@@ -60,7 +60,6 @@ void JpgExport::writeImage(Path inputPath, Path outputPath) const
 
 std::string JpgExport::makeName(unsigned counter)
 {
-
   auto counterStr = std::to_string(counter);
   PBDev::basicAssert(counterStr.size() <=
                      JPG_TEMPLATE_PARAMS::PLACEHOLDER_SIZE);
