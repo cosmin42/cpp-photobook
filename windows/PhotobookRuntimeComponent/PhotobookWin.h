@@ -3,10 +3,93 @@
 #include "PhotobookWin.g.h"
 
 #include "ImageViews.h"
+#include "PBError.h"
+#include "ProgressInfo.h"
+#include "VirtualImagePtr.h"
 
 #include <pb/PhotoBook.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
+class PhotobookListener final : public PB::PhotobookListener {
+public:
+  explicit PhotobookListener(
+      PhotobookRuntimeComponent::PhotobookListener const &managedListener)
+      : mManagedListener(managedListener)
+  {
+  }
+
+  void onProjectRead() override { mManagedListener.OnProjectRead(); }
+  void onProjectRenamed() override { mManagedListener.OnProjectRead(); }
+  void onMetadataUpdated() override { mManagedListener.OnMetadataUpdated(); }
+  void onPersistenceError(PBDev::Error error) override
+  {
+    mManagedListener.OnPersistenceError(winrt::make<PBError>(error));
+  }
+
+  void onExportFinished() override { mManagedListener.OnExportFinished(); }
+  void onError(PBDev::Error error) override
+  {
+    mManagedListener.OnError(winrt::make<PBError>(error));
+  }
+  void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
+                          int index) override
+  {
+    Windows::Foundation::Collections::IVector<
+        PhotobookRuntimeComponent::VirtualImagePtr>
+        managedPhotos = winrt::single_threaded_vector<
+            PhotobookRuntimeComponent::VirtualImagePtr>();
+
+    for (auto photo : photos) {
+      managedPhotos.Append(winrt::make<VirtualImagePtr>(photo));
+    }
+
+    mManagedListener.OnStagedImageAdded(managedPhotos, index);
+  }
+  void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override
+  {
+    Windows::Foundation::Collections::IVector<uint32_t> managedPhotos =
+        winrt::single_threaded_vector<uint32_t>();
+
+    for (auto index : removedIndexes) {
+      managedPhotos.Append(index);
+    }
+
+    mManagedListener.OnStagedImageRemoved(managedPhotos);
+  }
+
+  void onMappingStarted(Path path) override
+  {
+    mManagedListener.OnMappingStarted(winrt::to_hstring(path.string()));
+  }
+  void onMappingFinished(Path path) override
+  {
+    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+  }
+  void onMappingAborted(Path path) override
+  {
+    mManagedListener.OnMappingAborted(winrt::to_hstring(path.string()));
+  }
+
+  void onImageUpdated(Path root, int row, int index) override
+  {
+    mManagedListener.OnImageUpdated(winrt::to_hstring(root.string()), row,
+                                    index);
+  }
+
+  void post(std::function<void()> f) override {}
+
+  void onProgressUpdate(PB::ProgressInfo definedProgress,
+                        PB::ProgressInfo undefinedProgress) override
+  {
+    mManagedListener.OnProgressUpdate(
+        winrt::make<ProgressInfo>(definedProgress),
+        winrt::make<ProgressInfo>(undefinedProgress));
+  }
+
+private:
+  PhotobookRuntimeComponent::PhotobookListener const &mManagedListener;
+};
+
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath)
   {
@@ -14,9 +97,23 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         winrt::to_string(localStatePath), winrt::to_string(installPath));
   }
 
-  ~PhotobookWin() = default;
+  ~PhotobookWin()
+  {
+    if (mPhotobookListener) {
+      delete mPhotobookListener;
+    }
+  }
 
-  void ConfigurePhotobookListener(PhotobookListener listener) {}
+  void ConfigurePhotobookListener(
+      PhotobookRuntimeComponent::PhotobookListener const &listener)
+  {
+    if (mPhotobookListener) {
+      delete mPhotobookListener;
+    }
+    mPhotobookListener = new PhotobookListener(listener);
+    mPhotobook->configure(
+        dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
+  }
 
   void RecallMetadata();
   void RecallProject(winrt::hstring name);
@@ -38,6 +135,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
+  PhotobookListener             *mPhotobookListener = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
 
