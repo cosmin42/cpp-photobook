@@ -5,8 +5,8 @@
 		<TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
 		<RootNamespace>PhotobookNet</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<Platforms>x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win10-x64;win10-arm64</RuntimeIdentifiers>
 		<PublishProfile>win10-$(Platform).pubxml</PublishProfile>
 		<UseWinUI>true</UseWinUI>
 		<EnableMsixTooling>true</EnableMsixTooling>
@@ -48,6 +48,7 @@
 	<PropertyGroup>
 		<CsWinRTIncludes>PhotobookRuntimeComponent</CsWinRTIncludes>
 		<CsWinRTGeneratedFilesDir>$(OutDir)</CsWinRTGeneratedFilesDir>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\PhotobookRuntimeComponent\PhotobookRuntimeComponent.vcxproj" />
@@ -70,4 +71,7 @@
 	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)&#xD;&#xA;xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir)&#xD;&#xA;xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)&#xD;&#xA;xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)\AppX&#xD;&#xA;xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir)\AppX&#xD;&#xA;xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)\AppX" />
+	</Target>
 </Project>
