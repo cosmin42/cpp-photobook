@@ -1,5 +1,7 @@
 #include "MockListeners.h"
 
+#include <pb/project/ProjectMetadata.h>
+
 using ::testing::_;
 using ::testing::AtLeast;
 
@@ -26,7 +28,7 @@ TEST(TestFolderImport, Test0)
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
   photobook.newProject("random-name");
-  
+
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 
   photobook.addImportFolder("../test-data/");

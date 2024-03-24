@@ -1,5 +1,7 @@
 #include "MockListeners.h"
 
+#include <pb/project/ProjectMetadata.h>
+
 TEST(TestPhotobook, TestCreation)
 {
   std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
@@ -41,7 +43,7 @@ TEST(TestPhotobook, TestMetadata)
     photobook.newProject(name);
 
     auto uuid = photobook.project()->currentProjectUUID();
-    auto path = PB::ProjectSnapshot::parentDirectory() / name;
+    auto path = PB::Project::parentDirectory() / name;
 
     projectsMetadata.push_back(
         PB::ProjectMetadata{boost::uuids::to_string(uuid), path.string()});
@@ -89,7 +91,7 @@ TEST(TestPhotobook, TestProject)
 
   auto uuid = photobook.project()->currentProjectUUID();
   auto projectPath =
-      PB::ProjectSnapshot::parentDirectory() / "random-name.photobook";
+      PB::Project::parentDirectory() / "random-name.photobook";
 
   EXPECT_CALL(testPhotobookListener, onProjectRead());
   photobook.recallProject("random-name");
@@ -119,8 +121,7 @@ TEST(TestPhotobook, TestProjectLoading)
   photobook.newProject("random-name");
 
   auto uuid = photobook.project()->currentProjectUUID();
-  auto projectPath =
-      PB::ProjectSnapshot::parentDirectory() / "random-name.photobook";
+  auto projectPath = PB::Project::parentDirectory() / "random-name.photobook";
 
   EXPECT_CALL(testPhotobookListener, onProjectRead());
   photobook.recallProject("random-name");
