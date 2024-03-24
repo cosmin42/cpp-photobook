@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Input;
 using System;
 using System.Collections.Generic;
 using PhotobookRuntimeComponent;
+using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,6 +20,7 @@ namespace PhotobookNet
         {
             this.InitializeComponent();
             PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
+            PhotobookSingletonWrapper.GetInstance().RecallMetadata();
         }
 
         private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
@@ -52,7 +54,7 @@ namespace PhotobookNet
 
         public void OnProjectRead()
         {
-            throw new NotImplementedException();
+            dashboardFrame.Navigate(typeof(TableContentPage));
         }
 
         public void OnProjectRenamed()
@@ -62,7 +64,6 @@ namespace PhotobookNet
 
         public void OnMetadataUpdated()
         {
-            throw new NotImplementedException();
         }
 
         public void OnPersistenceError(PBError error)
@@ -114,5 +115,7 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
+
+        IObservableVector<ProjectItem> mProjectsList;
     }
 }
