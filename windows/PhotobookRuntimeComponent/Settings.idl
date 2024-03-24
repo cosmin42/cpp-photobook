@@ -8,26 +8,26 @@ runtimeclass Settings
   /*
   std::shared_ptr<Project> currentProject();
   */
-  void recallProject(String projectId);
+  void RecallProject(String projectId);
 
-  void recallProjectByName(String name);
+  void RecallProjectByName(String name);
 
-  void recallMetadata();
+  void RecallMetadata();
 
-  String projectId(String name);
+  String ProjectId(String name);
 
-  Boolean hasUUID(String name);
+  Boolean HasUUID(String name);
 
-  IVector<String> projectsNames();
+  IVector<String> ProjectsNames();
 
   // void newProject(String name, std::shared_ptr<Project> project);
 
-  void removeById(String projectId);
-  void removeByPath(String path);
+  void RemoveById(String projectId);
+  void RemoveByPath(String path);
 
-  void clear();
+  void Clear();
 
-  Boolean contains(String name);
+  Boolean Contains(String name);
 
   // std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
   // projectsList()
@@ -35,17 +35,17 @@ runtimeclass Settings
 
   IVector<ProjectMetadataEntry> ProjectsList();
 
-  void rename(String newName, String oldName);
+  void Rename(String newName, String oldName);
 
-  void save(String                            thumbnailsDirectoryName,
+  void Save(String                            thumbnailsDirectoryName,
             IVector<IVector<VirtualImagePtr> > unstagedImages,
             IVector<VirtualImagePtr> stagedImages, IVector<String> root);
 
-  Boolean hasProjectOpen();
-  String  currentProjectUUID();
+  Boolean HasProjectOpen();
+  String  CurrentProjectUUID();
 
-  Boolean isSaved(IVector<IVector<VirtualImagePtr> > unstagedImages,
+  Boolean IsSaved(IVector<IVector<VirtualImagePtr> > unstagedImages,
                   IVector<VirtualImagePtr> stagedImages, IVector<String> roots);
-  String  hash(String path);
+  String  Hash(String path);
 }
 } // namespace PhotobookRuntimeComponent

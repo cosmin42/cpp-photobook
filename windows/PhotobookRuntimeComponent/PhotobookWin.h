@@ -6,6 +6,7 @@
 #include "PBError.h"
 #include "ProgressInfo.h"
 #include "VirtualImagePtr.h"
+#include "Settings.h"
 
 #include <pb/PhotoBook.h>
 
@@ -133,6 +134,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   PhotobookRuntimeComponent::ImageViews GetImageViews()
   {
     return winrt::make<ImageViews>(mPhotobook->imageViews());
+  }
+
+  PhotobookRuntimeComponent::Settings GetSettings()
+  {
+    return winrt::make<Settings>(mPhotobook->project());
   }
 
   void AddImportFolder(winrt::hstring importPath);

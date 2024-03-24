@@ -1,6 +1,7 @@
 import "PBError.idl";
 import "ImageViews.idl";
 import "PhotobookListener.idl";
+import "Settings.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -23,6 +24,8 @@ runtimeclass PhotobookWin
   void RemoveImportFolder(String path);
 
   ImageViews GetImageViews();
+
+  Settings GetSettings();
 
   void ExportPDFAlbum(String name, String path);
   void ExportPDFLibharu(String name, String path);

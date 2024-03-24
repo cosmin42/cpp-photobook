@@ -6,8 +6,8 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 
 struct ProjectMetadataEntry : ProjectMetadataEntryT<ProjectMetadataEntry> {
 
-  ProjectMetadataEntry(std::string name, std::string projectId)
-      : mName(name), mId(projectId)
+  ProjectMetadataEntry(std::string projectId, std::string name)
+      : mId(projectId), mName(name)
   {
   }
 
