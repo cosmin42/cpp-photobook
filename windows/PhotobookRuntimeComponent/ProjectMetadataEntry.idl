@@ -1,0 +1,7 @@
+namespace PhotobookRuntimeComponent {
+runtimeclass ProjectMetadataEntry
+{
+  String Name();
+  String ProjectId();
+}
+} // namespace PhotobookRuntimeComponent

@@ -29,6 +29,7 @@
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="PaperSettings.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="ProjectMetadataEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="ProgressInfo.h" />
     <ClInclude Include="VirtualImagePtr.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="ProjectMetadataEntry.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
@@ -51,6 +53,7 @@
     <Midl Include="ProgressInfo.idl" />
     <Midl Include="VirtualImagePtr.idl" />
     <Midl Include="Settings.idl" />
+    <Midl Include="ProjectMetadataEntry.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />

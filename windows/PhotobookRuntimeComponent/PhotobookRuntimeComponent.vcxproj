@@ -162,6 +162,7 @@
     <ClInclude Include="ImageResources.h">
       <DependentUpon>ImageResources.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="ProjectMetadataEntry.h" />
     <ClInclude Include="StagedImages.h">
       <DependentUpon>StagedImages.cpp</DependentUpon>
     </ClInclude>
@@ -201,6 +202,7 @@
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StagedImages.cpp" />
     <ClCompile Include="VirtualImagePtr.cpp" />
@@ -233,6 +235,7 @@
       <SubType>Code</SubType>
       <DependentUpon>ImageResources.cpp</DependentUpon>
     </Midl>
+    <Midl Include="ProjectMetadataEntry.idl" />
     <Midl Include="StagedImages.idl">
       <SubType>Code</SubType>
       <DependentUpon>StagedImages.cpp</DependentUpon>
