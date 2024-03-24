@@ -1,4 +1,5 @@
 import "VirtualImagePtr.idl";
+import "ProjectMetadataEntry.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -31,6 +32,8 @@ runtimeclass Settings
   // std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
   // projectsList()
   //     const;
+
+  IVector<ProjectMetadataEntry> ProjectsList();
 
   void rename(String newName, String oldName);
 

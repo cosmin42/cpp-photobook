@@ -32,9 +32,12 @@ std::shared_ptr<Project> currentProject();
 
   bool contains(winrt::hstring name) {}
 
-  // std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
-  // projectsList()
-  //     const;
+  Windows::Foundation::Collections::IVector<ProjectMetadataEntry> ProjectsList()
+  {
+    auto projectsList =
+        winrt::single_threaded_observable_vector<ProjectMetadataEntry>();
+    return projectsList;
+  }
 
   void rename(winrt::hstring newName, winrt::hstring oldName) {}
 
