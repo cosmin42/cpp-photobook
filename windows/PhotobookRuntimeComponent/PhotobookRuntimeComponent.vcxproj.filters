@@ -27,6 +27,8 @@
     <ClCompile Include="StagedImages.cpp" />
     <ClCompile Include="VirtualImagePtr.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="PaperSettings.cpp" />
+    <ClCompile Include="Project.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

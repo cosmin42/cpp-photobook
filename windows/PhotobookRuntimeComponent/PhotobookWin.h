@@ -104,6 +104,15 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     }
   }
 
+  winrt::hstring GenerateAlbumName()
+  {
+    auto projectName = PB::Project::generateAlbumName([this](std::string name) {
+      return !mPhotobook->project()->contains(name);
+    });
+
+    return winrt::to_hstring(projectName);
+  }
+
   void ConfigurePhotobookListener(
       PhotobookRuntimeComponent::PhotobookListener const &listener)
   {

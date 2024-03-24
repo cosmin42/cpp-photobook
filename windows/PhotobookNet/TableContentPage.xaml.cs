@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using PhotobookRuntimeComponent;
 using System.Collections.Generic;
+using Microsoft.UI.Xaml.Data;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -20,6 +21,7 @@ namespace PhotobookNet
         public TableContentPage()
         {
             this.InitializeComponent();
+            PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
         }
 
         /* Menu Bar */
@@ -63,7 +65,17 @@ namespace PhotobookNet
 
         /* Book Lines */
 
-        protected override async void OnNavigatedTo(NavigationEventArgs args) { }
+        protected override void OnNavigatedTo(NavigationEventArgs args)
+        {
+            if (UnstagedListView.Items.Count > 0)
+            {
+                UnstagedListView.SelectRange(new ItemIndexRange(0, 1));
+            }
+            else if (StagedListView.Items.Count > 0)
+            {
+                StagedListView.SelectRange(new ItemIndexRange(0, 1));
+            }
+        }
 
         private async void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args) { }
 

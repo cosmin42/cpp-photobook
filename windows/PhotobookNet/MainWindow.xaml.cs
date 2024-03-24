@@ -18,6 +18,7 @@ namespace PhotobookNet
         public MainWindow()
         {
             this.InitializeComponent();
+            PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
         }
 
         private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
@@ -40,8 +41,13 @@ namespace PhotobookNet
 
         }
 
-        private async void AddProjectClicked(object sender, RoutedEventArgs args)
+        private void AddProjectClicked(object sender, RoutedEventArgs args)
         {
+            var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateAlbumName();
+
+            PhotobookSingletonWrapper.GetInstance().NewProject(newProjectName);
+
+            dashboardFrame.Navigate(typeof(TableContentPage));
         }
 
         public void OnProjectRead()
