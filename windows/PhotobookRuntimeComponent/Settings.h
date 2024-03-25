@@ -91,8 +91,8 @@ std::shared_ptr<Project> currentProject();
 
     for (auto &project : projects) {
       auto projectId = boost::uuids::to_string(std::get<0>(project));
-      auto entry =
-          winrt::make<ProjectMetadataEntry>(projectId, std::get<1>(project));
+      auto entry = winrt::make<ProjectMetadataEntry>(
+          projectId, std::get<2>(project).string(), std::get<1>(project));
       projectsList.Append(entry);
     }
     return projectsList;
@@ -152,48 +152,52 @@ std::shared_ptr<Project> currentProject();
   bool HasProjectOpen() { return mProjectPersistence->hasProjectOpen(); }
 
   winrt::hstring CurrentProjectUUID()
-  { 
-      return winrt::to_hstring(boost::uuids::to_string(mProjectPersistence->currentProjectUUID()));
+  {
+    return winrt::to_hstring(
+        boost::uuids::to_string(mProjectPersistence->currentProjectUUID()));
   }
 
   bool IsSaved(Windows::Foundation::Collections::IVector<
-                     Windows::Foundation::Collections::IVector<
-                         PhotobookRuntimeComponent::VirtualImagePtr>>
-                     unstagedImages,
-                 Windows::Foundation::Collections::IVector<
-                     PhotobookRuntimeComponent::VirtualImagePtr>
-                     stagedImages,
-                 Windows::Foundation::Collections::IVector<winrt::hstring> roots)
+                   Windows::Foundation::Collections::IVector<
+                       PhotobookRuntimeComponent::VirtualImagePtr>>
+                   unstagedImages,
+               Windows::Foundation::Collections::IVector<
+                   PhotobookRuntimeComponent::VirtualImagePtr>
+                   stagedImages,
+               Windows::Foundation::Collections::IVector<winrt::hstring> roots)
   {
-      std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>> nativeUnstagedImages;
-      std::vector<std::shared_ptr<PB::VirtualImage>> nativesStagedImages;
-      std::vector<Path> nativeRoots;
+    std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
+                                                   nativeUnstagedImages;
+    std::vector<std::shared_ptr<PB::VirtualImage>> nativesStagedImages;
+    std::vector<Path>                              nativeRoots;
 
-      for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-          std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedLine;
-          for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
-              auto nativeImagePtr =
-                  winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
-                      unstagedImages.GetAt(i).GetAt(j))
-                      ->unwrap();
-              nativeUnstagedLine.push_back(nativeImagePtr);
-          }
-          nativeUnstagedImages.push_back(nativeUnstagedLine);
+    for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
+      std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedLine;
+      for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
+        auto nativeImagePtr =
+            winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
+                                VirtualImagePtr>(
+                unstagedImages.GetAt(i).GetAt(j))
+                ->unwrap();
+        nativeUnstagedLine.push_back(nativeImagePtr);
       }
+      nativeUnstagedImages.push_back(nativeUnstagedLine);
+    }
 
-      for (int i = 0; i < (int)stagedImages.Size(); ++i) {
-          auto nativeImagePtr =
-              winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
-                  stagedImages.GetAt(i))
-                  ->unwrap();
-          nativesStagedImages.push_back(nativeImagePtr);
-      }
+    for (int i = 0; i < (int)stagedImages.Size(); ++i) {
+      auto nativeImagePtr =
+          winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
+                              VirtualImagePtr>(stagedImages.GetAt(i))
+              ->unwrap();
+      nativesStagedImages.push_back(nativeImagePtr);
+    }
 
-      for (int i = 0; i < (int)roots.Size(); ++i) {
-          nativeRoots.push_back(winrt::to_string(roots.GetAt(i)));
-      }
+    for (int i = 0; i < (int)roots.Size(); ++i) {
+      nativeRoots.push_back(winrt::to_string(roots.GetAt(i)));
+    }
 
-      return mProjectPersistence->isSaved(nativeUnstagedImages, nativesStagedImages, nativeRoots);
+    return mProjectPersistence->isSaved(nativeUnstagedImages,
+                                        nativesStagedImages, nativeRoots);
   }
 
   winrt::hstring Hash(winrt::hstring path) { return winrt::hstring(); }

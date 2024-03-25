@@ -12,7 +12,7 @@ runtimeclass PhotobookWin
 
   void ConfigurePhotobookListener(PhotobookListener listener);
 
-  String GenerateAlbumName();
+  String GenerateProjectName();
 
   void RecallMetadata();
   void RecallProject(String name);

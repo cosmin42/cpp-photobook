@@ -45,7 +45,7 @@ namespace PhotobookNet
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)
         {
-            var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateAlbumName();
+            var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateProjectName();
 
             PhotobookSingletonWrapper.GetInstance().NewProject(newProjectName);
 
@@ -57,13 +57,69 @@ namespace PhotobookNet
             dashboardFrame.Navigate(typeof(TableContentPage));
         }
 
+        private void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs args)
+        {
+            PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
+
+            if (args.Parameter != null)
+            {
+                string source = args.Parameter.ToString();
+                if (source == "new-project")
+                {
+                    var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateProjectName();
+                    PhotobookSingletonWrapper.GetInstance().NewProject(newProjectName);
+                    bool success = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                    {
+                        dashboardFrame.Navigate(typeof(TableContentPage));
+                    });
+
+                    System.Diagnostics.Debug.Assert(success, "Navigation to TableContentPage failed");
+                }
+            }
+        }
+
+
         public void OnProjectRenamed()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < mProjectsList.Count; i++)
+            {
+                var projectItem = mProjectsList[i];
+                if (projectItem.ItemId == mProjectUUID)
+                {
+                    mProjectsList[i] = new ProjectItem(projectItem.ItemId, projectItem.FullPath, RenameProjectDialogTextBox.Text);
+                    break;
+                }
+            }
+        }
+
+        private int SqrtIntF(int size)
+        {
+            float root = (float)Math.Sqrt(size);
+            int intRoot = (int)Math.Floor(root);
+            return intRoot;
         }
 
         public void OnMetadataUpdated()
         {
+            var settings = PhotobookSingletonWrapper.GetInstance().GetSettings();
+
+            var projectList = settings.ProjectsList();
+
+            mProjectsList.Clear();
+            ProjectsListView.Loaded += (sender, args) =>
+            {
+                var wrapGrid = (sender as GridView).ItemsPanelRoot as ItemsWrapGrid;
+
+                var squareDimension = SqrtIntF(projectList.Count);
+
+                wrapGrid.MaximumRowsOrColumns = squareDimension;
+            };
+
+            foreach (var project in projectList)
+            {
+                mProjectsList.Add(new ProjectItem(project.ProjectId(), project.ProjectPath(), project.Name()));
+            }
+            ProjectsListView.ItemsSource = mProjectsList;
         }
 
         public void OnPersistenceError(PBError error)
@@ -117,5 +173,7 @@ namespace PhotobookNet
         }
 
         IObservableVector<ProjectItem> mProjectsList;
+
+        string mProjectUUID;
     }
 }

@@ -3,5 +3,6 @@ runtimeclass ProjectMetadataEntry
 {
   String Name();
   String ProjectId();
+  String ProjectPath();
 }
 } // namespace PhotobookRuntimeComponent
