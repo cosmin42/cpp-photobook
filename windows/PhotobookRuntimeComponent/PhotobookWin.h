@@ -5,8 +5,8 @@
 #include "ImageViews.h"
 #include "PBError.h"
 #include "ProgressInfo.h"
-#include "VirtualImagePtr.h"
 #include "Settings.h"
+#include "VirtualImagePtr.h"
 
 #include <pb/PhotoBook.h>
 
@@ -88,7 +88,7 @@ public:
   }
 
 private:
-  PhotobookRuntimeComponent::PhotobookListener const &mManagedListener;
+  PhotobookRuntimeComponent::PhotobookListener mManagedListener;
 };
 
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
@@ -150,7 +150,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
-  PhotobookListener             *mPhotobookListener = nullptr;
+  PB::PhotobookListener         *mPhotobookListener = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
 
