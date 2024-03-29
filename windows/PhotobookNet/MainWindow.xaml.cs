@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using PhotobookRuntimeComponent;
 using Windows.Foundation.Collections;
+using System.Collections.ObjectModel;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -19,6 +20,7 @@ namespace PhotobookNet
         public MainWindow()
         {
             this.InitializeComponent();
+            mProjectsList = new ObservableCollection<ProjectItem>();
             PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
             PhotobookSingletonWrapper.GetInstance().RecallMetadata();
         }
@@ -172,7 +174,7 @@ namespace PhotobookNet
             throw new NotImplementedException();
         }
 
-        IObservableVector<ProjectItem> mProjectsList;
+        ObservableCollection<ProjectItem> mProjectsList;
 
         string mProjectUUID;
     }

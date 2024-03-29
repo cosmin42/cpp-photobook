@@ -20,7 +20,7 @@ public:
   }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
-  void onProjectRenamed() override { mManagedListener.OnProjectRead(); }
+  void onProjectRenamed() override { mManagedListener.OnProjectRenamed(); }
   void onMetadataUpdated() override { mManagedListener.OnMetadataUpdated(); }
   void onPersistenceError(PBDev::Error error) override
   {
