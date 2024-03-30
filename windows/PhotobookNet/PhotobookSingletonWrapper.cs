@@ -10,19 +10,40 @@ namespace PhotobookNet
 {
     class PhotobookSingletonWrapper
     {
-        private static PhotobookWin instance = null;
+        private static readonly PhotobookSingletonWrapper sPhotobookSingletonWrapper = null;
 
-        private PhotobookSingletonWrapper() { }
+        private PhotobookWin mPhotobook = null;
+        private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
 
-        public static PhotobookWin GetInstance()
+        private PhotobookSingletonWrapper()
         {
-            if (instance == null)
+            var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            var installFolderPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+            mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString());
+        }
+
+        public void SetThisThreadAsMainDispatcher()
+        {
+            mMainDispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+        }
+
+        public PhotobookWin Photobook()
+        {
+            return mPhotobook;
+        }
+
+        public void Post(Action function)
+        {
+            bool success = mMainDispatcherQueue.TryEnqueue(() =>
             {
-                var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-                var installFolderPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-                instance = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString());
-            }
-            return instance;
+                function();
+            });
+            System.Diagnostics.Debug.Assert(success, "Navigation to TableContentPage failed");
+        }
+
+        public static PhotobookSingletonWrapper Inst()
+        {
+            return sPhotobookSingletonWrapper;
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using WinRT;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Graphics.Canvas.Effects;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,47 +24,55 @@ namespace PhotobookNet
 
         string mOldProjectName;
         string mRightClickedId;
-        readonly Microsoft.UI.Xaml.Controls.MenuFlyout mMenuFlyout;
+        MenuFlyout mMenuFlyout;
         readonly ObservableCollection<ProjectItem> mProjectsList;
         string mProjectUUID;
+
+        private PhotobookWin mPhotobook;
 
         public MainWindow()
         {
             this.InitializeComponent();
+            PhotobookSingletonWrapper.Inst().SetThisThreadAsMainDispatcher();
+            mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mProjectsList = new ObservableCollection<ProjectItem>();
-            PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
-            PhotobookSingletonWrapper.GetInstance().RecallMetadata();
+            mPhotobook.ConfigurePhotobookListener(this);
+            mMenuFlyout = new MenuFlyout();
+            mMenuFlyout.Items.Add(DeleteFlyout());
+            mMenuFlyout.Items.Add(RenameFlyout());
+
+            mPhotobook.RecallMetadata();
         }
 
-        private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
+        private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
-            PhotobookSingletonWrapper.GetInstance().GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
+            mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
         }
 
-        private async void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
+        private void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
         {
-
+            // Intentionally empty
         }
 
-        private async void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs args)
+        private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs args)
         {
             var clickedElement = (args.OriginalSource as FrameworkElement).DataContext as ProjectItem;
             mRightClickedId = clickedElement.ItemId;
             mMenuFlyout.ShowAt(args.OriginalSource as FrameworkElement);
         }
 
-        private async void OpenProjectClicked(object sender, ItemClickEventArgs args)
+        private void OpenProjectClicked(object sender, ItemClickEventArgs args)
         {
             var item = args.ClickedItem as ProjectItem;
             var projectName = item.Name;
-            PhotobookSingletonWrapper.GetInstance().RecallProject(projectName);
+            mPhotobook.RecallProject(projectName);
         }
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)
         {
-            var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateProjectName();
+            var newProjectName = mPhotobook.GenerateProjectName();
 
-            PhotobookSingletonWrapper.GetInstance().NewProject(newProjectName);
+            mPhotobook.NewProject(newProjectName);
 
             dashboardFrame.Navigate(typeof(TableContentPage));
         }
@@ -75,21 +84,19 @@ namespace PhotobookNet
 
         private void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs args)
         {
-            PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
+            mPhotobook.ConfigurePhotobookListener(this);
 
             if (args.Parameter != null)
             {
                 string source = args.Parameter.ToString();
                 if (source == "new-project")
                 {
-                    var newProjectName = PhotobookSingletonWrapper.GetInstance().GenerateProjectName();
-                    PhotobookSingletonWrapper.GetInstance().NewProject(newProjectName);
-                    bool success = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+                    var newProjectName = mPhotobook.GenerateProjectName();
+                    mPhotobook.NewProject(newProjectName);
+                    PhotobookSingletonWrapper.Inst().Post(() =>
                     {
                         dashboardFrame.Navigate(typeof(TableContentPage));
                     });
-
-                    System.Diagnostics.Debug.Assert(success, "Navigation to TableContentPage failed");
                 }
             }
         }
@@ -117,7 +124,7 @@ namespace PhotobookNet
 
         public void OnMetadataUpdated()
         {
-            var settings = PhotobookSingletonWrapper.GetInstance().GetSettings();
+            var settings = mPhotobook.GetSettings();
 
             var projectList = settings.ProjectsList();
 
@@ -159,7 +166,7 @@ namespace PhotobookNet
                     if (id == mRightClickedId)
                     {
                         mProjectsList.RemoveAt(i);
-                        PhotobookSingletonWrapper.GetInstance().GetSettings().RemoveById(id);
+                        mPhotobook.GetSettings().RemoveById(id);
                         break;
                     }
                 }
@@ -207,7 +214,11 @@ namespace PhotobookNet
 
         private void RenameProjectDialogDisplay()
         {
-            RenameProjectDialog.ShowAsync();
+            PhotobookSingletonWrapper.Inst().Post(async () =>
+            {
+                await RenameProjectDialog.ShowAsync();
+            });
+
         }
 
         public void OnPersistenceError(PBError error)
