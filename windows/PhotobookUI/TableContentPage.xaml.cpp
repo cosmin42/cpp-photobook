@@ -161,8 +161,7 @@ double TableContentPage::PaperToCanvasRatio(int width, int height,
 
 int TableContentPage::CanvasMinWidth()
 {
-  auto paperSettings =
-      mPhotoBook->project()->currentProject()->paperSettings;
+  auto paperSettings = mPhotoBook->project()->currentProject()->paperSettings;
   PBDev::basicAssert(
       mPhotoBook->project()->currentProject()->paperSettings.ppi > 0);
 
@@ -178,8 +177,7 @@ int TableContentPage::CanvasMinWidth()
 
 int TableContentPage::CanvasMinHeight()
 {
-  auto paperSettings =
-      mPhotoBook->project()->currentProject()->paperSettings;
+  auto paperSettings = mPhotoBook->project()->currentProject()->paperSettings;
   PBDev::basicAssert(
       mPhotoBook->project()->currentProject()->paperSettings.ppi > 0);
 
@@ -416,6 +414,7 @@ void TableContentPage::OnClickedOutsideList(
     [[maybe_unused]] Microsoft::UI::Xaml::Input::TappedRoutedEventArgs const
         &args)
 {
+  // TODO: ???
   auto framework = args.OriginalSource().as<FrameworkElement>();
 
   auto image = framework.DataContext().as<ImageUIData>();
@@ -440,8 +439,7 @@ void TableContentPage::UpdateCanvasSize()
             CanvasBorder().Padding().Top - CanvasBorder().Padding().Bottom);
 
   if (width > 0 && height > 0) {
-    auto paperSettings =
-        mPhotoBook->project()->currentProject()->paperSettings;
+    auto paperSettings = mPhotoBook->project()->currentProject()->paperSettings;
 
     double ratio = PaperToCanvasRatio(paperSettings.width, paperSettings.height,
                                       width, height);
