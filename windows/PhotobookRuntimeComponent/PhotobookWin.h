@@ -7,8 +7,10 @@
 #include "ProgressInfo.h"
 #include "Settings.h"
 #include "VirtualImagePtr.h"
+#include "VirtualImagePtr.g.h"
 
 #include <pb/PhotoBook.h>
+#include <pb/image/ImageFactory.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 class PhotobookListener final : public PB::PhotobookListener {
@@ -92,6 +94,18 @@ private:
 };
 
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
+  static PhotobookRuntimeComponent::VirtualImagePtr
+  copyImage(PhotobookRuntimeComponent::VirtualImagePtr image)
+  {
+    auto nativeImagePtr =
+        winrt::get_self<
+            winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
+            image)
+            ->unwrap();
+    return winrt::make<VirtualImagePtr>(
+        PB::ImageFactory::inst().copyImage(nativeImagePtr));
+  }
+
   PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath)
   {
     mPhotobook = std::make_shared<PB::Photobook>(

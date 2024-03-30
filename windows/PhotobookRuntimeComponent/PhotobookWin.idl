@@ -2,6 +2,7 @@ import "PBError.idl";
 import "ImageViews.idl";
 import "PhotobookListener.idl";
 import "Settings.idl";
+import "VirtualImagePtr.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -30,5 +31,7 @@ runtimeclass PhotobookWin
   void ExportPDFAlbum(String name, String path);
   void ExportPDFLibharu(String name, String path);
   void ExportJPGAlbum(String name, String path);
+
+  static VirtualImagePtr copyImage(VirtualImagePtr image);
 }
 } // namespace PhotobookRuntimeComponent

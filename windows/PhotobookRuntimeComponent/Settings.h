@@ -3,6 +3,9 @@
 #include "Settings.g.h"
 #include "Settings.h"
 
+#include "PaperSettings.g.h"
+#include "PaperSettings.h"
+
 #include "ProjectMetadataEntry.h"
 
 #include <pb/persistence/ProjectPersistence.h>
@@ -15,9 +18,6 @@ struct Settings : SettingsT<Settings> {
   }
   ~Settings() = default;
 
-  /*
-std::shared_ptr<Project> currentProject();
-*/
   void RecallProject(winrt::hstring projectId)
   {
     auto               generator = boost::uuids::string_generator();
@@ -201,6 +201,12 @@ std::shared_ptr<Project> currentProject();
   }
 
   winrt::hstring Hash(winrt::hstring path) { return winrt::hstring(); }
+
+  PhotobookRuntimeComponent::PaperSettings GetPaperSettings()
+  {
+    return winrt::make<PaperSettings>(
+        mProjectPersistence->currentProject()->paperSettings);
+  }
 
 private:
   std::shared_ptr<PB::ProjectPersistence> mProjectPersistence = nullptr;

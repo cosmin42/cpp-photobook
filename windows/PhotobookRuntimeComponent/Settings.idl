@@ -1,5 +1,6 @@
 import "VirtualImagePtr.idl";
 import "ProjectMetadataEntry.idl";
+import "PaperSettings.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -47,5 +48,8 @@ runtimeclass Settings
   Boolean IsSaved(IVector<IVector<VirtualImagePtr> > unstagedImages,
                   IVector<VirtualImagePtr> stagedImages, IVector<String> roots);
   String  Hash(String path);
+
+  PaperSettings GetPaperSettings();
 }
+
 } // namespace PhotobookRuntimeComponent

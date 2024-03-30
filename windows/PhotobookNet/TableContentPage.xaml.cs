@@ -201,7 +201,52 @@ namespace PhotobookNet
 
         private async void OnUnstagedPhotosDragStarted(object sender, DragItemsStartingEventArgs args) { }
 
-        private async void OnDropIntoStagedPhotos(object sender, DragEventArgs args) { }
+        private async void OnDropIntoStagedPhotos(object sender, DragEventArgs args)
+        {
+            if (mDragSource == DragSource.None)
+            {
+                return;
+            }
+
+            // WORKAROUND BEGIN
+
+            var dropRelativeToStageListViewPosition = args.GetPosition(sender as ListView);
+
+            if (dropRelativeToStageListViewPosition.Y < 0 || dropRelativeToStageListViewPosition.Y > StagedListView.ActualHeight)
+            {
+                return;
+            }
+
+            int insertPosition = StagedListView.Items.Count;
+
+            foreach (var item in StagedListView.Items)
+            {
+                var itemContainer = StagedListView.ContainerFromItem(item) as ListViewItem;
+
+                var itemIndex = StagedListView.IndexFromContainer(itemContainer);
+
+                var dropRelativeToItem = args.GetPosition(itemContainer);
+
+                if (dropRelativeToItem.X < itemContainer.ActualWidth)
+                {
+                    insertPosition = itemIndex;
+                    break;
+                }
+            }
+
+            // WORKAROUND END
+
+            List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
+
+            foreach (var image in mDragAndDropSelectedImages)
+            {
+                copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(image));
+            }
+
+            OnStagedImageAdded(copyOfDraggedImages, insertPosition);
+
+            mDragAndDropSelectedImages.Clear();
+        }
 
         private async void OnDragOverStagedPhotos(object sender, DragEventArgs args) { }
 
@@ -277,10 +322,10 @@ namespace PhotobookNet
             var selection = GetSelectionIndex();
             if (selection.ImportListIndex != null)
             {
-                var iterator = PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().StatefulIteratorByRow(selection.ImportListIndex);
-                if (iterator.valid())
+                var iterator = PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().StatefulIteratorByRow(selection.ImportListIndex.Value);
+                if (iterator.Valid())
                 {
-                    var diff = mUnstagedImageCollection.Count - iterator.count();
+                    var diff = mUnstagedImageCollection.Count - iterator.Size();
                     if (diff > 0)
                     {
                         for (var i = 0; i < diff; i++)
@@ -296,9 +341,9 @@ namespace PhotobookNet
                         }
                     }
 
-                    for (var i = 0; i < iterator.count(); i++)
+                    for (var i = 0; i < iterator.Size(); i++)
                     {
-                        VirtualImagePtr virtualImage = iterator.At(i).current();
+                        VirtualImagePtr virtualImage = iterator.At((uint)i).current();
 
                         mUnstagedImageCollection[i] = new ImageUIData(virtualImage.keyPath(),
                             virtualImage.frontend().fullPath(), virtualImage.frontend().mediumPath(),
@@ -315,7 +360,27 @@ namespace PhotobookNet
         /* Keyboard */
         private async void OnKeyPressed(object sender, KeyRoutedEventArgs arg)
         {
+            UISelectionIndex selectionIndex = GetSelectionIndex();
 
+            if (selectionIndex.StagedPhotoIndex.Count == 0 && selectionIndex.UnstagedLineIndex.Count == 0)
+            {
+                return;
+            }
+
+            Windows.System.VirtualKey key = arg.Key;
+
+            switch (key)
+            {
+                case Windows.System.VirtualKey.Delete:
+                    {
+                        var selection = GetSelectionIndex();
+                        OnStagedImageRemoved(selection.StagedPhotoIndex);
+                        PhotobookSingletonWrapper.GetInstance().GetImageViews().StagedImages().RemovePicture(selection.StagedPhotoIndex);
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         /* #18 */
@@ -325,7 +390,44 @@ namespace PhotobookNet
         { }
 
         private async void OnTableContentSizeChanged(object sender, SizeChangedEventArgs args)
-        { }
+        {
+            UpdateCanvasSize();
+            GalleryCanvas.Invalidate();
+        }
+
+        private double PaperToCanvasRatio(int width, int height,
+                                            int boundingBoxWidth,
+                                            int boundingBoxHeight)
+        {
+            System.Diagnostics.Debug.Assert(boundingBoxWidth > 0, "Width is 0");
+            System.Diagnostics.Debug.Assert(boundingBoxHeight > 0, "Height is 0");
+
+            double widthRatio = (double)width / boundingBoxWidth;
+            double heightRatio = (double)height / boundingBoxHeight;
+
+            double maxRatio = Math.Max(widthRatio, heightRatio);
+
+            return maxRatio;
+        }
+
+        private void UpdateCanvasSize()
+        {
+            int width = (int)(CanvasBorder.ActualWidth - CanvasBorder.Padding.Left - CanvasBorder.Padding.Right);
+            int height = (int)(CanvasBorder.ActualHeight - GalleryBottomName.ActualHeight - CanvasBorder.Padding.Top - CanvasBorder.Padding.Bottom);
+
+            if (width > 0 && height > 0)
+            {
+                var paperSettings = PhotobookSingletonWrapper.GetInstance().GetSettings().GetPaperSettings();
+                double ratio = PaperToCanvasRatio(paperSettings.Width(), paperSettings.Height(),
+                                      width, height);
+
+                var newWidth = Math.Floor(paperSettings.Width() / ratio);
+                var newHeight = Math.Floor(paperSettings.Height() / ratio);
+
+                GalleryCanvas.Width = newWidth;
+                GalleryCanvas.Height = newHeight;
+            }
+        }
 
         public void OnProjectRead()
         {
