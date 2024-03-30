@@ -34,12 +34,11 @@ namespace PhotobookNet
     };
 
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The page that displays the content of the photobook.
     /// </summary>
     public sealed partial class TableContentPage : Page, PhotobookListener
     {
 
-        //ObservableCollection<ProjectItem> mProjectsList;
         ObservableCollection<string> mNavigationItemsCollection;
         ObservableCollection<ImageUIData> mUnstagedImageCollection;
         ObservableCollection<ImageUIData> mStagedImageCollection;

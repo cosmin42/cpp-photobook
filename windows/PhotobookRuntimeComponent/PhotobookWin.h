@@ -3,11 +3,12 @@
 #include "PhotobookWin.g.h"
 
 #include "ImageViews.h"
+#include "Int32Pair.g.h"
 #include "PBError.h"
 #include "ProgressInfo.h"
 #include "Settings.h"
-#include "VirtualImagePtr.h"
 #include "VirtualImagePtr.g.h"
+#include "VirtualImagePtr.h"
 
 #include <pb/PhotoBook.h>
 #include <pb/image/ImageFactory.h>
@@ -117,6 +118,12 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     if (mPhotobookListener) {
       delete mPhotobookListener;
     }
+  }
+
+  void ConfigureScreenSize(PhotobookRuntimeComponent::Int32Pair screenSize)
+  {
+    mPhotobook->configure(
+        std::pair<int, int>{screenSize.First(), screenSize.Second()});
   }
 
   winrt::hstring GenerateProjectName()

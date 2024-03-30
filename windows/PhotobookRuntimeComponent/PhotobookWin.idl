@@ -3,6 +3,7 @@ import "ImageViews.idl";
 import "PhotobookListener.idl";
 import "Settings.idl";
 import "VirtualImagePtr.idl";
+import "ImageMonitor.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -12,6 +13,11 @@ runtimeclass PhotobookWin
   PhotobookWin(String localStatePath, String installPath);
 
   void ConfigurePhotobookListener(PhotobookListener listener);
+
+  void ConfigureScreenSize(Int32Pair screenSize);
+  // void configureStagedImagesListener(StagedImagesListener * listener)
+  // void configureImageMonitorListener(ImageMonitorListener * listener)
+  // void configureProject(std::shared_ptr<PB::Project> project)
 
   String GenerateProjectName();
 
