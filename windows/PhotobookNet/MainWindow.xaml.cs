@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using PhotobookRuntimeComponent;
 using Windows.Foundation.Collections;
 using System.Collections.ObjectModel;
+using WinRT;
+using System.IO;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -17,6 +20,13 @@ namespace PhotobookNet
     /// </summary>
     public sealed partial class MainWindow : Window, PhotobookListener
     {
+
+        string mOldProjectName;
+        string mRightClickedId;
+        readonly Microsoft.UI.Xaml.Controls.MenuFlyout mMenuFlyout;
+        readonly ObservableCollection<ProjectItem> mProjectsList;
+        string mProjectUUID;
+
         public MainWindow()
         {
             this.InitializeComponent();
@@ -27,7 +37,7 @@ namespace PhotobookNet
 
         private async void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
-
+            PhotobookSingletonWrapper.GetInstance().GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
         }
 
         private async void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
@@ -37,12 +47,16 @@ namespace PhotobookNet
 
         private async void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs args)
         {
-
+            var clickedElement = (args.OriginalSource as FrameworkElement).DataContext as ProjectItem;
+            mRightClickedId = clickedElement.ItemId;
+            mMenuFlyout.ShowAt(args.OriginalSource as FrameworkElement);
         }
 
         private async void OpenProjectClicked(object sender, ItemClickEventArgs args)
         {
-
+            var item = args.ClickedItem as ProjectItem;
+            var projectName = item.Name;
+            PhotobookSingletonWrapper.GetInstance().RecallProject(projectName);
         }
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)
@@ -124,6 +138,78 @@ namespace PhotobookNet
             ProjectsListView.ItemsSource = mProjectsList;
         }
 
+        private Microsoft.UI.Xaml.Controls.MenuFlyoutItem DeleteFlyout()
+        {
+            Microsoft.UI.Xaml.Controls.MenuFlyoutItem deleteItem = new()
+            {
+                Text = "Delete"
+            };
+            deleteItem.Click += OnDeleteClicked;
+
+            return deleteItem;
+        }
+
+        private void OnDeleteClicked(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(mRightClickedId))
+            {
+                for (int i = 0; i < mProjectsList.Count; i++)
+                {
+                    var id = mProjectsList[i].ItemId;
+                    if (id == mRightClickedId)
+                    {
+                        mProjectsList.RemoveAt(i);
+                        PhotobookSingletonWrapper.GetInstance().GetSettings().RemoveById(id);
+                        break;
+                    }
+                }
+            }
+            mRightClickedId = string.Empty;
+        }
+
+        private Microsoft.UI.Xaml.Controls.MenuFlyoutItem RenameFlyout()
+        {
+            Microsoft.UI.Xaml.Controls.MenuFlyoutItem renameItem = new()
+            {
+                Text = "Rename"
+            };
+
+            renameItem.Click += OnRenameClicked;
+
+            return renameItem;
+        }
+
+        private void OnRenameClicked(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(mRightClickedId))
+            {
+                string name = "";
+
+                for (int i = 0; i < mProjectsList.Count; i++)
+                {
+                    var project = mProjectsList[i];
+                    if (project.ItemId == mRightClickedId)
+                    {
+                        name = Path.GetFileName(project.FullPath);
+                        mProjectUUID = project.ItemId;
+                        break;
+                    }
+                }
+
+                System.Diagnostics.Debug.Assert(!string.IsNullOrEmpty(name), "Name is null.");
+
+                mOldProjectName = name;
+
+                RenameProjectDialogTextBox.PlaceholderText = mOldProjectName;
+                RenameProjectDialogDisplay();
+            }
+        }
+
+        private void RenameProjectDialogDisplay()
+        {
+            RenameProjectDialog.ShowAsync();
+        }
+
         public void OnPersistenceError(PBError error)
         {
             throw new NotImplementedException();
@@ -173,9 +259,5 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
-
-        ObservableCollection<ProjectItem> mProjectsList;
-
-        string mProjectUUID;
     }
 }
