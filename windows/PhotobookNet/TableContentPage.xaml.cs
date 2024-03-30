@@ -274,7 +274,42 @@ namespace PhotobookNet
 
         private void UpdateUnstagedPhotoLine()
         {
+            var selection = GetSelectionIndex();
+            if (selection.ImportListIndex != null)
+            {
+                var iterator = PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().StatefulIteratorByRow(selection.ImportListIndex);
+                if (iterator.valid())
+                {
+                    var diff = mUnstagedImageCollection.Count - iterator.count();
+                    if (diff > 0)
+                    {
+                        for (var i = 0; i < diff; i++)
+                        {
+                            mUnstagedImageCollection.RemoveAt(mUnstagedImageCollection.Count - 1);
+                        }
+                    }
+                    else if (diff < 0)
+                    {
+                        for (var i = 0; i < -diff; i++)
+                        {
+                            mUnstagedImageCollection.Add(new ImageUIData());
+                        }
+                    }
 
+                    for (var i = 0; i < iterator.count(); i++)
+                    {
+                        VirtualImagePtr virtualImage = iterator.At(i).current();
+
+                        mUnstagedImageCollection[i] = new ImageUIData(virtualImage.keyPath(),
+                            virtualImage.frontend().fullPath(), virtualImage.frontend().mediumPath(),
+                            virtualImage.frontend().smallPath(), virtualImage.processed());
+                    }
+                }
+                else
+                {
+                    mUnstagedImageCollection.Clear();
+                }
+            }
         }
 
         /* Keyboard */
