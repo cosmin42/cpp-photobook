@@ -181,6 +181,7 @@
     <ClInclude Include="Project.h">
       <DependentUpon>Project.cpp</DependentUpon>
     </ClInclude>
+    <ClInclude Include="VICollectionStatefulIterator.h" />
     <ClInclude Include="VirtualImagePtr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StagedImages.cpp" />
+    <ClCompile Include="VICollectionStatefulIterator.cpp" />
     <ClCompile Include="VirtualImagePtr.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +262,7 @@
       <SubType>Code</SubType>
       <DependentUpon>PaperSettings.cpp</DependentUpon>
     </Midl>
+    <Midl Include="VICollectionStatefulIterator.idl" />
     <Midl Include="VirtualImagePtr.idl" />
   </ItemGroup>
   <ItemGroup>
