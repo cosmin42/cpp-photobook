@@ -6,6 +6,10 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using PhotobookRuntimeComponent;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Data;
+using System.Collections.ObjectModel;
+using Windows.Foundation.Collections;
+using System.Numerics;
+using System;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -13,35 +17,143 @@ using Microsoft.UI.Xaml.Data;
 
 namespace PhotobookNet
 {
+    enum DragSource { None, Unstaged, Staged };
+
+    sealed class UISelectionIndex
+    {
+        public UISelectionIndex()
+        {
+            ImportListIndex = null;
+            UnstagedLineIndex = new List<uint>();
+            StagedPhotoIndex = new List<uint>();
+        }
+        public uint? ImportListIndex { set; get; }
+        public List<uint> UnstagedLineIndex { set; get; }
+        public List<uint> StagedPhotoIndex { set; get; }
+    };
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class TableContentPage : Page, PhotobookListener
     {
+
+        int CanvasMinWidth { get; set; }
+
+        int CanvasMinHeight { get; set; }
+
+        //ObservableCollection<ProjectItem> mProjectsList;
+        ObservableCollection<string> mNavigationItemsCollection;
+        ObservableCollection<ImageUIData> mUnstagedImageCollection;
+        ObservableCollection<ImageUIData> mStagedImageCollection;
+        Collection<VirtualImagePtr> mDragAndDropSelectedImages;
+        bool mExitFlag = false;
+        bool mNewProjectFlag = false;
+        HashSet<string> mLoadedFinishedImportFolders;
+        DragSource mDragSource = DragSource.None;
+        bool mLinesExclusiveSelection = false;
+        bool mBackFlag = false;
+
         public TableContentPage()
         {
             this.InitializeComponent();
             PhotobookSingletonWrapper.GetInstance().ConfigurePhotobookListener(this);
         }
 
+        private void PostponeError(string message)
+        {
+            GenericErrorTextBlock.Text = message;
+            Post(() =>
+            {
+                GenericErrorDialog.ShowAsync();
+            });
+        }
+
         /* Menu Bar */
-        private async void OnExportClicked(object sender, RoutedEventArgs args) { }
+        private async void OnExportClicked(object sender, RoutedEventArgs args)
+        {
+            if (mStagedImageCollection.Count == 0)
+            {
+                PostponeError("There is no staged photo!");
+            }
+            else
+            {
+                ExportContentDialog.ShowAsync();
+            }
+        }
 
-        private async void OnBackClicked(object sender, RoutedEventArgs args) { }
+        private async void OnBackClicked(object sender, RoutedEventArgs args)
+        {
+            var isSaved = PhotobookSingletonWrapper.GetInstance().GetSettings().IsSaved(PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().Unstaged(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().StagedImages().StagedPhotos(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().RowList());
+            if (!isSaved)
+            {
+                mBackFlag = true;
+                SaveProjectDialog.ShowAsync();
+            }
+            else
+            {
+                PhotobookSingletonWrapper.GetInstance().UnloadProject();
+                Frame.Navigate(typeof(MainWindow));
+            }
+        }
 
-        private async void OnAboutClicked(object sender, RoutedEventArgs args) { }
+        private async void OnAboutClicked(object sender, RoutedEventArgs args)
+        {
+            GenericMessageTextBlock.Text = "Photobook v1.0\n\nDeveloped by:\n\n- A\n- B\n- C\n- D\n- E\n- F\n- G\n- H\n- I\n- J\n- K\n- L\n- M\n- N\n- O\n- P\n- Q\n- R\n- S\n- T\n- U\n- V\n- W\n- X\n- Y\n- Z";
+            Post(() =>
+            {
+                GnericMessage.ShowAsync();
+            });
+        }
 
-        private async void OnLicenseClicked(object sender, RoutedEventArgs args) { }
+        private async void OnLicenseClicked(object sender, RoutedEventArgs args)
+        {
+            // TODO: Use a resx file
+        }
 
         private async void OnTipsClicked(object sender, RoutedEventArgs args) { }
 
-        private async void OnExitClicked(object sender, RoutedEventArgs args) { }
+        private async void OnExitClicked(object sender, RoutedEventArgs args)
+        {
+            Post(() =>
+            {
+                Microsoft.UI.Xaml.Application.Current.Exit();
+            });
+            mExitFlag = true;
+        }
 
-        private async void OnSaveClicked(object sender, RoutedEventArgs args) { }
+        private async void OnSaveClicked(object sender, RoutedEventArgs args)
+        {
+            PhotobookSingletonWrapper.GetInstance().GetSettings().Save(PhotobookSingletonWrapper.GetInstance().GetSettings().CurrentProjectUUID(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().Unstaged(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().StagedImages().StagedPhotos(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().RowList());
+        }
 
-        private async void OnSaveAsClicked(object sender, RoutedEventArgs args) { }
+        private async void OnSaveAsClicked(object sender, RoutedEventArgs args)
+        {
+            Post(() => { RenameProjectDialog.ShowAsync(); });
+        }
 
-        private async void OnNewClicked(object sender, RoutedEventArgs args) { }
+        private async void OnNewClicked(object sender, RoutedEventArgs args)
+        {
+            var isSaved = PhotobookSingletonWrapper.GetInstance().GetSettings().IsSaved(PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().Unstaged(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().StagedImages().StagedPhotos(),
+                PhotobookSingletonWrapper.GetInstance().GetImageViews().ImageMonitor().RowList());
+
+            if (isSaved)
+            {
+                PhotobookSingletonWrapper.GetInstance().UnloadProject();
+                Frame.Navigate(typeof(MainWindow), "new-project");
+            }
+            else
+            {
+                mNewProjectFlag = true;
+                SaveProjectDialog.ShowAsync();
+            }
+        }
 
         private async void OnUndoClicked(object sender, RoutedEventArgs args) { }
 
@@ -77,6 +189,8 @@ namespace PhotobookNet
             }
         }
 
+
+
         private async void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args) { }
 
         private async void OnStagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args) { }
@@ -110,10 +224,64 @@ namespace PhotobookNet
         private async void OnCancelSavingProject(object sender, ContentDialogButtonClickEventArgs args) { }
 
         /* Dialogs - Export */
-        private async void OnExportContentDialogClicked(object sender, ContentDialogButtonClickEventArgs args) { }
+        private async void OnExportContentDialogClicked(object sender, ContentDialogButtonClickEventArgs args)
+        {
+            var exportName = ExportNameTextBox.Text;
+
+        }
+
+        private bool StagedLineEmpty()
+        {
+            return StagedListView.Items.Count == 0;
+        }
+
+        private bool UnstagedLineEmpty()
+        {
+            return UnstagedListView.Items.Count == 0;
+        }
+
+        private UISelectionIndex GetSelectionIndex()
+        {
+            UISelectionIndex selectionIndex = new UISelectionIndex();
+
+            var ranges = UnstagedListView.SelectedRanges;
+
+            foreach (var range in ranges)
+            {
+                for (var i = range.FirstIndex; i <= range.LastIndex; i++)
+                {
+                    selectionIndex.UnstagedLineIndex.Add((uint)i);
+                }
+            }
+
+            ranges = StagedListView.SelectedRanges;
+            foreach (var range in ranges)
+            {
+                for (var i = range.FirstIndex; i <= range.LastIndex; i++)
+                {
+                    selectionIndex.StagedPhotoIndex.Add((uint)i);
+                }
+            }
+
+            var index = MediaListView.SelectedIndex;
+            if (index >= -1)
+            {
+                selectionIndex.ImportListIndex = (uint)index;
+            }
+
+            return selectionIndex;
+        }
+
+        private void UpdateUnstagedPhotoLine()
+        {
+
+        }
 
         /* Keyboard */
-        private async void OnKeyPressed(object sender, KeyRoutedEventArgs arg) { }
+        private async void OnKeyPressed(object sender, KeyRoutedEventArgs arg)
+        {
+
+        }
 
         /* #18 */
         private async void OnKeyDown(object sender, KeyRoutedEventArgs arg) { }
@@ -188,8 +356,13 @@ namespace PhotobookNet
         {
             throw new System.NotImplementedException();
         }
-
-        int CanvasMinWidth { get; set; }
-        int CanvasMinHeight { get; set; }
+        public void Post(Action function)
+        {
+            bool success = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().TryEnqueue(() =>
+            {
+                function();
+            });
+            System.Diagnostics.Debug.Assert(success, "Navigation to TableContentPage failed");
+        }
     }
 }
