@@ -1,0 +1,12 @@
+
+namespace PhotobookRuntimeComponent {
+
+interface ImageMonitorListener
+{
+  void OnImportFolderAdded();
+  void OnImportFolderRemoved(UInt32 index);
+  void OnRefresh();
+  void OnCleared();
+};
+
+} // namespace PhotobookRuntimeComponent

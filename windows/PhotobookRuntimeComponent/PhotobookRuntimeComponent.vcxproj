@@ -144,6 +144,9 @@
     <ClInclude Include="PhotobookWin.h">
       <DependentUpon>PhotobookWin.idl</DependentUpon>
     </ClInclude>
+    <ClInclude Include="ImageMonitorListener.h">
+      <DependentUpon>ImageMonitorListener.idl</DependentUpon>
+    </ClInclude>
     <ClInclude Include="ProgressInfo.h">
       <DependentUpon>ProgressInfo.idl</DependentUpon>
     </ClInclude>
@@ -196,6 +199,9 @@
   <ItemGroup>
     <ClCompile Include="ImageMonitor.cpp">
       <DependentUpon>ImageMonitor.idl</DependentUpon>
+    </ClCompile>
+    <ClCompile Include="ImageMonitorListener.cpp">
+      <DependentUpon>ImageMonitorListener.idl</DependentUpon>
     </ClCompile>
     <ClCompile Include="ImageResources.cpp">
       <DependentUpon>ImageResources.idl</DependentUpon>
@@ -252,6 +258,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="ImageMonitorListener.idl" />
     <Midl Include="PhotobookWin.idl" />
     <Midl Include="ProgressInfo.idl" />
     <Midl Include="ProjectItem.idl" />
