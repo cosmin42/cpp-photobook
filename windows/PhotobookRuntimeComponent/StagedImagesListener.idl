@@ -1,0 +1,10 @@
+
+namespace PhotobookRuntimeComponent {
+
+interface StagedImagesListener
+{
+  void OnPictureAdded(Int32 index, Int32 size);
+  void OnPictureRemoved(IVector<Int32> indices);
+};
+
+} // namespace PhotobookRuntimeComponent

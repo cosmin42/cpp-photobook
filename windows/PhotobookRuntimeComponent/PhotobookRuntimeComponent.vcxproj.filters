@@ -11,11 +11,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Class.cpp" />
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
-    <ClCompile Include="PersistenceWin.cpp" />
     <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="PhotobookListener.cpp" />
@@ -31,11 +29,11 @@
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
+    <ClCompile Include="StagedImagesListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhotobookWin.h" />
-    <ClInclude Include="PersistenceWin.h" />
     <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PlatformHelper.h" />
     <ClInclude Include="PhotobookListener.h" />
@@ -44,11 +42,10 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ProjectMetadataEntry.h" />
     <ClInclude Include="VICollectionStatefulIterator.h" />
+    <ClInclude Include="StagedImagesListener.h" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="Class.idl" />
     <Midl Include="PhotobookWin.idl" />
-    <Midl Include="PersistenceWin.idl" />
     <Midl Include="ImageUIData.idl" />
     <Midl Include="ProjectItem.idl" />
     <Midl Include="PhotobookListener.idl" />
@@ -57,6 +54,14 @@
     <Midl Include="Settings.idl" />
     <Midl Include="ProjectMetadataEntry.idl" />
     <Midl Include="VICollectionStatefulIterator.idl" />
+    <Midl Include="PBError.idl" />
+    <Midl Include="ImageResources.idl" />
+    <Midl Include="StagedImages.idl" />
+    <Midl Include="ImageMonitor.idl" />
+    <Midl Include="ImageViews.idl" />
+    <Midl Include="Project.idl" />
+    <Midl Include="PaperSettings.idl" />
+    <Midl Include="StagedImagesListener.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />
