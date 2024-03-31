@@ -2,11 +2,11 @@
 
 #include <pb/ImageMonitor.h>
 
-#include "PhotobookListener.h"
+#include <winrt/PhotobookRuntimeComponent.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
-class ImageMonitorListener : PB::ImageMonitorListener {
+class ImageMonitorListener : public PB::ImageMonitorListener {
 public:
   explicit ImageMonitorListener(
       PhotobookRuntimeComponent::ImageMonitorListener const &managedListener)

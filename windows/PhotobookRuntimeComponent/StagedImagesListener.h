@@ -2,11 +2,11 @@
 
 #include <pb/StagedImages.h>
 
-#include "PhotobookListener.h"
+#include <winrt/PhotobookRuntimeComponent.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
-class StagedImagesListener : PB::StagedImagesListener {
+class StagedImagesListener : public PB::StagedImagesListener {
 public:
   explicit StagedImagesListener(
       PhotobookRuntimeComponent::StagedImagesListener const &managedListener)

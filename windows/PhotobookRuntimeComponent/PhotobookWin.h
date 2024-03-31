@@ -10,6 +10,9 @@
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
 
+#include "StagedImagesListener.h"
+#include "ImageMonitorListener.h"
+
 #include <pb/PhotoBook.h>
 #include <pb/image/ImageFactory.h>
 
@@ -126,13 +129,29 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         std::pair<int, int>{screenSize.First(), screenSize.Second()});
   }
 
-  winrt::hstring GenerateProjectName()
+  void ConfigureStagedImagesListener(
+      PhotobookRuntimeComponent::StagedImagesListener const &listener)
   {
-    auto projectName = PB::Project::generateAlbumName([this](std::string name) {
-      return !mPhotobook->project()->contains(name);
-    });
+    if (mStagedImagesListener) {
+      delete mStagedImagesListener;
+    }
+    mStagedImagesListener =
+        new PhotobookRuntimeComponent::implementation::StagedImagesListener(
+            listener);
+    mPhotobook->configure(
+        dynamic_cast<PB::StagedImagesListener *>(mStagedImagesListener));
+  }
 
-    return winrt::to_hstring(projectName);
+  void ConfigureImageMonitorListener(
+      PhotobookRuntimeComponent::ImageMonitorListener const &listener)
+  {
+    if (mImageMonitorListener) {
+      delete mImageMonitorListener;
+    }
+    mImageMonitorListener = new ImageMonitorListener(
+            listener);
+    mPhotobook->configure(
+        dynamic_cast<PB::ImageMonitorListener *>(mImageMonitorListener));
   }
 
   void ConfigurePhotobookListener(
@@ -144,6 +163,15 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mPhotobookListener = new PhotobookListener(listener);
     mPhotobook->configure(
         dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
+  }
+
+  winrt::hstring GenerateProjectName()
+  {
+    auto projectName = PB::Project::generateAlbumName([this](std::string name) {
+      return !mPhotobook->project()->contains(name);
+    });
+
+    return winrt::to_hstring(projectName);
   }
 
   void RecallMetadata();
@@ -172,6 +200,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
   PB::PhotobookListener         *mPhotobookListener = nullptr;
+  PB::StagedImagesListener      *mStagedImagesListener = nullptr;
+  PB::ImageMonitorListener      *mImageMonitorListener = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
 
