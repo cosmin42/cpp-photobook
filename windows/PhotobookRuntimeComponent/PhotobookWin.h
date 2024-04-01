@@ -10,8 +10,8 @@
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
 
-#include "StagedImagesListener.h"
 #include "ImageMonitorListener.h"
+#include "StagedImagesListener.h"
 
 #include <pb/PhotoBook.h>
 #include <pb/image/ImageFactory.h>
@@ -148,8 +148,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     if (mImageMonitorListener) {
       delete mImageMonitorListener;
     }
-    mImageMonitorListener = new ImageMonitorListener(
-            listener);
+    mImageMonitorListener = new ImageMonitorListener(listener);
     mPhotobook->configure(
         dynamic_cast<PB::ImageMonitorListener *>(mImageMonitorListener));
   }
@@ -163,6 +162,12 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mPhotobookListener = new PhotobookListener(listener);
     mPhotobook->configure(
         dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
+  }
+
+  void ConfigureCurrentProject()
+  {
+    // TODO: Move this to photobook.cpp
+    mPhotobook->configure(mPhotobook->project()->currentProject());
   }
 
   winrt::hstring GenerateProjectName()

@@ -5,6 +5,8 @@
 #include "ProcessingData.g.h"
 #include "RowProcessingData.g.h"
 
+#include "Int32Pair.h"
+
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
 #include "VICollectionStatefulIterator.g.h"
@@ -65,20 +67,6 @@ struct RowProcessingData : RowProcessingDataT<RowProcessingData> {
 
 private:
   PB::RowProcessingData mRowProcessingData;
-};
-
-struct Int32Pair : Int32PairT<Int32Pair> {
-  Int32Pair() {}
-  explicit Int32Pair(int first, int second) : mPair(first, second) {}
-  ~Int32Pair() = default;
-
-  int First() { return mPair.first; }
-  int Second() { return mPair.second; }
-
-  std::pair<int, int> unwrap() { return mPair; }
-
-private:
-  std::pair<int, int> mPair;
 };
 
 struct ImageMonitor : ImageMonitorT<ImageMonitor> {

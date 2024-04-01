@@ -1,13 +1,8 @@
 import "VirtualImagePtr.idl";
 import "VICollectionStatefulIterator.idl";
+import "Int32Pair.idl";
 
 namespace PhotobookRuntimeComponent {
-
-runtimeclass Int32Pair
-{
-  Int32 First();
-  Int32 Second();
-}
 
 runtimeclass ProcessingData
 {

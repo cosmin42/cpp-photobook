@@ -27,7 +27,7 @@ runtimeclass PhotobookWin
   void ConfigureScreenSize(Int32Pair screenSize);
   void ConfigureStagedImagesListener(StagedImagesListener listener);
   void ConfigureImageMonitorListener(ImageMonitorListener listener);
-  // void configureProject(std::shared_ptr<PB::Project> project)
+  void ConfigureCurrentProject();
 
   String GenerateProjectName();
 

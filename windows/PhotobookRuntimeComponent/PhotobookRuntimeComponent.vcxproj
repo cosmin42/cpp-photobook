@@ -144,6 +144,9 @@
     <ClInclude Include="PhotobookWin.h">
       <DependentUpon>PhotobookWin.idl</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Int32Pair.h">
+      <DependentUpon>Int32Pair.idl</DependentUpon>
+    </ClInclude>
     <ClInclude Include="ImageMonitorListener.h">
       <DependentUpon>ImageMonitorListener.idl</DependentUpon>
     </ClInclude>
@@ -209,6 +212,9 @@
     <ClCompile Include="ImageViews.cpp">
       <DependentUpon>ImageViews.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="Int32Pair.cpp">
+      <DependentUpon>Int32Pair.idl</DependentUpon>
+    </ClCompile>
     <ClCompile Include="PaperSettings.cpp">
       <DependentUpon>PaperSettings.idl</DependentUpon>
     </ClCompile>
@@ -259,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="ImageMonitorListener.idl" />
+    <Midl Include="Int32Pair.idl" />
     <Midl Include="PhotobookWin.idl" />
     <Midl Include="ProgressInfo.idl" />
     <Midl Include="ProjectItem.idl" />

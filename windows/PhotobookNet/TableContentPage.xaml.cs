@@ -12,6 +12,8 @@ using System.Numerics;
 using System;
 using System.Threading.Tasks;
 using System.Reflection.Metadata;
+using System.Collections.Specialized;
+using System.Linq;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,7 +39,7 @@ namespace PhotobookNet
     /// <summary>
     /// The page that displays the content of the photobook.
     /// </summary>
-    public sealed partial class TableContentPage : Page, PhotobookListener
+    public sealed partial class TableContentPage : Page, PhotobookListener, StagedImagesListener, ImageMonitorListener
     {
 
         ObservableCollection<string> mNavigationItemsCollection;
@@ -66,6 +68,92 @@ namespace PhotobookNet
             this.InitializeComponent();
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mPhotobook.ConfigurePhotobookListener(this);
+            Int32Pair screenSize = new Int32Pair(ScreenSize().Item1, ScreenSize().Item2);
+            mPhotobook.ConfigureScreenSize(screenSize);
+
+            mPhotobook.ConfigureStagedImagesListener(this);
+            mPhotobook.ConfigureImageMonitorListener(this);
+
+            mNavigationItemsCollection = new ObservableCollection<string>();
+            mUnstagedImageCollection = new ObservableCollection<ImageUIData>();
+            mStagedImageCollection = new ObservableCollection<ImageUIData>();
+
+            PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
+            {
+                var isSaved = mPhotobook.GetSettings().IsSaved(mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
+                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
+                mPhotobook.GetImageViews().ImageMonitor().RowList());
+
+                if (isSaved)
+                {
+                    PhotobookSingletonWrapper.Inst().Post(() =>
+                    {
+                        Application.Current.Exit();
+                    });
+                }
+                else
+                {
+                    mExitFlag = true;
+                    PhotobookSingletonWrapper.Inst().Post(async () =>
+                    {
+                        await SaveProjectDialog.ShowAsync();
+                    });
+                }
+            });
+
+            UnstagedListView.ItemsSource = mUnstagedImageCollection;
+            StagedListView.ItemsSource = mStagedImageCollection;
+
+            KeyUp += (object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs args) =>
+            {
+                OnKeyPressed(sender, args);
+            };
+
+            mStagedImageCollection.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
+            {
+                if (args.Action == NotifyCollectionChangedAction.Add)
+                {
+                    System.Collections.IList newItems = args.NewItems;
+                    for (int i = 0; i < newItems.Count; i++)
+                    {
+                        var index = mStagedImageCollection.IndexOf(newItems[i] as ImageUIData);
+                        OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemInserted, index);
+                    }
+                }
+                else if (args.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    var startingIndex = args.NewStartingIndex;
+                    var countOfRemovedItems = args.NewItems.Count;
+                    for (int i = 0; i < args.NewItems.Count; i++)
+                    {
+                        OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemRemoved, startingIndex + i);
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Assert(false, "Invalid change type");
+                }
+            };
+
+            mUnstagedImageCollection.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
+            {
+                if ((sender as ObservableCollection<ImageUIData>).Count == 0)
+                {
+                    AddMediaButton.VerticalAlignment = VerticalAlignment.Center;
+                    RemoveMediaButton.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    AddMediaButton.VerticalAlignment = VerticalAlignment.Bottom;
+                    RemoveMediaButton.VerticalAlignment = VerticalAlignment.Bottom;
+                    RemoveMediaButton.Visibility = Visibility.Visible;
+                }
+            };
+        }
+
+        private void MUnstagedImageCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private int CanvasMinWidth
@@ -904,6 +992,36 @@ namespace PhotobookNet
         public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void OnPictureAdded(int index, int size)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnPictureRemoved(IList<int> indices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnImportFolderAdded()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnImportFolderRemoved(uint index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnRefresh()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnCleared()
+        {
+            throw new NotImplementedException();
         }
     }
 }

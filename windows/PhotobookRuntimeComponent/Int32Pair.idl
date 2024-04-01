@@ -1,0 +1,11 @@
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass Int32Pair
+{
+  Int32Pair(Int32 first, Int32 second);
+  Int32 First;
+  Int32 Second;
+}
+
+} // namespace PhotobookRuntimeComponent

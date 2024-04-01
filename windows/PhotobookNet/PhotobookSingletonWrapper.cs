@@ -14,6 +14,7 @@ namespace PhotobookNet
 
         private PhotobookWin mPhotobook = null;
         private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
+        private Action mOnWindowClosed = null;
 
         private PhotobookSingletonWrapper()
         {
@@ -39,6 +40,16 @@ namespace PhotobookNet
                 function();
             });
             System.Diagnostics.Debug.Assert(success, "Navigation to TableContentPage failed");
+        }
+
+        public void SetOnWindowClosed(Action onWindowClosed)
+        {
+            mOnWindowClosed = onWindowClosed;
+        }
+
+        public void OnWindowClosed()
+        {
+            mOnWindowClosed();
         }
 
         public static PhotobookSingletonWrapper Inst()
