@@ -923,6 +923,7 @@ void TableContentPage::OnStagedImageRemoved(
 {
   std::sort(removedIndexes.begin(), removedIndexes.end(), std::greater<int>());
   for (int i = 0; i < removedIndexes.size(); ++i) {
+      // TODO: Remove path
     auto path = winrt::to_string(
         mStagedImageCollection.GetAt(removedIndexes.at(i)).FullPath());
     mStagedImageCollection.RemoveAt(removedIndexes.at(i));

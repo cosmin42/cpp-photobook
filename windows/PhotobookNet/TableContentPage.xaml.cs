@@ -57,9 +57,9 @@ namespace PhotobookNet
 
         private static (int, int) ScreenSize()
         {
-            var bounds = Window.Current.Bounds;
-            int width = (int)bounds.Width;
-            int height = (int)bounds.Height;
+            // TODO: Do the actual retrieval of the screen size
+            int width = 2560;
+            int height = 1440;
             return (width, height);
         }
 
@@ -194,6 +194,47 @@ namespace PhotobookNet
                 }
             }
             set { }
+        }
+
+        private void LoadImages()
+        {
+            var rowList = mPhotobook.GetImageViews().ImageMonitor().RowList();
+
+            for (int i = 0; i < rowList.Count; i++)
+            {
+                mNavigationItemsCollection.Add(System.IO.Path.GetFileName(rowList[i]));
+            }
+
+            MediaListView.ItemsSource = mNavigationItemsCollection;
+
+            if (rowList.Count > 0)
+            {
+                MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
+
+                var lastROwIndex = rowList.Count - 1;
+                var rootPath = mPhotobook.GetImageViews().ImageMonitor().RowPath((uint)lastROwIndex);
+
+                for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize((uint)lastROwIndex); i++)
+                {
+                    var image = mPhotobook.GetImageViews().ImageMonitor().Image((uint)lastROwIndex, (uint)i);
+                    mUnstagedImageCollection.Insert(i, new ImageUIData(image.keyPath(),
+                        image.frontend().fullPath(),
+                        image.frontend().mediumPath(),
+                        image.frontend().smallPath(),
+                        image.processed()));
+                }
+            }
+
+            var stagedPictures = mPhotobook.GetImageViews().StagedImages().StagedPhotos();
+
+            for (int i = 0; i < stagedPictures.Count; ++i)
+            {
+                mStagedImageCollection.Append(new ImageUIData(stagedPictures[i].keyPath(),
+                                       stagedPictures[i].frontend().fullPath(),
+                                       stagedPictures[i].frontend().mediumPath(),
+                                       stagedPictures[i].frontend().smallPath(),
+                                       stagedPictures[i].processed()));
+            }
         }
 
         private void PostponeError(string message)
@@ -931,45 +972,80 @@ namespace PhotobookNet
 
         public void OnProjectRead()
         {
-            throw new System.NotImplementedException();
+            // ILE
         }
 
         public void OnProjectRenamed()
         {
+            // ILE
         }
 
         public void OnMetadataUpdated()
         {
-            throw new System.NotImplementedException();
+            // ILE
         }
 
         public void OnPersistenceError(PBError error)
         {
-            throw new System.NotImplementedException();
+            // ILE
         }
 
         public void OnExportFinished()
         {
-            throw new System.NotImplementedException();
+            MainProgressBar.Visibility = Visibility.Collapsed;
         }
 
-        public void OnError(PBError error)
+        public async void OnError(PBError error)
         {
-            throw new System.NotImplementedException();
+            var errorString = error.ToString();
+            GenericErrorTextBlock.Text = "Code: " + errorString;
+            await GenericErrorDialog.ShowAsync();
         }
 
         public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
         {
-            throw new System.NotImplementedException();
+            System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
+            if (index == mStagedImageCollection.Count || index < 0)
+            {
+                for (int i = 0; i < photos.Count; i++)
+                {
+                    var imageData = new ImageUIData(photos[i].keyPath(),
+                                               photos[i].frontend().fullPath(),
+                                               photos[i].frontend().mediumPath(),
+                                               photos[i].frontend().smallPath(),
+                                               photos[i].processed());
+                    mStagedImageCollection.Add(imageData);
+                }
+            }
+            else if (index < mStagedImageCollection.Count)
+            {
+                for (int i = 0; i < photos.Count; i++)
+                {
+                    var imageData = new ImageUIData(photos[i].keyPath(),
+                                               photos[i].frontend().fullPath(),
+                                               photos[i].frontend().mediumPath(),
+                                               photos[i].frontend().smallPath(),
+                                               photos[i].processed());
+                    mStagedImageCollection.Insert(index, imageData);
+                }
+            }
         }
 
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
-            throw new System.NotImplementedException();
+            // sort removedIndexes
+            var sortedIndexes = removedIndexes.ToList();
+            sortedIndexes.Sort();
+            foreach (var index in sortedIndexes)
+            {
+                mStagedImageCollection.RemoveAt((int)index);
+            }
+            GalleryCanvas.Invalidate();
         }
 
         public void OnMappingStarted(string path)
         {
+            // ILE
         }
 
         public void OnMappingFinished(string path)
@@ -991,7 +1067,17 @@ namespace PhotobookNet
 
         public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
         {
-            throw new System.NotImplementedException();
+            if (definedProgress.jobsProgress().Count == 0 || definedProgress.progressType() == ProgressType.None)
+            {
+                MainProgressBar.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MainProgressBar.Visibility = Visibility.Visible;
+                MainProgressBar.Maximum = definedProgress.progressCap();
+                MainProgressBar.Value = definedProgress.progress();
+            }
+            UpdateStatusBar(definedProgress, undefinedProgress);
         }
 
         public void OnPictureAdded(int index, int size)
@@ -1001,27 +1087,74 @@ namespace PhotobookNet
 
         public void OnPictureRemoved(IList<int> indices)
         {
-            throw new NotImplementedException();
+            if (indices.Count == 0 || mPhotobook.GetImageViews().StagedImages().StagedPhotos().Count == 0)
+            {
+                return;
+            }
+
+            var selection = GetSelectionIndex();
+            if (selection.StagedPhotoIndex.Count == 0)
+            {
+                var newSelectionIndex = Math.Max(indices[0] - 1, 0);
+                StagedListView.SelectRange(new ItemIndexRange(newSelectionIndex, 1));
+            }
         }
 
-        public void OnImportFolderAdded()
+        public async Task OnImportFolderAddedAsync()
         {
-            throw new NotImplementedException();
+            await FireFolderPicker(onSuccess: (path) =>
+            {
+                mPhotobook.AddImportFolder(path);
+            });
+        }
+
+        private void UpdateUnstagedLine()
+        {
+            var selection = GetSelectionIndex();
+            mUnstagedImageCollection.Clear();
+            if (selection.ImportListIndex != null)
+            {
+                var index = selection.ImportListIndex.Value;
+
+                for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize(index); i++)
+                {
+                    var image = mPhotobook.GetImageViews().ImageMonitor().Image(index, (uint)i);
+                    mUnstagedImageCollection.Add(new ImageUIData(image.keyPath(),
+                                               image.frontend().fullPath(),
+                                               image.frontend().mediumPath(),
+                                               image.frontend().smallPath(),
+                                               image.processed()));
+                }
+            }
         }
 
         public void OnImportFolderRemoved(uint index)
         {
-            throw new NotImplementedException();
+            MediaListView.DeselectRange(new ItemIndexRange(0, (uint)mNavigationItemsCollection.Count));
+            mNavigationItemsCollection.RemoveAt((int)index);
+            MediaListView.ItemsSource = mNavigationItemsCollection;
+            if (mNavigationItemsCollection.Count > 0)
+            {
+                MediaListView.SelectedIndex = 0;
+            }
+
+            UpdateUnstagedLine();
+
         }
 
         public void OnRefresh()
         {
-            throw new NotImplementedException();
+            LoadImages();
         }
 
         public void OnCleared()
         {
-            throw new NotImplementedException();
+            //ILE
+        }
+
+        public void OnImportFolderAdded()
+        {
+            // ILE
         }
     }
 }
