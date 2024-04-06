@@ -85,8 +85,8 @@ namespace PhotobookNet
         {
             Frame.Navigate(typeof(TableContentPage));
         }
-        /*
-        private void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs args)
+
+        protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             mPhotobook.ConfigurePhotobookListener(this);
 
@@ -105,7 +105,6 @@ namespace PhotobookNet
             }
         }
 
-        */
         public void OnProjectRenamed()
         {
             for (int i = 0; i < mProjectsList.Count; i++)
@@ -274,5 +273,6 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
+        
     }
 }
