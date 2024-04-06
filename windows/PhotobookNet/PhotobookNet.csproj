@@ -13,6 +13,7 @@
 		<SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 	<ItemGroup>
+		<None Remove="DashboardPage.xaml" />
 		<None Remove="TableContentPage.xaml" />
 	</ItemGroup>
 	<ItemGroup>
@@ -58,6 +59,9 @@
 			<Generator>MSBuild:Compile</Generator>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<Page Update="DashboardPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Page>
 		<Page Update="TableContentPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>

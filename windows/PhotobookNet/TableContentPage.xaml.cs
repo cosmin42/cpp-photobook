@@ -272,7 +272,7 @@ namespace PhotobookNet
             else
             {
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow));
+                Frame.Navigate(typeof(DashboardPage));
             }
         }
 
@@ -326,7 +326,7 @@ namespace PhotobookNet
             if (isSaved)
             {
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow), "new-project");
+                Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             else
             {
@@ -698,7 +698,7 @@ namespace PhotobookNet
             }
             else
             {
-                Frame.Navigate(typeof(MainWindow));
+                Frame.Navigate(typeof(DashboardPage));
             }
         }
 
@@ -734,13 +734,13 @@ namespace PhotobookNet
             {
                 mNewProjectFlag = false;
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow), "new-project");
+                Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             if (mBackFlag)
             {
                 mBackFlag = false;
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow));
+                Frame.Navigate(typeof(DashboardPage));
             }
         }
 
@@ -755,13 +755,13 @@ namespace PhotobookNet
             {
                 mNewProjectFlag = false;
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow), "new-project");
+                Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             if (mBackFlag)
             {
                 mBackFlag = false;
                 mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(MainWindow));
+                Frame.Navigate(typeof(DashboardPage));
             }
         }
 

@@ -8,6 +8,9 @@
     <None Update="ColorScheme.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="DashboardPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <None Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </None>
