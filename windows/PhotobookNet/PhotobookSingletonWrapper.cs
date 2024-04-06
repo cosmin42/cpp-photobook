@@ -10,7 +10,7 @@ namespace PhotobookNet
 {
     class PhotobookSingletonWrapper
     {
-        private static readonly PhotobookSingletonWrapper sPhotobookSingletonWrapper = null;
+        private static PhotobookSingletonWrapper sPhotobookSingletonWrapper = null;
 
         private PhotobookWin mPhotobook = null;
         private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
@@ -54,6 +54,10 @@ namespace PhotobookNet
 
         public static PhotobookSingletonWrapper Inst()
         {
+            if (sPhotobookSingletonWrapper == null)
+            {
+                sPhotobookSingletonWrapper = new PhotobookSingletonWrapper();
+            }
             return sPhotobookSingletonWrapper;
         }
     }
