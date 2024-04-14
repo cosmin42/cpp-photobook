@@ -83,7 +83,11 @@ public:
                                     index);
   }
 
-  void post(std::function<void()> f) override {}
+  void post(std::function<void()> f) override
+  {
+    winrt::PhotobookRuntimeComponent::Functor functor = [f]() { f(); };
+    mManagedListener.Post(functor);
+  }
 
   void onProgressUpdate(PB::ProgressInfo definedProgress,
                         PB::ProgressInfo undefinedProgress) override

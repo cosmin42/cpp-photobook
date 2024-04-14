@@ -4,6 +4,8 @@ import "ProgressInfo.idl";
 
 namespace PhotobookRuntimeComponent {
 
+delegate void Functor();
+
 interface PhotobookListener
 {
   void OnProjectRead();
@@ -26,5 +28,7 @@ interface PhotobookListener
 
   void OnProgressUpdate(ProgressInfo definedProgress,
                         ProgressInfo undefinedProgress);
+
+  void Post(Functor f);
 };
 } // namespace PhotobookRuntimeComponent

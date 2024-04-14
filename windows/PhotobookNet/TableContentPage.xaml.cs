@@ -1065,7 +1065,17 @@ namespace PhotobookNet
 
         public void OnImageUpdated(string root, int row, int index)
         {
-            throw new System.NotImplementedException();
+            var selection = GetSelectionIndex();
+            var importedSelectedIndex = selection.ImportListIndex;
+            if (importedSelectedIndex.HasValue && importedSelectedIndex.Value == row)
+            {
+                var virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image((uint)row, (uint)index);
+                mUnstagedImageCollection[(int)index] = new ImageUIData(virtualImage.keyPath(),
+                                       virtualImage.frontend().fullPath(),
+                                       virtualImage.frontend().mediumPath(),
+                                       virtualImage.frontend().smallPath(),
+                                       virtualImage.processed());
+            }
         }
 
         public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
@@ -1102,7 +1112,7 @@ namespace PhotobookNet
                 StagedListView.SelectRange(new ItemIndexRange(newSelectionIndex, 1));
             }
         }
-
+        // Rename this to clicked
         public async Task OnImportFolderAddedAsync()
         {
             await FireFolderPicker(onSuccess: (path) =>
@@ -1157,7 +1167,14 @@ namespace PhotobookNet
 
         public void OnImportFolderAdded()
         {
-            // ILE
+        }
+
+        public void Post(Functor f)
+        {
+            PhotobookSingletonWrapper.Inst().Post(() =>
+            {
+                f();
+            });
         }
     }
 }

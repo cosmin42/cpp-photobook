@@ -716,6 +716,7 @@ void TableContentPage::OnStagedImageCollectionChanged(
   }
 }
 
+// TODO: Remove this
 void TableContentPage::UpdateUnstagedImagesView(int index)
 {
   auto iterator =

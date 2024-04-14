@@ -53,6 +53,11 @@ public:
     mManagedListener.OnStagedImageRemoved(managedPhotos);
   }
 
+  void onMappingFinished(Path path) override
+  {
+	mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+  }
+
 private:
   // TODO: Check if not & is enough;
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;

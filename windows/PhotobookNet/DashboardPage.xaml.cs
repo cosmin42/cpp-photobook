@@ -273,6 +273,13 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
-        
+
+        public void Post(Functor f)
+        {
+            PhotobookSingletonWrapper.Inst().Post(() =>
+            {
+                f();
+            });
+        }
     }
 }
