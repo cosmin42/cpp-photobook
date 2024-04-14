@@ -28,6 +28,10 @@ namespace PhotobookNet
 
             Frame rootFrame = MainFrame;
 
+            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+
+            PhotobookSingletonWrapper.Inst().SetWindowHandle(windowHandle);
+
             rootFrame.NavigationFailed += OnNavigationFailed;
 
             rootFrame.Navigate(typeof(DashboardPage));

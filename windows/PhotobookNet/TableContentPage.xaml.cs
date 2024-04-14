@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Reflection.Metadata;
 using System.Collections.Specialized;
 using System.Linq;
+using WinRT.Interop;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -436,9 +437,13 @@ namespace PhotobookNet
         private async Task FireFolderPicker(Action<string> onSuccess)
         {
             Windows.Storage.Pickers.FolderPicker folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, PhotobookSingletonWrapper.Inst().GetWindowHandle());
             folderPicker.FileTypeFilter.Add("*");
             var folder = await folderPicker.PickSingleFolderAsync();
-            onSuccess(folder.Path);
+            if (folder != null)
+            {
+                onSuccess(folder.Path);
+            }
         }
 
         private async void OnImportFolderAdded(object sender, RoutedEventArgs args)
@@ -535,8 +540,6 @@ namespace PhotobookNet
                 StagedListView.SelectRange(new ItemIndexRange(0, 1));
             }
         }
-
-
 
         private void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args)
         {

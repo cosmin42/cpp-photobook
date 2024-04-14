@@ -16,11 +16,18 @@ namespace PhotobookNet
         private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
         private Action mOnWindowClosed = null;
 
+        private nint mWindowHandle;
+
         private PhotobookSingletonWrapper()
         {
             var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
             var installFolderPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
             mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString());
+        }
+
+        public void SetWindowHandle(nint handle)
+        {
+            mWindowHandle = handle;
         }
 
         public void SetThisThreadAsMainDispatcher()
@@ -31,6 +38,11 @@ namespace PhotobookNet
         public PhotobookWin Photobook()
         {
             return mPhotobook;
+        }
+
+        public nint GetWindowHandle()
+        {
+            return mWindowHandle;
         }
 
         public void Post(Action function)
