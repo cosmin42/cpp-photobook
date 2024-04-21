@@ -5,10 +5,6 @@
 
 #include <unordered_set>
 
-#include <winrt/Microsoft.Graphics.Canvas.UI.Xaml.h>
-#include <winrt/Microsoft.Graphics.Canvas.UI.h>
-#include <winrt/Microsoft.Graphics.Canvas.h>
-
 #include "TableContentPage.g.h"
 #include <PhotobookTableListener.h>
 #include <pb/PhotoBook.h>

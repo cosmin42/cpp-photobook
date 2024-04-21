@@ -15,6 +15,8 @@ using System.Reflection.Metadata;
 using System.Collections.Specialized;
 using System.Linq;
 using WinRT.Interop;
+using Microsoft.Graphics.Canvas;
+using Windows.AI.MachineLearning;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -525,6 +527,30 @@ namespace PhotobookNet
             int portviewWidth = (int)GalleryCanvas.ActualWidth;
             int portviewHeight = (int)GalleryCanvas.ActualHeight;
             // TODO Add managed implementation.
+
+            VirtualImagePtr imagePtr = null;
+
+            if (selection.UnstagedLineIndex.Count != 0)
+            {
+                imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(selection.ImportListIndex.Value, selection.UnstagedLineIndex[0]);
+            }
+            else if (selection.StagedPhotoIndex.Count != 0)
+            {
+                imagePtr = mPhotobook.GetImageViews().StagedImages().Picture((int)selection.StagedPhotoIndex[0]);
+            }
+
+            System.Diagnostics.Debug.Assert(imagePtr != null);
+
+            byte[] byteArray = new byte[portviewWidth * portviewHeight * 3];
+
+
+            imagePtr.GalleryProjection(byteArray, portviewWidth, portviewHeight);
+
+            CanvasDevice device = CanvasDevice.GetSharedDevice();
+
+            CanvasBitmap bitmap = Microsoft.Graphics.Canvas.CanvasBitmap.CreateFromBytes(device, byteArray, portviewWidth, portviewHeight, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8X8UIntNormalized);
+
+            session.DrawImage(bitmap);
         }
 
         /* Book Lines */

@@ -3,7 +3,9 @@
 #include "ImageResources.h"
 #include "VirtualImagePtr.g.h"
 
-#include <pb/image/VirtualImage.h>
+#include <pb/image/Image.h>
+
+#include <winrt/Microsoft.Graphics.Canvas.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
@@ -17,6 +19,21 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
   VirtualImageType Imagetype()
   {
     return (VirtualImageType)mVirtualImage->type();
+  }
+
+  void GalleryProjection(winrt::array_view<uint8_t> buffer, int portviewWidth,
+                         int portviewHeight)
+  {
+    auto mediumThumbnailPath = mVirtualImage->frontend().medium;
+    std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
+        portviewWidth, portviewHeight, {255, 255, 255})();
+
+    auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(),
+                                           {portviewWidth, portviewHeight});
+    PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
+
+    buffer = winrt::array_view<uint8_t>(
+        (uint8_t *)image->data, (uint32_t)(image->total() * image->elemSize()));
   }
 
   Windows::Foundation::Collections::IVector<winrt::hstring> resources()

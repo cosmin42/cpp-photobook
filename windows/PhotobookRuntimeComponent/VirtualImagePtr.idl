@@ -23,6 +23,10 @@ runtimeclass VirtualImagePtr
 
   Boolean processed();
 
+  // TODO: Capital letters all the function in this class.
   void finishProcessing();
+
+  void GalleryProjection(ref UInt8[] buffer, Int32 portviewWidth,
+                         Int32 portviewHeight);
 }
 } // namespace PhotobookRuntimeComponent
