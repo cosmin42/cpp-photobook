@@ -541,8 +541,8 @@ namespace PhotobookNet
 
             System.Diagnostics.Debug.Assert(imagePtr != null);
 
-            byte[] byteArray = new byte[portviewWidth * portviewHeight * 3];
-
+            // TODO: make this static as it is always used.
+            byte[] byteArray = new byte[portviewWidth * portviewHeight * 4];
 
             imagePtr.GalleryProjection(byteArray, portviewWidth, portviewHeight);
 
