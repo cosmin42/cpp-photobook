@@ -32,9 +32,6 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
                                            {portviewWidth, portviewHeight});
     PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
 
-    auto tmpBuffer = winrt::array_view<uint8_t>(
-        (uint8_t *)image->data, (uint32_t)(image->total() * image->elemSize()));
-
     std::copy_n((uint8_t *)image->data,
                 (uint32_t)(image->total() * image->elemSize()), buffer.begin());
   }

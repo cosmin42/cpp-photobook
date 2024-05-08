@@ -11,12 +11,9 @@ using Windows.Foundation.Collections;
 using System.Numerics;
 using System;
 using System.Threading.Tasks;
-using System.Reflection.Metadata;
 using System.Collections.Specialized;
 using System.Linq;
-using WinRT.Interop;
 using Microsoft.Graphics.Canvas;
-using Windows.AI.MachineLearning;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -55,6 +52,8 @@ namespace PhotobookNet
         DragSource mDragSource = DragSource.None;
         bool mLinesExclusiveSelection = false;
         bool mBackFlag = false;
+        bool mJustRemove = false;
+        bool mJustInsert = false;
 
         private PhotobookWin mPhotobook;
 
@@ -69,6 +68,9 @@ namespace PhotobookNet
         public TableContentPage()
         {
             this.InitializeComponent();
+
+            mDragAndDropSelectedImages = new Collection<VirtualImagePtr>();
+
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mPhotobook.ConfigurePhotobookListener(this);
             Int32Pair screenSize = new Int32Pair(ScreenSize().Item1, ScreenSize().Item2);
@@ -116,25 +118,61 @@ namespace PhotobookNet
             {
                 if (args.Action == NotifyCollectionChangedAction.Add)
                 {
-                    System.Collections.IList newItems = args.NewItems;
-                    for (int i = 0; i < newItems.Count; i++)
+                    if (mJustInsert)
                     {
-                        var index = mStagedImageCollection.IndexOf(newItems[i] as ImageUIData);
-                        OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemInserted, index);
+                        List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
+
+                        foreach (var x in args.NewItems)
+                        {
+                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as ImageUIData).KeyPath);
+                            copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(imagePtr));
+                        }
+
+                        mPhotobook.GetImageViews().StagedImages().AddPictures(copyOfDraggedImages, args.NewStartingIndex);
+                        mJustInsert = false;
                     }
+                    else
+                    {
+                        mPhotobook.GetImageViews().StagedImages().PopImages(args.NewStartingIndex);
+                    }
+
                 }
                 else if (args.Action == NotifyCollectionChangedAction.Remove)
                 {
-                    var startingIndex = args.NewStartingIndex;
-                    var countOfRemovedItems = args.NewItems.Count;
-                    for (int i = 0; i < args.NewItems.Count; i++)
+                    if (mJustRemove)
                     {
-                        OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemRemoved, startingIndex + i);
+                        mJustRemove = false;
+                    }
+                    else
+                    {
+                        // TODO: Change signature to accept single index.
+                        mPhotobook.GetImageViews().StagedImages().StashImages(new List<uint> { (uint)args.OldStartingIndex });
                     }
                 }
-                else
+                else if (args.Action == NotifyCollectionChangedAction.Move)
                 {
-                    System.Diagnostics.Debug.Assert(false, "Invalid change type");
+                    if (args.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        System.Collections.IList newItems = args.NewItems;
+                        for (int i = 0; i < newItems.Count; i++)
+                        {
+                            var index = mStagedImageCollection.IndexOf(newItems[i] as ImageUIData);
+                            OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemInserted, index);
+                        }
+                    }
+                    else if (args.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        var startingIndex = args.NewStartingIndex;
+                        var countOfRemovedItems = args.NewItems.Count;
+                        for (int i = 0; i < args.NewItems.Count; i++)
+                        {
+                            OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemRemoved, startingIndex + i);
+                        }
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.Assert(false, "Invalid change type");
+                    }
                 }
             };
 
@@ -232,6 +270,7 @@ namespace PhotobookNet
 
             for (int i = 0; i < stagedPictures.Count; ++i)
             {
+                mJustInsert = true;
                 mStagedImageCollection.Append(new ImageUIData(stagedPictures[i].keyPath(),
                                        stagedPictures[i].frontend().fullPath(),
                                        stagedPictures[i].frontend().mediumPath(),
@@ -691,14 +730,7 @@ namespace PhotobookNet
 
             // WORKAROUND END
 
-            List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
-
-            foreach (var image in mDragAndDropSelectedImages)
-            {
-                copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(image));
-            }
-
-            OnStagedImageAdded(copyOfDraggedImages, insertPosition);
+            OnStagedImageAdded(mDragAndDropSelectedImages, insertPosition);
 
             mDragAndDropSelectedImages.Clear();
         }
@@ -1044,6 +1076,7 @@ namespace PhotobookNet
                                                photos[i].frontend().mediumPath(),
                                                photos[i].frontend().smallPath(),
                                                photos[i].processed());
+                    mJustInsert = true;
                     mStagedImageCollection.Add(imageData);
                 }
             }
@@ -1056,6 +1089,8 @@ namespace PhotobookNet
                                                photos[i].frontend().mediumPath(),
                                                photos[i].frontend().smallPath(),
                                                photos[i].processed());
+
+                    mJustInsert = true;
                     mStagedImageCollection.Insert(index, imageData);
                 }
             }
@@ -1063,11 +1098,12 @@ namespace PhotobookNet
 
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
-            // sort removedIndexes
-            var sortedIndexes = removedIndexes.ToList();
-            sortedIndexes.Sort();
+            // sort removedIndexes in decreasing order
+            var sortedIndexes = removedIndexes.OrderByDescending(i => i).ToList();
+
             foreach (var index in sortedIndexes)
             {
+                mJustRemove = true;
                 mStagedImageCollection.RemoveAt((int)index);
             }
             GalleryCanvas.Invalidate();
@@ -1122,7 +1158,7 @@ namespace PhotobookNet
 
         public void OnPictureAdded(int index, int size)
         {
-            throw new NotImplementedException();
+            // TODO: Add unused parameter
         }
 
         public void OnPictureRemoved(IList<int> indices)
