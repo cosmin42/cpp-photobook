@@ -597,14 +597,6 @@ namespace PhotobookNet
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             LoadImages();
-            if (UnstagedListView.Items.Count > 0)
-            {
-                UnstagedListView.SelectRange(new ItemIndexRange(0, 1));
-            }
-            else if (StagedListView.Items.Count > 0)
-            {
-                StagedListView.SelectRange(new ItemIndexRange(0, 1));
-            }
         }
 
         private void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args)
