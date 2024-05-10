@@ -48,7 +48,6 @@ namespace PhotobookNet
         Collection<VirtualImagePtr> mDragAndDropSelectedImages;
         bool mExitFlag = false;
         bool mNewProjectFlag = false;
-        HashSet<string> mLoadedFinishedImportFolders;
         DragSource mDragSource = DragSource.None;
         bool mLinesExclusiveSelection = false;
         bool mBackFlag = false;

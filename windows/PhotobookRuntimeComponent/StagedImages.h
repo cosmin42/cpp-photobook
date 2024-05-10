@@ -32,7 +32,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
                    int position)
   {
     std::vector<std::shared_ptr<PB::VirtualImage>> nativePictures;
-    for (int i = 0; i < pictures.Size(); i++) {
+    for (int i = 0; i < (int)pictures.Size(); i++) {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(pictures.GetAt(i))

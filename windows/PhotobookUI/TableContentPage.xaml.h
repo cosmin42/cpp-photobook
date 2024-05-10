@@ -289,7 +289,6 @@ private:
   PopUps                                         mPopups;
   bool                                           mExitFlag = false;
   bool                                           mNewProjectFlag = false;
-  std::unordered_set<Path>                       mLoadedFinishedImportFolders;
   DragSource                                     mDragSource = DragSource::None;
   bool mLinesExclusiveSelection = false;
   bool mBackFlag = false;

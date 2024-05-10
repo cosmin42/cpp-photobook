@@ -659,8 +659,6 @@ void TableContentPage::OnCanvasDraw(
 
 void TableContentPage::OnThumbnailsProcessingFinished(Path rootPath)
 {
-  mLoadedFinishedImportFolders.insert(rootPath);
-
   auto selection = SelectionIndex();
 
   auto selectedIndex = selection.importListIndex;
