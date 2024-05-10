@@ -191,11 +191,6 @@ namespace PhotobookNet
             };
         }
 
-        private void MUnstagedImageCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private int CanvasMinWidth
         {
             get
@@ -249,10 +244,7 @@ namespace PhotobookNet
 
             if (rowList.Count > 0)
             {
-                MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
-
                 var lastROwIndex = rowList.Count - 1;
-                var rootPath = mPhotobook.GetImageViews().ImageMonitor().RowPath((uint)lastROwIndex);
 
                 for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize((uint)lastROwIndex); i++)
                 {
@@ -263,6 +255,8 @@ namespace PhotobookNet
                         image.frontend().smallPath(),
                         image.processed()));
                 }
+
+                MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
             }
 
             var stagedPictures = mPhotobook.GetImageViews().StagedImages().StagedPhotos();
