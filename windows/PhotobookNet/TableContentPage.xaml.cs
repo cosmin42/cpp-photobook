@@ -53,6 +53,7 @@ namespace PhotobookNet
         bool mBackFlag = false;
         bool mJustRemove = false;
         bool mJustInsert = false;
+        bool doNothing = false;
 
         private PhotobookWin mPhotobook;
 
@@ -117,6 +118,11 @@ namespace PhotobookNet
             {
                 if (args.Action == NotifyCollectionChangedAction.Add)
                 {
+                    if (doNothing)
+                    {
+                        doNothing = false;
+                        return;
+                    }
                     if (mJustInsert)
                     {
                         List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
@@ -150,28 +156,7 @@ namespace PhotobookNet
                 }
                 else if (args.Action == NotifyCollectionChangedAction.Move)
                 {
-                    if (args.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        System.Collections.IList newItems = args.NewItems;
-                        for (int i = 0; i < newItems.Count; i++)
-                        {
-                            var index = mStagedImageCollection.IndexOf(newItems[i] as ImageUIData);
-                            OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemInserted, index);
-                        }
-                    }
-                    else if (args.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        var startingIndex = args.NewStartingIndex;
-                        var countOfRemovedItems = args.NewItems.Count;
-                        for (int i = 0; i < args.NewItems.Count; i++)
-                        {
-                            OnStagedImageCollectionChanged(sender as IObservableVector<ImageUIData>, CollectionChange.ItemRemoved, startingIndex + i);
-                        }
-                    }
-                    else
-                    {
-                        System.Diagnostics.Debug.Assert(false, "Invalid change type");
-                    }
+                    System.Diagnostics.Debug.Assert(false, "Invalid change type");
                 }
             };
 
@@ -263,8 +248,8 @@ namespace PhotobookNet
 
             for (int i = 0; i < stagedPictures.Count; ++i)
             {
-                mJustInsert = true;
-                mStagedImageCollection.Append(new ImageUIData(stagedPictures[i].keyPath(),
+                doNothing = true;
+                mStagedImageCollection.Add(new ImageUIData(stagedPictures[i].keyPath(),
                                        stagedPictures[i].frontend().fullPath(),
                                        stagedPictures[i].frontend().mediumPath(),
                                        stagedPictures[i].frontend().smallPath(),
@@ -509,27 +494,6 @@ namespace PhotobookNet
             else if (StagedListView.Items.Count > 0)
             {
                 StagedListView.SelectRange(new ItemIndexRange(0, 1));
-            }
-        }
-
-        void OnStagedImageCollectionChanged(IObservableVector<ImageUIData> sender, Windows.Foundation.Collections.CollectionChange changeType, int changedIndex)
-        {
-            if (mDragSource == DragSource.Staged)
-            {
-                return;
-            }
-
-            if (changeType == Windows.Foundation.Collections.CollectionChange.ItemInserted)
-            {
-                mPhotobook.GetImageViews().StagedImages().PopImages((int)changedIndex);
-            }
-            else if (changeType == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-            {
-                mPhotobook.GetImageViews().StagedImages().StashImages(new List<uint> { (uint)changedIndex });
-            }
-            else
-            {
-                System.Diagnostics.Debug.Assert(false, "Invalid change type");
             }
         }
 
@@ -848,15 +812,15 @@ namespace PhotobookNet
                     {
                         if (exportSelection.Contains(ExportType.Pdf))
                         {
-                            mPhotobook.ExportPDFAlbum(path, exportName);
+                            mPhotobook.ExportPDFAlbum(exportName, path);
                         }
                         if (exportSelection.Contains(ExportType.Jpg))
                         {
-                            mPhotobook.ExportJPGAlbum(path, exportName);
+                            mPhotobook.ExportJPGAlbum(exportName, path);
                         }
                         if (exportSelection.Contains(ExportType.PdfLibharu))
                         {
-                            mPhotobook.ExportPDFLibharu(path, exportName);
+                            mPhotobook.ExportPDFLibharu(exportName, path);
                         }
                     });
                 }
