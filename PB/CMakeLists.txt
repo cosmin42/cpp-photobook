@@ -112,6 +112,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/project/Project.h
     include/pb/ProgressManager.h
     include/pb/RowProcessingData.h
+    include/pb/RuntimeUUID.h
     include/pb/tasks/Tasks.h
     include/pb/tasks/FileMapper.h
     include/pb/tasks/ParallelTaskConsumer.h
@@ -159,6 +160,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ProjectMetadata.cpp
     src/ProjectPersistence.cpp
     src/RegularImage.cpp
+    src/RuntimeUUID.cpp
     src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
     src/SQLPersistence.cpp
