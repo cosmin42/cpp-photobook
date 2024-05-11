@@ -22,6 +22,7 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/util/Util.h>
+#include <pb/TaskCruncher.h>
 
 namespace PB {
 
@@ -108,6 +109,7 @@ public:
 
 private:
   PhotobookListener                  *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
   std::shared_ptr<ProjectPersistence> mProjectPersistence = nullptr;
   ImportFoldersLogic                  mImportLogic;

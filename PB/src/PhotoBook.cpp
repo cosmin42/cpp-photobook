@@ -7,7 +7,8 @@ namespace PB {
 
 // TODO: Break this into multiple methods
 Photobook::Photobook(Path localStatePath, Path installationPath)
-    : mPlatformInfo(
+    : mTaskCruncher(std::make_shared<TaskCruncher>()),
+      mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
       mProjectPersistence(std::make_shared<ProjectPersistence>())
 {
