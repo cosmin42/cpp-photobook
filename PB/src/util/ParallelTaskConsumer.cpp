@@ -1,10 +1,12 @@
 #include <pb/tasks/ParallelTaskConsumer.h>
 
+
 namespace PBDev {
 ParallelTaskConsumer::ParallelTaskConsumer()
     : mPool(PB::Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
 {
 }
+
 void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
 
 [[nodiscard]] bool ParallelTaskConsumer::finished()
@@ -19,10 +21,11 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
   return true;
 }
 
-void ParallelTaskConsumer::enqueue(Path root, std::function<void()> f)
+void ParallelTaskConsumer::enqueue(boost::uuids::uuid    id,
+                                   std::function<void()> f)
 {
   std::future<void> token = mPool.enqueue(f);
-  mFutures[root] = std::move(token);
+  mFutures[id] = std::move(token);
 }
 
 void ParallelTaskConsumer::wait()

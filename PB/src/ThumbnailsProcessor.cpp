@@ -1,6 +1,7 @@
 #include <pb/tasks/ThumbnailsProcessor.h>
 
 #include <pb/Config.h>
+#include <pb/RuntimeUUID.h>
 
 namespace PB {
 ResizeTask::ResizeTask(Path full, Path medium, Path small,
@@ -79,7 +80,7 @@ void ThumbnailsProcessor::generateThumbnails(
                           mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 
-    mParallelTaskConsumer.enqueue(root,
+    mParallelTaskConsumer.enqueue(RuntimeUUID::newUUID(),
                                   [resizeTask{resizeTask}]() { resizeTask(); });
   }
 }
