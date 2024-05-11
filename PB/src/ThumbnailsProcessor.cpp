@@ -41,7 +41,10 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor() {}
+ThumbnailsProcessor::ThumbnailsProcessor()
+    : mParallelTaskConsumer(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+{
+}
 
 ThumbnailsProcessor::~ThumbnailsProcessor() { abort(); }
 

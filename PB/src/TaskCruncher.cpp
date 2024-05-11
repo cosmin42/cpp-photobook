@@ -5,7 +5,8 @@
 namespace PB {
 void TaskCruncher::registerPTC(const std::string name, unsigned threadsCount)
 {
-  mPTC.emplace(name, PBDev::ParallelTaskConsumer(threadsCount));
+  mPTC.emplace(name,
+               std::make_unique<PBDev::ParallelTaskConsumer>(threadsCount));
 }
 
 void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
@@ -14,7 +15,7 @@ void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
   while (task.has_value()) {
     auto uuid = RuntimeUUID::newUUID();
 
-    mPTC.at(name).enqueue(uuid, [task{task}, &mapper]() {
+    mPTC.at(name)->enqueue(uuid, [task{task}, &mapper]() {
       task->second();
       mapper.onFinished(task->first);
     });

@@ -23,6 +23,6 @@ public:
   void crunch(const std::string, MapReducer &mapper);
 
   private:
-  std::unordered_map<std::string, PBDev::ParallelTaskConsumer> mPTC;
+  std::unordered_map<std::string, std::unique_ptr<PBDev::ParallelTaskConsumer>> mPTC;
 };
 }
