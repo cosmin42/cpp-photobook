@@ -211,8 +211,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestRuntimeUUID.cpp
         tests/TestSequenctialTaskConsumer.cpp
         tests/TestStagedImages.cpp
-        tests/TestThirdPartyLinks.cpp
-        tests/TestFilesMap.cpp)
+        tests/TestThirdPartyLinks.cpp)
 
     target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         include

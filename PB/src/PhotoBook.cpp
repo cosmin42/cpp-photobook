@@ -53,6 +53,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   mProjectPersistence->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
+  mTaskCruncher->registerPTC("export-pdf", 1);
+  mTaskCruncher->registerPTC("export-pdf-libharu", 1);
+  mTaskCruncher->registerPTC("export-jpg", 1);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)
