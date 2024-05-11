@@ -51,6 +51,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   mProgressManager.configure(progressManagerListener);
 
   mProjectPersistence->configure(localStatePath);
+
+  mTaskCruncher->registerPTC("image-search-job", 1);
 }
 
 void Photobook::configure(std::pair<int, int> screenSize)

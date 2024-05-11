@@ -4,6 +4,7 @@
 
 #include <pb/Config.h>
 #include <pb/RowProcessingData.h>
+#include <pb/TaskCruncher.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 
@@ -33,6 +34,8 @@ public:
   // todo: Remove this, replace with mProject reference
   void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<Project> project);
+
+  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
@@ -67,6 +70,7 @@ private:
                         int progressCap);
 
   ImportFoldersLogicListener                   *mListener = nullptr;
+  std::shared_ptr<TaskCruncher>                 mTaskCruncher = nullptr;
   PBDev::ThreadScheduler                       *mScheduler = nullptr;
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;

@@ -23,6 +23,12 @@ void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
   mProject = project;
 }
 
+void ImportFoldersLogic::setTaskCruncher(
+    std::shared_ptr<TaskCruncher> taskCruncher)
+{
+  mTaskCruncher = taskCruncher;
+}
+
 std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
 {
   auto errorOrPath = PBDev::FileInfo::validInputRootPath(path);

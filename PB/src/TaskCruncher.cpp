@@ -11,7 +11,7 @@ void TaskCruncher::registerPTC(const std::string name, unsigned threadsCount)
 
 void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
 {
-  auto task = mapper.getNext();
+  auto task = mapper.getNext(mStopSource.get_token());
   while (task.has_value()) {
     auto uuid = RuntimeUUID::newUUID();
 
@@ -20,8 +20,10 @@ void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
       mapper.onFinished(task->first);
     });
 
-    task = mapper.getNext();
+    task = mapper.getNext(mStopSource.get_token());
   }
 }
+
+void TaskCruncher::abort() { mStopSource.request_stop(); }
 
 } // namespace PB
