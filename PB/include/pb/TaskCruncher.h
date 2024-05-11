@@ -4,6 +4,8 @@
 
 #include <pb/tasks/ParallelTaskConsumer.h>
 
+#include <pb/MapReducer.h>
+
 namespace PB
 {
 class TaskCruncher final
@@ -17,6 +19,8 @@ public:
   TaskCruncher(TaskCruncher&&) = delete;
 
   void registerPTC(const std::string name);
+
+  void crunch(const std::string, MapReducer &mapper);
 
   private:
   std::unordered_map<std::string, PBDev::ParallelTaskConsumer> mPTC;
