@@ -205,6 +205,7 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestPersistenceProject.cpp
         tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
+        tests/TestRuntimeUUID.cpp
         tests/TestSequenctialTaskConsumer.cpp
         tests/TestStagedImages.cpp
         tests/TestThirdPartyLinks.cpp
