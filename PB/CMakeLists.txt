@@ -95,6 +95,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
+    include/pb/MapReducer.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
     include/pb/persistence/FilePersistence.h
