@@ -18,7 +18,7 @@ public:
   TaskCruncher& operator=(const TaskCruncher&) = delete;
   TaskCruncher(TaskCruncher&&) = delete;
 
-  void registerPTC(const std::string name);
+  void registerPTC(const std::string name, unsigned thrreadsCount);
 
   void crunch(const std::string, MapReducer &mapper);
 

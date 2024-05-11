@@ -3,7 +3,10 @@
 #include <pb/RuntimeUUID.h>
 
 namespace PB {
-void TaskCruncher::registerPTC(const std::string name) { mPTC[name]; }
+void TaskCruncher::registerPTC(const std::string name, unsigned threadsCount)
+{
+  mPTC.emplace(name, PBDev::ParallelTaskConsumer(threadsCount));
+}
 
 void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
 {

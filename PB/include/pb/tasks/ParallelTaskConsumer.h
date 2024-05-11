@@ -10,7 +10,7 @@
 namespace PBDev {
 class ParallelTaskConsumer {
 public:
-  ParallelTaskConsumer();
+  ParallelTaskConsumer(unsigned threadCount);
   virtual ~ParallelTaskConsumer() = default;
 
   void abort();

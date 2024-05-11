@@ -1,9 +1,8 @@
 #include <pb/tasks/ParallelTaskConsumer.h>
 
-
 namespace PBDev {
-ParallelTaskConsumer::ParallelTaskConsumer()
-    : mPool(PB::Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+ParallelTaskConsumer::ParallelTaskConsumer(unsigned threadCount)
+    : mPool(threadCount)
 {
 }
 
