@@ -126,6 +126,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Observable.h
     include/pb/util/Timer.h
     include/pb/util/Traits.h
+    include/pb/TaskCruncher.h
     include/pb/Visitor.h
     include/pb/WorkersManager.h
 
@@ -169,6 +170,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/util/Timer.cpp
     src/util/SequentialTaskConsumer.cpp
     src/util/ParallelTaskConsumer.cpp
+    src/TaskCruncher.cpp
     src/TextImage.cpp
     src/VirtualImage.cpp
     src/WorkersManager.cpp)

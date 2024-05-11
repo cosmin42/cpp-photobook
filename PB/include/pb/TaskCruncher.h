@@ -1,0 +1,24 @@
+#pragma once
+
+#include <string>
+
+#include <pb/tasks/ParallelTaskConsumer.h>
+
+namespace PB
+{
+class TaskCruncher final
+{
+public:
+  TaskCruncher() = default;
+  ~TaskCruncher() = default;
+
+  TaskCruncher(const TaskCruncher&) = delete;
+  TaskCruncher& operator=(const TaskCruncher&) = delete;
+  TaskCruncher(TaskCruncher&&) = delete;
+
+  void registerPTC(const std::string name);
+
+  private:
+  std::unordered_map<std::string, PBDev::ParallelTaskConsumer> mPTC;
+};
+}
