@@ -25,8 +25,7 @@ public:
   virtual void onError(PBDev::Error error) = 0;
 };
 
-class ImportFoldersLogic final
-    : public PBDev::SequentialTaskConsumerListener<MediaMapper> {
+class ImportFoldersLogic final : public PicturesSearchConfigListener {
 public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(PBDev::ThreadScheduler *scheduler);
@@ -39,7 +38,6 @@ public:
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
-  void start(Path path);
   void stop(Path path);
   void stopAll();
 
@@ -48,10 +46,9 @@ public:
   void processImages(std::string       thumbnailsDirectoryName,
                      RowProcessingData rowProcessingData, std::string hash);
 
-  // todo: Rename to contain mapping
-  void STCStarted(MediaMapper const &) override;
-  void STCFinished(MediaMapper const &) override;
-  void STCAborted(MediaMapper const &) override;
+  void onPicturesSearchFinished(Path              root,
+                                std::vector<Path> searchResults) override;
+  void onPicturesSearchAborted(Path root) override;
 
   std::pair<int, int> imageProcessingProgress() const;
   std::pair<int, int> imageProcessingProgress(Path path) const;
@@ -74,9 +71,8 @@ private:
   PBDev::ThreadScheduler                       *mScheduler = nullptr;
   std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
   ThumbnailsProcessor                           mThumbnailsProcessor;
-  std::unordered_map<Path, PBDev::SequentialTaskConsumer<MediaMapper>>
-                           mMappingJobs;
-  std::unordered_set<Path> mRemovalMarks;
-  std::shared_ptr<Project> mProject = nullptr;
+  std::unordered_set<Path>                      mRemovalMarks;
+  std::shared_ptr<Project>                      mProject = nullptr;
+  std::unordered_set<Path>                      mPengingSearchRoots;
 };
 } // namespace PB

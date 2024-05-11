@@ -37,6 +37,7 @@ class PicturesSearchConfigListener {
 public:
   virtual void onPicturesSearchFinished(Path              root,
                                         std::vector<Path> searchResults) = 0;
+  virtual void onPicturesSearchAborted(Path root) = 0;
 };
 
 class PicturesSearchConfig final : public MapReducer {

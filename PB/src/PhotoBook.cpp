@@ -113,8 +113,6 @@ void Photobook::addImportFolder(Path path)
     mParent->onError(maybeError.value());
     return;
   }
-
-  mImportLogic.start(path);
 }
 
 void Photobook::removeImportFolder(Path path)

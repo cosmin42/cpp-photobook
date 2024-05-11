@@ -36,44 +36,26 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
     return std::get<PBDev::Error>(errorOrPath);
   }
 
-  for (auto &[key, value] : mMappingJobs) {
+  for (auto key : mPengingSearchRoots) {
     if (PBDev::FileInfo::contains(key, path)) {
       return PBDev::Error() << PB::ErrorCode::FolderAlreadyImported;
     }
   }
 
-  MediaMapper mapper(path);
-
-  mMappingJobs[path] = PBDev::SequentialTaskConsumer<MediaMapper>();
-
-  mMappingJobs.at(path).configure(mapper);
-
-  auto stcMediaMapper =
-      dynamic_cast<SequentialTaskConsumerListener<MediaMapper> *>(this);
-  PBDev::basicAssert(stcMediaMapper != nullptr);
-  mMappingJobs.at(path).configure(stcMediaMapper);
+  PicturesSearchConfig picturesSearchConfig(path);
+  mPengingSearchRoots.insert(path);
+  mScheduler->post([this, path{path}]() { mListener->onMappingStarted(path); });
+  mTaskCruncher->crunch("image-search-job", picturesSearchConfig);
 
   return std::nullopt;
 }
 
-void ImportFoldersLogic::start(Path path)
-{
-  PB::printDebug("Starting %s\n", path.string().c_str());
-  mMappingJobs.at(path).start();
-}
-
 void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(path); }
 
-void ImportFoldersLogic::stopAll()
-{
-  for (auto &mappingJob : mMappingJobs) {
-    mThumbnailsProcessor.abort(mappingJob.first);
-  }
-}
+void ImportFoldersLogic::stopAll() { mTaskCruncher->abort(); }
 
 void ImportFoldersLogic::clearJob(Path root)
 {
-  mMappingJobs.erase(root);
   mImageProcessingProgress.erase(root);
 }
 
@@ -108,31 +90,26 @@ void ImportFoldersLogic::processImages(std::string thumbnailsDirectoryName,
       });
 }
 
-void ImportFoldersLogic::STCStarted(MediaMapper const &mediaMap)
+void ImportFoldersLogic::onPicturesSearchFinished(
+    Path root, std::vector<Path> searchResults)
 {
-  mScheduler->post([this, mediaMap{mediaMap}]() {
-    mListener->onMappingStarted(mediaMap.root());
-  });
-}
-
-void ImportFoldersLogic::STCFinished(MediaMapper const &mediaMap)
-{
-  mScheduler->post([this, mediaMap{mediaMap}]() {
-    if (mediaMap.importedDirectories().empty()) {
-      mListener->onMappingAborted(mediaMap.root());
+  mScheduler->post([this, root{root}, searchResults{searchResults}]() {
+    mPengingSearchRoots.erase(root);
+    if (searchResults.empty()) {
+      mListener->onMappingAborted(root);
       mListener->onError(PBDev::Error() << ErrorCode::NoImages);
     }
     else {
-      mListener->onMappingFinished(mediaMap.root(),
-                                   mediaMap.importedDirectories());
+      mListener->onMappingFinished(root, searchResults);
     }
   });
 }
 
-void ImportFoldersLogic::STCAborted(MediaMapper const &mediaMap)
+void ImportFoldersLogic::onPicturesSearchAborted(Path root)
 {
-  mScheduler->post([this, mediaMap{mediaMap}]() {
-    mListener->onMappingAborted(mediaMap.root());
+  mScheduler->post([this, root{root}]() {
+    mPengingSearchRoots.erase(root);
+    mListener->onMappingAborted(root);
   });
 }
 
@@ -168,7 +145,7 @@ std::vector<Path> ImportFoldersLogic::runningImageProcessingJobs() const
 std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
 {
   std::vector<Path> keys;
-  for (auto &[key, value] : mMappingJobs) {
+  for (auto &key : mPengingSearchRoots) {
     keys.push_back(key);
   }
 
