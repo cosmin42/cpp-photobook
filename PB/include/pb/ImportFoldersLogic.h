@@ -5,6 +5,7 @@
 #include <pb/Config.h>
 #include <pb/RowProcessingData.h>
 #include <pb/TaskCruncher.h>
+#include <pb/ThreadScheduler.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 

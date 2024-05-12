@@ -41,13 +41,13 @@ public:
 
   void setExportListener(ExportListener *listener) { mListener = listener; }
 
-  void start(std::string name, MapReducer &&task)
+  void start(std::string name, std::shared_ptr<MapReducer> task)
   {
     auto newId = RuntimeUUID::newUUID();
     mPendingTasks.emplace(newId, task);
     mPendingTaskNames.emplace(newId, name);
 
-    mTaskCruncher->crunch("export-logic", mPendingTasks.at(newId));
+    mTaskCruncher->crunch("export-logic", *mPendingTasks.at(newId));
   }
 
   void onExportComplete(boost::uuids::uuid id) override
@@ -76,7 +76,7 @@ private:
 
   std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
   std::shared_ptr<TaskCruncher>              mTaskCruncher;
-  std::unordered_map<boost::uuids::uuid, MapReducer,
+  std::unordered_map<boost::uuids::uuid, std::shared_ptr<MapReducer>,
                      boost::hash<boost::uuids::uuid>>
       mPendingTasks;
   std::unordered_map<boost::uuids::uuid, std::string,

@@ -131,28 +131,31 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
 {
   auto pdfName = path / (name + ".pdf");
 
-  PdfExportTask &&task =
-      PdfExportTask(pdfName, mPlatformInfo->localStatePath,
-                    mProjectPersistence->currentProject()->paperSettings,
-                    mImageViews.stagedImages().stagedPhotos());
-  task.setListener(&mExportLogic);
-  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
-                             task.stepsCount());
-  mExportLogic.start(task.name(), std::move(task));
+  std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
+      pdfName, mPlatformInfo->localStatePath,
+      mProjectPersistence->currentProject()->paperSettings,
+      mImageViews.stagedImages().stagedPhotos());
+
+  task->setListener(&mExportLogic);
+  mProgressManager.subscribe(task->name(), JobType::ExportPdf,
+                             task->stepsCount());
+
+  mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
 }
 
 void Photobook::exportPDFLibharu(std::string name, Path path)
 {
   auto pdfName = path / (name + "-libharu" + ".pdf");
 
-  PdfLibharuExportTask &&task =
-      PdfLibharuExportTask(pdfName, mPlatformInfo->localStatePath,
-                           mProjectPersistence->currentProject()->paperSettings,
-                           mImageViews.stagedImages().stagedPhotos());
+  std::shared_ptr<PdfLibharuExportTask> task =
+      std::make_shared<PdfLibharuExportTask>(
+          pdfName, mPlatformInfo->localStatePath,
+          mProjectPersistence->currentProject()->paperSettings,
+          mImageViews.stagedImages().stagedPhotos());
 
-  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
-                             task.stepsCount());
-  mExportLogic.start(task.name(), std::move(task));
+  mProgressManager.subscribe(task->name(), JobType::ExportLibharu,
+                             task->stepsCount());
+  mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
 }
 
 void Photobook::exportJPGAlbum(std::string name, Path path)
@@ -166,13 +169,14 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
     auto success = std::filesystem::create_directories(newFolder);
     PBDev::basicAssert(success);
 
-    JpgExport &&task = JpgExport(
+    std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
         newFolder, mProjectPersistence->currentProject()->paperSettings,
         mImageViews.stagedImages().stagedPhotos());
 
-    mProgressManager.subscribe(task.name(), JobType::ExportPdf,
-                               task.stepsCount());
-    mExportLogic.start(task.name(), std::move(task));
+    mProgressManager.subscribe(task->name(), JobType::ExportJpg,
+                               task->stepsCount());
+    mExportLogic.start(task->name(),
+                       std::static_pointer_cast<MapReducer>(task));
   }
 }
 

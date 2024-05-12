@@ -128,6 +128,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Timer.h
     include/pb/util/Traits.h
     include/pb/TaskCruncher.h
+    include/pb/ThreadScheduler.h
     include/pb/Visitor.h
     include/pb/WorkersManager.h
 
@@ -209,7 +210,6 @@ if (LOG_LEVEL MATCHES Debug)
         tests/TestPhotobook.cpp
         tests/TestProjectPersistence.cpp
         tests/TestRuntimeUUID.cpp
-        tests/TestSequenctialTaskConsumer.cpp
         tests/TestStagedImages.cpp
         tests/TestThirdPartyLinks.cpp)
 

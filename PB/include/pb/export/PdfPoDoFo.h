@@ -24,10 +24,10 @@ public:
 
   std::string name() const;
 
-  std::optional<IdentifyableFunction>
+  virtual std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
 
-  void onFinished(const boost::uuids::uuid id) override;
+  virtual void onFinished(const boost::uuids::uuid id) override;
 
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";
