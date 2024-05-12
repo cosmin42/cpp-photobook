@@ -101,7 +101,15 @@ PdfLibharuExportTask::getNext(std::stop_token stopToken)
   return f;
 }
 
-void PdfLibharuExportTask::onFinished(const boost::uuids::uuid id) {}
+void PdfLibharuExportTask::onFinished(const boost::uuids::uuid id)
+{
+  if (mStopToken.stop_requested()) {
+    mListener->onExportAborted(id);
+  }
+  else {
+    mListener->onExportComplete(id);
+  }
+}
 
 void PdfLibharuExportTask::writeImage(Path inputPath, Path outputPath) const
 {

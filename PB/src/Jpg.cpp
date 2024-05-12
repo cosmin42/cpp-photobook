@@ -92,6 +92,14 @@ JpgExport::getNext(std::stop_token stopToken)
   return f;
 }
 
-void JpgExport::onFinished(const boost::uuids::uuid id) {}
+void JpgExport::onFinished(const boost::uuids::uuid id)
+{
+  if (mStopToken.stop_requested()) {
+    mListener->onExportAborted(id);
+  }
+  else {
+    mListener->onExportComplete(id);
+  }
+}
 
 } // namespace PB

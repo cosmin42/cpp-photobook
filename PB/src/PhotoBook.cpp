@@ -1,5 +1,7 @@
 #include <pb/PhotoBook.h>
 
+#include <pb/export/PdfLibharu.h>
+#include <pb/export/PdfPoDoFo.h>
 #include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
 
@@ -29,22 +31,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   PBDev::basicAssert(projectPersistenceListener != nullptr);
   mProjectPersistence->configure(projectPersistenceListener);
 
-  auto sequentialConsumerListenerPdfOptimized =
-      dynamic_cast<PBDev::SequentialTaskConsumerListener<PdfExportTask> *>(
-          this);
-  PBDev::basicAssert(sequentialConsumerListenerPdfOptimized != nullptr);
-  mExportLogic.configure(sequentialConsumerListenerPdfOptimized);
-
-  auto sequentialConsumerListenerPdf = dynamic_cast<
-      PBDev::SequentialTaskConsumerListener<PdfLibharuExportTask> *>(this);
-  PBDev::basicAssert(sequentialConsumerListenerPdf != nullptr);
-  mExportLogic.configure(sequentialConsumerListenerPdf);
-
-  auto sequentialConsumerListenerJpg =
-      dynamic_cast<PBDev::SequentialTaskConsumerListener<JpgExport> *>(this);
-  PBDev::basicAssert(sequentialConsumerListenerJpg != nullptr);
-  mExportLogic.configure(sequentialConsumerListenerJpg);
-
   auto progressManagerListener =
       dynamic_cast<PB::ProgressManagerListener *>(this);
   PBDev::basicAssert(progressManagerListener != nullptr);
@@ -53,9 +39,11 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
   mProjectPersistence->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
-  mTaskCruncher->registerPTC("export-pdf", 1);
-  mTaskCruncher->registerPTC("export-pdf-libharu", 1);
-  mTaskCruncher->registerPTC("export-jpg", 1);
+  mTaskCruncher->registerPTC("export-logic", 1);
+
+  auto exportListener = dynamic_cast<PB::ExportListener *>(this);
+  PBDev::basicAssert(exportListener != nullptr);
+  mExportLogic.setExportListener(exportListener);
 
   mImportLogic.setTaskCruncher(mTaskCruncher);
   mExportLogic.setTaskCruncher(mTaskCruncher);
@@ -141,23 +129,30 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportPDFAlbum(std::string name, Path path)
 {
-  auto          pdfName = path / (name + ".pdf");
-  PdfExportTask task(pdfName, mPlatformInfo->localStatePath,
-                     mProjectPersistence->currentProject()->paperSettings,
-                     mImageViews.stagedImages().stagedPhotos());
+  auto pdfName = path / (name + ".pdf");
 
-  mExportLogic.start(Context::inst().sStopSource, task);
+  PdfExportTask &&task =
+      PdfExportTask(pdfName, mPlatformInfo->localStatePath,
+                    mProjectPersistence->currentProject()->paperSettings,
+                    mImageViews.stagedImages().stagedPhotos());
+  task.setListener(&mExportLogic);
+  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
+                             task.stepsCount());
+  mExportLogic.start(task.name(), std::move(task));
 }
 
 void Photobook::exportPDFLibharu(std::string name, Path path)
 {
-  auto                 pdfName = path / (name + "-libharu" + ".pdf");
-  PdfLibharuExportTask task(
-      pdfName, mPlatformInfo->localStatePath,
-      mProjectPersistence->currentProject()->paperSettings,
-      mImageViews.stagedImages().stagedPhotos());
+  auto pdfName = path / (name + "-libharu" + ".pdf");
 
-  mExportLogic.start(Context::inst().sStopSource, task);
+  PdfLibharuExportTask &&task =
+      PdfLibharuExportTask(pdfName, mPlatformInfo->localStatePath,
+                           mProjectPersistence->currentProject()->paperSettings,
+                           mImageViews.stagedImages().stagedPhotos());
+
+  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
+                             task.stepsCount());
+  mExportLogic.start(task.name(), std::move(task));
 }
 
 void Photobook::exportJPGAlbum(std::string name, Path path)
@@ -171,11 +166,13 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
     auto success = std::filesystem::create_directories(newFolder);
     PBDev::basicAssert(success);
 
-    JpgExport task(newFolder,
-                   mProjectPersistence->currentProject()->paperSettings,
-                   mImageViews.stagedImages().stagedPhotos());
+    JpgExport &&task = JpgExport(
+        newFolder, mProjectPersistence->currentProject()->paperSettings,
+        mImageViews.stagedImages().stagedPhotos());
 
-    mExportLogic.start(Context::inst().sStopSource, task);
+    mProgressManager.subscribe(task.name(), JobType::ExportPdf,
+                               task.stepsCount());
+    mExportLogic.start(task.name(), std::move(task));
   }
 }
 
@@ -316,53 +313,16 @@ std::string Photobook::projectName() const { return mProjectName; }
 
 void Photobook::onProjectRenamed() {}
 
-void Photobook::STCStarted(PdfExportTask const &task)
+void Photobook::onExportComplete(std::string name) {}
+
+void Photobook::onExportAborted(std::string name)
 {
-  mProgressManager.subscribe(task.name(), JobType::ExportPdf,
-                             task.stepsCount());
+  mProgressManager.abort(name);
 }
 
-void Photobook::STCFinished([[maybe_unused]] PdfExportTask const &task) {}
-void Photobook::STCAborted(PdfExportTask const &task)
+void Photobook::onExportUpdate(std::string name)
 {
-  mProgressManager.abort(task.name());
-}
-
-void Photobook::STCUpdate(PdfExportTask const &task)
-{
-  mProgressManager.update(task.name());
-}
-
-void Photobook::STCStarted(JpgExport const &task)
-{
-  mProgressManager.subscribe(task.name(), JobType::ExportJpg,
-                             task.stepsCount());
-}
-void Photobook::STCFinished([[maybe_unused]] JpgExport const &task) {}
-void Photobook::STCAborted(JpgExport const &task)
-{
-  mProgressManager.abort(task.name());
-}
-void Photobook::STCUpdate(JpgExport const &task)
-{
-  mProgressManager.update(task.name());
-}
-
-void Photobook::STCStarted(PdfLibharuExportTask const &task)
-{
-  mProgressManager.subscribe(task.name(), JobType::ExportLibharu,
-                             task.stepsCount());
-}
-void Photobook::STCFinished([[maybe_unused]] PdfLibharuExportTask const &task)
-{
-}
-void Photobook::STCAborted(PdfLibharuExportTask const &task)
-{
-  mProgressManager.abort(task.name());
-}
-void Photobook::STCUpdate(PdfLibharuExportTask const &task)
-{
-  mProgressManager.update(task.name());
+  mProgressManager.update(name);
 }
 
 void Photobook::progressUpdate(PB::ProgressInfo definedProgress,

@@ -1,24 +1,32 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
-#include <pb/export/PdfLibharu.h>
-#include <pb/export/PdfPoDoFo.h>
-#include <pb/tasks/SequentialTaskConsumer.h>
+#include <pb/RuntimeUUID.h>
+#include <pb/TaskCruncher.h>
+#include <pb/image/VirtualImage.h>
+#include <pb/project/Project.h>
 
 namespace PB {
 
-template <typename T> class ExportLogicListener {
+// TODO: Move this to a file that is inherited by the tasks.
+class ExportLogicListener {
 public:
+  virtual void onExportComplete(boost::uuids::uuid id) = 0;
+  virtual void onExportAborted(boost::uuids::uuid id) = 0;
+  virtual void onExportUpdate(boost::uuids::uuid id) = 0;
 };
 
-template <typename... ExporterTypes> class ExportLogic final {
+class ExportListener {
 public:
-  template <typename T> T const &exporter() const
-  {
-    return std::get<T>(mExporters);
-  }
+  virtual void onExportComplete(std::string name) = 0;
+  virtual void onExportAborted(std::string name) = 0;
+  virtual void onExportUpdate(std::string name) = 0;
+};
 
+class ExportLogic final : public ExportLogicListener {
+public:
   void configure(std::shared_ptr<PB::Project>      project,
                  std::shared_ptr<PB::PlatformInfo> platformInfo)
   {
@@ -26,40 +34,53 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  template <typename T>
-  void configure(PBDev::SequentialTaskConsumerListener<T> *listener)
-  {
-    std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners) = listener;
-  }
-
   void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
   {
-	mTaskCruncher = taskCruncher;
+    mTaskCruncher = taskCruncher;
   }
 
-  template <typename T> void start(std::stop_source &stopSource, T task)
+  void setExportListener(ExportListener *listener) { mListener = listener; }
+
+  void start(std::string name, MapReducer &&task)
   {
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
-        .configure(stopSource.get_token());
+    auto newId = RuntimeUUID::newUUID();
+    mPendingTasks.emplace(newId, task);
+    mPendingTaskNames.emplace(newId, name);
 
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(task);
+    mTaskCruncher->crunch("export-logic", mPendingTasks.at(newId));
+  }
 
-    auto listener =
-        std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners);
+  void onExportComplete(boost::uuids::uuid id) override
+  {
+    mListener->onExportComplete(mPendingTaskNames.at(id));
+    mPendingTasks.erase(id);
+    mPendingTaskNames.erase(id);
+  }
 
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).configure(listener);
+  void onExportAborted(boost::uuids::uuid id) override
+  {
+    mListener->onExportAborted(mPendingTaskNames.at(id));
+    mPendingTasks.erase(id);
+    mPendingTaskNames.erase(id);
+  }
 
-    std::get<PBDev::SequentialTaskConsumer<T>>(mExporters).start();
+  void onExportUpdate(boost::uuids::uuid id) override
+  {
+    mListener->onExportUpdate(mPendingTaskNames.at(id));
   }
 
 private:
-  std::tuple<PBDev::SequentialTaskConsumer<ExporterTypes>...> mExporters;
-  std::tuple<PBDev::SequentialTaskConsumerListener<ExporterTypes> *...>
-                                    mListeners;
+  ExportListener                   *mListener;
   std::shared_ptr<PB::Project>      mProject;
   std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
 
   std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
   std::shared_ptr<TaskCruncher>              mTaskCruncher;
+  std::unordered_map<boost::uuids::uuid, MapReducer,
+                     boost::hash<boost::uuids::uuid>>
+      mPendingTasks;
+  std::unordered_map<boost::uuids::uuid, std::string,
+                     boost::hash<boost::uuids::uuid>>
+      mPendingTaskNames;
 };
 } // namespace PB

@@ -3,6 +3,7 @@
 #include <hpdf.h>
 
 #include <pb/MapReducer.h>
+#include <pb/export/ExportLogic.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/util/Traits.h>
 
@@ -14,6 +15,8 @@ public:
       Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
       std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
   ~PdfLibharuExportTask() = default;
+
+  void setListener(ExportLogicListener *listener) { mListener = listener; }
 
   bool stoppingCondition() const;
   int  stepsCount() const;
@@ -31,6 +34,7 @@ private:
 
   void writeImage(Path inputPath, Path outputPath) const;
 
+  ExportLogicListener                       *mListener = nullptr;
   int                                        mIndex = 0;
   std::vector<std::shared_ptr<VirtualImage>> mStagedImages;
   Path                                       mLocalStatePath;

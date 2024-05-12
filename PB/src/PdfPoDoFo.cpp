@@ -87,15 +87,24 @@ PdfExportTask::getNext(std::stop_token stopToken)
 
   IdentifyableFunction f;
   f.first = RuntimeUUID::newUUID();
-  f.second = [this, stopToken{stopToken}]() {
+  f.second = [this, stopToken{stopToken}, id{f.first}]() {
     while (!stoppingCondition() && stopToken.stop_requested()) {
       taskStep();
+      mListener->onExportUpdate(id);
     }
   };
   mCrunchedFlag = true;
   return f;
 }
 
-void PdfExportTask::onFinished(const boost::uuids::uuid id) {}
+void PdfExportTask::onFinished(const boost::uuids::uuid id)
+{
+  if (mStopToken.stop_requested()) {
+    mListener->onExportAborted(id);
+  }
+  else {
+    mListener->onExportComplete(id);
+  }
+}
 
 } // namespace PB
