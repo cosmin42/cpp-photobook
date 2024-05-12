@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <optional>
+#include <stop_token>
 
 #include <boost/uuid/uuid.hpp>
 

@@ -12,6 +12,7 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
+#include <pb/TaskCruncher.h>
 #include <pb/config/Log.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
@@ -22,7 +23,6 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/FileMapper.h>
 #include <pb/util/Util.h>
-#include <pb/TaskCruncher.h>
 
 namespace PB {
 
@@ -50,7 +50,7 @@ public:
   void newProject(std::string name);
   void unloadProject();
 
-  ImageViews         &imageViews();
+  ImageViews                         &imageViews();
   std::shared_ptr<ProjectPersistence> project();
 
   void addImportFolder(Path importPath);

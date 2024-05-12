@@ -1,11 +1,14 @@
 #pragma once
 
+#include <pb/MapReducer.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
-class JpgExport final {
+
+// TODO: Change name to be consistent with the pdf tasks.
+class JpgExport final : public MapReducer {
 public:
   explicit JpgExport(
       Path root, PaperSettings paperSettings,
@@ -17,6 +20,11 @@ public:
   void taskStep();
 
   std::string name() const;
+
+  std::optional<IdentifyableFunction>
+  getNext(std::stop_token stopToken) override;
+
+  void onFinished(const boost::uuids::uuid id) override;
 
 private:
   struct JPG_TEMPLATE_PARAMS {
@@ -32,5 +40,7 @@ private:
   Path                                       mRoot;
   PaperSettings                              mPaperSettings;
   std::vector<std::shared_ptr<VirtualImage>> mStagedImages;
+  bool                                       mCrunchedFlag = false;
+  std::stop_token                            mStopToken;
 };
 } // namespace PB

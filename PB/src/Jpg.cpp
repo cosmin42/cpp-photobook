@@ -72,4 +72,26 @@ std::string JpgExport::makeName(unsigned counter)
   return result;
 }
 
+std::optional<IdentifyableFunction>
+JpgExport::getNext(std::stop_token stopToken)
+{
+  if (mCrunchedFlag) {
+    return std::nullopt;
+  }
+
+  mStopToken = stopToken;
+
+  IdentifyableFunction f;
+  f.first = RuntimeUUID::newUUID();
+  f.second = [this, stopToken{stopToken}]() {
+    while (!stoppingCondition() && stopToken.stop_requested()) {
+      taskStep();
+    }
+  };
+  mCrunchedFlag = true;
+  return f;
+}
+
+void JpgExport::onFinished(const boost::uuids::uuid id) {}
+
 } // namespace PB

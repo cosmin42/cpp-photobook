@@ -81,6 +81,28 @@ std::string PdfLibharuExportTask::name() const
   return mPdfPath.filename().string() + "-libharu";
 }
 
+std::optional<IdentifyableFunction>
+PdfLibharuExportTask::getNext(std::stop_token stopToken)
+{
+  if (mCrunchedFlag) {
+    return std::nullopt;
+  }
+
+  mStopToken = stopToken;
+
+  IdentifyableFunction f;
+  f.first = RuntimeUUID::newUUID();
+  f.second = [this, stopToken{stopToken}]() {
+    while (!stoppingCondition() && stopToken.stop_requested()) {
+      taskStep();
+    }
+  };
+  mCrunchedFlag = true;
+  return f;
+}
+
+void PdfLibharuExportTask::onFinished(const boost::uuids::uuid id) {}
+
 void PdfLibharuExportTask::writeImage(Path inputPath, Path outputPath) const
 {
   auto imageWidth = mPaperSettings.width * 72 / mPaperSettings.ppi;

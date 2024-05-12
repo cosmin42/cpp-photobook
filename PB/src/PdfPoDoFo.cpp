@@ -75,5 +75,27 @@ std::string PdfExportTask::name() const
 {
   return mPdfPath.filename().string() + "podofo";
 }
+// TODO: implement once somehow
+std::optional<IdentifyableFunction>
+PdfExportTask::getNext(std::stop_token stopToken)
+{
+  if (mCrunchedFlag) {
+    return std::nullopt;
+  }
+
+  mStopToken = stopToken;
+
+  IdentifyableFunction f;
+  f.first = RuntimeUUID::newUUID();
+  f.second = [this, stopToken{stopToken}]() {
+    while (!stoppingCondition() && stopToken.stop_requested()) {
+      taskStep();
+    }
+  };
+  mCrunchedFlag = true;
+  return f;
+}
+
+void PdfExportTask::onFinished(const boost::uuids::uuid id) {}
 
 } // namespace PB

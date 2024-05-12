@@ -2,12 +2,13 @@
 
 #include <hpdf.h>
 
+#include <pb/MapReducer.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 
-class PdfLibharuExportTask final {
+class PdfLibharuExportTask final : public MapReducer {
 public:
   PdfLibharuExportTask(
       Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
@@ -20,6 +21,11 @@ public:
 
   std::string name() const;
 
+  std::optional<IdentifyableFunction>
+  getNext(std::stop_token stopToken) override;
+
+  void onFinished(const boost::uuids::uuid id) override;
+
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";
 
@@ -31,5 +37,7 @@ private:
   PaperSettings                              mPaperSettings;
   Path                                       mPdfPath;
   HPDF_Doc                                   mPDFFile;
+  bool                                       mCrunchedFlag = false;
+  std::stop_token                            mStopToken;
 };
 } // namespace PB

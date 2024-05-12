@@ -3,11 +3,13 @@
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 
+#include <pb/MapReducer.h>
+
 #include <podofo/podofo.h>
 
 namespace PB {
 
-class PdfExportTask final {
+class PdfExportTask final : public MapReducer {
 public:
   PdfExportTask(Path exportPdfPath, Path localStatePath,
                 PaperSettings                                     paperSettings,
@@ -20,6 +22,11 @@ public:
 
   std::string name() const;
 
+  std::optional<IdentifyableFunction>
+  getNext(std::stop_token stopToken) override;
+
+  void onFinished(const boost::uuids::uuid id) override;
+
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";
 
@@ -31,6 +38,8 @@ private:
   Path                                         mLocalStatePath;
   PaperSettings                                mPaperSettings;
   Path                                         mPdfPath;
+  bool                                         mCrunchedFlag = false;
+  std::stop_token                              mStopToken;
 };
 
 } // namespace PB
