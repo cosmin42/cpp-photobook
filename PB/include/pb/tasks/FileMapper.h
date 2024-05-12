@@ -34,7 +34,10 @@ public:
   }
 
   PicturesSearchConfig(Path root) : mRoot(root) {}
-  ~PicturesSearchConfig() = default;
+  ~PicturesSearchConfig()
+  {
+
+  }
 
   void setPicturesSearchConfigListener(PicturesSearchConfigListener *listener)
   {
@@ -47,6 +50,8 @@ public:
     if (mCrunchedFlag) {
       return std::nullopt;
     }
+
+    mStopToken = stopToken;
 
     IdentifyableFunction f;
     f.first = RuntimeUUID::newUUID();
@@ -69,7 +74,13 @@ public:
   void onFinished(const boost::uuids::uuid id) override
   {
     UNUSED(id);
-    mListener->onPicturesSearchFinished(mRoot, mSearchResults);
+    if (mStopToken.stop_requested())
+    {
+      mListener->onPicturesSearchAborted(mRoot);
+    }
+    else {
+      mListener->onPicturesSearchFinished(mRoot, mSearchResults);
+    }
   }
 
   std::vector<Path> result() const { return mSearchResults; }
@@ -79,6 +90,7 @@ private:
   Path                          mRoot;
   std::vector<Path>             mSearchResults;
   bool                          mCrunchedFlag = false;
+  std::stop_token               mStopToken;
 };
 
 } // namespace PB

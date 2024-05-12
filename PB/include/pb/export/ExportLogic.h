@@ -32,6 +32,11 @@ public:
     std::get<PBDev::SequentialTaskConsumerListener<T> *>(mListeners) = listener;
   }
 
+  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
+  {
+	mTaskCruncher = taskCruncher;
+  }
+
   template <typename T> void start(std::stop_source &stopSource, T task)
   {
     std::get<PBDev::SequentialTaskConsumer<T>>(mExporters)
@@ -55,5 +60,6 @@ private:
   std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
 
   std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
+  std::shared_ptr<TaskCruncher>              mTaskCruncher;
 };
 } // namespace PB

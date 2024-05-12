@@ -67,13 +67,13 @@ private:
   void onImageProcessed(Path key, Path root, Path full, Path medium, Path small,
                         int progressCap);
 
-  ImportFoldersLogicListener                   *mListener = nullptr;
-  std::shared_ptr<TaskCruncher>                 mTaskCruncher = nullptr;
-  PBDev::ThreadScheduler                       *mScheduler = nullptr;
-  std::unordered_map<Path, std::pair<int, int>> mImageProcessingProgress;
-  ThumbnailsProcessor                           mThumbnailsProcessor;
-  std::unordered_set<Path>                      mRemovalMarks;
-  std::shared_ptr<Project>                      mProject = nullptr;
-  std::unordered_set<Path>                      mPengingSearchRoots;
+  ImportFoldersLogicListener                    *mListener = nullptr;
+  std::shared_ptr<TaskCruncher>                  mTaskCruncher = nullptr;
+  PBDev::ThreadScheduler                        *mScheduler = nullptr;
+  std::unordered_map<Path, std::pair<int, int>>  mImageProcessingProgress;
+  ThumbnailsProcessor                            mThumbnailsProcessor;
+  std::unordered_set<Path>                       mRemovalMarks;
+  std::shared_ptr<Project>                       mProject = nullptr;
+  std::unordered_map<Path, PicturesSearchConfig> mPendingSearches;
 };
 } // namespace PB

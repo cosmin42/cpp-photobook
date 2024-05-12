@@ -36,16 +36,16 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
     return std::get<PBDev::Error>(errorOrPath);
   }
 
-  for (auto key : mPengingSearchRoots) {
+  for (auto &[key, value] : mPendingSearches) {
     if (PBDev::FileInfo::contains(key, path)) {
       return PBDev::Error() << PB::ErrorCode::FolderAlreadyImported;
     }
   }
 
-  PicturesSearchConfig picturesSearchConfig(path);
-  mPengingSearchRoots.insert(path);
+  mPendingSearches.emplace(path, PicturesSearchConfig(path));
+  mPendingSearches.at(path).setPicturesSearchConfigListener(this);
   mScheduler->post([this, path{path}]() { mListener->onMappingStarted(path); });
-  mTaskCruncher->crunch("image-search-job", picturesSearchConfig);
+  mTaskCruncher->crunch("image-search-job", mPendingSearches.at(path));
 
   return std::nullopt;
 }
@@ -94,7 +94,7 @@ void ImportFoldersLogic::onPicturesSearchFinished(
     Path root, std::vector<Path> searchResults)
 {
   mScheduler->post([this, root{root}, searchResults{searchResults}]() {
-    mPengingSearchRoots.erase(root);
+    mPendingSearches.erase(root);
     if (searchResults.empty()) {
       mListener->onMappingAborted(root);
       mListener->onError(PBDev::Error() << ErrorCode::NoImages);
@@ -108,7 +108,7 @@ void ImportFoldersLogic::onPicturesSearchFinished(
 void ImportFoldersLogic::onPicturesSearchAborted(Path root)
 {
   mScheduler->post([this, root{root}]() {
-    mPengingSearchRoots.erase(root);
+    mPendingSearches.erase(root);
     mListener->onMappingAborted(root);
   });
 }
@@ -145,8 +145,8 @@ std::vector<Path> ImportFoldersLogic::runningImageProcessingJobs() const
 std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
 {
   std::vector<Path> keys;
-  for (auto &key : mPengingSearchRoots) {
-    keys.push_back(key);
+  for (auto & [root, values] : mPendingSearches) {
+    keys.push_back(root);
   }
 
   return keys;
