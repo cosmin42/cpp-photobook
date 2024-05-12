@@ -93,7 +93,7 @@ PdfLibharuExportTask::getNext(std::stop_token stopToken)
   IdentifyableFunction f;
   f.first = RuntimeUUID::newUUID();
   f.second = [this, stopToken{stopToken}]() {
-    while (!stoppingCondition() && stopToken.stop_requested()) {
+    while (!stoppingCondition() && !stopToken.stop_requested()) {
       taskStep();
     }
   };

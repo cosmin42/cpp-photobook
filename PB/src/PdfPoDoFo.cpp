@@ -88,7 +88,8 @@ PdfExportTask::getNext(std::stop_token stopToken)
   IdentifyableFunction f;
   f.first = RuntimeUUID::newUUID();
   f.second = [this, stopToken{stopToken}, id{f.first}]() {
-    while (!stoppingCondition() && stopToken.stop_requested()) {
+    // TODO: Find a way to reuse this code in the other exports
+    while (!stoppingCondition() && !stopToken.stop_requested()) {
       taskStep();
       mListener->onExportUpdate(id);
     }
