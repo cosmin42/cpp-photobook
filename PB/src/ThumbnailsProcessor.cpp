@@ -83,8 +83,9 @@ void ThumbnailsProcessor::generateThumbnails(
                           mScreenWidth, mScreenHeight,
                           mStopSources[root].get_token());
 
-    mParallelTaskConsumer.enqueue(RuntimeUUID::newUUID(),
-                                  [resizeTask{resizeTask}]() { resizeTask(); });
+    mParallelTaskConsumer.enqueue(
+        PBDev::ParallelTaskConsumerId(RuntimeUUID::newUUID()),
+        [resizeTask{resizeTask}]() { resizeTask(); });
   }
 }
 
