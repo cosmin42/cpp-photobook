@@ -20,7 +20,7 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
   return true;
 }
 
-void ParallelTaskConsumer::enqueue(boost::uuids::uuid    id,
+void ParallelTaskConsumer::enqueue(ParallelTaskConsumerId id,
                                    std::function<void()> f)
 {
   std::future<void> token = mPool.enqueue(f);
