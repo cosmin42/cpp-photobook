@@ -7,6 +7,10 @@
 
 #include <nlohmann/json.hpp>
 
+#include <boost/functional/hash.hpp>
+
+#include <pb/RuntimeUUID.h>
+
 namespace PBDev {
 
 template <class... Ts> struct overloaded : Ts... {
@@ -49,7 +53,43 @@ std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map,
 void basicAssert(int shouldBetrue, const std::source_location location =
                                        std::source_location::current());
 
+template <typename Tag> class StrongUuid final {
+public:
+  explicit StrongUuid(const boost::uuids::uuid &uuid) : mUuid(uuid) {}
+  ~StrongUuid() = default;
+
+  const boost::uuids::uuid &operator*() const { return mUuid; }
+
+  bool operator==(const StrongUuid<Tag> &other) const
+  {
+    return mUuid == other.mUuid;
+  }
+
+  bool operator!=(const StrongUuid<Tag> &other) const
+  {
+    return !(*this == other);
+  }
+
+private:
+  boost::uuids::uuid mUuid;
+};
 } // namespace PBDev
+
+#define DECLARE_STRONG_UUID(NAME)                                              \
+  namespace PBDev {                                                            \
+  struct NAME##Tag {};                                                         \
+  typedef StrongUuid<NAME##Tag> NAME;                                          \
+  }                                                                            \
+  namespace boost {                                                            \
+  template <> struct hash<::PBDev::NAME> {                                     \
+    ::std::size_t operator()(const ::PBDev::NAME &suuid) const                 \
+    {                                                                          \
+      return ::boost::hash<boost::uuids::uuid>()(*suuid);                      \
+    }                                                                          \
+  };                                                                           \
+  }
+
+DECLARE_STRONG_UUID(ParallelTaskConsumerId)
 
 typedef PBDev::Path Path;
 typedef PBDev::Json Json;
