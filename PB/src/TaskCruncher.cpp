@@ -3,22 +3,22 @@
 #include <pb/RuntimeUUID.h>
 
 namespace PB {
-void TaskCruncher::registerPTC(const std::string name, unsigned threadsCount)
+void TaskCruncher::registerPTC(const std::string poolName,
+                               unsigned          threadsCount)
 {
-  mPTC.emplace(name,
+  mPTC.emplace(poolName,
                std::make_unique<PBDev::ParallelTaskConsumer>(threadsCount));
 }
 
-void TaskCruncher::crunch(const std::string name, MapReducer &mapper)
+void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper)
 {
   auto task = mapper.getNext(mStopSource.get_token());
   while (task.has_value()) {
 
-    mPTC.at(name)->enqueue(PBDev::ParallelTaskConsumerId(RuntimeUUID::newUUID()),
-                           [task{task}, &mapper]() {
-                             task->second();
-                             mapper.onFinished(task->first);
-                           });
+    mPTC.at(poolName)->enqueue([task{task}, &mapper]() {
+      task->second();
+      mapper.onFinished(task->first);
+    });
 
     task = mapper.getNext(mStopSource.get_token());
   }

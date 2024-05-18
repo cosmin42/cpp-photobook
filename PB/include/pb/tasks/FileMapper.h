@@ -34,10 +34,7 @@ public:
   }
 
   PicturesSearchConfig(Path root) : mRoot(root) {}
-  ~PicturesSearchConfig()
-  {
-
-  }
+  ~PicturesSearchConfig() {}
 
   void setPicturesSearchConfigListener(PicturesSearchConfigListener *listener)
   {
@@ -53,29 +50,29 @@ public:
 
     mStopToken = stopToken;
 
-    IdentifyableFunction f;
-    f.first = RuntimeUUID::newUUID();
-    f.second = [this, stopToken{stopToken}]() {
-      auto recursiveIterator = std::filesystem::recursive_directory_iterator(
-          mRoot, std::filesystem::directory_options::skip_permission_denied);
-      while (recursiveIterator != std::filesystem::end(recursiveIterator) &&
-             !stopToken.stop_requested()) {
-        auto path = recursiveIterator->path();
-        if (isValidPath(path)) {
-          mSearchResults.push_back(path);
-        }
-        recursiveIterator++;
-      }
-    };
+    IdentifyableFunction f{
+        RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
+          auto recursiveIterator =
+              std::filesystem::recursive_directory_iterator(
+                  mRoot,
+                  std::filesystem::directory_options::skip_permission_denied);
+          while (recursiveIterator != std::filesystem::end(recursiveIterator) &&
+                 !stopToken.stop_requested()) {
+            auto path = recursiveIterator->path();
+            if (isValidPath(path)) {
+              mSearchResults.push_back(path);
+            }
+            recursiveIterator++;
+          }
+        }};
     mCrunchedFlag = true;
     return f;
   }
 
-  void onFinished(const boost::uuids::uuid id) override
+  void onFinished(PBDev::MapReducerTaskId id) override
   {
-    UNUSED(id);
-    if (mStopToken.stop_requested())
-    {
+    UNUSED(id)
+    if (mStopToken.stop_requested()) {
       mListener->onPicturesSearchAborted(mRoot);
     }
     else {

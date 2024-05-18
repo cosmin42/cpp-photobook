@@ -30,7 +30,7 @@ public:
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
 
-  void onFinished(const boost::uuids::uuid id) override;
+  void onFinished(PBDev::MapReducerTaskId id) override;
 
 private:
   struct JPG_TEMPLATE_PARAMS {

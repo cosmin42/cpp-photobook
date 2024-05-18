@@ -90,6 +90,7 @@ private:
   }
 
 DECLARE_STRONG_UUID(ParallelTaskConsumerId)
+DECLARE_STRONG_UUID(PdfPoDoFoId)
 
 typedef PBDev::Path Path;
 typedef PBDev::Json Json;

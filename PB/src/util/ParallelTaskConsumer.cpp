@@ -1,5 +1,7 @@
 #include <pb/tasks/ParallelTaskConsumer.h>
 
+#include <pb/RuntimeUUID.h>
+
 namespace PBDev {
 ParallelTaskConsumer::ParallelTaskConsumer(unsigned threadCount)
     : mPool(threadCount)
@@ -20,9 +22,9 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
   return true;
 }
 
-void ParallelTaskConsumer::enqueue(ParallelTaskConsumerId id,
-                                   std::function<void()> f)
+void ParallelTaskConsumer::enqueue(std::function<void()> f)
 {
+  ParallelTaskConsumerId id(PB::RuntimeUUID::newUUID());
   std::future<void> token = mPool.enqueue(f);
   mFutures[id] = std::move(token);
 }

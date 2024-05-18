@@ -85,20 +85,19 @@ PdfExportTask::getNext(std::stop_token stopToken)
 
   mStopToken = stopToken;
 
-  IdentifyableFunction f;
-  f.first = RuntimeUUID::newUUID();
-  f.second = [this, stopToken{stopToken}, id{f.first}]() {
-    // TODO: Find a way to reuse this code in the other exports
-    while (!stoppingCondition() && !stopToken.stop_requested()) {
-      taskStep();
-      mListener->onExportUpdate(id);
-    }
-  };
+  IdentifyableFunction f{
+      RuntimeUUID::newUUID(), [this, stopToken{stopToken}, id{f.first}]() {
+        // TODO: Find a way to reuse this code in the other exports
+        while (!stoppingCondition() && !stopToken.stop_requested()) {
+          taskStep();
+          mListener->onExportUpdate(mId);
+        }
+      }};
   mCrunchedFlag = true;
   return f;
 }
 
-void PdfExportTask::onFinished(const boost::uuids::uuid id)
+void PdfExportTask::onFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(id);

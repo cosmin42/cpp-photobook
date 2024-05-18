@@ -14,7 +14,7 @@ public:
   virtual ~ParallelTaskConsumer() = default;
 
   void abort();
-  void enqueue(ParallelTaskConsumerId id, std::function<void()> f);
+  void enqueue(std::function<void()> f);
 
   void wait();
 

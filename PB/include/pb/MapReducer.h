@@ -4,22 +4,30 @@
 #include <optional>
 #include <stop_token>
 
+#include <boost/uuid/nil_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 
 #include <pb/util/Traits.h>
 
+DECLARE_STRONG_UUID(MapReducerTaskId)
+
 namespace PB {
-typedef std::pair<boost::uuids::uuid, std::function<void()>>
+typedef std::pair<PBDev::MapReducerTaskId, std::function<void()>>
     IdentifyableFunction;
 
 class MapReducer {
 public:
-  MapReducer() {}
+  MapReducer() : mId(boost::uuids::nil_uuid()) {}
   virtual ~MapReducer() = default;
+
+  void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
 
   virtual std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) = 0;
 
-  virtual void onFinished(const boost::uuids::uuid id) = 0;
+  virtual void onFinished(PBDev::MapReducerTaskId) = 0;
+
+protected:
+  PBDev::MapReducerTaskId mId;
 };
 } // namespace PB

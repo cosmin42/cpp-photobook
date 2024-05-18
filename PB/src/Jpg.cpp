@@ -81,18 +81,18 @@ JpgExport::getNext(std::stop_token stopToken)
 
   mStopToken = stopToken;
 
-  IdentifyableFunction f;
-  f.first = RuntimeUUID::newUUID();
-  f.second = [this, stopToken{stopToken}]() {
-    while (!stoppingCondition() && !stopToken.stop_requested()) {
-      taskStep();
-    }
-  };
+  IdentifyableFunction f{
+      RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
+        while (!stoppingCondition() && !stopToken.stop_requested()) {
+          taskStep();
+          mListener->onExportUpdate(mId);
+        }
+      }};
   mCrunchedFlag = true;
   return f;
 }
 
-void JpgExport::onFinished(const boost::uuids::uuid id)
+void JpgExport::onFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(id);

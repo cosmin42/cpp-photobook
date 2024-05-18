@@ -44,6 +44,8 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
 
   mPendingSearches.emplace(path, PicturesSearchConfig(path));
   mPendingSearches.at(path).setPicturesSearchConfigListener(this);
+  mPendingSearches.at(path).assignUuid(
+      PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
   mScheduler->post([this, path{path}]() { mListener->onMappingStarted(path); });
   mTaskCruncher->crunch("image-search-job", mPendingSearches.at(path));
 
@@ -145,7 +147,7 @@ std::vector<Path> ImportFoldersLogic::runningImageProcessingJobs() const
 std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
 {
   std::vector<Path> keys;
-  for (auto & [root, values] : mPendingSearches) {
+  for (auto &[root, values] : mPendingSearches) {
     keys.push_back(root);
   }
 

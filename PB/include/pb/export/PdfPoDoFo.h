@@ -27,7 +27,7 @@ public:
   virtual std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
 
-  virtual void onFinished(const boost::uuids::uuid id) override;
+  virtual void onFinished(PBDev::MapReducerTaskId id) override;
 
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";

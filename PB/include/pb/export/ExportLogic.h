@@ -8,14 +8,16 @@
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 
+DECLARE_STRONG_UUID(ExportLogicReducersId)
+
 namespace PB {
 
 // TODO: Move this to a file that is inherited by the tasks.
 class ExportLogicListener {
 public:
-  virtual void onExportComplete(boost::uuids::uuid id) = 0;
-  virtual void onExportAborted(boost::uuids::uuid id) = 0;
-  virtual void onExportUpdate(boost::uuids::uuid id) = 0;
+  virtual void onExportComplete(PBDev::MapReducerTaskId) = 0;
+  virtual void onExportAborted(PBDev::MapReducerTaskId) = 0;
+  virtual void onExportUpdate(PBDev::MapReducerTaskId) = 0;
 };
 
 class ExportListener {
@@ -43,30 +45,33 @@ public:
 
   void start(std::string name, std::shared_ptr<MapReducer> task)
   {
-    auto newId = RuntimeUUID::newUUID();
-    mPendingTasks.emplace(newId, task);
-    mPendingTaskNames.emplace(newId, name);
+    PBDev::MapReducerTaskId id(RuntimeUUID::newUUID());
+    task->assignUuid(id);
 
-    mTaskCruncher->crunch("export-logic", *mPendingTasks.at(newId));
+    mPendingTasks.emplace(id, task);
+    mPendingTaskNames.emplace(id, name);
+
+    mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id));
   }
 
-  void onExportComplete(boost::uuids::uuid id) override
+  void onExportComplete(PBDev::MapReducerTaskId id) override
   {
     mListener->onExportComplete(mPendingTaskNames.at(id));
     mPendingTasks.erase(id);
     mPendingTaskNames.erase(id);
   }
 
-  void onExportAborted(boost::uuids::uuid id) override
+  void onExportAborted(PBDev::MapReducerTaskId id) override
   {
     mListener->onExportAborted(mPendingTaskNames.at(id));
     mPendingTasks.erase(id);
     mPendingTaskNames.erase(id);
   }
 
-  void onExportUpdate(boost::uuids::uuid id) override
+  void onExportUpdate(PBDev::MapReducerTaskId id) override
   {
-    mListener->onExportUpdate(mPendingTaskNames.at(id));
+    auto name = mPendingTaskNames.at(id);
+    mListener->onExportUpdate(name);
   }
 
 private:
@@ -76,11 +81,11 @@ private:
 
   std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
   std::shared_ptr<TaskCruncher>              mTaskCruncher;
-  std::unordered_map<boost::uuids::uuid, std::shared_ptr<MapReducer>,
-                     boost::hash<boost::uuids::uuid>>
+  std::unordered_map<PBDev::MapReducerTaskId, std::shared_ptr<MapReducer>,
+                     boost::hash<PBDev::MapReducerTaskId>>
       mPendingTasks;
-  std::unordered_map<boost::uuids::uuid, std::string,
-                     boost::hash<boost::uuids::uuid>>
+  std::unordered_map<PBDev::MapReducerTaskId, std::string,
+                     boost::hash<PBDev::MapReducerTaskId>>
       mPendingTaskNames;
 };
 } // namespace PB
