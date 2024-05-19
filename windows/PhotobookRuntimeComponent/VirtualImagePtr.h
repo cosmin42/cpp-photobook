@@ -4,12 +4,13 @@
 #include "VirtualImagePtr.g.h"
 
 #include <pb/image/Image.h>
+#include <pb/image/ImageFactory.h>
 
 #include <winrt/Microsoft.Graphics.Canvas.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
-  VirtualImagePtr() {}
+
   explicit VirtualImagePtr(std::shared_ptr<PB::VirtualImage> virtualImage)
       : mVirtualImage(virtualImage)
   {

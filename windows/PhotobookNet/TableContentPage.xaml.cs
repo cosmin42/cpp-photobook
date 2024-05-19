@@ -43,8 +43,8 @@ namespace PhotobookNet
     {
 
         ObservableCollection<string> mNavigationItemsCollection;
-        ObservableCollection<ImageUIData> mUnstagedImageCollection;
-        ObservableCollection<ImageUIData> mStagedImageCollection;
+        ObservableCollection<VirtualImagePtr> mUnstagedImageCollection;
+        ObservableCollection<VirtualImagePtr> mStagedImageCollection;
         Collection<VirtualImagePtr> mDragAndDropSelectedImages;
         bool mExitFlag = false;
         bool mNewProjectFlag = false;
@@ -80,8 +80,8 @@ namespace PhotobookNet
             mPhotobook.ConfigureImageMonitorListener(this);
 
             mNavigationItemsCollection = new ObservableCollection<string>();
-            mUnstagedImageCollection = new ObservableCollection<ImageUIData>();
-            mStagedImageCollection = new ObservableCollection<ImageUIData>();
+            mUnstagedImageCollection = new ObservableCollection<VirtualImagePtr>();
+            mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();
 
             PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
             {
@@ -127,9 +127,10 @@ namespace PhotobookNet
                     {
                         List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
 
+                        // TODO: Fix VirtualImagePtr members capitalization.
                         foreach (var x in args.NewItems)
                         {
-                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as ImageUIData).KeyPath);
+                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as VirtualImagePtr).keyPath());
                             copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(imagePtr));
                         }
 
@@ -162,7 +163,7 @@ namespace PhotobookNet
 
             mUnstagedImageCollection.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs args) =>
             {
-                if ((sender as ObservableCollection<ImageUIData>).Count == 0)
+                if ((sender as ObservableCollection<VirtualImagePtr>).Count == 0)
                 {
                     AddMediaButton.VerticalAlignment = VerticalAlignment.Center;
                     RemoveMediaButton.Visibility = Visibility.Collapsed;
@@ -234,11 +235,7 @@ namespace PhotobookNet
                 for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize((uint)lastROwIndex); i++)
                 {
                     var image = mPhotobook.GetImageViews().ImageMonitor().Image((uint)lastROwIndex, (uint)i);
-                    mUnstagedImageCollection.Insert(i, new ImageUIData(image.keyPath(),
-                        image.frontend().fullPath(),
-                        image.frontend().mediumPath(),
-                        image.frontend().smallPath(),
-                        image.processed()));
+                    mUnstagedImageCollection.Insert(i, image);
                 }
 
                 MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
@@ -249,11 +246,7 @@ namespace PhotobookNet
             for (int i = 0; i < stagedPictures.Count; ++i)
             {
                 doNothing = true;
-                mStagedImageCollection.Add(new ImageUIData(stagedPictures[i].keyPath(),
-                                       stagedPictures[i].frontend().fullPath(),
-                                       stagedPictures[i].frontend().mediumPath(),
-                                       stagedPictures[i].frontend().smallPath(),
-                                       stagedPictures[i].processed()));
+                mStagedImageCollection.Add(stagedPictures[i]);
             }
         }
 
@@ -624,13 +617,13 @@ namespace PhotobookNet
             bool allowDrag = true;
             foreach (var item in args.Items)
             {
-                var image = item as ImageUIData;
-                if (!image.Processed)
+                var image = item as VirtualImagePtr;
+                if (!image.processed())
                 {
                     allowDrag = false;
                     break;
                 }
-                var keyPath = image.KeyPath;
+                var keyPath = image.keyPath();
                 var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath);
                 mDragAndDropSelectedImages.Add(imagePtr);
             }
@@ -889,7 +882,8 @@ namespace PhotobookNet
                     {
                         for (var i = 0; i < -diff; i++)
                         {
-                            mUnstagedImageCollection.Add(new ImageUIData());
+                            var emptyImage = mPhotobook.EmptyImage();
+                            mUnstagedImageCollection.Add(emptyImage);
                         }
                     }
 
@@ -897,9 +891,7 @@ namespace PhotobookNet
                     {
                         VirtualImagePtr virtualImage = iterator.At((uint)i).current();
 
-                        mUnstagedImageCollection[i] = new ImageUIData(virtualImage.keyPath(),
-                            virtualImage.frontend().fullPath(), virtualImage.frontend().mediumPath(),
-                            virtualImage.frontend().smallPath(), virtualImage.processed());
+                        mUnstagedImageCollection[i] = virtualImage;
                     }
                 }
                 else
@@ -1020,27 +1012,16 @@ namespace PhotobookNet
             {
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    var imageData = new ImageUIData(photos[i].keyPath(),
-                                               photos[i].frontend().fullPath(),
-                                               photos[i].frontend().mediumPath(),
-                                               photos[i].frontend().smallPath(),
-                                               photos[i].processed());
                     mJustInsert = true;
-                    mStagedImageCollection.Add(imageData);
+                    mStagedImageCollection.Add(photos[i]);
                 }
             }
             else if (index < mStagedImageCollection.Count)
             {
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    var imageData = new ImageUIData(photos[i].keyPath(),
-                                               photos[i].frontend().fullPath(),
-                                               photos[i].frontend().mediumPath(),
-                                               photos[i].frontend().smallPath(),
-                                               photos[i].processed());
-
                     mJustInsert = true;
-                    mStagedImageCollection.Insert(index, imageData);
+                    mStagedImageCollection.Insert(index, photos[i]);
                 }
             }
         }
@@ -1082,11 +1063,7 @@ namespace PhotobookNet
             if (importedSelectedIndex.HasValue && importedSelectedIndex.Value == row)
             {
                 var virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image((uint)row, (uint)index);
-                mUnstagedImageCollection[(int)index] = new ImageUIData(virtualImage.keyPath(),
-                                       virtualImage.frontend().fullPath(),
-                                       virtualImage.frontend().mediumPath(),
-                                       virtualImage.frontend().smallPath(),
-                                       virtualImage.processed());
+                mUnstagedImageCollection[(int)index] = virtualImage;
             }
         }
 
@@ -1144,11 +1121,7 @@ namespace PhotobookNet
                 for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize(index); i++)
                 {
                     var image = mPhotobook.GetImageViews().ImageMonitor().Image(index, (uint)i);
-                    mUnstagedImageCollection.Add(new ImageUIData(image.keyPath(),
-                                               image.frontend().fullPath(),
-                                               image.frontend().mediumPath(),
-                                               image.frontend().smallPath(),
-                                               image.processed()));
+                    mUnstagedImageCollection.Add(image);
                 }
             }
         }

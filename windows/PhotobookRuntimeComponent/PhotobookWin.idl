@@ -29,6 +29,8 @@ runtimeclass PhotobookWin
   void ConfigureImageMonitorListener(ImageMonitorListener listener);
   void ConfigureCurrentProject();
 
+  VirtualImagePtr EmptyImage();
+
   String GenerateProjectName();
 
   void RecallMetadata();

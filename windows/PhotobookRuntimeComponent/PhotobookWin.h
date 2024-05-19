@@ -174,6 +174,12 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mPhotobook->configure(mPhotobook->project()->currentProject());
   }
 
+  PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
+  {
+    return winrt::make<VirtualImagePtr>(
+        PB::ImageFactory::inst().defaultRegularImage());
+  }
+
   winrt::hstring GenerateProjectName()
   {
     auto projectName = PB::Project::generateAlbumName([this](std::string name) {

@@ -4,6 +4,7 @@ namespace PhotobookRuntimeComponent {
 
 enum VirtualImageType { None, Text, Regular, Test };
 
+// TODO: Remove ImageUIData
 runtimeclass VirtualImagePtr
 {
   VirtualImageType Imagetype();
