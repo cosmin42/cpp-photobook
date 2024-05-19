@@ -13,13 +13,9 @@ struct ImageResources : ImageResourcesT<ImageResources> {
   }
   ~ImageResources() = default;
 
-  winrt::hstring fullPath();
-  winrt::hstring mediumPath();
-  winrt::hstring smallPath();
-
-  void setFullPath(winrt::hstring const fullPath);
-  void setMediumPath(winrt::hstring const mediumPath);
-  void setSmallPath(winrt::hstring const smallPath);
+  winrt::hstring FullPath();
+  winrt::hstring MediumPath();
+  winrt::hstring SmallPath();
 
 private:
   PB::ImageResources mImageResource;

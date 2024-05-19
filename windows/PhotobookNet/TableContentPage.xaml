@@ -405,10 +405,10 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="underlying:ImageUIData">
+                                <DataTemplate x:DataType="underlying:VirtualImagePtr">
                                     <Image  Height="80"
                                             Width="120"
-                                            Source="{x:Bind SmallPath}" />
+                                            Source="{x:Bind Frontend.SmallPath}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -481,10 +481,10 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="underlying:ImageUIData">
+                            <DataTemplate x:DataType="underlying:VirtualImagePtr">
                                 <Image Height="80"
                                        Width="120"
-                                       Source="{x:Bind SmallPath}" />
+                                       Source="{x:Bind Frontend.SmallPath}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

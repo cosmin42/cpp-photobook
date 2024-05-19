@@ -20,7 +20,7 @@ runtimeclass VirtualImagePtr
   void setSizePath(String fullSizePath, String mediumSizePath,
                    String smallSizePath);
 
-  ImageResources frontend();
+  ImageResources Frontend { get; };
 
   Boolean processed();
 

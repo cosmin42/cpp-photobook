@@ -8,32 +8,17 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
-winrt::hstring ImageResources::fullPath()
+winrt::hstring ImageResources::FullPath()
 {
   return winrt::to_hstring(mImageResource.full.string());
 }
-winrt::hstring ImageResources::mediumPath()
+winrt::hstring ImageResources::MediumPath()
 {
   return winrt::to_hstring(mImageResource.medium.string());
 }
-winrt::hstring ImageResources::smallPath()
+winrt::hstring ImageResources::SmallPath()
 {
   return winrt::to_hstring(mImageResource.small.string());
-}
-
-void ImageResources::setFullPath(winrt::hstring const fullPath)
-{
-  mImageResource.full = winrt::to_string(fullPath);
-}
-
-void ImageResources::setMediumPath(winrt::hstring const mediumPath)
-{
-  mImageResource.medium = winrt::to_string(mediumPath);
-}
-
-void ImageResources::setSmallPath(winrt::hstring const smallPath)
-{
-  mImageResource.small = winrt::to_string(smallPath);
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation

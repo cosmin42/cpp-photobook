@@ -75,7 +75,7 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
                                winrt::to_string(smallSizePath));
   }
 
-  PhotobookRuntimeComponent::ImageResources frontend()
+  PhotobookRuntimeComponent::ImageResources Frontend()
   {
     return winrt::make<ImageResources>(mVirtualImage->frontend());
   }
