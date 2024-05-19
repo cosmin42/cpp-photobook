@@ -3,14 +3,14 @@ PB/build/*
 PB/include/Config.h
 .vscode/*
 .commit-check.yml
-windows/PhotobookUI/packages/*
-windows/PhotobookUI/x64/*
-windows/PhotobookUI/obj/*
-windows/PhotobookUI/_build/*
-windows/PhotobookUI/.vs/*
-windows/PhotobookUI/Generated\ Files/*
-windows/PhotobookUI/enc_temp_folder/*
-windows/PhotobookUI/bin/*
+windows/packages/*
+windows/x64/*
+windows/obj/*
+windows/_build/*
+windows/.vs/*
+windows/Generated\ Files/*
+windows/enc_temp_folder/*
+windows/bin/*
 
 windows/PhotobookRuntimeComponent/packages/*
 windows/PhotobookRuntimeComponent/x64/*
@@ -24,7 +24,6 @@ windows/PhotobookRuntimeComponent/bin/*
 windows/PhotobookNet/obj/*
 windows/PhotobookNet/bin/*
 
-windows/PhotobookUI/PhotobookUI_TemporaryKey.pfx
 
 windows/PhotobookNetAdapter/obj/*
 windows/PhotobookNetAdapter/bin/*
@@ -32,8 +31,6 @@ windows/PhotobookNetAdapter/bin/*
 osx/PhotoBook/PhotoBook.xcodeproj/project.xcworkspace/xcuserdata/*
 vcpkg/*
 vcpkg
-windows/PhotobookUI/AppPackages/*
-windows/PhotobookUI/BundleArtifacts/*
 osx/PhotoBook/.DS_Store
 # Gradle files
 android/.gradle/
@@ -73,7 +70,6 @@ PB/test-data/file-mapping-test/
 *.puml
 compile_commands.json
 out/
-windows/PhotobookUI/ARM64/
 PB/build*
 build-x64*
 build-ARM64*
