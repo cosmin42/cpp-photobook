@@ -52,7 +52,7 @@
 		<RunPostBuildEvent>Always</RunPostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\PhotobookRuntimeComponent\PhotobookRuntimeComponent.vcxproj" />
+		<ProjectReference Include="..\PhotobookRuntimeComponent\PhotobookRuntimeComponent.vcxproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="ColorScheme.xaml">
@@ -60,7 +60,7 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<Page Update="DashboardPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Update="TableContentPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -76,6 +76,12 @@
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir) &amp;&amp; xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir) &amp;&amp; xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir) &amp;&amp; xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)\AppX\ &amp;&amp; xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir)\AppX\ &amp;&amp; xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)\AppX\ &amp;&amp; xcopy /y /d $(SolutionDir)Assets\*.png $(OutDir)\AppX\Assets\" />
+		<Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)" />
+		<Exec Command="xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir) " />
+		<Exec Command="xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)" />
+		<Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)\AppX\" />
+		<Exec Command="xcopy /y /d $(SolutionDir)..\..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir)\AppX\" />
+		<Exec Command="xcopy /y $(SolutionDir)..\..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)\AppX\" />
+		<Exec Command="xcopy /y /d $(SolutionDir)Assets\*.png $(OutDir)\AppX\Assets\" />
 	</Target>
 </Project>

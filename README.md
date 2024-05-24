@@ -14,7 +14,7 @@ Install the required packages using vcpkg:
 
 Run ```build-pblib.bat```
 
-Open the solution file from ```cpp-photobook\windows\PhotoBookUI```
+Open the solution file from ```cpp-photobook\windows```
 
 
 ### macOS
