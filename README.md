@@ -34,7 +34,6 @@ Run ```./PhotoBook``` from the build folder.
 Run ```cmake --preset pb-console-debug```
 
 ## Tests
-The tests are generated only when ```LOG_LEVEL=Debug```
 
 macOS: ```./pbtests``` on macOS.
 

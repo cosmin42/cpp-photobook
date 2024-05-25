@@ -1,23 +1,14 @@
 #pragma once
 #include <stop_token>
 
-#include <pb/config/Log.h>
 #include <pb/util/Timer.h>
 #include <pb/project/PaperSettings.h>
-
-#if __has_include(<pb/config/@PRINTER_TYPE@.h>)
-#include <pb/config/@PRINTER_TYPE@.h>
-#else
-#warning "@PRINTER_TYPE@ doesn't exist"
-#endif
 
 namespace PB {
   
 class Context final {
 public:
   static constexpr Context &inst() { return sContext; }
-
-  static constexpr LogLevel logLevel() { return LogLevel::@LOG_LEVEL@; }
 
   static constexpr const char *JPG_EXTENSION = ".jpg";
   static constexpr const char *BOOK_EXTENSION = ".photobook";
@@ -67,8 +58,6 @@ public:
   static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
   static constexpr bool SIMULATE_SLOW_EXPORTER = false;
 
-  Log const &printer() { return mLogPrinter; }
-
   std::stop_source sStopSource;
 
 private:
@@ -79,8 +68,6 @@ private:
   ~Context() = default;
 
   static Context sContext;
-
-  @PRINTER_TYPE@ mLogPrinter;
 };
 
 } // namespace PB

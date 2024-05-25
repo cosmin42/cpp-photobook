@@ -13,8 +13,6 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "LOG_LEVEL":"Debug",
-        "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"x64",
       "binaryDir":"build-x64"
@@ -26,8 +24,6 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "LOG_LEVEL":"Debug",
-        "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"x64",
       "binaryDir":"build-x64"
@@ -39,8 +35,6 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "LOG_LEVEL":"Debug",
-        "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"ARM64",
       "binaryDir":"build-ARM64"
@@ -52,8 +46,6 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE":"vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "LOG_LEVEL":"Debug",
-        "PRINTER_TYPE":"StandardPrinter"
       },
       "architecture":"ARM64",
       "binaryDir":"build-ARM64"

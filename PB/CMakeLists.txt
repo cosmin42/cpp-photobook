@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.27)
 project(PhotobookLib)
 
 option(STATIC_CHECK "Statically check the program." OFF)
-option(LOG_LEVEL "Log level." OFF)
-option(PRINTER_TYPE "The printer type." OFF)
 
 if (WIN32)
     add_compile_options(/std:c++20)
@@ -16,25 +14,6 @@ if (WIN32)
 else()
     set(CMAKE_CXX_FLAGS "-std=c++20")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-endif()
-
-# The default printer
-if (NOT PRINTER_TYPE)
-    set(PRINTER_TYPE StandardPrinter)
-endif()
-
-# The default log level
-if (NOT LOG_LEVEL)
-    set(LOG_LEVEL Debug)
-endif()
-
-set(EXISTING_LOG_LEVELS None Debug Info Warning Error)
-
-if (LOG_LEVEL IN_LIST EXISTING_LOG_LEVELS)
-    message("Generating config files...")
-    configure_file(Config.h.in include/pb/Config.h)
-else()
-    message(FATAL_ERROR "${LOG_LEVEL} Not in the list of levels ${EXISTING_LOG_LEVELS}" )
 endif()
 
 if (STATIC_CHECK)
@@ -56,9 +35,8 @@ endif()
 
 find_package(Boost REQUIRED program_options)
 find_package(exiv2 CONFIG REQUIRED)
-if (LOG_LEVEL MATCHES Debug)
-    find_package(GTest CONFIG REQUIRED)
-endif()
+find_package(GTest CONFIG REQUIRED)
+
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
@@ -73,8 +51,6 @@ include_directories(${CMAKE_BINARY_DIR})
 
 add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/IteratorWithState.h
-    include/pb/config/Log.h
-    include/pb/config/${PRINTER_TYPE}.h
     include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
     include/pb/DataManager.h
@@ -148,7 +124,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImageSetWriter.cpp
     src/ImportFoldersLogic.cpp
     src/Jpg.cpp
-    src/Log.cpp
     src/MetadataReader.cpp
     src/PaperSettings.cpp
     src/PathCache.cpp
@@ -194,47 +169,45 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-if (LOG_LEVEL MATCHES Debug)
-    add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
-        tests/MockListeners.h
-        tests/MockListeners.cpp
-        tests/TestPersistence.cpp
-        tests/TestIteratorWithState.cpp
-        tests/TestComparator.cpp
-        tests/TestErrors.cpp
-        tests/TestFolderImport.cpp
-        tests/TestImageMonitor.cpp
-        tests/TestParallelTaskConsumer.cpp
-        tests/TestPathCache.cpp
-        tests/TestPersistenceProject.cpp
-        tests/TestPhotobook.cpp
-        tests/TestProjectPersistence.cpp
-        tests/TestRuntimeUUID.cpp
-        tests/TestStagedImages.cpp
-        tests/TestThirdPartyLinks.cpp)
+add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
+    tests/MockListeners.h
+    tests/MockListeners.cpp
+    tests/TestPersistence.cpp
+    tests/TestIteratorWithState.cpp
+    tests/TestComparator.cpp
+    tests/TestErrors.cpp
+    tests/TestFolderImport.cpp
+    tests/TestImageMonitor.cpp
+    tests/TestParallelTaskConsumer.cpp
+    tests/TestPathCache.cpp
+    tests/TestPersistenceProject.cpp
+    tests/TestPhotobook.cpp
+    tests/TestProjectPersistence.cpp
+    tests/TestRuntimeUUID.cpp
+    tests/TestStagedImages.cpp
+    tests/TestThirdPartyLinks.cpp)
 
-    target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-        include
-        ${CMAKE_CURRENT_BINARY_DIR}/include)
+target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+    include
+    ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-        opencv_core
-        opencv_imgcodecs
-        Boost::boost
-        Boost::program_options
-        exiv2lib
-        GTest::gtest GTest::gtest_main GTest::gmock
-        magic_enum::magic_enum
-        dp::thread-pool
-        unofficial::libharu::hpdf
-        unofficial::sqlite3::sqlite3
-        bcrypt
-        nlohmann_json::nlohmann_json
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
-        ${PBLIB_LIBRARY_NAME})
+target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+    opencv_core
+    opencv_imgcodecs
+    Boost::boost
+    Boost::program_options
+    exiv2lib
+    GTest::gtest GTest::gtest_main GTest::gmock
+    magic_enum::magic_enum
+    dp::thread-pool
+    unofficial::libharu::hpdf
+    unofficial::sqlite3::sqlite3
+    bcrypt
+    nlohmann_json::nlohmann_json
+    ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
+    ${PBLIB_LIBRARY_NAME})
 
-    add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
-    COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
-        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
-        "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
-endif()
+add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
+COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
+    "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
+    "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
