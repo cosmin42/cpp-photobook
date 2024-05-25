@@ -1,4 +1,3 @@
-![Console App](https://github.com/cosmin42/cpp-photobook/actions/workflows/cmake-multi-platform.yml/badge.svg)
 ![WindowsAppSDK App](https://github.com/cosmin42/cpp-photobook/actions/workflows/msbuild.yml/badge.svg)
 
 # Photobook cpp exercise
