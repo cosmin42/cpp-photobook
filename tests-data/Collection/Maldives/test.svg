@@ -1,0 +1,11 @@
+
+<svg width="6000" height="4000" xmlns="http://www.w3.org/2000/svg">
+  <mask id="svgmask0">
+    <polygon fill="#ffffff" points="200 0, 400 400, 0 400"></polygon>
+  </mask>
+   <mask id="svgmask1">
+    <polygon fill="#ffffff" points="600 0, 800 400, 400 400"></polygon>
+  </mask>
+  <image href="DSC_0552.JPG" mask="url(#svgmask0)" width="10%"></image>
+  <image href="DSC_0051.JPG" mask="url(#svgmask1)" width="10%" x="400"></image>
+</svg>
