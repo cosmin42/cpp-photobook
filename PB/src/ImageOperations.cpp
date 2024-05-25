@@ -11,7 +11,7 @@ bool validExtension(std::optional<Path> path)
   if (path->filename().string().starts_with('.')) {
     return false;
   }
-  const std::set<std::string> validFileExtensions = {Context::JPG_EXTENSION,
+  const std::set<std::string> validFileExtensions = {OneConfig::JPG_EXTENSION,
                                                      ".jpeg", ".png"};
 
   auto extension = path->extension().string();
@@ -160,9 +160,9 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
   auto inputImage = ImageReader().loadImage(inputPath);
 
   int mediumThumbnailWidth =
-      std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
+      std::max<int>(OneConfig::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
   int mediumThumbnailHeight =
-      std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
+      std::max<int>(OneConfig::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
 
   if ((thumbnailsType & ThumbnailType::Medium) == ThumbnailType::Medium) {
     auto mediumImagePointer = PB::Process::resize(
@@ -174,8 +174,8 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
 
   if ((thumbnailsType & ThumbnailType::Small) == ThumbnailType::Small) {
     auto smallImagePointer =
-        PB::Process::resize(cv::Size(Context::SMALL_THUMBNAIL_WIDTH,
-                                     Context::SMALL_THUMBNAIL_HEIGHT),
+        PB::Process::resize(cv::Size(OneConfig::SMALL_THUMBNAIL_WIDTH,
+                                     OneConfig::SMALL_THUMBNAIL_HEIGHT),
                             true)(inputImage);
 
     bool success = cv::imwrite(small.string(), *smallImagePointer);
@@ -195,9 +195,9 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
                          Path small)
 {
   int mediumThumbnailWidth =
-      std::max<int>(Context::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
+      std::max<int>(OneConfig::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);
   int mediumThumbnailHeight =
-      std::max<int>(Context::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
+      std::max<int>(OneConfig::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
 
   auto mediumImagePointer = PB::Process::resize(
       cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(image);
@@ -206,7 +206,7 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
   PBDev::basicAssert(success);
 
   auto smallImagePointer = PB::Process::resize(
-      cv::Size(Context::SMALL_THUMBNAIL_WIDTH, Context::SMALL_THUMBNAIL_HEIGHT),
+      cv::Size(OneConfig::SMALL_THUMBNAIL_WIDTH, OneConfig::SMALL_THUMBNAIL_HEIGHT),
       true)(image);
 
   success = cv::imwrite(small.string(), *smallImagePointer);

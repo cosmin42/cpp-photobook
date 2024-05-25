@@ -21,7 +21,7 @@ public:
   static std::shared_ptr<PlatformInfo> platformInfo;
   static Path parentDirectory() { return platformInfo->localStatePath; }
 
-  PaperSettings paperSettings = Context::A4_LANDSCAPE_PAPER;
+  PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
 
   ~Project() = default;
 

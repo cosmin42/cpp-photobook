@@ -52,7 +52,7 @@ Path ProjectPersistence::hash(Path path)
 
 void ProjectPersistence::recallProject(std::string name)
 {
-  auto projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
+  auto projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
 
   mPersistence.recallProject(projectPath);
 }
@@ -105,7 +105,7 @@ Path ProjectPersistence::formPath(std::string hash)
 
 Path ProjectPersistence::path(boost::uuids::uuid uuid)
 {
-  return mLocalStatePath / (mMetadata.left.at(uuid) + Context::BOOK_EXTENSION);
+  return mLocalStatePath / (mMetadata.left.at(uuid) + OneConfig::BOOK_EXTENSION);
 }
 
 void ProjectPersistence::onProjectRead(
@@ -168,7 +168,7 @@ ProjectPersistence::projectsList() const
   for (auto const &it : mMetadata) {
     projects.push_back(
         {it.left, it.right,
-         mLocalStatePath / (it.right + Context::BOOK_EXTENSION)});
+         mLocalStatePath / (it.right + OneConfig::BOOK_EXTENSION)});
   }
   return projects;
 }
@@ -195,8 +195,9 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
     auto &uuid = mMetadata.right.at(newName);
     mPersistence.persistMetadata(uuid, newName);
 
-    auto newProjectPath = mLocalStatePath / (newName + Context::BOOK_EXTENSION);
-    auto oldProjectPath = mLocalStatePath / (oldName + Context::BOOK_EXTENSION);
+    auto newProjectPath =
+        mLocalStatePath / (newName + OneConfig::BOOK_EXTENSION);
+    auto oldProjectPath = mLocalStatePath / (oldName + OneConfig::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
 
     mListener->onMetadataUpdated();

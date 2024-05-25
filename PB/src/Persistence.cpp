@@ -91,7 +91,7 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization,
 void Persistence::persistProject(std::string name, Json json,
                                  std::string thumbnailsDirectoryName)
 {
-  Path projectPath = mLocalStatePath / (name + Context::BOOK_EXTENSION);
+  Path projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
   persistProject(projectPath, json, thumbnailsDirectoryName);
 }
 

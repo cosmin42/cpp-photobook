@@ -1,73 +1,56 @@
 #pragma once
-#include <stop_token>
 
-#include <pb/util/Timer.h>
 #include <pb/project/PaperSettings.h>
 
 namespace PB {
-  
-class Context final {
-public:
-  static constexpr Context &inst() { return sContext; }
 
-  static constexpr const char *JPG_EXTENSION = ".jpg";
-  static constexpr const char *BOOK_EXTENSION = ".photobook";
+namespace OneConfig {
+static constexpr const char *JPG_EXTENSION = ".jpg";
+static constexpr const char *BOOK_EXTENSION = ".photobook";
 
-  static constexpr int SMALL_THUMBNAIL_WIDTH = 120;
-  static constexpr int SMALL_THUMBNAIL_HEIGHT = 80;
-  
-  static constexpr int MEDIUM_THUMBNAIL_WIDTH = 800;
-  static constexpr int MEDIUM_THUMBNAIL_HEIGHT = 530;
+static constexpr int SMALL_THUMBNAIL_WIDTH = 120;
+static constexpr int SMALL_THUMBNAIL_HEIGHT = 80;
 
+static constexpr int MEDIUM_THUMBNAIL_WIDTH = 800;
+static constexpr int MEDIUM_THUMBNAIL_HEIGHT = 530;
 
-  // The bounding box where the paper size will fit
-  static constexpr int CANVAS_MIN_MAX_WIDTH = 438;
-  static constexpr int CANVAS_MIN_MAX_HEIGHT = 310;
+// The bounding box where the paper size will fit
+static constexpr int CANVAS_MIN_MAX_WIDTH = 438;
+static constexpr int CANVAS_MIN_MAX_HEIGHT = 310;
 
-  static constexpr const char *SMALL_THUMBNAIL_NAME = "thumbnail-small";
-  static constexpr const char *MEDIUM_THUMBNAIL_NAME = "thumbnail-medium";
-  static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
+static constexpr const char *SMALL_THUMBNAIL_NAME = "thumbnail-small";
+static constexpr const char *MEDIUM_THUMBNAIL_NAME = "thumbnail-medium";
+static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
 
-  // Fix separator
-  static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE =
+// Fix separator
+static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE =
     "Assets\\coffee-cup.png";
-  static constexpr const char *LOADING_PHOTO_PLACEHOLDER =
+static constexpr const char *LOADING_PHOTO_PLACEHOLDER =
     "Assets\\loading-image.png";
 
-  static constexpr const char *VERSION = "0.1.0";
+static constexpr const char *VERSION = "0.1.0";
 
-  static constexpr PaperSettings A5_LANDSCAPE_PAPER = {PaperType::A5_Landscape,
-                                                       300, 2480, 1754};
-  static constexpr PaperSettings A4_LANDSCAPE_PAPER = {PaperType::A4_Landscape,
-                                                       300, 3508, 2480};
-  static constexpr PaperSettings A3_LANDSCAPE_PAPER = {PaperType::A3_Landscape,
-                                                       300, 4920, 3508};
+static constexpr PaperSettings A5_LANDSCAPE_PAPER = {PaperType::A5_Landscape,
+                                                     300, 2480, 1754};
+static constexpr PaperSettings A4_LANDSCAPE_PAPER = {PaperType::A4_Landscape,
+                                                     300, 3508, 2480};
+static constexpr PaperSettings A3_LANDSCAPE_PAPER = {PaperType::A3_Landscape,
+                                                     300, 4920, 3508};
 
-  static constexpr PaperSettings A5_PORTRAIT_PAPER = {PaperType::A5_Portrait,
-                                                      300, 1754, 2480};
-  static constexpr PaperSettings A4_PORTRAIT_PAPER = {PaperType::A4_Portrait,
-                                                      300, 2480, 3508};
-  static constexpr PaperSettings A3_PORTRAIT_PAPER = {PaperType::A3_Portrait,
-                                                      300, 3508, 4920};
+static constexpr PaperSettings A5_PORTRAIT_PAPER = {PaperType::A5_Portrait, 300,
+                                                    1754, 2480};
+static constexpr PaperSettings A4_PORTRAIT_PAPER = {PaperType::A4_Portrait, 300,
+                                                    2480, 3508};
+static constexpr PaperSettings A3_PORTRAIT_PAPER = {PaperType::A3_Portrait, 300,
+                                                    3508, 4920};
 
-  static constexpr int MIN_PAPER_WIDTH = 200;
-  static constexpr int MIN_PAPER_HEIGHT = 200;
+static constexpr int MIN_PAPER_WIDTH = 200;
+static constexpr int MIN_PAPER_HEIGHT = 200;
 
-  static constexpr bool SIMULATE_FEW_HAPPY_WORDS = false;
-  static constexpr bool SIMULATE_SLOW_MAPPER = false;
-  static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
-  static constexpr bool SIMULATE_SLOW_EXPORTER = false;
-
-  //std::stop_source sStopSource;
-
-private:
-  Context() = default;
-  Context(Context const &) = delete;
-  Context(Context &&) = delete;
-  Context &operator=(Context const &) = delete;
-  ~Context() = default;
-
-  static Context sContext;
-};
+static constexpr bool SIMULATE_FEW_HAPPY_WORDS = false;
+static constexpr bool SIMULATE_SLOW_MAPPER = false;
+static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
+static constexpr bool SIMULATE_SLOW_EXPORTER = false;
+} // namespace OneConfig
 
 } // namespace PB

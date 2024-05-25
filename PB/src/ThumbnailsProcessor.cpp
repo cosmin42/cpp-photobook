@@ -42,7 +42,7 @@ void ResizeTask::operator()() const
 }
 
 ThumbnailsProcessor::ThumbnailsProcessor()
-    : mParallelTaskConsumer(Context::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+    : mParallelTaskConsumer(OneConfig::THUMBNAIL_THREADPOOL_THREAD_COUNT)
 {
 }
 
@@ -118,13 +118,13 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
 
   auto smallOutputPath = Project::parentDirectory() / "th" /
                          thumbnailsDirectoryName /
-                         (Context::SMALL_THUMBNAIL_NAME + groupIdentifier +
-                          std::to_string(index) + Context::JPG_EXTENSION);
+                         (OneConfig::SMALL_THUMBNAIL_NAME + groupIdentifier +
+                          std::to_string(index) + OneConfig::JPG_EXTENSION);
 
   auto mediumOutputPath = Project::parentDirectory() / "th" /
                           thumbnailsDirectoryName /
-                          (Context::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
-                           std::to_string(index) + Context::JPG_EXTENSION);
+                          (OneConfig::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
+                           std::to_string(index) + OneConfig::JPG_EXTENSION);
 
   return {smallOutputPath, mediumOutputPath};
 }

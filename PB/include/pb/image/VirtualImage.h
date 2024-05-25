@@ -53,10 +53,11 @@ public:
 
 protected:
   ImageResources mFrontend = {
-      platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
-      platformInfo->installationPath / Path(Context::LOADING_PHOTO_PLACEHOLDER),
+      platformInfo->installationPath / Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
+                              platformInfo->installationPath /
+                                  Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
       platformInfo->installationPath /
-          Path(Context::PHOTO_TIMELINE_DEFAULT_IMAGE)};
+          Path(OneConfig::PHOTO_TIMELINE_DEFAULT_IMAGE)};
 
   bool mProcessed = false;
 };
