@@ -156,9 +156,6 @@
     <ClInclude Include="ProjectItem.h">
       <DependentUpon>ProjectItem.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="ImageUIData.h">
-      <DependentUpon>ImageUIData.idl</DependentUpon>
-    </ClInclude>
     <ClInclude Include="PhotobookListener.h">
       <DependentUpon>PhotobookListener.idl</DependentUpon>
     </ClInclude>
@@ -240,9 +237,6 @@
     <ClCompile Include="ProjectItem.cpp">
       <DependentUpon>ProjectItem.idl</DependentUpon>
     </ClCompile>
-    <ClCompile Include="ImageUIData.cpp">
-      <DependentUpon>ImageUIData.idl</DependentUpon>
-    </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp">
       <DependentUpon>ProjectMetadataEntry.idl</DependentUpon>
@@ -269,7 +263,6 @@
     <Midl Include="PhotobookWin.idl" />
     <Midl Include="ProgressInfo.idl" />
     <Midl Include="ProjectItem.idl" />
-    <Midl Include="ImageUIData.idl" />
     <Midl Include="PhotobookListener.idl" />
     <Midl Include="PBError.idl" />
     <Midl Include="ImageResources.idl" />

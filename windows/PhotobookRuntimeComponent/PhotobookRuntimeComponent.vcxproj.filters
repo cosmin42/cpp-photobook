@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotobookWin.idl" />
-    <Midl Include="ImageUIData.idl" />
     <Midl Include="ProjectItem.idl" />
     <Midl Include="PhotobookListener.idl" />
     <Midl Include="ProgressInfo.idl" />
