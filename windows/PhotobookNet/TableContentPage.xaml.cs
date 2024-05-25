@@ -854,7 +854,7 @@ namespace PhotobookNet
             }
 
             var index = MediaListView.SelectedIndex;
-            if (index >= -1)
+            if (index > -1)
             {
                 selectionIndex.ImportListIndex = (uint)index;
             }
