@@ -10,8 +10,6 @@
 #include <pb/project/ProjectSnapshot.h>
 #include <pb/util/Util.h>
 
-// #define SIMULATE_FEW_HAPPY_WORDS
-
 namespace PB {
 
 // TODO: Merge Project with ProjectSnapshot.

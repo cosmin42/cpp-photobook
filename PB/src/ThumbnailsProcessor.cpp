@@ -35,9 +35,9 @@ void ResizeTask::operator()() const
   else {
     PBDev::basicAssert(false);
   }
-#ifdef SIMULATE_SLOW_THUMBNAILS_PROCESSOR
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#endif
+  if constexpr (OneConfig::SIMULATE_SLOW_THUMBNAILS_PROCESSOR) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  }
   mFinish();
 }
 

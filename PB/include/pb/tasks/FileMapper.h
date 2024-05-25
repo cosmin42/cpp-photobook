@@ -63,9 +63,9 @@ public:
               mSearchResults.push_back(path);
             }
             recursiveIterator++;
-#ifdef SIMULATE_SLOW_MAPPER
-            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#endif
+            if (OneConfig::SIMULATE_SLOW_MAPPER) {
+              std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+            }
           }
         }};
     mCrunchedFlag = true;
