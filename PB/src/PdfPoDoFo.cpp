@@ -2,8 +2,6 @@
 
 #include <pb/image/Image.h>
 
-// #define SIMULATE_SLOW_EXPORTER
-
 namespace PB {
 PdfExportTask::PdfExportTask(
     Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
