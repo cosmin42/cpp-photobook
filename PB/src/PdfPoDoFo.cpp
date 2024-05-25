@@ -64,9 +64,9 @@ void PdfExportTask::taskStep()
     mDocument.reset();
   }
 
-#ifdef SIMULATE_SLOW_EXPORTER
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#endif
+  if constexpr (OneCOnfig::SIMULATE_SLOW_EXPORTER) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  }
 }
 
 std::string PdfExportTask::name() const

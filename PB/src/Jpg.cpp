@@ -33,9 +33,9 @@ void JpgExport::taskStep()
 
   mIndex++;
 
-#ifdef SIMULATE_SLOW_EXPORTER
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#endif
+  if constexpr (OneConfig::SIMULATE_SLOW_EXPORTER) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  }
 }
 
 std::string JpgExport::name() const

@@ -10,7 +10,7 @@ void libharu_error_handler([[maybe_unused]] HPDF_STATUS error_no,
                            [[maybe_unused]] HPDF_STATUS detail_no,
                            [[maybe_unused]] void       *user_data)
 {
-  //PB::printError("Internal error\n");
+  // PB::printError("Internal error\n");
 }
 
 PdfLibharuExportTask::PdfLibharuExportTask(
@@ -71,9 +71,9 @@ void PdfLibharuExportTask::taskStep()
     HPDF_Free(mPDFFile);
   }
 
-#ifdef SIMULATE_SLOW_EXPORTER
-  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-#endif
+  if constexpr (OneConfig::SIMULATE_SLOW_EXPORTER) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  }
 }
 
 std::string PdfLibharuExportTask::name() const
