@@ -153,6 +153,7 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
           mProjectPersistence->currentProject()->paperSettings,
           mImageViews.stagedImages().stagedPhotos());
 
+  task->setListener(&mExportLogic);
   mProgressManager.subscribe(task->name(), JobType::ExportLibharu,
                              task->stepsCount());
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
@@ -173,6 +174,7 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
         newFolder, mProjectPersistence->currentProject()->paperSettings,
         mImageViews.stagedImages().stagedPhotos());
 
+    task->setListener(&mExportLogic);
     mProgressManager.subscribe(task->name(), JobType::ExportJpg,
                                task->stepsCount());
     mExportLogic.start(task->name(),
