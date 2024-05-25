@@ -2,6 +2,11 @@
 
 #include <variant>
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 #include <pb/util/Util.h>
 
 namespace PB::Text {
@@ -10,7 +15,8 @@ template <typename T> std::variant<T, PBDev::Error> deserialize(Json jsonData);
 
 template <typename T>
 std::variant<T, PBDev::Error> deserialize(Json jsonData, std::string key,
-                                   T defaultValue = T(), bool optional = false)
+                                          T    defaultValue = T(),
+                                          bool optional = false)
 {
   if (jsonData.contains(key)) {
     return deserialize<T>(jsonData.at(key));
@@ -61,36 +67,32 @@ std::variant<Json, PBDev::Error> serialize(int depth, T object)
 #else
   Json json = object;
 #endif
-  //PB::printDebug("%sT %s\n", std::string(depth * 2, ' ').c_str(),
-  //               json.dump().c_str());
+
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
   return json;
 }
 
 template <typename T>
 std::variant<Json, PBDev::Error>
-serialize(int depth,
-                                    std::pair<std::string, T> const &entry);
+serialize(int depth, std::pair<std::string, T> const &entry);
 
 template <SerializationPrimitiveConcept T>
 std::variant<Json, PBDev::Error>
-serialize(int depth,
-                                    std::pair<std::string, T> const &entry)
+serialize(int depth, std::pair<std::string, T> const &entry)
 {
   Json json;
 #ifdef _CLANG_UML_
 #else
   json[entry.first] = entry.second;
 #endif
-  //PB::printDebug("%s(string, T) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               json.dump().c_str());
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
   return json;
 }
 
 template <typename Head, typename... Tail>
 std::variant<Json, PBDev::Error>
-serialize(int depth,
-                                    std::pair<std::string, Head> const &head,
-                                    std::pair<std::string, Tail> const &...args)
+serialize(int depth, std::pair<std::string, Head> const &head,
+          std::pair<std::string, Tail> const &...args)
 {
   std::variant<Json, PBDev::Error> jsonOrError =
       serialize<Tail...>(depth + 1, args...);
@@ -98,9 +100,8 @@ serialize(int depth,
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
   }
-
-  //PB::printDebug("%s(args...Tail) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               std::get<Json>(jsonOrError).dump().c_str());
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
+               std::get<Json>(jsonOrError).dump());
 
   std::variant<Json, PBDev::Error> headJsonOrError =
       serialize<Head>(depth + 1, head);
@@ -109,13 +110,13 @@ serialize(int depth,
     return headJsonOrError;
   }
 
-  //PB::printDebug("%s(args...Head) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               std::get<Json>(headJsonOrError).dump().c_str());
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
+               std::get<Json>(headJsonOrError).dump());
 
   std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
 
-  //PB::printDebug("%s(args...All) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               std::get<Json>(jsonOrError).dump().c_str());
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
+               std::get<Json>(jsonOrError).dump());
   return jsonOrError;
 }
 

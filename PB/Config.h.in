@@ -58,7 +58,7 @@ public:
   static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
   static constexpr bool SIMULATE_SLOW_EXPORTER = false;
 
-  std::stop_source sStopSource;
+  //std::stop_source sStopSource;
 
 private:
   Context() = default;

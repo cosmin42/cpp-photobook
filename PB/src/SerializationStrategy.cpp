@@ -235,8 +235,8 @@ serialize(int depth, std::pair<std::string, boost::uuids::uuid> const &entry)
 {
   Json json;
   json[entry.first] = boost::uuids::to_string(entry.second);
-  //PB::printDebug("%s(string, uuid) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               json.dump().c_str());
+  spdlog::info("{}(string, uuid) {}\n", std::string(depth * 2, ' '),
+               json.dump());
   return json;
 }
 
@@ -253,8 +253,8 @@ serialize(int depth, std::pair<std::string, std::vector<Path>> const &entry)
     }
     json[entry.first].push_back(std::get<Json>(jasonOrError));
   }
-  //PB::printDebug("%s(string, vector) %s\n", std::string(depth * 2, ' ').c_str(),
-  //               json.dump().c_str());
+  spdlog::info("{}(string, vector) {}\n", std::string(depth * 2, ' '),
+               json.dump());
   return json;
 }
 
@@ -271,8 +271,8 @@ serialize(int depth,
     json[entry.first][bimapEntry.left.string()] = bimapEntry.right;
   }
 
-  //PB::printDebug("%s(bimap<Path, string>) %s\n",
-  //               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  spdlog::info("{}(bimap<Path, string>) {}\n", std::string(depth * 2, ' '),
+               json.dump());
   return json;
 }
 
@@ -291,8 +291,8 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
   }
   Json json;
   json[key] = std::get<Json>(jsonOrError);
-  //PB::printDebug("%s(string, PaperSettings) %s\n",
-  //               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  spdlog::info("{}(string, PaperSettings) {}\n", std::string(depth * 2, ' '),
+               json.dump());
   return json;
 }
 
@@ -311,8 +311,8 @@ serialize(int depth, std::pair<std::string, Project> const &entry)
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
-  //PB::printDebug("%s(string, Project) %s\n",
-  //               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  spdlog::info("{}(string, Project) {}\n", std::string(depth * 2, ' '),
+               json.dump());
   return json;
 }
 
@@ -326,8 +326,8 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
 
   json[key] = magic_enum::enum_name(imageType);
 
-  //PB::printDebug("%s(string, RegularImage) %s\n",
-  //               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  spdlog::info("%s(string, RegularImage) %s\n",
+			   std::string(depth * 2, ' ').c_str(), json.dump().c_str());
 
   return json;
 }
@@ -355,8 +355,8 @@ serialize(int                                                          depth,
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
-  //PB::printDebug("%s(string, RegularImage) %s\n",
-  //               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+  spdlog::info("%s(string, RegularImage) %s\n",
+			   std::string(depth * 2, ' ').c_str(), json.dump());
   return json;
 }
 
