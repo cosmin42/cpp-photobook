@@ -33,6 +33,9 @@ if (ANDROID)
     include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 endif()
 
+message("Generating config files...")
+configure_file(Config.h.in include/pb/Config.h)
+
 find_package(Boost REQUIRED program_options)
 find_package(exiv2 CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)

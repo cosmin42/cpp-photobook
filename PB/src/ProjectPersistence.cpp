@@ -222,9 +222,6 @@ bool ProjectPersistence::isSaved(
   auto projectSnapshot = *(mProject.get());
   auto currentJson = Persistence::serialization(projectSnapshot, unstagedImages,
                                                 stagedImages, roots);
-  if (currentJson.is_null()) {
-    PB::printDebug("Current NULL\n");
-  }
   std::string currentJsonDump = currentJson.dump();
 
   std::string diskJsonDump = mJson.dump();

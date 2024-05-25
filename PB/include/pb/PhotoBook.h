@@ -13,7 +13,6 @@
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
 #include <pb/TaskCruncher.h>
-#include <pb/config/Log.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>

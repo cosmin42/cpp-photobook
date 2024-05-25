@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono>
-#include <pb/config/Log.h>
 
 namespace PBDev {
 
@@ -33,5 +32,4 @@ private:
   std::chrono::time_point<std::chrono::system_clock> mStart;
 };
 
-typedef Timer<PB::TimerPrinter> TimerWithPrint;
 } // namespace PBDev

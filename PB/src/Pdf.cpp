@@ -1,6 +1,5 @@
 #include <pb/export/Pdf.h>
 
-#include <pb/config/Log.h>
 
 namespace PB {
 
@@ -8,13 +7,13 @@ void error_handler([[maybe_unused]] HPDF_STATUS error_no,
                    [[maybe_unused]] HPDF_STATUS detail_no,
                    [[maybe_unused]] void       *user_data)
 {
-  PB::printError("Internal error\n");
+  //PB::printError("Internal error\n");
 }
 void Pdf::exportImages(std::string name, Path dest, std::vector<Path> images)
 {
   HPDF_Doc pdfFile = HPDF_New(error_handler, NULL);
   if (!pdfFile) {
-    PB::printError("Internal error\n");
+    //PB::printError("Internal error\n");
     return;
   }
 
@@ -27,7 +26,7 @@ void Pdf::exportImages(std::string name, Path dest, std::vector<Path> images)
         HPDF_LoadJpegImageFromFile(pdfFile, path.string().c_str());
 
     if (!image) {
-      PB::printError("Internal error\n");
+      //PB::printError("Internal error\n");
       HPDF_Free(pdfFile);
       return;
     }
@@ -38,7 +37,7 @@ void Pdf::exportImages(std::string name, Path dest, std::vector<Path> images)
 
   if (HPDF_SaveToFile(pdfFile, (dest / (name + ".pdf")).string().c_str()) !=
       HPDF_OK) {
-    PB::printError("Internal Error\n");
+    //PB::printError("Internal Error\n");
     HPDF_Free(pdfFile);
     return;
   }

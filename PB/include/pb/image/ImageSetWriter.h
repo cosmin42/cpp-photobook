@@ -12,7 +12,6 @@
 #include <vector>
 
 #include <pb/Config.h>
-#include <pb/config/Log.h>
 #include <pb/util/Util.h>
 
 namespace PB {

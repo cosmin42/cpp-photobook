@@ -42,8 +42,8 @@ void ArgsHandler::handle(int argc, char *argv[]) const noexcept
       mListener.handleInputArgument(inputPath);
     }
     else {
-      PB::printDebug("Usage: ./PhotoBook --input <\\input\\path> --output "
-                     "<\\output\\path>.\n");
+      //PB::printDebug("Usage: ./PhotoBook --input <\\input\\path> --output "
+      //               "<\\output\\path>.\n");
     }
 
     if (vm.count(OUTPUT_PARAM_NAME)) {
@@ -51,8 +51,8 @@ void ArgsHandler::handle(int argc, char *argv[]) const noexcept
       mListener.handleOutputArgument(outputPath);
     }
     else {
-      PB::printDebug("Usage: ./PhotoBook --input <\\input\\path> --output "
-                     "<\\output\\path>.\n");
+      //PB::printDebug("Usage: ./PhotoBook --input <\\input\\path> --output "
+      //               "<\\output\\path>.\n");
     }
   }
   catch (...) {

@@ -227,6 +227,7 @@ auto ImageMonitor::statefulIterator(unsigned row)
 
 void ImageMonitor::log() const
 {
+  /*
   PB::printDebug("mRowIndexes\n");
   for (auto it = mRowIndexes.begin(); it != mRowIndexes.end(); ++it) {
     PB::printDebug("(%s %d)\n", it->left.stem().string().c_str(), it->right);
@@ -236,6 +237,7 @@ void ImageMonitor::log() const
     PB::printDebug("(%s [%d %d])\n", it->left.stem().string().c_str(),
                    it->right.first, it->right.second);
   }
+  */
 }
 
 } // namespace PB

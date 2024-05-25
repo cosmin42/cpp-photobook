@@ -2,7 +2,6 @@
 
 #include <variant>
 
-#include <pb/config/Log.h>
 #include <pb/util/Util.h>
 
 namespace PB::Text {
@@ -62,8 +61,8 @@ std::variant<Json, PBDev::Error> serialize(int depth, T object)
 #else
   Json json = object;
 #endif
-  PB::printDebug("%sT %s\n", std::string(depth * 2, ' ').c_str(),
-                 json.dump().c_str());
+  //PB::printDebug("%sT %s\n", std::string(depth * 2, ' ').c_str(),
+  //               json.dump().c_str());
   return json;
 }
 
@@ -82,8 +81,8 @@ serialize(int depth,
 #else
   json[entry.first] = entry.second;
 #endif
-  PB::printDebug("%s(string, T) %s\n", std::string(depth * 2, ' ').c_str(),
-                 json.dump().c_str());
+  //PB::printDebug("%s(string, T) %s\n", std::string(depth * 2, ' ').c_str(),
+  //               json.dump().c_str());
   return json;
 }
 
@@ -100,8 +99,8 @@ serialize(int depth,
     return jsonOrError;
   }
 
-  PB::printDebug("%s(args...Tail) %s\n", std::string(depth * 2, ' ').c_str(),
-                 std::get<Json>(jsonOrError).dump().c_str());
+  //PB::printDebug("%s(args...Tail) %s\n", std::string(depth * 2, ' ').c_str(),
+  //               std::get<Json>(jsonOrError).dump().c_str());
 
   std::variant<Json, PBDev::Error> headJsonOrError =
       serialize<Head>(depth + 1, head);
@@ -110,13 +109,13 @@ serialize(int depth,
     return headJsonOrError;
   }
 
-  PB::printDebug("%s(args...Head) %s\n", std::string(depth * 2, ' ').c_str(),
-                 std::get<Json>(headJsonOrError).dump().c_str());
+  //PB::printDebug("%s(args...Head) %s\n", std::string(depth * 2, ' ').c_str(),
+  //               std::get<Json>(headJsonOrError).dump().c_str());
 
   std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
 
-  PB::printDebug("%s(args...All) %s\n", std::string(depth * 2, ' ').c_str(),
-                 std::get<Json>(jsonOrError).dump().c_str());
+  //PB::printDebug("%s(args...All) %s\n", std::string(depth * 2, ' ').c_str(),
+  //               std::get<Json>(jsonOrError).dump().c_str());
   return jsonOrError;
 }
 
