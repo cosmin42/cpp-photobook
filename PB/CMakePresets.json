@@ -12,7 +12,7 @@
       "hidden": false,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake"
       },
       "architecture":"x64",
       "binaryDir":"build-x64"
@@ -23,7 +23,7 @@
       "hidden": false,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake"
       },
       "architecture":"x64",
       "binaryDir":"build-x64"
@@ -34,7 +34,7 @@
       "hidden": false,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE":"../vcpkg/scripts/buildsystems/vcpkg.cmake"
       },
       "architecture":"ARM64",
       "binaryDir":"build-ARM64"
