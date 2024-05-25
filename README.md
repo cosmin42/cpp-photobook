@@ -30,9 +30,6 @@ Run ```make -j4```
 
 Run ```./PhotoBook``` from the build folder.
 
-### Console
-Run ```cmake --preset pb-console-debug```
-
 ## Tests
 
 macOS: ```./pbtests``` on macOS.
