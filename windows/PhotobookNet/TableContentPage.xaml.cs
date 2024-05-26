@@ -420,7 +420,7 @@ namespace PhotobookNet
             {
                 imagePtr = mPhotobook.GetImageViews().StagedImages().Picture((int)selection.StagedPhotoIndex[0]);
             }
-            else if (selection.UnstagedLineIndex.Count != 0)
+            else if (selection.UnstagedLineIndex.Count != 0 && selection.ImportListIndex.HasValue)
             {
                 imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((uint)selection.ImportListIndex.Value, (uint)selection.UnstagedLineIndex[0]);
             }
