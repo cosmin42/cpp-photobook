@@ -15,6 +15,7 @@
     "sqlite3",
     "nlohmann-json",
     "boost-bimap",
-    "spdlog"
+    "spdlog",
+    "inja"
   ]
 }

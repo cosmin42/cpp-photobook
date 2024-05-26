@@ -47,6 +47,7 @@ find_package(unofficial-libharu CONFIG REQUIRED)
 find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(inja CONFIG REQUIRED)
 
 include_directories(third-party/podofo-build/include)
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -170,7 +171,8 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     unofficial::libharu::hpdf
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json
-    spdlog::spdlog)
+    spdlog::spdlog
+    pantor::inja)
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -210,6 +212,7 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     bcrypt
     nlohmann_json::nlohmann_json
     spdlog::spdlog
+    pantor::inja
     ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
     ${PBLIB_LIBRARY_NAME})
 
