@@ -1,7 +1,9 @@
 #include <pb/persistence/ProjectPersistence.h>
 
 namespace PB {
-ProjectPersistence::ProjectPersistence()
+ProjectPersistence::ProjectPersistence(
+    std::shared_ptr<PlatformInfo> platformInfo)
+    :mPlatformInfo(platformInfo)
 {
   auto persistenceMetadataListener =
       dynamic_cast<PersistenceMetadataListener *>(this);
@@ -99,13 +101,14 @@ Path ProjectPersistence::formPath(std::string hash)
   auto id = currentProjectUUID();
   auto r = mMetadata.left.at(id);
 
-  return VirtualImage::platformInfo->localStatePath / "th" /
+  return mPlatformInfo->localStatePath / "th" /
          boost::uuids::to_string(currentProjectUUID()) / (hash + ".JPG");
 }
 
 Path ProjectPersistence::path(boost::uuids::uuid uuid)
 {
-  return mLocalStatePath / (mMetadata.left.at(uuid) + OneConfig::BOOK_EXTENSION);
+  return mLocalStatePath /
+         (mMetadata.left.at(uuid) + OneConfig::BOOK_EXTENSION);
 }
 
 void ProjectPersistence::onProjectRead(
@@ -197,7 +200,8 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
 
     auto newProjectPath =
         mLocalStatePath / (newName + OneConfig::BOOK_EXTENSION);
-    auto oldProjectPath = mLocalStatePath / (oldName + OneConfig::BOOK_EXTENSION);
+    auto oldProjectPath =
+        mLocalStatePath / (oldName + OneConfig::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
 
     mListener->onMetadataUpdated();
@@ -245,7 +249,8 @@ void ProjectPersistence::save(
                                      stagedImages, roots);
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-  mPersistence.persistProject(name, mJson, thumbnailsDirectoryName);
+  mPersistence.persistProject(mPlatformInfo->installationPath, name, mJson,
+                              thumbnailsDirectoryName);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }
 

@@ -10,14 +10,21 @@ void ImageFactory::configure(std::shared_ptr<Project> project)
   mProject = project;
 }
 
+void ImageFactory::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+}
+
 std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 {
-  auto regularImage = std::make_shared<RegularImage>(path);
+  auto regularImage =
+      std::make_shared<RegularImage>(defaultImageFrontend(), path);
   return regularImage;
 }
 
-std::shared_ptr<TextImage>
-ImageFactory::createTextImage(Path path, Path hashPath)
+std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
+                                                         Path hashPath)
 {
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
@@ -32,11 +39,13 @@ ImageFactory::createTextImage(Path path, Path hashPath)
 
   Process::imageWriteThumbnail(image, hashPath);
 
-  auto textImage = std::make_shared<TextImage>(hashPath);
+  auto textImage =
+      std::make_shared<TextImage>(defaultImageFrontend(), hashPath);
   return textImage;
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path, Path hashPath)
+std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path,
+                                                        Path hashPath)
 {
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);

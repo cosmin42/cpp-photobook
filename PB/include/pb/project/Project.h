@@ -16,8 +16,6 @@ namespace PB {
 class Project final {
 public:
   static std::string generateAlbumName(std::function<bool(std::string)>);
-  static std::shared_ptr<PlatformInfo> platformInfo;
-  static Path parentDirectory() { return platformInfo->localStatePath; }
 
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
 

@@ -23,7 +23,7 @@ struct ImageResources {
 
 class VirtualImage {
 public:
-  static std::shared_ptr<PlatformInfo> platformInfo;
+  VirtualImage(ImageResources imageResources) : mFrontend(imageResources) {}
 
   virtual ~VirtualImage() = default;
 
@@ -52,12 +52,7 @@ public:
   void finishProcessing() { mProcessed = true; }
 
 protected:
-  ImageResources mFrontend = {
-      platformInfo->installationPath / Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
-                              platformInfo->installationPath /
-                                  Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
-      platformInfo->installationPath /
-          Path(OneConfig::PHOTO_TIMELINE_DEFAULT_IMAGE)};
+  ImageResources mFrontend;
 
   bool mProcessed = false;
 };

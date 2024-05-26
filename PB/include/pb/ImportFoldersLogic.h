@@ -28,6 +28,8 @@ public:
 
 class ImportFoldersLogic final : public PicturesSearchConfigListener {
 public:
+  explicit ImportFoldersLogic(std::shared_ptr<PlatformInfo> platformInfo);
+  ~ImportFoldersLogic() = default;
   void configure(ImportFoldersLogicListener *listener);
   void configure(PBDev::ThreadScheduler *scheduler);
 

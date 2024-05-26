@@ -5,7 +5,11 @@
 namespace PB {
 class TextImage final : public VirtualImage {
 public:
-  explicit TextImage(Path full) : mResourcePath(full) {}
+  explicit TextImage(ImageResources defaultImageResources, Path full)
+      : VirtualImage(defaultImageResources), mResourcePath(full)
+  {
+  }
+
   explicit TextImage(Path full, Path medium, Path small, bool processed,
                      std::vector<Path> resourcePath);
   ~TextImage() = default;

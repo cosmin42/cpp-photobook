@@ -17,7 +17,7 @@ public:
 class ProjectPersistence final : public PersistenceMetadataListener,
                                  public PersistenceProjectListener {
 public:
-  ProjectPersistence();
+  ProjectPersistence(std::shared_ptr<PlatformInfo> platformInfo);
   ~ProjectPersistence() = default;
 
   void configure(Path localStatePath);
@@ -93,5 +93,6 @@ private:
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
   boost::bimaps::bimap<Path, Path>                      mCurrentHashes;
   Json                                                  mJson;
+  std::shared_ptr<PlatformInfo>                         mPlatformInfo = nullptr;
 };
 } // namespace PB

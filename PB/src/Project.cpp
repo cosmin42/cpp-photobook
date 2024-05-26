@@ -56,6 +56,4 @@ Project::generateAlbumName(std::function<bool(std::string)> stoppingCondition)
   return name;
 }
 
-std::shared_ptr<PlatformInfo> Project::platformInfo = nullptr;
-
 } // namespace PB

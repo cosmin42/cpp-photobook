@@ -11,6 +11,8 @@ public:
 
   void configure(std::shared_ptr<Project> project);
 
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
 
@@ -21,9 +23,20 @@ public:
   std::shared_ptr<VirtualImage> defaultRegularImage()
   {
     if (mDefaultRegularImage == nullptr) {
-      mDefaultRegularImage = std::make_shared<RegularImage>();
+      mDefaultRegularImage =
+          std::make_shared<RegularImage>(defaultImageFrontend());
     }
     return mDefaultRegularImage;
+  }
+
+  ImageResources defaultImageFrontend()
+  {
+    return {mPlatformInfo->installationPath /
+                Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
+            mPlatformInfo->installationPath /
+                Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
+            mPlatformInfo->installationPath /
+                Path(OneConfig::PHOTO_TIMELINE_DEFAULT_IMAGE)};
   }
 
 private:
@@ -31,7 +44,8 @@ private:
 
   ~ImageFactory() = default;
 
-  std::shared_ptr<Project> mProject;
+  std::shared_ptr<Project>      mProject;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 
   std::shared_ptr<VirtualImage> mDefaultRegularImage = nullptr;
 };

@@ -12,10 +12,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
     : mTaskCruncher(std::make_shared<TaskCruncher>()),
       mPlatformInfo(
           std::make_shared<PlatformInfo>(installationPath, localStatePath)),
-      mProjectPersistence(std::make_shared<ProjectPersistence>())
+      mProjectPersistence(std::make_shared<ProjectPersistence>(mPlatformInfo)),
+      mImportLogic(mPlatformInfo)
 {
-  VirtualImage::platformInfo = mPlatformInfo;
-  Project::platformInfo = mPlatformInfo;
+  ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
 
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);

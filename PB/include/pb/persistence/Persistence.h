@@ -42,7 +42,7 @@ public:
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
-  void persistProject(std::string name, Json json,
+  void persistProject(Path localInstallFolder, std::string name, Json json,
                       std::string thumbnailsDirectoryName);
 
   void persistMetadata(boost::uuids::uuid const &id, std::string name);
@@ -64,7 +64,7 @@ public:
   virtual void onSQLiteMetadataError(PBDev::Error) override;
 
 private:
-  void persistProject(Path filePath, Json json,
+  void persistProject(Path localInstallFolder, Path filePath, Json json,
                       std::string thumbnailsDirectoryName);
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;

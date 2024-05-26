@@ -63,11 +63,12 @@ Json Persistence::serialization(
   return std::get<Json>(jsonOrError);
 }
 
-void Persistence::persistProject(Path filePath, Json jsonSerialization,
+void Persistence::persistProject(Path localInstallFolder, Path filePath,
+                                 Json        jsonSerialization,
                                  std::string thumbnailsDirectoryName)
 {
-  auto maybeError = createSupportDirectory(
-      Project::parentDirectory() / "th", thumbnailsDirectoryName);
+  auto maybeError = createSupportDirectory(localInstallFolder / "th",
+                                           thumbnailsDirectoryName);
 
   if (maybeError && mPersistenceProjectListener) {
     mPersistenceProjectListener->onProjectPersistenceError(maybeError.value());
@@ -88,11 +89,12 @@ void Persistence::persistProject(Path filePath, Json jsonSerialization,
       });
 }
 
-void Persistence::persistProject(std::string name, Json json,
-                                 std::string thumbnailsDirectoryName)
+void Persistence::persistProject(Path localInstallFolder, std::string name,
+                                 Json json, std::string thumbnailsDirectoryName)
 {
   Path projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
-  persistProject(projectPath, json, thumbnailsDirectoryName);
+  persistProject(localInstallFolder, projectPath, json,
+                 thumbnailsDirectoryName);
 }
 
 void Persistence::persistMetadata(boost::uuids::uuid const &id,

@@ -3,6 +3,12 @@
 #include <pb/util/Util.h>
 
 namespace PB {
+ImportFoldersLogic::ImportFoldersLogic(
+    std::shared_ptr<PlatformInfo> platformInfo)
+    : mThumbnailsProcessor(platformInfo)
+{
+}
+
 void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
 {
   mListener = listener;

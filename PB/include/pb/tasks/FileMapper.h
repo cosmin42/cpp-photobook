@@ -13,6 +13,7 @@
 namespace PB {
 class PicturesSearchConfigListener {
 public:
+  virtual ~PicturesSearchConfigListener() = default;
   virtual void onPicturesSearchFinished(Path              root,
                                         std::vector<Path> searchResults) = 0;
   virtual void onPicturesSearchAborted(Path root) = 0;

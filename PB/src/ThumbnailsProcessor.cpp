@@ -41,8 +41,10 @@ void ResizeTask::operator()() const
   mFinish();
 }
 
-ThumbnailsProcessor::ThumbnailsProcessor()
-    : mParallelTaskConsumer(OneConfig::THUMBNAIL_THREADPOOL_THREAD_COUNT)
+ThumbnailsProcessor::ThumbnailsProcessor(
+    std::shared_ptr<PlatformInfo> platformInfo)
+    : mParallelTaskConsumer(OneConfig::THUMBNAIL_THREADPOOL_THREAD_COUNT),
+      mPlatformInfo(platformInfo)
 {
 }
 
@@ -116,12 +118,12 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
 {
   PBDev::basicAssert(index >= 0);
 
-  auto smallOutputPath = Project::parentDirectory() / "th" /
+  auto smallOutputPath = mPlatformInfo->installationPath / "th" /
                          thumbnailsDirectoryName /
                          (OneConfig::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + OneConfig::JPG_EXTENSION);
 
-  auto mediumOutputPath = Project::parentDirectory() / "th" /
+  auto mediumOutputPath = mPlatformInfo->installationPath / "th" /
                           thumbnailsDirectoryName /
                           (OneConfig::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + OneConfig::JPG_EXTENSION);

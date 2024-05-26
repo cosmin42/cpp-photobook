@@ -28,7 +28,7 @@ private:
 
 class ThumbnailsProcessor final {
 public:
-  explicit ThumbnailsProcessor();
+  explicit ThumbnailsProcessor(std::shared_ptr<PlatformInfo> platformInfo);
   ~ThumbnailsProcessor();
 
   void setScreenSize(std::pair<int, int> size);
@@ -58,5 +58,6 @@ private:
   int                                         mScreenWidth = 0;
   int                                         mScreenHeight = 0;
   std::unordered_map<Path, std::stop_source>  mStopSources;
+  std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
 };
 } // namespace PB
