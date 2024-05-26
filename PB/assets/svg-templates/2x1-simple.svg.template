@@ -1,0 +1,10 @@
+<svg width="{{width}}" height="{{height}}" xmlns="http://www.w3.org/2000/svg">
+  <mask id="svgmask0">
+    <polygon fill="#ffffff" points="0 0, {{width}} 0, {{width}} {{height / 2}}, 0 {{height / 2}}"></polygon>
+  </mask>
+   <mask id="svgmask1">
+    <polygon fill="#ffffff" points="0 {{height / 2}}, {{width}} {{height / 2}}, {{width}} {{height}}, 0 {{height}}"></polygon>
+  </mask>
+  <image href="{{1st_image}}" mask="url(#svgmask0)" width="50%" x="{{width / 4}}"></image>
+  <image href="{{2nd_image}}" mask="url(#svgmask1)" width="50%" x="{{width / 4}}" y="{{height / 2}}"></image>
+</svg>
