@@ -2,6 +2,8 @@
 
 #include <inja/inja.hpp>
 
+#include <pb/util/Traits.h>
+
 namespace PB {
 struct BasicSVGModel {
   unsigned width;
@@ -15,8 +17,7 @@ struct BasicSVGModel {
     data["width"] = width;
     data["height"] = height;
 
-    for (auto i = 0; i < imagePaths.size(); ++i)
-    {
+    for (auto i = 0; i < imagePaths.size(); ++i) {
       data[std::to_string(i) + "_image"] = imagePaths.at(i).string();
     }
 
