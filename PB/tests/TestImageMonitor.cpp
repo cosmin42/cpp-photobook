@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <pb/ImageMonitor.h>
+#include <pb/image/ImageFactory.h>
 
 // TODO: Remove redundant listeners
 class MockImageMonitorListener final : public PB::ImageMonitorListener {
@@ -14,7 +15,11 @@ public:
 
 class ImageMonitorVirtualImage : public PB::VirtualImage {
 public:
-  explicit ImageMonitorVirtualImage(Path path) : mPath(path) {}
+  explicit ImageMonitorVirtualImage(Path path)
+      : VirtualImage(PB::ImageFactory::inst().defaultImageFrontend()),
+        mPath(path)
+  {
+  }
   ~ImageMonitorVirtualImage() = default;
   MOCK_METHOD(PB::VirtualImageType, type, (), (const override));
   MOCK_METHOD(std::vector<Path>, resources, (), (const override));

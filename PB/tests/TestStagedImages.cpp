@@ -3,6 +3,7 @@
 
 #include <pb/Config.h>
 #include <pb/StagedImages.h>
+#include <pb/image/ImageFactory.h>
 
 class TestStagedImagesListener : public PB::StagedImagesListener {
 public:
@@ -12,6 +13,11 @@ public:
 };
 
 class TestStagedImagesVirtualImage : public PB::VirtualImage {
+public:
+  TestStagedImagesVirtualImage(PB::ImageResources imageResources)
+      : PB::VirtualImage(imageResources)
+  {
+  }
   MOCK_METHOD(PB::VirtualImageType, type, (), (const override));
   MOCK_METHOD(std::vector<Path>, resources, (), (const override));
   MOCK_METHOD(Path, keyPath, (), (const override));
@@ -43,10 +49,11 @@ TEST(TestStagedImages, AddPictures)
   stagedImages->addPictures(pictures);
 
   std::shared_ptr<PB::VirtualImage> image0 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(PB::ImageFactory::inst().defaultImageFrontend());
 
   std::shared_ptr<PB::VirtualImage> image1 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
 
   pictures.push_back(image0);
   pictures.push_back(image1);
@@ -60,15 +67,20 @@ TEST(TestStagedImages, AddPictures)
   EXPECT_EQ(retrievedPictures.size(), 2);
 
   std::shared_ptr<PB::VirtualImage> image2 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
   std::shared_ptr<PB::VirtualImage> image3 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
   std::shared_ptr<PB::VirtualImage> image4 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
   std::shared_ptr<PB::VirtualImage> image5 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
   std::shared_ptr<PB::VirtualImage> image6 =
-      std::make_shared<TestStagedImagesVirtualImage>();
+      std::make_shared<TestStagedImagesVirtualImage>(
+          PB::ImageFactory::inst().defaultImageFrontend());
 
   std::vector<std::shared_ptr<PB::VirtualImage>> otherPictures;
 
@@ -90,7 +102,8 @@ TEST(TestStagedImages, AddPictures)
 
   stagedImages->removePicture({1});
 
-  EXPECT_CALL(*listener.get(), onPictureRemoved(std::vector<unsigned>{0, 1, 2, 3, 4, 5}));
+  EXPECT_CALL(*listener.get(),
+              onPictureRemoved(std::vector<unsigned>{0, 1, 2, 3, 4, 5}));
 
   stagedImages->clear();
 }

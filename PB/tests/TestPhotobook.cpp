@@ -43,7 +43,7 @@ TEST(TestPhotobook, TestMetadata)
     photobook.newProject(name);
 
     auto uuid = photobook.project()->currentProjectUUID();
-    auto path = PB::Project::parentDirectory() / name;
+    auto path = Path(".") / name;
 
     projectsMetadata.push_back(
         PB::ProjectMetadata{boost::uuids::to_string(uuid), path.string()});
@@ -90,8 +90,7 @@ TEST(TestPhotobook, TestProject)
   photobook.newProject("random-name");
 
   auto uuid = photobook.project()->currentProjectUUID();
-  auto projectPath =
-      PB::Project::parentDirectory() / "random-name.photobook";
+  auto projectPath = Path(".") / "random-name.photobook";
 
   EXPECT_CALL(testPhotobookListener, onProjectRead());
   photobook.recallProject("random-name");
@@ -121,7 +120,7 @@ TEST(TestPhotobook, TestProjectLoading)
   photobook.newProject("random-name");
 
   auto uuid = photobook.project()->currentProjectUUID();
-  auto projectPath = PB::Project::parentDirectory() / "random-name.photobook";
+  auto projectPath = Path(".") / "random-name.photobook";
 
   EXPECT_CALL(testPhotobookListener, onProjectRead());
   photobook.recallProject("random-name");
