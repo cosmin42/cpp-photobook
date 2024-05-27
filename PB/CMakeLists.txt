@@ -58,6 +58,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/IteratorWithState.h
     include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
+    include/pb/BasicSVGModel.h
     include/pb/DataManager.h
     include/pb/Enums.h
     include/pb/export/ExportLogic.h
@@ -101,6 +102,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/tasks/SequentialTaskConsumer.h
     include/pb/tasks/ThumbnailsProcessor.h
     include/pb/StagedImages.h
+    include/pb/SVGInflater.h
     include/pb/util/Util.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
@@ -148,6 +150,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/SerializationStrategy.cpp
     src/SQLPersistence.cpp
     src/StagedImages.cpp
+    src/SVGInflater.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
     src/util/SequentialTaskConsumer.cpp
