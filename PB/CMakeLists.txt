@@ -33,9 +33,6 @@ if (ANDROID)
     include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 endif()
 
-message("Generating config files...")
-configure_file(Config.h.in include/pb/Config.h)
-
 find_package(Boost REQUIRED program_options)
 find_package(exiv2 CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
@@ -58,7 +55,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/AspectRatio.h
     include/pb/util/IteratorWithState.h
     include/pb/Command.h
-    ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
+    include/pb/Config.h
     include/pb/BasicSVGModel.h
     include/pb/DataManager.h
     include/pb/Enums.h
