@@ -54,6 +54,7 @@ include_directories(${CMAKE_BINARY_DIR})
 add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/AspectRatio.h
     include/pb/util/IteratorWithState.h
+    include/pb/CollageLibraryAssistant.h
     include/pb/Command.h
     include/pb/Config.h
     include/pb/BasicSVGModel.h
@@ -113,6 +114,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/Visitor.h
     include/pb/WorkersManager.h
 
+    src/CollageLibraryAssistant.cpp
     src/Command.cpp
     src/Config.cpp
     src/DataManager.cpp
