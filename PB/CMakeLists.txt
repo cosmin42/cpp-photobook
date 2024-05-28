@@ -55,6 +55,7 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(${PBLIB_LIBRARY_NAME} STATIC
+    include/pb/AspectRatio.h
     include/pb/util/IteratorWithState.h
     include/pb/Command.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/pb/Config.h
