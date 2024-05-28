@@ -7,8 +7,7 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
-namespace PBDev
-{
+namespace PBDev {
 void basicAssert(int shouldBetrue, const std::source_location location)
 {
   if (!shouldBetrue) {
@@ -23,4 +22,4 @@ void basicAssert(int shouldBetrue, const std::source_location location)
   (void)shouldBetrue;
 #endif
 }
-} // namespace PB
+} // namespace PBDev
