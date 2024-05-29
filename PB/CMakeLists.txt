@@ -195,7 +195,8 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestProjectPersistence.cpp
     tests/TestRuntimeUUID.cpp
     tests/TestStagedImages.cpp
-    tests/TestThirdPartyLinks.cpp)
+    tests/TestThirdPartyLinks.cpp
+    tests/TestCollageLibraryAssistant.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
@@ -222,4 +223,8 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
 add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
 COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
     "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
-    "${CMAKE_CURRENT_SOURCE_DIR}/../PB/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
+    "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
+
+add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
+COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+    "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")
