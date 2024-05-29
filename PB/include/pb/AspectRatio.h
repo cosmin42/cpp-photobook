@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace PB
 {
 struct AspectRatio
@@ -15,6 +17,11 @@ struct AspectRatio
   unsigned getHeight(unsigned width) const
   {
 	  return (heightRatio * width) / widthRatio;
+  }
+
+  std::string operator()() const
+  {
+	  return std::to_string(widthRatio) + ":" + std::to_string(heightRatio);
   }
 };
 }
