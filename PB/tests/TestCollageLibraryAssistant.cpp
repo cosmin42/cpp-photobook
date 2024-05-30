@@ -8,5 +8,5 @@ TEST(TestCollageAssistant, ExtractProfile)
 {
   CollageLibraryAssistant assistant(".", ".");
 
-  assistant.createNumberedImages({2480, 1754});
+  auto paths = assistant.createNumberedImages({2480, 1754});
 }

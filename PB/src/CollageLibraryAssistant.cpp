@@ -16,7 +16,7 @@ CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
   std::vector<Path> paths;
   for (auto i = 0; i < MAX_NUMBER_OF_PLACEHOLDER_IMAGES; ++i) {
     auto path = createNumberedImage(
-        pageSize, i, "placeholder_" + std::to_string(i) + ".png");
+        pageSize, i, "placeholder_" + std::to_string(i) + ".jpg");
     paths.push_back(path);
   }
   return paths;
