@@ -12,10 +12,12 @@
     "gtest",
     "dp-thread-pool",
     "libharu",
+
     "sqlite3",
     "nlohmann-json",
     "boost-bimap",
     "spdlog",
-    "inja"
+    "inja",
+    "skia"
   ]
 }
