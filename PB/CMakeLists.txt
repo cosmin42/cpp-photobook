@@ -220,11 +220,11 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
     ${PBLIB_LIBRARY_NAME})
 
-add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
-COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
-    "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"      # <--this is in-file
-    "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")                 # <--this is out-file path
-
-add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD        # Adds a post-build event to MyTest
-COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
     "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")
+
+add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+    "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")

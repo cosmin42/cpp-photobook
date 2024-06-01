@@ -22,7 +22,8 @@ CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
   return paths;
 }
 
-void CollageLibraryAssistant::createTemplateThumbnail(AspectRatio aspectRatio,
+void CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
+                                                      AspectRatio aspectRatio,
                                                       cv::Size    pageSize)
 {
   auto imagePaths = createNumberedImages(pageSize);
@@ -36,7 +37,21 @@ void CollageLibraryAssistant::createTemplateThumbnail(AspectRatio aspectRatio,
 
   auto thumbnailPath = mCollageLibraryThumbnailsDirectory / filename;
 
-  mThumbnailsSVGInflater.inflate(svgModel, thumbnailPath);
+  auto maybeString = mThumbnailsSVGInflater.inflate(svgModel, templatePath);
+
+  if (maybeString) {
+    std::ofstream file(thumbnailPath);
+    if (file.is_open()) {
+      file << *maybeString;
+      file.close();
+    }
+    else {
+      PBDev::basicAssert(false);
+    }
+  }
+  else {
+    PBDev::basicAssert(false);
+  }
 }
 
 Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,

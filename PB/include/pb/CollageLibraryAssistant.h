@@ -19,7 +19,7 @@ public:
 
   std::vector<Path> createNumberedImages(cv::Size pageSize);
 
-  void createTemplateThumbnail(AspectRatio aspectRatio, cv::Size pageSize);
+  void createTemplateThumbnail(Path templateFile, AspectRatio aspectRatio, cv::Size pageSize);
 
 private:
   Path createNumberedImage(cv::Size pageSize, unsigned index, std::string name);

@@ -18,7 +18,7 @@ struct BasicSVGModel {
     data["height"] = height;
 
     for (auto i = 0; i < imagePaths.size(); ++i) {
-      data[std::to_string(i) + "_image"] = imagePaths.at(i).string();
+      data["image_" + std::to_string(i)] = imagePaths.at(i).string();
     }
 
     return data;

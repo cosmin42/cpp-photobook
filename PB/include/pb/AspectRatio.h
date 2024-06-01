@@ -21,7 +21,7 @@ struct AspectRatio
 
   std::string operator()() const
   {
-	  return std::to_string(widthRatio) + ":" + std::to_string(heightRatio);
+	  return std::to_string(widthRatio) + "to" + std::to_string(heightRatio);
   }
 };
 }

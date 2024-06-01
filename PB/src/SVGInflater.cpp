@@ -33,6 +33,13 @@ std::optional<std::string> SVGInflater::inflate(BasicSVGModel svgModel,
     return std::nullopt;
   }
 
-  return inja::render(content, svgModel.toJson());
+  auto        model = svgModel.toJson();
+  std::string x = model.dump();
+  try {
+    return inja::render(content, model);
+  }
+  catch (const std::exception ex) {
+    return std::nullopt;
+  }
 }
 } // namespace PB
