@@ -136,13 +136,14 @@ auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
 {
   auto f = [offset{offset}, text{text}, fontInfo{fontInfo}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    constexpr int thickness = 8;
 
     auto size = cv::getTextSize(text, cv::FONT_HERSHEY_DUPLEX,
-                                fontInfo.pixelSize, thickness, 0);
-
-    cv::putText(*image, text, offset - (size / 2), cv::FONT_HERSHEY_DUPLEX,
-                fontInfo.pixelSize, fontInfo.color, thickness, cv::LINE_AA);
+                                fontInfo.pixelSize, fontInfo.thickness, 0);
+    auto totalOffset = cv::Size{offset.width - (size.width / 2),
+                        offset.height + (size.height / 2)};
+    cv::putText(*image, text, totalOffset, cv::FONT_HERSHEY_DUPLEX,
+                fontInfo.pixelSize, fontInfo.color, fontInfo.thickness,
+                cv::LINE_AA);
     return image;
   };
 

@@ -15,7 +15,8 @@ namespace PB::Process {
 
 struct CVFontInfo {
   cv::Scalar color;
-  unsigned        pixelSize;
+  unsigned   pixelSize;
+  unsigned   thickness;
 };
 
 typedef std::function<std::pair<int, int>(int, int, int, int)> OffsetFunction;

@@ -58,10 +58,16 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
                                                   unsigned    index,
                                                   std::string name)
 {
-  // TODO: Use index
-  UNUSED(index)
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       pageSize.width, pageSize.height, {20, 20, 20})();
+
+  Process::CVFontInfo fontInfo;
+  fontInfo.color = {255, 255, 255};
+  fontInfo.pixelSize = Process::pointsFromPixels(4, 300);
+  fontInfo.thickness = 24;
+
+  image = PB::Process::addText({pageSize.width / 2, pageSize.height / 2},
+                               std::to_string(index), fontInfo)(image);
 
   auto imagePath = mCollageLibraryThumbnailsDirectory / name;
   bool success = cv::imwrite(imagePath.string(), *image);

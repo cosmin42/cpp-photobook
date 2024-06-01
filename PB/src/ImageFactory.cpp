@@ -33,6 +33,7 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
   fontInfo.color = {0, 0, 0};
   fontInfo.pixelSize =
       Process::pointsFromPixels(24, mProject->paperSettings.ppi);
+  fontInfo.thickness = 8;
 
   image = PB::Process::addText({3508 / 2, 2480 / 2}, path.stem().string(),
                                fontInfo)(image);
