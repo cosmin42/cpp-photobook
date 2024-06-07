@@ -23,6 +23,7 @@ endif()
 
 set(PBLIB_LIBRARY_NAME pblib-${CMAKE_GENERATOR_PLATFORM})
 set(PBLIB_TESTS_LIBRARY_NAME pbtests-${CMAKE_GENERATOR_PLATFORM})
+set(unofficial-skia_FOUND TRUE)
 
 if (ANDROID)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
@@ -46,6 +47,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
 find_package(unofficial-skia CONFIG REQUIRED)
+
 
 include_directories(third-party/podofo-build/include)
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -172,7 +174,7 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     opencv_core
     Boost::boost
     Boost::program_options
-    exiv2lib
+    Exiv2::exiv2lib
     dp::thread-pool
     unofficial::libharu::hpdf
     unofficial::sqlite3::sqlite3
@@ -200,7 +202,8 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestRuntimeUUID.cpp
     tests/TestStagedImages.cpp
     tests/TestThirdPartyLinks.cpp
-    tests/TestCollageLibraryAssistant.cpp)
+    tests/TestCollageLibraryAssistant.cpp
+    tests/TestDrawingService.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
@@ -211,7 +214,7 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     opencv_imgcodecs
     Boost::boost
     Boost::program_options
-    exiv2lib
+    Exiv2::exiv2lib
     GTest::gtest GTest::gtest_main GTest::gmock
     magic_enum::magic_enum
     dp::thread-pool
