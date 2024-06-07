@@ -23,6 +23,7 @@ endif()
 
 set(PBLIB_LIBRARY_NAME pblib-${CMAKE_GENERATOR_PLATFORM})
 set(PBLIB_TESTS_LIBRARY_NAME pbtests-${CMAKE_GENERATOR_PLATFORM})
+set(unofficial-skia_FOUND TRUE)
 
 if (ANDROID)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
