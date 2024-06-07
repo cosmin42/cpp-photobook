@@ -65,6 +65,7 @@ endif()
 if (WIN32)
     include_directories(third-party/podofo-build/include)
 endif()
+
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
 include_directories(${CMAKE_BINARY_DIR})
@@ -216,7 +217,8 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestRuntimeUUID.cpp
     tests/TestStagedImages.cpp
     tests/TestThirdPartyLinks.cpp
-    tests/TestCollageLibraryAssistant.cpp)
+    tests/TestCollageLibraryAssistant.cpp
+    tests/TestDrawingService.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
