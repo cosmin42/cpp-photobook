@@ -198,11 +198,12 @@
             </Grid.ColumnDefinitions>
             <controls:TabView x:Name="CentralTabView"
                               HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch">
+                              VerticalAlignment="Stretch"
+                              IsAddTabButtonVisible="False">
                 <TabView.Resources>
                     <ResourceDictionary>
                         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected"
-                                         Color="{StaticResource PrimaryColor}" />
+                                         Color="{StaticResource ButtonBackgroundColor}" />
                         <SolidColorBrush x:Key="TabViewItemHeaderBackground"
                                          Color="{StaticResource PrimaryColor}" />
                         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver"
@@ -216,7 +217,8 @@
                     </ResourceDictionary>
                 </TabView.Resources>
                 <controls:TabView.TabItems>
-                    <controls:TabViewItem Header="Imports">
+                    <controls:TabViewItem Header="Imports"
+                                          IsClosable="False">
                         <Grid>
                             <ListView Name="MediaListView"
                                       SelectionChanged="OnImportSelectionChanged"
@@ -272,8 +274,15 @@
                             </Border>
                         </Grid>
                     </controls:TabViewItem>
-                    <controls:TabViewItem Header="Collage Library">
-                        <Grid></Grid>
+                    <controls:TabViewItem Header="Collage Library"
+                                          IsClosable="False">
+                        <Border BorderBrush="{StaticResource BorderColor}"
+                                BorderThickness="1"
+                                Padding="16,8"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                            <Grid></Grid>
+                        </Border>
                     </controls:TabViewItem>
                 </controls:TabView.TabItems>
             </controls:TabView>
