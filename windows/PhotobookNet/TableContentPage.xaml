@@ -6,6 +6,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+      xmlns:controls="using:Microsoft.UI.Xaml.Controls"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -195,60 +196,71 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Grid>
-                <ListView Name="MediaListView"
-                          SelectionChanged="OnImportSelectionChanged"
-                          SelectionMode="Single"
-                          AllowDrop="True"
-                          CanDragItems="True"
-                          CanReorderItems="False">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid VerticalAlignment="Center"
-                                  x:Name="GridListName">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="4*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0"
-                                       x:Name="folderImage"
-                                       Source="Assets/folderIcon.png"
-                                       Width="64"
-                                       Height="64"
-                                       HorizontalAlignment="Left" />
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding}"
-                                           Foreground="{StaticResource MainFontColor}"
-                                           HorizontalAlignment="Left"
-                                           VerticalAlignment="Center" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Border BorderBrush="{StaticResource BorderColor}"
-                        BorderThickness="1"
-                        Padding="16,8"
-                        Grid.Row="0"
-                        Grid.Column="0">
-                    <Grid>
-                        <Button Background="{StaticResource ButtonBackgroundColor}"
-                                Click="OnImportFolderAdded"
-                                CornerRadius="4"
-                                Content="Add Media"
-                                x:Name="AddMediaButton"
-                                Foreground="{StaticResource MainFontColor}"
-                                HorizontalAlignment="Center" />
-                        <Button Click="OnImportFolderRemoved"
-                                CornerRadius="4"
-                                Content="Remove"
-                                x:Name="RemoveMediaButton"
-                                Visibility="Collapsed"
-                                Foreground="{StaticResource MainFontColor}"
-                                Background="{StaticResource RemoveButtonBackground}"
-                                HorizontalAlignment="Right" />
-                    </Grid>
-                </Border>
-            </Grid>
+            <controls:TabView x:Name="CentralTabView"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
+                <controls:TabView.TabItems>
+                    <controls:TabViewItem Header="Imports">
+                        <Grid>
+                            <ListView Name="MediaListView"
+                                      SelectionChanged="OnImportSelectionChanged"
+                                      SelectionMode="Single"
+                                      AllowDrop="True"
+                                      CanDragItems="True"
+                                      CanReorderItems="False">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid VerticalAlignment="Center"
+                                              x:Name="GridListName">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*" />
+                                                <ColumnDefinition Width="4*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column="0"
+                                                   x:Name="folderImage"
+                                                   Source="Assets/folderIcon.png"
+                                                   Width="64"
+                                                   Height="64"
+                                                   HorizontalAlignment="Left" />
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding}"
+                                                       Foreground="{StaticResource MainFontColor}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <Border BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    Padding="16,8"
+                                    Grid.Row="0"
+                                    Grid.Column="0">
+                                <Grid>
+                                    <Button Background="{StaticResource ButtonBackgroundColor}"
+                                            Click="OnImportFolderAdded"
+                                            CornerRadius="4"
+                                            Content="Add Media"
+                                            x:Name="AddMediaButton"
+                                            Foreground="{StaticResource MainFontColor}"
+                                            HorizontalAlignment="Center" />
+                                    <Button Click="OnImportFolderRemoved"
+                                            CornerRadius="4"
+                                            Content="Remove"
+                                            x:Name="RemoveMediaButton"
+                                            Visibility="Collapsed"
+                                            Foreground="{StaticResource MainFontColor}"
+                                            Background="{StaticResource RemoveButtonBackground}"
+                                            HorizontalAlignment="Right" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </controls:TabViewItem>
+                    <controls:TabViewItem Header="Collage Library">
+                        <Grid></Grid>
+                    </controls:TabViewItem>
+                </controls:TabView.TabItems>
+            </controls:TabView>
             <Border x:Name="CanvasBorder"
                     BorderBrush="{StaticResource BorderColor}"
                     BorderThickness="1"
