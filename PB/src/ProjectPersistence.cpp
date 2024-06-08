@@ -249,7 +249,7 @@ void ProjectPersistence::save(
                                      stagedImages, roots);
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
-  mPersistence.persistProject(mPlatformInfo->installationPath, name, mJson,
+  mPersistence.persistProject(mPlatformInfo->localStatePath, name, mJson,
                               thumbnailsDirectoryName);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
 }

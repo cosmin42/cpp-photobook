@@ -118,12 +118,12 @@ ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
 {
   PBDev::basicAssert(index >= 0);
 
-  auto smallOutputPath = mPlatformInfo->installationPath / "th" /
+  auto smallOutputPath = mPlatformInfo->localStatePath / "th" /
                          thumbnailsDirectoryName /
                          (OneConfig::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + OneConfig::JPG_EXTENSION);
 
-  auto mediumOutputPath = mPlatformInfo->installationPath / "th" /
+  auto mediumOutputPath = mPlatformInfo->localStatePath / "th" /
                           thumbnailsDirectoryName /
                           (OneConfig::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + OneConfig::JPG_EXTENSION);
