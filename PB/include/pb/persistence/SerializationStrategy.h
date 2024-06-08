@@ -59,6 +59,12 @@ deserialize(Json jsonData, std::string key,
   return PBDev::Error() << ErrorCode::JSONParseError;
 }
 
+std::variant<std::vector<Path>, PBDev::Error> deserializeSpecial(Json jsonData);
+
+std::variant<std::vector<Path>, PBDev::Error>
+deserializeSpecial(Json jsonData, std::string key,
+            std::vector<Path> defaultValue = std::vector<Path>(), bool optional = false);
+
 template <SerializationPrimitiveConcept T>
 std::variant<Json, PBDev::Error> serialize(int depth, T object)
 {

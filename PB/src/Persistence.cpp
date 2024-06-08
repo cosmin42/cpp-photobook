@@ -147,13 +147,9 @@ void Persistence::recallProject(Path projectPath)
           std::get<PBDev::Error>(stagedImagesOrError));
       return;
     }
-#ifdef _CLANG_UML_
-    std::variant<std::vector<std::vector<std::shared_ptr<VirtualImage>>>,
-                 PBDev::Error>
-        importedFoldersOrError;
-
-#else
-    auto importedFoldersOrError = PB::Text::deserialize<std::vector, Path>(
+    std::variant<std::vector<Path>, PBDev::Error> importedFoldersOrError;
+#ifndef _CLANG_UML_
+    importedFoldersOrError = PB::Text::deserializeSpecial(
         jsonSerialization, "row-paths");
 
     if (std::holds_alternative<PBDev::Error>(importedFoldersOrError) &&
