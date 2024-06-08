@@ -54,9 +54,9 @@ static constexpr bool SIMULATE_SLOW_THUMBNAILS_PROCESSOR = false;
 static constexpr bool SIMULATE_SLOW_EXPORTER = false;
 
 const std::unordered_map<std::string, PB::AspectRatio> ASPECT_RATIO_PRESET = {
-    {"4:3", AspectRatio(4, 3)},
-    {"16:9", AspectRatio(16, 9)},
-    {"1:1", AspectRatio(1, 1)}};
+    {"4:3", AspectRatio{4, 3}},
+    {"16:9", AspectRatio{16, 9}},
+    {"1:1", AspectRatio{1, 1}}};
 
 } // namespace OneConfig
 
