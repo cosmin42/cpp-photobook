@@ -196,6 +196,7 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
+            <!-- https://github.com/microsoft/microsoft-ui-xaml/blob/8e41f536c0baa22f4a5d23bf20cfa82202c50452/dev/TabView/TabView_themeresources.xaml TabView -->
             <controls:TabView x:Name="CentralTabView"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
