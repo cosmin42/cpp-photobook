@@ -143,7 +143,7 @@ deserialize(Json jsonData)
     return std::get<PBDev::Error>(processingFinishedOrError);
   }
 #ifndef _CLANG_UML_
-  auto resourcesOrError = deserialize<std::vector, Path>(jsonData, "resource");
+  auto resourcesOrError = deserializeSpecial(jsonData, "resource");
   if (std::holds_alternative<PBDev::Error>(resourcesOrError)) {
     return std::get<PBDev::Error>(resourcesOrError);
   }
@@ -154,7 +154,6 @@ deserialize(Json jsonData)
   auto processingFinished = std::get<bool>(processingFinishedOrError);
 
 #ifndef _CLANG_UML_
-
   if (imageType == "Regular") {
     auto imagePtr = std::make_shared<RegularImage>(
         frontendFull, frontendMedium, frontendSmall, processingFinished,
@@ -227,6 +226,35 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
   projectDetails.paperSettings = std::get<PaperSettings>(paperSettingsOrError);
 
   return projectDetails;
+}
+
+
+std::variant<std::vector<Path>, PBDev::Error> deserializeSpecial(Json jsonData)
+{
+  std::vector<Path> result;
+  for (const auto &stagedFolderJson : jsonData) {
+    auto deserializedOrError = deserialize<Path>(stagedFolderJson);
+    if (std::holds_alternative<PBDev::Error>(deserializedOrError)) {
+      return std::get<PBDev::Error>(deserializedOrError);
+    }
+    else {
+      result.push_back(std::get<Path>(deserializedOrError));
+    }
+  }
+  return result;
+}
+
+std::variant<std::vector<Path>, PBDev::Error>
+deserializeSpecial(Json jsonData, std::string key,
+            std::vector<Path> defaultValue, bool optional)
+{
+  if (jsonData.contains(key)) {
+    return deserializeSpecial(jsonData.at(key));
+  }
+  if (optional) {
+    return defaultValue;
+  }
+  return PBDev::Error() << ErrorCode::JSONParseError;
 }
 
 template <>
