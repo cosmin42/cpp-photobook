@@ -14,8 +14,10 @@ if (WIN32)
 else()
     set(CMAKE_CXX_FLAGS "-std=c++20")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexperimental-library")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
 endif()
-
 if (STATIC_CHECK)
     message("Static check ON")
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
@@ -47,8 +49,13 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
 find_package(unofficial-skia CONFIG REQUIRED)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    find_package(podofo CONFIG REQUIRED)
+endif()
 
-include_directories(third-party/podofo-build/include)
+if (WIN32)
+    include_directories(third-party/podofo-build/include)
+endif()
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
 include_directories(${CMAKE_BINARY_DIR})
@@ -173,7 +180,7 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     opencv_core
     Boost::boost
     Boost::program_options
-    exiv2lib
+    Exiv2::exiv2lib
     dp::thread-pool
     unofficial::libharu::hpdf
     unofficial::sqlite3::sqlite3
@@ -207,25 +214,37 @@ target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    set(PLATFORM_PODOFO $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>)
+endif()
+if (WIN32)
+    set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
+endif()
+
+if (WIN32)
+    set(MAYBE_BCRYPT bcrypt)
+endif()
+
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     opencv_core
     opencv_imgcodecs
     Boost::boost
     Boost::program_options
-    exiv2lib
+    Exiv2::exiv2lib
     GTest::gtest GTest::gtest_main GTest::gmock
     magic_enum::magic_enum
     dp::thread-pool
     unofficial::libharu::hpdf
     unofficial::sqlite3::sqlite3
-    bcrypt
+    ${MAYBE_BCRYPT}
     nlohmann_json::nlohmann_json
     spdlog::spdlog
     pantor::inja
     unofficial::skia::skia
-    ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
+    ${PLATFORM_PODOFO}
     ${PBLIB_LIBRARY_NAME})
 
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
@@ -234,3 +253,4 @@ COMMAND ${CMAKE_COMMAND} -E copy_directory
 add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
     "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
+endif()
