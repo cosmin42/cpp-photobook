@@ -199,6 +199,22 @@
             <controls:TabView x:Name="CentralTabView"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch">
+                <TabView.Resources>
+                    <ResourceDictionary>
+                        <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected"
+                                         Color="{StaticResource PrimaryColor}" />
+                        <SolidColorBrush x:Key="TabViewItemHeaderBackground"
+                                         Color="{StaticResource PrimaryColor}" />
+                        <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver"
+                                         Color="{StaticResource PrimaryColor}" />
+                        <SolidColorBrush x:Key="TabViewItemHeaderForegroundSelected"
+                                         Color="{StaticResource MainFontColor}" />
+                        <SolidColorBrush x:Key="TabViewItemHeaderForeground"
+                                         Color="{StaticResource MainFontColor}" />
+                        <SolidColorBrush x:Key="TabViewItemHeaderForegroundPointerOver"
+                                         Color="{StaticResource MainFontColor}" />
+                    </ResourceDictionary>
+                </TabView.Resources>
                 <controls:TabView.TabItems>
                     <controls:TabViewItem Header="Imports">
                         <Grid>
