@@ -16,6 +16,8 @@ struct DashboardView: View {
                 Spacer()
                 // Button with specific size in the center
                 Button(action: {
+                    let objCObject = ExampleObjC()
+                    objCObject.doSomething()
                     print("Button was tapped!")
                 }) {
                     Text("+").frame(minWidth: 100, minHeight: 100)
