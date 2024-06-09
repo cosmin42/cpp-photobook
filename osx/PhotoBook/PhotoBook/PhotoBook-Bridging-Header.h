@@ -4,7 +4,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface ExampleObjC : NSObject
-- (void)doSomething;
+@interface Photobook : NSObject
+- (id)init;
 @end

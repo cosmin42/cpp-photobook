@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7302B2E62C15F06B003777D1 /* Photobook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7302B2E52C15F06B003777D1 /* Photobook.m */; };
 		73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
 		73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049EB62C162BDB009EA667 /* OpenCL.framework */; platformFilters = (macos, ); };
 		73049ED32C163A53009EA667 /* libboost_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E572C162B23009EA667 /* libboost_container.a */; };
@@ -159,7 +158,6 @@
 
 /* Begin PBXFileReference section */
 		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
-		7302B2E52C15F06B003777D1 /* Photobook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Photobook.m; sourceTree = "<group>"; };
 		73049DC92C1600CC009EA667 /* Exportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exportable.h; sourceTree = "<group>"; };
 		73049DCA2C1600CC009EA667 /* ExportLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportLogic.h; sourceTree = "<group>"; };
 		73049DCB2C1600CC009EA667 /* Html.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Html.h; sourceTree = "<group>"; };
@@ -752,7 +750,6 @@
 				73C4ECA72AA0C0E3006C4108 /* PhotoBook.entitlements */,
 				73C4ECA82AA0C0E3006C4108 /* Preview Content */,
 				73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */,
-				7302B2E52C15F06B003777D1 /* Photobook.m */,
 				7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */,
 				73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */,
 			);
@@ -958,7 +955,6 @@
 				7321EB7B2C163E6800B3D27F /* SerializationStrategy.cpp in Sources */,
 				7321EB742C163E6800B3D27F /* ProgressManager.cpp in Sources */,
 				7321EB812C163E6800B3D27F /* ThumbnailsProcessor.cpp in Sources */,
-				7302B2E62C15F06B003777D1 /* Photobook.m in Sources */,
 				7321EB6A2C163E6800B3D27F /* ImportFoldersLogic.cpp in Sources */,
 				7321EB572C163E6700B3D27F /* ParallelTaskConsumer.cpp in Sources */,
 				7321EB662C163E6800B3D27F /* ImageMonitor.cpp in Sources */,

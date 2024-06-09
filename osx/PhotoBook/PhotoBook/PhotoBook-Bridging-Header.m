@@ -11,9 +11,13 @@
 #include <pb/PhotoBook.h>
 
 
-@implementation ExampleObjC
-- (void)doSomething {
-    PBDev::Path p = "a/b/c";
-    NSLog(@"Doing something in Objective-C %s", p.string().c_str());
+@implementation Photobook
+
+PB::Photobook mPhotobook("a", "b");
+
+-(id)init {
+    NSLog(@"Initializing photobook");
+    mPhotobook.configure(std::pair<int, int>{3, 4});
+    return self;
 }
 @end
