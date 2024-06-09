@@ -31,7 +31,6 @@ endif()
 
 set(PBLIB_LIBRARY_NAME pblib-${PB_PLATFORM})
 set(PBLIB_TESTS_LIBRARY_NAME pbtests-${PB_PLATFORM})
-set(unofficial-skia_FOUND TRUE)
 
 if (ANDROID)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
@@ -40,6 +39,8 @@ if (ANDROID)
     set(CMAKE_USE_PTHREADS_INIT 1)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
+else()
+    set(unofficial-skia_FOUND TRUE)
 endif()
 
 find_package(Boost REQUIRED program_options)
@@ -54,7 +55,9 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-find_package(unofficial-skia CONFIG REQUIRED)
+if (NOT ANDROID)
+    find_package(unofficial-skia CONFIG REQUIRED)
+endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
 endif()
@@ -192,8 +195,7 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json
     spdlog::spdlog
-    pantor::inja
-    unofficial::skia::skia)
+    pantor::inja)
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -246,7 +248,6 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     nlohmann_json::nlohmann_json
     spdlog::spdlog
     pantor::inja
-    unofficial::skia::skia
     ${PLATFORM_PODOFO}
     ${PBLIB_LIBRARY_NAME})
 
