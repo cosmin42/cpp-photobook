@@ -129,6 +129,7 @@
 		7321EB812C163E6800B3D27F /* ThumbnailsProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB522C163E6700B3D27F /* ThumbnailsProcessor.cpp */; };
 		7321EB822C163E6800B3D27F /* VirtualImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB532C163E6700B3D27F /* VirtualImage.cpp */; };
 		7321EB832C163E6800B3D27F /* WorkersManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB542C163E6700B3D27F /* WorkersManager.cpp */; };
+		7321EB862C18B8E800B3D27F /* Photobook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.m */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
@@ -342,6 +343,8 @@
 		7321EB522C163E6700B3D27F /* ThumbnailsProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThumbnailsProcessor.cpp; sourceTree = "<group>"; };
 		7321EB532C163E6700B3D27F /* VirtualImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualImage.cpp; sourceTree = "<group>"; };
 		7321EB542C163E6700B3D27F /* WorkersManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorkersManager.cpp; sourceTree = "<group>"; };
+		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
+		7321EB852C18B8E800B3D27F /* Photobook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photobook.m; sourceTree = "<group>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
@@ -744,6 +747,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				7321EB852C18B8E800B3D27F /* Photobook.m */,
 				73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */,
 				73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */,
 				73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */,
@@ -752,6 +756,7 @@
 				73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */,
 				7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */,
 				73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */,
+				7321EB842C18B7F800B3D27F /* Photobook.h */,
 			);
 			path = PhotoBook;
 			sourceTree = "<group>";
@@ -912,6 +917,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7321EB862C18B8E800B3D27F /* Photobook.m in Sources */,
 				7321EB702C163E6800B3D27F /* PdfLibharu.cpp in Sources */,
 				7321EB752C163E6800B3D27F /* Project.cpp in Sources */,
 				7321EB602C163E6800B3D27F /* ExportLogic.cpp in Sources */,

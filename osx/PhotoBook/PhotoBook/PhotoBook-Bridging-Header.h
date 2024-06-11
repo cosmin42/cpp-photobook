@@ -4,6 +4,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Photobook : NSObject
-- (id)init;
-@end
+#include "Photobook.h"
+
+
