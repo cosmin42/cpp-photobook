@@ -8,8 +8,13 @@
 #ifndef Photobook_h
 #define Photobook_h
 
+@interface PhotobookListenerWrapperCLevel: NSObject
+- (void)onProjectRead;
+@end
+
 @interface Photobook : NSObject
 - (id)init;
+- (void) setPhotobookListener:PhotobookListenerWrapperCLevel;
 @end
 
 #endif /* Photobook_h */
