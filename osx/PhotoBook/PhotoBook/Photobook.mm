@@ -117,7 +117,7 @@ PhotobookListenerManaged* mListener = nullptr;
 @implementation XC
 - (NSString *)concatenateString:(NSString *)str1 withString:(NSString *)str2 {
     [[NSString alloc] init];
-    return [str1 stringByAppendingString:str2];
+    return [str1 stringWithString:str2];
 
 }
 - (void) g
