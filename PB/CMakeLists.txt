@@ -115,6 +115,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/ProgressManager.h
     include/pb/RowProcessingData.h
     include/pb/RuntimeUUID.h
+    include/pb/SkiaResources.h
     include/pb/tasks/Tasks.h
     include/pb/tasks/FileMapper.h
     include/pb/tasks/ParallelTaskConsumer.h
@@ -169,6 +170,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/RuntimeUUID.cpp
     src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
+    src/SkiaRsources.cpp
     src/SQLPersistence.cpp
     src/StagedImages.cpp
     src/SVGInflater.cpp

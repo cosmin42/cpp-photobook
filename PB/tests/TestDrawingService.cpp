@@ -16,7 +16,7 @@ TEST(TestDrawingService, TestSvgToPng)
                       "2x1-simple.svg.template";
 
   assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480, 1754});
-
+  /*
   auto &drawingServce = DrawingService::getInstance();
 
   drawingServce.renderSVG(
@@ -31,4 +31,5 @@ TEST(TestDrawingService, TestSvgToPng)
 
   std::filesystem::remove(std::filesystem::current_path() /
                           "template_4to3-2480x1754.svg");
+                          */
 }

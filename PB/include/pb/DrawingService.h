@@ -15,20 +15,12 @@
 namespace PB {
 class DrawingService {
 public:
-  static DrawingService &getInstance()
-  {
-    static DrawingService instance;
-    return instance;
-  }
-
-  void renderSVG(Path svgPath, Path outputPath, cv::Size imageSize);
-
-private:
-  DrawingService() { SkGraphics::Init(); }
+  DrawingService();
+  DrawingService(const DrawingService &) = delete;
+  DrawingService &operator=(const DrawingService &) = delete;
 
   ~DrawingService() = default;
 
-  DrawingService(const DrawingService &) = delete;
-  DrawingService &operator=(const DrawingService &) = delete;
+  void renderSVG(Path svgPath, Path outputPath, cv::Size imageSize);
 };
 } // namespace PB
