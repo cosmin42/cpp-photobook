@@ -233,12 +233,11 @@ endif()
 
 if (WIN32)
     set(MAYBE_BCRYPT bcrypt)
-
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
 endif()
 
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
