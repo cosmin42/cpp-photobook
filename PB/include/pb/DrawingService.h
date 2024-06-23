@@ -23,7 +23,9 @@ public:
 
   ~DrawingService() = default;
 
-  void renderToStream(SkFILEWStream &fileStream, Path svgPath, cv::Size imageSize);
+  void renderToStream(PBDev::SkiaResourcesId resourceId,
+                      SkFILEWStream &fileStream, Path svgPath,
+                      cv::Size originalImageSize, cv::Size outputImageSize);
 
   void renderToBuffer();
 

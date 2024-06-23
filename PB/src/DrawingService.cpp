@@ -3,6 +3,13 @@
 #include <fstream>
 #include <memory>
 
+#include <include/core/SkCanvas.h>
+#include <include/core/SkImageInfo.h>
+#include <include/core/SkSurface.h>
+#include <include/encode/SkPngEncoder.h>
+#include <modules/skshaper/utils/FactoryHelpers.h>
+#include <modules/svg/include/SkSVGDOM.h>
+
 namespace PB {
 
 DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
@@ -11,17 +18,60 @@ DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
   SkGraphics::Init();
 }
 
-void DrawingService::renderToStream(SkFILEWStream &fileStream, Path svgPath,
-                               cv::Size imageSize)
+void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
+                                    SkFILEWStream &outputStream, Path svgPath,
+                                    cv::Size originalImageSize,
+                                    cv::Size outputImageSize)
 {
-  UNUSED(fileStream)
-  UNUSED(svgPath)
-  UNUSED(imageSize)
+  auto stream = SkStream::MakeFromFile(svgPath.string().c_str());
+
+  auto svgDOM =
+      SkSVGDOM::Builder()
+          .setFontManager(SkFontMgr::RefEmpty())
+          .setResourceProvider(mResources->resourceProvider(resourceId))
+          .setTextShapingFactory(SkShapers::BestAvailable())
+          .make(*stream);
+
+  // Create a surface to render the SVG
+  SkImageInfo info = SkImageInfo::MakeN32Premul(originalImageSize.width,
+                                                originalImageSize.height);
+
+  auto surface = SkSurfaces::Raster(info);
+
+  if (!surface) {
+    fprintf(stderr, "Failed to create surface\n");
+    return;
+  }
+
+  SkCanvas *canvas = surface->getCanvas();
+  canvas->clear(SK_ColorWHITE);
+
+  // Scale the SVG to fit the surface
+  SkRect bounds =
+      SkRect::MakeIWH(outputImageSize.width, outputImageSize.height);
+  float scaleX = originalImageSize.width / bounds.width();
+  float scaleY = originalImageSize.height / bounds.height();
+  float scale = std::min(scaleX, scaleY);
+
+  canvas->scale(scale, scale);
+  svgDOM->setContainerSize(
+      SkSize::Make(originalImageSize.width, originalImageSize.height));
+
+  // Render the SVG
+  svgDOM->render(canvas);
+
+  // Encode the surface to PNG
+  SkPixmap       pixmap;
+  sk_sp<SkImage> image = surface->makeImageSnapshot();
+
+  image->peekPixels(&pixmap);
+
+  SkPngEncoder::Options options;
+
+  SkPngEncoder::Encode(&outputStream, pixmap, options);
+  outputStream.flush();
 }
 
-
-void DrawingService::renderToBuffer() {
-
-}
+void DrawingService::renderToBuffer() {}
 
 } // namespace PB
