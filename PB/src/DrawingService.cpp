@@ -1,24 +1,27 @@
 #include <pb/DrawingService.h>
 
-#include <include/core/SkBitmap.h>
-#include <include/core/SkCanvas.h>
-#include <include/core/SkStream.h>
-#include <include/core/SkSurface.h>
-#include <include/encode/SkPngEncoder.h>
-#include <include/svg/SkSVGCanvas.h>
-#include <modules/svg/include/SkSVGDOM.h>
-
 #include <fstream>
+#include <memory>
 
 namespace PB {
 
-DrawingService::DrawingService() { SkGraphics::Init(); }
+DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
+    : mResources(resources)
+{
+  SkGraphics::Init();
+}
 
-void DrawingService::renderSVG(Path svgPath, Path outputPath,
+void DrawingService::renderToStream(SkFILEWStream &fileStream, Path svgPath,
                                cv::Size imageSize)
 {
+  UNUSED(fileStream)
   UNUSED(svgPath)
-  UNUSED(outputPath)
   UNUSED(imageSize)
 }
+
+
+void DrawingService::renderToBuffer() {
+
+}
+
 } // namespace PB

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <include/core/SkGraphics.h>
-
 #pragma warning(push)
 #pragma warning(disable : 5054)
 #pragma warning(disable : 4127)
@@ -10,17 +8,26 @@
 #include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
+#include <include/core/SkGraphics.h>
+#include <include/core/SkStream.h>
+
+#include <pb/SkiaResources.h>
 #include <pb/util/Traits.h>
 
 namespace PB {
 class DrawingService {
 public:
-  DrawingService();
+  explicit DrawingService(std::shared_ptr<SkiaResources> resources);
   DrawingService(const DrawingService &) = delete;
   DrawingService &operator=(const DrawingService &) = delete;
 
   ~DrawingService() = default;
 
-  void renderSVG(Path svgPath, Path outputPath, cv::Size imageSize);
+  void renderToStream(SkFILEWStream &fileStream, Path svgPath, cv::Size imageSize);
+
+  void renderToBuffer();
+
+private:
+  std::shared_ptr<SkiaResources> mResources = nullptr;
 };
 } // namespace PB
