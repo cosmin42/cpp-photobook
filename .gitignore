@@ -76,7 +76,7 @@ build-ARM64*
 windows/PhotobookRuntimeComponent/*_g.h
 .DS_Store
 PB/third-party/windows/skia/*
-depot_tools/*
-skia/*
+depot_tools
+skia
 ninja.exe
 ninja.png
