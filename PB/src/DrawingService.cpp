@@ -20,8 +20,7 @@ DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
 
 void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
                                     SkFILEWStream &outputStream, Path svgPath,
-                                    cv::Size originalImageSize,
-                                    cv::Size outputImageSize)
+                                    cv::Size originalImageSize)
 {
   auto stream = SkStream::MakeFromFile(svgPath.string().c_str());
 
@@ -48,12 +47,8 @@ void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
 
   // Scale the SVG to fit the surface
   SkRect bounds =
-      SkRect::MakeIWH(outputImageSize.width, outputImageSize.height);
-  float scaleX = originalImageSize.width / bounds.width();
-  float scaleY = originalImageSize.height / bounds.height();
-  float scale = std::min(scaleX, scaleY);
+      SkRect::MakeIWH(originalImageSize.width, originalImageSize.height);
 
-  canvas->scale(scale, scale);
   svgDOM->setContainerSize(
       SkSize::Make(originalImageSize.width, originalImageSize.height));
 

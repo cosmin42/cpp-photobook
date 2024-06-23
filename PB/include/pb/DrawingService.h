@@ -25,7 +25,7 @@ public:
 
   void renderToStream(PBDev::SkiaResourcesId resourceId,
                       SkFILEWStream &fileStream, Path svgPath,
-                      cv::Size originalImageSize, cv::Size outputImageSize);
+                      cv::Size originalImageSize);
 
   void renderToBuffer();
 
