@@ -78,3 +78,5 @@ windows/PhotobookRuntimeComponent/*_g.h
 PB/third-party/windows/skia/*
 depot_tools/*
 skia/*
+ninja.exe
+ninja.png
