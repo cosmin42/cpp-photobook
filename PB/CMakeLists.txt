@@ -23,7 +23,6 @@ endif()
 
 set(PBLIB_LIBRARY_NAME pblib-${CMAKE_GENERATOR_PLATFORM})
 set(PBLIB_TESTS_LIBRARY_NAME pbtests-${CMAKE_GENERATOR_PLATFORM})
-set(unofficial-skia_FOUND TRUE)
 
 if (ANDROID)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
@@ -46,13 +45,17 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-find_package(unofficial-skia CONFIG REQUIRED)
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    find_package(podofo CONFIG REQUIRED)
+endif()
 
 
 include_directories(third-party/podofo-build/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../skia)
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
 include_directories(${CMAKE_BINARY_DIR})
+
 
 add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/AspectRatio.h
@@ -180,8 +183,7 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json
     spdlog::spdlog
-    pantor::inja
-    unofficial::skia::skia)
+    pantor::inja)
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -209,6 +211,18 @@ target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    set(PLATFORM_PODOFO $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>)
+endif()
+if (WIN32)
+    set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
+endif()
+
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     opencv_core
     opencv_imgcodecs
@@ -224,14 +238,19 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     nlohmann_json::nlohmann_json
     spdlog::spdlog
     pantor::inja
-    unofficial::skia::skia
-    ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib
+    ${PLATFORM_PODOFO}
+    ${PLATFORM_SKIA}
     ${PBLIB_LIBRARY_NAME})
 
 add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
     "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")
+
+add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")
 
 add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
