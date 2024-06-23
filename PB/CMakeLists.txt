@@ -216,11 +216,11 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 endif()
 if (WIN32)
     set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
 endif()
 
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
