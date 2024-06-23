@@ -25,7 +25,8 @@ private:
   SkiaResources &operator=(const SkiaResources &) = delete;
 
   std::unordered_map<PBDev::SkiaResourcesId,
-                     sk_sp<skresources::FileResourceProvider>>
+                     sk_sp<skresources::FileResourceProvider>,
+                     boost::hash<PBDev::SkiaResourcesId>>
       mResourceProviders;
 };
 } // namespace PB
