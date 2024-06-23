@@ -7,7 +7,7 @@ using namespace PB;
 
 TEST(TestDrawingService, TestSvgToPng)
 {
-  CollageLibraryAssistant assistant(std::filesystem::current_path(),
+  CollageLibraryAssistant assistant(std::filesystem::current_path() / "res",
                                     std::filesystem::current_path());
 
   AspectRatio aspectRatio = {4, 3};
@@ -16,20 +16,32 @@ TEST(TestDrawingService, TestSvgToPng)
                       "2x1-simple.svg.template";
 
   assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480, 1754});
-  /*
-  auto &drawingServce = DrawingService::getInstance();
 
-  drawingServce.renderSVG(
-      std::filesystem::current_path() / "template_4to3-2480x1754.svg",
-      std::filesystem::current_path() / "template_4to3-2480x1754.png",
-      {2480, 1754});
+  std::shared_ptr<SkiaResources> resources = std::make_shared<SkiaResources>();
 
+  auto id =
+      resources->addResource(std::filesystem::current_path() / "res" / "");
+
+  DrawingService drawingServce(resources);
+
+  SkFILEWStream outFile(
+      (std::filesystem::current_path() / "testCollageTemplate.png")
+          .string()
+          .c_str());
+
+  drawingServce.renderToStream(id, outFile,
+                               std::filesystem::current_path() / "res" /
+                                   "template_4to3-2480x1754.svg",
+                               {2480, 1754});
+  outFile.~SkFILEWStream();
   for (auto i = 0; i < 10; ++i) {
-    std::filesystem::remove(std::filesystem::current_path() /
-                            (std::string("placeolder_") + std::to_string(i)));
+    Path fileToRemove =
+        std::filesystem::current_path() /
+        (std::string("placeholder_") + std::to_string(i) + ".jpg");
+    std::filesystem::remove(fileToRemove);
   }
 
-  std::filesystem::remove(std::filesystem::current_path() /
-                          "template_4to3-2480x1754.svg");
-                          */
+  Path thumbnailToRemove =
+      (std::filesystem::current_path() / "testCollageTemplate.png");
+  std::filesystem::remove(thumbnailToRemove);
 }
