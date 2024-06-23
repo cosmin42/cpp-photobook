@@ -69,7 +69,7 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
   image = PB::Process::addText({pageSize.width / 2, pageSize.height / 2},
                                std::to_string(index), fontInfo)(image);
 
-  auto imagePath = mCollageLibraryThumbnailsDirectory / name;
+  auto imagePath = Path(name);
   bool success = cv::imwrite(imagePath.string(), *image);
   PBDev::basicAssert(success);
   return imagePath;
