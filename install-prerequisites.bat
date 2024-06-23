@@ -1,6 +1,6 @@
 @echo off
 GOTO:MAIN
-
+::TODO: Add checks for the commands
 :INSTALLVCPKG
     SETLOCAL enabledelayedexpansion
         git clone https://github.com/microsoft/vcpkg.git
@@ -12,6 +12,25 @@ GOTO:MAIN
         vcpkg install boost-program-options:arm64-android opencv:arm64-android boost-uuid:arm64-android expat:arm64-android brotli:arm64-android inih:arm64-android magic-enum:arm64-android exiv2:arm64-android gtest:arm64-android dp-thread-pool:arm64-android libharu:arm64-android sqlite3:arm64-android nlohmann-json:arm64-android boost-bimap:arm64-android spdlog:arm64-android inja:arm64-android skia:arm64-android
         vcpkg install boost-program-options:x64-android opencv:x64-android boost-uuid:x64-android expat:x64-android brotli:x64-android inih:x64-android magic-enum:x64-android exiv2:x64-android gtest:x64-android dp-thread-pool:x64-android libharu:x64-android sqlite3:x64-android nlohmann-json:x64-android boost-bimap:x64-android spdlog:x64-android inja:x64-android skia:x64-android
         vcpkg integrate install
+        cd ..
+
+        git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+        git clone https://skia.googlesource.com/skia.git
+
+        python download.py https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip
+        python unzip ninja.zip .
+        cd skia
+        python3 tools/git-sync-deps
+
+        ..\depot_tools\gn gen out\Static-x64-win-debug --args="is_official_build=false is_trivial_abi=true target_cpu=\"x64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\", \"/DSKIA_DEBUG=1\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen out\Static-arm64-win-debug --args="is_official_build=false is_trivial_abi=true target_cpu=\"arm64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\", \"/DSKIA_DEBUG=1\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen out\Static-x64-win-release --args="is_official_build=true is_trivial_abi=true target_cpu=\"x64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen out\Static-arm64-win-release --args="is_official_build=true is_trivial_abi=true target_cpu=\"arm64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+
+        ..\ninja.exe -C out\Static-x64-win-debug
+        ..\ninja.exe -C out\Static-arm64-win-debug
+        ..\ninja.exe -C out\Static-x64-win-release
+        ..\ninja.exe -C out\Static-arm64-win-release
         cd ..
     ENDLOCAL
 EXIT /B 0
