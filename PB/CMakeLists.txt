@@ -170,7 +170,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/RuntimeUUID.cpp
     src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
-    src/SkiaRsources.cpp
+    src/SkiaResources.cpp
     src/SQLPersistence.cpp
     src/StagedImages.cpp
     src/SVGInflater.cpp
