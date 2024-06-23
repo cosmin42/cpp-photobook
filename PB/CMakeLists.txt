@@ -55,9 +55,7 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-if (NOT ANDROID)
-    find_package(unofficial-skia CONFIG REQUIRED)
-endif()
+
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
 endif()
@@ -65,6 +63,8 @@ endif()
 if (WIN32)
     include_directories(third-party/podofo-build/include)
 endif()
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../skia)
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
@@ -233,6 +233,12 @@ endif()
 
 if (WIN32)
     set(MAYBE_BCRYPT bcrypt)
+
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skia.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/svg.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skshaper.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_core.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug/skunicode_icu.lib)
 endif()
 
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
@@ -251,6 +257,7 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     spdlog::spdlog
     pantor::inja
     ${PLATFORM_PODOFO}
+    ${PLATFORM_SKIA}
     ${PBLIB_LIBRARY_NAME})
 
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
@@ -277,3 +284,11 @@ else()
         "${CMAKE_CURRENT_SOURCE_DIR}/build/")
 endif()
 
+add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/../skia/out/Static-${CMAKE_GENERATOR_PLATFORM}-win-debug"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/")
+
+add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
