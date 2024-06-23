@@ -74,3 +74,4 @@ PB/build*
 build-x64*
 build-ARM64*
 windows/PhotobookRuntimeComponent/*_g.h
+PB/third-party/windows/skia/*
