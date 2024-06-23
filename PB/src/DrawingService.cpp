@@ -1,13 +1,12 @@
 #include <pb/DrawingService.h>
 
-
+#include <include/core/SkBitmap.h>
+#include <include/core/SkCanvas.h>
+#include <include/core/SkStream.h>
+#include <include/core/SkSurface.h>
+#include <include/encode/SkPngEncoder.h>
+#include <include/svg/SkSVGCanvas.h>
 #include <modules/svg/include/SkSVGDOM.h>
-#include <skia/core/SkBitmap.h>
-#include <skia/core/SkCanvas.h>
-#include <skia/core/SkStream.h>
-#include <skia/core/SkSurface.h>
-#include <skia/encode/SkPngEncoder.h>
-#include <skia/svg/SkSVGCanvas.h>
 
 #include <fstream>
 
@@ -59,11 +58,11 @@ void DrawingService::renderSVG(Path svgPath, Path outputPath,
   float  scale = std::min(scaleX, scaleY);
 
   canvas->scale(scaleX, scaleY);
-  //svgDOM->setContainerSize(
-  //    SkSize::Make(bounds.width() * scale, bounds.height() * scale));
+  // svgDOM->setContainerSize(
+  //     SkSize::Make(bounds.width() * scale, bounds.height() * scale));
 
   // Render the SVG
-  //svgDOM->render(canvas);
+  // svgDOM->render(canvas);
 
   // Encode the surface to PNG
   SkPixmap       pixmap;
