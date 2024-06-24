@@ -77,6 +77,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/Command.h
     include/pb/Config.h
     include/pb/BasicSVGModel.h
+    include/pb/CollageTemplatesManager.h
     include/pb/DataManager.h
     include/pb/DrawingService.h
     include/pb/Enums.h
@@ -137,6 +138,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
 
     src/CollageLibraryAssistant.cpp
     src/Command.cpp
+    src/CollageTemplatesManager.cpp
     src/Config.cpp
     src/DataManager.cpp
     src/DrawingService.cpp
