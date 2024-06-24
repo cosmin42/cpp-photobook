@@ -80,6 +80,8 @@ public:
                std::vector<Path> const                          &roots);
   Path hash(Path path);
 
+  std::shared_ptr<CollageTemplatesManager> collageTemplatesManager();
+
 private:
   std::string name(boost::uuids::uuid uuid);
   Path        path(boost::uuids::uuid uuid);
@@ -95,6 +97,6 @@ private:
   boost::bimaps::bimap<Path, Path>                      mCurrentHashes;
   Json                                                  mJson;
   std::shared_ptr<PlatformInfo>                         mPlatformInfo = nullptr;
-  std::shared_ptr<CollageTemplatesManager> collageTemplateManager = nullptr;
+  std::shared_ptr<CollageTemplatesManager> mCollageTemplateManager = nullptr;
 };
 } // namespace PB

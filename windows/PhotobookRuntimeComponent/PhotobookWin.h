@@ -127,6 +127,30 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     }
   }
 
+  Windows::Foundation::Collections::IVector<winrt::hstring>
+  CollageTemplatesThumbnailsList()
+  {
+    auto projectPersistence = mPhotobook->project();
+    if (projectPersistence = nullptr) {
+      return winrt::single_threaded_vector<winrt::hstring>();
+    }
+
+    auto collageTemplateManager = projectPersistence->collageTemplatesManager();
+
+    if (collageTemplateManager == nullptr) {
+      return winrt::single_threaded_vector<winrt::hstring>();
+    }
+
+    auto paths = collageTemplateManager->getTemplatesPaths();
+
+    auto managedPaths = winrt::single_threaded_vector<winrt::hstring>();
+
+    for (auto path : paths) {
+      managedPaths.Append(winrt::to_hstring(path.string()));
+    }
+    return managedPaths;
+  }
+
   void ConfigureScreenSize(PhotobookRuntimeComponent::Int32Pair screenSize)
   {
     mPhotobook->configure(

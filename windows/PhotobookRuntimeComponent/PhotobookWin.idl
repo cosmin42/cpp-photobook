@@ -50,6 +50,8 @@ runtimeclass PhotobookWin
   void ExportPDFLibharu(String name, String path);
   void ExportJPGAlbum(String name, String path);
 
+  IVector<String> CollageTemplatesThumbnailsList();
+
   static VirtualImagePtr copyImage(VirtualImagePtr image);
 }
 } // namespace PhotobookRuntimeComponent
