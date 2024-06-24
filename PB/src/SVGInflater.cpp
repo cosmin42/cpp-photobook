@@ -1,6 +1,11 @@
 #include <filesystem>
 #include <pb/SVGInflater.h>
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 namespace PB {
 
 // TODO: Change this to be async
@@ -34,11 +39,11 @@ std::optional<std::string> SVGInflater::inflate(BasicSVGModel svgModel,
   }
 
   auto        model = svgModel.toJson();
-  std::string x = model.dump();
   try {
     return inja::render(content, model);
   }
   catch (const std::exception ex) {
+    spdlog::error("Error rendering SVG: {}", ex.what());
     return std::nullopt;
   }
 }
