@@ -277,12 +277,31 @@
                     </controls:TabViewItem>
                     <controls:TabViewItem Header="Collage Library"
                                           IsClosable="False">
-                        <Border BorderBrush="{StaticResource BorderColor}"
+                        <Border BorderBrush="White"
                                 BorderThickness="1"
                                 Padding="16,8"
                                 Grid.Row="0"
                                 Grid.Column="0">
-                            <Grid></Grid>
+                            <Grid>
+                                <controls:GridView x:Name="CollageTemplatesListView"
+                                                   IsItemClickEnabled="True">
+                                    <controls:GridView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </controls:GridView.ItemsPanel>
+                                    <controls:GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <!--TODO: Setup this ration based on the page size-->
+                                            <Border Background="Black"
+                                                    Width="124"
+                                                    Height="87">
+                                                <Image Source="{Binding}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </controls:GridView.ItemTemplate>
+                                </controls:GridView>
+                            </Grid>
                         </Border>
                     </controls:TabViewItem>
                 </controls:TabView.TabItems>

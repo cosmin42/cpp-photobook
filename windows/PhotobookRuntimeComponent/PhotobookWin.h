@@ -131,7 +131,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   CollageTemplatesThumbnailsList()
   {
     auto projectPersistence = mPhotobook->project();
-    if (projectPersistence = nullptr) {
+    if (projectPersistence == nullptr) {
       return winrt::single_threaded_vector<winrt::hstring>();
     }
 

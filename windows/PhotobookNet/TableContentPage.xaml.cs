@@ -544,9 +544,21 @@ namespace PhotobookNet
 
         /* Book Lines */
 
+        public ObservableCollection<string> Items { get; set; }
+
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             LoadImages();
+            var thumbnailsList = mPhotobook.CollageTemplatesThumbnailsList();
+
+            Items = new ObservableCollection<string>();
+
+            foreach(var thumbnail in thumbnailsList)
+            {
+                Items.Add(thumbnail);
+            }
+
+            CollageTemplatesListView.ItemsSource = Items;
         }
 
         private void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args)
