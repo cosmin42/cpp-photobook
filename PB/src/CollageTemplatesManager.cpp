@@ -35,8 +35,7 @@ std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
 void CollageTemplatesManager::generateTemplatesImages()
 {
   auto templatesList =
-      getTemplatesPaths(mInstallPath /
-                                         COLLAGES_TEMPLATES_NAME);
+      getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
 
   std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
 
@@ -63,7 +62,14 @@ void CollageTemplatesManager::generateTemplatesImages()
 
     mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
                                    imageSize);
+
+    mGeneratedLibraries.push_back(outFilePath);
   }
+}
+
+std::vector<Path> CollageTemplatesManager::getTemplatesPaths() const
+{
+  return mGeneratedLibraries;
 }
 
 } // namespace PB
