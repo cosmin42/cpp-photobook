@@ -14,7 +14,6 @@
     <ClCompile Include="ProjectItem.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="PhotobookWin.cpp" />
-    <ClCompile Include="ImageUIData.cpp" />
     <ClCompile Include="PlatformHelper.cpp" />
     <ClCompile Include="PhotobookListener.cpp" />
     <ClCompile Include="ImageMonitor.cpp" />
@@ -34,7 +33,6 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="PhotobookWin.h" />
-    <ClInclude Include="ImageUIData.h" />
     <ClInclude Include="PlatformHelper.h" />
     <ClInclude Include="PhotobookListener.h" />
     <ClInclude Include="ProgressInfo.h" />
