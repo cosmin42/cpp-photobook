@@ -1,20 +1,22 @@
 #include <gtest/gtest.h>
 
-#include <pb/CollageLibraryAssistant.h>
-#include <pb/DrawingService.h>
+#include <pb/CollageTemplatesManager.h>
 
 using namespace PB;
 
 TEST(TestDrawingService, TestSvgToPng)
 {
-  CollageLibraryAssistant assistant(std::filesystem::current_path() / "res");
+  CollageLibraryAssistant assistant(std::filesystem::current_path() /
+                                        Path("svg-templates"),
+                                    std::filesystem::current_path() / "res");
 
   AspectRatio aspectRatio = {4, 3};
 
   auto templatePath = std::filesystem::current_path() / Path("svg-templates") /
                       "2x1-simple.svg.template";
 
-  assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480/2, 1754/2});
+  assistant.createTemplateThumbnail(templatePath, aspectRatio,
+                                    {2480 / 2, 1754 / 2});
 
   std::shared_ptr<SkiaResources> resources = std::make_shared<SkiaResources>();
 
@@ -31,7 +33,7 @@ TEST(TestDrawingService, TestSvgToPng)
   drawingServce.renderToStream(id, outFile,
                                std::filesystem::current_path() / "res" /
                                    "template_4to3-1240x877.svg",
-                               {2480/2, 1754/2});
+                               {2480 / 2, 1754 / 2});
   outFile.~SkFILEWStream();
   for (auto i = 0; i < 10; ++i) {
     Path fileToRemove =
@@ -43,4 +45,22 @@ TEST(TestDrawingService, TestSvgToPng)
   Path thumbnailToRemove =
       (std::filesystem::current_path() / "testCollageTemplate.png");
   std::filesystem::remove(thumbnailToRemove);
+}
+
+TEST(CollageTemplatesManager, TestGenerateTemplatesImages)
+{
+  auto success = std::filesystem::create_directories(
+      std::filesystem::current_path() / "test-generate-templates");
+
+  auto project = std::make_shared<Project>();
+  project->paperSettings.width = 2480;
+  project->paperSettings.height = 1754;
+  auto templatesPath =
+      std::filesystem::current_path() / "test-generate-templates";
+  CollageTemplatesManager manager(templatesPath, project);
+
+  manager.generateTemplatesImages();
+
+  std::filesystem::remove_all(std::filesystem::current_path() /
+                              "test-generate-templates");
 }

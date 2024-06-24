@@ -6,7 +6,8 @@ using namespace PB;
 
 TEST(TestCollageAssistant, ExtractProfile)
 {
-  CollageLibraryAssistant assistant(std::filesystem::current_path(),
+  CollageLibraryAssistant assistant(std::filesystem::current_path() /
+                                        Path("svg-templates"),
                                     std::filesystem::current_path());
 
   auto paths = assistant.createNumberedImages({2480, 1754});
