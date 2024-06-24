@@ -7,8 +7,7 @@ using namespace PB;
 
 TEST(TestDrawingService, TestSvgToPng)
 {
-  CollageLibraryAssistant assistant(std::filesystem::current_path() / "res",
-                                    std::filesystem::current_path());
+  CollageLibraryAssistant assistant(std::filesystem::current_path() / "res");
 
   AspectRatio aspectRatio = {4, 3};
 

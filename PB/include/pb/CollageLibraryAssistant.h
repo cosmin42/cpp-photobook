@@ -13,8 +13,7 @@
 namespace PB {
 class CollageLibraryAssistant final {
 public:
-  explicit CollageLibraryAssistant(Path collageLibraryThumbnailsDirectory,
-                                   Path sourceTemplateDirectory);
+  explicit CollageLibraryAssistant(Path collageLibraryThumbnailsDirectory);
   ~CollageLibraryAssistant() = default;
 
   std::vector<Path> createNumberedImages(cv::Size pageSize);

@@ -4,7 +4,7 @@
 
 namespace PB {
 CollageLibraryAssistant::CollageLibraryAssistant(
-    Path collageLibraryThumbnailsDirectory, Path sourceTemplateDirectory)
+    Path collageLibraryThumbnailsDirectory)
     : mCollageLibraryThumbnailsDirectory(collageLibraryThumbnailsDirectory),
       mThumbnailsSVGInflater(collageLibraryThumbnailsDirectory)
 {
@@ -26,6 +26,8 @@ void CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
                                                       AspectRatio aspectRatio,
                                                       cv::Size    pageSize)
 {
+  // TODO: you don't need to create the placeholders for every template, they
+  // are the same
   auto imagePaths = createNumberedImages(pageSize);
 
   BasicSVGModel svgModel = {(unsigned)pageSize.width, (unsigned)pageSize.height,
