@@ -15,7 +15,7 @@ TEST(TestDrawingService, TestSvgToPng)
   auto templatePath = std::filesystem::current_path() / Path("svg-templates") /
                       "2x1-simple.svg.template";
 
-  assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480, 1754});
+  assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480/2, 1754/2});
 
   std::shared_ptr<SkiaResources> resources = std::make_shared<SkiaResources>();
 
@@ -31,8 +31,8 @@ TEST(TestDrawingService, TestSvgToPng)
 
   drawingServce.renderToStream(id, outFile,
                                std::filesystem::current_path() / "res" /
-                                   "template_4to3-2480x1754.svg",
-                               {2480, 1754});
+                                   "template_4to3-1240x877.svg",
+                               {2480/2, 1754/2});
   outFile.~SkFILEWStream();
   for (auto i = 0; i < 10; ++i) {
     Path fileToRemove =
