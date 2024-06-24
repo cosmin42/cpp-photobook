@@ -8,7 +8,7 @@
 namespace PB {
 class CollageTemplatesManager {
 public:
-  explicit CollageTemplatesManager(Path                     installPath,
+  explicit CollageTemplatesManager(Path localStatePath, Path installationPath,
                                    std::shared_ptr<Project> project);
   ~CollageTemplatesManager() = default;
 
@@ -16,6 +16,7 @@ public:
 
 private:
   Path                           mCollagesTemplatesResourcesPath;
+  Path                           mInstallPath;
   CollageLibraryAssistant        mAssistant;
   std::shared_ptr<SkiaResources> mResources = nullptr;
   DrawingService                 mDrawingService;

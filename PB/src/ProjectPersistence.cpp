@@ -3,7 +3,7 @@
 namespace PB {
 ProjectPersistence::ProjectPersistence(
     std::shared_ptr<PlatformInfo> platformInfo)
-    :mPlatformInfo(platformInfo)
+    : mPlatformInfo(platformInfo)
 {
   auto persistenceMetadataListener =
       dynamic_cast<PersistenceMetadataListener *>(this);
@@ -89,6 +89,9 @@ void ProjectPersistence::newProject(std::string              name,
   auto thumbnailsDirectoryName =
       boost::uuids::to_string(mMetadata.right.at(name));
   save(thumbnailsDirectoryName, {}, {}, {});
+  collageTemplateManager = std::make_shared<CollageTemplatesManager>(
+      mPlatformInfo->localStatePath, mPlatformInfo->installationPath, mProject);
+  collageTemplateManager->generateTemplatesImages();
 }
 
 std::string ProjectPersistence::name(boost::uuids::uuid uuid)
@@ -119,6 +122,9 @@ void ProjectPersistence::onProjectRead(
 {
   mProject = project;
   mOpenedUUID = mMetadata.right.at(name);
+  collageTemplateManager = std::make_shared<CollageTemplatesManager>(
+      mPlatformInfo->localStatePath, mPlatformInfo->installationPath, mProject);
+  collageTemplateManager->generateTemplatesImages();
   mListener->onProjectRead(unstagedImages, stagedImages, roots);
 }
 
@@ -157,6 +163,7 @@ void ProjectPersistence::clear()
 {
   mJson.clear();
   mProject = nullptr;
+  collageTemplateManager.reset();
 }
 
 bool ProjectPersistence::contains(std::string name) const

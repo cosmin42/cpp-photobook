@@ -7,10 +7,11 @@
 
 namespace PB {
 CollageTemplatesManager::CollageTemplatesManager(
-    Path installPath, std::shared_ptr<Project> project)
-    : mCollagesTemplatesResourcesPath(installPath /
+    Path localStatePath, Path installPath, std::shared_ptr<Project> project)
+    : mCollagesTemplatesResourcesPath(localStatePath /
                                       COLLAGES_TEMPLATES_RESOURCES_NAME / ""),
-      mAssistant(std::filesystem::current_path() / COLLAGES_TEMPLATES_NAME,
+      mInstallPath(installPath),
+      mAssistant(installPath / COLLAGES_TEMPLATES_NAME,
                  mCollagesTemplatesResourcesPath),
       mResources(std::make_shared<SkiaResources>()),
       mDrawingService(mResources), mProject(project),
@@ -33,7 +34,8 @@ std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
 
 void CollageTemplatesManager::generateTemplatesImages()
 {
-  auto templatesList = getTemplatesPaths(std::filesystem::current_path() /
+  auto templatesList =
+      getTemplatesPaths(mInstallPath /
                                          COLLAGES_TEMPLATES_NAME);
 
   std::filesystem::create_directories(mCollagesTemplatesResourcesPath);

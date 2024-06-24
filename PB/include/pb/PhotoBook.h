@@ -93,16 +93,16 @@ public:
   std::string projectName() const;
 
 private:
-  PhotobookListener                  *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectPersistence> mProjectPersistence = nullptr;
-  ImportFoldersLogic                  mImportLogic;
-  ImageViews                          mImageViews;
-  CommandStack                        mCommandStack;
-  bool                                mMarkProjectForDeletion = false;
-  ExportLogic                         mExportLogic;
-  ProgressManager                     mProgressManager;
-  std::string                         mProjectName;
+  PhotobookListener                       *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectPersistence>      mProjectPersistence = nullptr;
+  ImportFoldersLogic                       mImportLogic;
+  ImageViews                               mImageViews;
+  CommandStack                             mCommandStack;
+  bool                                     mMarkProjectForDeletion = false;
+  ExportLogic                              mExportLogic;
+  ProgressManager                          mProgressManager;
+  std::string                              mProjectName;
 };
 } // namespace PB

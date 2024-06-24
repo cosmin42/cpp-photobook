@@ -1,4 +1,5 @@
 #pragma once
+#include <pb/CollageTemplatesManager.h>
 #include <pb/persistence/Persistence.h>
 
 namespace PB {
@@ -94,5 +95,6 @@ private:
   boost::bimaps::bimap<Path, Path>                      mCurrentHashes;
   Json                                                  mJson;
   std::shared_ptr<PlatformInfo>                         mPlatformInfo = nullptr;
+  std::shared_ptr<CollageTemplatesManager> collageTemplateManager = nullptr;
 };
 } // namespace PB
