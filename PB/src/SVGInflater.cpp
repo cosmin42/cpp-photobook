@@ -12,6 +12,10 @@ namespace PB {
 SVGInflater::SVGInflater(Path templatesFolder)
     : mTemplatesFolder(templatesFolder)
 {
+  if (!std::filesystem::exists(templatesFolder)) {
+    auto success = std::filesystem::create_directories(templatesFolder);
+    PBDev::basicAssert(success);
+  }
   for (const auto &entry :
        std::filesystem::directory_iterator(templatesFolder)) {
     if (entry.is_regular_file() && entry.path().extension() == ".template") {
@@ -38,7 +42,7 @@ std::optional<std::string> SVGInflater::inflate(BasicSVGModel svgModel,
     return std::nullopt;
   }
 
-  auto        model = svgModel.toJson();
+  auto model = svgModel.toJson();
   try {
     return inja::render(content, model);
   }

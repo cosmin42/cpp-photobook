@@ -17,7 +17,7 @@ public:
 private:
   Path                           mCollagesTemplatesResourcesPath;
   CollageLibraryAssistant        mAssistant;
-  std::shared_ptr<SkiaResources> mResources = std::make_shared<SkiaResources>();
+  std::shared_ptr<SkiaResources> mResources = nullptr;
   DrawingService                 mDrawingService;
   std::shared_ptr<Project>       mProject = nullptr;
 

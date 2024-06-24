@@ -10,8 +10,11 @@ CollageTemplatesManager::CollageTemplatesManager(
     Path installPath, std::shared_ptr<Project> project)
     : mCollagesTemplatesResourcesPath(installPath /
                                       COLLAGES_TEMPLATES_RESOURCES_NAME / ""),
-      mAssistant(mCollagesTemplatesResourcesPath), mDrawingService(mResources),
-      mProject(project), mResourcesProviderId(RuntimeUUID::newUUID())
+      mAssistant(std::filesystem::current_path() / COLLAGES_TEMPLATES_NAME,
+                 mCollagesTemplatesResourcesPath),
+      mResources(std::make_shared<SkiaResources>()),
+      mDrawingService(mResources), mProject(project),
+      mResourcesProviderId(RuntimeUUID::newUUID())
 {
 }
 
@@ -33,15 +36,32 @@ void CollageTemplatesManager::generateTemplatesImages()
   auto templatesList = getTemplatesPaths(std::filesystem::current_path() /
                                          COLLAGES_TEMPLATES_NAME);
 
+  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
+
+  std::vector<Path> processedSVGPaths;
+
+  cv::Size imageSize = {mProject->paperSettings.width / 2,
+                        mProject->paperSettings.height / 2};
+
   for (auto &path : templatesList) {
-    spdlog::info("Generating thumbnail for template: {}", path.filename().string());
-    mAssistant.createTemplateThumbnail(path.filename(), {4, 3},
-                                       {mProject->paperSettings.width / 2,
-                                        mProject->paperSettings.height / 2});
+    spdlog::info("Generating thumbnail for template: {}", path.string());
+    auto processedPath =
+        mAssistant.createTemplateThumbnail(path, {4, 3}, imageSize);
+
+    processedSVGPaths.push_back(processedPath);
   }
 
   mResourcesProviderId =
       mResources->addResource(mCollagesTemplatesResourcesPath);
+
+  for (auto &path : processedSVGPaths) {
+    Path outFilePath =
+        mCollagesTemplatesResourcesPath / (path.stem().string() + ".png");
+    SkFILEWStream outFile(outFilePath.string().c_str());
+
+    mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
+                                   imageSize);
+  }
 }
 
 } // namespace PB

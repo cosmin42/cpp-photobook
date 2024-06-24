@@ -1,12 +1,17 @@
 #include <pb/CollageLibraryAssistant.h>
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 #include <pb/image/ImageOperations.h>
 
 namespace PB {
-CollageLibraryAssistant::CollageLibraryAssistant(
-    Path collageLibraryThumbnailsDirectory)
-    : mCollageLibraryThumbnailsDirectory(collageLibraryThumbnailsDirectory),
-      mThumbnailsSVGInflater(collageLibraryThumbnailsDirectory)
+CollageLibraryAssistant::CollageLibraryAssistant(Path templatesPath,
+                                                 Path outputFolder)
+    : mCollageLibraryThumbnailsDirectory(templatesPath),
+      mThumbnailsSVGInflater(outputFolder), mOutputFolder(outputFolder)
 {
 }
 
@@ -22,7 +27,7 @@ CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
   return paths;
 }
 
-void CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
+Path CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
                                                       AspectRatio aspectRatio,
                                                       cv::Size    pageSize)
 {
@@ -37,7 +42,7 @@ void CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
                   std::to_string(pageSize.width) + "x" +
                   std::to_string(pageSize.height) + ".svg";
 
-  auto thumbnailPath = mCollageLibraryThumbnailsDirectory / filename;
+  auto thumbnailPath = mOutputFolder / filename;
 
   auto maybeString = mThumbnailsSVGInflater.inflate(svgModel, templatePath);
 
@@ -54,6 +59,7 @@ void CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
   else {
     PBDev::basicAssert(false);
   }
+  return thumbnailPath;
 }
 
 Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
@@ -71,9 +77,10 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
   image = PB::Process::addText({pageSize.width / 2, pageSize.height / 2},
                                std::to_string(index), fontInfo)(image);
 
-  auto imagePath = Path("res") / Path(name);
+  auto imagePath = mOutputFolder / Path(name);
   bool success = cv::imwrite(imagePath.string(), *image);
   PBDev::basicAssert(success);
+  spdlog::info("Image created: {}", (mOutputFolder / Path(name)).string());
   return Path(name);
 }
 } // namespace PB

@@ -13,18 +13,20 @@
 namespace PB {
 class CollageLibraryAssistant final {
 public:
-  explicit CollageLibraryAssistant(Path collageLibraryThumbnailsDirectory);
+  explicit CollageLibraryAssistant(Path templatesPath, Path outputFolder);
   ~CollageLibraryAssistant() = default;
 
   std::vector<Path> createNumberedImages(cv::Size pageSize);
 
-  void createTemplateThumbnail(Path templateFile, AspectRatio aspectRatio, cv::Size pageSize);
+  Path createTemplateThumbnail(Path templateFile, AspectRatio aspectRatio,
+                               cv::Size pageSize);
 
 private:
   Path createNumberedImage(cv::Size pageSize, unsigned index, std::string name);
 
   Path        mCollageLibraryThumbnailsDirectory;
   SVGInflater mThumbnailsSVGInflater;
+  Path        mOutputFolder;
 
   static constexpr unsigned THUMBNAIL_HEIGHT = 80;
   static constexpr unsigned MAX_NUMBER_OF_PLACEHOLDER_IMAGES = 10;
