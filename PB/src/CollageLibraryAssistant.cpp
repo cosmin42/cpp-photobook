@@ -38,7 +38,11 @@ Path CollageLibraryAssistant::createTemplateThumbnail(Path        templatePath,
   BasicSVGModel svgModel = {(unsigned)pageSize.width, (unsigned)pageSize.height,
                             imagePaths};
 
-  auto filename = "template_" + aspectRatio() + "-" +
+  // TODO: this is a hack, we need to find a better way to get the name
+  std::string originalName = templatePath.stem().string();
+  std::replace(originalName.begin(), originalName.end(), '.', '-');
+
+  auto filename = "template_" + originalName + "_" + aspectRatio() + "-" +
                   std::to_string(pageSize.width) + "x" +
                   std::to_string(pageSize.height) + ".svg";
 
