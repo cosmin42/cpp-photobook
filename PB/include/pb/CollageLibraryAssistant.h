@@ -18,7 +18,8 @@ public:
 
   std::vector<Path> createNumberedImages(cv::Size pageSize);
 
-  Path createTemplateThumbnail(Path templateFile, AspectRatio aspectRatio,
+  Path createTemplateThumbnail(std::vector<Path> numberedImages,
+                               Path templateFile, AspectRatio aspectRatio,
                                cv::Size pageSize);
 
 private:

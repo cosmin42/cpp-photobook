@@ -35,6 +35,8 @@ private:
   // TODO: Initialize with a default value.
   PBDev::SkiaResourcesId mResourcesProviderId;
 
+  std::vector<Path> mNumberedImages;
+
   std::vector<Path> getTemplatesPaths(Path directoryPath);
 };
 } // namespace PB

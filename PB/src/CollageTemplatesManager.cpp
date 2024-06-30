@@ -44,10 +44,14 @@ void CollageTemplatesManager::generateTemplatesImages()
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
 
+  PBDev::basicAssert(mNumberedImages.empty());
+
+  mNumberedImages =  mAssistant.createNumberedImages(imageSize);
+
   for (auto &path : templatesList) {
     spdlog::info("Generating thumbnail for template: {}", path.string());
     auto processedPath =
-        mAssistant.createTemplateThumbnail(path, {4, 3}, imageSize);
+        mAssistant.createTemplateThumbnail(mNumberedImages, path, {4, 3}, imageSize);
 
     processedSVGPaths.push_back(processedPath);
   }
