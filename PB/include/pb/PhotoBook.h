@@ -40,6 +40,8 @@ public:
   void configure(ImageMonitorListener *listener);
   void configure(std::shared_ptr<Project> project);
 
+  void configureCurrentProject();
+
   void recallMetadata();
   void recallProject(std::string name);
 

@@ -73,6 +73,11 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
   mExportLogic.configure(mProjectPersistence->currentProject(), mPlatformInfo);
 }
 
+void Photobook::configureCurrentProject()
+{
+  configure(project()->currentProject());
+}
+
 void Photobook::unloadProject()
 {
   mImportLogic.stopAll();

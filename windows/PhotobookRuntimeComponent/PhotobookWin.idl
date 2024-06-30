@@ -17,7 +17,6 @@ enum ExportType {
   PdfLibharu = 0x8
 };
 
-// TODO: Change the filters to have idl at the top, not cpp
 runtimeclass PhotobookWin
 {
   PhotobookWin(String localStatePath, String installPath);

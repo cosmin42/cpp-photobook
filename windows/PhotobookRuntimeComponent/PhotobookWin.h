@@ -194,8 +194,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void ConfigureCurrentProject()
   {
-    // TODO: Move this to photobook.cpp
-    mPhotobook->configure(mPhotobook->project()->currentProject());
+    mPhotobook->configureCurrentProject();
   }
 
   PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
