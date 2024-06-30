@@ -7,12 +7,10 @@
 
 #include <pb/Config.h>
 #include <pb/Platform.h>
-#include <pb/project/ProjectSnapshot.h>
 #include <pb/util/Util.h>
 
 namespace PB {
 
-// TODO: Merge Project with ProjectSnapshot.
 class Project final {
 public:
   static std::string generateAlbumName(std::function<bool(std::string)>);

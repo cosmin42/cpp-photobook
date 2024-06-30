@@ -111,7 +111,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/project/PaperSettings.h
     include/pb/project/PathCache.h
     include/pb/project/ProjectMetadata.h
-    include/pb/project/ProjectSnapshot.h
     include/pb/project/Project.h
     include/pb/ProgressManager.h
     include/pb/RowProcessingData.h
@@ -165,7 +164,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Photobook.cpp
     src/ProgressManager.cpp
     src/Project.cpp
-    src/ProjectSnapshot.cpp
     src/ProjectMetadata.cpp
     src/ProjectPersistence.cpp
     src/RegularImage.cpp

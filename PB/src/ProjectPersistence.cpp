@@ -237,9 +237,9 @@ bool ProjectPersistence::isSaved(
     std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
     std::vector<Path> const                          &roots)
 {
-  auto projectSnapshot = *(mProject.get());
-  auto currentJson = Persistence::serialization(projectSnapshot, unstagedImages,
-                                                stagedImages, roots);
+  auto project = *(mProject.get());
+  auto currentJson =
+      Persistence::serialization(project, unstagedImages, stagedImages, roots);
   std::string currentJsonDump = currentJson.dump();
 
   std::string diskJsonDump = mJson.dump();
@@ -257,9 +257,9 @@ void ProjectPersistence::save(
   PBDev::basicAssert(mProject != nullptr);
   PBDev::basicAssert(mOpenedUUID.has_value());
 
-  auto projectSnapshot = *(mProject.get());
-  mJson = Persistence::serialization(projectSnapshot, unstagedImages,
-                                     stagedImages, roots);
+  auto project = *(mProject.get());
+  mJson =
+      Persistence::serialization(project, unstagedImages, stagedImages, roots);
 
   auto const &name = mMetadata.left.find(mOpenedUUID.value())->second;
   mPersistence.persistProject(mPlatformInfo->localStatePath, name, mJson,
