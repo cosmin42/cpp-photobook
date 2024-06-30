@@ -20,7 +20,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(picture)
-              ->unwrap();
+              ->Unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
     mStagedImages.addPictures(nativePictures);
@@ -36,7 +36,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(pictures.GetAt(i))
-              ->unwrap();
+              ->Unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
     mStagedImages.addPictures(nativePictures, position);
@@ -48,7 +48,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
         winrt::get_self<
             winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
             picture)
-            ->unwrap();
+            ->Unwrap();
     mStagedImages.addPicture(nativeImagePtr);
   }
 

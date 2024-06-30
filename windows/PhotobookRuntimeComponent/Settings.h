@@ -126,7 +126,7 @@ struct Settings : SettingsT<Settings> {
             winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                                 VirtualImagePtr>(
                 unstagedImages.GetAt(i).GetAt(j))
-                ->unwrap();
+                ->Unwrap();
         nativeUnstagedLine.push_back(nativeImagePtr);
       }
       nativeUnstagedImages.push_back(nativeUnstagedLine);
@@ -136,7 +136,7 @@ struct Settings : SettingsT<Settings> {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(stagedImages.GetAt(i))
-              ->unwrap();
+              ->Unwrap();
       nativesStagedImages.push_back(nativeImagePtr);
     }
 
@@ -178,7 +178,7 @@ struct Settings : SettingsT<Settings> {
             winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                                 VirtualImagePtr>(
                 unstagedImages.GetAt(i).GetAt(j))
-                ->unwrap();
+                ->Unwrap();
         nativeUnstagedLine.push_back(nativeImagePtr);
       }
       nativeUnstagedImages.push_back(nativeUnstagedLine);
@@ -188,7 +188,7 @@ struct Settings : SettingsT<Settings> {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(stagedImages.GetAt(i))
-              ->unwrap();
+              ->Unwrap();
       nativesStagedImages.push_back(nativeImagePtr);
     }
 

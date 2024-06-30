@@ -37,7 +37,7 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
                 (uint32_t)(image->total() * image->elemSize()), buffer.begin());
   }
 
-  Windows::Foundation::Collections::IVector<winrt::hstring> resources()
+  Windows::Foundation::Collections::IVector<winrt::hstring> Resources()
   {
     auto nativeResources = winrt::single_threaded_vector<winrt::hstring>();
 
@@ -49,25 +49,25 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
     return nativeResources;
   }
 
-  winrt::hstring keyPath()
+  winrt::hstring KeyPath()
   {
     return winrt::to_hstring(mVirtualImage->keyPath().string());
   }
 
-  void setFullSizePath(winrt::hstring path)
+  void SetFullSizePath(winrt::hstring path)
   {
     mVirtualImage->setFullSizePath(winrt::to_string(path));
   }
-  void setMediumSizePath(winrt::hstring path)
+  void SetMediumSizePath(winrt::hstring path)
   {
     mVirtualImage->setMediumSizePath(winrt::to_string(path));
   }
-  void setSmallSizePath(winrt::hstring path)
+  void SetSmallSizePath(winrt::hstring path)
   {
     mVirtualImage->setSmallSizePath(winrt::to_string(path));
   }
 
-  void setSizePath(winrt::hstring fullSizePath, winrt::hstring mediumSizePath,
+  void SetSizePath(winrt::hstring fullSizePath, winrt::hstring mediumSizePath,
                    winrt::hstring smallSizePath)
   {
     mVirtualImage->setSizePath(winrt::to_string(fullSizePath),
@@ -80,11 +80,11 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
     return winrt::make<ImageResources>(mVirtualImage->frontend());
   }
 
-  bool processed() { return mVirtualImage->processed(); }
+  bool Processed() { return mVirtualImage->processed(); }
 
-  void finishProcessing() { mVirtualImage->finishProcessing(); }
+  void FinishProcessing() { mVirtualImage->finishProcessing(); }
 
-  std::shared_ptr<PB::VirtualImage> unwrap() { return mVirtualImage; }
+  std::shared_ptr<PB::VirtualImage> Unwrap() { return mVirtualImage; }
 
 private:
   std::shared_ptr<PB::VirtualImage> mVirtualImage;

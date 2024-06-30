@@ -15,7 +15,7 @@ struct Int32Pair : Int32PairT<Int32Pair> {
   void First(int value) { mPair.first = value; }
   void Second(int value) { mPair.second = value; }
 
-  std::pair<int, int> unwrap() { return mPair; }
+  std::pair<int, int> Unwrap() { return mPair; }
 
 private:
   std::pair<int, int> mPair;

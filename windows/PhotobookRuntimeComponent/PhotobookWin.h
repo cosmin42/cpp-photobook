@@ -109,7 +109,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         winrt::get_self<
             winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
             image)
-            ->unwrap();
+            ->Unwrap();
     return winrt::make<VirtualImagePtr>(
         PB::ImageFactory::inst().copyImage(nativeImagePtr));
   }

@@ -91,7 +91,7 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
             winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                                 VirtualImagePtr>(
                 unstagedImages.GetAt(i).GetAt(j))
-                ->unwrap();
+                ->Unwrap();
         nativeUnstagedLine.push_back(nativeImagePtr);
       }
       nativeUnstagedImages.push_back(nativeUnstagedLine);
@@ -116,7 +116,7 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       auto nativeImagePtr =
           winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
                               VirtualImagePtr>(images.GetAt(i))
-              ->unwrap();
+              ->Unwrap();
       nativeUnstagedImages.push_back(nativeImagePtr);
     }
     PBDev::Path nativePath = winrt::to_string(path);

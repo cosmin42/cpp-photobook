@@ -8,23 +8,22 @@ runtimeclass VirtualImagePtr
 {
   VirtualImageType Imagetype();
 
-  IVector<String> resources();
+  IVector<String> Resources();
 
-  String keyPath();
+  String KeyPath();
 
-  void setFullSizePath(String path);
-  void setMediumSizePath(String path);
-  void setSmallSizePath(String path);
+  void SetFullSizePath(String path);
+  void SetMediumSizePath(String path);
+  void SetSmallSizePath(String path);
 
-  void setSizePath(String fullSizePath, String mediumSizePath,
+  void SetSizePath(String fullSizePath, String mediumSizePath,
                    String smallSizePath);
 
   ImageResources Frontend { get; };
 
-  Boolean processed();
+  Boolean Processed();
 
-  // TODO: Capital letters all the function in this class.
-  void finishProcessing();
+  void FinishProcessing();
 
   void GalleryProjection(ref UInt8[] buffer, Int32 portviewWidth,
                          Int32 portviewHeight);
