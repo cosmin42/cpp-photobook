@@ -32,7 +32,6 @@ private:
   std::shared_ptr<Project>       mProject = nullptr;
   std::vector<Path>              mGeneratedLibraries;
 
-  // TODO: Initialize with a default value.
   PBDev::SkiaResourcesId mResourcesProviderId;
 
   std::vector<Path> mNumberedImages;
