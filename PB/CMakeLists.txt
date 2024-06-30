@@ -118,7 +118,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/RuntimeUUID.h
     include/pb/SkiaResources.h
     include/pb/tasks/Tasks.h
-    include/pb/tasks/FileMapper.h
+    include/pb/tasks/PicturesSearchConfig.h
     include/pb/tasks/ParallelTaskConsumer.h
     include/pb/tasks/SequentialTaskConsumer.h
     include/pb/tasks/ThumbnailsProcessor.h
@@ -144,7 +144,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DrawingService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
-    src/FileMapper.cpp
+    src/PicturesSearchConfig.cpp
     src/FileComparator.cpp
     src/FilePersistence.cpp
     src/Html.cpp

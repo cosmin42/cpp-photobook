@@ -16,7 +16,7 @@
 
 #include <pb/Config.h>
 #include <pb/image/Image.h>
-#include <pb/tasks/FileMapper.h>
+#include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/util/Util.h>
 
 namespace PB {

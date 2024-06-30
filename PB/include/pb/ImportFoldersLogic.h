@@ -6,7 +6,7 @@
 #include <pb/RowProcessingData.h>
 #include <pb/TaskCruncher.h>
 #include <pb/ThreadScheduler.h>
-#include <pb/tasks/FileMapper.h>
+#include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 
 namespace PB {

@@ -20,7 +20,7 @@
 #include <pb/persistence/Persistence.h>
 #include <pb/persistence/ProjectPersistence.h>
 #include <pb/project/Project.h>
-#include <pb/tasks/FileMapper.h>
+#include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/util/Util.h>
 
 namespace PB {
