@@ -114,10 +114,14 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         PB::ImageFactory::inst().copyImage(nativeImagePtr));
   }
 
-  PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath)
+  PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath,
+               PhotobookRuntimeComponent::Int32Pair screenSize)
   {
+    auto screenSizeNative = std::pair<unsigned, unsigned>{
+        (unsigned)screenSize.First(), (unsigned)screenSize.Second()};
     mPhotobook = std::make_shared<PB::Photobook>(
-        winrt::to_string(localStatePath), winrt::to_string(installPath));
+        winrt::to_string(localStatePath), winrt::to_string(installPath),
+        screenSizeNative);
   }
 
   ~PhotobookWin()
@@ -149,12 +153,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
       managedPaths.Append(winrt::to_hstring(path.string()));
     }
     return managedPaths;
-  }
-
-  void ConfigureScreenSize(PhotobookRuntimeComponent::Int32Pair screenSize)
-  {
-    mPhotobook->configure(
-        std::pair<int, int>{screenSize.First(), screenSize.Second()});
   }
 
   void ConfigureStagedImagesListener(
@@ -192,10 +190,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
   }
 
-  void ConfigureCurrentProject()
-  {
-    mPhotobook->configureCurrentProject();
-  }
+  void ConfigureCurrentProject() { mPhotobook->configureCurrentProject(); }
 
   PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
   {

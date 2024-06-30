@@ -22,7 +22,7 @@ namespace PhotobookNet
         {
             var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
             var installFolderPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-            mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString());
+            mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString(), new Int32Pair(2560, 1440));
         }
 
         public void SetWindowHandle(nint handle)

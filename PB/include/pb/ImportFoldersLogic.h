@@ -33,8 +33,6 @@ public:
   void configure(ImportFoldersLogicListener *listener);
   void configure(PBDev::ThreadScheduler *scheduler);
 
-  // todo: Remove this, replace with mProject reference
-  void configure(std::pair<int, int> screenSize);
   void configure(std::shared_ptr<Project> project);
 
   void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);

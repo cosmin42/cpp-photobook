@@ -8,10 +8,11 @@
 namespace PB {
 
 // TODO: Break this into multiple methods
-Photobook::Photobook(Path localStatePath, Path installationPath)
+Photobook::Photobook(Path localStatePath, Path installationPath,
+                     std::pair<unsigned, unsigned> screenSize)
     : mTaskCruncher(std::make_shared<TaskCruncher>()),
-      mPlatformInfo(
-          std::make_shared<PlatformInfo>(installationPath, localStatePath)),
+      mPlatformInfo(std::make_shared<PlatformInfo>(installationPath,
+                                                   localStatePath, screenSize)),
       mProjectPersistence(std::make_shared<ProjectPersistence>(mPlatformInfo)),
       mImportLogic(mPlatformInfo)
 {
@@ -47,11 +48,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath)
 
   mImportLogic.setTaskCruncher(mTaskCruncher);
   mExportLogic.setTaskCruncher(mTaskCruncher);
-}
-
-void Photobook::configure(std::pair<int, int> screenSize)
-{
-  mImportLogic.configure(screenSize);
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }

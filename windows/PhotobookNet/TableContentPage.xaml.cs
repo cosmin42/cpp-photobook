@@ -57,14 +57,6 @@ namespace PhotobookNet
 
         private PhotobookWin mPhotobook;
 
-        private static (int, int) ScreenSize()
-        {
-            // TODO: Do the actual retrieval of the screen size
-            int width = 2560;
-            int height = 1440;
-            return (width, height);
-        }
-
         public TableContentPage()
         {
             this.InitializeComponent();
@@ -73,8 +65,6 @@ namespace PhotobookNet
 
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mPhotobook.ConfigurePhotobookListener(this);
-            Int32Pair screenSize = new Int32Pair(ScreenSize().Item1, ScreenSize().Item2);
-            mPhotobook.ConfigureScreenSize(screenSize);
 
             mPhotobook.ConfigureStagedImagesListener(this);
             mPhotobook.ConfigureImageMonitorListener(this);

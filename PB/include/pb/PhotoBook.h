@@ -31,10 +31,9 @@ class Photobook final : public ProjectPersistenceListener,
                         public ProgressManagerListener,
                         public ExportListener {
 public:
-  explicit Photobook(Path localStatePath, Path installationPath);
+  explicit Photobook(Path localStatePath, Path installationPath, std::pair<unsigned, unsigned> screenSize);
   ~Photobook() = default;
 
-  void configure(std::pair<int, int> screenSize);
   void configure(PhotobookListener *listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);

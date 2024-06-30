@@ -19,11 +19,10 @@ enum ExportType {
 
 runtimeclass PhotobookWin
 {
-  PhotobookWin(String localStatePath, String installPath);
+  PhotobookWin(String localStatePath, String installPath, Int32Pair screenSize);
 
   void ConfigurePhotobookListener(PhotobookListener listener);
 
-  void ConfigureScreenSize(Int32Pair screenSize);
   void ConfigureStagedImagesListener(StagedImagesListener listener);
   void ConfigureImageMonitorListener(ImageMonitorListener listener);
   void ConfigureCurrentProject();

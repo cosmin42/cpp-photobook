@@ -7,6 +7,7 @@ ImportFoldersLogic::ImportFoldersLogic(
     std::shared_ptr<PlatformInfo> platformInfo)
     : mThumbnailsProcessor(platformInfo)
 {
+  mThumbnailsProcessor.setScreenSize(platformInfo->screenSize);
 }
 
 void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
@@ -19,10 +20,6 @@ void ImportFoldersLogic::configure(PBDev::ThreadScheduler *scheduler)
   mScheduler = scheduler;
 }
 
-void ImportFoldersLogic::configure(std::pair<int, int> screenSize)
-{
-  mThumbnailsProcessor.setScreenSize(screenSize);
-}
 void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
 {
   mThumbnailsProcessor.provideProjectDetails(project);
