@@ -19,7 +19,10 @@ TEST(TestCollageAssistant, ExtractProfile)
   auto templatePath = std::filesystem::current_path() / Path("svg-templates") /
                       "2x1-simple.svg.template";
 
-  assistant.createTemplateThumbnail(templatePath, aspectRatio, {2480, 1754});
+  auto numberedImages = assistant.createNumberedImages({2480, 1754});
+
+  assistant.createTemplateThumbnail(numberedImages, templatePath, aspectRatio,
+                                    {2480, 1754});
 
   for (auto i = 0; i < 10; ++i) {
     std::filesystem::remove(std::filesystem::current_path() /

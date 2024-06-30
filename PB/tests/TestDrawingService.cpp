@@ -15,7 +15,8 @@ TEST(TestDrawingService, TestSvgToPng)
   auto templatePath = std::filesystem::current_path() / Path("svg-templates") /
                       "2x1-simple.svg.template";
 
-  assistant.createTemplateThumbnail(templatePath, aspectRatio,
+  auto numberedImages = assistant.createNumberedImages({2480 / 2, 1754 / 2});
+  assistant.createTemplateThumbnail(numberedImages, templatePath, aspectRatio,
                                     {2480 / 2, 1754 / 2});
 
   std::shared_ptr<SkiaResources> resources = std::make_shared<SkiaResources>();
