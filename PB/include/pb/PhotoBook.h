@@ -18,20 +18,21 @@
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
 #include <pb/persistence/Persistence.h>
-#include <pb/persistence/ProjectPersistence.h>
+#include <pb/persistence/PersistenceService.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/util/Util.h>
 
 namespace PB {
 
-class Photobook final : public ProjectPersistenceListener,
+class Photobook final : public PersistenceServiceListener,
                         public ImportFoldersLogicListener,
                         public PBDev::ThreadScheduler,
                         public ProgressManagerListener,
                         public ExportListener {
 public:
-  explicit Photobook(Path localStatePath, Path installationPath, std::pair<unsigned, unsigned> screenSize);
+  explicit Photobook(Path localStatePath, Path installationPath,
+                     std::pair<unsigned, unsigned> screenSize);
   ~Photobook() = default;
 
   void configure(PhotobookListener *listener);
@@ -48,7 +49,7 @@ public:
   void unloadProject();
 
   ImageViews                         &imageViews();
-  std::shared_ptr<ProjectPersistence> project();
+  std::shared_ptr<PersistenceService> project();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -94,16 +95,16 @@ public:
   std::string projectName() const;
 
 private:
-  PhotobookListener                       *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectPersistence>      mProjectPersistence = nullptr;
-  ImportFoldersLogic                       mImportLogic;
-  ImageViews                               mImageViews;
-  CommandStack                             mCommandStack;
-  bool                                     mMarkProjectForDeletion = false;
-  ExportLogic                              mExportLogic;
-  ProgressManager                          mProgressManager;
-  std::string                              mProjectName;
+  PhotobookListener                  *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
+  ImportFoldersLogic                  mImportLogic;
+  ImageViews                          mImageViews;
+  CommandStack                        mCommandStack;
+  bool                                mMarkProjectForDeletion = false;
+  ExportLogic                         mExportLogic;
+  ProgressManager                     mProgressManager;
+  std::string                         mProjectName;
 };
 } // namespace PB

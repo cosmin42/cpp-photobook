@@ -104,7 +104,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/persistence/Persistence.h
     include/pb/persistence/SerializationStrategy.h
     include/pb/persistence/SQLPersistence.h
-    include/pb/persistence/ProjectPersistence.h
+    include/pb/persistence/PersistenceService.h
     include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
     include/pb/Platform.h
@@ -165,7 +165,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ProgressManager.cpp
     src/Project.cpp
     src/ProjectMetadata.cpp
-    src/ProjectPersistence.cpp
+    src/PersistenceService.cpp
     src/RegularImage.cpp
     src/RuntimeUUID.cpp
     src/ThumbnailsProcessor.cpp
@@ -213,9 +213,9 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestImageMonitor.cpp
     tests/TestParallelTaskConsumer.cpp
     tests/TestPathCache.cpp
-    tests/TestPersistenceProject.cpp
+    tests/TestPersistenceService.cpp
     tests/TestPhotobook.cpp
-    tests/TestProjectPersistence.cpp
+    tests/TestPersistenceService.cpp
     tests/TestRuntimeUUID.cpp
     tests/TestStagedImages.cpp
     tests/TestThirdPartyLinks.cpp

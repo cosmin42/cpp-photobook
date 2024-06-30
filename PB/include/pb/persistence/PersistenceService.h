@@ -3,9 +3,9 @@
 #include <pb/persistence/Persistence.h>
 
 namespace PB {
-class ProjectPersistenceListener {
+class PersistenceServiceListener {
 public:
-  virtual ~ProjectPersistenceListener() = default;
+  virtual ~PersistenceServiceListener() = default;
   virtual void onMetadataUpdated() = 0;
   virtual void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
@@ -15,14 +15,14 @@ public:
   virtual void onPersistenceError(PBDev::Error) = 0;
 };
 
-class ProjectPersistence final : public PersistenceMetadataListener,
+class PersistenceService final : public PersistenceMetadataListener,
                                  public PersistenceProjectListener {
 public:
-  ProjectPersistence(std::shared_ptr<PlatformInfo> platformInfo);
-  ~ProjectPersistence() = default;
+  PersistenceService(std::shared_ptr<PlatformInfo> platformInfo);
+  ~PersistenceService() = default;
 
   void configure(Path localStatePath);
-  void configure(ProjectPersistenceListener *listener);
+  void configure(PersistenceServiceListener *listener);
 
   std::shared_ptr<Project> currentProject();
 
@@ -88,7 +88,7 @@ private:
 
   Path formPath(std::string hash);
 
-  ProjectPersistenceListener                           *mListener = nullptr;
+  PersistenceServiceListener                           *mListener = nullptr;
   Path                                                  mLocalStatePath;
   Persistence                                           mPersistence;
   std::shared_ptr<Project>                              mProject = nullptr;

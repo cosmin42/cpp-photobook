@@ -134,12 +134,12 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   Windows::Foundation::Collections::IVector<winrt::hstring>
   CollageTemplatesThumbnailsList()
   {
-    auto projectPersistence = mPhotobook->project();
-    if (projectPersistence == nullptr) {
+    auto persistenceService = mPhotobook->project();
+    if (persistenceService == nullptr) {
       return winrt::single_threaded_vector<winrt::hstring>();
     }
 
-    auto collageTemplateManager = projectPersistence->collageTemplatesManager();
+    auto collageTemplateManager = persistenceService->collageTemplatesManager();
 
     if (collageTemplateManager == nullptr) {
       return winrt::single_threaded_vector<winrt::hstring>();

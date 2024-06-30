@@ -7,7 +7,7 @@
 
 using namespace PB;
 
-TEST(TestProjectPersistence, CreateNewProject)
+TEST(TestPersistenceProject, CreateNewProject)
 {
   clearProjectCache();
 

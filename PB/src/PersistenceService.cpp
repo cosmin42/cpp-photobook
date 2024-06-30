@@ -1,7 +1,7 @@
-#include <pb/persistence/ProjectPersistence.h>
+#include <pb/persistence/PersistenceService.h>
 
 namespace PB {
-ProjectPersistence::ProjectPersistence(
+PersistenceService::PersistenceService(
     std::shared_ptr<PlatformInfo> platformInfo)
     : mPlatformInfo(platformInfo)
 {
@@ -16,23 +16,23 @@ ProjectPersistence::ProjectPersistence(
   mPersistence.configure(persistenceProjectListener);
 }
 
-void ProjectPersistence::configure(Path localStatePath)
+void PersistenceService::configure(Path localStatePath)
 {
   mLocalStatePath = localStatePath;
   mPersistence.configure(localStatePath);
 }
 
-void ProjectPersistence::configure(ProjectPersistenceListener *listener)
+void PersistenceService::configure(PersistenceServiceListener *listener)
 {
   mListener = listener;
 }
 
-std::shared_ptr<Project> ProjectPersistence::currentProject()
+std::shared_ptr<Project> PersistenceService::currentProject()
 {
   return mProject;
 }
 
-void ProjectPersistence::recallProject(boost::uuids::uuid const uuid)
+void PersistenceService::recallProject(boost::uuids::uuid const uuid)
 {
   auto hashSet = mPersistence.hashSet(uuid);
   for (auto it : hashSet) {
@@ -41,7 +41,7 @@ void ProjectPersistence::recallProject(boost::uuids::uuid const uuid)
   mPersistence.recallProject(name(uuid));
 }
 
-Path ProjectPersistence::hash(Path path)
+Path PersistenceService::hash(Path path)
 {
   if (mCurrentHashes.left.find(path) != mCurrentHashes.left.end()) {
     return mCurrentHashes.left.at(path);
@@ -53,31 +53,31 @@ Path ProjectPersistence::hash(Path path)
 }
 
 std::shared_ptr<CollageTemplatesManager>
-ProjectPersistence::collageTemplatesManager()
+PersistenceService::collageTemplatesManager()
 {
   return mCollageTemplateManager;
 }
 
-void ProjectPersistence::recallProject(std::string name)
+void PersistenceService::recallProject(std::string name)
 {
   auto projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
 
   mPersistence.recallProject(projectPath);
 }
 
-void ProjectPersistence::recallMetadata() { mPersistence.recallMetadata(); }
+void PersistenceService::recallMetadata() { mPersistence.recallMetadata(); }
 
-boost::uuids::uuid ProjectPersistence::uuid(std::string name)
+boost::uuids::uuid PersistenceService::uuid(std::string name)
 {
   return mMetadata.right.at(name);
 }
 
-bool ProjectPersistence::hasUUID(std::string name) const
+bool PersistenceService::hasUUID(std::string name) const
 {
   return mMetadata.right.find(name) != mMetadata.right.end();
 }
 
-std::vector<std::string> ProjectPersistence::projectsNames() const
+std::vector<std::string> PersistenceService::projectsNames() const
 {
   std::vector<std::string> projects;
   for (auto &it : mMetadata) {
@@ -86,7 +86,7 @@ std::vector<std::string> ProjectPersistence::projectsNames() const
   return projects;
 }
 
-void ProjectPersistence::newProject(std::string              name,
+void PersistenceService::newProject(std::string              name,
                                     std::shared_ptr<Project> project)
 {
   mProject = project;
@@ -100,12 +100,12 @@ void ProjectPersistence::newProject(std::string              name,
   mCollageTemplateManager->generateTemplatesImages();
 }
 
-std::string ProjectPersistence::name(boost::uuids::uuid uuid)
+std::string PersistenceService::name(boost::uuids::uuid uuid)
 {
   return mMetadata.left.at(uuid);
 }
 
-Path ProjectPersistence::formPath(std::string hash)
+Path PersistenceService::formPath(std::string hash)
 {
   auto id = currentProjectUUID();
   auto r = mMetadata.left.at(id);
@@ -114,13 +114,13 @@ Path ProjectPersistence::formPath(std::string hash)
          boost::uuids::to_string(currentProjectUUID()) / (hash + ".JPG");
 }
 
-Path ProjectPersistence::path(boost::uuids::uuid uuid)
+Path PersistenceService::path(boost::uuids::uuid uuid)
 {
   return mLocalStatePath /
          (mMetadata.left.at(uuid) + OneConfig::BOOK_EXTENSION);
 }
 
-void ProjectPersistence::onProjectRead(
+void PersistenceService::onProjectRead(
     std::string name, std::shared_ptr<Project> project,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
@@ -134,51 +134,51 @@ void ProjectPersistence::onProjectRead(
   mListener->onProjectRead(unstagedImages, stagedImages, roots);
 }
 
-void ProjectPersistence::onProjectPersistenceError(PBDev::Error error)
+void PersistenceService::onProjectPersistenceError(PBDev::Error error)
 {
   mListener->onPersistenceError(error);
 }
 
-void ProjectPersistence::onMetadataRead(
+void PersistenceService::onMetadataRead(
     boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata)
 {
   mMetadata = metadata;
   mListener->onMetadataUpdated();
 }
 
-void ProjectPersistence::onMetadataPersistenceError(PBDev::Error error)
+void PersistenceService::onMetadataPersistenceError(PBDev::Error error)
 {
   mListener->onPersistenceError(error);
 }
 
-void ProjectPersistence::onJsonRead(Json json)
+void PersistenceService::onJsonRead(Json json)
 {
   mJson = json;
   std::string loadedJson = mJson.dump();
 }
 
-void ProjectPersistence::remove(boost::uuids::uuid id)
+void PersistenceService::remove(boost::uuids::uuid id)
 {
   mPersistence.deleteMetadata(boost::uuids::to_string(id));
   mPersistence.deleteProject(path(id), boost::uuids::to_string(id), id);
 }
 
-void ProjectPersistence::remove(Path path) {}
+void PersistenceService::remove(Path path) {}
 
-void ProjectPersistence::clear()
+void PersistenceService::clear()
 {
   mJson.clear();
   mProject = nullptr;
   mCollageTemplateManager.reset();
 }
 
-bool ProjectPersistence::contains(std::string name) const
+bool PersistenceService::contains(std::string name) const
 {
   return mMetadata.right.find(name) != mMetadata.right.end();
 }
 
 std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
-ProjectPersistence::projectsList() const
+PersistenceService::projectsList() const
 {
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
   for (auto const &it : mMetadata) {
@@ -189,7 +189,7 @@ ProjectPersistence::projectsList() const
   return projects;
 }
 
-void ProjectPersistence::rename(std::string newName, std::string oldName)
+void PersistenceService::rename(std::string newName, std::string oldName)
 {
 
   if (oldName.empty()) {
@@ -221,17 +221,17 @@ void ProjectPersistence::rename(std::string newName, std::string oldName)
   }
 }
 
-boost::uuids::uuid ProjectPersistence::currentProjectUUID() const
+boost::uuids::uuid PersistenceService::currentProjectUUID() const
 {
   return mOpenedUUID.value();
 }
 
-bool ProjectPersistence::hasProjectOpen() const
+bool PersistenceService::hasProjectOpen() const
 {
   return mOpenedUUID.has_value();
 }
 
-bool ProjectPersistence::isSaved(
+bool PersistenceService::isSaved(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
@@ -247,7 +247,7 @@ bool ProjectPersistence::isSaved(
   return currentJson == mJson;
 }
 
-void ProjectPersistence::save(
+void PersistenceService::save(
     std::string thumbnailsDirectoryName,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
