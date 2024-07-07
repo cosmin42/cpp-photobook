@@ -6,6 +6,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/CollageManager.h>
 #include <pb/Command.h>
 #include <pb/DataManager.h>
 #include <pb/ImportFoldersLogic.h>
@@ -101,17 +102,17 @@ public:
   std::string projectName() const;
 
 private:
-  PhotobookListener                       *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService>      mPersistenceService = nullptr;
-  ImportFoldersLogic                       mImportLogic;
-  ImageViews                               mImageViews;
-  CommandStack                             mCommandStack;
-  bool                                     mMarkProjectForDeletion = false;
-  ExportLogic                              mExportLogic;
-  ProgressManager                          mProgressManager;
-  std::string                              mProjectName;
-  std::shared_ptr<CollageManager> mCollageTemplateManager = nullptr;
+  PhotobookListener                  *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
+  ImportFoldersLogic                  mImportLogic;
+  ImageViews                          mImageViews;
+  CommandStack                        mCommandStack;
+  bool                                mMarkProjectForDeletion = false;
+  ExportLogic                         mExportLogic;
+  ProgressManager                     mProgressManager;
+  std::string                         mProjectName;
+  std::shared_ptr<CollageManager>     mCollageTemplateManager = nullptr;
 };
 } // namespace PB
