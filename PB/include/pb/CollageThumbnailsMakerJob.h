@@ -22,11 +22,15 @@ private:
 
 class CollageThumbnailsMakerJob final : public PB::MapReducer {
 public:
+  CollageThumbnailsMakerJob(Path localStatePath, Path installPath);
   ~CollageThumbnailsMakerJob() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
+  void configureProject(std::shared_ptr<Project> project);
 
-  void mapTasks();
+  void mapJobs();
+
+  std::vector<Path> getTemplatesPaths() const;
 
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
@@ -36,7 +40,6 @@ public:
 private:
   static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =
       "collages-templates-resources";
-
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
 
   CollageThumbnailsMakerListener *mListener = nullptr;
@@ -55,8 +58,6 @@ private:
   std::vector<IdentifyableFunction> mFunctions;
 
   unsigned mIndex = 0;
-
-  void mapJobs();
 
   std::vector<Path> getTemplatesPaths(Path directoryPath);
 

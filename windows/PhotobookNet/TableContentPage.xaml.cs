@@ -61,6 +61,8 @@ namespace PhotobookNet
         {
             this.InitializeComponent();
 
+            mCollageIconsPaths = new ObservableCollection<string>();
+
             mDragAndDropSelectedImages = new Collection<VirtualImagePtr>();
 
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
@@ -72,6 +74,8 @@ namespace PhotobookNet
             mNavigationItemsCollection = new ObservableCollection<string>();
             mUnstagedImageCollection = new ObservableCollection<VirtualImagePtr>();
             mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();
+
+            CollageTemplatesListView.ItemsSource = mCollageIconsPaths;
 
             PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
             {
@@ -534,21 +538,11 @@ namespace PhotobookNet
 
         /* Book Lines */
 
-        public ObservableCollection<string> Items { get; set; }
+        public ObservableCollection<string> mCollageIconsPaths { get; set; }
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
             LoadImages();
-            var thumbnailsList = mPhotobook.CollageTemplatesThumbnailsList();
-
-            Items = new ObservableCollection<string>();
-
-            foreach(var thumbnail in thumbnailsList)
-            {
-                Items.Add(thumbnail);
-            }
-
-            CollageTemplatesListView.ItemsSource = Items;
         }
 
         private void OnUnstagedPhotosSelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -900,6 +894,18 @@ namespace PhotobookNet
                 {
                     mUnstagedImageCollection.Clear();
                 }
+            }
+        }
+
+        public void OnCollageThumbnailsCreated()
+        {
+            mCollageIconsPaths.Clear();
+
+            var thumbnailsList = mPhotobook.CollageTemplatesThumbnailsList();
+
+            foreach (var thumbnail in thumbnailsList)
+            {
+                mCollageIconsPaths.Add(thumbnail);
             }
         }
 

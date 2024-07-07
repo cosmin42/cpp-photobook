@@ -55,7 +55,12 @@ public:
 
   void onMappingFinished(Path path) override
   {
-	mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+  }
+
+  void onCollageThumbnailsCreated() override
+  {
+    mManagedListener.OnCollageThumbnailsCreated();
   }
 
 private:

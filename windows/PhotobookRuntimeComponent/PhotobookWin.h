@@ -83,6 +83,11 @@ public:
                                     index);
   }
 
+  void onCollageThumbnailsCreated()
+  {
+    mManagedListener.OnCollageThumbnailsCreated();
+  }
+
   void post(std::function<void()> f) override
   {
     winrt::PhotobookRuntimeComponent::Functor functor = [f]() { f(); };
@@ -134,12 +139,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   Windows::Foundation::Collections::IVector<winrt::hstring>
   CollageTemplatesThumbnailsList()
   {
-    auto persistenceService = mPhotobook->project();
-    if (persistenceService == nullptr) {
-      return winrt::single_threaded_vector<winrt::hstring>();
-    }
-
-    auto collageTemplateManager = persistenceService->collageTemplatesManager();
+    auto collageTemplateManager = mPhotobook->collageTemplatesManager();
 
     if (collageTemplateManager == nullptr) {
       return winrt::single_threaded_vector<winrt::hstring>();

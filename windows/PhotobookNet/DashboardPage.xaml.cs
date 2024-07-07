@@ -81,6 +81,11 @@ namespace PhotobookNet
             Frame.Navigate(typeof(TableContentPage));
         }
 
+        public void OnCollageThumbnailsCreated()
+        {
+
+        }
+
         public void OnProjectRead()
         {
             Frame.Navigate(typeof(TableContentPage));

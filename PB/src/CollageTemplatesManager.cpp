@@ -6,17 +6,28 @@
 #pragma warning(pop)
 
 namespace PB {
-CollageTemplatesManager::CollageTemplatesManager(
-    Path localStatePath, Path installPath, std::shared_ptr<Project> project)
-    : mCollagesTemplatesResourcesPath(localStatePath /
-                                      COLLAGES_TEMPLATES_RESOURCES_NAME / ""),
-      mInstallPath(installPath),
-      mAssistant(installPath / COLLAGES_TEMPLATES_NAME,
-                 mCollagesTemplatesResourcesPath),
-      mResources(std::make_shared<SkiaResources>()),
-      mDrawingService(mResources), mProject(project),
-      mResourcesProviderId(RuntimeUUID::newUUID())
+CollageTemplatesManager::CollageTemplatesManager(Path localStatePath,
+                                                 Path installPath)
+    : mJob(localStatePath, installPath)
 {
+}
+
+void CollageTemplatesManager::configureListener(
+    CollageThumbnailsMakerListener *listener)
+{
+  mJob.configureListener(listener);
+}
+
+void CollageTemplatesManager::configureProject(
+    std::shared_ptr<PB::Project> project)
+{
+  mJob.configureProject(project);
+}
+
+void CollageTemplatesManager::setTaskCruncher(
+    std::shared_ptr<TaskCruncher> taskCruncher)
+{
+  mTaskCruncher = taskCruncher;
 }
 
 std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
@@ -34,46 +45,13 @@ std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
 
 void CollageTemplatesManager::generateTemplatesImages()
 {
-  auto templatesList =
-      getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
-
-  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
-
-  std::vector<Path> processedSVGPaths;
-
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
-
-  PBDev::basicAssert(mNumberedImages.empty());
-
-  mNumberedImages =  mAssistant.createNumberedImages(imageSize);
-
-  for (auto &path : templatesList) {
-    spdlog::info("Generating thumbnail for template: {}", path.string());
-    auto processedPath =
-        mAssistant.createTemplateThumbnail(mNumberedImages, path, {4, 3}, imageSize);
-
-    processedSVGPaths.push_back(processedPath);
-  }
-
-  mResourcesProviderId =
-      mResources->addResource(mCollagesTemplatesResourcesPath);
-
-  for (auto &path : processedSVGPaths) {
-    Path outFilePath =
-        mCollagesTemplatesResourcesPath / (path.stem().string() + ".png");
-    SkFILEWStream outFile(outFilePath.string().c_str());
-
-    mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
-                                   imageSize);
-
-    mGeneratedLibraries.push_back(outFilePath);
-  }
+  mJob.mapJobs();
+  mTaskCruncher->crunch("collage-thumbnails", mJob);
 }
 
 std::vector<Path> CollageTemplatesManager::getTemplatesPaths() const
 {
-  return mGeneratedLibraries;
+  return mJob.getTemplatesPaths();
 }
 
 } // namespace PB

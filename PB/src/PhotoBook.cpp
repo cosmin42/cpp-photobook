@@ -14,7 +14,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mPlatformInfo(std::make_shared<PlatformInfo>(installationPath,
                                                    localStatePath, screenSize)),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
-      mImportLogic(mPlatformInfo)
+      mImportLogic(mPlatformInfo),
+      mCollageTemplateManager(std::make_shared<CollageTemplatesManager>(
+          localStatePath, installationPath))
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
 
@@ -37,10 +39,16 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(progressManagerListener != nullptr);
   mProgressManager.configure(progressManagerListener);
 
+  auto collageThumbnailsMakerListener =
+      dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
+  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
+  mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
+
   mPersistenceService->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
   mTaskCruncher->registerPTC("export-logic", 1);
+  mTaskCruncher->registerPTC("collage-thumbnails", 1);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -48,6 +56,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mImportLogic.setTaskCruncher(mTaskCruncher);
   mExportLogic.setTaskCruncher(mTaskCruncher);
+  mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
@@ -198,6 +207,13 @@ void Photobook::onProjectRead(
   configure(mPersistenceService->currentProject());
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
+
+  auto collageThumbnailsMakerListener =
+      dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
+  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
+  mCollageTemplateManager->configureProject(project()->currentProject());
+  mCollageTemplateManager->generateTemplatesImages();
+
   mParent->onProjectRead();
 
   auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
@@ -240,6 +256,11 @@ void Photobook::onMappingAborted(Path path)
 {
   mParent->onMappingAborted(path);
   mProgressManager.abort(path.string());
+}
+
+std::shared_ptr<CollageTemplatesManager> Photobook::collageTemplatesManager()
+{
+  return mCollageTemplateManager;
 }
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
@@ -340,5 +361,12 @@ void Photobook::progressUpdate(PB::ProgressInfo definedProgress,
     mParent->onProgressUpdate(definedProgress, undefinedProgress);
   });
 }
+
+void Photobook::onThumbnailsCreated()
+{
+  post([this]() { mParent->onCollageThumbnailsCreated(); });
+}
+
+void Photobook::onCollageThumbnailsMakerError() {}
 
 } // namespace PB

@@ -22,14 +22,15 @@ public:
 
   virtual void onMappingStarted(Path path) = 0;
   virtual void onMappingFinished(Path path) = 0;
+  virtual void onCollageThumbnailsCreated() = 0;
   virtual void onMappingAborted(Path path) = 0;
 
   virtual void onImageUpdated(Path root, int row, int index) = 0;
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onProgressUpdate(PB::ProgressInfo         definedProgress,
-                                PB::ProgressInfo         undefinedProgress) = 0;
+  virtual void onProgressUpdate(PB::ProgressInfo definedProgress,
+                                PB::ProgressInfo undefinedProgress) = 0;
 };
 
 } // namespace PB

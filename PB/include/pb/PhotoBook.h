@@ -29,7 +29,8 @@ class Photobook final : public PersistenceServiceListener,
                         public ImportFoldersLogicListener,
                         public PBDev::ThreadScheduler,
                         public ProgressManagerListener,
-                        public ExportListener {
+                        public ExportListener,
+                        public CollageThumbnailsMakerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -57,6 +58,8 @@ public:
   void exportPDFAlbum(std::string name, Path path);
   void exportPDFLibharu(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);
+
+  std::shared_ptr<CollageTemplatesManager> collageTemplatesManager();
 
   void onError(PBDev::Error error);
 
@@ -90,21 +93,25 @@ public:
   void progressUpdate(PB::ProgressInfo definedProgress,
                       PB::ProgressInfo undefinedProgress) override;
 
+  void onThumbnailsCreated() override;
+  void onCollageThumbnailsMakerError() override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;
 
 private:
-  PhotobookListener                  *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  ImportFoldersLogic                  mImportLogic;
-  ImageViews                          mImageViews;
-  CommandStack                        mCommandStack;
-  bool                                mMarkProjectForDeletion = false;
-  ExportLogic                         mExportLogic;
-  ProgressManager                     mProgressManager;
-  std::string                         mProjectName;
+  PhotobookListener                       *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService>      mPersistenceService = nullptr;
+  ImportFoldersLogic                       mImportLogic;
+  ImageViews                               mImageViews;
+  CommandStack                             mCommandStack;
+  bool                                     mMarkProjectForDeletion = false;
+  ExportLogic                              mExportLogic;
+  ProgressManager                          mProgressManager;
+  std::string                              mProjectName;
+  std::shared_ptr<CollageTemplatesManager> mCollageTemplateManager = nullptr;
 };
 } // namespace PB

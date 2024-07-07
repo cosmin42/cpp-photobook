@@ -52,12 +52,6 @@ Path PersistenceService::hash(Path path)
   return mCurrentHashes.left.at(path);
 }
 
-std::shared_ptr<CollageTemplatesManager>
-PersistenceService::collageTemplatesManager()
-{
-  return mCollageTemplateManager;
-}
-
 void PersistenceService::recallProject(std::string name)
 {
   auto projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
@@ -95,9 +89,6 @@ void PersistenceService::newProject(std::string              name,
   auto thumbnailsDirectoryName =
       boost::uuids::to_string(mMetadata.right.at(name));
   save(thumbnailsDirectoryName, {}, {}, {});
-  mCollageTemplateManager = std::make_shared<CollageTemplatesManager>(
-      mPlatformInfo->localStatePath, mPlatformInfo->installationPath, mProject);
-  mCollageTemplateManager->generateTemplatesImages();
 }
 
 std::string PersistenceService::name(boost::uuids::uuid uuid)
@@ -128,9 +119,6 @@ void PersistenceService::onProjectRead(
 {
   mProject = project;
   mOpenedUUID = mMetadata.right.at(name);
-  mCollageTemplateManager = std::make_shared<CollageTemplatesManager>(
-      mPlatformInfo->localStatePath, mPlatformInfo->installationPath, mProject);
-  mCollageTemplateManager->generateTemplatesImages();
   mListener->onProjectRead(unstagedImages, stagedImages, roots);
 }
 
@@ -169,7 +157,6 @@ void PersistenceService::clear()
 {
   mJson.clear();
   mProject = nullptr;
-  mCollageTemplateManager.reset();
 }
 
 bool PersistenceService::contains(std::string name) const

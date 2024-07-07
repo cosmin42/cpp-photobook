@@ -29,6 +29,8 @@ interface PhotobookListener
   void OnProgressUpdate(ProgressInfo definedProgress,
                         ProgressInfo undefinedProgress);
 
+  void OnCollageThumbnailsCreated();
+
   void Post(Functor f);
 };
 } // namespace PhotobookRuntimeComponent

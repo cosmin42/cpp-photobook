@@ -3,38 +3,30 @@
 #include <vector>
 
 #include <pb/CollageLibraryAssistant.h>
+#include <pb/CollageThumbnailsMakerJob.h>
 #include <pb/DrawingService.h>
 #include <pb/SVGInflater.h>
+#include <pb/TaskCruncher.h>
 #include <pb/project/Project.h>
 
 namespace PB {
 class CollageTemplatesManager {
 public:
-  explicit CollageTemplatesManager(Path localStatePath, Path installationPath,
-                                   std::shared_ptr<Project> project);
+  explicit CollageTemplatesManager(Path localStatePath, Path installationPath);
   ~CollageTemplatesManager() = default;
+
+  void configureListener(CollageThumbnailsMakerListener *listener);
+  void configureProject(std::shared_ptr<PB::Project> project);
+
+  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
   void generateTemplatesImages();
 
   std::vector<Path> getTemplatesPaths() const;
 
 private:
-  static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =
-      "collages-templates-resources";
-
-  static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
-
-  Path                           mCollagesTemplatesResourcesPath;
-  Path                           mInstallPath;
-  CollageLibraryAssistant        mAssistant;
-  std::shared_ptr<SkiaResources> mResources = nullptr;
-  DrawingService                 mDrawingService;
-  std::shared_ptr<Project>       mProject = nullptr;
-  std::vector<Path>              mGeneratedLibraries;
-
-  PBDev::SkiaResourcesId mResourcesProviderId;
-
-  std::vector<Path> mNumberedImages;
+  CollageThumbnailsMakerJob     mJob;
+  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
 
   std::vector<Path> getTemplatesPaths(Path directoryPath);
 };

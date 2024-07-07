@@ -7,10 +7,28 @@
 
 namespace PB {
 
+CollageThumbnailsMakerJob::CollageThumbnailsMakerJob(Path localStatePath,
+                                                     Path installPath)
+    : mCollagesTemplatesResourcesPath(localStatePath /
+                                      COLLAGES_TEMPLATES_RESOURCES_NAME / ""),
+      mInstallPath(installPath),
+      mAssistant(installPath / COLLAGES_TEMPLATES_NAME,
+                 mCollagesTemplatesResourcesPath),
+      mResources(std::make_shared<SkiaResources>()),
+      mDrawingService(mResources), mResourcesProviderId(RuntimeUUID::newUUID())
+{
+}
+
 void CollageThumbnailsMakerJob::configureListener(
     CollageThumbnailsMakerListener *listener)
 {
   mListener = listener;
+}
+
+void CollageThumbnailsMakerJob::configureProject(
+    std::shared_ptr<Project> project)
+{
+  mProject = project;
 }
 
 std::vector<Path>
@@ -27,32 +45,9 @@ CollageThumbnailsMakerJob::getTemplatesPaths(Path directoryPath)
   return templatesPaths;
 }
 
-void CollageThumbnailsMakerJob::mapTasks()
+std::vector<Path> CollageThumbnailsMakerJob::getTemplatesPaths() const
 {
-  auto templatesList =
-      getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
-
-  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
-
-  std::vector<Path> processedSVGPaths;
-
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
-
-  PBDev::basicAssert(mNumberedImages.empty());
-
-  mNumberedImages = mAssistant.createNumberedImages(imageSize);
-
-  for (auto &path : templatesList) {
-    spdlog::info("Generating thumbnail for template: {}", path.string());
-    auto processedPath = mAssistant.createTemplateThumbnail(
-        mNumberedImages, path, {4, 3}, imageSize);
-
-    processedSVGPaths.push_back(processedPath);
-  }
-
-  mResourcesProviderId =
-      mResources->addResource(mCollagesTemplatesResourcesPath);
+  return mGeneratedLibraries;
 }
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
@@ -70,8 +65,6 @@ void CollageThumbnailsMakerJob::createNumberedPlaceholders()
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
 
-  PBDev::basicAssert(mNumberedImages.empty());
-
   mNumberedImages = mAssistant.createNumberedImages(imageSize);
 }
 
@@ -80,7 +73,7 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
 
-  Path path = mNumberedImages.at(i);
+  Path path = mSourceTemplates.at(i);
   spdlog::info("Generating thumbnail for template: {}", path.string());
   auto processedPath = mAssistant.createTemplateThumbnail(mNumberedImages, path,
                                                           {4, 3}, imageSize);
@@ -111,25 +104,44 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
 
 void CollageThumbnailsMakerJob::mapJobs()
 {
-  mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                        [this]() { createPlaceholdersFolder(); }});
-  mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                        [this]() { obtainSourceTemplates(); }});
-  mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                        [this]() { createNumberedPlaceholders(); }});
+  auto templatesList =
+      getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
 
-  for (int i = 0; i < mNumberedImages.size(); ++i) {
-    mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                          [this, i{i}]() { createCustomSVGTemplate(i); }});
+  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
+
+  std::vector<Path> processedSVGPaths;
+
+  cv::Size imageSize = {mProject->paperSettings.width / 2,
+                        mProject->paperSettings.height / 2};
+
+  PBDev::basicAssert(mNumberedImages.empty());
+
+  mNumberedImages = mAssistant.createNumberedImages(imageSize);
+
+  for (auto &path : templatesList) {
+    spdlog::info("Generating thumbnail for template: {}", path.string());
+    auto processedPath = mAssistant.createTemplateThumbnail(
+        mNumberedImages, path, {4, 3}, imageSize);
+
+    processedSVGPaths.push_back(processedPath);
   }
 
-  mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                        [this]() { registerNewResource(); }});
+  mResourcesProviderId =
+      mResources->addResource(mCollagesTemplatesResourcesPath);
 
-  for (int i = 0; i < mProcessedSVGPaths.size(); ++i) {
-    mFunctions.push_back({PBDev::MapReducerTaskId(RuntimeUUID::newUUID()),
-                          [this, i{i}]() { createTemplatesThumbnail(i); }});
-  }
+  mFunctions.push_back(
+      {PBDev::MapReducerTaskId(RuntimeUUID::newUUID()), [this]() {
+         createPlaceholdersFolder();
+         obtainSourceTemplates();
+         createNumberedPlaceholders();
+         for (int i = 0; i < mSourceTemplates.size(); ++i) {
+           createCustomSVGTemplate(i);
+         }
+         registerNewResource();
+         for (int i = 0; i < mProcessedSVGPaths.size(); ++i) {
+           createTemplatesThumbnail(i);
+         }
+       }});
 }
 
 std::optional<IdentifyableFunction>
@@ -143,5 +155,8 @@ CollageThumbnailsMakerJob::getNext(std::stop_token stopToken)
   return std::nullopt;
 }
 
-void CollageThumbnailsMakerJob::onFinished(PBDev::MapReducerTaskId) {}
+void CollageThumbnailsMakerJob::onFinished(PBDev::MapReducerTaskId)
+{
+  mListener->onThumbnailsCreated();
+}
 } // namespace PB
