@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/CollageTemplatesManager.h>
+#include <pb/CollageManager.h>
 
 using namespace PB;
 
@@ -48,7 +48,7 @@ TEST(TestDrawingService, TestSvgToPng)
   std::filesystem::remove(thumbnailToRemove);
 }
 
-TEST(CollageTemplatesManager, TestGenerateTemplatesImages)
+TEST(CollageManager, TestGenerateTemplatesImages)
 {
   auto success = std::filesystem::create_directories(
       std::filesystem::current_path() / "test-generate-templates");
@@ -58,7 +58,7 @@ TEST(CollageTemplatesManager, TestGenerateTemplatesImages)
   project->paperSettings.height = 1754;
   auto templatesPath =
       std::filesystem::current_path() / "test-generate-templates";
-  CollageTemplatesManager manager(templatesPath,
+  CollageManager manager(templatesPath,
                                   std::filesystem::current_path(), project);
 
   manager.generateTemplatesImages();

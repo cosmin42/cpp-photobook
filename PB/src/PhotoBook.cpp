@@ -15,7 +15,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
                                                    localStatePath, screenSize)),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
       mImportLogic(mPlatformInfo),
-      mCollageTemplateManager(std::make_shared<CollageTemplatesManager>(
+      mCollageTemplateManager(std::make_shared<CollageManager>(
           localStatePath, installationPath))
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
@@ -258,7 +258,7 @@ void Photobook::onMappingAborted(Path path)
   mProgressManager.abort(path.string());
 }
 
-std::shared_ptr<CollageTemplatesManager> Photobook::collageTemplatesManager()
+std::shared_ptr<CollageManager> Photobook::collageManager()
 {
   return mCollageTemplateManager;
 }

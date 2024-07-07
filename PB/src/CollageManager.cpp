@@ -1,4 +1,4 @@
-#include <pb/CollageTemplatesManager.h>
+#include <pb/CollageManager.h>
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
@@ -6,31 +6,31 @@
 #pragma warning(pop)
 
 namespace PB {
-CollageTemplatesManager::CollageTemplatesManager(Path localStatePath,
+CollageManager::CollageManager(Path localStatePath,
                                                  Path installPath)
     : mJob(localStatePath, installPath)
 {
 }
 
-void CollageTemplatesManager::configureListener(
+void CollageManager::configureListener(
     CollageThumbnailsMakerListener *listener)
 {
   mJob.configureListener(listener);
 }
 
-void CollageTemplatesManager::configureProject(
+void CollageManager::configureProject(
     std::shared_ptr<PB::Project> project)
 {
   mJob.configureProject(project);
 }
 
-void CollageTemplatesManager::setTaskCruncher(
+void CollageManager::setTaskCruncher(
     std::shared_ptr<TaskCruncher> taskCruncher)
 {
   mTaskCruncher = taskCruncher;
 }
 
-std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
+std::vector<Path> CollageManager::getTemplatesPaths(Path directoryPath)
 {
   std::vector<Path> templatesPaths;
 
@@ -43,13 +43,13 @@ std::vector<Path> CollageTemplatesManager::getTemplatesPaths(Path directoryPath)
   return templatesPaths;
 }
 
-void CollageTemplatesManager::generateTemplatesImages()
+void CollageManager::generateTemplatesImages()
 {
   mJob.mapJobs();
   mTaskCruncher->crunch("collage-thumbnails", mJob);
 }
 
-std::vector<Path> CollageTemplatesManager::getTemplatesPaths() const
+std::vector<Path> CollageManager::getTemplatesPaths() const
 {
   return mJob.getTemplatesPaths();
 }

@@ -10,10 +10,10 @@
 #include <pb/project/Project.h>
 
 namespace PB {
-class CollageTemplatesManager {
+class CollageManager {
 public:
-  explicit CollageTemplatesManager(Path localStatePath, Path installationPath);
-  ~CollageTemplatesManager() = default;
+  explicit CollageManager(Path localStatePath, Path installationPath);
+  ~CollageManager() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
   void configureProject(std::shared_ptr<PB::Project> project);

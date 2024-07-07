@@ -139,7 +139,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   Windows::Foundation::Collections::IVector<winrt::hstring>
   CollageTemplatesThumbnailsList()
   {
-    auto collageTemplateManager = mPhotobook->collageTemplatesManager();
+    auto collageTemplateManager = mPhotobook->collageManager();
 
     if (collageTemplateManager == nullptr) {
       return winrt::single_threaded_vector<winrt::hstring>();

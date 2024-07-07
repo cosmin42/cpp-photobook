@@ -77,7 +77,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/Command.h
     include/pb/Config.h
     include/pb/BasicSVGModel.h
-    include/pb/CollageTemplatesManager.h
+    include/pb/CollageManager.h
     include/pb/CollageThumbnailsMakerJob.h
     include/pb/DataManager.h
     include/pb/DrawingService.h
@@ -139,7 +139,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/CollageLibraryAssistant.cpp
     src/Command.cpp
     src/CollageThumbnailsMakerJob.cpp
-    src/CollageTemplatesManager.cpp
+    src/CollageManager.cpp
     src/Config.cpp
     src/DataManager.cpp
     src/DrawingService.cpp

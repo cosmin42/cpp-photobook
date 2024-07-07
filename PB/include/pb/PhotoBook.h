@@ -59,7 +59,7 @@ public:
   void exportPDFLibharu(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);
 
-  std::shared_ptr<CollageTemplatesManager> collageTemplatesManager();
+  std::shared_ptr<CollageManager> collageManager();
 
   void onError(PBDev::Error error);
 
@@ -112,6 +112,6 @@ private:
   ExportLogic                              mExportLogic;
   ProgressManager                          mProgressManager;
   std::string                              mProjectName;
-  std::shared_ptr<CollageTemplatesManager> mCollageTemplateManager = nullptr;
+  std::shared_ptr<CollageManager> mCollageTemplateManager = nullptr;
 };
 } // namespace PB

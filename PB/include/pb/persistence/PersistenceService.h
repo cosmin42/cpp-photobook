@@ -1,5 +1,5 @@
 #pragma once
-#include <pb/CollageTemplatesManager.h>
+
 #include <pb/persistence/Persistence.h>
 
 namespace PB {
