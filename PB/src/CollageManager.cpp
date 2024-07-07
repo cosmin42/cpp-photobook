@@ -6,26 +6,22 @@
 #pragma warning(pop)
 
 namespace PB {
-CollageManager::CollageManager(Path localStatePath,
-                                                 Path installPath)
+CollageManager::CollageManager(Path localStatePath, Path installPath)
     : mJob(localStatePath, installPath)
 {
 }
 
-void CollageManager::configureListener(
-    CollageThumbnailsMakerListener *listener)
+void CollageManager::configureListener(CollageThumbnailsMakerListener *listener)
 {
   mJob.configureListener(listener);
 }
 
-void CollageManager::configureProject(
-    std::shared_ptr<PB::Project> project)
+void CollageManager::configureProject(std::shared_ptr<PB::Project> project)
 {
   mJob.configureProject(project);
 }
 
-void CollageManager::setTaskCruncher(
-    std::shared_ptr<TaskCruncher> taskCruncher)
+void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
 {
   mTaskCruncher = taskCruncher;
 }
@@ -52,6 +48,19 @@ void CollageManager::generateTemplatesImages()
 std::vector<Path> CollageManager::getTemplatesPaths() const
 {
   return mJob.getTemplatesPaths();
+}
+
+void CollageManager::combineImages(Path                           templatePath,
+                                   std::vector<std::vector<Path>> imagesPaths)
+{
+  for (auto imageSet : imagesPaths) {
+    combineImage(templatePath, imageSet);
+  }
+}
+
+void CollageManager::combineImage(Path              templatePath,
+                                  std::vector<Path> imagesPaths)
+{
 }
 
 } // namespace PB

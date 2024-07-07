@@ -22,6 +22,9 @@ public:
 
   void generateTemplatesImages();
 
+  void combineImages(Path                           templatePath,
+                     std::vector<std::vector<Path>> imagesPaths);
+
   std::vector<Path> getTemplatesPaths() const;
 
 private:
@@ -29,5 +32,7 @@ private:
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
 
   std::vector<Path> getTemplatesPaths(Path directoryPath);
+
+  void combineImage(Path templatePath, std::vector<Path> imagesPaths);
 };
 } // namespace PB
