@@ -296,7 +296,34 @@
                                             <Border Background="Black"
                                                     Width="124"
                                                     Height="87">
-                                                <Image Source="{Binding}" />
+                                                <Grid>
+                                                    <Image 
+                                                        x:Name="CollageTemplateImage"
+                                                        Source="{Binding}" />
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="1*" />
+                                                            <ColumnDefinition Width="1*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button Grid.Column="0"
+                                                                Background="{StaticResource ButtonBackgroundColor}"
+                                                                CornerRadius="4"
+                                                                Content="Preview"
+                                                                x:Name="PreviewCollage"
+                                                                Foreground="{StaticResource MainFontColor}"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Left"
+                                                                />
+                                                        <Button Grid.Column="1"
+                                                                Background="{StaticResource ButtonBackgroundColor}"
+                                                                CornerRadius="4"
+                                                                Content="Make"
+                                                                x:Name="MakeCollage"
+                                                                Foreground="{StaticResource MainFontColor}"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Right" />
+                                                    </Grid>
+                                                </Grid>
                                             </Border>
                                         </DataTemplate>
                                     </controls:GridView.ItemTemplate>
