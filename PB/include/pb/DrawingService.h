@@ -8,8 +8,12 @@
 #include <opencv2/imgproc.hpp>
 #pragma warning(pop)
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4267)
 #include <include/core/SkGraphics.h>
 #include <include/core/SkStream.h>
+#pragma warning(pop)
 
 #include <pb/SkiaResources.h>
 #include <pb/util/Traits.h>

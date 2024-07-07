@@ -29,7 +29,7 @@ CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
 
 Path CollageLibraryAssistant::createTemplateThumbnail(
     std::vector<Path> numberedImages, Path templatePath,
-    AspectRatio aspectRatio, cv::Size pageSize)
+    AspectRatio aspectRatio, cv::Size pageSize, std::string filename)
 {
   BasicSVGModel svgModel = {(unsigned)pageSize.width, (unsigned)pageSize.height,
                             numberedImages};
@@ -38,9 +38,11 @@ Path CollageLibraryAssistant::createTemplateThumbnail(
   std::string originalName = templatePath.stem().string();
   std::replace(originalName.begin(), originalName.end(), '.', '-');
 
-  auto filename = "template_" + originalName + "_" + aspectRatio() + "-" +
-                  std::to_string(pageSize.width) + "x" +
-                  std::to_string(pageSize.height) + ".svg";
+  if (filename.empty()) {
+    filename = "template_" + originalName + "_" + aspectRatio() + "-" +
+               std::to_string(pageSize.width) + "x" +
+               std::to_string(pageSize.height) + ".svg";
+  }
 
   auto thumbnailPath = mOutputFolder / filename;
 

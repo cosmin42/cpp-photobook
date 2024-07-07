@@ -3,12 +3,16 @@
 #include <fstream>
 #include <memory>
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4267)
 #include <include/core/SkCanvas.h>
 #include <include/core/SkImageInfo.h>
 #include <include/core/SkSurface.h>
 #include <include/encode/SkPngEncoder.h>
 #include <modules/skshaper/utils/FactoryHelpers.h>
 #include <modules/svg/include/SkSVGDOM.h>
+#pragma warning(pop)
 
 namespace PB {
 

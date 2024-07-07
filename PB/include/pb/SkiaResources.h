@@ -2,7 +2,11 @@
 
 #include <unordered_map>
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4267)
 #include <modules/skresources/include/SkResources.h>
+#pragma warning(pop)
 
 #include <pb/util/Traits.h>
 

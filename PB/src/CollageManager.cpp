@@ -7,7 +7,8 @@
 
 namespace PB {
 CollageManager::CollageManager(Path localStatePath, Path installPath)
-    : mJob(localStatePath, installPath)
+    : mJob(localStatePath, installPath),
+      mCollageMakerJob(localStatePath, installPath)
 {
 }
 
@@ -19,6 +20,11 @@ void CollageManager::configureListener(CollageThumbnailsMakerListener *listener)
 void CollageManager::configureProject(std::shared_ptr<PB::Project> project)
 {
   mJob.configureProject(project);
+}
+
+void CollageManager::configureProjectId(std::string projectId)
+{
+  mCollageMakerJob.configureProjectId(projectId);
 }
 
 void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
@@ -53,14 +59,8 @@ std::vector<Path> CollageManager::getTemplatesPaths() const
 void CollageManager::combineImages(Path                           templatePath,
                                    std::vector<std::vector<Path>> imagesPaths)
 {
-  for (auto imageSet : imagesPaths) {
-    combineImage(templatePath, imageSet);
-  }
-}
-
-void CollageManager::combineImage(Path              templatePath,
-                                  std::vector<Path> imagesPaths)
-{
+  mCollageMakerJob.mapJobs(templatePath, imagesPaths);
+  mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob);
 }
 
 } // namespace PB

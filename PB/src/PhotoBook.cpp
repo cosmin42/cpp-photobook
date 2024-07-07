@@ -15,8 +15,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
                                                    localStatePath, screenSize)),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
       mImportLogic(mPlatformInfo),
-      mCollageTemplateManager(std::make_shared<CollageManager>(
-          localStatePath, installationPath))
+      mCollageTemplateManager(
+          std::make_shared<CollageManager>(localStatePath, installationPath))
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
 
@@ -213,6 +213,8 @@ void Photobook::onProjectRead(
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
   mCollageTemplateManager->configureProject(project()->currentProject());
   mCollageTemplateManager->generateTemplatesImages();
+  mCollageTemplateManager->configureProjectId(
+      boost::uuids::to_string(project()->currentProjectUUID()));
 
   mParent->onProjectRead();
 

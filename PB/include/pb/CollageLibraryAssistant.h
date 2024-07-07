@@ -20,7 +20,7 @@ public:
 
   Path createTemplateThumbnail(std::vector<Path> numberedImages,
                                Path templateFile, AspectRatio aspectRatio,
-                               cv::Size pageSize);
+                               cv::Size pageSize, std::string filename = "");
 
 private:
   Path createNumberedImage(cv::Size pageSize, unsigned index, std::string name);
