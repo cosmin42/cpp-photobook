@@ -456,6 +456,16 @@ namespace PhotobookNet
             }
         }
 
+        private async void OnPreviewCollageClick(object sender, RoutedEventArgs args)
+        {
+
+        }
+
+        private async void OnMakeCollageClick(object sender, RoutedEventArgs args)
+        {
+
+        }
+
         private async void OnImportFolderAdded(object sender, RoutedEventArgs args)
         {
             await FireFolderPicker(onSuccess: (path) =>

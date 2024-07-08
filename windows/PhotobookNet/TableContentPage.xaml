@@ -327,7 +327,8 @@
                                             x:Name="PreviewCollage"
                                             Foreground="{StaticResource MainFontColor}"
                                             VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Left" />
+                                            HorizontalAlignment="Left"
+                                            Click="OnPreviewCollageClick" />
                                     <Button Grid.Column="1"
                                             Background="{StaticResource ButtonBackgroundColor}"
                                             CornerRadius="4"
@@ -335,7 +336,8 @@
                                             x:Name="MakeCollage"
                                             Foreground="{StaticResource MainFontColor}"
                                             VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Left" />
+                                            HorizontalAlignment="Left"
+                                            Click="OnMakeCollageClick" />
                                 </Grid>
                             </Grid>
                         </Border>
