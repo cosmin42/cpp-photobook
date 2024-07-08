@@ -75,7 +75,11 @@ namespace PhotobookNet
             mUnstagedImageCollection = new ObservableCollection<VirtualImagePtr>();
             mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();
 
-            CollageTemplatesListView.ItemsSource = mCollageIconsPaths;
+            CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
+
+            var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
+            PreviewCollage.IsEnabled = collageButtonsEnabled;
+            MakeCollage.IsEnabled = collageButtonsEnabled;
 
             PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
             {
@@ -469,6 +473,13 @@ namespace PhotobookNet
             System.Diagnostics.Debug.Assert(selection >= 0, "Selection is less than 0");
             var rowPath = mPhotobook.GetImageViews().ImageMonitor().RowPath((uint)selection);
             mPhotobook.RemoveImportFolder(rowPath);
+        }
+
+        private void OnCollageSelectionChanged(object sender, SelectionChangedEventArgs args)
+        {
+            var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
+            PreviewCollage.IsEnabled = collageButtonsEnabled;
+            MakeCollage.IsEnabled = collageButtonsEnabled;
         }
 
         private void OnImportSelectionChanged(object sender, SelectionChangedEventArgs args)

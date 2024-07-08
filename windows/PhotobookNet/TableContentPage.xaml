@@ -287,8 +287,10 @@
                                     <RowDefinition Height="12*" />
                                     <RowDefinition Height="1*" />
                                 </Grid.RowDefinitions>
-                                <controls:GridView x:Name="CollageTemplatesListView"
+                                <controls:GridView x:Name="CollageTemplatesGridView"
                                                    IsItemClickEnabled="True"
+                                                   SelectionChanged="OnCollageSelectionChanged"
+                                                   SelectionMode="Single"
                                                    Grid.Row="0">
                                     <controls:GridView.ItemsPanel>
                                         <ItemsPanelTemplate>
