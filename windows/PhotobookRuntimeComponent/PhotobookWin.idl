@@ -49,6 +49,7 @@ runtimeclass PhotobookWin
   void ExportJPGAlbum(String name, String path);
 
   IVector<String> CollageTemplatesThumbnailsList();
+  void MakeCollage(IVector<IVector<UInt32>> images, String collageName);
 
   static VirtualImagePtr copyImage(VirtualImagePtr image);
 }
