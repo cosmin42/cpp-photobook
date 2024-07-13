@@ -31,6 +31,7 @@ public:
   void mapJobs();
 
   std::vector<Path> getTemplatesPaths() const;
+  std::vector<Path> getSourceTemplates() const;
 
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;

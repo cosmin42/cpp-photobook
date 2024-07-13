@@ -371,4 +371,8 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
+void Photobook::onCollageCreated(unsigned index) {}
+
+void Photobook::onCollageMakerError() {}
+
 } // namespace PB

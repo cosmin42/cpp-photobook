@@ -31,7 +31,8 @@ class Photobook final : public PersistenceServiceListener,
                         public PBDev::ThreadScheduler,
                         public ProgressManagerListener,
                         public ExportListener,
-                        public CollageThumbnailsMakerListener {
+                        public CollageThumbnailsMakerListener,
+                        public CollageMakerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -96,6 +97,9 @@ public:
 
   void onThumbnailsCreated() override;
   void onCollageThumbnailsMakerError() override;
+
+  void onCollageCreated(unsigned index) override;
+  void onCollageMakerError() override;
 
   std::vector<Path> pendingMappingPathList() const;
 

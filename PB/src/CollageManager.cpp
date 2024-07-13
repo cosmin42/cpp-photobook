@@ -17,9 +17,16 @@ void CollageManager::configureListener(CollageThumbnailsMakerListener *listener)
   mJob.configureListener(listener);
 }
 
+void CollageManager::configureCollageMakerListener(
+    CollageMakerListener *listener)
+{
+  mCollageMakerJob.configureListener(listener);
+}
+
 void CollageManager::configureProject(std::shared_ptr<PB::Project> project)
 {
   mJob.configureProject(project);
+  mCollageMakerJob.configureProject(project);
 }
 
 void CollageManager::configureProjectId(std::string projectId)
@@ -56,10 +63,12 @@ std::vector<Path> CollageManager::getTemplatesPaths() const
   return mJob.getTemplatesPaths();
 }
 
-void CollageManager::combineImages(Path                           templatePath,
-                                   std::vector<std::vector<Path>> imagesPaths)
+void CollageManager::combineImages(unsigned          templateIndex,
+                                   std::vector<Path> imagesPaths)
 {
-  mCollageMakerJob.mapJobs(templatePath, imagesPaths);
+  auto templatePaths = mJob.getSourceTemplates();
+
+  mCollageMakerJob.mapJobs(templatePaths.at(templateIndex), imagesPaths);
   mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob);
 }
 

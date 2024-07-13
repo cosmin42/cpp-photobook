@@ -155,29 +155,21 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     return managedPaths;
   }
 
-  void MakeCollage(Windows::Foundation::Collections::IVector<
-                       Windows::Foundation::Collections::IVector<unsigned>>
-                                        images,
-                   winrt::hstring const collageName)
+  void MakeCollage(Windows::Foundation::Collections::IVector<unsigned> images,
+                   unsigned const collageIndex)
   {
     // TODO: Fix redundant staged images staged photos.
     auto stagedPhotos = mPhotobook->imageViews().stagedImages().stagedPhotos();
 
-    std::vector<std::vector<Path>> imagesToMerge;
+    std::vector<Path> imagesToMerge;
 
     for (int i = 0; i < (int)images.Size(); ++i) {
-      std::vector<Path> imageSet;
-      for (int j = 0; j < (int)images.GetAt(i).Size(); ++j) {
-        auto imagePath = stagedPhotos.at((unsigned)images.GetAt(i).GetAt(j))
-                             ->frontend()
-                             .full;
-        imageSet.push_back(imagePath);
-      }
-      imagesToMerge.push_back(imageSet);
+      auto imagePath =
+          stagedPhotos.at((unsigned)images.GetAt(i))->frontend().medium;
+      imagesToMerge.push_back(imagePath);
     }
-    std::string nativeCollageName = winrt::to_string(collageName);
-    mPhotobook->collageManager()->combineImages(nativeCollageName,
-                                                imagesToMerge);
+
+    mPhotobook->collageManager()->combineImages(collageIndex, imagesToMerge);
   }
 
   void ConfigureStagedImagesListener(

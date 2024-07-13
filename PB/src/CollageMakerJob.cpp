@@ -26,34 +26,49 @@ void CollageMakerJob::configureProjectId(std::string projectId)
   mProjectId = projectId;
 }
 
-void CollageMakerJob::mapJobs(Path                           templatePath,
-                              std::vector<std::vector<Path>> imagesPaths)
+void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
   PBDev::basicAssert(!mProjectId.empty());
 
   cv::Size imageSize = {mProject->paperSettings.width,
                         mProject->paperSettings.height};
-  mResourcesProviderId =
-      mResources->addResource(mLocalStatePath / "th" / mProjectId);
 
-  for (auto i = 0; i < imagesPaths.size(); ++i) {
+  auto resourcePath = mLocalStatePath / "th" / mProjectId / "";
+  mResourcesProviderId = mResources->addResource(resourcePath);
+
+  std::vector<Path> imagesNames;
+  for (auto const &imagePath : imagesPaths) {
+    imagesNames.push_back(imagePath.filename());
+  }
+
+  for (auto i = 0; i < imagesPaths.size() / 2; ++i) {
     auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
     mCollageIndex[reducerId] = (unsigned)i;
-    mFunctions.push_back(
-        {reducerId, [this, imagesPaths{imagesPaths.at(i)},
-                     templatePath{templatePath}, imageSize{imageSize}]() {
-           auto processedPath = mAssistant.createTemplateThumbnail(
-               imagesPaths, templatePath, {4, 3}, imageSize);
 
-           auto outFilePath =
-               mLocalStatePath / "th" / mProjectId /
-               (boost::uuids::to_string(boost::uuids::random_generator()()) +
-                ".png");
+    mFunctions.push_back(
+        {reducerId, [this, imagesNames{imagesNames}, templatePath{templatePath},
+                     imageSize{imageSize}, localStatePath{mLocalStatePath}]() {
+           Path projectThumbnailsRoot = localStatePath / "th" / mProjectId;
+
+           Path temporarySvgFilePath =
+               projectThumbnailsRoot / TEMPORARY_SVG_FILE_NAME;
+
+           std::string newImageName =
+               boost::uuids::to_string(boost::uuids::random_generator()()) +
+               ".png";
+
+           auto processedPath = mAssistant.createTemplateThumbnail(
+               imagesNames, templatePath, {4, 3}, imageSize,
+               temporarySvgFilePath.string());
+
+           auto outFilePath = projectThumbnailsRoot / newImageName;
 
            SkFILEWStream outFile(outFilePath.string().c_str());
 
            mDrawingService.renderToStream(mResourcesProviderId, outFile,
                                           processedPath, imageSize);
+
+           std::filesystem::remove(temporarySvgFilePath);
          }});
   }
 }

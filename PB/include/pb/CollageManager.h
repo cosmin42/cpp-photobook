@@ -17,13 +17,13 @@ public:
   ~CollageManager() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
+  void configureCollageMakerListener(CollageMakerListener *listener);
   void configureProject(std::shared_ptr<PB::Project> project);
   void configureProjectId(std::string projectId);
 
   void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void generateTemplatesImages();
-  void combineImages(Path                           templatePath,
-                     std::vector<std::vector<Path>> imagesPaths);
+  void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
 
   std::vector<Path> getTemplatesPaths() const;
 

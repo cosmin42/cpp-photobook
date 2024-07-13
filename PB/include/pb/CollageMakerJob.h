@@ -26,7 +26,7 @@ public:
   void configureProject(std::shared_ptr<Project> project);
   void configureProjectId(std::string projectId);
 
-  void mapJobs(Path templatePath, std::vector<std::vector<Path>> imagesPaths);
+  void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
 
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
@@ -35,6 +35,8 @@ public:
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
+  static constexpr const char *TEMPORARY_SVG_FILE_NAME =
+      "temporary-svg-file-name.svg";
 
   CollageMakerListener *mListener = nullptr;
 

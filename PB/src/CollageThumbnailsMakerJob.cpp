@@ -50,6 +50,11 @@ std::vector<Path> CollageThumbnailsMakerJob::getTemplatesPaths() const
   return mGeneratedLibraries;
 }
 
+std::vector<Path> CollageThumbnailsMakerJob::getSourceTemplates() const
+{
+  return mSourceTemplates;
+}
+
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
   std::filesystem::create_directories(mCollagesTemplatesResourcesPath);

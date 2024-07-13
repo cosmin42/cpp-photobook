@@ -456,14 +456,20 @@ namespace PhotobookNet
             }
         }
 
-        private async void OnPreviewCollageClick(object sender, RoutedEventArgs args)
+        private void OnPreviewCollageClick(object sender, RoutedEventArgs args)
         {
 
         }
 
-        private async void OnMakeCollageClick(object sender, RoutedEventArgs args)
+        private void OnMakeCollageClick(object sender, RoutedEventArgs args)
         {
+            var selection = GetSelectionIndex();
 
+            var selectedImages = selection.StagedPhotoIndex;
+
+            var slectedCollageIndex = (uint)CollageTemplatesGridView.SelectedRanges.First().FirstIndex;
+
+            mPhotobook.MakeCollage(selectedImages, slectedCollageIndex);
         }
 
         private async void OnImportFolderAdded(object sender, RoutedEventArgs args)
