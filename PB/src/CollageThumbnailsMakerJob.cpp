@@ -69,15 +69,20 @@ CollageTemplateInfo CollageThumbnailsMakerJob::parseTemplatePath(Path path)
     PBDev::basicAssert(false);
   }
 
-  std::istringstream       iss(collageTemplateInfo.name);
-  std::vector<std::string> words{std::istream_iterator<std::string>{iss},
-                                 std::istream_iterator<std::string>{}};
-  collageTemplateInfo.name = "";
+  if (collageTemplateInfo.path.extension().string() != ".template") {
+    std::istringstream       iss(collageTemplateInfo.name);
+    std::vector<std::string> words{std::istream_iterator<std::string>{iss},
+                                   std::istream_iterator<std::string>{}};
+    collageTemplateInfo.name = "";
 
-  PBDev::basicAssert(words.size() > 3);
+    PBDev::basicAssert(words.size() > 3);
 
-  for (auto i = 1; i < words.size() - 2; ++i) {
-    collageTemplateInfo.name += words[i] + " ";
+    for (auto i = 1; i < words.size() - 2; ++i) {
+      std::string word = words[i];
+      PBDev::basicAssert(word.size() > 0);
+      word[0] = std::toupper(word[0]);
+      collageTemplateInfo.name += word + " ";
+    }
   }
 
   return collageTemplateInfo;

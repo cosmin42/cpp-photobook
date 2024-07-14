@@ -31,9 +31,5 @@ private:
   CollageThumbnailsMakerJob     mJob;
   CollageMakerJob               mCollageMakerJob;
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
-
-  static CollageTemplateInfo parseTemplatePath(Path path);
-
-  std::vector<CollageTemplateInfo> getTemplatesPaths(Path directoryPath);
 };
 } // namespace PB

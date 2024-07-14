@@ -41,21 +41,6 @@ void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
   mTaskCruncher = taskCruncher;
 }
 
-std::vector<CollageTemplateInfo>
-CollageManager::getTemplatesPaths(Path directoryPath)
-{
-  std::vector<CollageTemplateInfo> collageTemplatesInfo;
-
-  for (const auto &entry : std::filesystem::directory_iterator(directoryPath)) {
-    if (entry.is_regular_file()) {
-      auto collageTemplateInfo = parseTemplatePath(entry.path());
-      collageTemplatesInfo.push_back(collageTemplateInfo);
-    }
-  }
-
-  return collageTemplatesInfo;
-}
-
 void CollageManager::generateTemplatesImages()
 {
   mJob.mapJobs();
@@ -74,29 +59,6 @@ void CollageManager::combineImages(unsigned          templateIndex,
 
   mCollageMakerJob.mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob);
-}
-
-CollageTemplateInfo CollageManager::parseTemplatePath(Path path)
-{
-  CollageTemplateInfo collageTemplateInfo;
-
-  collageTemplateInfo.path = path;
-  collageTemplateInfo.name = path.stem().string();
-  collageTemplateInfo.name =
-      std::regex_replace(collageTemplateInfo.name, std::regex("-"), " ");
-  collageTemplateInfo.name =
-      std::regex_replace(collageTemplateInfo.name, std::regex("_"), " ");
-
-  std::string imageCountStr =
-      collageTemplateInfo.name.substr(0, collageTemplateInfo.name.find('-'));
-
-  try {
-    collageTemplateInfo.imageCount = std::stoi(imageCountStr);
-  }
-  catch (std::invalid_argument &) {
-    PBDev::basicAssert(false);
-  }
-  return collageTemplateInfo;
 }
 
 } // namespace PB
