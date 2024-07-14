@@ -298,14 +298,14 @@
                                         </ItemsPanelTemplate>
                                     </controls:GridView.ItemsPanel>
                                     <controls:GridView.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="underlying:CollageTemplateInfo">
                                             <!--TODO: Setup this ration based on the page size-->
                                             <Border Background="Black"
                                                     Width="124"
                                                     Height="87">
                                                 <Grid>
                                                     <Image x:Name="CollageTemplateImage"
-                                                           Source="{Binding}" />
+                                                           Source="{x:Bind Path}" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>

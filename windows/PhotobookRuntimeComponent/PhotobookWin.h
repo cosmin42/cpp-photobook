@@ -2,6 +2,8 @@
 
 #include "PhotobookWin.g.h"
 
+#include "CollageTemplateInfo.g.h"
+#include "CollageTemplateInfo.h"
 #include "ImageViews.h"
 #include "Int32Pair.g.h"
 #include "PBError.h"
@@ -143,21 +145,26 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     }
   }
 
-  Windows::Foundation::Collections::IVector<winrt::hstring>
+  Windows::Foundation::Collections::IVector<
+      PhotobookRuntimeComponent::CollageTemplateInfo>
   CollageTemplatesThumbnailsList()
   {
     auto collageTemplateManager = mPhotobook->collageManager();
 
     if (collageTemplateManager == nullptr) {
-      return winrt::single_threaded_vector<winrt::hstring>();
+      return winrt::single_threaded_vector<
+          PhotobookRuntimeComponent::CollageTemplateInfo>();
     }
 
-    auto paths = collageTemplateManager->getTemplatesPaths();
+    auto collageTemplateInfoList = collageTemplateManager->getTemplatesPaths();
 
-    auto managedPaths = winrt::single_threaded_vector<winrt::hstring>();
+    auto managedPaths = winrt::single_threaded_vector<
+        PhotobookRuntimeComponent::CollageTemplateInfo>();
 
-    for (auto path : paths) {
-      //managedPaths.Append(winrt::to_hstring(path.string()));
+    for (auto collageTemplateInfo : collageTemplateInfoList) {
+
+      managedPaths.Append(
+          winrt::make<CollageTemplateInfo>(collageTemplateInfo));
     }
     return managedPaths;
   }

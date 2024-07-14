@@ -33,7 +33,7 @@ TEST(TestDrawingService, TestSvgToPng)
 
   drawingServce.renderToStream(id, outFile,
                                std::filesystem::current_path() / "res" /
-                                   "template_4to3-1240x877.svg",
+                                   "4to3-1240x877.svg",
                                {2480 / 2, 1754 / 2});
   outFile.~SkFILEWStream();
   for (auto i = 0; i < 10; ++i) {

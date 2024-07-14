@@ -30,5 +30,5 @@ TEST(TestCollageAssistant, ExtractProfile)
   }
 
   std::filesystem::remove(std::filesystem::current_path() /
-                          "template_4to3-2480x1754.svg");
+                          "4to3-2480x1754.svg");
 }

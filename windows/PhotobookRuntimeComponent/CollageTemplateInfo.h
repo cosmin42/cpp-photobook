@@ -8,13 +8,11 @@
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
 struct CollageTemplateInfo : CollageTemplateInfoT<CollageTemplateInfo> {
-  CollageTemplateInfo() {}
-  explicit CollageTemplateInfo(winrt::hstring name, winrt::hstring path,
-                               unsigned imageCount)
-      : mCollageTemplateInfo{winrt::to_string(name),
-                             PBDev::Path(winrt::to_string(path)), imageCount}
+  explicit CollageTemplateInfo(PB::CollageTemplateInfo collageTemplateInfo)
+      : mCollageTemplateInfo(collageTemplateInfo)
   {
   }
+
   ~CollageTemplateInfo() = default;
 
   winrt::hstring Name() const
@@ -45,9 +43,3 @@ private:
   PB::CollageTemplateInfo mCollageTemplateInfo;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
-
-namespace winrt::PhotobookRuntimeComponent::factory_implementation {
-struct CollageTemplateInfo
-    : CollageTemplateInfoT<CollageTemplateInfo,
-                           implementation::CollageTemplateInfo> {};
-} // namespace winrt::PhotobookRuntimeComponent::factory_implementation

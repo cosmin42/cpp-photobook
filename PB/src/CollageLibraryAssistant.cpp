@@ -39,7 +39,7 @@ Path CollageLibraryAssistant::createTemplateThumbnail(
   std::replace(originalName.begin(), originalName.end(), '.', '-');
 
   if (filename.empty()) {
-    filename = "template_" + originalName + "_" + aspectRatio() + "-" +
+    filename = originalName + "_" + aspectRatio() + "-" +
                std::to_string(pageSize.width) + "x" +
                std::to_string(pageSize.height) + ".svg";
   }

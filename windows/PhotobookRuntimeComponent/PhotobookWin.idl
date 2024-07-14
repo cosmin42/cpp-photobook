@@ -6,6 +6,7 @@ import "VirtualImagePtr.idl";
 import "ImageMonitor.idl";
 import "StagedImagesListener.idl";
 import "ImageMonitorListener.idl";
+import "CollageTemplateInfo.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -48,7 +49,7 @@ runtimeclass PhotobookWin
   void ExportPDFLibharu(String name, String path);
   void ExportJPGAlbum(String name, String path);
 
-  IVector<String> CollageTemplatesThumbnailsList();
+  IVector<CollageTemplateInfo> CollageTemplatesThumbnailsList();
   void            MakeCollage(IVector<UInt32> images, UInt32 collageName);
 
   static VirtualImagePtr copyImage(VirtualImagePtr image);

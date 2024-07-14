@@ -91,7 +91,7 @@
 		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
 	</PropertyGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)&#xD;&#xA;xcopy /y /s /e $(SolutionDir)..\PB\pb-assets $(OutDir)\AppX" />
+		<Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))*.dll $(OutDir)&#xD;&#xA;xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)\AppX\&#xD;&#xA;xcopy /y /s /e /d $(SolutionDir)..\PB\pb-assets $(OutDir)\AppX&#xD;&#xA;xcopy /y /s /e /d $(SolutionDir)..\PB\third-party\podofo-build\lib\x64\Debug\*.dll $(OutDir)\AppX\" />
 		<Exec Command="xcopy /y /d $(SolutionDir)..\PB\build-$(Platform)\$(Configuration)\*.dll $(OutDir) " />
 		<Exec Command="xcopy /y $(SolutionDir)..\vcpkg\installed\$(Platform)-windows\debug\bin\*.dll $(OutDir)" />
 		<Exec Command="xcopy /y /d $([MSBuild]::NormalizeDirectory('$(SolutionDir)', '_build', '$(Platform)', '$(Configuration)'))\*.dll $(OutDir)\AppX\" />

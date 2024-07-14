@@ -61,7 +61,7 @@ namespace PhotobookNet
         {
             this.InitializeComponent();
 
-            mCollageIconsPaths = new ObservableCollection<string>();
+            mCollageIconsPaths = new ObservableCollection<CollageTemplateInfo>();
 
             mDragAndDropSelectedImages = new Collection<VirtualImagePtr>();
 
@@ -565,7 +565,7 @@ namespace PhotobookNet
 
         /* Book Lines */
 
-        public ObservableCollection<string> mCollageIconsPaths { get; set; }
+        public ObservableCollection<CollageTemplateInfo> mCollageIconsPaths { get; set; }
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
