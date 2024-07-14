@@ -31,6 +31,7 @@ namespace PhotobookNet
         MenuFlyout mMenuFlyout;
         readonly ObservableCollection<ProjectItem> mProjectsList;
         string mProjectUUID;
+        string mLastClickedProjectName;
 
         private PhotobookWin mPhotobook;
 
@@ -69,6 +70,7 @@ namespace PhotobookNet
         {
             var item = args.ClickedItem as ProjectItem;
             var projectName = item.Name;
+            mLastClickedProjectName = projectName;
             mPhotobook.RecallProject(projectName);
         }
 
@@ -77,7 +79,7 @@ namespace PhotobookNet
             var newProjectName = mPhotobook.GenerateProjectName();
 
             mPhotobook.NewProject(newProjectName);
-
+            PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
             Frame.Navigate(typeof(TableContentPage));
         }
 
@@ -88,6 +90,7 @@ namespace PhotobookNet
 
         public void OnProjectRead()
         {
+            PhotobookSingletonWrapper.Inst().UpdateTitle(mLastClickedProjectName);
             Frame.Navigate(typeof(TableContentPage));
         }
 
@@ -102,11 +105,20 @@ namespace PhotobookNet
                 {
                     var newProjectName = mPhotobook.GenerateProjectName();
                     mPhotobook.NewProject(newProjectName);
+                    PhotobookSingletonWrapper.Inst().UpdateTitle(newProjectName);
                     PhotobookSingletonWrapper.Inst().Post(() =>
                     {
                         Frame.Navigate(typeof(TableContentPage));
                     });
                 }
+                else
+                {
+                    PhotobookSingletonWrapper.Inst().UpdateTitle();
+                }
+            }
+            else
+            {
+                PhotobookSingletonWrapper.Inst().UpdateTitle();
             }
         }
 

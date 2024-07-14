@@ -31,6 +31,7 @@ namespace PhotobookNet
             var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
 
             PhotobookSingletonWrapper.Inst().SetWindowHandle(windowHandle);
+            PhotobookSingletonWrapper.Inst().SetChangeTitleHandler((title) => { this.Title = title; });
 
             rootFrame.NavigationFailed += OnNavigationFailed;
 

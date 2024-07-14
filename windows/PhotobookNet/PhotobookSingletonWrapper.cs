@@ -13,6 +13,7 @@ namespace PhotobookNet
         private PhotobookWin mPhotobook = null;
         private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
         private Action mOnWindowClosed = null;
+        private Action<string> mChangeTitleHander = null;
 
         private nint mWindowHandle;
 
@@ -47,6 +48,21 @@ namespace PhotobookNet
         public void SetWindowHandle(nint handle)
         {
             mWindowHandle = handle;
+        }
+
+        public void SetChangeTitleHandler(Action<string> changeTitleHandler)
+        {
+            mChangeTitleHander = changeTitleHandler;
+        }
+
+        public void UpdateTitle(string projectName = null)
+        {
+            string titleText = "Photobook Noir";
+            if (!string.IsNullOrEmpty(projectName))
+            {
+                titleText += " - " + projectName;
+            }
+            mChangeTitleHander(titleText);
         }
 
         public void SetThisThreadAsMainDispatcher()
