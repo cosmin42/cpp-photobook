@@ -5,6 +5,8 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
+#include <regex>
+
 namespace PB {
 
 CollageThumbnailsMakerJob::CollageThumbnailsMakerJob(Path localStatePath,
@@ -52,6 +54,10 @@ CollageTemplateInfo CollageThumbnailsMakerJob::parseTemplatePath(Path path)
 
   collageTemplateInfo.path = path;
   collageTemplateInfo.name = path.stem().string();
+  collageTemplateInfo.name =
+      std::regex_replace(collageTemplateInfo.name, std::regex("-"), " ");
+  collageTemplateInfo.name =
+      std::regex_replace(collageTemplateInfo.name, std::regex("_"), " ");
 
   std::string imageCountStr =
       collageTemplateInfo.name.substr(0, collageTemplateInfo.name.find('-'));
@@ -62,6 +68,18 @@ CollageTemplateInfo CollageThumbnailsMakerJob::parseTemplatePath(Path path)
   catch (std::invalid_argument &) {
     PBDev::basicAssert(false);
   }
+
+  std::istringstream       iss(collageTemplateInfo.name);
+  std::vector<std::string> words{std::istream_iterator<std::string>{iss},
+                                 std::istream_iterator<std::string>{}};
+  collageTemplateInfo.name = "";
+
+  PBDev::basicAssert(words.size() > 3);
+
+  for (auto i = 1; i < words.size() - 2; ++i) {
+    collageTemplateInfo.name += words[i] + " ";
+  }
+
   return collageTemplateInfo;
 }
 

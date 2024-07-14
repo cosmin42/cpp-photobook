@@ -300,12 +300,17 @@
                                     <controls:GridView.ItemTemplate>
                                         <DataTemplate x:DataType="underlying:CollageTemplateInfo">
                                             <!--TODO: Setup this ration based on the page size-->
-                                            <Border Background="Black"
-                                                    Width="124"
-                                                    Height="87">
+                                            <Border Height="120">
                                                 <Grid>
-                                                    <Image x:Name="CollageTemplateImage"
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Image Grid.Row="0"
                                                            Source="{x:Bind Path}" />
+                                                    <TextBlock Grid.Row="1"
+                                                               Foreground="{StaticResource MainFontColor}"
+                                                               Text="{x:Bind Name}" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>

@@ -5,6 +5,8 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
+#include <regex>
+
 namespace PB {
 CollageManager::CollageManager(Path localStatePath, Path installPath)
     : mJob(localStatePath, installPath),
@@ -80,6 +82,10 @@ CollageTemplateInfo CollageManager::parseTemplatePath(Path path)
 
   collageTemplateInfo.path = path;
   collageTemplateInfo.name = path.stem().string();
+  collageTemplateInfo.name =
+      std::regex_replace(collageTemplateInfo.name, std::regex("-"), " ");
+  collageTemplateInfo.name =
+      std::regex_replace(collageTemplateInfo.name, std::regex("_"), " ");
 
   std::string imageCountStr =
       collageTemplateInfo.name.substr(0, collageTemplateInfo.name.find('-'));
