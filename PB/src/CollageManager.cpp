@@ -39,17 +39,19 @@ void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
   mTaskCruncher = taskCruncher;
 }
 
-std::vector<Path> CollageManager::getTemplatesPaths(Path directoryPath)
+std::vector<CollageTemplateInfo>
+CollageManager::getTemplatesPaths(Path directoryPath)
 {
-  std::vector<Path> templatesPaths;
+  std::vector<CollageTemplateInfo> collageTemplatesInfo;
 
   for (const auto &entry : std::filesystem::directory_iterator(directoryPath)) {
     if (entry.is_regular_file()) {
-      templatesPaths.push_back(entry.path());
+      auto collageTemplateInfo = parseTemplatePath(entry.path());
+      collageTemplatesInfo.push_back(collageTemplateInfo);
     }
   }
 
-  return templatesPaths;
+  return collageTemplatesInfo;
 }
 
 void CollageManager::generateTemplatesImages()
@@ -58,7 +60,7 @@ void CollageManager::generateTemplatesImages()
   mTaskCruncher->crunch("collage-thumbnails", mJob);
 }
 
-std::vector<Path> CollageManager::getTemplatesPaths() const
+std::vector<CollageTemplateInfo> CollageManager::getTemplatesPaths() const
 {
   return mJob.getTemplatesPaths();
 }
@@ -68,8 +70,27 @@ void CollageManager::combineImages(unsigned          templateIndex,
 {
   auto templatePaths = mJob.getSourceTemplates();
 
-  mCollageMakerJob.mapJobs(templatePaths.at(templateIndex), imagesPaths);
+  mCollageMakerJob.mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob);
+}
+
+CollageTemplateInfo CollageManager::parseTemplatePath(Path path)
+{
+  CollageTemplateInfo collageTemplateInfo;
+
+  collageTemplateInfo.path = path;
+  collageTemplateInfo.name = path.stem().string();
+
+  std::string imageCountStr =
+      collageTemplateInfo.name.substr(0, collageTemplateInfo.name.find('-'));
+
+  try {
+    collageTemplateInfo.imageCount = std::stoi(imageCountStr);
+  }
+  catch (std::invalid_argument &) {
+    PBDev::basicAssert(false);
+  }
+  return collageTemplateInfo;
 }
 
 } // namespace PB

@@ -13,6 +13,7 @@ SVGInflater::SVGInflater(Path templatesFolder)
     : mTemplatesFolder(templatesFolder)
 {
   auto success = std::filesystem::create_directories(templatesFolder);
+  UNUSED(success);
   for (const auto &entry :
        std::filesystem::directory_iterator(templatesFolder)) {
     if (entry.is_regular_file() && entry.path().extension() == ".template") {

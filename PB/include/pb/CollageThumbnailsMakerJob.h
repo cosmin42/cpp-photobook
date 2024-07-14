@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <pb/CollageLibraryAssistant.h>
+#include <pb/CollageTemplateInfo.h>
 #include <pb/DrawingService.h>
 #include <pb/MapReducer.h>
 #include <pb/SVGInflater.h>
@@ -30,8 +31,8 @@ public:
 
   void mapJobs();
 
-  std::vector<Path> getTemplatesPaths() const;
-  std::vector<Path> getSourceTemplates() const;
+  std::vector<CollageTemplateInfo> getTemplatesPaths() const;
+  std::vector<CollageTemplateInfo> getSourceTemplates() const;
 
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override;
@@ -51,16 +52,18 @@ private:
   std::shared_ptr<SkiaResources>    mResources = nullptr;
   DrawingService                    mDrawingService;
   std::shared_ptr<Project>          mProject = nullptr;
-  std::vector<Path>                 mGeneratedLibraries;
+  std::vector<CollageTemplateInfo>  mGeneratedLibraries;
   PBDev::SkiaResourcesId            mResourcesProviderId;
   std::vector<Path>                 mNumberedImages;
-  std::vector<Path>                 mSourceTemplates;
+  std::vector<CollageTemplateInfo>  mSourceTemplates;
   std::vector<Path>                 mProcessedSVGPaths;
   std::vector<IdentifyableFunction> mFunctions;
 
   unsigned mIndex = 0;
 
-  std::vector<Path> getTemplatesPaths(Path directoryPath);
+  static CollageTemplateInfo parseTemplatePath(Path path);
+
+  std::vector<CollageTemplateInfo> getTemplatesPaths(Path directoryPath);
 
   void createPlaceholdersFolder();
 

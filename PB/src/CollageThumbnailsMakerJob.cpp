@@ -31,26 +31,48 @@ void CollageThumbnailsMakerJob::configureProject(
   mProject = project;
 }
 
-std::vector<Path>
+std::vector<CollageTemplateInfo>
 CollageThumbnailsMakerJob::getTemplatesPaths(Path directoryPath)
 {
-  std::vector<Path> templatesPaths;
+  std::vector<CollageTemplateInfo> collageTemplatesInfo;
 
   for (const auto &entry : std::filesystem::directory_iterator(directoryPath)) {
     if (entry.is_regular_file()) {
-      templatesPaths.push_back(entry.path());
+      auto collageTemplateInfo = parseTemplatePath(entry.path());
+      collageTemplatesInfo.push_back(collageTemplateInfo);
     }
   }
 
-  return templatesPaths;
+  return collageTemplatesInfo;
 }
 
-std::vector<Path> CollageThumbnailsMakerJob::getTemplatesPaths() const
+CollageTemplateInfo CollageThumbnailsMakerJob::parseTemplatePath(Path path)
+{
+  CollageTemplateInfo collageTemplateInfo;
+
+  collageTemplateInfo.path = path;
+  collageTemplateInfo.name = path.stem().string();
+
+  std::string imageCountStr =
+      collageTemplateInfo.name.substr(0, collageTemplateInfo.name.find('-'));
+
+  try {
+    collageTemplateInfo.imageCount = std::stoi(imageCountStr);
+  }
+  catch (std::invalid_argument &) {
+    PBDev::basicAssert(false);
+  }
+  return collageTemplateInfo;
+}
+
+std::vector<CollageTemplateInfo>
+CollageThumbnailsMakerJob::getTemplatesPaths() const
 {
   return mGeneratedLibraries;
 }
 
-std::vector<Path> CollageThumbnailsMakerJob::getSourceTemplates() const
+std::vector<CollageTemplateInfo>
+CollageThumbnailsMakerJob::getSourceTemplates() const
 {
   return mSourceTemplates;
 }
@@ -78,7 +100,7 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
 
-  Path path = mSourceTemplates.at(i);
+  Path path = mSourceTemplates.at(i).path;
   spdlog::info("Generating thumbnail for template: {}", path.string());
   auto processedPath = mAssistant.createTemplateThumbnail(mNumberedImages, path,
                                                           {4, 3}, imageSize);
@@ -103,8 +125,8 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
 
   mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
                                  imageSize);
-
-  mGeneratedLibraries.push_back(outFilePath);
+  auto collageTemplateInfo = parseTemplatePath(outFilePath);
+  mGeneratedLibraries.push_back(collageTemplateInfo);
 }
 
 void CollageThumbnailsMakerJob::mapJobs()
@@ -123,10 +145,11 @@ void CollageThumbnailsMakerJob::mapJobs()
 
   mNumberedImages = mAssistant.createNumberedImages(imageSize);
 
-  for (auto &path : templatesList) {
-    spdlog::info("Generating thumbnail for template: {}", path.string());
+  for (auto &collageTemplateInfo : templatesList) {
+    spdlog::info("Generating thumbnail for template: {}",
+                 collageTemplateInfo.path.string());
     auto processedPath = mAssistant.createTemplateThumbnail(
-        mNumberedImages, path, {4, 3}, imageSize);
+        mNumberedImages, collageTemplateInfo.path, {4, 3}, imageSize);
 
     processedSVGPaths.push_back(processedPath);
   }

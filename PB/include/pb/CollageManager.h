@@ -25,13 +25,15 @@ public:
   void generateTemplatesImages();
   void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
 
-  std::vector<Path> getTemplatesPaths() const;
+  std::vector<CollageTemplateInfo> getTemplatesPaths() const;
 
 private:
   CollageThumbnailsMakerJob     mJob;
   CollageMakerJob               mCollageMakerJob;
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
 
-  std::vector<Path> getTemplatesPaths(Path directoryPath);
+  static CollageTemplateInfo parseTemplatePath(Path path);
+
+  std::vector<CollageTemplateInfo> getTemplatesPaths(Path directoryPath);
 };
 } // namespace PB
