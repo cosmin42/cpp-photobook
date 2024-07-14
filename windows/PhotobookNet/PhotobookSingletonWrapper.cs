@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PhotobookRuntimeComponent;
-using Windows.Gaming.XboxLive;
+using WindowsDisplayAPI;
 
 namespace PhotobookNet
 {
@@ -22,7 +20,28 @@ namespace PhotobookNet
         {
             var localFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
             var installFolderPath = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-            mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString(), new Int32Pair(2560, 1440));
+            var screenSize = GetBiggestScreenResolution();
+            mPhotobook = new PhotobookWin(localFolderPath.ToString(), installFolderPath.ToString(), screenSize);
+        }
+
+        internal Int32Pair GetBiggestScreenResolution()
+        {
+            uint maxDisplaySurface = 0;
+            Int32Pair maxResolution = new Int32Pair(0, 0);
+
+            Debug.Assert(Display.GetDisplays().Count() > 0, "No displays found.");
+
+            foreach (Display display in Display.GetDisplays())
+            {
+                var resolution = display.CurrentSetting.Resolution;
+
+                if (resolution.Width * resolution.Height > maxDisplaySurface)
+                {
+                    maxResolution = new Int32Pair(resolution.Width, resolution.Height);
+                    maxDisplaySurface = (uint)(resolution.Width * resolution.Height);
+                }
+            }
+            return maxResolution;
         }
 
         public void SetWindowHandle(nint handle)
