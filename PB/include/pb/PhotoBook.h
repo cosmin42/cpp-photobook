@@ -98,7 +98,7 @@ public:
   void onThumbnailsCreated() override;
   void onCollageThumbnailsMakerError() override;
 
-  void onCollageCreated(unsigned index) override;
+  void onCollageCreated(unsigned index, Path imagePath) override;
   void onCollageMakerError() override;
 
   std::vector<Path> pendingMappingPathList() const;

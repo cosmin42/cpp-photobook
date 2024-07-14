@@ -63,6 +63,12 @@ public:
     mManagedListener.OnCollageThumbnailsCreated();
   }
 
+  void onCollageCreated(unsigned                          index,
+                        std::shared_ptr<PB::VirtualImage> newImage) override
+  {
+    mManagedListener.OnCollageCreated(index, winrt::make<VirtualImagePtr>(newImage));
+  }
+
 private:
   // TODO: Check if not & is enough;
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;

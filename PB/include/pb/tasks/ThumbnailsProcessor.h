@@ -46,6 +46,11 @@ public:
   void clearJob(Path path);
   void clearJobs();
 
+  static std::pair<Path, Path> assembleOutputPaths(Path        localStatePath,
+                                                   int         index,
+                                                   std::string groupIdentifier,
+                                                   std::string projectName);
+
 private:
   std::pair<Path, Path>    assembleOutputPaths(int         index,
                                                std::string groupIdentifier,

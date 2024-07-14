@@ -286,5 +286,10 @@ namespace PhotobookNet
                 f();
             });
         }
+
+        public void OnCollageCreated(uint index, VirtualImagePtr newImage)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

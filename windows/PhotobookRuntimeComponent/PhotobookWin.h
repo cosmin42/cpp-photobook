@@ -102,6 +102,13 @@ public:
         winrt::make<ProgressInfo>(undefinedProgress));
   }
 
+  void onCollageCreated(unsigned                          index,
+                        std::shared_ptr<PB::VirtualImage> newImage) override
+  {
+    mManagedListener.OnCollageCreated(index,
+                                      winrt::make<VirtualImagePtr>(newImage));
+  }
+
 private:
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;
 };

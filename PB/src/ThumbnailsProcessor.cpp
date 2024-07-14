@@ -113,21 +113,28 @@ void ThumbnailsProcessor::clearJob(Path path) { mStopSources.erase(path); }
 void ThumbnailsProcessor::clearJobs() { mStopSources.clear(); }
 
 std::pair<Path, Path>
-ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
-                                         std::string thumbnailsDirectoryName)
+ThumbnailsProcessor::assembleOutputPaths(Path localStatePath, int index,
+                                         std::string groupIdentifier,
+                                         std::string projectName)
 {
   PBDev::basicAssert(index >= 0);
 
-  auto smallOutputPath = mPlatformInfo->localStatePath / "th" /
-                         thumbnailsDirectoryName /
+  auto smallOutputPath = localStatePath / "th" / projectName /
                          (OneConfig::SMALL_THUMBNAIL_NAME + groupIdentifier +
                           std::to_string(index) + OneConfig::JPG_EXTENSION);
 
-  auto mediumOutputPath = mPlatformInfo->localStatePath / "th" /
-                          thumbnailsDirectoryName /
+  auto mediumOutputPath = localStatePath / "th" / projectName /
                           (OneConfig::MEDIUM_THUMBNAIL_NAME + groupIdentifier +
                            std::to_string(index) + OneConfig::JPG_EXTENSION);
 
   return {smallOutputPath, mediumOutputPath};
+}
+
+std::pair<Path, Path>
+ThumbnailsProcessor::assembleOutputPaths(int index, std::string groupIdentifier,
+                                         std::string thumbnailsDirectoryName)
+{
+  return assembleOutputPaths(mPlatformInfo->localStatePath, index,
+                             groupIdentifier, thumbnailsDirectoryName);
 }
 } // namespace PB

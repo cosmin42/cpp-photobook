@@ -18,7 +18,7 @@ interface PhotobookListener
   void OnError(PBError error);
 
   void OnStagedImageAdded(IVector<VirtualImagePtr> photos, Int32 index);
-  void OnStagedImageRemoved(IVector<UInt32> removedIndexes) = 0;
+  void OnStagedImageRemoved(IVector<UInt32> removedIndexes);
 
   void OnMappingStarted(String path);
   void OnMappingFinished(String path);
@@ -30,6 +30,8 @@ interface PhotobookListener
                         ProgressInfo undefinedProgress);
 
   void OnCollageThumbnailsCreated();
+
+  void OnCollageCreated(UInt32 index, VirtualImagePtr newImage);
 
   void Post(Functor f);
 };

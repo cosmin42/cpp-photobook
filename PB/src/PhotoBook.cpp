@@ -44,6 +44,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
   mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
 
+  auto collageMakerListener = dynamic_cast<PB::CollageMakerListener *>(this);
+  PBDev::basicAssert(collageMakerListener != nullptr);
+  mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
+
   mPersistenceService->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
@@ -371,7 +375,33 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
-void Photobook::onCollageCreated(unsigned index) {}
+void Photobook::onCollageCreated(unsigned index, Path imagePath)
+{
+  auto imageHash = mPersistenceService->hash(imagePath);
+
+  auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
+      mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
+      boost::uuids::to_string(project()->currentProjectUUID()));
+
+  auto newImage = ImageFactory::inst().createRegularImage(imagePath);
+
+  std::function<void()> onFinished =
+      [this, index{index}, newImage{newImage}, imagePath{imagePath},
+       mediumPath{mediumPath}, smallPath{smallPath}]() {
+        newImage->setSizePath(imagePath, mediumPath, smallPath);
+
+        post([this, index{index}, newImage{newImage}]() {
+          mParent->onCollageCreated(index, newImage);
+        });
+      };
+
+  ResizeTask resizeTask(imagePath, mediumPath, smallPath, onFinished,
+                        mPlatformInfo->screenSize.first,
+                        mPlatformInfo->screenSize.second,
+                        std::stop_source().get_token());
+
+  resizeTask();
+}
 
 void Photobook::onCollageMakerError() {}
 

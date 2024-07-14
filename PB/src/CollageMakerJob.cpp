@@ -42,20 +42,24 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
   }
 
   for (auto i = 0; i < imagesPaths.size() / 2; ++i) {
+
+    std::string newImageName =
+        boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
+
+    Path projectThumbnailsRoot = mLocalStatePath / "th" / mProjectId;
+
     auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
+
     mCollageIndex[reducerId] = (unsigned)i;
+    mCollagePath[reducerId] = projectThumbnailsRoot / newImageName;
 
     mFunctions.push_back(
-        {reducerId, [this, imagesNames{imagesNames}, templatePath{templatePath},
-                     imageSize{imageSize}, localStatePath{mLocalStatePath}]() {
-           Path projectThumbnailsRoot = localStatePath / "th" / mProjectId;
-
+        {reducerId,
+         [this, imagesNames{imagesNames}, templatePath{templatePath},
+          imageSize{imageSize}, projectThumbnailsRoot{projectThumbnailsRoot},
+          newImageName{newImageName}]() {
            Path temporarySvgFilePath =
                projectThumbnailsRoot / TEMPORARY_SVG_FILE_NAME;
-
-           std::string newImageName =
-               boost::uuids::to_string(boost::uuids::random_generator()()) +
-               ".png";
 
            auto processedPath = mAssistant.createTemplateThumbnail(
                imagesNames, templatePath, {4, 3}, imageSize,
@@ -87,7 +91,8 @@ CollageMakerJob::getNext(std::stop_token stopToken)
 void CollageMakerJob::onFinished(PBDev::MapReducerTaskId reducerTaskId)
 {
   if (mCollageIndex.find(reducerTaskId) != mCollageIndex.end()) {
-    mListener->onCollageCreated(mCollageIndex.at(reducerTaskId));
+    mListener->onCollageCreated(mCollageIndex.at(reducerTaskId),
+                                mCollagePath.at(reducerTaskId));
   }
 }
 

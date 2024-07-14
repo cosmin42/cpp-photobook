@@ -11,7 +11,7 @@ class CollageMakerListener {
 public:
   virtual ~CollageMakerListener() = default;
 
-  virtual void onCollageCreated(unsigned index) = 0;
+  virtual void onCollageCreated(unsigned index, Path imagePath) = 0;
   virtual void onCollageMakerError() = 0;
 
 private:
@@ -54,6 +54,10 @@ private:
   std::unordered_map<PBDev::MapReducerTaskId, unsigned,
                      boost::hash<PBDev::MapReducerTaskId>>
       mCollageIndex;
+
+  std::unordered_map<PBDev::MapReducerTaskId, Path,
+                     boost::hash<PBDev::MapReducerTaskId>>
+      mCollagePath;
 
   unsigned mIndex = 0;
 };

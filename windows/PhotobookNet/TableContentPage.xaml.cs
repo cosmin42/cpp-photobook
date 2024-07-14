@@ -1196,5 +1196,14 @@ namespace PhotobookNet
                 f();
             });
         }
+
+        public void OnCollageCreated(uint index, VirtualImagePtr newImage)
+        {
+            doNothing = true;
+            var newImages = new List<VirtualImagePtr>();
+            newImages.Add(newImage);
+            mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
+            mStagedImageCollection.Insert((int)index, newImage);
+        }
     }
 }
