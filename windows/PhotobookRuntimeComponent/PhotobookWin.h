@@ -157,7 +157,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     auto managedPaths = winrt::single_threaded_vector<winrt::hstring>();
 
     for (auto path : paths) {
-      managedPaths.Append(winrt::to_hstring(path.string()));
+      //managedPaths.Append(winrt::to_hstring(path.string()));
     }
     return managedPaths;
   }

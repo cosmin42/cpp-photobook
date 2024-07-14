@@ -148,6 +148,9 @@
     <ClInclude Include="PhotobookWin.h">
       <DependentUpon>PhotobookWin.idl</DependentUpon>
     </ClInclude>
+    <ClInclude Include="CollageTemplateInfo.h">
+      <DependentUpon>CollageTemplateInfo.idl</DependentUpon>
+    </ClInclude>
     <ClInclude Include="Int32Pair.h">
       <DependentUpon>Int32Pair.idl</DependentUpon>
     </ClInclude>
@@ -213,6 +216,9 @@
     <ClCompile Include="ImageViews.cpp">
       <DependentUpon>ImageViews.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="CollageTemplateInfo.cpp">
+      <DependentUpon>CollageTemplateInfo.idl</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Int32Pair.cpp">
       <DependentUpon>Int32Pair.idl</DependentUpon>
     </ClCompile>
@@ -262,6 +268,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Midl Include="CollageTemplateInfo.idl" />
     <Midl Include="ImageMonitorListener.idl" />
     <Midl Include="Int32Pair.idl" />
     <Midl Include="PhotobookWin.idl" />

@@ -6,6 +6,6 @@ namespace PB {
 struct CollageTemplateInfo {
   std::string name;
   Path        path;
-  int         imageCount;
+  unsigned    imageCount;
 };
 } // namespace PB

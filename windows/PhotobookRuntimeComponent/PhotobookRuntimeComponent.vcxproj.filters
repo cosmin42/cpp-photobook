@@ -29,6 +29,7 @@
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
     <ClCompile Include="StagedImagesListener.cpp" />
+    <ClCompile Include="CollageTemplateInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="ProjectMetadataEntry.h" />
     <ClInclude Include="VICollectionStatefulIterator.h" />
     <ClInclude Include="StagedImagesListener.h" />
+    <ClInclude Include="CollageTemplateInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotobookWin.idl" />
@@ -61,6 +63,7 @@
     <Midl Include="StagedImagesListener.idl" />
     <Midl Include="ImageMonitorListener.idl" />
     <Midl Include="Int32Pair.idl" />
+    <Midl Include="CollageTemplateInfo.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />

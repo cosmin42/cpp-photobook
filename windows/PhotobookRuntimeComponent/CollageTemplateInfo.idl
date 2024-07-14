@@ -1,0 +1,12 @@
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass CollageTemplateInfo
+{
+  CollageTemplateInfo(String name, String path, UInt32 imageCount);
+  String Name;
+  String Path;
+  UInt32 ImageCount;
+}
+
+} // namespace PhotobookRuntimeComponent
