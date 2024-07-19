@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
+using WinRT;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -494,6 +495,26 @@ namespace PhotobookNet
         private void OnCollageSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
+            if (collageButtonsEnabled)
+            {
+
+                var selection = GetSelectionIndex();
+                bool imagesAreSelected = selection.StagedPhotoIndex.Count > 0;
+
+                if (imagesAreSelected)
+                {
+                    var imageCount = (args.AddedItems.First() as CollageTemplateInfo).ImageCount;
+
+                    uint imagesLeftOutside = (uint)selection.StagedPhotoIndex.Count % imageCount;
+
+                    collageButtonsEnabled = imagesAreSelected && imagesLeftOutside == 0;
+                }
+                else
+                {
+                    collageButtonsEnabled = false;
+                }
+            }
+
             PreviewCollage.IsEnabled = collageButtonsEnabled;
             MakeCollage.IsEnabled = collageButtonsEnabled;
         }
@@ -597,7 +618,6 @@ namespace PhotobookNet
             }
 
             var selection = GetSelectionIndex();
-
             bool imagesAreSelected = selection.StagedPhotoIndex.Count > 0;
             if (imagesAreSelected)
             {
