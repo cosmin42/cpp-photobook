@@ -497,7 +497,6 @@ namespace PhotobookNet
             var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
             if (collageButtonsEnabled)
             {
-
                 var selection = GetSelectionIndex();
                 bool imagesAreSelected = selection.StagedPhotoIndex.Count > 0;
 

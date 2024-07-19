@@ -35,6 +35,8 @@ void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
           .setTextShapingFactory(SkShapers::BestAvailable())
           .make(*stream);
 
+  PBDev::basicAssert(svgDOM != nullptr);
+
   // Create a surface to render the SVG
   SkImageInfo info = SkImageInfo::MakeN32Premul(originalImageSize.width,
                                                 originalImageSize.height);
