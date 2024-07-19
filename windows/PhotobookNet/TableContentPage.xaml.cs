@@ -595,6 +595,37 @@ namespace PhotobookNet
                 UpdateGalleryLabel();
                 GalleryCanvas.Invalidate();
             }
+
+            var selection = GetSelectionIndex();
+
+            bool imagesAreSelected = selection.StagedPhotoIndex.Count > 0;
+            if (imagesAreSelected)
+            {
+
+                for (var i = 0; i < mCollageIconsPaths.Count; ++i)
+                {
+                    uint imagesLeftOutside = (uint)selection.StagedPhotoIndex.Count % mCollageIconsPaths[i].ImageCount;
+                    bool isTemplateFitting = imagesLeftOutside == 0;
+                    if (!isTemplateFitting)
+                    {
+                        mCollageIconsPaths[i].Info = "Select a multiple of " + mCollageIconsPaths[i].ImageCount;
+                    }
+                    else
+                    {
+                        mCollageIconsPaths[i].Info = "";
+                    }
+                    mCollageIconsPaths[i] = mCollageIconsPaths[i];
+                }
+            }
+            else
+            {
+                for (var i = 0; i < mCollageIconsPaths.Count; ++i)
+                {
+                    mCollageIconsPaths[i].Info = "";
+                    mCollageIconsPaths[i] = mCollageIconsPaths[i];
+                }
+            }
+
             mLinesExclusiveSelection = false;
         }
 

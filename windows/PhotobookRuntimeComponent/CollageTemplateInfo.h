@@ -19,12 +19,15 @@ struct CollageTemplateInfo : CollageTemplateInfoT<CollageTemplateInfo> {
   {
     return winrt::to_hstring(mCollageTemplateInfo.name);
   }
+
   winrt::hstring Path() const
   {
     return winrt::to_hstring(mCollageTemplateInfo.path.string());
   }
 
   uint32_t ImageCount() const { return mCollageTemplateInfo.imageCount; }
+
+  winrt::hstring Info() const { return mInfoText; }
 
   void Name(winrt::hstring const value)
   {
@@ -37,9 +40,12 @@ struct CollageTemplateInfo : CollageTemplateInfoT<CollageTemplateInfo> {
 
   void ImageCount(uint32_t value) { mCollageTemplateInfo.imageCount = value; }
 
+  void Info(winrt::hstring value) { mInfoText = value; }
+
   PB::CollageTemplateInfo Unwrap() { return mCollageTemplateInfo; }
 
 private:
   PB::CollageTemplateInfo mCollageTemplateInfo;
+  winrt::hstring          mInfoText;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

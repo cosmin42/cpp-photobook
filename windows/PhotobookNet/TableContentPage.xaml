@@ -277,7 +277,7 @@
                     </controls:TabViewItem>
                     <controls:TabViewItem Header="Collage Library"
                                           IsClosable="False">
-                        <Border BorderBrush="White"
+                        <Border BorderBrush="{StaticResource BorderColor}"
                                 BorderThickness="1"
                                 Padding="16,8"
                                 Grid.Row="0"
@@ -300,17 +300,22 @@
                                     <controls:GridView.ItemTemplate>
                                         <DataTemplate x:DataType="underlying:CollageTemplateInfo">
                                             <!--TODO: Setup this ration based on the page size-->
-                                            <Border Height="120">
+                                            <Border Height="180"
+                                                    BorderBrush="{StaticResource BorderColor}">
                                                 <Grid>
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="9*" />
+                                                        <RowDefinition Height="2*" />
+                                                        <RowDefinition Height="1*" />
                                                     </Grid.RowDefinitions>
                                                     <Image Grid.Row="0"
                                                            Source="{x:Bind Path}" />
                                                     <TextBlock Grid.Row="1"
                                                                Foreground="{StaticResource MainFontColor}"
                                                                Text="{x:Bind Name}" />
+                                                    <TextBlock Grid.Row="2"
+                                                               Foreground="{StaticResource MainFontColor}"
+                                                               Text="{x:Bind Info}" FontSize="10" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>

@@ -6,6 +6,7 @@ runtimeclass CollageTemplateInfo
   String Name;
   String Path;
   UInt32 ImageCount;
+  String Info;
 }
 
 } // namespace PhotobookRuntimeComponent
