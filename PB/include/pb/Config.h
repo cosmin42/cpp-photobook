@@ -44,6 +44,8 @@ static constexpr PaperSettings A4_PORTRAIT_PAPER = {PaperType::A4_Portrait, 300,
                                                     2480, 3508};
 static constexpr PaperSettings A3_PORTRAIT_PAPER = {PaperType::A3_Portrait, 300,
                                                     3508, 4920};
+static constexpr PaperSettings SQUARE_PAPER = {PaperType::Square_Paper, 300,
+                                               4000, 4000};
 
 static constexpr int MIN_PAPER_WIDTH = 200;
 static constexpr int MIN_PAPER_HEIGHT = 200;

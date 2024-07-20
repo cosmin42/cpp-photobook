@@ -43,7 +43,8 @@ enum class PaperType {
   A5_Portrait,
   A3_Landscape,
   A3_Portrait,
-  Custom
+  Custom,
+  Square_Paper
 };
 
 enum class VirtualImageType { None, Text, Regular, Test };

@@ -80,7 +80,7 @@ CollageTemplateInfo CollageThumbnailsMakerJob::parseTemplatePath(Path path)
     for (auto i = 1; i < words.size() - 2; ++i) {
       std::string word = words[i];
       PBDev::basicAssert(word.size() > 0);
-      word[0] = std::toupper(word[0]);
+      word[0] = (char)std::toupper(word[0]);
       collageTemplateInfo.name += word + " ";
     }
   }

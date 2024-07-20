@@ -311,6 +311,7 @@
                                                     <Image Grid.Row="0"
                                                            Source="{x:Bind Path}" />
                                                     <TextBlock Grid.Row="1"
+                                                               HorizontalAlignment="Center"
                                                                Foreground="{StaticResource MainFontColor}"
                                                                Text="{x:Bind Name}" />
                                                     <TextBlock Grid.Row="2"
