@@ -242,12 +242,15 @@ void Photobook::onPersistenceError(PBDev::Error error)
   mParent->onPersistenceError(error);
 }
 
-void Photobook::newProject(std::string name)
+void Photobook::newProject(std::string name, PaperSettings paperSettings)
 {
   mProjectName = name;
   // TODO: mPersistenceService should announce mImportLogic when the project was
   // updated
-  mPersistenceService->newProject(name, std::make_shared<Project>());
+  auto newProject = std::make_shared<Project>();
+  newProject->paperSettings = paperSettings;
+
+  mPersistenceService->newProject(name, newProject);
   mImportLogic.configure(mPersistenceService->currentProject());
   ImageFactory::inst().configure(mPersistenceService->currentProject());
 }

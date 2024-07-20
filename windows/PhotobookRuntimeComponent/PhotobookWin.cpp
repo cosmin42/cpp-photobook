@@ -20,9 +20,13 @@ void PhotobookWin::RecallProject(winrt::hstring name)
   mPhotobook->recallProject(winrt::to_string(name));
 }
 
-void PhotobookWin::NewProject(winrt::hstring name)
+void PhotobookWin::NewProject(winrt::hstring name,
+                              winrt::hstring paperSettingsSerialized)
 {
-  mPhotobook->newProject(winrt::to_string(name));
+  PB::PaperSettings paperSettings;
+  paperSettings.type =
+      PB::deserializePaperType(winrt::to_string(paperSettingsSerialized));
+  mPhotobook->newProject(winrt::to_string(name), paperSettings);
 }
 void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 

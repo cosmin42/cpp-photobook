@@ -35,7 +35,7 @@ runtimeclass PhotobookWin
   void RecallMetadata();
   void RecallProject(String name);
 
-  void NewProject(String name);
+  void NewProject(String name, String paperSettings);
   void UnloadProject();
 
   void AddImportFolder(String importPath);

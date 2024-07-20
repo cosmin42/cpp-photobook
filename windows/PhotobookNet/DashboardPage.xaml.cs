@@ -76,11 +76,21 @@ namespace PhotobookNet
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)
         {
-            var newProjectName = mPhotobook.GenerateProjectName();
+            CreateProjectDialogDisplay();
+        }
 
-            mPhotobook.NewProject(newProjectName);
+        private void OnCreateProjectDialogNext(object sender, ContentDialogButtonClickEventArgs args)
+        {
+            var newProjectName = mPhotobook.GenerateProjectName();
+            var selectedPaperType = (ComboBoxPaperSettings.SelectedValue as ComboBoxItem).Content.ToString();
+            mPhotobook.NewProject(newProjectName, selectedPaperType);
             PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
             Frame.Navigate(typeof(TableContentPage));
+        }
+
+        private void OnCreateProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
+        {
+            // Intentionally empty
         }
 
         public void OnCollageThumbnailsCreated()
@@ -104,7 +114,7 @@ namespace PhotobookNet
                 if (source == "new-project")
                 {
                     var newProjectName = mPhotobook.GenerateProjectName();
-                    mPhotobook.NewProject(newProjectName);
+                    mPhotobook.NewProject(newProjectName, "A4");
                     PhotobookSingletonWrapper.Inst().UpdateTitle(newProjectName);
                     PhotobookSingletonWrapper.Inst().Post(() =>
                     {
@@ -239,6 +249,14 @@ namespace PhotobookNet
                 await RenameProjectDialog.ShowAsync();
             });
 
+        }
+
+        private void CreateProjectDialogDisplay()
+        {
+            PhotobookSingletonWrapper.Inst().Post(async () =>
+            {
+                await NewProjectDialog.ShowAsync();
+            });
         }
 
         public void OnPersistenceError(PBError error)

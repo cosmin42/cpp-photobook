@@ -48,7 +48,7 @@ public:
   void recallMetadata();
   void recallProject(std::string name);
 
-  void newProject(std::string name);
+  void newProject(std::string name, PaperSettings paperSettings);
   void unloadProject();
 
   ImageViews                         &imageViews();
