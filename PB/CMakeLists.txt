@@ -112,7 +112,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/PhotobookListener.h
     include/pb/Platform.h
     include/pb/project/PaperSettings.h
-    include/pb/project/PathCache.h
     include/pb/project/ProjectMetadata.h
     include/pb/project/Project.h
     include/pb/ProgressManager.h
@@ -161,7 +160,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Jpg.cpp
     src/MetadataReader.cpp
     src/PaperSettings.cpp
-    src/PathCache.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/PdfLibharu.cpp
@@ -217,7 +215,6 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestFolderImport.cpp
     tests/TestImageMonitor.cpp
     tests/TestParallelTaskConsumer.cpp
-    tests/TestPathCache.cpp
     tests/TestPersistenceService.cpp
     tests/TestPhotobook.cpp
     tests/TestPersistenceService.cpp

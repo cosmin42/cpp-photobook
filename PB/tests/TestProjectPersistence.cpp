@@ -32,12 +32,4 @@ TEST(TestPersistenceProject, CreateNewProject)
   ASSERT_FALSE(maybeError.has_value());
 
   Path dataPath = Path("../test-data");
-  /*
-  project.active().pathCache.hashCreateIfMissing(dataPath);
 
-  bool valid = PB::PathCache::valid(
-      dataPath, project.active().pathCache().hash(dataPath));
-
-  ASSERT_TRUE(valid);
-  */
-}

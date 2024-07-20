@@ -62,27 +62,7 @@ std::variant<boost::uuids::uuid, PBDev::Error> deserialize(Json jsonData)
     return PBDev::Error() << ErrorCode::JSONParseError;
   }
 }
-/*
-template <> std::variant<PathCache, PBDev::Error> deserialize(Json jsonData)
-{
-  boost::bimaps::bimap<Path, std::string> entries;
-  for (auto it = jsonData.begin(); it != jsonData.end(); ++it) {
-    auto pathOrError = deserialize<Path>(it.key());
-    if (std::holds_alternative<PBDev::Error>(pathOrError)) {
-      return std::get<PBDev::Error>(pathOrError);
-    }
-    auto hashOrError = deserialize<std::string>(it.value());
-    if (std::holds_alternative<PBDev::Error>(hashOrError)) {
-      return std::get<PBDev::Error>(hashOrError);
-    }
-    entries.insert(
-        {std::get<Path>(pathOrError), std::get<std::string>(hashOrError)});
-  }
 
-  PathCache patchCache(entries);
-  return patchCache;
-}
-*/
 template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 {
   PaperSettings paperSettings;
