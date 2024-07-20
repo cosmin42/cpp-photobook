@@ -9,6 +9,7 @@
     <Color x:Key="MainFontColor">#FFFFFF</Color>
     <Color x:Key="ButtonPointerOverWhenSelected">#516165</Color>
     <Color x:Key="RemoveButtonBackground">#541C1C</Color>
+    <Color x:Key="DialogTextColor">#808080</Color>
     <SolidColorBrush x:Key="ButtonBackgroundDisabled"
                      Color="#00000000" />
     <SolidColorBrush x:Key="ContentDialogTopOverlay"
@@ -28,5 +29,48 @@
                 Value="#541C1C" />
         <Setter Property="Foreground"
                 Value="#FFFFFF" />
+    </Style>
+    <Style x:Key="CustomTextBoxStyle"
+           TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="#09191D" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                                       Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="#09191D" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="BackgroundElement"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#808080"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2" />
+                        <ScrollViewer x:Name="ContentElement"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      IsTabStop="False"
+                                      Margin="2" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

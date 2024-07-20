@@ -110,26 +110,118 @@
                                  Color="{StaticResource MainFontColor}" />
             </ContentDialog.Resources>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Paper Size: "
                            Grid.Column="0"
+                           Grid.Row="0"
                            VerticalAlignment="Center"
-                           HorizontalAlignment="Left" />
+                           HorizontalAlignment="Left"
+                           Foreground="{StaticResource DialogTextColor}"
+                           Margin="0,0,0,10" />
                 <ComboBox x:Name="ComboBoxPaperSettings"
                           SelectedIndex="3"
                           Grid.Column="1"
-                          HorizontalAlignment="Left">
-                    <ComboBoxItem Content="A3 Portrait" />
-                    <ComboBoxItem Content="A3 Landscape" />
-                    <ComboBoxItem Content="A4 Portrait" />
-                    <ComboBoxItem Content="A4 Landscape" />
-                    <ComboBoxItem Content="A5 Portrait" />
-                    <ComboBoxItem Content="A5 Landscape" />
-                    <ComboBoxItem Content="Square" />
+                          Grid.Row="0"
+                          HorizontalAlignment="Left"
+                          Margin="0,0,0,10"
+                          Background="#09191D"
+                          Foreground="{StaticResource DialogTextColor}">
+                    <ComboBoxItem Content="A3 Portrait"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="A3 Landscape"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="A4 Portrait"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="A4 Landscape"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="A5 Portrait"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="A5 Landscape"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
+                    <ComboBoxItem Content="Square"
+                                  Background="#09191D"
+                                  Foreground="{StaticResource DialogTextColor}" />
                 </ComboBox>
+                <TextBlock Text="Paper Width: "
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                <TextBox Grid.Column="1"
+                         Grid.Row="1"
+                         Style="{StaticResource CustomTextBoxStyle}"
+                         Foreground="#D3D3D3"
+                         x:Name="TextBoxPaperWidth"
+                         Margin="0,0,0,10"></TextBox>
+                <TextBlock Text="px"
+                           Grid.Column="2"
+                           Grid.Row="1"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                
+                
+                <TextBlock Text="Paper Height: "
+                           Grid.Column="0"
+                           Grid.Row="2"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                <TextBox Grid.Column="1"
+                         Grid.Row="2"
+                         Style="{StaticResource CustomTextBoxStyle}"
+                         Foreground="#D3D3D3"
+                         x:Name="TextBoxPaperHeight"
+                         Margin="0,0,0,10"></TextBox>
+                <TextBlock Text="px"
+                           Grid.Column="2"
+                           Grid.Row="2"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                
+                
+                <TextBlock Text="Paper Finess: "
+                           Grid.Column="0"
+                           Grid.Row="3"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
+                <TextBox Grid.Column="1"
+                         Grid.Row="3"
+                         Style="{StaticResource CustomTextBoxStyle}"
+                         Foreground="#D3D3D3"
+                         x:Name="TextBoxPaperPPI"
+                         Margin="0,0,0,10"></TextBox>
+                <TextBlock Text="ppi"
+                           Grid.Column="2"
+                           Grid.Row="3"
+                           Foreground="{StaticResource DialogTextColor}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="0,0,0,10" />
             </Grid>
         </ContentDialog>
     </Grid>
