@@ -135,7 +135,8 @@
                           HorizontalAlignment="Left"
                           Margin="0,0,0,10"
                           Background="#09191D"
-                          Foreground="{StaticResource DialogTextColor}">
+                          Foreground="{StaticResource DialogTextColor}"
+                          SelectionChanged="ComboBoxPaperSettingsSelectionChanged">
                     <ComboBoxItem Content="A3 Portrait"
                                   Background="#09191D"
                                   Foreground="{StaticResource DialogTextColor}" />

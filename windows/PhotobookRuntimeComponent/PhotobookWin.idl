@@ -55,5 +55,6 @@ runtimeclass PhotobookWin
   static VirtualImagePtr copyImage(VirtualImagePtr image);
 
   static PaperSettings GetDefaultSettings(PaperType paperType);
+  static PaperSettings GetDefaultSerializedSettings(String serializedPaperSize);
 }
 } // namespace PhotobookRuntimeComponent

@@ -151,6 +151,14 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     return winrt::make<PaperSettings>(PB::OneConfig::A4_LANDSCAPE_PAPER);
   }
 
+  static PhotobookRuntimeComponent::PaperSettings
+  GetDefaultSerializedSettings(winrt::hstring serializedPaperType)
+  {
+    auto paperType =
+        PB::deserializePaperType(winrt::to_string(serializedPaperType));
+    return GetDefaultSettings((PhotobookRuntimeComponent::PaperType)paperType);
+  }
+
   PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath,
                PhotobookRuntimeComponent::Int32Pair screenSize)
   {

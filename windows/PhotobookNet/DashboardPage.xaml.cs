@@ -88,6 +88,23 @@ namespace PhotobookNet
             Frame.Navigate(typeof(TableContentPage));
         }
 
+        private void UpdateNewProjectDialog(string selectedPaperType)
+        {
+            var paperSettings = PhotobookWin.GetDefaultSerializedSettings(selectedPaperType);
+
+            TextBoxPaperWidth.Text = paperSettings.Width().ToString();
+            TextBoxPaperHeight.Text = paperSettings.Height().ToString();
+            TextBoxPaperPPI.Text = paperSettings.Ppi().ToString();
+        }
+
+        private void ComboBoxPaperSettingsSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsPaperSettingsDialogReady())
+            {
+                UpdateNewProjectDialog((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
+            }
+        }
+
         private void OnCreateProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
         {
             // Intentionally empty
@@ -251,11 +268,28 @@ namespace PhotobookNet
 
         }
 
+        private bool IsPaperSettingsDialogReady()
+        {
+            return ComboBoxPaperSettings != null &&
+                TextBoxPaperWidth != null &&
+                TextBoxPaperHeight != null &&
+                TextBoxPaperPPI != null;
+        }
+
         private void CreateProjectDialogDisplay()
         {
             PhotobookSingletonWrapper.Inst().Post(async () =>
             {
+                NewProjectDialog.Loaded += (sender, args) =>
+                {
+                    if (IsPaperSettingsDialogReady())
+                    {
+                        UpdateNewProjectDialog((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
+                    }
+                };
                 await NewProjectDialog.ShowAsync();
+
+
             });
         }
 
