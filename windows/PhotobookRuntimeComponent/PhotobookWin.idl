@@ -53,5 +53,7 @@ runtimeclass PhotobookWin
   void            MakeCollage(IVector<UInt32> images, UInt32 collageName);
 
   static VirtualImagePtr copyImage(VirtualImagePtr image);
+
+  static PaperSettings GetDefaultSettings(PaperType paperType);
 }
 } // namespace PhotobookRuntimeComponent

@@ -8,7 +8,8 @@ enum PaperType {
   A5_Portrait,
   A3_Landscape,
   A3_Portrait,
-  Custom
+  Custom,
+  Square_Paper
 };
 
 runtimeclass PaperSettings

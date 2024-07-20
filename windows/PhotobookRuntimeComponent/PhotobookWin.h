@@ -128,6 +128,29 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         PB::ImageFactory::inst().copyImage(nativeImagePtr));
   }
 
+  static PhotobookRuntimeComponent::PaperSettings
+  GetDefaultSettings(PhotobookRuntimeComponent::PaperType paperType)
+  {
+    switch (paperType) {
+    case PhotobookRuntimeComponent::PaperType::A4_Landscape:
+      return winrt::make<PaperSettings>(PB::OneConfig::A4_LANDSCAPE_PAPER);
+    case PhotobookRuntimeComponent::PaperType::A4_Portrait:
+      return winrt::make<PaperSettings>(PB::OneConfig::A4_PORTRAIT_PAPER);
+    case PhotobookRuntimeComponent::PaperType::A3_Landscape:
+      return winrt::make<PaperSettings>(PB::OneConfig::A3_LANDSCAPE_PAPER);
+    case PhotobookRuntimeComponent::PaperType::A3_Portrait:
+      return winrt::make<PaperSettings>(PB::OneConfig::A3_PORTRAIT_PAPER);
+    case PhotobookRuntimeComponent::PaperType::A5_Landscape:
+      return winrt::make<PaperSettings>(PB::OneConfig::A5_LANDSCAPE_PAPER);
+    case PhotobookRuntimeComponent::PaperType::A5_Portrait:
+      return winrt::make<PaperSettings>(PB::OneConfig::A5_PORTRAIT_PAPER);
+    case PhotobookRuntimeComponent::PaperType::Square_Paper:
+      return winrt::make<PaperSettings>(PB::OneConfig::SQUARE_PAPER);
+    }
+    PBDev::basicAssert(false);
+    return winrt::make<PaperSettings>(PB::OneConfig::A4_LANDSCAPE_PAPER);
+  }
+
   PhotobookWin(winrt::hstring localStatePath, winrt::hstring installPath,
                PhotobookRuntimeComponent::Int32Pair screenSize)
   {

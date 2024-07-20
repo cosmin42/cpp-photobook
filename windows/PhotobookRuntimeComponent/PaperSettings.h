@@ -7,7 +7,8 @@
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct PaperSettings : PaperSettingsT<PaperSettings> {
 
-  PaperSettings(PB::PaperSettings paperSettings) : mPaperSettings(paperSettings)
+  explicit PaperSettings(PB::PaperSettings paperSettings)
+      : mPaperSettings(paperSettings)
   {
   }
   ~PaperSettings() = default;
