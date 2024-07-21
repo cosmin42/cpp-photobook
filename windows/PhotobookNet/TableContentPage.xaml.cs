@@ -181,16 +181,16 @@ namespace PhotobookNet
             get
             {
                 var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                System.Diagnostics.Debug.Assert(paperSettings.Ppi() > 0, "Width is 0");
-                double ratio = PaperToCanvasRatio(paperSettings.Width(), paperSettings.Height(), 438, 310);
+                System.Diagnostics.Debug.Assert(paperSettings.Ppi > 0, "Width is 0");
+                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(paperSettings.Width() / ratio);
+                    return (int)Math.Floor(paperSettings.Width / ratio);
                 }
                 else
                 {
-                    return paperSettings.Width();
+                    return paperSettings.Width;
                 }
             }
             set { }
@@ -201,16 +201,16 @@ namespace PhotobookNet
             get
             {
                 var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                System.Diagnostics.Debug.Assert(paperSettings.Ppi() > 0, "Height is 0");
-                double ratio = PaperToCanvasRatio(paperSettings.Width(), paperSettings.Height(), 438, 310);
+                System.Diagnostics.Debug.Assert(paperSettings.Ppi > 0, "Height is 0");
+                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(paperSettings.Height() / ratio);
+                    return (int)Math.Floor(paperSettings.Height / ratio);
                 }
                 else
                 {
-                    return paperSettings.Height();
+                    return paperSettings.Height;
                 }
             }
             set { }
@@ -1047,11 +1047,11 @@ namespace PhotobookNet
             if (width > 0 && height > 0)
             {
                 var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                double ratio = PaperToCanvasRatio(paperSettings.Width(), paperSettings.Height(),
+                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height,
                                       width, height);
 
-                var newWidth = Math.Floor(paperSettings.Width() / ratio);
-                var newHeight = Math.Floor(paperSettings.Height() / ratio);
+                var newWidth = Math.Floor(paperSettings.Width / ratio);
+                var newHeight = Math.Floor(paperSettings.Height / ratio);
 
                 GalleryCanvas.Width = newWidth;
                 GalleryCanvas.Height = newHeight;

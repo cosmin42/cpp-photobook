@@ -272,7 +272,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   void RecallMetadata();
   void RecallProject(winrt::hstring name);
 
-  void NewProject(winrt::hstring name, winrt::hstring paperSettings);
+  void NewProject(winrt::hstring                           name,
+                  PhotobookRuntimeComponent::PaperSettings paperSettings);
   void UnloadProject();
 
   PhotobookRuntimeComponent::ImageViews GetImageViews()

@@ -6,12 +6,20 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct PaperSettings : PaperSettingsT<PaperSettings> {
-
   explicit PaperSettings(PB::PaperSettings paperSettings)
       : mPaperSettings(paperSettings)
   {
   }
   ~PaperSettings() = default;
+
+  void Type(PhotobookRuntimeComponent::PaperType paperType)
+  {
+    mPaperSettings.type = (PB::PaperType)paperType;
+  }
+
+  void Ppi(int ppi) { mPaperSettings.ppi = ppi; }
+  void Width(int width) { mPaperSettings.width = width; }
+  void Height(int height) { mPaperSettings.height = height; }
 
   PhotobookRuntimeComponent::PaperType Type()
   {

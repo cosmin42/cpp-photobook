@@ -83,7 +83,8 @@ namespace PhotobookNet
         {
             var newProjectName = mPhotobook.GenerateProjectName();
             var selectedPaperType = (ComboBoxPaperSettings.SelectedValue as ComboBoxItem).Content.ToString();
-            mPhotobook.NewProject(newProjectName, selectedPaperType);
+            var paperSettings = GetPaperSettings();
+            mPhotobook.NewProject(newProjectName, paperSettings);
             PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
             Frame.Navigate(typeof(TableContentPage));
         }
@@ -92,9 +93,20 @@ namespace PhotobookNet
         {
             var paperSettings = PhotobookWin.GetDefaultSerializedSettings(selectedPaperType);
 
-            TextBoxPaperWidth.Text = paperSettings.Width().ToString();
-            TextBoxPaperHeight.Text = paperSettings.Height().ToString();
-            TextBoxPaperPPI.Text = paperSettings.Ppi().ToString();
+            TextBoxPaperWidth.Text = paperSettings.Width.ToString();
+            TextBoxPaperHeight.Text = paperSettings.Height.ToString();
+            TextBoxPaperPPI.Text = paperSettings.Ppi.ToString();
+        }
+
+        private PaperSettings GetPaperSettings()
+        {
+            var paperSettings = PhotobookWin.GetDefaultSerializedSettings((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
+
+            paperSettings.Width = int.Parse(TextBoxPaperWidth.Text);
+            paperSettings.Height = int.Parse(TextBoxPaperHeight.Text);
+            paperSettings.Ppi = int.Parse(TextBoxPaperPPI.Text);
+
+            return paperSettings;
         }
 
         private void ComboBoxPaperSettingsSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -131,7 +143,8 @@ namespace PhotobookNet
                 if (source == "new-project")
                 {
                     var newProjectName = mPhotobook.GenerateProjectName();
-                    mPhotobook.NewProject(newProjectName, "A4");
+                    var paperSettings = GetPaperSettings();
+                    mPhotobook.NewProject(newProjectName, paperSettings);
                     PhotobookSingletonWrapper.Inst().UpdateTitle(newProjectName);
                     PhotobookSingletonWrapper.Inst().Post(() =>
                     {

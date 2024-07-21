@@ -14,9 +14,25 @@ enum PaperType {
 
 runtimeclass PaperSettings
 {
-  PaperType Type();
-  Int32     Ppi();
-  Int32     Width();
-  Int32     Height();
+  PaperType Type
+  {
+    get;
+    set;
+  };
+  Int32 Ppi
+  {
+    get;
+    set;
+  };
+  Int32 Width
+  {
+    get;
+    set;
+  };
+  Int32 Height
+  {
+    get;
+    set;
+  };
 }
 } // namespace PhotobookRuntimeComponent
