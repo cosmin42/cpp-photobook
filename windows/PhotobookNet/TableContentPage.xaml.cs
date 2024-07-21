@@ -271,6 +271,18 @@ namespace PhotobookNet
             }
         }
 
+        private void OnPropertiesClicked(object sender, RoutedEventArgs args)
+        {
+            PhotobookSingletonWrapper.Inst().Post(async () => { await PropertiesContentDialog.ShowAsync(); });
+            PropertiesContentTextBlock.Loaded += (object sender, RoutedEventArgs args) =>
+            {
+                var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
+                PropertiesContentTextBlock.Text = "Paper size: " + paperSettings.Width.ToString() + "x" + paperSettings.Height.ToString() + "px\n" +
+                    "PPI: " + paperSettings.Ppi.ToString() + "\n" +
+                    "Paper type: " + paperSettings.Type.ToString() + "\n";
+            };
+        }
+
         private void OnBackClicked(object sender, RoutedEventArgs args)
         {
             var isSaved = mPhotobook.GetSettings().IsSaved(mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
