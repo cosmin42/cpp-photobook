@@ -26,6 +26,7 @@ namespace PhotobookNet
             Frame rootFrame = MainFrame;
 
             mAppWindow = AppWindow;
+            mAppWindow.SetIcon("Assets\\logo.ico");
             bool success = SetTitleBarColors();
 
             Debug.Assert(success, "SetTitleBarColors failed");
