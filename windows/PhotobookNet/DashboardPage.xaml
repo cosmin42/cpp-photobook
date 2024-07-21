@@ -94,7 +94,7 @@
                 </TextBox>
             </StackPanel>
         </ContentDialog>
-        <ContentDialog Title="New Project"
+        <ContentDialog Title="New Album"
                        Foreground="{StaticResource MainFontColor}"
                        x:Name="NewProjectDialog"
                        Background="{StaticResource PrimaryColor}"
@@ -134,30 +134,29 @@
                           Grid.Row="0"
                           HorizontalAlignment="Left"
                           Margin="0,0,0,10"
-                          Background="#09191D"
-                          Foreground="{StaticResource DialogTextColor}"
+                          Style="{StaticResource CustomComboBoxStyle}"
                           SelectionChanged="ComboBoxPaperSettingsSelectionChanged">
                     <ComboBoxItem Content="A3 Portrait"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="A3 Landscape"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="A4 Portrait"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="A4 Landscape"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="A5 Portrait"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="A5 Landscape"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                     <ComboBoxItem Content="Square"
                                   Background="#09191D"
-                                  Foreground="{StaticResource DialogTextColor}" />
+                                  Foreground="#D3D3D3" />
                 </ComboBox>
                 <TextBlock Text="Paper Width: "
                            Grid.Column="0"
@@ -179,8 +178,6 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Margin="0,0,0,10" />
-                
-                
                 <TextBlock Text="Paper Height: "
                            Grid.Column="0"
                            Grid.Row="2"
@@ -201,8 +198,6 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Margin="0,0,0,10" />
-                
-                
                 <TextBlock Text="Paper Finess: "
                            Grid.Column="0"
                            Grid.Row="3"

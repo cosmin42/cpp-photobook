@@ -25,9 +25,10 @@ struct PaperSettings : PaperSettingsT<PaperSettings> {
   {
     return (PhotobookRuntimeComponent::PaperType)mPaperSettings.type;
   }
-  int Ppi() { return mPaperSettings.ppi; }
-  int Width() { return mPaperSettings.width; }
-  int Height() { return mPaperSettings.height; }
+
+  int Ppi() const { return mPaperSettings.ppi; }
+  int Width() const { return mPaperSettings.width; }
+  int Height() const { return mPaperSettings.height; }
 
 private:
   PB::PaperSettings mPaperSettings;
