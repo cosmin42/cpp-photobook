@@ -39,8 +39,6 @@ if (ANDROID)
     set(CMAKE_USE_PTHREADS_INIT 1)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
-else()
-    set(unofficial-skia_FOUND TRUE)
 endif()
 
 find_package(Boost REQUIRED program_options)
@@ -64,7 +62,7 @@ if (WIN32)
     include_directories(third-party/podofo-build/include)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../skia)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/include)
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
