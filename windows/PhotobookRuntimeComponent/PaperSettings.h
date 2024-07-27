@@ -30,6 +30,8 @@ struct PaperSettings : PaperSettingsT<PaperSettings> {
   int Width() const { return mPaperSettings.width; }
   int Height() const { return mPaperSettings.height; }
 
+  PB::PaperSettings Unwrap() { return mPaperSettings; }
+
 private:
   PB::PaperSettings mPaperSettings;
 };

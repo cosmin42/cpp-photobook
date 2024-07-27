@@ -23,10 +23,13 @@ void PhotobookWin::RecallProject(winrt::hstring name)
 void PhotobookWin::NewProject(
     winrt::hstring name, PhotobookRuntimeComponent::PaperSettings paperSettings)
 {
-  //PB::PaperSettings paperSettings;
-  //paperSettings.type =
-  //    PB::deserializePaperType(winrt::to_string(paperSettingsSerialized));
-  //mPhotobook->newProject(winrt::to_string(name), paperSettings);
+  auto nativePaperSettings =
+      winrt::get_self<
+          winrt::PhotobookRuntimeComponent::implementation::PaperSettings>(
+          paperSettings)
+          ->Unwrap();
+
+  mPhotobook->newProject(winrt::to_string(name), nativePaperSettings);
 }
 void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 
