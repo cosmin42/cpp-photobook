@@ -58,7 +58,7 @@ jobs:
     - name: vcpkg integrate install
       run: vcpkg\vcpkg.exe integrate install
 
-    - name: Run CMake pb-debug
+    - name: Run CMake pb-release
       uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
@@ -69,9 +69,9 @@ jobs:
         # This is the name of the CMakePresets.json's configuration to use to generate
         # the project files. This configuration leverages the vcpkg.cmake toolchain file to
         # run vcpkg and install all dependencies specified in vcpkg.json.
-        configurePreset: 'pblib-debug'
+        configurePreset: 'pblib-release'
 
-    - name: Run CMake pb-debug-arm64
+    - name: Run CMake pb-release-arm64
       uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
