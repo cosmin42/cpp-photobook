@@ -16,7 +16,7 @@ TEST(TestFolderImport, Test0)
 
   TestPhotobookListener photobookListener;
 
-  PB::Photobook photobook(".", ".");
+  PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure(stagedImageListener.get());
   photobook.configure((PB::ImageMonitorListener *)&imageMonitorListener);
   photobook.configure((PB::StagedImagesListener *)&photobookListener);
@@ -27,7 +27,7 @@ TEST(TestFolderImport, Test0)
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
-  photobook.newProject("random-name");
+  photobook.newProject("random-name", PB::PaperSettings());
 
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 

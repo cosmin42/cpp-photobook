@@ -10,7 +10,7 @@ TEST(TestPhotobook, TestCreation)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  PB::Photobook photobook(".", ".");
+  PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 }
@@ -27,7 +27,7 @@ TEST(TestPhotobook, TestMetadata)
   std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
       std::make_shared<MockPhotobookImageMonitorListener>();
 
-  PB::Photobook photobook(".", ".");
+  PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
   photobook.configure(&testPhotobookListener);
@@ -40,7 +40,7 @@ TEST(TestPhotobook, TestMetadata)
 
   for (int i = 0; i < 4; ++i) {
     std::string name = "random-name" + std::to_string(i);
-    photobook.newProject(name);
+    photobook.newProject(name, PB::PaperSettings());
 
     auto uuid = photobook.project()->currentProjectUUID();
     auto path = Path(".") / name;
@@ -78,7 +78,7 @@ TEST(TestPhotobook, TestProject)
 
   TestPhotobookListener testPhotobookListener;
 
-  PB::Photobook photobook(".", ".");
+  PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
   photobook.configure(&testPhotobookListener);
@@ -87,7 +87,7 @@ TEST(TestPhotobook, TestProject)
 
   photobook.recallMetadata();
 
-  photobook.newProject("random-name");
+  photobook.newProject("random-name", PB::PaperSettings());
 
   auto uuid = photobook.project()->currentProjectUUID();
   auto projectPath = Path(".") / "random-name.photobook";
@@ -108,7 +108,7 @@ TEST(TestPhotobook, TestProjectLoading)
 
   TestPhotobookListener testPhotobookListener;
 
-  PB::Photobook photobook(".", ".");
+  PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
   photobook.configure((PB::PhotobookListener *)&testPhotobookListener);
@@ -117,7 +117,7 @@ TEST(TestPhotobook, TestProjectLoading)
 
   photobook.recallMetadata();
 
-  photobook.newProject("random-name");
+  photobook.newProject("random-name", PB::PaperSettings());
 
   auto uuid = photobook.project()->currentProjectUUID();
   auto projectPath = Path(".") / "random-name.photobook";

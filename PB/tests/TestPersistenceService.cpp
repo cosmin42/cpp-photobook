@@ -7,5 +7,4 @@
 TEST(PersistenceService, Test0)
 {
   clearProjectCache();
-  TestPersistenceServiceListener testPersistenceServiceListener;
 }

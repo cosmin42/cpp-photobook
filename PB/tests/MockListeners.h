@@ -56,9 +56,13 @@ public:
   MOCK_METHOD(void, onMappingFinished, (Path), (override));
   MOCK_METHOD(void, onMappingAborted, (Path), (override));
 
+  MOCK_METHOD(void, onCollageThumbnailsCreated, (), (override));
+
   MOCK_METHOD(void, onImageUpdated, (Path, int, int), (override));
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
+  MOCK_METHOD(void, onCollageCreated,
+              (unsigned, std::shared_ptr<PB::VirtualImage>), (override));
 };
 
 class TestPersistenceProjectListener final
@@ -82,7 +86,7 @@ public:
 };
 
 class TestProjectPersistenceListener final
-    : public PB::ProjectPersistenceListener {
+    : public PB::PersistenceServiceListener {
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
   MOCK_METHOD(void, onProjectRead,
               (VirtualImageMatrix &, VirtualImageLine &, RootsVector),

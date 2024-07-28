@@ -58,8 +58,7 @@ TEST(CollageManager, TestGenerateTemplatesImages)
   project->paperSettings.height = 1754;
   auto templatesPath =
       std::filesystem::current_path() / "test-generate-templates";
-  CollageManager manager(templatesPath,
-                                  std::filesystem::current_path(), project);
+  CollageManager manager(templatesPath, std::filesystem::current_path());
 
   manager.generateTemplatesImages();
 
