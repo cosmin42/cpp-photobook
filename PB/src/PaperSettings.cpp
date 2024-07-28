@@ -16,8 +16,17 @@ PaperType deserializePaperType(std::string paperType)
   else if (paperType == "A3 Portrait") {
     return PaperType::A3_Portrait;
   }
+  else if (paperType == "A5 Landscape") {
+    return PaperType::A5_Landscape;
+  }
+  else if (paperType == "A5 Portrait") {
+    return PaperType::A5_Portrait;
+  }
   else if (paperType == "Square") {
     return PaperType::Square_Paper;
+  }
+  else if (paperType == "Custom") {
+    return PaperType::Custom;
   }
   else {
     PBDev::basicAssert(false);
