@@ -178,7 +178,7 @@ namespace PhotobookNet
         private int SqrtIntF(int size)
         {
             float root = (float)Math.Sqrt(size);
-            int intRoot = (int)Math.Floor(root);
+            int intRoot = (int)Math.Ceiling(root);
             return intRoot;
         }
 
@@ -193,7 +193,9 @@ namespace PhotobookNet
             {
                 var wrapGrid = (sender as GridView).ItemsPanelRoot as ItemsWrapGrid;
 
-                var squareDimension = SqrtIntF(projectList.Count);
+                var numberOfProjects = projectList.Count;
+
+                var squareDimension = SqrtIntF(numberOfProjects);
 
                 wrapGrid.MaximumRowsOrColumns = squareDimension;
             };
