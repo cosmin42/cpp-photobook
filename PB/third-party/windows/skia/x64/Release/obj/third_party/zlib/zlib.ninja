@@ -1,0 +1,59 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG -DZLIB_IMPLEMENTATION -DADLER32_SIMD_SSSE3 -DX86_WINDOWS -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE -DDEFLATE_SLIDE_HASH_SSE2 -DCRC32_SIMD_SSE42_PCLMUL
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt" -I../../third_party/externals/zlib
+cflags = /w /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MD
+cflags_c =
+label_name = zlib
+root_out_dir = .
+target_out_dir = obj/third_party/zlib
+target_output_name = zlib
+
+build obj/third_party/externals/zlib/zlib.adler32.obj: cc ../../third_party/externals/zlib/adler32.c
+  source_file_part = adler32.c
+  source_name_part = adler32
+build obj/third_party/externals/zlib/zlib.compress.obj: cc ../../third_party/externals/zlib/compress.c
+  source_file_part = compress.c
+  source_name_part = compress
+build obj/third_party/externals/zlib/zlib.cpu_features.obj: cc ../../third_party/externals/zlib/cpu_features.c
+  source_file_part = cpu_features.c
+  source_name_part = cpu_features
+build obj/third_party/externals/zlib/zlib.crc32.obj: cc ../../third_party/externals/zlib/crc32.c
+  source_file_part = crc32.c
+  source_name_part = crc32
+build obj/third_party/externals/zlib/zlib.deflate.obj: cc ../../third_party/externals/zlib/deflate.c
+  source_file_part = deflate.c
+  source_name_part = deflate
+build obj/third_party/externals/zlib/zlib.gzclose.obj: cc ../../third_party/externals/zlib/gzclose.c
+  source_file_part = gzclose.c
+  source_name_part = gzclose
+build obj/third_party/externals/zlib/zlib.gzlib.obj: cc ../../third_party/externals/zlib/gzlib.c
+  source_file_part = gzlib.c
+  source_name_part = gzlib
+build obj/third_party/externals/zlib/zlib.gzread.obj: cc ../../third_party/externals/zlib/gzread.c
+  source_file_part = gzread.c
+  source_name_part = gzread
+build obj/third_party/externals/zlib/zlib.gzwrite.obj: cc ../../third_party/externals/zlib/gzwrite.c
+  source_file_part = gzwrite.c
+  source_name_part = gzwrite
+build obj/third_party/externals/zlib/zlib.infback.obj: cc ../../third_party/externals/zlib/infback.c
+  source_file_part = infback.c
+  source_name_part = infback
+build obj/third_party/externals/zlib/zlib.inffast.obj: cc ../../third_party/externals/zlib/inffast.c
+  source_file_part = inffast.c
+  source_name_part = inffast
+build obj/third_party/externals/zlib/zlib.inftrees.obj: cc ../../third_party/externals/zlib/inftrees.c
+  source_file_part = inftrees.c
+  source_name_part = inftrees
+build obj/third_party/externals/zlib/zlib.trees.obj: cc ../../third_party/externals/zlib/trees.c
+  source_file_part = trees.c
+  source_name_part = trees
+build obj/third_party/externals/zlib/zlib.uncompr.obj: cc ../../third_party/externals/zlib/uncompr.c
+  source_file_part = uncompr.c
+  source_name_part = uncompr
+build obj/third_party/externals/zlib/zlib.zutil.obj: cc ../../third_party/externals/zlib/zutil.c
+  source_file_part = zutil.c
+  source_name_part = zutil
+
+build ./zlib.lib: alink obj/third_party/externals/zlib/zlib.adler32.obj obj/third_party/externals/zlib/zlib.compress.obj obj/third_party/externals/zlib/zlib.cpu_features.obj obj/third_party/externals/zlib/zlib.crc32.obj obj/third_party/externals/zlib/zlib.deflate.obj obj/third_party/externals/zlib/zlib.gzclose.obj obj/third_party/externals/zlib/zlib.gzlib.obj obj/third_party/externals/zlib/zlib.gzread.obj obj/third_party/externals/zlib/zlib.gzwrite.obj obj/third_party/externals/zlib/zlib.infback.obj obj/third_party/externals/zlib/zlib.inffast.obj obj/third_party/externals/zlib/zlib.inftrees.obj obj/third_party/externals/zlib/zlib.trees.obj obj/third_party/externals/zlib/zlib.uncompr.obj obj/third_party/externals/zlib/zlib.zutil.obj || obj/third_party/zlib/zlib_adler32_simd.stamp obj/third_party/zlib/zlib_inflate_chunk_simd.stamp obj/third_party/zlib/zlib_slide_hash_simd.stamp obj/third_party/zlib/zlib_crc32_simd.stamp obj/third_party/zlib/zlib_common_headers.stamp
+  arflags =
+  output_extension = .lib
+  output_dir = obj/third_party/zlib

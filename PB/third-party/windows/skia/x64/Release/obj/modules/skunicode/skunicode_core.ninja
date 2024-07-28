@@ -1,0 +1,20 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG -DSKUNICODE_IMPLEMENTATION=1 -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DU_SHOW_CPLUSPLUS_API=0 -DSK_TYPEFACE_FACTORY_DIRECTWRITE -DSK_FONTMGR_DIRECTWRITE_AVAILABLE -DSK_FONTMGR_GDI_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_SUPPORT_XPS -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_GANESH -DSK_DISABLE_TRACING
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt" -I../..
+cflags = /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MD
+cflags_cc = /std$:c++17 /Zc$:lambda /GR-
+label_name = skunicode_core
+root_out_dir = .
+target_out_dir = obj/modules/skunicode
+target_output_name = skunicode_core
+
+build obj/modules/skunicode/src/skunicode_core.SkUnicode.obj: cxx ../../modules/skunicode/src/SkUnicode.cpp
+  source_file_part = SkUnicode.cpp
+  source_name_part = SkUnicode
+build obj/modules/skunicode/src/skunicode_core.SkUnicode_hardcoded.obj: cxx ../../modules/skunicode/src/SkUnicode_hardcoded.cpp
+  source_file_part = SkUnicode_hardcoded.cpp
+  source_name_part = SkUnicode_hardcoded
+
+build ./skunicode_core.lib: alink obj/modules/skunicode/src/skunicode_core.SkUnicode.obj obj/modules/skunicode/src/skunicode_core.SkUnicode_hardcoded.obj || ./skia.lib
+  arflags =
+  output_extension = .lib
+  output_dir = obj/modules/skunicode
