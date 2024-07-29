@@ -157,6 +157,9 @@
                     <ComboBoxItem Content="Square"
                                   Background="#09191D"
                                   Foreground="#D3D3D3" />
+                    <ComboBoxItem Content="Custom"
+                                  Background="#09191D"
+                                  Foreground="#D3D3D3" />
                 </ComboBox>
                 <TextBlock Text="Paper Width: "
                            Grid.Column="0"
@@ -168,6 +171,7 @@
                 <TextBox Grid.Column="1"
                          Grid.Row="1"
                          Style="{StaticResource CustomTextBoxStyle}"
+                         BeforeTextChanging="OnTextBoxPaperWidthBeforeTextChanging"
                          Foreground="#D3D3D3"
                          x:Name="TextBoxPaperWidth"
                          Margin="0,0,0,10"></TextBox>
@@ -188,6 +192,7 @@
                 <TextBox Grid.Column="1"
                          Grid.Row="2"
                          Style="{StaticResource CustomTextBoxStyle}"
+                         BeforeTextChanging="OnTextBoxPaperHeightBeforeTextChanging"
                          Foreground="#D3D3D3"
                          x:Name="TextBoxPaperHeight"
                          Margin="0,0,0,10"></TextBox>
@@ -207,6 +212,7 @@
                            Margin="0,0,0,10" />
                 <TextBox Grid.Column="1"
                          Grid.Row="3"
+                         BeforeTextChanging="OnTextBoxPaperPpiBeforeTextChanging"
                          Style="{StaticResource CustomTextBoxStyle}"
                          Foreground="#D3D3D3"
                          x:Name="TextBoxPaperPPI"

@@ -82,7 +82,6 @@ namespace PhotobookNet
         private void OnCreateProjectDialogNext(object sender, ContentDialogButtonClickEventArgs args)
         {
             var newProjectName = mPhotobook.GenerateProjectName();
-            var selectedPaperType = (ComboBoxPaperSettings.SelectedValue as ComboBoxItem).Content.ToString();
             var paperSettings = GetPaperSettings();
             mPhotobook.NewProject(newProjectName, paperSettings);
             PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
@@ -93,9 +92,17 @@ namespace PhotobookNet
         {
             var paperSettings = PhotobookWin.GetDefaultSerializedSettings(selectedPaperType);
 
+            TextBoxPaperWidth.BeforeTextChanging -= OnTextBoxPaperWidthBeforeTextChanging;
+            TextBoxPaperHeight.BeforeTextChanging -= OnTextBoxPaperHeightBeforeTextChanging;
+            TextBoxPaperPPI.BeforeTextChanging -= OnTextBoxPaperPpiBeforeTextChanging;
+
             TextBoxPaperWidth.Text = paperSettings.Width.ToString();
             TextBoxPaperHeight.Text = paperSettings.Height.ToString();
             TextBoxPaperPPI.Text = paperSettings.Ppi.ToString();
+
+            TextBoxPaperWidth.BeforeTextChanging += OnTextBoxPaperWidthBeforeTextChanging;
+            TextBoxPaperHeight.BeforeTextChanging += OnTextBoxPaperHeightBeforeTextChanging;
+            TextBoxPaperPPI.BeforeTextChanging += OnTextBoxPaperPpiBeforeTextChanging;
         }
 
         private PaperSettings GetPaperSettings()
@@ -111,7 +118,8 @@ namespace PhotobookNet
 
         private void ComboBoxPaperSettingsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (IsPaperSettingsDialogReady())
+            var comboBoxItemContent = (ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString();
+            if (IsPaperSettingsDialogReady() && comboBoxItemContent != "Custom")
             {
                 UpdateNewProjectDialog((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
             }
@@ -216,6 +224,42 @@ namespace PhotobookNet
             deleteItem.Click += OnDeleteClicked;
 
             return deleteItem;
+        }
+
+        private void OnTextBoxPaperWidthBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            if (!args.NewText.All(char.IsDigit))
+            {
+                args.Cancel = true;
+            }
+            else
+            {
+                ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
+            }
+        }
+
+        private void OnTextBoxPaperHeightBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            if (!args.NewText.All(char.IsDigit))
+            {
+                args.Cancel = true;
+            }
+            else
+            {
+                ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
+            }
+        }
+
+        private void OnTextBoxPaperPpiBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            if (!args.NewText.All(char.IsDigit))
+            {
+                args.Cancel = true;
+            }
+            else
+            {
+                ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
+            }
         }
 
         private void OnDeleteClicked(object sender, RoutedEventArgs e)
