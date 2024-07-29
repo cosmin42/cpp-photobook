@@ -183,7 +183,7 @@ namespace PhotobookNet
             }
         }
 
-        private int SqrtIntF(int size)
+        static private int SqrtIntF(int size)
         {
             float root = (float)Math.Sqrt(size);
             int intRoot = (int)Math.Ceiling(root);
@@ -228,6 +228,8 @@ namespace PhotobookNet
 
         private void OnTextBoxPaperWidthBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(args.NewText) && !string.IsNullOrEmpty(TextBoxPaperHeight.Text.ToString()) && !string.IsNullOrEmpty(TextBoxPaperPPI.Text.ToString());
+
             if (!args.NewText.All(char.IsDigit))
             {
                 args.Cancel = true;
@@ -240,6 +242,8 @@ namespace PhotobookNet
 
         private void OnTextBoxPaperHeightBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(TextBoxPaperWidth.Text.ToString()) && !string.IsNullOrEmpty(args.NewText) && !string.IsNullOrEmpty(TextBoxPaperPPI.Text.ToString());
+
             if (!args.NewText.All(char.IsDigit))
             {
                 args.Cancel = true;
@@ -252,6 +256,8 @@ namespace PhotobookNet
 
         private void OnTextBoxPaperPpiBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(TextBoxPaperWidth.Text.ToString()) && !string.IsNullOrEmpty(TextBoxPaperHeight.Text.ToString()) && !string.IsNullOrEmpty(args.NewText);
+
             if (!args.NewText.All(char.IsDigit))
             {
                 args.Cancel = true;
