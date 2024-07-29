@@ -1,0 +1,14 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt"
+cflags = /arch$:AVX512 /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MDd
+cflags_cc = /std$:c++17 /Zc$:lambda /GR-
+label_name = skcms_TransformSkx
+root_out_dir = .
+target_out_dir = obj/modules/skcms
+target_output_name = skcms_TransformSkx
+
+build obj/modules/skcms/src/skcms_TransformSkx.skcms_TransformSkx.obj: cxx ../../modules/skcms/src/skcms_TransformSkx.cc
+  source_file_part = skcms_TransformSkx.cc
+  source_name_part = skcms_TransformSkx
+
+build obj/modules/skcms/skcms_TransformSkx.stamp: stamp obj/modules/skcms/src/skcms_TransformSkx.skcms_TransformSkx.obj

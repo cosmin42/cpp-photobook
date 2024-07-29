@@ -1,0 +1,65 @@
+defines = -DPNG_SET_OPTION_SUPPORTED -DPNG_INTEL_SSE -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt" -I../../third_party/libpng -I../../third_party/externals/libpng -I../../third_party/externals/zlib
+cflags = /w /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MDd
+cflags_c =
+label_name = libpng
+root_out_dir = .
+target_out_dir = obj/third_party/libpng
+target_output_name = libpng
+
+build obj/third_party/externals/libpng/libpng.png.obj: cc ../../third_party/externals/libpng/png.c
+  source_file_part = png.c
+  source_name_part = png
+build obj/third_party/externals/libpng/libpng.pngerror.obj: cc ../../third_party/externals/libpng/pngerror.c
+  source_file_part = pngerror.c
+  source_name_part = pngerror
+build obj/third_party/externals/libpng/libpng.pngget.obj: cc ../../third_party/externals/libpng/pngget.c
+  source_file_part = pngget.c
+  source_name_part = pngget
+build obj/third_party/externals/libpng/libpng.pngmem.obj: cc ../../third_party/externals/libpng/pngmem.c
+  source_file_part = pngmem.c
+  source_name_part = pngmem
+build obj/third_party/externals/libpng/libpng.pngpread.obj: cc ../../third_party/externals/libpng/pngpread.c
+  source_file_part = pngpread.c
+  source_name_part = pngpread
+build obj/third_party/externals/libpng/libpng.pngread.obj: cc ../../third_party/externals/libpng/pngread.c
+  source_file_part = pngread.c
+  source_name_part = pngread
+build obj/third_party/externals/libpng/libpng.pngrio.obj: cc ../../third_party/externals/libpng/pngrio.c
+  source_file_part = pngrio.c
+  source_name_part = pngrio
+build obj/third_party/externals/libpng/libpng.pngrtran.obj: cc ../../third_party/externals/libpng/pngrtran.c
+  source_file_part = pngrtran.c
+  source_name_part = pngrtran
+build obj/third_party/externals/libpng/libpng.pngrutil.obj: cc ../../third_party/externals/libpng/pngrutil.c
+  source_file_part = pngrutil.c
+  source_name_part = pngrutil
+build obj/third_party/externals/libpng/libpng.pngset.obj: cc ../../third_party/externals/libpng/pngset.c
+  source_file_part = pngset.c
+  source_name_part = pngset
+build obj/third_party/externals/libpng/libpng.pngtrans.obj: cc ../../third_party/externals/libpng/pngtrans.c
+  source_file_part = pngtrans.c
+  source_name_part = pngtrans
+build obj/third_party/externals/libpng/libpng.pngwio.obj: cc ../../third_party/externals/libpng/pngwio.c
+  source_file_part = pngwio.c
+  source_name_part = pngwio
+build obj/third_party/externals/libpng/libpng.pngwrite.obj: cc ../../third_party/externals/libpng/pngwrite.c
+  source_file_part = pngwrite.c
+  source_name_part = pngwrite
+build obj/third_party/externals/libpng/libpng.pngwtran.obj: cc ../../third_party/externals/libpng/pngwtran.c
+  source_file_part = pngwtran.c
+  source_name_part = pngwtran
+build obj/third_party/externals/libpng/libpng.pngwutil.obj: cc ../../third_party/externals/libpng/pngwutil.c
+  source_file_part = pngwutil.c
+  source_name_part = pngwutil
+build obj/third_party/externals/libpng/intel/libpng.filter_sse2_intrinsics.obj: cc ../../third_party/externals/libpng/intel/filter_sse2_intrinsics.c
+  source_file_part = filter_sse2_intrinsics.c
+  source_name_part = filter_sse2_intrinsics
+build obj/third_party/externals/libpng/intel/libpng.intel_init.obj: cc ../../third_party/externals/libpng/intel/intel_init.c
+  source_file_part = intel_init.c
+  source_name_part = intel_init
+
+build ./libpng.lib: alink obj/third_party/externals/libpng/libpng.png.obj obj/third_party/externals/libpng/libpng.pngerror.obj obj/third_party/externals/libpng/libpng.pngget.obj obj/third_party/externals/libpng/libpng.pngmem.obj obj/third_party/externals/libpng/libpng.pngpread.obj obj/third_party/externals/libpng/libpng.pngread.obj obj/third_party/externals/libpng/libpng.pngrio.obj obj/third_party/externals/libpng/libpng.pngrtran.obj obj/third_party/externals/libpng/libpng.pngrutil.obj obj/third_party/externals/libpng/libpng.pngset.obj obj/third_party/externals/libpng/libpng.pngtrans.obj obj/third_party/externals/libpng/libpng.pngwio.obj obj/third_party/externals/libpng/libpng.pngwrite.obj obj/third_party/externals/libpng/libpng.pngwtran.obj obj/third_party/externals/libpng/libpng.pngwutil.obj obj/third_party/externals/libpng/intel/libpng.filter_sse2_intrinsics.obj obj/third_party/externals/libpng/intel/libpng.intel_init.obj || ./zlib.lib obj/third_party/zlib/zlib_adler32_simd.stamp obj/third_party/zlib/zlib_common_headers.stamp obj/third_party/zlib/zlib_inflate_chunk_simd.stamp obj/third_party/zlib/zlib_slide_hash_simd.stamp obj/third_party/zlib/zlib_crc32_simd.stamp
+  arflags =
+  output_extension = .lib
+  output_dir = obj/third_party/libpng

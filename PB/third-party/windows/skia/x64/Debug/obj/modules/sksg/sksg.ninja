@@ -1,0 +1,83 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSK_TYPEFACE_FACTORY_DIRECTWRITE -DSK_FONTMGR_DIRECTWRITE_AVAILABLE -DSK_FONTMGR_GDI_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_SUPPORT_XPS -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_GANESH -DSK_DISABLE_TRACING
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt" -I../../modules/sksg/include -I../..
+cflags = /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MDd
+cflags_cc = /std$:c++17 /Zc$:lambda /GR-
+label_name = sksg
+root_out_dir = .
+target_out_dir = obj/modules/sksg
+target_output_name = sksg
+
+build obj/modules/sksg/src/sksg.SkSGClipEffect.obj: cxx ../../modules/sksg/src/SkSGClipEffect.cpp
+  source_file_part = SkSGClipEffect.cpp
+  source_name_part = SkSGClipEffect
+build obj/modules/sksg/src/sksg.SkSGColorFilter.obj: cxx ../../modules/sksg/src/SkSGColorFilter.cpp
+  source_file_part = SkSGColorFilter.cpp
+  source_name_part = SkSGColorFilter
+build obj/modules/sksg/src/sksg.SkSGDraw.obj: cxx ../../modules/sksg/src/SkSGDraw.cpp
+  source_file_part = SkSGDraw.cpp
+  source_name_part = SkSGDraw
+build obj/modules/sksg/src/sksg.SkSGEffectNode.obj: cxx ../../modules/sksg/src/SkSGEffectNode.cpp
+  source_file_part = SkSGEffectNode.cpp
+  source_name_part = SkSGEffectNode
+build obj/modules/sksg/src/sksg.SkSGGeometryEffect.obj: cxx ../../modules/sksg/src/SkSGGeometryEffect.cpp
+  source_file_part = SkSGGeometryEffect.cpp
+  source_name_part = SkSGGeometryEffect
+build obj/modules/sksg/src/sksg.SkSGGeometryNode.obj: cxx ../../modules/sksg/src/SkSGGeometryNode.cpp
+  source_file_part = SkSGGeometryNode.cpp
+  source_name_part = SkSGGeometryNode
+build obj/modules/sksg/src/sksg.SkSGGradient.obj: cxx ../../modules/sksg/src/SkSGGradient.cpp
+  source_file_part = SkSGGradient.cpp
+  source_name_part = SkSGGradient
+build obj/modules/sksg/src/sksg.SkSGGroup.obj: cxx ../../modules/sksg/src/SkSGGroup.cpp
+  source_file_part = SkSGGroup.cpp
+  source_name_part = SkSGGroup
+build obj/modules/sksg/src/sksg.SkSGImage.obj: cxx ../../modules/sksg/src/SkSGImage.cpp
+  source_file_part = SkSGImage.cpp
+  source_name_part = SkSGImage
+build obj/modules/sksg/src/sksg.SkSGInvalidationController.obj: cxx ../../modules/sksg/src/SkSGInvalidationController.cpp
+  source_file_part = SkSGInvalidationController.cpp
+  source_name_part = SkSGInvalidationController
+build obj/modules/sksg/src/sksg.SkSGMaskEffect.obj: cxx ../../modules/sksg/src/SkSGMaskEffect.cpp
+  source_file_part = SkSGMaskEffect.cpp
+  source_name_part = SkSGMaskEffect
+build obj/modules/sksg/src/sksg.SkSGMerge.obj: cxx ../../modules/sksg/src/SkSGMerge.cpp
+  source_file_part = SkSGMerge.cpp
+  source_name_part = SkSGMerge
+build obj/modules/sksg/src/sksg.SkSGNode.obj: cxx ../../modules/sksg/src/SkSGNode.cpp
+  source_file_part = SkSGNode.cpp
+  source_name_part = SkSGNode
+build obj/modules/sksg/src/sksg.SkSGOpacityEffect.obj: cxx ../../modules/sksg/src/SkSGOpacityEffect.cpp
+  source_file_part = SkSGOpacityEffect.cpp
+  source_name_part = SkSGOpacityEffect
+build obj/modules/sksg/src/sksg.SkSGPaint.obj: cxx ../../modules/sksg/src/SkSGPaint.cpp
+  source_file_part = SkSGPaint.cpp
+  source_name_part = SkSGPaint
+build obj/modules/sksg/src/sksg.SkSGPath.obj: cxx ../../modules/sksg/src/SkSGPath.cpp
+  source_file_part = SkSGPath.cpp
+  source_name_part = SkSGPath
+build obj/modules/sksg/src/sksg.SkSGPlane.obj: cxx ../../modules/sksg/src/SkSGPlane.cpp
+  source_file_part = SkSGPlane.cpp
+  source_name_part = SkSGPlane
+build obj/modules/sksg/src/sksg.SkSGRect.obj: cxx ../../modules/sksg/src/SkSGRect.cpp
+  source_file_part = SkSGRect.cpp
+  source_name_part = SkSGRect
+build obj/modules/sksg/src/sksg.SkSGRenderEffect.obj: cxx ../../modules/sksg/src/SkSGRenderEffect.cpp
+  source_file_part = SkSGRenderEffect.cpp
+  source_name_part = SkSGRenderEffect
+build obj/modules/sksg/src/sksg.SkSGRenderNode.obj: cxx ../../modules/sksg/src/SkSGRenderNode.cpp
+  source_file_part = SkSGRenderNode.cpp
+  source_name_part = SkSGRenderNode
+build obj/modules/sksg/src/sksg.SkSGScene.obj: cxx ../../modules/sksg/src/SkSGScene.cpp
+  source_file_part = SkSGScene.cpp
+  source_name_part = SkSGScene
+build obj/modules/sksg/src/sksg.SkSGText.obj: cxx ../../modules/sksg/src/SkSGText.cpp
+  source_file_part = SkSGText.cpp
+  source_name_part = SkSGText
+build obj/modules/sksg/src/sksg.SkSGTransform.obj: cxx ../../modules/sksg/src/SkSGTransform.cpp
+  source_file_part = SkSGTransform.cpp
+  source_name_part = SkSGTransform
+
+build ./sksg.lib: alink obj/modules/sksg/src/sksg.SkSGClipEffect.obj obj/modules/sksg/src/sksg.SkSGColorFilter.obj obj/modules/sksg/src/sksg.SkSGDraw.obj obj/modules/sksg/src/sksg.SkSGEffectNode.obj obj/modules/sksg/src/sksg.SkSGGeometryEffect.obj obj/modules/sksg/src/sksg.SkSGGeometryNode.obj obj/modules/sksg/src/sksg.SkSGGradient.obj obj/modules/sksg/src/sksg.SkSGGroup.obj obj/modules/sksg/src/sksg.SkSGImage.obj obj/modules/sksg/src/sksg.SkSGInvalidationController.obj obj/modules/sksg/src/sksg.SkSGMaskEffect.obj obj/modules/sksg/src/sksg.SkSGMerge.obj obj/modules/sksg/src/sksg.SkSGNode.obj obj/modules/sksg/src/sksg.SkSGOpacityEffect.obj obj/modules/sksg/src/sksg.SkSGPaint.obj obj/modules/sksg/src/sksg.SkSGPath.obj obj/modules/sksg/src/sksg.SkSGPlane.obj obj/modules/sksg/src/sksg.SkSGRect.obj obj/modules/sksg/src/sksg.SkSGRenderEffect.obj obj/modules/sksg/src/sksg.SkSGRenderNode.obj obj/modules/sksg/src/sksg.SkSGScene.obj obj/modules/sksg/src/sksg.SkSGText.obj obj/modules/sksg/src/sksg.SkSGTransform.obj || ./skia.lib
+  arflags =
+  output_extension = .lib
+  output_dir = obj/modules/sksg

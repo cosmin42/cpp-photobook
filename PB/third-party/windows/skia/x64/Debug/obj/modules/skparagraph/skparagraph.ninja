@@ -1,0 +1,62 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG -DSK_ENABLE_PARAGRAPH -DSK_TYPEFACE_FACTORY_DIRECTWRITE -DSK_FONTMGR_DIRECTWRITE_AVAILABLE -DSK_FONTMGR_GDI_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_SUPPORT_XPS -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_GANESH -DSK_DISABLE_TRACING -DSK_UNICODE_AVAILABLE -DSK_UNICODE_ICU_IMPLEMENTATION -DSK_SHAPER_PRIMITIVE_AVAILABLE -DSK_SHAPER_HARFBUZZ_AVAILABLE -DSK_SHAPER_UNICODE_AVAILABLE
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt" -I../../modules/skparagraph/include -I../../modules/skparagraph/utils -I../.. -I../../modules/skshaper/include
+cflags = /wd5030 /wd5051 /bigobj /utf-8 /O2 /Zc$:inline /MDd
+cflags_cc = /std$:c++17 /Zc$:lambda /GR-
+label_name = skparagraph
+root_out_dir = .
+target_out_dir = obj/modules/skparagraph
+target_output_name = skparagraph
+
+build obj/modules/skparagraph/src/skparagraph.Decorations.obj: cxx ../../modules/skparagraph/src/Decorations.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = Decorations.cpp
+  source_name_part = Decorations
+build obj/modules/skparagraph/src/skparagraph.FontArguments.obj: cxx ../../modules/skparagraph/src/FontArguments.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = FontArguments.cpp
+  source_name_part = FontArguments
+build obj/modules/skparagraph/src/skparagraph.FontCollection.obj: cxx ../../modules/skparagraph/src/FontCollection.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = FontCollection.cpp
+  source_name_part = FontCollection
+build obj/modules/skparagraph/src/skparagraph.OneLineShaper.obj: cxx ../../modules/skparagraph/src/OneLineShaper.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = OneLineShaper.cpp
+  source_name_part = OneLineShaper
+build obj/modules/skparagraph/src/skparagraph.ParagraphBuilderImpl.obj: cxx ../../modules/skparagraph/src/ParagraphBuilderImpl.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = ParagraphBuilderImpl.cpp
+  source_name_part = ParagraphBuilderImpl
+build obj/modules/skparagraph/src/skparagraph.ParagraphCache.obj: cxx ../../modules/skparagraph/src/ParagraphCache.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = ParagraphCache.cpp
+  source_name_part = ParagraphCache
+build obj/modules/skparagraph/src/skparagraph.ParagraphImpl.obj: cxx ../../modules/skparagraph/src/ParagraphImpl.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = ParagraphImpl.cpp
+  source_name_part = ParagraphImpl
+build obj/modules/skparagraph/src/skparagraph.ParagraphPainterImpl.obj: cxx ../../modules/skparagraph/src/ParagraphPainterImpl.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = ParagraphPainterImpl.cpp
+  source_name_part = ParagraphPainterImpl
+build obj/modules/skparagraph/src/skparagraph.ParagraphStyle.obj: cxx ../../modules/skparagraph/src/ParagraphStyle.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = ParagraphStyle.cpp
+  source_name_part = ParagraphStyle
+build obj/modules/skparagraph/src/skparagraph.Run.obj: cxx ../../modules/skparagraph/src/Run.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = Run.cpp
+  source_name_part = Run
+build obj/modules/skparagraph/src/skparagraph.TextLine.obj: cxx ../../modules/skparagraph/src/TextLine.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TextLine.cpp
+  source_name_part = TextLine
+build obj/modules/skparagraph/src/skparagraph.TextShadow.obj: cxx ../../modules/skparagraph/src/TextShadow.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TextShadow.cpp
+  source_name_part = TextShadow
+build obj/modules/skparagraph/src/skparagraph.TextStyle.obj: cxx ../../modules/skparagraph/src/TextStyle.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TextStyle.cpp
+  source_name_part = TextStyle
+build obj/modules/skparagraph/src/skparagraph.TextWrapper.obj: cxx ../../modules/skparagraph/src/TextWrapper.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TextWrapper.cpp
+  source_name_part = TextWrapper
+build obj/modules/skparagraph/src/skparagraph.TypefaceFontProvider.obj: cxx ../../modules/skparagraph/src/TypefaceFontProvider.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TypefaceFontProvider.cpp
+  source_name_part = TypefaceFontProvider
+build obj/modules/skparagraph/utils/skparagraph.TestFontCollection.obj: cxx ../../modules/skparagraph/utils/TestFontCollection.cpp || obj/third_party/icu/icudata.stamp
+  source_file_part = TestFontCollection.cpp
+  source_name_part = TestFontCollection
+
+build ./skparagraph.lib: alink obj/modules/skparagraph/src/skparagraph.Decorations.obj obj/modules/skparagraph/src/skparagraph.FontArguments.obj obj/modules/skparagraph/src/skparagraph.FontCollection.obj obj/modules/skparagraph/src/skparagraph.OneLineShaper.obj obj/modules/skparagraph/src/skparagraph.ParagraphBuilderImpl.obj obj/modules/skparagraph/src/skparagraph.ParagraphCache.obj obj/modules/skparagraph/src/skparagraph.ParagraphImpl.obj obj/modules/skparagraph/src/skparagraph.ParagraphPainterImpl.obj obj/modules/skparagraph/src/skparagraph.ParagraphStyle.obj obj/modules/skparagraph/src/skparagraph.Run.obj obj/modules/skparagraph/src/skparagraph.TextLine.obj obj/modules/skparagraph/src/skparagraph.TextShadow.obj obj/modules/skparagraph/src/skparagraph.TextStyle.obj obj/modules/skparagraph/src/skparagraph.TextWrapper.obj obj/modules/skparagraph/src/skparagraph.TypefaceFontProvider.obj obj/modules/skparagraph/utils/skparagraph.TestFontCollection.obj || ./skia.lib obj/modules/skunicode/skunicode.stamp ./skshaper.lib ./skunicode_core.lib ./skunicode_icu.lib
+  arflags =
+  output_extension = .lib
+  output_dir = obj/modules/skparagraph

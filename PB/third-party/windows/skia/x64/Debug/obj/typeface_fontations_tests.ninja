@@ -1,0 +1,9 @@
+defines = -D_CRT_SECURE_NO_WARNINGS -D_HAS_EXCEPTIONS=0 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DNDEBUG
+include_dirs = "-IC$:/Program$ Files$ (x86)/Microsoft$ Visual$ Studio/2022/BuildTools/VC/Tools/MSVC/14.40.33807/include" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/shared" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/ucrt" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/um" "-IC$:/Program$ Files$ (x86)/Windows$ Kits/10/Include/10.0.22621.0/winrt"
+label_name = typeface_fontations_tests
+root_out_dir = .
+target_out_dir = obj
+target_output_name = typeface_fontations_tests
+
+
+build obj/typeface_fontations_tests.stamp: stamp

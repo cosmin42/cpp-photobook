@@ -77,6 +77,5 @@ windows/PhotobookRuntimeComponent/*_g.h
 .DS_Store
 depot_tools
 /skia
-PB/third-party/windows/skia/x64/Debug
 ninja.exe
 ninja.png
