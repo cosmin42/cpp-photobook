@@ -6,6 +6,8 @@ This project should be able to generate a pdf photobook based on a folder struct
 
 ![Dashboard preview](dashboard.png)
 
+![Dashboard preview](table.png)
+
 ## Build and Run
 
 
