@@ -4,6 +4,8 @@
 
 This project should be able to generate a pdf photobook based on a folder structure filled with photos.
 
+![Dashboard preview](dashboard.png)
+
 ## Build and Run
 
 
