@@ -58,15 +58,20 @@ namespace PhotobookNet
 
         private PhotobookWin mPhotobook;
 
+        private PhotobookRuntimeComponent.PaperSettings PaperSettingsCache;
+
         public TableContentPage()
         {
+            mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
+
+            PaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
+
             this.InitializeComponent();
 
             mCollageIconsPaths = new ObservableCollection<CollageTemplateInfo>();
 
             mDragAndDropSelectedImages = new Collection<VirtualImagePtr>();
 
-            mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mPhotobook.ConfigurePhotobookListener(this);
 
             mPhotobook.ConfigureStagedImagesListener(this);
@@ -180,17 +185,16 @@ namespace PhotobookNet
         {
             get
             {
-                var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                System.Diagnostics.Debug.Assert(paperSettings.Ppi > 0, "Width is 0");
-                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height, 438, 310);
+                System.Diagnostics.Debug.Assert(PaperSettingsCache.Ppi > 0, "Width is 0");
+                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(paperSettings.Width / ratio);
+                    return (int)Math.Floor(PaperSettingsCache.Width / ratio);
                 }
                 else
                 {
-                    return paperSettings.Width;
+                    return PaperSettingsCache.Width;
                 }
             }
             set { }
@@ -200,20 +204,27 @@ namespace PhotobookNet
         {
             get
             {
-                var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                System.Diagnostics.Debug.Assert(paperSettings.Ppi > 0, "Height is 0");
-                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height, 438, 310);
+                System.Diagnostics.Debug.Assert(PaperSettingsCache.Ppi > 0, "Height is 0");
+                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(paperSettings.Height / ratio);
+                    return (int)Math.Floor(PaperSettingsCache.Height / ratio);
                 }
                 else
                 {
-                    return paperSettings.Height;
+                    return PaperSettingsCache.Height;
                 }
             }
             set { }
+        }
+
+        private void CanvasGridSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
+
+            GalleryCanvas.Width = (int)Math.Floor(PaperSettingsCache.Width / ratio);
+            GalleryCanvas.Height = (int)Math.Floor(PaperSettingsCache.Height / ratio);
         }
 
         private void LoadImages()
@@ -276,10 +287,9 @@ namespace PhotobookNet
             PhotobookSingletonWrapper.Inst().Post(async () => { await PropertiesContentDialog.ShowAsync(); });
             PropertiesContentTextBlock.Loaded += (object sender, RoutedEventArgs args) =>
             {
-                var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                PropertiesContentTextBlock.Text = "Paper size: " + paperSettings.Width.ToString() + "x" + paperSettings.Height.ToString() + "px\n" +
-                    "PPI: " + paperSettings.Ppi.ToString() + "\n" +
-                    "Paper type: " + paperSettings.Type.ToString() + "\n";
+                PropertiesContentTextBlock.Text = "Paper size: " + PaperSettingsCache.Width.ToString() + "x" + PaperSettingsCache.Height.ToString() + "px\n" +
+                    "PPI: " + PaperSettingsCache.Ppi.ToString() + "\n" +
+                    "Paper type: " + PaperSettingsCache.Type.ToString() + "\n";
             };
         }
 
@@ -1037,8 +1047,8 @@ namespace PhotobookNet
         }
 
         private double PaperToCanvasRatio(int width, int height,
-                                            int boundingBoxWidth,
-                                            int boundingBoxHeight)
+                                            double boundingBoxWidth,
+                                            double boundingBoxHeight)
         {
             System.Diagnostics.Debug.Assert(boundingBoxWidth > 0, "Width is 0");
             System.Diagnostics.Debug.Assert(boundingBoxHeight > 0, "Height is 0");
@@ -1058,12 +1068,11 @@ namespace PhotobookNet
 
             if (width > 0 && height > 0)
             {
-                var paperSettings = mPhotobook.GetSettings().GetPaperSettings();
-                double ratio = PaperToCanvasRatio(paperSettings.Width, paperSettings.Height,
+                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height,
                                       width, height);
 
-                var newWidth = Math.Floor(paperSettings.Width / ratio);
-                var newHeight = Math.Floor(paperSettings.Height / ratio);
+                var newWidth = Math.Floor(PaperSettingsCache.Width / ratio);
+                var newHeight = Math.Floor(PaperSettingsCache.Height / ratio);
 
                 GalleryCanvas.Width = newWidth;
                 GalleryCanvas.Height = newHeight;

@@ -372,7 +372,9 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Row="0"
-                          Grid.Column="0">
+                          Grid.Column="0"
+                          x:Name="CanvasGridName"
+                          SizeChanged="CanvasGridSizeChanged">
                         <canvas:CanvasControl MinHeight="{x:Bind CanvasMinHeight}"
                                               MinWidth="{x:Bind CanvasMinWidth}"
                                               Draw="OnCanvasDraw"
