@@ -56,6 +56,8 @@ namespace PhotobookNet
         bool mJustInsert = false;
         bool doNothing = false;
 
+        (int, int) frameSize = (438, 310);
+
         private PhotobookWin mPhotobook;
 
         private PhotobookRuntimeComponent.PaperSettings PaperSettingsCache;
@@ -65,6 +67,8 @@ namespace PhotobookNet
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
 
             PaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
+
+            frameSize = (PaperSettingsCache.Width, PaperSettingsCache.Height);
 
             this.InitializeComponent();
 
@@ -221,10 +225,10 @@ namespace PhotobookNet
 
         private void CanvasGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
+            double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
 
-            GalleryCanvas.Width = (int)Math.Floor(PaperSettingsCache.Width / ratio);
-            GalleryCanvas.Height = (int)Math.Floor(PaperSettingsCache.Height / ratio);
+            GalleryCanvas.Width = (int)Math.Floor(frameSize.Item1 / ratio);
+            GalleryCanvas.Height = (int)Math.Floor(frameSize.Item2 / ratio);
         }
 
         private void LoadImages()
