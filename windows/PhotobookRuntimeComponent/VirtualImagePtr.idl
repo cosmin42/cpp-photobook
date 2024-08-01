@@ -1,4 +1,5 @@
 import "ImageResources.idl";
+import "Int32Pair.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -11,6 +12,8 @@ runtimeclass VirtualImagePtr
   IVector<String> Resources();
 
   String KeyPath();
+
+  Int32Pair Size();
 
   void SetFullSizePath(String path);
   void SetMediumSizePath(String path);

@@ -3,6 +3,8 @@
 #include "ImageResources.h"
 #include "VirtualImagePtr.g.h"
 
+#include "Int32Pair.h"
+
 #include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
 
@@ -15,7 +17,14 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
       : mVirtualImage(virtualImage)
   {
   }
+
   ~VirtualImagePtr() = default;
+
+  PhotobookRuntimeComponent::Int32Pair Size()
+  {
+    return winrt::make<Int32Pair>(mVirtualImage->frontend().width,
+                                  mVirtualImage->frontend().height);
+  }
 
   VirtualImageType Imagetype()
   {

@@ -572,6 +572,7 @@ namespace PhotobookNet
 
         private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
         {
+
             var selection = GetSelectionIndex();
             var session = args.DrawingSession;
             if (selection.StagedPhotoIndex.Count == 0 && selection.UnstagedLineIndex.Count == 0)
@@ -579,9 +580,6 @@ namespace PhotobookNet
                 session.Clear(Microsoft.UI.Colors.Black);
                 return;
             }
-
-            int portviewWidth = (int)GalleryCanvas.ActualWidth;
-            int portviewHeight = (int)GalleryCanvas.ActualHeight;
             // TODO Add managed implementation.
 
             VirtualImagePtr imagePtr = null;
@@ -596,6 +594,17 @@ namespace PhotobookNet
             }
 
             System.Diagnostics.Debug.Assert(imagePtr != null);
+
+            frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
+
+            double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
+
+            GalleryCanvas.Width = (int)Math.Floor(frameSize.Item1 / ratio);
+            GalleryCanvas.Height = (int)Math.Floor(frameSize.Item2 / ratio);
+
+
+            int portviewWidth = (int)GalleryCanvas.ActualWidth;
+            int portviewHeight = (int)GalleryCanvas.ActualHeight;
 
             // TODO: make this static as it is always used.
             byte[] byteArray = new byte[portviewWidth * portviewHeight * 4];
@@ -639,6 +648,7 @@ namespace PhotobookNet
                     0, (uint)mUnstagedImageCollection.Count));
 
                 UpdateGalleryLabel();
+
                 GalleryCanvas.Invalidate();
             }
 
