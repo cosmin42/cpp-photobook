@@ -199,7 +199,7 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
   Project projectDetails;
 
   auto paperSettingsOrError = deserialize<PaperSettings>(
-      jsonData, "paper-settings", PaperSettings(), true);
+      jsonData.at("root"), "paper-settings", PaperSettings(), true);
   if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
     return std::get<PBDev::Error>(paperSettingsOrError);
   }
@@ -207,7 +207,6 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
 
   return projectDetails;
 }
-
 
 std::variant<std::vector<Path>, PBDev::Error> deserializeSpecial(Json jsonData)
 {
@@ -226,7 +225,7 @@ std::variant<std::vector<Path>, PBDev::Error> deserializeSpecial(Json jsonData)
 
 std::variant<std::vector<Path>, PBDev::Error>
 deserializeSpecial(Json jsonData, std::string key,
-            std::vector<Path> defaultValue, bool optional)
+                   std::vector<Path> defaultValue, bool optional)
 {
   if (jsonData.contains(key)) {
     return deserializeSpecial(jsonData.at(key));
@@ -335,7 +334,7 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
   json[key] = magic_enum::enum_name(imageType);
 
   spdlog::info("%s(string, RegularImage) %s\n",
-			   std::string(depth * 2, ' ').c_str(), json.dump().c_str());
+               std::string(depth * 2, ' ').c_str(), json.dump().c_str());
 
   return json;
 }
@@ -364,7 +363,7 @@ serialize(int                                                          depth,
   Json json;
   json[key] = std::get<Json>(jsonOrError);
   spdlog::info("%s(string, RegularImage) %s\n",
-			   std::string(depth * 2, ' ').c_str(), json.dump());
+               std::string(depth * 2, ' ').c_str(), json.dump());
   return json;
 }
 
