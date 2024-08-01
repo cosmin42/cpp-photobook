@@ -26,8 +26,9 @@ std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
                                                          Path hashPath)
 {
-  std::shared_ptr<cv::Mat> image =
-      PB::Process::singleColorImage(3508, 2480, {255, 255, 255})();
+  std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
+      mProject->paperSettings.width, mProject->paperSettings.height,
+      {255, 255, 255})();
 
   Process::CVFontInfo fontInfo;
   fontInfo.color = {0, 0, 0};
@@ -35,8 +36,9 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
       Process::pointsFromPixels(24, mProject->paperSettings.ppi);
   fontInfo.thickness = 8;
 
-  image = PB::Process::addText({3508 / 2, 2480 / 2}, path.stem().string(),
-                               fontInfo)(image);
+  image = PB::Process::addText(
+      {mProject->paperSettings.width / 2, mProject->paperSettings.height / 2},
+      path.stem().string(), fontInfo)(image);
 
   Process::imageWriteThumbnail(image, hashPath);
 

@@ -8,19 +8,14 @@ void ImageMetadataLogic::inspect()
   auto filename = mPath.string();
   try {
     // Load the image
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(filename);
-    assert(image.get() != 0);
+    mImage = Exiv2::ImageFactory::open(filename);
+    assert(mImage.get() != 0);
 
     // Read metadata
-    image->readMetadata();
+    mImage->readMetadata();
 
     // Get image size
-    mExifData = image->exifData();
-    if (mExifData.empty()) {
-      std::string error(filename);
-      error += ": No Exif data found in the file";
-      throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
-    }
+    mExifData = mImage->exifData();
   }
   catch (Exiv2::Error &e) {
     UNUSED(e);
@@ -28,16 +23,8 @@ void ImageMetadataLogic::inspect()
   }
 }
 
-unsigned ImageMetadataLogic::width()
-{
-  Exiv2::Exifdatum &width = mExifData["Exif.Photo.PixelXDimension"];
-  return width.toUint32();
-}
+unsigned ImageMetadataLogic::width() { return mImage->pixelWidth(); }
 
-unsigned ImageMetadataLogic::height()
-{
-  Exiv2::Exifdatum &height = mExifData["Exif.Photo.PixelYDimension"];
-  return height.toUint32();
-}
+unsigned ImageMetadataLogic::height() { return mImage->pixelHeight(); }
 
 } // namespace PB

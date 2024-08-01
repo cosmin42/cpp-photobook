@@ -3,6 +3,8 @@
 #include <pb/Config.h>
 #include <pb/RuntimeUUID.h>
 
+#include <pb/ImageMetadataLogic.h>
+
 namespace PB {
 ResizeTask::ResizeTask(Path full, Path medium, Path small,
                        std::function<void(unsigned, unsigned)> onFinish,
@@ -36,10 +38,18 @@ void ResizeTask::operator()() const
   else {
     PBDev::basicAssert(false);
   }
+
+  ImageMetadataLogic imageMetadataLogic(mFullSizePath);
+
+  imageMetadataLogic.inspect();
+
+  auto width = imageMetadataLogic.width();
+  auto height = imageMetadataLogic.height();
+
   if constexpr (OneConfig::SIMULATE_SLOW_THUMBNAILS_PROCESSOR) {
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
   }
-  mFinish(0, 0);
+  mFinish(width, height);
 }
 
 ThumbnailsProcessor::ThumbnailsProcessor(

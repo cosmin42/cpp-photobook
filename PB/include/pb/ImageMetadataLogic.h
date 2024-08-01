@@ -18,5 +18,6 @@ public:
 private:
   Path            mPath;
   Exiv2::ExifData mExifData;
+  Exiv2::Image::UniquePtr mImage;
 };
 } // namespace PB

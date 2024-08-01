@@ -92,6 +92,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/ImportFoldersLogic.h
     include/pb/image/Image.h
     include/pb/image/ImageFactory.h
+    include/pb/ImageMetadataLogic.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
     include/pb/image/ImageSetWriter.h
@@ -151,6 +152,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Html.cpp
     src/ImageFactory.cpp
     src/ImageReader.cpp
+    src/ImageMetadataLogic.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp

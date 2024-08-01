@@ -16,10 +16,10 @@
 namespace PB {
 
 struct ImageResources {
-  Path full;
-  Path medium;
-  Path small;
-  unsigned  width = 438;
+  Path     full;
+  Path     medium;
+  Path     small;
+  unsigned width = 438;
   unsigned height = 310;
 };
 
@@ -45,6 +45,12 @@ public:
     mFrontend.full = fullSizePath;
     mFrontend.medium = mediumSizePath;
     mFrontend.small = smallSizePath;
+  }
+
+  void setSize(unsigned width, unsigned height)
+  {
+    mFrontend.width = width;
+    mFrontend.height = height;
   }
 
   ImageResources frontend() const { return mFrontend; }

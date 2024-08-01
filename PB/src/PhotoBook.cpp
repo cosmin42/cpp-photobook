@@ -389,10 +389,12 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
 
   auto newImage = ImageFactory::inst().createRegularImage(imagePath);
 
-  std::function<void()> onFinished =
+  std::function<void(unsigned, unsigned)> onFinished =
       [this, index{index}, newImage{newImage}, imagePath{imagePath},
-       mediumPath{mediumPath}, smallPath{smallPath}]() {
+       mediumPath{mediumPath},
+       smallPath{smallPath}](unsigned width, unsigned height) {
         newImage->setSizePath(imagePath, mediumPath, smallPath);
+        newImage->setSize(width, height);
 
         post([this, index{index}, newImage{newImage}]() {
           mParent->onCollageCreated(index, newImage);
