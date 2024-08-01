@@ -64,11 +64,11 @@ void ImportFoldersLogic::clearJob(Path root)
   mImageProcessingProgress.erase(root);
 }
 
-void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
-                                          Path medium, Path small,
-                                          int progressCap)
+void ImportFoldersLogic::onImageProcessed(Path key, Path root,
+                                          ImageResources imageResources,
+                                          int            progressCap)
 {
-  mScheduler->post([this, root, full, medium, small, progressCap, key{key}]() {
+  mScheduler->post([this, root, imageResources, progressCap, key{key}]() {
     if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
       mImageProcessingProgress[root] = {
           mImageProcessingProgress.at(root).first + 1, progressCap};
@@ -77,7 +77,7 @@ void ImportFoldersLogic::onImageProcessed(Path key, Path root, Path full,
       mImageProcessingProgress[root] = {1, progressCap};
     }
 
-    mListener->onImageProcessed(key, root, full, medium, small);
+    mListener->onImageProcessed(key, root, imageResources);
   });
 }
 
@@ -89,9 +89,9 @@ void ImportFoldersLogic::processImages(std::string thumbnailsDirectoryName,
       thumbnailsDirectoryName, rowProcessingData.root, rowProcessingData.images,
       hash,
       [this, root{rowProcessingData.root},
-       maxProgress{rowProcessingData.images.size()}](Path keyPath, Path full,
-                                                     Path medium, Path small) {
-        onImageProcessed(keyPath, root, full, medium, small, (int)maxProgress);
+       maxProgress{rowProcessingData.images.size()}](
+          Path keyPath, ImageResources imageResources) {
+        onImageProcessed(keyPath, root, imageResources, (int)maxProgress);
       });
 }
 

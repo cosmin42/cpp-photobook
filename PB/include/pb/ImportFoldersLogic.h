@@ -20,8 +20,8 @@ public:
   virtual void onMappingAborted(Path) = 0;
 
   virtual void onImportStop(Path) = 0;
-  virtual void onImageProcessed(Path key, Path root, Path full, Path medium,
-                                Path small) = 0;
+  virtual void onImageProcessed(Path key, Path root,
+                                ImageResources imageResources) = 0;
 
   virtual void onError(PBDev::Error error) = 0;
 };
@@ -64,7 +64,7 @@ public:
   bool marked(Path path) const;
 
 private:
-  void onImageProcessed(Path key, Path root, Path full, Path medium, Path small,
+  void onImageProcessed(Path key, Path root, ImageResources imageResources,
                         int progressCap);
 
   ImportFoldersLogicListener                    *mListener = nullptr;

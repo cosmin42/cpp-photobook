@@ -303,10 +303,11 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
 void Photobook::onImportStop(Path) {}
 
-void Photobook::onImageProcessed(Path key, Path root, Path full, Path medium,
-                                 Path small)
+void Photobook::onImageProcessed(Path key, Path root,
+                                 ImageResources imageResources)
 {
-  mImageViews.imageMonitor().image(key)->setSizePath(full, medium, small);
+  mImageViews.imageMonitor().image(key)->setSizePath(
+      imageResources.full, imageResources.medium, imageResources.small);
   mImageViews.imageMonitor().image(key)->finishProcessing();
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);

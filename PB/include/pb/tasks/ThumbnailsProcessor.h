@@ -10,7 +10,7 @@ class ResizeTask final {
 public:
   ResizeTask() = delete;
   explicit ResizeTask(Path fullSizePath, Path medium, Path small,
-                      std::function<void()> onFinish, int screenWidth,
+                      std::function<void(unsigned, unsigned)> onFinish, int screenWidth,
                       int screenHeight, std::stop_token stopToken);
   ~ResizeTask() = default;
 
@@ -20,7 +20,7 @@ private:
   Path                  mFullSizePath;
   Path                  mSmallThumbnailOutputPath;
   Path                  mMediumThumbnailOutputPath;
-  std::function<void()> mFinish;
+  std::function<void(unsigned, unsigned)> mFinish;
   int                   mScreenWidth;
   int                   mScreenHeight;
   std::stop_token       mStopToken;
@@ -38,7 +38,7 @@ public:
   void generateThumbnails(
       std::string projectName, Path root, std::vector<ProcessingData> mediaMap,
       std::string                                 groupIdentifier,
-      std::function<void(Path, Path, Path, Path)> onThumbnailWritten);
+      std::function<void(Path, ImageResources)> onThumbnailWritten);
 
   void abort();
   void abort(Path path);
@@ -59,7 +59,7 @@ private:
 
   PBDev::ParallelTaskConsumer mParallelTaskConsumer;
 
-  std::function<void(Path, Path, Path, Path)> mThumbnailWritten;
+  std::function<void(Path, ImageResources)>   mThumbnailWritten;
   int                                         mScreenWidth = 0;
   int                                         mScreenHeight = 0;
   std::unordered_map<Path, std::stop_source>  mStopSources;

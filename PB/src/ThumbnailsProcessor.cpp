@@ -5,8 +5,9 @@
 
 namespace PB {
 ResizeTask::ResizeTask(Path full, Path medium, Path small,
-                       std::function<void()> onFinish, int screenWidth,
-                       int screenHeight, std::stop_token stopToken)
+                       std::function<void(unsigned, unsigned)> onFinish,
+                       int screenWidth, int screenHeight,
+                       std::stop_token stopToken)
     : mFullSizePath(full), mSmallThumbnailOutputPath(small),
       mMediumThumbnailOutputPath(medium), mFinish(onFinish),
       mScreenWidth(screenWidth), mScreenHeight(screenHeight),
@@ -17,7 +18,7 @@ ResizeTask::ResizeTask(Path full, Path medium, Path small,
 void ResizeTask::operator()() const
 {
   if (mStopToken.stop_requested()) {
-    mFinish();
+    mFinish(0, 0);
     return;
   }
   auto resizeOption = ThumbnailType::None;
@@ -38,7 +39,7 @@ void ResizeTask::operator()() const
   if constexpr (OneConfig::SIMULATE_SLOW_THUMBNAILS_PROCESSOR) {
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
   }
-  mFinish();
+  mFinish(0, 0);
 }
 
 ThumbnailsProcessor::ThumbnailsProcessor(
@@ -65,7 +66,7 @@ void ThumbnailsProcessor::provideProjectDetails(
 void ThumbnailsProcessor::generateThumbnails(
     std::string thumbnailsDirectoryName, Path root,
     std::vector<ProcessingData> mediaMap, std::string groupIdentifier,
-    std::function<void(Path, Path, Path, Path)> onThumbnailWritten)
+    std::function<void(Path, ImageResources)> onThumbnailWritten)
 {
 
   mThumbnailWritten = onThumbnailWritten;
@@ -75,11 +76,16 @@ void ThumbnailsProcessor::generateThumbnails(
     auto [smallPath, mediumPath] = assembleOutputPaths(
         mediaMap.at(i).position, groupIdentifier, thumbnailsDirectoryName);
 
-    auto task = [mThumbnailWritten{mThumbnailWritten},
-                 keyPath{mediaMap.at(i).keyPath}, inputPath{inputPath},
-                 smallPath{smallPath}, mediumPath{mediumPath}]() {
-      mThumbnailWritten(keyPath, inputPath, mediumPath, smallPath);
-    };
+    ImageResources imageResources = {inputPath, mediumPath, smallPath};
+
+    auto task =
+        [mThumbnailWritten{mThumbnailWritten}, keyPath{mediaMap.at(i).keyPath},
+         imageResources{imageResources}](unsigned width, unsigned height) {
+          ImageResources nextImageResources = imageResources;
+          nextImageResources.width = width;
+          nextImageResources.height = height;
+          mThumbnailWritten(keyPath, nextImageResources);
+        };
 
     ResizeTask resizeTask(mediaMap.at(i).keyPath, mediumPath, smallPath, task,
                           mScreenWidth, mScreenHeight,

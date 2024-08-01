@@ -19,6 +19,8 @@ struct ImageResources {
   Path full;
   Path medium;
   Path small;
+  unsigned  width = 438;
+  unsigned height = 310;
 };
 
 class VirtualImage {
