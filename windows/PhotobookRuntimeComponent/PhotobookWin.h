@@ -145,8 +145,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
     return winrt::make<VirtualImagePtr>(
         PB::ImageFactory::inst().mapImageToPaper(
-            mPhotobook->project(), nativeImagePtr,
-            projectThumbnailsRoot / newImageName));
+            nativeImagePtr, projectThumbnailsRoot / newImageName));
   }
 
   static PhotobookRuntimeComponent::PaperSettings

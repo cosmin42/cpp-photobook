@@ -19,6 +19,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
           std::make_shared<CollageManager>(localStatePath, installationPath))
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
+  ImageFactory::inst().configurePersistenceService(mPersistenceService);
 
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);

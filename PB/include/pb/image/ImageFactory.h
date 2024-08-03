@@ -11,8 +11,9 @@ public:
   static ImageFactory &inst() { return mFactory; }
 
   void configureProject(std::shared_ptr<Project> project);
-
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configurePersistenceService(
+      std::shared_ptr<PB::PersistenceService> persistenceService);
 
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
@@ -20,8 +21,7 @@ public:
   std::shared_ptr<VirtualImage> createImage(Path path, Path hashPath);
   std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
   std::shared_ptr<VirtualImage>
-  mapImageToPaper(std::shared_ptr<PB::PersistenceService> persistenceService,
-                  std::shared_ptr<VirtualImage> image, Path hashPath);
+  mapImageToPaper(std::shared_ptr<VirtualImage> image, Path hashPath);
 
   // TODO: Fix this if taking into account the platform info...
   std::shared_ptr<VirtualImage> defaultRegularImage()
@@ -48,9 +48,9 @@ private:
 
   ~ImageFactory() = default;
 
-  std::shared_ptr<Project>      mProject;
-  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
-
-  std::shared_ptr<VirtualImage> mDefaultRegularImage = nullptr;
+  std::shared_ptr<Project>                mProject;
+  std::shared_ptr<PlatformInfo>           mPlatformInfo = nullptr;
+  std::shared_ptr<PB::PersistenceService> mPersistenceService = nullptr;
+  std::shared_ptr<VirtualImage>           mDefaultRegularImage = nullptr;
 };
 } // namespace PB

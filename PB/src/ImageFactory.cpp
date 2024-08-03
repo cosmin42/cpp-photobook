@@ -17,6 +17,12 @@ void ImageFactory::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
+void ImageFactory::configurePersistenceService(
+	std::shared_ptr<PB::PersistenceService> persistenceService)
+{
+  mPersistenceService = persistenceService;
+}
+
 std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 {
   auto regularImage =
@@ -80,9 +86,7 @@ ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
   }
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(
-    std::shared_ptr<PB::PersistenceService> persistenceService,
-    std::shared_ptr<VirtualImage> image, Path hashPath)
+std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image, Path hashPath)
 {
   auto imageData = ImageReader().read(
       image->frontend().full, true,
@@ -97,11 +101,11 @@ std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(
   PB::Process::overlap(imageData,
                        PB::Process::alignToCenter())(singleColorImage);
 
-  auto imageHash = persistenceService->hash(hashPath);
+  auto imageHash = mPersistenceService->hash(hashPath);
 
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
-      boost::uuids::to_string(persistenceService->currentProjectUUID()));
+      boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
 
   Process::imageWriteThumbnail(singleColorImage, imageHash);
 
