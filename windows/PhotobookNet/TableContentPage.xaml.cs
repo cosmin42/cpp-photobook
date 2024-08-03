@@ -173,14 +173,12 @@ namespace PhotobookNet
             {
                 if ((sender as ObservableCollection<VirtualImagePtr>).Count == 0)
                 {
-                    AddMediaButton.VerticalAlignment = VerticalAlignment.Center;
-                    RemoveMediaButton.Visibility = Visibility.Collapsed;
+                    RemoveMediaAppBarButton.IsEnabled = false;
+
                 }
                 else
                 {
-                    AddMediaButton.VerticalAlignment = VerticalAlignment.Bottom;
-                    RemoveMediaButton.VerticalAlignment = VerticalAlignment.Bottom;
-                    RemoveMediaButton.Visibility = Visibility.Visible;
+                    RemoveMediaAppBarButton.IsEnabled = true;
                 }
             };
         }
@@ -499,7 +497,7 @@ namespace PhotobookNet
             mPhotobook.MakeCollage(selectedImages, slectedCollageIndex);
         }
 
-        private async void OnImportFolderAdded(object sender, RoutedEventArgs args)
+        private async void OnAddMediaClick(object sender, RoutedEventArgs args)
         {
             await FireFolderPicker(onSuccess: (path) =>
             {

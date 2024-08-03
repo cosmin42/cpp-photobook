@@ -83,7 +83,7 @@
                                                 Click="OnSaveAsClicked" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Import Media"
-                                                Click="OnImportFolderAdded" />
+                                                Click="OnAddMediaClick" />
                                 <MenuFlyoutItem Text="Export"
                                                 Click="OnExportClicked" />
                                 <MenuFlyoutSeparator />
@@ -208,13 +208,16 @@
                             OverflowButtonVisibility="Collapsed"
                             Grid.Row="0">
                     <AppBarButton Icon="Add"
-                                  Label="Add"
+                                  Label="Add Media"
                                   Width="32"
-                                  Foreground="{StaticResource CommandBarMainColor}" />
-                    <AppBarButton Icon="Delete"
-                                  Label="Delete"
                                   Foreground="{StaticResource CommandBarMainColor}"
-                                  Width="32" />
+                                  Click="OnAddMediaClick" />
+                    <AppBarButton x:Name="RemoveMediaAppBarButton"
+                                  Icon="Delete"
+                                  Label="Remove Media"
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Width="32"
+                                  Click="OnImportFolderRemoved"/>
                     <AppBarButton Icon="Save"
                                   Label="Save"
                                   Width="32"
@@ -294,29 +297,6 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                                <Border BorderBrush="{StaticResource BorderColor}"
-                                        BorderThickness="1"
-                                        Padding="16,8"
-                                        Grid.Row="0"
-                                        Grid.Column="0">
-                                    <Grid>
-                                        <Button Background="{StaticResource ButtonBackgroundColor}"
-                                                Click="OnImportFolderAdded"
-                                                CornerRadius="4"
-                                                Content="Add Media"
-                                                x:Name="AddMediaButton"
-                                                Foreground="{StaticResource MainFontColor}"
-                                                HorizontalAlignment="Center" />
-                                        <Button Click="OnImportFolderRemoved"
-                                                CornerRadius="4"
-                                                Content="Remove"
-                                                x:Name="RemoveMediaButton"
-                                                Visibility="Collapsed"
-                                                Foreground="{StaticResource MainFontColor}"
-                                                Background="{StaticResource RemoveButtonBackground}"
-                                                HorizontalAlignment="Right" />
-                                    </Grid>
-                                </Border>
                             </Grid>
                         </controls:TabViewItem>
                         <controls:TabViewItem Header="Collage Library"
