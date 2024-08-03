@@ -15,7 +15,7 @@ public:
   {
   }
 
-  explicit RegularImage(Path full, Path medium, Path small, bool processed,
+  explicit RegularImage(ImageResources imageResources, bool processed,
                         std::vector<Path> resourcePath);
 
   ~RegularImage() = default;

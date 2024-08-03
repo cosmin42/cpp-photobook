@@ -10,7 +10,7 @@ public:
   {
   }
 
-  explicit TextImage(Path full, Path medium, Path small, bool processed,
+  explicit TextImage(ImageResources imageResources, bool processed,
                      std::vector<Path> resourcePath);
   ~TextImage() = default;
 

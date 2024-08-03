@@ -136,14 +136,14 @@ deserialize(Json jsonData)
 #ifndef _CLANG_UML_
   if (imageType == "Regular") {
     auto imagePtr = std::make_shared<RegularImage>(
-        frontendFull, frontendMedium, frontendSmall, processingFinished,
-        std::get<std::vector<Path>>(resourcesOrError));
+        ImageResources{frontendFull, frontendMedium, frontendSmall},
+        processingFinished, std::get<std::vector<Path>>(resourcesOrError));
     return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
   }
   else if (imageType == "Text") {
     auto imagePtr = std::make_shared<TextImage>(
-        frontendFull, frontendMedium, frontendSmall, processingFinished,
-        std::get<std::vector<Path>>(resourcesOrError));
+        ImageResources{frontendFull, frontendMedium, frontendSmall},
+        processingFinished, std::get<std::vector<Path>>(resourcesOrError));
     return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
   }
   else {

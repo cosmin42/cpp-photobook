@@ -1,9 +1,9 @@
 #include <pb/image/RegularImage.h>
 
 namespace PB {
-RegularImage::RegularImage(Path full, Path medium, Path small, bool processed,
+RegularImage::RegularImage(ImageResources imageResources, bool processed,
                            std::vector<Path> resourcePath)
-    : VirtualImage(ImageResources{full, medium, small})
+    : VirtualImage(imageResources)
 {
   mProcessed = processed;
   mResourcePath = resourcePath.at(0);

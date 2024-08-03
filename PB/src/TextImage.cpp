@@ -1,9 +1,9 @@
 #include <pb/image/TextImage.h>
 
 namespace PB {
-TextImage::TextImage(Path full, Path medium, Path small, bool processed,
+TextImage::TextImage(ImageResources imageResources, bool processed,
                      std::vector<Path> resourcePath)
-    : VirtualImage(ImageResources(full, medium, small))
+    : VirtualImage(imageResources)
 {
   mProcessed = processed;
   mResourcePath = resourcePath.at(0);
