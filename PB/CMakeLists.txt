@@ -88,6 +88,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
     include/pb/export/PdfLibharu.h
+    include/pb/ImportImageTask.h
     include/pb/ImageMonitor.h
     include/pb/ImportFoldersLogic.h
     include/pb/image/Image.h
@@ -156,6 +157,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
     src/ImageSetWriter.cpp
+    src/ImportImageTask.cpp
     src/ImportFoldersLogic.cpp
     src/Jpg.cpp
     src/MetadataReader.cpp
