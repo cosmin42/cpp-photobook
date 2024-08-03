@@ -48,12 +48,12 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="DarkBlue" />
+                                                                    Value="#2B4970" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
                                                                        Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="DarkBlue" />
+                                                                    Value="#2B4970" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
