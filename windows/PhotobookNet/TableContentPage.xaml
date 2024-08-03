@@ -318,7 +318,8 @@
                                                                Text="{x:Bind Name}" />
                                                     <TextBlock Grid.Row="2"
                                                                Foreground="{StaticResource MainFontColor}"
-                                                               Text="{x:Bind Info}" FontSize="10" />
+                                                               Text="{x:Bind Info}"
+                                                               FontSize="10" />
                                                 </Grid>
                                             </Border>
                                         </DataTemplate>
@@ -353,6 +354,16 @@
                                             Click="OnMakeCollageClick" />
                                 </Grid>
                             </Grid>
+                        </Border>
+                    </controls:TabViewItem>
+                    <controls:TabViewItem Header="LUTs Library"
+                                          IsClosable="False">
+                        <Border BorderBrush="{StaticResource BorderColor}"
+                                BorderThickness="1"
+                                Padding="16,8"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                            <Grid></Grid>
                         </Border>
                     </controls:TabViewItem>
                 </controls:TabView.TabItems>
