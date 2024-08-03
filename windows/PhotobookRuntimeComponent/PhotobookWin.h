@@ -176,6 +176,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   {
     auto paperType =
         PB::deserializePaperType(winrt::to_string(serializedPaperType));
+    if (paperType == PB::PaperType::Custom) {
+      PB::PaperSettings defaultPaperSettings;
+      defaultPaperSettings.type = PB::PaperType::Custom;
+      return winrt::make<PaperSettings>(defaultPaperSettings);
+    }
     return GetDefaultSettings((PhotobookRuntimeComponent::PaperType)paperType);
   }
 

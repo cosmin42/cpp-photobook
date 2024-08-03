@@ -107,7 +107,8 @@ namespace PhotobookNet
 
         private PaperSettings GetPaperSettings()
         {
-            var paperSettings = PhotobookWin.GetDefaultSerializedSettings((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
+            var comboTypeName = (ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString();
+            PaperSettings paperSettings = PhotobookWin.GetDefaultSerializedSettings(comboTypeName);
 
             paperSettings.Width = int.Parse(TextBoxPaperWidth.Text);
             paperSettings.Height = int.Parse(TextBoxPaperHeight.Text);
