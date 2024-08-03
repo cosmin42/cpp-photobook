@@ -1132,7 +1132,8 @@ namespace PhotobookNet
                 for (int i = 0; i < photos.Count; i++)
                 {
                     mJustInsert = true;
-                    mStagedImageCollection.Add(photos[i]);
+                    var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    mStagedImageCollection.Add(newImage);
                 }
             }
             else if (index < mStagedImageCollection.Count)
@@ -1140,7 +1141,8 @@ namespace PhotobookNet
                 for (int i = 0; i < photos.Count; i++)
                 {
                     mJustInsert = true;
-                    mStagedImageCollection.Insert(index, photos[i]);
+                    var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    mStagedImageCollection.Insert(index, newImage);
                 }
             }
         }

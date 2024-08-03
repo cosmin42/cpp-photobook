@@ -351,6 +351,11 @@ std::vector<Path> Photobook::pendingMappingPathList() const
 
 std::string Photobook::projectName() const { return mProjectName; }
 
+std::shared_ptr<PlatformInfo> Photobook::platformInfo() const
+{
+  return mPlatformInfo;
+}
+
 void Photobook::onProjectRenamed() {}
 
 void Photobook::onExportComplete(std::string name) {}

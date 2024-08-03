@@ -104,6 +104,8 @@ public:
 
   std::string projectName() const;
 
+  std::shared_ptr<PlatformInfo> platformInfo() const;
+
 private:
   PhotobookListener                  *mParent = nullptr;
   std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;

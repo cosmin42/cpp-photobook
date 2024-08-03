@@ -1,5 +1,6 @@
 #include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/tasks/ThumbnailsProcessor.h>
 
 namespace PB {
 
@@ -78,4 +79,43 @@ ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
     return nullptr;
   }
 }
+
+std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(
+    std::shared_ptr<PB::PersistenceService> persistenceService,
+    std::shared_ptr<VirtualImage> image, Path hashPath)
+{
+  auto imageData = ImageReader().read(
+      image->frontend().full, true,
+      {mProject->paperSettings.width, mProject->paperSettings.height});
+
+  std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
+      mProject->paperSettings.width, mProject->paperSettings.height,
+      {255, 255, 255})();
+
+  PBDev::basicAssert(imageData != nullptr);
+
+  PB::Process::overlap(imageData,
+                       PB::Process::alignToCenter())(singleColorImage);
+
+  auto imageHash = persistenceService->hash(hashPath);
+
+  auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
+      mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
+      boost::uuids::to_string(persistenceService->currentProjectUUID()));
+
+  Process::imageWriteThumbnail(singleColorImage, imageHash);
+
+  Process::imageWriteThumbnail(mProject->paperSettings.width,
+                               mProject->paperSettings.height, singleColorImage,
+                               mediumPath, smallPath);
+
+  ImageResources imageResources = {imageHash, mediumPath, smallPath,
+                                   singleColorImage->cols,
+                                   singleColorImage->rows};
+
+  auto newImage = std::make_shared<RegularImage>(imageResources, hashPath);
+
+  return newImage;
+}
+
 } // namespace PB

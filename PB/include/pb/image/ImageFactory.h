@@ -2,6 +2,7 @@
 
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
+#include <pb/persistence/PersistenceService.h>
 #include <pb/project/Project.h>
 
 namespace PB {
@@ -18,6 +19,9 @@ public:
 
   std::shared_ptr<VirtualImage> createImage(Path path, Path hashPath);
   std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
+  std::shared_ptr<VirtualImage>
+  mapImageToPaper(std::shared_ptr<PB::PersistenceService> persistenceService,
+                  std::shared_ptr<VirtualImage> image, Path hashPath);
 
   // TODO: Fix this if taking into account the platform info...
   std::shared_ptr<VirtualImage> defaultRegularImage()
