@@ -88,7 +88,7 @@ namespace PhotobookNet
             CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
 
             var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
-            PreviewCollage.IsEnabled = collageButtonsEnabled;
+            PreviewAppBarButton.IsEnabled = collageButtonsEnabled;
             MakeCollage.IsEnabled = collageButtonsEnabled;
 
             PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
@@ -481,11 +481,6 @@ namespace PhotobookNet
             }
         }
 
-        private void OnPreviewCollageClick(object sender, RoutedEventArgs args)
-        {
-
-        }
-
         private void OnMakeCollageClick(object sender, RoutedEventArgs args)
         {
             var selection = GetSelectionIndex();
@@ -496,6 +491,7 @@ namespace PhotobookNet
 
             mPhotobook.MakeCollage(selectedImages, slectedCollageIndex);
         }
+
 
         private async void OnAddMediaClick(object sender, RoutedEventArgs args)
         {
@@ -538,7 +534,7 @@ namespace PhotobookNet
                 }
             }
 
-            PreviewCollage.IsEnabled = collageButtonsEnabled;
+            PreviewAppBarButton.IsEnabled = collageButtonsEnabled;
             MakeCollage.IsEnabled = collageButtonsEnabled;
         }
 
@@ -830,7 +826,7 @@ namespace PhotobookNet
             }
         }
 
-        private void OnSaveProject(object sender, ContentDialogButtonClickEventArgs args)
+        private void saveProject()
         {
             mPhotobook.GetSettings().Save(mPhotobook.GetSettings().CurrentProjectUUID(),
                 mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
@@ -852,6 +848,16 @@ namespace PhotobookNet
                 mPhotobook.UnloadProject();
                 Frame.Navigate(typeof(DashboardPage));
             }
+        }
+
+        private void OnSaveProject(object sender, RoutedEventArgs args)
+        {
+            saveProject();
+        }
+
+        private void OnSaveProject(object sender, ContentDialogButtonClickEventArgs args)
+        {
+            saveProject();
         }
 
 

@@ -217,12 +217,14 @@
                                   Label="Remove Media"
                                   Foreground="{StaticResource CommandBarMainColor}"
                                   Width="32"
-                                  Click="OnImportFolderRemoved"/>
+                                  Click="OnImportFolderRemoved" />
                     <AppBarButton Icon="Save"
                                   Label="Save"
                                   Width="32"
-                                  Foreground="{StaticResource CommandBarMainColor}" />
-                    <AppBarButton Label="Preview"
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Click="OnSaveProject" />
+                    <AppBarButton x:Name="PreviewAppBarButton"
+                                  Label="Preview"
                                   Foreground="{StaticResource CommandBarMainColor}"
                                   Width="32">
                         <AppBarButton.Icon>
@@ -230,18 +232,22 @@
                                       FontFamily="Segoe MDL2 Assets" />
                         </AppBarButton.Icon>
                     </AppBarButton>
-                    <AppBarButton Icon="ViewAll"
+                    <AppBarButton x:Name="MakeCollage"
+                                  Icon="ViewAll"
                                   Label="Collage"
                                   Width="32"
-                                  Foreground="{StaticResource CommandBarMainColor}" />
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Click="OnMakeCollageClick" />
                     <AppBarButton Icon="Send"
                                   Label="Export Album"
                                   Width="32"
-                                  Foreground="{StaticResource CommandBarMainColor}" />
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Click="OnExportClicked" />
                     <AppBarButton Icon="Help"
                                   Label="Help"
                                   Width="32"
-                                  Foreground="{StaticResource CommandBarMainColor}" />
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Click="OnAboutClicked" />
                 </CommandBar>
                 <controls:TabView x:Name="CentralTabView"
                                   Grid.Row="1"
@@ -307,15 +313,10 @@
                                     Grid.Row="0"
                                     Grid.Column="0">
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="12*" />
-                                        <RowDefinition Height="1*" />
-                                    </Grid.RowDefinitions>
                                     <controls:GridView x:Name="CollageTemplatesGridView"
                                                        IsItemClickEnabled="True"
                                                        SelectionChanged="OnCollageSelectionChanged"
-                                                       SelectionMode="Single"
-                                                       Grid.Row="0">
+                                                       SelectionMode="Single">
                                         <controls:GridView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <ItemsWrapGrid Orientation="Horizontal" />
@@ -347,34 +348,6 @@
                                             </DataTemplate>
                                         </controls:GridView.ItemTemplate>
                                     </controls:GridView>
-                                    <Grid Grid.Row="1">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0"
-                                                Background="{StaticResource ButtonBackgroundColor}"
-                                                CornerRadius="4"
-                                                Content="Preview"
-                                                x:Name="PreviewCollage"
-                                                Foreground="{StaticResource MainFontColor}"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Click="OnPreviewCollageClick" />
-                                        <Button Grid.Column="1"
-                                                Background="{StaticResource ButtonBackgroundColor}"
-                                                CornerRadius="4"
-                                                Content="Make"
-                                                x:Name="MakeCollage"
-                                                Foreground="{StaticResource MainFontColor}"
-                                                VerticalAlignment="Bottom"
-                                                HorizontalAlignment="Left"
-                                                Click="OnMakeCollageClick" />
-                                    </Grid>
                                 </Grid>
                             </Border>
                         </controls:TabViewItem>
