@@ -48,7 +48,7 @@ void JpgExport::writeImage(Path inputPath, Path outputPath) const
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath);
+  auto temporaryImage = ImageReader().read(inputPath, true);
   PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize({mPaperSettings.width, mPaperSettings.height},
                   true)(temporaryImage);

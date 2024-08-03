@@ -16,6 +16,14 @@ void ImageMetadataLogic::inspect()
 
     // Get image size
     mExifData = mImage->exifData();
+
+    Exiv2::ExifKey            key("Exif.Image.Orientation");
+    Exiv2::ExifData::iterator pos = mExifData.findKey(key);
+
+    if (pos != mExifData.end() && pos->count() > 0) {
+      // Retrieve the orientation value
+      mOrientation = pos->toUint32();
+    }
   }
   catch (Exiv2::Error &e) {
     UNUSED(e);
@@ -23,8 +31,25 @@ void ImageMetadataLogic::inspect()
   }
 }
 
-unsigned ImageMetadataLogic::width() { return mImage->pixelWidth(); }
+auto ImageMetadataLogic::isRotated90Degrees() const -> bool
+{
+  return mOrientation == 6 || mOrientation == 8;
+}
 
-unsigned ImageMetadataLogic::height() { return mImage->pixelHeight(); }
+unsigned ImageMetadataLogic::width()
+{
+  if (isRotated90Degrees()) {
+    return mImage->pixelHeight();
+  }
+  return mImage->pixelWidth();
+}
+
+unsigned ImageMetadataLogic::height()
+{
+  if (isRotated90Degrees()) {
+    return mImage->pixelWidth();
+  }
+  return mImage->pixelHeight();
+}
 
 } // namespace PB

@@ -308,6 +308,8 @@ void Photobook::onImageProcessed(Path key, Path root,
 {
   mImageViews.imageMonitor().image(key)->setSizePath(
       imageResources.full, imageResources.medium, imageResources.small);
+  mImageViews.imageMonitor().image(key)->setSize(imageResources.width,
+                                                 imageResources.height);
   mImageViews.imageMonitor().image(key)->finishProcessing();
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);

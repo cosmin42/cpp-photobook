@@ -602,9 +602,8 @@ namespace PhotobookNet
             GalleryCanvas.Width = (int)Math.Floor(frameSize.Item1 / ratio);
             GalleryCanvas.Height = (int)Math.Floor(frameSize.Item2 / ratio);
 
-
-            int portviewWidth = (int)GalleryCanvas.ActualWidth;
-            int portviewHeight = (int)GalleryCanvas.ActualHeight;
+            int portviewWidth = (int)GalleryCanvas.Width;
+            int portviewHeight = (int)GalleryCanvas.Height;
 
             // TODO: make this static as it is always used.
             byte[] byteArray = new byte[portviewWidth * portviewHeight * 4];

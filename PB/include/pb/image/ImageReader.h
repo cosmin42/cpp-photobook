@@ -31,7 +31,8 @@ public:
   ImageReader &operator=(ImageReader const &other) = delete;
   ~ImageReader() = default;
 
-  auto read(Path const path, cv::Size size = {0, 0}) -> std::shared_ptr<cv::Mat>
+  auto read(Path const path, bool keepAspectRatio, cv::Size size = {0, 0})
+      -> std::shared_ptr<cv::Mat>
   {
     if (isCached(path)) {
       return mBuffer.at(path);
@@ -39,7 +40,7 @@ public:
 
     auto image = loadImage(path);
     if (!size.empty()) {
-      Process::resize(size, true)(image);
+      Process::resize(size, keepAspectRatio)(image);
     }
     return image;
   }

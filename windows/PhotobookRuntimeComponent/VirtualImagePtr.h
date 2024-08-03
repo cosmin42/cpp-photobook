@@ -35,15 +35,13 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
                          int portviewHeight)
   {
     auto mediumThumbnailPath = mVirtualImage->frontend().medium;
-    std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
-        portviewWidth, portviewHeight, {255, 255, 255})();
 
-    auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(),
+    auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(), false,
                                            {portviewWidth, portviewHeight});
-    PB::Process::overlap(tmpImage, PB::Process::alignToCenter())(image);
 
-    std::copy_n((uint8_t *)image->data,
-                (uint32_t)(image->total() * image->elemSize()), buffer.begin());
+    std::copy_n((uint8_t *)tmpImage->data,
+                (uint32_t)(tmpImage->total() * tmpImage->elemSize()),
+                buffer.begin());
   }
 
   Windows::Foundation::Collections::IVector<winrt::hstring> Resources()

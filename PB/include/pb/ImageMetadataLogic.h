@@ -15,9 +15,12 @@ public:
   unsigned width();
   unsigned height();
 
+  auto isRotated90Degrees() const -> bool;
+
 private:
-  Path            mPath;
-  Exiv2::ExifData mExifData;
+  Path                    mPath;
+  Exiv2::ExifData         mExifData;
   Exiv2::Image::UniquePtr mImage;
+  uint8_t                 mOrientation = 0;
 };
 } // namespace PB

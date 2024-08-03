@@ -118,7 +118,7 @@ void PdfLibharuExportTask::writeImage(Path inputPath, Path outputPath) const
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(imageWidth, imageHeight, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath);
+  auto temporaryImage = ImageReader().read(inputPath, true);
   PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize({imageWidth, imageHeight}, true)(temporaryImage);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
