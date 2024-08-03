@@ -1119,7 +1119,7 @@ namespace PhotobookNet
 
         public async void OnError(PBError error)
         {
-            var errorString = error.ToString();
+            var errorString = error.description();
             GenericErrorTextBlock.Text = "Code: " + errorString;
             await GenericErrorDialog.ShowAsync();
         }
