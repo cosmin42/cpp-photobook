@@ -78,7 +78,7 @@ void Photobook::configure(ImageMonitorListener *listener)
 void Photobook::configure(std::shared_ptr<PB::Project> project)
 {
   mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configure(mPersistenceService->currentProject());
+  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
   mExportLogic.configure(mPersistenceService->currentProject(), mPlatformInfo);
 }
 
@@ -252,7 +252,7 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
 
   mPersistenceService->newProject(name, newProject);
   mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configure(mPersistenceService->currentProject());
+  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
 }
 
 void Photobook::onMappingStarted(Path path)

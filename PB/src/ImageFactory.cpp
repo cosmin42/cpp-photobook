@@ -6,7 +6,7 @@ namespace PB {
 
 ImageFactory ImageFactory::mFactory;
 
-void ImageFactory::configure(std::shared_ptr<Project> project)
+void ImageFactory::configureProject(std::shared_ptr<Project> project)
 {
   mProject = project;
 }

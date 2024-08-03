@@ -10,7 +10,7 @@ class ImageFactory final {
 public:
   static ImageFactory &inst() { return mFactory; }
 
-  void configure(std::shared_ptr<Project> project);
+  void configureProject(std::shared_ptr<Project> project);
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
