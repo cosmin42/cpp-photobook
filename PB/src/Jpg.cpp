@@ -50,8 +50,8 @@ void JpgExport::writeImage(Path inputPath, Path outputPath) const
 
   auto temporaryImage = ImageReader().read(inputPath, true);
   PBDev::basicAssert(temporaryImage != nullptr);
-  Process::resize({mPaperSettings.width, mPaperSettings.height},
-                  true)(temporaryImage);
+  Process::resize(temporaryImage, {mPaperSettings.width, mPaperSettings.height},
+                  true);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
   bool success = cv::imwrite(outputPath.string(), *image);

@@ -32,7 +32,7 @@ void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
 
   auto temporaryImage = ImageReader().read(inputPath, true);
   PBDev::basicAssert(temporaryImage != nullptr);
-  Process::resize({imageWidth, imageHeight}, true)(temporaryImage);
+  Process::resize(temporaryImage, {imageWidth, imageHeight}, true);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
 
   bool success = cv::imwrite(outputPath.string(), *image);

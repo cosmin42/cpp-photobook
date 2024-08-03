@@ -21,52 +21,39 @@ bool validExtension(std::optional<Path> path)
 
   return (validFileExtensions.contains(extension));
 }
-auto resize(cv::Size size, bool keepAspectRatio)
-    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>
+
+std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
+                                cv::Size newSize, bool keepAspectRatio)
 {
-  auto fKeppAspectRation =
-      [size{size}](std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    if (!image) {
-      return nullptr;
-    }
-
-    auto &[width, height] = size;
-
-    cv::Size2f ratio = {(float)image->cols / (float)width,
-                        (float)image->rows / (float)height};
-    auto       maxRatio = std::max(ratio.width, ratio.height);
-
-    if (maxRatio < 1) {
-      return image;
-    }
-    cv::Size newSize = {(int)floor((image->cols / maxRatio)),
-                        (int)floor(image->rows / maxRatio)};
-
-    cv::resize(*image, *image, newSize, 0, 0, cv::INTER_AREA);
-
-    auto newImage = singleColorImage(newSize.width, newSize.height,
-                                     cv::Scalar{255, 255, 255})();
-
-    image->copyTo(*newImage);
-
-    return image;
-  };
-
-  auto f =
-      [size{size}](std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-    if (!image) {
-      return nullptr;
-    }
-
-    cv::resize(*image, *image, size, 0, 0, cv::INTER_AREA);
-
-    return image;
-  };
-
-  if (keepAspectRatio) {
-    return fKeppAspectRation;
+  if (!image) {
+    return nullptr;
   }
-  return f;
+
+  if (!keepAspectRatio) {
+    cv::resize(*image, *image, newSize, 0, 0, cv::INTER_AREA);
+    return image;
+  }
+
+  auto &[width, height] = newSize;
+
+  cv::Size2f ratio = {(float)image->cols / (float)width,
+                      (float)image->rows / (float)height};
+  auto       maxRatio = std::max(ratio.width, ratio.height);
+
+  if (maxRatio < 1) {
+    return image;
+  }
+  cv::Size finalSize = {(int)floor((image->cols / maxRatio)),
+                      (int)floor(image->rows / maxRatio)};
+
+  cv::resize(*image, *image, finalSize, 0, 0, cv::INTER_AREA);
+
+  auto newImage = singleColorImage(finalSize.width, finalSize.height,
+                                   cv::Scalar{255, 255, 255})();
+
+  image->copyTo(*newImage);
+
+  return image;
 }
 
 OffsetFunction alignToCenter()
@@ -136,11 +123,10 @@ auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
 {
   auto f = [offset{offset}, text{text}, fontInfo{fontInfo}](
                std::shared_ptr<cv::Mat> image) -> std::shared_ptr<cv::Mat> {
-
     auto size = cv::getTextSize(text, cv::FONT_HERSHEY_DUPLEX,
                                 fontInfo.pixelSize, fontInfo.thickness, 0);
     auto totalOffset = cv::Size{offset.width - (size.width / 2),
-                        offset.height + (size.height / 2)};
+                                offset.height + (size.height / 2)};
     cv::putText(*image, text, totalOffset, cv::FONT_HERSHEY_DUPLEX,
                 fontInfo.pixelSize, fontInfo.color, fontInfo.thickness,
                 cv::LINE_AA);
@@ -167,17 +153,16 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
 
   if ((thumbnailsType & ThumbnailType::Medium) == ThumbnailType::Medium) {
     auto mediumImagePointer = PB::Process::resize(
-        cv::Size(mediumThumbnailWidth, mediumThumbnailHeight),
-        true)(inputImage);
+        inputImage, {mediumThumbnailWidth, mediumThumbnailHeight}, true);
     bool success = cv::imwrite(medium.string(), *mediumImagePointer);
     PBDev::basicAssert(success);
   }
 
   if ((thumbnailsType & ThumbnailType::Small) == ThumbnailType::Small) {
-    auto smallImagePointer =
-        PB::Process::resize(cv::Size(OneConfig::SMALL_THUMBNAIL_WIDTH,
-                                     OneConfig::SMALL_THUMBNAIL_HEIGHT),
-                            true)(inputImage);
+    auto smallImagePointer = PB::Process::resize(
+        inputImage,
+        {OneConfig::SMALL_THUMBNAIL_WIDTH, OneConfig::SMALL_THUMBNAIL_HEIGHT},
+        true);
 
     bool success = cv::imwrite(small.string(), *smallImagePointer);
     PBDev::basicAssert(success);
@@ -188,7 +173,6 @@ void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full)
 {
   bool success = cv::imwrite(full.string(), *image);
   PBDev::basicAssert(success);
-
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,
@@ -201,14 +185,15 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
       std::max<int>(OneConfig::MEDIUM_THUMBNAIL_HEIGHT, screenHeight / 2);
 
   auto mediumImagePointer = PB::Process::resize(
-      cv::Size(mediumThumbnailWidth, mediumThumbnailHeight), true)(image);
+      image, {mediumThumbnailWidth, mediumThumbnailHeight}, true);
 
   bool success = cv::imwrite(medium.string(), *mediumImagePointer);
   PBDev::basicAssert(success);
 
   auto smallImagePointer = PB::Process::resize(
-      cv::Size(OneConfig::SMALL_THUMBNAIL_WIDTH, OneConfig::SMALL_THUMBNAIL_HEIGHT),
-      true)(image);
+      image,
+      {OneConfig::SMALL_THUMBNAIL_WIDTH, OneConfig::SMALL_THUMBNAIL_HEIGHT},
+      true);
 
   success = cv::imwrite(small.string(), *smallImagePointer);
   PBDev::basicAssert(success);

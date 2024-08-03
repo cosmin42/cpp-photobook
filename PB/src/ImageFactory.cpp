@@ -110,8 +110,8 @@ std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(
                                mediumPath, smallPath);
 
   ImageResources imageResources = {imageHash, mediumPath, smallPath,
-                                   singleColorImage->cols,
-                                   singleColorImage->rows};
+                                   (unsigned)singleColorImage->cols,
+                                   (unsigned)singleColorImage->rows};
 
   auto newImage = std::make_shared<RegularImage>(imageResources, hashPath);
 

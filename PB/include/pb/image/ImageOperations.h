@@ -26,9 +26,10 @@ OffsetFunction defaultAlignment();
 
 bool validExtension(std::optional<Path> path);
 
-auto resize(cv::Size size, bool keepAspectRatio)
-    -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
+std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
+                                cv::Size newSize, bool keepAspectRatio);
 
+// TODO: Refactor all the studpid functions like resize
 auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
 

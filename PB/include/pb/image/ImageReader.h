@@ -40,7 +40,7 @@ public:
 
     auto image = loadImage(path);
     if (!size.empty()) {
-      Process::resize(size, keepAspectRatio)(image);
+      return Process::resize(image, size, keepAspectRatio);
     }
     return image;
   }
