@@ -301,7 +301,7 @@ namespace PhotobookNet
 
         private void OnRenameClicked(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(mRightClickedId))
+            if (!string.IsNullOrEmpty(mRightClickedId))
             {
                 string name = "";
 
@@ -318,7 +318,7 @@ namespace PhotobookNet
 
                 System.Diagnostics.Debug.Assert(!string.IsNullOrEmpty(name), "Name is null.");
 
-                mOldProjectName = name;
+                mOldProjectName = name.Remove(name.Length-".photobook".Length);
 
                 RenameProjectDialogTextBox.PlaceholderText = mOldProjectName;
                 RenameProjectDialogDisplay();
