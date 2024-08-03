@@ -7,6 +7,7 @@
     <Color x:Key="BorderColor">#09191D</Color>
     <Color x:Key="ButtonBackgroundColor">#374346</Color>
     <Color x:Key="MainFontColor">#FFFFFF</Color>
+    <Color x:Key="CommandBarMainColor">#D3D3D3</Color>
     <Color x:Key="ButtonPointerOverWhenSelected">#516165</Color>
     <Color x:Key="RemoveButtonBackground">#541C1C</Color>
     <Color x:Key="DialogTextColor">#808080</Color>

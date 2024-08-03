@@ -199,175 +199,218 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <!-- https://github.com/microsoft/microsoft-ui-xaml/blob/8e41f536c0baa22f4a5d23bf20cfa82202c50452/dev/TabView/TabView_themeresources.xaml TabView -->
-            <controls:TabView x:Name="CentralTabView"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              IsAddTabButtonVisible="False">
-                <TabView.Resources>
-                    <ResourceDictionary>
-                        <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected"
-                                         Color="{StaticResource ButtonBackgroundColor}" />
-                        <SolidColorBrush x:Key="TabViewItemHeaderBackground"
-                                         Color="{StaticResource PrimaryColor}" />
-                        <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver"
-                                         Color="{StaticResource PrimaryColor}" />
-                        <SolidColorBrush x:Key="TabViewItemHeaderForegroundSelected"
-                                         Color="{StaticResource MainFontColor}" />
-                        <SolidColorBrush x:Key="TabViewItemHeaderForeground"
-                                         Color="{StaticResource MainFontColor}" />
-                        <SolidColorBrush x:Key="TabViewItemHeaderForegroundPointerOver"
-                                         Color="{StaticResource MainFontColor}" />
-                    </ResourceDictionary>
-                </TabView.Resources>
-                <controls:TabView.TabItems>
-                    <controls:TabViewItem Header="Imports"
-                                          IsClosable="False">
-                        <Grid>
-                            <ListView Name="MediaListView"
-                                      SelectionChanged="OnImportSelectionChanged"
-                                      SelectionMode="Single"
-                                      AllowDrop="True"
-                                      CanDragItems="True"
-                                      CanReorderItems="False">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid VerticalAlignment="Center"
-                                              x:Name="GridListName">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="1*" />
-                                                <ColumnDefinition Width="4*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Image Grid.Column="0"
-                                                   x:Name="folderImage"
-                                                   Source="Assets/folderIcon.png"
-                                                   Width="64"
-                                                   Height="64"
-                                                   HorizontalAlignment="Left" />
-                                            <TextBlock Grid.Column="1"
-                                                       Text="{Binding}"
-                                                       Foreground="{StaticResource MainFontColor}"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="15*" />
+                </Grid.RowDefinitions>
+                <CommandBar HorizontalAlignment="Left"
+                            OverflowButtonVisibility="Collapsed"
+                            Grid.Row="0">
+                    <AppBarButton Icon="Add"
+                                  Label="Add"
+                                  Width="32"
+                                  Foreground="{StaticResource CommandBarMainColor}" />
+                    <AppBarButton Icon="Delete"
+                                  Label="Delete"
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Width="32" />
+                    <AppBarButton Icon="Save"
+                                  Label="Save"
+                                  Width="32"
+                                  Foreground="{StaticResource CommandBarMainColor}" />
+                    <AppBarButton Label="Preview"
+                                  Foreground="{StaticResource CommandBarMainColor}"
+                                  Width="32">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE890;"
+                                      FontFamily="Segoe MDL2 Assets" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Icon="ViewAll"
+                                  Label="Collage"
+                                  Width="32"
+                                  Foreground="{StaticResource CommandBarMainColor}" />
+                    <AppBarButton Icon="Send"
+                                  Label="Export Album"
+                                  Width="32"
+                                  Foreground="{StaticResource CommandBarMainColor}" />
+                    <AppBarButton Icon="Help"
+                                  Label="Help"
+                                  Width="32"
+                                  Foreground="{StaticResource CommandBarMainColor}" />
+                </CommandBar>
+                <controls:TabView x:Name="CentralTabView"
+                                  Grid.Row="1"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  IsAddTabButtonVisible="False">
+                    <TabView.Resources>
+                        <ResourceDictionary>
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected"
+                                             Color="{StaticResource ButtonBackgroundColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackground"
+                                             Color="{StaticResource PrimaryColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver"
+                                             Color="{StaticResource PrimaryColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderForegroundSelected"
+                                             Color="{StaticResource MainFontColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderForeground"
+                                             Color="{StaticResource MainFontColor}" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderForegroundPointerOver"
+                                             Color="{StaticResource MainFontColor}" />
+                        </ResourceDictionary>
+                    </TabView.Resources>
+                    <controls:TabView.TabItems>
+                        <controls:TabViewItem Header="Imports"
+                                              IsClosable="False">
+                            <Grid>
+                                <ListView Name="MediaListView"
+                                          SelectionChanged="OnImportSelectionChanged"
+                                          SelectionMode="Single"
+                                          AllowDrop="True"
+                                          CanDragItems="True"
+                                          CanReorderItems="False">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid VerticalAlignment="Center"
+                                                  x:Name="GridListName">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*" />
+                                                    <ColumnDefinition Width="4*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0"
+                                                       x:Name="folderImage"
+                                                       Source="Assets/folderIcon.png"
+                                                       Width="64"
+                                                       Height="64"
+                                                       HorizontalAlignment="Left" />
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding}"
+                                                           Foreground="{StaticResource MainFontColor}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Border BorderBrush="{StaticResource BorderColor}"
+                                        BorderThickness="1"
+                                        Padding="16,8"
+                                        Grid.Row="0"
+                                        Grid.Column="0">
+                                    <Grid>
+                                        <Button Background="{StaticResource ButtonBackgroundColor}"
+                                                Click="OnImportFolderAdded"
+                                                CornerRadius="4"
+                                                Content="Add Media"
+                                                x:Name="AddMediaButton"
+                                                Foreground="{StaticResource MainFontColor}"
+                                                HorizontalAlignment="Center" />
+                                        <Button Click="OnImportFolderRemoved"
+                                                CornerRadius="4"
+                                                Content="Remove"
+                                                x:Name="RemoveMediaButton"
+                                                Visibility="Collapsed"
+                                                Foreground="{StaticResource MainFontColor}"
+                                                Background="{StaticResource RemoveButtonBackground}"
+                                                HorizontalAlignment="Right" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </controls:TabViewItem>
+                        <controls:TabViewItem Header="Collage Library"
+                                              IsClosable="False">
                             <Border BorderBrush="{StaticResource BorderColor}"
                                     BorderThickness="1"
                                     Padding="16,8"
                                     Grid.Row="0"
                                     Grid.Column="0">
                                 <Grid>
-                                    <Button Background="{StaticResource ButtonBackgroundColor}"
-                                            Click="OnImportFolderAdded"
-                                            CornerRadius="4"
-                                            Content="Add Media"
-                                            x:Name="AddMediaButton"
-                                            Foreground="{StaticResource MainFontColor}"
-                                            HorizontalAlignment="Center" />
-                                    <Button Click="OnImportFolderRemoved"
-                                            CornerRadius="4"
-                                            Content="Remove"
-                                            x:Name="RemoveMediaButton"
-                                            Visibility="Collapsed"
-                                            Foreground="{StaticResource MainFontColor}"
-                                            Background="{StaticResource RemoveButtonBackground}"
-                                            HorizontalAlignment="Right" />
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="12*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <controls:GridView x:Name="CollageTemplatesGridView"
+                                                       IsItemClickEnabled="True"
+                                                       SelectionChanged="OnCollageSelectionChanged"
+                                                       SelectionMode="Single"
+                                                       Grid.Row="0">
+                                        <controls:GridView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsWrapGrid Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </controls:GridView.ItemsPanel>
+                                        <controls:GridView.ItemTemplate>
+                                            <DataTemplate x:DataType="underlying:CollageTemplateInfo">
+                                                <!--TODO: Setup this ration based on the page size-->
+                                                <Border Height="180"
+                                                        BorderBrush="{StaticResource BorderColor}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="9*" />
+                                                            <RowDefinition Height="2*" />
+                                                            <RowDefinition Height="1*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0"
+                                                               Source="{x:Bind Path}" />
+                                                        <TextBlock Grid.Row="1"
+                                                                   HorizontalAlignment="Center"
+                                                                   Foreground="{StaticResource MainFontColor}"
+                                                                   Text="{x:Bind Name}" />
+                                                        <TextBlock Grid.Row="2"
+                                                                   Foreground="{StaticResource MainFontColor}"
+                                                                   Text="{x:Bind Info}"
+                                                                   FontSize="10" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </controls:GridView.ItemTemplate>
+                                    </controls:GridView>
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0"
+                                                Background="{StaticResource ButtonBackgroundColor}"
+                                                CornerRadius="4"
+                                                Content="Preview"
+                                                x:Name="PreviewCollage"
+                                                Foreground="{StaticResource MainFontColor}"
+                                                VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Left"
+                                                Click="OnPreviewCollageClick" />
+                                        <Button Grid.Column="1"
+                                                Background="{StaticResource ButtonBackgroundColor}"
+                                                CornerRadius="4"
+                                                Content="Make"
+                                                x:Name="MakeCollage"
+                                                Foreground="{StaticResource MainFontColor}"
+                                                VerticalAlignment="Bottom"
+                                                HorizontalAlignment="Left"
+                                                Click="OnMakeCollageClick" />
+                                    </Grid>
                                 </Grid>
                             </Border>
-                        </Grid>
-                    </controls:TabViewItem>
-                    <controls:TabViewItem Header="Collage Library"
-                                          IsClosable="False">
-                        <Border BorderBrush="{StaticResource BorderColor}"
-                                BorderThickness="1"
-                                Padding="16,8"
-                                Grid.Row="0"
-                                Grid.Column="0">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="12*" />
-                                    <RowDefinition Height="1*" />
-                                </Grid.RowDefinitions>
-                                <controls:GridView x:Name="CollageTemplatesGridView"
-                                                   IsItemClickEnabled="True"
-                                                   SelectionChanged="OnCollageSelectionChanged"
-                                                   SelectionMode="Single"
-                                                   Grid.Row="0">
-                                    <controls:GridView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsWrapGrid Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </controls:GridView.ItemsPanel>
-                                    <controls:GridView.ItemTemplate>
-                                        <DataTemplate x:DataType="underlying:CollageTemplateInfo">
-                                            <!--TODO: Setup this ration based on the page size-->
-                                            <Border Height="180"
-                                                    BorderBrush="{StaticResource BorderColor}">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="9*" />
-                                                        <RowDefinition Height="2*" />
-                                                        <RowDefinition Height="1*" />
-                                                    </Grid.RowDefinitions>
-                                                    <Image Grid.Row="0"
-                                                           Source="{x:Bind Path}" />
-                                                    <TextBlock Grid.Row="1"
-                                                               HorizontalAlignment="Center"
-                                                               Foreground="{StaticResource MainFontColor}"
-                                                               Text="{x:Bind Name}" />
-                                                    <TextBlock Grid.Row="2"
-                                                               Foreground="{StaticResource MainFontColor}"
-                                                               Text="{x:Bind Info}"
-                                                               FontSize="10" />
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </controls:GridView.ItemTemplate>
-                                </controls:GridView>
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0"
-                                            Background="{StaticResource ButtonBackgroundColor}"
-                                            CornerRadius="4"
-                                            Content="Preview"
-                                            x:Name="PreviewCollage"
-                                            Foreground="{StaticResource MainFontColor}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Left"
-                                            Click="OnPreviewCollageClick" />
-                                    <Button Grid.Column="1"
-                                            Background="{StaticResource ButtonBackgroundColor}"
-                                            CornerRadius="4"
-                                            Content="Make"
-                                            x:Name="MakeCollage"
-                                            Foreground="{StaticResource MainFontColor}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Left"
-                                            Click="OnMakeCollageClick" />
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </controls:TabViewItem>
-                    <controls:TabViewItem Header="LUTs Library"
-                                          IsClosable="False">
-                        <Border BorderBrush="{StaticResource BorderColor}"
-                                BorderThickness="1"
-                                Padding="16,8"
-                                Grid.Row="0"
-                                Grid.Column="0">
-                            <Grid></Grid>
-                        </Border>
-                    </controls:TabViewItem>
-                </controls:TabView.TabItems>
-            </controls:TabView>
+                        </controls:TabViewItem>
+                        <controls:TabViewItem Header="LUTs Library"
+                                              IsClosable="False">
+                            <Border BorderBrush="{StaticResource BorderColor}"
+                                    BorderThickness="1"
+                                    Padding="16,8"
+                                    Grid.Row="0"
+                                    Grid.Column="0">
+                                <Grid></Grid>
+                            </Border>
+                        </controls:TabViewItem>
+                    </controls:TabView.TabItems>
+                </controls:TabView>
+            </Grid>
             <Border x:Name="CanvasBorder"
                     BorderBrush="{StaticResource BorderColor}"
                     BorderThickness="1"
