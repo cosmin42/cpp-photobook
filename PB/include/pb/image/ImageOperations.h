@@ -42,7 +42,7 @@ auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
 void readImageWriteThumbnail(int width, int height, Path full, Path medium,
                              Path small, ThumbnailType thumbnailType);
 
-void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full);
+void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full);
 
 void imageWriteThumbnail(int width, int height, std::shared_ptr<cv::Mat> image,
                          Path medium, Path small);

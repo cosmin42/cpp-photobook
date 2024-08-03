@@ -47,7 +47,7 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
       {mProject->paperSettings.width / 2, mProject->paperSettings.height / 2},
       path.stem().string(), fontInfo)(image);
 
-  Process::imageWriteThumbnail(image, hashPath);
+  Process::writeImageOnDisk(image, hashPath);
 
   auto textImage =
       std::make_shared<TextImage>(defaultImageFrontend(), hashPath);
@@ -107,7 +107,7 @@ std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(std::shared_ptr<Virt
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
       boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
 
-  Process::imageWriteThumbnail(singleColorImage, imageHash);
+  Process::writeImageOnDisk(singleColorImage, imageHash);
 
   Process::imageWriteThumbnail(mProject->paperSettings.width,
                                mProject->paperSettings.height, singleColorImage,

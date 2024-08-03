@@ -169,7 +169,7 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
   }
 }
 
-void imageWriteThumbnail(std::shared_ptr<cv::Mat> image, Path full)
+void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full)
 {
   bool success = cv::imwrite(full.string(), *image);
   PBDev::basicAssert(success);
