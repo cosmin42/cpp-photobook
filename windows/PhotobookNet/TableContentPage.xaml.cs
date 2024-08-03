@@ -1133,6 +1133,10 @@ namespace PhotobookNet
                 {
                     mJustInsert = true;
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    doNothing = true;
+                    var newImages = new List<VirtualImagePtr>();
+                    newImages.Add(newImage);
+                    mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
                     mStagedImageCollection.Add(newImage);
                 }
             }
@@ -1142,6 +1146,10 @@ namespace PhotobookNet
                 {
                     mJustInsert = true;
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    doNothing = true;
+                    var newImages = new List<VirtualImagePtr>();
+                    newImages.Add(newImage);
+                    mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
                     mStagedImageCollection.Insert(index, newImage);
                 }
             }
