@@ -2,18 +2,9 @@ namespace PhotobookRuntimeComponent {
 
 enum PBErrorCode {
   Unknown,
-  InvalidFile,
   FileDoesNotExist,
   NotADirectory,
-  InputOutputFilesNotSet,
   CorruptPersistenceFile,
-  InvalidPersistenceMap,
-  CannotSaveFile,
-  InvalidUUID,
-  InvalidProjectDescription,
-  ProjectPathDoesNotExist,
-
-  CouldNotLoadProjectFromGenericPersistence,
   SQLiteError,
 
   FolderAlreadyImported,
