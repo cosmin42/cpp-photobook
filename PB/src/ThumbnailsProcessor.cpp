@@ -2,55 +2,10 @@
 
 #include <pb/Config.h>
 #include <pb/RuntimeUUID.h>
-
 #include <pb/ImageMetadataLogic.h>
+#include <pb/ImportImageTask.h>
 
 namespace PB {
-ResizeTask::ResizeTask(Path full, Path medium, Path small,
-                       std::function<void(unsigned, unsigned)> onFinish,
-                       int screenWidth, int screenHeight,
-                       std::stop_token stopToken)
-    : mFullSizePath(full), mSmallThumbnailOutputPath(small),
-      mMediumThumbnailOutputPath(medium), mFinish(onFinish),
-      mScreenWidth(screenWidth), mScreenHeight(screenHeight),
-      mStopToken(stopToken)
-{
-}
-
-void ResizeTask::operator()() const
-{
-  if (mStopToken.stop_requested()) {
-    mFinish(0, 0);
-    return;
-  }
-  auto resizeOption = ThumbnailType::None;
-  if (!std::filesystem::exists(mSmallThumbnailOutputPath)) {
-    resizeOption = ThumbnailType::Small;
-  }
-  if (!std::filesystem::exists(mMediumThumbnailOutputPath)) {
-    resizeOption = (resizeOption | ThumbnailType::Medium);
-  }
-  if (Process::validExtension(mFullSizePath)) {
-    Process::readImageWriteThumbnail(mScreenWidth, mScreenHeight, mFullSizePath,
-                                     mMediumThumbnailOutputPath,
-                                     mSmallThumbnailOutputPath, resizeOption);
-  }
-  else {
-    PBDev::basicAssert(false);
-  }
-
-  ImageMetadataLogic imageMetadataLogic(mFullSizePath);
-
-  imageMetadataLogic.inspect();
-
-  auto width = imageMetadataLogic.width();
-  auto height = imageMetadataLogic.height();
-
-  if constexpr (OneConfig::SIMULATE_SLOW_THUMBNAILS_PROCESSOR) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-  }
-  mFinish(width, height);
-}
 
 ThumbnailsProcessor::ThumbnailsProcessor(
     std::shared_ptr<PlatformInfo> platformInfo)
@@ -97,11 +52,12 @@ void ThumbnailsProcessor::generateThumbnails(
           mThumbnailWritten(keyPath, nextImageResources);
         };
 
-    ResizeTask resizeTask(mediaMap.at(i).keyPath, mediumPath, smallPath, task,
-                          mScreenWidth, mScreenHeight,
-                          mStopSources[root].get_token());
+    ImportImageTask importImageTask(
+        mediaMap.at(i).keyPath, mediumPath, smallPath, task, mScreenWidth,
+        mScreenHeight, mStopSources[root].get_token());
 
-    mParallelTaskConsumer.enqueue([resizeTask{resizeTask}]() { resizeTask(); });
+    mParallelTaskConsumer.enqueue(
+        [resizeTask{importImageTask}]() { resizeTask(); });
   }
 }
 

@@ -6,25 +6,6 @@
 #include <pb/tasks/ParallelTaskConsumer.h>
 
 namespace PB {
-class ResizeTask final {
-public:
-  ResizeTask() = delete;
-  explicit ResizeTask(Path fullSizePath, Path medium, Path small,
-                      std::function<void(unsigned, unsigned)> onFinish, int screenWidth,
-                      int screenHeight, std::stop_token stopToken);
-  ~ResizeTask() = default;
-
-  void operator()() const;
-
-private:
-  Path                  mFullSizePath;
-  Path                  mSmallThumbnailOutputPath;
-  Path                  mMediumThumbnailOutputPath;
-  std::function<void(unsigned, unsigned)> mFinish;
-  int                   mScreenWidth;
-  int                   mScreenHeight;
-  std::stop_token       mStopToken;
-};
 
 class ThumbnailsProcessor final {
 public:

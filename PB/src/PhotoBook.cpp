@@ -1,5 +1,6 @@
 #include <pb/PhotoBook.h>
 
+#include <pb/ImportImageTask.h>
 #include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
 #include <pb/image/Image.h>
@@ -409,12 +410,12 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
         });
       };
 
-  ResizeTask resizeTask(imagePath, mediumPath, smallPath, onFinished,
+  ImportImageTask importImageTask(imagePath, mediumPath, smallPath, onFinished,
                         mPlatformInfo->screenSize.first,
                         mPlatformInfo->screenSize.second,
                         std::stop_source().get_token());
 
-  resizeTask();
+  importImageTask();
 }
 
 void Photobook::onCollageMakerError() {}
