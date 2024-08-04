@@ -348,13 +348,13 @@ serialize(int                                                          depth,
   auto [key, image] = entry;
 
   auto resources = std::vector<Path>{image->resources()};
-  auto jsonOrError = serialize<VirtualImageType, Path, Path, Path, Path,
-                               std::vector<Path>, bool>(
-      depth + 1, {"img-type", image->type()}, {"key-path", image->keyPath()},
-      {"frontend-full", image->frontend().full},
-      {"frontend-medium", image->frontend().medium},
-      {"frontend-small", image->frontend().small}, {"resource", resources},
-      {"processing-finished", image->processed()});
+  auto jsonOrError =
+      serialize<VirtualImageType, Path, Path, Path, std::vector<Path>, bool>(
+          depth + 1, {"img-type", image->type()},
+          {"frontend-full", image->frontend().full},
+          {"frontend-medium", image->frontend().medium},
+          {"frontend-small", image->frontend().small}, {"resource", resources},
+          {"processing-finished", image->processed()});
 
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;

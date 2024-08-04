@@ -56,11 +56,6 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
     return nativeResources;
   }
 
-  winrt::hstring KeyPath()
-  {
-    return winrt::to_hstring(mVirtualImage->keyPath().string());
-  }
-
   void SetFullSizePath(winrt::hstring path)
   {
     mVirtualImage->setFullSizePath(winrt::to_string(path));

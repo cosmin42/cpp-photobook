@@ -285,7 +285,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
         newFiles.at(i), mPersistenceService->hash(newFiles.at(i)));
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back(
-        {virtualImage->keyPath(), newFiles.at(i), (unsigned)i});
+        {virtualImage->frontend().full, newFiles.at(i), (unsigned)i});
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
@@ -411,9 +411,9 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
       };
 
   ImportImageTask importImageTask(imagePath, mediumPath, smallPath, onFinished,
-                        mPlatformInfo->screenSize.first,
-                        mPlatformInfo->screenSize.second,
-                        std::stop_source().get_token());
+                                  mPlatformInfo->screenSize.first,
+                                  mPlatformInfo->screenSize.second,
+                                  std::stop_source().get_token());
 
   importImageTask();
 }

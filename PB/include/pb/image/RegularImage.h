@@ -13,6 +13,7 @@ public:
   explicit RegularImage(ImageResources defaultResources, Path full)
       : VirtualImage(defaultResources), mResourcePath(full)
   {
+    mFrontend.full = full;
   }
 
   explicit RegularImage(ImageResources imageResources, bool processed,
@@ -23,8 +24,6 @@ public:
   VirtualImageType type() const override { return VirtualImageType::Regular; }
 
   std::vector<Path> resources() const override { return {mResourcePath}; }
-
-  Path keyPath() const override { return mResourcePath; }
 
 private:
   Path mResourcePath;

@@ -11,8 +11,6 @@ runtimeclass VirtualImagePtr
 
   IVector<String> Resources();
 
-  String KeyPath();
-
   Int32Pair Size();
 
   void SetFullSizePath(String path);

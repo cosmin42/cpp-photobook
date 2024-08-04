@@ -18,7 +18,7 @@ void ImageFactory::configurePlatformInfo(
 }
 
 void ImageFactory::configurePersistenceService(
-	std::shared_ptr<PB::PersistenceService> persistenceService)
+    std::shared_ptr<PB::PersistenceService> persistenceService)
 {
   mPersistenceService = persistenceService;
 }
@@ -86,7 +86,9 @@ ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
   }
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image, Path hashPath)
+std::shared_ptr<VirtualImage>
+ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
+                              Path                          hashPath)
 {
   auto imageData = ImageReader().read(
       image->frontend().full, true,

@@ -19,9 +19,9 @@ void ImageMonitor::replaceImageMonitorData(
   for (int i = 0; i < unstagedImages.size(); ++i) {
     mUnstagedImagesMatrix.push_back(unstagedImages.at(i));
     for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
-      mPositions.insert({mUnstagedImagesMatrix.at(i).at(j)->keyPath(), {i, j}});
-      if (!mUnstagedImagesMatrix.at(i).at(j)->processed())
-      {
+      mPositions.insert(
+          {mUnstagedImagesMatrix.at(i).at(j)->frontend().full, {i, j}});
+      if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
         mPendingRows.insert(i);
       }
     }
@@ -39,7 +39,7 @@ void ImageMonitor::addRow(Path                                       path,
   mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());
 
   for (auto i = 0; i < images.size(); ++i) {
-    mPositions.insert({images.at(i)->keyPath(),
+    mPositions.insert({images.at(i)->frontend().full,
                        {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));
@@ -191,8 +191,9 @@ std::vector<RowProcessingData> ImageMonitor::unprocessedImages()
     for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
       if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
         rowProcessingData.images.push_back(
-            {mUnstagedImagesMatrix.at(i).at(j)->keyPath(),
-             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0), (unsigned)j});
+            {mUnstagedImagesMatrix.at(i).at(j)->frontend().full,
+             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0),
+             (unsigned)j});
       }
     }
     if (!rowProcessingData.images.empty()) {

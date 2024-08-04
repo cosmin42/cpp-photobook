@@ -138,7 +138,7 @@ namespace PhotobookNet
                         // TODO: Fix VirtualImagePtr members capitalization.
                         foreach (var x in args.NewItems)
                         {
-                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as VirtualImagePtr).KeyPath());
+                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as VirtualImagePtr).Frontend.FullPath);
                             copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(imagePtr));
                         }
 
@@ -455,7 +455,7 @@ namespace PhotobookNet
                 return;
             }
 
-            GalleryMainText.Text = System.IO.Path.GetFileName(imagePtr.KeyPath());
+            GalleryMainText.Text = System.IO.Path.GetFileName(imagePtr.Frontend.FullPath);
 
             GalleryLeftButton.IsEnabled = imagePtr != null;
             GalleryRightButton.IsEnabled = imagePtr != null;
@@ -725,7 +725,7 @@ namespace PhotobookNet
                     allowDrag = false;
                     break;
                 }
-                var keyPath = image.KeyPath();
+                var keyPath = image.Frontend.FullPath;
                 var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath);
                 mDragAndDropSelectedImages.Add(imagePtr);
             }

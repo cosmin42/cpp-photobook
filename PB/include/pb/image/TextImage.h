@@ -8,6 +8,7 @@ public:
   explicit TextImage(ImageResources defaultImageResources, Path full)
       : VirtualImage(defaultImageResources), mResourcePath(full)
   {
+    mFrontend.full = full;
   }
 
   explicit TextImage(ImageResources imageResources, bool processed,
@@ -17,8 +18,6 @@ public:
   VirtualImageType type() const override { return VirtualImageType::Text; }
 
   std::vector<Path> resources() const override { return {mResourcePath}; }
-
-  Path keyPath() const override { return mResourcePath; }
 
 private:
   Path mResourcePath;

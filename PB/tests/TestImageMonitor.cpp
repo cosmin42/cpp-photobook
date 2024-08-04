@@ -24,8 +24,6 @@ public:
   MOCK_METHOD(PB::VirtualImageType, type, (), (const override));
   MOCK_METHOD(std::vector<Path>, resources, (), (const override));
 
-  Path keyPath() const override { return mPath; }
-
 private:
   Path mPath;
 };
