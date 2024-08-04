@@ -136,10 +136,9 @@ namespace PhotobookNet
                         List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
 
                         // TODO: Fix VirtualImagePtr members capitalization.
-                        foreach (var x in args.NewItems)
+                        foreach (var image in args.NewItems)
                         {
-                            var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((x as VirtualImagePtr).Frontend.FullPath);
-                            copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage(imagePtr));
+                            copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage((image as VirtualImagePtr)));
                         }
 
                         mPhotobook.GetImageViews().StagedImages().AddPictures(copyOfDraggedImages, args.NewStartingIndex);

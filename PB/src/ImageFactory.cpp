@@ -103,19 +103,17 @@ ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
   PB::Process::overlap(imageData,
                        PB::Process::alignToCenter())(singleColorImage);
 
-  auto imageHash = mPersistenceService->hash(hashPath);
-
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
-      mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
+      mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
       boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
 
-  Process::writeImageOnDisk(singleColorImage, imageHash);
+  Process::writeImageOnDisk(singleColorImage, hashPath);
 
   Process::imageWriteThumbnail(mProject->paperSettings.width,
                                mProject->paperSettings.height, singleColorImage,
                                mediumPath, smallPath);
 
-  ImageResources imageResources = {imageHash, mediumPath, smallPath,
+  ImageResources imageResources = {hashPath, mediumPath, smallPath,
                                    (unsigned)singleColorImage->cols,
                                    (unsigned)singleColorImage->rows};
 
