@@ -54,13 +54,13 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
   return textImage;
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path,
-                                                        Path hashPath)
+std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
 {
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);
   }
   else if (std::filesystem::is_directory(path)) {
+    auto hashPath = mPersistenceService->hash(path);
     return createTextImage(path, hashPath);
   }
   else {

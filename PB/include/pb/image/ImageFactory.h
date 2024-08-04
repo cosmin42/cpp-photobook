@@ -18,7 +18,7 @@ public:
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
 
-  std::shared_ptr<VirtualImage> createImage(Path path, Path hashPath);
+  std::shared_ptr<VirtualImage> createImage(Path path);
   std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
   std::shared_ptr<VirtualImage>
   mapImageToPaper(std::shared_ptr<VirtualImage> image, Path hashPath);

@@ -281,11 +281,10 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   std::vector<ProcessingData> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = PB::ImageFactory::inst().createImage(
-        newFiles.at(i), mPersistenceService->hash(newFiles.at(i)));
+    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
     imagesSet.push_back(virtualImage);
-    keyAndPaths.push_back(
-        {virtualImage->frontend().full, newFiles.at(i), (unsigned)i});
+    keyAndPaths.push_back({virtualImage->frontend().full,
+                           virtualImage->frontend().full, (unsigned)i});
   }
 
   mImageViews.imageMonitor().addRow(root, imagesSet);
