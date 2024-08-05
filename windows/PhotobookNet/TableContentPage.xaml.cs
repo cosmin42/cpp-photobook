@@ -133,15 +133,16 @@ namespace PhotobookNet
                     }
                     if (mJustInsert)
                     {
-                        List<VirtualImagePtr> copyOfDraggedImages = new List<VirtualImagePtr>();
+                        // TODO: Is this branch even needed?
+                        List<VirtualImagePtr> draggedImages = new List<VirtualImagePtr>();
 
                         // TODO: Fix VirtualImagePtr members capitalization.
                         foreach (var image in args.NewItems)
                         {
-                            copyOfDraggedImages.Add(PhotobookRuntimeComponent.PhotobookWin.copyImage((image as VirtualImagePtr)));
+                            draggedImages.Add(image as VirtualImagePtr);
                         }
 
-                        mPhotobook.GetImageViews().StagedImages().AddPictures(copyOfDraggedImages, args.NewStartingIndex);
+                        mPhotobook.GetImageViews().StagedImages().AddPictures(draggedImages, args.NewStartingIndex);
                         mJustInsert = false;
                     }
                     else
@@ -1134,7 +1135,6 @@ namespace PhotobookNet
             {
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    mJustInsert = true;
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
                     doNothing = true;
                     var newImages = new List<VirtualImagePtr>();
@@ -1147,7 +1147,6 @@ namespace PhotobookNet
             {
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    mJustInsert = true;
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
                     doNothing = true;
                     var newImages = new List<VirtualImagePtr>();
