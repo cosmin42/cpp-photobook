@@ -1133,27 +1133,27 @@ namespace PhotobookNet
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
             if (index == mStagedImageCollection.Count || index < 0)
             {
+                var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
-                    doNothing = true;
-                    var newImages = new List<VirtualImagePtr>();
                     newImages.Add(newImage);
-                    mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
+                    doNothing = true;
                     mStagedImageCollection.Add(newImage);
                 }
+                mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             }
             else if (index < mStagedImageCollection.Count)
             {
+                var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
                     var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
                     doNothing = true;
-                    var newImages = new List<VirtualImagePtr>();
                     newImages.Add(newImage);
-                    mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
                     mStagedImageCollection.Insert(index, newImage);
                 }
+                mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             }
         }
 
