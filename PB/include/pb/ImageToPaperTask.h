@@ -12,22 +12,21 @@
 #include <pb/project/Project.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 
-DECLARE_STRONG_UUID(ImageToPaperServiceId)
+DECLARE_STRONG_UUID(ImageToPaperId)
 
 namespace PB {
 
 class ImageToPaperServiceListener {
 public:
-  virtual void onImageMapped(PBDev::ImageToPaperServiceId  id,
+  virtual void onImageMapped(PBDev::ImageToPaperId         id,
                              std::shared_ptr<VirtualImage> image) = 0;
 };
 
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
-      std::unordered_map<PBDev::ImageToPaperServiceId,
-                         std::shared_ptr<VirtualImage>,
-                         boost::hash<PBDev::ImageToPaperServiceId>>
+      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+                         boost::hash<PBDev::ImageToPaperId>>
           originalImages)
       : MapReducer(), mOriginalImages(originalImages)
   {
@@ -80,26 +79,24 @@ public:
   }
 
 private:
-  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
-  std::shared_ptr<Project>                  mProject = nullptr;
-  std::vector<PBDev::ImageToPaperServiceId> mImageIds;
-  unsigned                                  mImageIndex = 0;
+  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
+  std::shared_ptr<Project>            mProject = nullptr;
+  std::vector<PBDev::ImageToPaperId>  mImageIds;
+  unsigned                            mImageIndex = 0;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
-  std::unordered_map<PBDev::ImageToPaperServiceId,
-                     std::shared_ptr<VirtualImage>,
-                     boost::hash<PBDev::ImageToPaperServiceId>>
+  std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+                     boost::hash<PBDev::ImageToPaperId>>
       mOriginalImages;
 
-  std::unordered_map<PBDev::MapReducerTaskId, PBDev::ImageToPaperServiceId,
+  std::unordered_map<PBDev::MapReducerTaskId, PBDev::ImageToPaperId,
                      boost::hash<PBDev::MapReducerTaskId>>
       mImageTaskAssociation;
 
-  std::unordered_map<PBDev::ImageToPaperServiceId,
-                     std::shared_ptr<VirtualImage>,
-                     boost::hash<PBDev::ImageToPaperServiceId>>
+  std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+                     boost::hash<PBDev::ImageToPaperId>>
       mResultImages;
 
   std::mutex mMutex;

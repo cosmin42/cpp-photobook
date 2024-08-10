@@ -320,8 +320,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void mapImagesToSPL(Windows::Foundation::Collections::IMap<winrt::guid,
                           PhotobookRuntimeComponent::VirtualImagePtr>
-                                        images,
-                      ImagesMappedToSPL onImagesMapped);
+                                        images);
 
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;

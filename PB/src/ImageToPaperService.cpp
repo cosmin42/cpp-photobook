@@ -3,17 +3,25 @@
 namespace PB {
 
 void ImageToPaperService::map(
-    std::unordered_map<PBDev::ImageToPaperServiceId,
+    std::unordered_map<PBDev::ImageToPaperId,
                        std::shared_ptr<VirtualImage>,
-                       boost::hash<PBDev::ImageToPaperServiceId>>
+                       boost::hash<PBDev::ImageToPaperId>>
         originalImages)
 {
+  
 }
 
 void ImageToPaperService::map(
-    std::pair<PBDev::ImageToPaperServiceId, std::shared_ptr<VirtualImage>>
+    std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>>
         image)
 {
+
+
+  
+}
+
+void ImageToPaperService::removeTask(PBDev::ImageToPaperServiceId id) {
+
 }
 
 } // namespace PB

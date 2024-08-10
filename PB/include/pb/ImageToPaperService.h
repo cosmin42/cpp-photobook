@@ -5,6 +5,8 @@
 #include <pb/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
 
+DECLARE_STRONG_UUID(ImageToPaperServiceId)
+
 namespace PB {
 
 class ImageToPaperService final {
@@ -38,20 +40,23 @@ public:
     mListener = listener;
   }
 
-  void map(std::unordered_map<PBDev::ImageToPaperServiceId,
-                              std::shared_ptr<VirtualImage>,
-                              boost::hash<PBDev::ImageToPaperServiceId>>
-               originalImages);
+  void
+  map(std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+                         boost::hash<PBDev::ImageToPaperId>>
+          originalImages);
 
   void
-  map(std::pair<PBDev::ImageToPaperServiceId, std::shared_ptr<VirtualImage>>
-          image);
+  map(std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>> image);
+
+  void removeTask(PBDev::ImageToPaperServiceId id);
 
 private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
   std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
   std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
   std::shared_ptr<Project>            mProject = nullptr;
-  ImageToPaperServiceListener        *mListener = nullptr;
+  std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask> mTasks;
+
+  ImageToPaperServiceListener *mListener = nullptr;
 };
 } // namespace PB

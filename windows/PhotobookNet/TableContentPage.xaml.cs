@@ -58,6 +58,8 @@ namespace PhotobookNet
 
         (int, int) frameSize = (438, 310);
 
+        IDictionary<Guid, uint> mSPLProcessingImages = new Dictionary<Guid, uint>();
+
         private PhotobookWin mPhotobook;
 
         private PhotobookRuntimeComponent.PaperSettings PaperSettingsCache;
@@ -1132,16 +1134,21 @@ namespace PhotobookNet
         {
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
 
+            Dictionary<Guid, VirtualImagePtr> imagesToBeProcessed = new Dictionary<Guid, VirtualImagePtr>();
+
             if (index == mStagedImageCollection.Count || index < 0)
             {
                 var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    //var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
                     var newImage = mPhotobook.EmptyImage();
                     newImages.Add(newImage);
                     doNothing = true;
                     mStagedImageCollection.Add(newImage);
+
+                    var imageId = Guid.NewGuid();
+                    imagesToBeProcessed[imageId] = photos[i];
+                    mSPLProcessingImages[imageId] = (uint)i;
                 }
                 mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             }
@@ -1150,13 +1157,21 @@ namespace PhotobookNet
                 var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    //var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
                     var newImage = mPhotobook.EmptyImage();
                     doNothing = true;
                     newImages.Add(newImage);
                     mStagedImageCollection.Insert(index, newImage);
+
+                    var imageId = Guid.NewGuid();
+                    imagesToBeProcessed[imageId] = photos[i];
+                    mSPLProcessingImages[imageId] = (uint)i;
                 }
                 mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
+            }
+
+            if (imagesToBeProcessed.Count > 0)
+            {
+                mPhotobook.mapImagesToSPL(imagesToBeProcessed);
             }
         }
 
