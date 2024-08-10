@@ -108,6 +108,8 @@ public:
 
   std::shared_ptr<PlatformInfo> platformInfo() const;
 
+  std::shared_ptr<ImageToPaperService> imageToPaperService() const;
+
 private:
   PhotobookListener                   *mParent = nullptr;
   std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;

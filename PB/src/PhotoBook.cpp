@@ -366,6 +366,11 @@ std::shared_ptr<PlatformInfo> Photobook::platformInfo() const
   return mPlatformInfo;
 }
 
+std::shared_ptr<ImageToPaperService> Photobook::imageToPaperService() const
+{
+  return mImageToPaperService;
+}
+
 void Photobook::onProjectRenamed() {}
 
 void Photobook::onExportComplete(std::string name) {}
