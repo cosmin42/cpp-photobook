@@ -1131,12 +1131,14 @@ namespace PhotobookNet
         public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
         {
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
+
             if (index == mStagedImageCollection.Count || index < 0)
             {
                 var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    //var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    var newImage = mPhotobook.EmptyImage();
                     newImages.Add(newImage);
                     doNothing = true;
                     mStagedImageCollection.Add(newImage);
@@ -1148,7 +1150,8 @@ namespace PhotobookNet
                 var newImages = new List<VirtualImagePtr>();
                 for (int i = 0; i < photos.Count; i++)
                 {
-                    var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    //var newImage = mPhotobook.mapImageToSPL(photos.ElementAt(i));
+                    var newImage = mPhotobook.EmptyImage();
                     doNothing = true;
                     newImages.Add(newImage);
                     mStagedImageCollection.Insert(index, newImage);

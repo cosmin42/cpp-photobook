@@ -59,7 +59,7 @@ runtimeclass PhotobookWin
 
   VirtualImagePtr mapImageToSPL(VirtualImagePtr image);
 
-  void mapImagesToSPL(IVector<VirtualImagePtr> images, ImagesMappedToSPL onImagesMapped);
+  void mapImagesToSPL(IMap<Guid, VirtualImagePtr> images, ImagesMappedToSPL onImagesMapped);
 
   static PaperSettings GetDefaultSettings(PaperType paperType);
   static PaperSettings GetDefaultSerializedSettings(String serializedPaperSize);

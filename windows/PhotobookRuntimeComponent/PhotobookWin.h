@@ -318,7 +318,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   void ExportPDFLibharu(winrt::hstring name, winrt::hstring path);
   void ExportJPGAlbum(winrt::hstring name, winrt::hstring path);
 
-  void mapImagesToSPL(Windows::Foundation::Collections::IVector<
+  void mapImagesToSPL(Windows::Foundation::Collections::IMap<winrt::guid,
                           PhotobookRuntimeComponent::VirtualImagePtr>
                                         images,
                       ImagesMappedToSPL onImagesMapped);

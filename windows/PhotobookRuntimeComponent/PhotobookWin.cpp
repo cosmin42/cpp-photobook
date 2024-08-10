@@ -56,8 +56,8 @@ void PhotobookWin::ExportJPGAlbum(winrt::hstring name, winrt::hstring path)
 }
 
 void PhotobookWin::mapImagesToSPL(
-    Windows::Foundation::Collections::IVector<
-        PhotobookRuntimeComponent::VirtualImagePtr>
+    Windows::Foundation::Collections::IMap<
+        winrt::guid, PhotobookRuntimeComponent::VirtualImagePtr>
                       images,
     ImagesMappedToSPL onImagesMapped)
 {
