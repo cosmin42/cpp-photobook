@@ -4,7 +4,6 @@
 #include <pb/Platform.h>
 #include <pb/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
-#include <pb/persistence/PersistenceService.h>
 
 namespace PB {
 class ImageToPaperServiceListener {
@@ -33,6 +32,11 @@ public:
     mPersistenceService = persistenceService;
   }
 
+  void configureProject(std::shared_ptr<Project> project)
+  {
+    mProject = project;
+  }
+
   void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
   {
     mListener = listener;
@@ -51,6 +55,7 @@ private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
   std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
   std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
+  std::shared_ptr<Project>            mProject = nullptr;
   ImageToPaperServiceListener        *mListener = nullptr;
 };
 } // namespace PB
