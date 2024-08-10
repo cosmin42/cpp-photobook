@@ -55,4 +55,12 @@ void PhotobookWin::ExportJPGAlbum(winrt::hstring name, winrt::hstring path)
   mPhotobook->exportJPGAlbum(winrt::to_string(name), winrt::to_string(path));
 }
 
+void PhotobookWin::mapImagesToSPL(
+    Windows::Foundation::Collections::IVector<
+        PhotobookRuntimeComponent::VirtualImagePtr>
+                      images,
+    ImagesMappedToSPL onImagesMapped)
+{
+}
+
 } // namespace winrt::PhotobookRuntimeComponent::implementation
