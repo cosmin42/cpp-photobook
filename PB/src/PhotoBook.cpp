@@ -55,6 +55,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("image-search-job", 1);
   mTaskCruncher->registerPTC("export-logic", 1);
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
+  mTaskCruncher->registerPTC("upl-to-spl-map", 4);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -63,6 +64,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic.setTaskCruncher(mTaskCruncher);
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
+
+  mImageToPaperService->configurePersistenceService(mPersistenceService);
+  mImageToPaperService->configurePlatformInfo(mPlatformInfo);
+  mImageToPaperService->configureTaskCruncher(mTaskCruncher);
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
@@ -82,6 +87,7 @@ void Photobook::configure(std::shared_ptr<PB::Project> project)
   mImportLogic.configure(mPersistenceService->currentProject());
   ImageFactory::inst().configureProject(mPersistenceService->currentProject());
   mExportLogic.configure(mPersistenceService->currentProject(), mPlatformInfo);
+  mImageToPaperService->configureProject(mPersistenceService->currentProject());
 }
 
 void Photobook::configureCurrentProject()
@@ -214,6 +220,8 @@ void Photobook::onProjectRead(
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
 
+  mImageToPaperService->configureProject(mPersistenceService->currentProject());
+
   auto collageThumbnailsMakerListener =
       dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
@@ -255,6 +263,7 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
   mPersistenceService->newProject(name, newProject);
   mImportLogic.configure(mPersistenceService->currentProject());
   ImageFactory::inst().configureProject(mPersistenceService->currentProject());
+  mImageToPaperService->configureProject(mPersistenceService->currentProject());
 }
 
 void Photobook::onMappingStarted(Path path)

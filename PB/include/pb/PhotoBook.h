@@ -9,6 +9,7 @@
 #include <pb/CollageManager.h>
 #include <pb/Command.h>
 #include <pb/DataManager.h>
+#include <pb/ImageToPaperService.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
@@ -79,7 +80,8 @@ public:
   void onMappingAborted(Path) override;
 
   void onImportStop(Path) override;
-  void onImageProcessed(Path key, Path root, ImageResources imageResources) override;
+  void onImageProcessed(Path key, Path root,
+                        ImageResources imageResources) override;
 
   void onImageProcessingJobEnded(Path root);
 
@@ -107,17 +109,18 @@ public:
   std::shared_ptr<PlatformInfo> platformInfo() const;
 
 private:
-  PhotobookListener                  *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  ImportFoldersLogic                  mImportLogic;
-  ImageViews                          mImageViews;
-  CommandStack                        mCommandStack;
-  bool                                mMarkProjectForDeletion = false;
-  ExportLogic                         mExportLogic;
-  ProgressManager                     mProgressManager;
-  std::string                         mProjectName;
-  std::shared_ptr<CollageManager>     mCollageTemplateManager = nullptr;
+  PhotobookListener                   *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService>  mPersistenceService = nullptr;
+  ImportFoldersLogic                   mImportLogic;
+  ImageViews                           mImageViews;
+  CommandStack                         mCommandStack;
+  bool                                 mMarkProjectForDeletion = false;
+  ExportLogic                          mExportLogic;
+  ProgressManager                      mProgressManager;
+  std::string                          mProjectName;
+  std::shared_ptr<ImageToPaperService> mImageToPaperService = nullptr;
+  std::shared_ptr<CollageManager>      mCollageTemplateManager = nullptr;
 };
 } // namespace PB
