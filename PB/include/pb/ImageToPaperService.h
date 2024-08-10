@@ -41,12 +41,14 @@ public:
   }
 
   void
-  map(std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+  map(PBDev::ImageToPaperServiceId,
+      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages);
 
   void
-  map(std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>> image);
+  map(PBDev::ImageToPaperServiceId,
+      std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>> image);
 
   void removeTask(PBDev::ImageToPaperServiceId id);
 
@@ -55,7 +57,9 @@ private:
   std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
   std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
   std::shared_ptr<Project>            mProject = nullptr;
-  std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask> mTasks;
+  std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
+                     boost::hash<PBDev::ImageToPaperServiceId>>
+      mTasks;
 
   ImageToPaperServiceListener *mListener = nullptr;
 };

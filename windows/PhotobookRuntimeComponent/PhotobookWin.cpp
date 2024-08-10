@@ -98,7 +98,8 @@ void PhotobookWin::mapImagesToSPL(
     backendMap[imageId] = nativePtr;
   }
 
-  imageToPaperService->map(backendMap);
+  imageToPaperService->map(
+      PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation

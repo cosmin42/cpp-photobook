@@ -61,7 +61,6 @@ public:
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override
   {
-    std::lock_guard<std::mutex> lock(mMutex);
     if (mImageIndex >= mImageIds.size()) {
       return std::nullopt;
     }
@@ -98,8 +97,6 @@ private:
   std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                      boost::hash<PBDev::ImageToPaperId>>
       mResultImages;
-
-  std::mutex mMutex;
 
   IdentifyableFunction getFunction(unsigned index)
   {
