@@ -1,10 +1,9 @@
 #pragma once
 
+#include <pb/ImageToPaperTask.h>
 #include <pb/Platform.h>
 #include <pb/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
-
-DECLARE_STRONG_UUID(ImageToPaperServiceId)
 
 namespace PB {
 class ImageToPaperServiceListener {
