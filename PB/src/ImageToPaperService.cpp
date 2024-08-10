@@ -1,6 +1,7 @@
 #include <pb/ImageToPaperService.h>
 
 namespace PB {
+
 void ImageToPaperService::map(
     std::unordered_map<PBDev::ImageToPaperServiceId,
                        std::shared_ptr<VirtualImage>,
@@ -14,4 +15,5 @@ void ImageToPaperService::map(
         image)
 {
 }
+
 } // namespace PB

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/bimap/bimap.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
@@ -15,6 +16,12 @@ DECLARE_STRONG_UUID(ImageToPaperServiceId)
 
 namespace PB {
 
+class ImageToPaperServiceListener {
+public:
+  virtual void onImageMapped(PBDev::ImageToPaperServiceId  id,
+                             std::shared_ptr<VirtualImage> image) = 0;
+};
+
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
@@ -22,8 +29,11 @@ public:
                          std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperServiceId>>
           originalImages)
-      : MapReducer()
+      : MapReducer(), mOriginalImages(originalImages)
   {
+    for (const auto &[id, image] : originalImages) {
+      mImageIds.push_back(id);
+    }
   }
 
   ~ImageToPaperTask() override = default;
@@ -44,18 +54,71 @@ public:
     mPersistenceService = persistenceService;
   }
 
+  void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
+  {
+    mListener = listener;
+  }
+
   std::optional<IdentifyableFunction>
   getNext(std::stop_token stopToken) override
   {
-    return std::nullopt;
+    std::lock_guard<std::mutex> lock(mMutex);
+    if (mImageIndex >= mImageIds.size()) {
+      return std::nullopt;
+    }
+
+    auto result = getFunction(mImageIndex);
+    mImageIndex++;
+    return result;
   }
 
-  void onFinished(PBDev::MapReducerTaskId) override {}
+  void onFinished(PBDev::MapReducerTaskId taskId) override
+  {
+    auto imageId = mImageTaskAssociation.at(taskId);
+
+    mListener->onImageMapped(imageId, mResultImages.at(imageId));
+  }
 
 private:
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  std::shared_ptr<Project>            mProject = nullptr;
+  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
+  std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
+  std::shared_ptr<Project>                  mProject = nullptr;
+  std::vector<PBDev::ImageToPaperServiceId> mImageIds;
+  unsigned                                  mImageIndex = 0;
+
+  ImageToPaperServiceListener *mListener = nullptr;
+
+  std::unordered_map<PBDev::ImageToPaperServiceId,
+                     std::shared_ptr<VirtualImage>,
+                     boost::hash<PBDev::ImageToPaperServiceId>>
+      mOriginalImages;
+
+  std::unordered_map<PBDev::MapReducerTaskId, PBDev::ImageToPaperServiceId,
+                     boost::hash<PBDev::MapReducerTaskId>>
+      mImageTaskAssociation;
+
+  std::unordered_map<PBDev::ImageToPaperServiceId,
+                     std::shared_ptr<VirtualImage>,
+                     boost::hash<PBDev::ImageToPaperServiceId>>
+      mResultImages;
+
+  std::mutex mMutex;
+
+  IdentifyableFunction getFunction(unsigned index)
+  {
+    auto imageId = mImageIds.at(index);
+
+    auto originalImage = mOriginalImages.at(imageId);
+
+    auto taskId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
+
+    mImageTaskAssociation.emplace(taskId, imageId);
+
+    return {taskId, [this, originalImage{originalImage}, imageId{imageId}]() {
+              auto paperImage = CreatePaperImage(originalImage);
+              mResultImages[imageId] = paperImage;
+            }};
+  }
 
   Path GetNewImagePath()
   {

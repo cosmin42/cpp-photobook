@@ -1,9 +1,9 @@
 #include <pb/tasks/ThumbnailsProcessor.h>
 
 #include <pb/Config.h>
-#include <pb/RuntimeUUID.h>
 #include <pb/ImageMetadataLogic.h>
 #include <pb/ImportImageTask.h>
+#include <pb/RuntimeUUID.h>
 
 namespace PB {
 

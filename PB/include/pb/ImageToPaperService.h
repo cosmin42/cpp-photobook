@@ -6,10 +6,6 @@
 #include <pb/image/VirtualImage.h>
 
 namespace PB {
-class ImageToPaperServiceListener {
-  virtual void onImageMapped(PBDev::ImageToPaperServiceId  id,
-                             std::shared_ptr<VirtualImage> image) = 0;
-};
 
 class ImageToPaperService final {
 public:
