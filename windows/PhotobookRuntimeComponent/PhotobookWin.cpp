@@ -58,9 +58,50 @@ void PhotobookWin::ExportJPGAlbum(winrt::hstring name, winrt::hstring path)
 void PhotobookWin::mapImagesToSPL(
     Windows::Foundation::Collections::IMap<
         winrt::guid, PhotobookRuntimeComponent::VirtualImagePtr>
-                      images,
+                      frontEndImages,
     ImagesMappedToSPL onImagesMapped)
 {
+  auto imageToPaperService = mPhotobook->imageToPaperService();
+
+  std::unordered_map<PBDev::ImageToPaperServiceId,
+                     std::shared_ptr<PB::VirtualImage>,
+                     boost::hash<PBDev::ImageToPaperServiceId>>
+      backendMap;
+
+  for (auto entry : frontEndImages) {
+
+    auto frontendGuid = entry.Key();
+    // TODO: Move this conversion to dedicated function
+    boost::uuids::uuid nativeUuid;
+
+    nativeUuid.data[0] = ((frontendGuid.Data1 & 0xFF000000) >> 24);
+    nativeUuid.data[1] = ((frontendGuid.Data1 & 0xFF0000) >> 16);
+    nativeUuid.data[2] = ((frontendGuid.Data1 & 0xFF00) >> 8);
+    nativeUuid.data[3] = (frontendGuid.Data1 & 0xFF);
+
+    nativeUuid.data[4] = ((frontendGuid.Data2 & 0xFF00) >> 8);
+    nativeUuid.data[5] = (frontendGuid.Data2 & 0xFF);
+
+    nativeUuid.data[6] = ((frontendGuid.Data3 & 0xFF00) >> 8);
+    nativeUuid.data[7] = (frontendGuid.Data3 & 0xFF);
+
+    for (int i = 0; i < 8; i++) {
+      nativeUuid.data[8 + i] = frontendGuid.Data4[i];
+    }
+
+    PBDev::ImageToPaperServiceId imageId =
+        PBDev::ImageToPaperServiceId(nativeUuid);
+
+    auto nativePtr =
+        winrt::get_self<
+            winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
+            entry.Value())
+            ->Unwrap();
+
+    backendMap[imageId] = nativePtr;
+  }
+
+  imageToPaperService->map(backendMap);
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation
