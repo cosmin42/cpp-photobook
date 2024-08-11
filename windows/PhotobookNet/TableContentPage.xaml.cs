@@ -1127,7 +1127,7 @@ namespace PhotobookNet
 
                     var imageId = Guid.NewGuid();
                     imagesToBeProcessed[imageId] = photos[i];
-                    mSPLProcessingImages[imageId] = (uint)i;
+                    mSPLProcessingImages[imageId] = (uint)(index + i);
                 }
                 mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             }
@@ -1143,7 +1143,7 @@ namespace PhotobookNet
 
                     var imageId = Guid.NewGuid();
                     imagesToBeProcessed[imageId] = photos[i];
-                    mSPLProcessingImages[imageId] = (uint)i;
+                    mSPLProcessingImages[imageId] = (uint)(index + i);
                 }
                 mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             }
