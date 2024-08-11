@@ -443,7 +443,7 @@ void Photobook::onCollageMakerError() {}
 void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
                               std::shared_ptr<VirtualImage> image)
 {
-  mParent->onImageMapped(id, image);
+  post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }
 
 } // namespace PB

@@ -7,14 +7,11 @@ using PhotobookRuntimeComponent;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.ObjectModel;
-using Windows.Foundation.Collections;
-using System.Numerics;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
-using WinRT;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -582,11 +579,11 @@ namespace PhotobookNet
 
             if (selection.UnstagedLineIndex.Count != 0)
             {
-                imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(selection.ImportListIndex.Value, selection.UnstagedLineIndex[0]);
+                imagePtr = mUnstagedImageCollection[(int)selection.UnstagedLineIndex[0]];
             }
             else if (selection.StagedPhotoIndex.Count != 0)
             {
-                imagePtr = mPhotobook.GetImageViews().StagedImages().Picture((int)selection.StagedPhotoIndex[0]);
+                imagePtr = mStagedImageCollection[(int)selection.StagedPhotoIndex[0]];
             }
 
             System.Diagnostics.Debug.Assert(imagePtr != null);
@@ -1322,7 +1319,14 @@ namespace PhotobookNet
 
         public void OnImageMapped(Guid imageId, VirtualImagePtr image)
         {
+            var splIndex = mSPLProcessingImages[imageId];
 
+            mStagedImageCollection[(int)splIndex] = image;
+
+            mSPLProcessingImages.Remove(imageId);
+
+            mPhotobook.GetImageViews().StagedImages().RemovePicture(new List<uint> { splIndex });
+            mPhotobook.GetImageViews().StagedImages().AddPictures(new List<VirtualImagePtr> { image }, (int)splIndex);
         }
     }
 }

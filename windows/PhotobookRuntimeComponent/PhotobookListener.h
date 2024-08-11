@@ -82,7 +82,7 @@ public:
     uint16_t data2 = nativeUuid.data[4] << 8 | nativeUuid.data[5];
     uint16_t data3 = nativeUuid.data[6] << 8 | nativeUuid.data[7];
 
-    GUID existingGuid = {data1,
+    GUID existingGuid = {(unsigned long)data1,
                          data2,
                          data3,
                          {nativeUuid.data[8], nativeUuid.data[9],
