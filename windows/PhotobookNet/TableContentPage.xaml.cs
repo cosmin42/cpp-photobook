@@ -50,7 +50,6 @@ namespace PhotobookNet
         bool mLinesExclusiveSelection = false;
         bool mBackFlag = false;
         bool mJustRemove = false;
-        bool mJustInsert = false;
         bool doNothing = false;
 
         (int, int) frameSize = (438, 310);
@@ -130,24 +129,7 @@ namespace PhotobookNet
                         doNothing = false;
                         return;
                     }
-                    if (mJustInsert)
-                    {
-                        // TODO: Is this branch even needed?
-                        List<VirtualImagePtr> draggedImages = new List<VirtualImagePtr>();
-
-                        // TODO: Fix VirtualImagePtr members capitalization.
-                        foreach (var image in args.NewItems)
-                        {
-                            draggedImages.Add(image as VirtualImagePtr);
-                        }
-
-                        mPhotobook.GetImageViews().StagedImages().AddPictures(draggedImages, args.NewStartingIndex);
-                        mJustInsert = false;
-                    }
-                    else
-                    {
-                        mPhotobook.GetImageViews().StagedImages().PopImages(args.NewStartingIndex);
-                    }
+                    mPhotobook.GetImageViews().StagedImages().PopImages(args.NewStartingIndex);
 
                 }
                 else if (args.Action == NotifyCollectionChangedAction.Remove)
