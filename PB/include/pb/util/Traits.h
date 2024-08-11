@@ -70,6 +70,8 @@ public:
     return !(*this == other);
   }
 
+  boost::uuids::uuid raw() const { return mUuid; }
+
 private:
   boost::uuids::uuid mUuid;
 };

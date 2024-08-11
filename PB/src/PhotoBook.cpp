@@ -42,6 +42,12 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(progressManagerListener != nullptr);
   mProgressManager.configure(progressManagerListener);
 
+  auto imageToPaperServiceListener =
+      dynamic_cast<PB::ImageToPaperServiceListener *>(this);
+  PBDev::basicAssert(imageToPaperServiceListener != nullptr);
+  mImageToPaperService->setImageToPaperServiceListener(
+      imageToPaperServiceListener);
+
   auto collageThumbnailsMakerListener =
       dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
@@ -433,5 +439,11 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
 }
 
 void Photobook::onCollageMakerError() {}
+
+void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
+                              std::shared_ptr<VirtualImage> image)
+{
+  mParent->onImageMapped(id, image);
+}
 
 } // namespace PB

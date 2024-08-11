@@ -6,6 +6,7 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
+// TODO: Is this class even used anymore?
 class PhotobookListener : PB::PhotobookListener {
 public:
   explicit PhotobookListener(
@@ -66,7 +67,33 @@ public:
   void onCollageCreated(unsigned                          index,
                         std::shared_ptr<PB::VirtualImage> newImage) override
   {
-    mManagedListener.OnCollageCreated(index, winrt::make<VirtualImagePtr>(newImage));
+    mManagedListener.OnCollageCreated(index,
+                                      winrt::make<VirtualImagePtr>(newImage));
+  }
+
+  void onImageMapped(PBDev::ImageToPaperId             id,
+                     std::shared_ptr<PB::VirtualImage> image) override
+  {
+    auto nativeUuid = id.raw();
+
+    uint64_t data1 = nativeUuid.data[0] << 24 | nativeUuid.data[1] << 16 |
+                     nativeUuid.data[2] << 8 | nativeUuid.data[3];
+
+    uint16_t data2 = nativeUuid.data[4] << 8 | nativeUuid.data[5];
+    uint16_t data3 = nativeUuid.data[6] << 8 | nativeUuid.data[7];
+
+    GUID existingGuid = {data1,
+                         data2,
+                         data3,
+                         {nativeUuid.data[8], nativeUuid.data[9],
+                          nativeUuid.data[10], nativeUuid.data[11],
+                          nativeUuid.data[12], nativeUuid.data[13],
+                          nativeUuid.data[14], nativeUuid.data[15]}};
+
+    winrt::guid managedGuid(existingGuid);
+
+    mManagedListener.OnImageMapped(managedGuid,
+                                   winrt::make<VirtualImagePtr>(image));
   }
 
 private:

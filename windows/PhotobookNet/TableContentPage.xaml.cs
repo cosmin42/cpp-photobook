@@ -1319,5 +1319,10 @@ namespace PhotobookNet
             mPhotobook.GetImageViews().StagedImages().AddPictures(newImages, (int)index);
             mStagedImageCollection.Insert((int)index, newImage);
         }
+
+        public void OnImageMapped(Guid imageId, VirtualImagePtr image)
+        {
+
+        }
     }
 }

@@ -318,7 +318,7 @@ namespace PhotobookNet
 
                 System.Diagnostics.Debug.Assert(!string.IsNullOrEmpty(name), "Name is null.");
 
-                mOldProjectName = name.Remove(name.Length-".photobook".Length);
+                mOldProjectName = name.Remove(name.Length - ".photobook".Length);
 
                 RenameProjectDialogTextBox.PlaceholderText = mOldProjectName;
                 RenameProjectDialogDisplay();
@@ -418,6 +418,11 @@ namespace PhotobookNet
         }
 
         public void OnCollageCreated(uint index, VirtualImagePtr newImage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnImageMapped(Guid imageId, VirtualImagePtr image)
         {
             throw new NotImplementedException();
         }

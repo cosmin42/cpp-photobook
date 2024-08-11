@@ -33,6 +33,8 @@ interface PhotobookListener
 
   void OnCollageCreated(UInt32 index, VirtualImagePtr newImage);
 
+  void OnImageMapped(Guid imageId, VirtualImagePtr image);
+
   void Post(Functor f);
 };
 } // namespace PhotobookRuntimeComponent

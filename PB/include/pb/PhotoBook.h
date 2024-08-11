@@ -33,6 +33,7 @@ class Photobook final : public PersistenceServiceListener,
                         public ProgressManagerListener,
                         public ExportListener,
                         public CollageThumbnailsMakerListener,
+                        public ImageToPaperServiceListener,
                         public CollageMakerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
@@ -101,6 +102,9 @@ public:
 
   void onCollageCreated(unsigned index, Path imagePath) override;
   void onCollageMakerError() override;
+
+  void onImageMapped(PBDev::ImageToPaperId         id,
+                     std::shared_ptr<VirtualImage> image) override;
 
   std::vector<Path> pendingMappingPathList() const;
 

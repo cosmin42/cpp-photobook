@@ -1,4 +1,6 @@
 #pragma once
+
+#include <pb/ImageToPaperTask.h>
 #include <pb/ProgressManager.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Util.h>
@@ -34,6 +36,9 @@ public:
 
   virtual void onCollageCreated(unsigned                          index,
                                 std::shared_ptr<PB::VirtualImage> newImage) = 0;
+
+  virtual void onImageMapped(PBDev::ImageToPaperId         id,
+                             std::shared_ptr<VirtualImage> image) = 0;
 };
 
 } // namespace PB

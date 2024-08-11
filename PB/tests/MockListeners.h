@@ -63,6 +63,10 @@ public:
   MOCK_METHOD(void, post, (std::function<void()>), (override));
   MOCK_METHOD(void, onCollageCreated,
               (unsigned, std::shared_ptr<PB::VirtualImage>), (override));
+
+  MOCK_METHOD(void, onImageMapped,
+              (PBDev::ImageToPaperId, std::shared_ptr<PB::VirtualImage>),
+              (override));
 };
 
 class TestPersistenceProjectListener final

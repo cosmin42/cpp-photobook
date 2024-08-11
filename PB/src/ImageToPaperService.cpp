@@ -12,6 +12,7 @@ void ImageToPaperService::map(
   task.configurePersistenceService(mPersistenceService);
   task.configurePlatformInfo(mPlatformInfo);
   task.configureProject(mProject);
+  task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id));
 }
@@ -28,6 +29,7 @@ void ImageToPaperService::map(
   task.configurePersistenceService(mPersistenceService);
   task.configurePlatformInfo(mPlatformInfo);
   task.configureProject(mProject);
+  task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id));
 }
