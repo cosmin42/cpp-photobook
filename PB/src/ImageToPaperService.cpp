@@ -9,19 +9,27 @@ void ImageToPaperService::map(
         originalImages)
 {
   auto &&task = ImageToPaperTask(originalImages);
+  task.configurePersistenceService(mPersistenceService);
+  task.configurePlatformInfo(mPlatformInfo);
+  task.configureProject(mProject);
   mTasks.emplace(id, task);
+  mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id));
 }
 
 void ImageToPaperService::map(
-    PBDev::ImageToPaperServiceId                                    id,
-    std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>> image)
+    PBDev::ImageToPaperServiceId id,
+    std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>>
+        originalImage)
 {
+  auto &&task = ImageToPaperTask(
+      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+                         boost::hash<PBDev::ImageToPaperId>>{originalImage});
 
-  mTasks.emplace(
-      id, ImageToPaperTask(
-              std::unordered_map<PBDev::ImageToPaperId,
-                                 std::shared_ptr<VirtualImage>,
-                                 boost::hash<PBDev::ImageToPaperId>>{image}));
+  task.configurePersistenceService(mPersistenceService);
+  task.configurePlatformInfo(mPlatformInfo);
+  task.configureProject(mProject);
+  mTasks.emplace(id, task);
+  mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id));
 }
 
 void ImageToPaperService::removeTask(PBDev::ImageToPaperServiceId id)

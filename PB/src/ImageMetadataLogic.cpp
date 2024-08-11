@@ -22,7 +22,7 @@ void ImageMetadataLogic::inspect()
 
     if (pos != mExifData.end() && pos->count() > 0) {
       // Retrieve the orientation value
-      mOrientation = pos->toUint32();
+      mOrientation = (uint8_t)pos->toUint32();
     }
   }
   catch (Exiv2::Error &e) {

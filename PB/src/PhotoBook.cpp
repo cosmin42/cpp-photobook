@@ -16,6 +16,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
                                                    localStatePath, screenSize)),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
       mImportLogic(mPlatformInfo),
+      mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(
           std::make_shared<CollageManager>(localStatePath, installationPath))
 {
