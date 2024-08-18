@@ -8,6 +8,12 @@ void LutService::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
+std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>
+LutService::listLuts() const
+{
+  return std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>();
+}
+
 Path LutService::mLutAssetsPath() const
 {
   return mPlatformInfo->installationPath / "luts";
