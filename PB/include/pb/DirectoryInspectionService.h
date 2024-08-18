@@ -10,6 +10,11 @@ namespace PB {
 
 class DirectoryInspectionService final {
 public:
+  DirectoryInspectionService()
+  {
+    mValidators.emplace("lut-validator", lutValidator);
+  }
+
   ~DirectoryInspectionService() = default;
 
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
@@ -40,5 +45,13 @@ private:
   std::unordered_map<PBDev::ValidatorFunctionName, std::function<bool(Path)>,
                      boost::hash<PBDev::ValidatorFunctionName>>
       mValidators;
+
+  static bool lutValidator(Path path)
+  {
+    if (!std::filesystem::is_regular_file(path)) {
+      return false;
+    }
+    return path.extension() == ".cube";
+  }
 };
 } // namespace PB
