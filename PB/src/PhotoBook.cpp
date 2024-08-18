@@ -18,7 +18,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mImportLogic(mPlatformInfo),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(
-          std::make_shared<CollageManager>(localStatePath, installationPath))
+          std::make_shared<CollageManager>(localStatePath, installationPath)),
+      mLutService(std::make_shared<LutService>()),
+      mDirectoryInspectionService(
+          std::make_shared<DirectoryInspectionService>())
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
   ImageFactory::inst().configurePersistenceService(mPersistenceService);
@@ -57,6 +60,12 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
+  auto directoryInspectionJobListener =
+      dynamic_cast<PB::DirectoryInspectionJobListener *>(this);
+  PBDev::basicAssert(directoryInspectionJobListener != nullptr);
+  mDirectoryInspectionService->configureListener(
+      directoryInspectionJobListener);
+
   mPersistenceService->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
@@ -71,6 +80,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic.setTaskCruncher(mTaskCruncher);
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
+  mDirectoryInspectionService->configureTaskCruncher(mTaskCruncher);
+
+  mLutService->configurePlatformInfo(mPlatformInfo);
 
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -444,6 +456,13 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
                               std::shared_ptr<VirtualImage> image)
 {
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
+}
+
+void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) {}
+
+void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
+                          std::vector<Path>               searchResults)
+{
 }
 
 } // namespace PB
