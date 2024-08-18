@@ -76,19 +76,19 @@ private:
   boost::uuids::uuid mUuid;
 };
 
-template <typename Tag> class StringString final {
+template <typename Tag> class StrongString final {
 public:
-  explicit StringString(const std::string &key) : mKey(key) {}
-  ~StringString() = default;
+  explicit StrongString(const std::string &key) : mKey(key) {}
+  ~StrongString() = default;
 
   const std::string &operator*() const { return mKey; }
 
-  bool operator==(const StringString<Tag> &other) const
+  bool operator==(const StrongString<Tag> &other) const
   {
     return mKey == other.mKey;
   }
 
-  bool operator!=(const StringString<Tag> &other) const
+  bool operator!=(const StrongString<Tag> &other) const
   {
     return !(*this == other);
   }
@@ -116,7 +116,7 @@ private:
 #define DECLARE_STRONG_STRING(NAME)                                            \
   namespace PBDev {                                                            \
   struct NAME##Tag {};                                                         \
-  typedef StringString<NAME##Tag> NAME;                                        \
+  typedef StrongString<NAME##Tag> NAME;                                        \
   }                                                                            \
   namespace boost {                                                            \
   template <> struct hash<::PBDev::NAME> {                                     \

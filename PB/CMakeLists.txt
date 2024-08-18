@@ -81,6 +81,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/CollageThumbnailsMakerJob.h
     include/pb/DataManager.h
     include/pb/DirectoryInspectionJob.h
+    include/pb/DirectoryInspectionService.h
     include/pb/DrawingService.h
     include/pb/Enums.h
     include/pb/export/ExportLogic.h
@@ -149,6 +150,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Config.cpp
     src/DataManager.cpp
     src/DirectoryInspectionJob.cpp
+    src/DirectoryInspectionService.cpp
     src/DrawingService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp

@@ -13,7 +13,7 @@ namespace PB {
 class DirectoryInspectionJobListener {
 public:
   virtual ~DirectoryInspectionJobListener() = default;
-  virtual void onFoundFile(Path file) = 0;
+  virtual void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) = 0;
   virtual void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                     std::vector<Path> searchResults) = 0;
 };
@@ -29,7 +29,7 @@ public:
 
   ~DirectoryInspectionJob() = default;
 
-  void setDirectoryInspectionServiceListener(
+  void configureListener(
       DirectoryInspectionJobListener *listener)
   {
     mListener = listener;
@@ -51,7 +51,7 @@ public:
     return IdentifyableFunction{id, [this]() {
                                   auto path = mRecursiveIterator->path();
                                   if (mValidator(path)) {
-                                    mListener->onFoundFile(path);
+                                    mListener->onFoundFile(mJobId, path);
                                     mPaths.push_back(path);
                                   }
                                   mRecursiveIterator++;
