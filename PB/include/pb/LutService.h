@@ -6,8 +6,9 @@
 DECLARE_STRONG_STRING(LutName)
 
 namespace PB {
-class LutService final: public DirectoryInspectionJobListener {
+class LutService final : public DirectoryInspectionJobListener {
 public:
+  LutService() = default;
   ~LutService() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
@@ -16,7 +17,6 @@ public:
 
   void detectLuts();
 
-  void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) override;
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 
@@ -27,7 +27,8 @@ private:
   std::shared_ptr<PlatformInfo>               mPlatformInfo;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService;
 
-  PBDev::DirectoryInspectionJobId mLutsInspectionId;
+  PBDev::DirectoryInspectionJobId mLutsInspectionId =
+      PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
 
   Path lutAssetsPath() const;
 };

@@ -29,6 +29,8 @@ runtimeclass PhotobookWin
   void ConfigureImageMonitorListener(ImageMonitorListener listener);
   void ConfigureCurrentProject();
 
+  void StartPhotobook();
+
   VirtualImagePtr EmptyImage();
 
   String GenerateProjectName();

@@ -22,6 +22,11 @@ public:
     mTaskCruncher = taskCruncher;
   }
 
+  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler)
+  {
+    mThreadScheduler = threadScheduler;
+  }
+
   void configureListener(DirectoryInspectionJobListener *listener)
   {
     mListener = listener;
@@ -33,11 +38,13 @@ public:
     mJobs.emplace(id, DirectoryInspectionJob(id, root));
     mJobs.at(id).configureListener(mListener);
     mJobs.at(id).setValidator(mValidators.at(validatorName));
+    mJobs.at(id).configureThreadScheduler(mThreadScheduler);
     mTaskCruncher->crunch("search-files", mJobs.at(id));
   }
 
 private:
   DirectoryInspectionJobListener *mListener = nullptr;
+  PBDev::ThreadScheduler         *mThreadScheduler = nullptr;
   std::shared_ptr<TaskCruncher>   mTaskCruncher = nullptr;
   std::unordered_map<PBDev::DirectoryInspectionJobId, DirectoryInspectionJob,
                      boost::hash<PBDev::DirectoryInspectionJobId>>

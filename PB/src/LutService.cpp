@@ -33,8 +33,6 @@ void LutService::detectLuts()
       lutAssetsPath());
 }
 
-void LutService::onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) {}
-
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
@@ -53,4 +51,5 @@ Path LutService::lutAssetsPath() const
 {
   return mPlatformInfo->installationPath / "film-luts";
 }
+
 } // namespace PB

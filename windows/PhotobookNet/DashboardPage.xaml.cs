@@ -46,6 +46,7 @@ namespace PhotobookNet
             mMenuFlyout.Items.Add(DeleteFlyout());
             mMenuFlyout.Items.Add(RenameFlyout());
 
+            mPhotobook.StartPhotobook();
             mPhotobook.RecallMetadata();
         }
 

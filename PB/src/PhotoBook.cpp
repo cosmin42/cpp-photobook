@@ -66,6 +66,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("export-logic", 1);
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
+  mTaskCruncher->registerPTC("search-files", 1);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -75,6 +76,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
   mDirectoryInspectionService->configureTaskCruncher(mTaskCruncher);
+  mDirectoryInspectionService->configureThreadScheduler(threadScheduler);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);

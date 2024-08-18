@@ -226,6 +226,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     }
   }
 
+  void StartPhotobook() { mPhotobook->startPhotobook(); }
+
   Windows::Foundation::Collections::IVector<
       PhotobookRuntimeComponent::CollageTemplateInfo>
   CollageTemplatesThumbnailsList()
