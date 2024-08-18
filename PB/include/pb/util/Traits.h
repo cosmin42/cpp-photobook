@@ -69,12 +69,34 @@ public:
   {
     return !(*this == other);
   }
-
+  // TODO:this is redundant with the * operator above
   boost::uuids::uuid raw() const { return mUuid; }
 
 private:
   boost::uuids::uuid mUuid;
 };
+
+template <typename Tag> class StringString final {
+public:
+  explicit StringString(const std::string &key) : mKey(key) {}
+  ~StringString() = default;
+
+  const std::string &operator*() const { return mKey; }
+
+  bool operator==(const StringString<Tag> &other) const
+  {
+    return mKey == other.mKey;
+  }
+
+  bool operator!=(const StringString<Tag> &other) const
+  {
+    return !(*this == other);
+  }
+
+private:
+  std::string mKey;
+};
+
 } // namespace PBDev
 
 #define DECLARE_STRONG_UUID(NAME)                                              \
@@ -91,10 +113,24 @@ private:
   };                                                                           \
   }
 
+#define DECLARE_STRONG_STRING(NAME)                                            \
+  namespace PBDev {                                                            \
+  struct NAME##Tag {};                                                         \
+  typedef StringString<NAME##Tag> NAME;                                        \
+  }                                                                            \
+  namespace boost {                                                            \
+  template <> struct hash<::PBDev::NAME> {                                     \
+    ::std::size_t operator()(const ::PBDev::NAME &str) const                   \
+    {                                                                          \
+      return ::boost::hash<std::string>()(*str);                               \
+    }                                                                          \
+  };                                                                           \
+  }
+
 DECLARE_STRONG_UUID(ParallelTaskConsumerId)
 DECLARE_STRONG_UUID(PdfPoDoFoId)
 
-typedef PBDev::Path Path;
+    typedef PBDev::Path Path;
 typedef PBDev::Json Json;
 
 #define UNUSED(x)                                                              \
