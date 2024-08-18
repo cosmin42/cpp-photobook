@@ -5,6 +5,7 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
+#include <pb/Config.h>
 #include <pb/image/ImageOperations.h>
 
 namespace PB {
@@ -19,7 +20,7 @@ std::vector<Path>
 CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
 {
   std::vector<Path> paths;
-  for (auto i = 0; i < MAX_NUMBER_OF_PLACEHOLDER_IMAGES; ++i) {
+  for (auto i = 0; i < OneConfig::NUMBER_OF_COLLAGE_NUMBERED_IMAGES; ++i) {
     auto path = createNumberedImage(
         pageSize, i, "placeholder_" + std::to_string(i) + ".jpg");
     paths.push_back(path);

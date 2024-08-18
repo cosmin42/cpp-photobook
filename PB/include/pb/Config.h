@@ -60,6 +60,8 @@ const std::unordered_map<std::string, PB::AspectRatio> ASPECT_RATIO_PRESET = {
     {"16:9", AspectRatio{16, 9}},
     {"1:1", AspectRatio{1, 1}}};
 
+static constexpr unsigned NUMBER_OF_COLLAGE_NUMBERED_IMAGES = 10;
+
 } // namespace OneConfig
 
 } // namespace PB

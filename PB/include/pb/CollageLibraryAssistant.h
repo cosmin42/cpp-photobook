@@ -28,8 +28,5 @@ private:
   Path        mCollageLibraryThumbnailsDirectory;
   SVGInflater mThumbnailsSVGInflater;
   Path        mOutputFolder;
-
-  static constexpr unsigned THUMBNAIL_HEIGHT = 80;
-  static constexpr unsigned MAX_NUMBER_OF_PLACEHOLDER_IMAGES = 10;
 };
 } // namespace PB
