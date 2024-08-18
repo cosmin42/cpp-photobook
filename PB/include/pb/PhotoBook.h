@@ -36,8 +36,7 @@ class Photobook final : public PersistenceServiceListener,
                         public ExportListener,
                         public CollageThumbnailsMakerListener,
                         public ImageToPaperServiceListener,
-                        public CollageMakerListener,
-                        public DirectoryInspectionJobListener {
+                        public CollageMakerListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -49,6 +48,8 @@ public:
   void configure(std::shared_ptr<Project> project);
 
   void configureCurrentProject();
+
+  void startPhotobook();
 
   void recallMetadata();
   void recallProject(std::string name);
@@ -108,10 +109,6 @@ public:
 
   void onImageMapped(PBDev::ImageToPaperId         id,
                      std::shared_ptr<VirtualImage> image) override;
-
-  void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) override;
-  void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
-                            std::vector<Path> searchResults) override;
 
   std::vector<Path> pendingMappingPathList() const;
 

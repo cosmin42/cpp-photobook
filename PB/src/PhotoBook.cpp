@@ -60,12 +60,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
-  auto directoryInspectionJobListener =
-      dynamic_cast<PB::DirectoryInspectionJobListener *>(this);
-  PBDev::basicAssert(directoryInspectionJobListener != nullptr);
-  mDirectoryInspectionService->configureListener(
-      directoryInspectionJobListener);
-
   mPersistenceService->configure(localStatePath);
 
   mTaskCruncher->registerPTC("image-search-job", 1);
@@ -83,6 +77,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mDirectoryInspectionService->configureTaskCruncher(mTaskCruncher);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
+  mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);
 
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -113,6 +108,8 @@ void Photobook::configureCurrentProject()
 {
   configure(project()->currentProject());
 }
+
+void Photobook::startPhotobook() { mLutService->detectLuts(); }
 
 void Photobook::unloadProject()
 {
