@@ -102,6 +102,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
+    include/pb/LutService.h
     include/pb/MapReducer.h
     include/pb/MetadataReader.h
     include/pb/FileComparator.h
@@ -164,6 +165,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImportImageTask.cpp
     src/ImportFoldersLogic.cpp
     src/Jpg.cpp
+    src/LutService.cpp
     src/MetadataReader.cpp
     src/PaperSettings.cpp
     src/Pdf.cpp
