@@ -27,6 +27,10 @@ public:
 
   virtual void onTaskFinished(PBDev::MapReducerTaskId) = 0;
 
+  virtual unsigned jobSize() const { return 0; }
+
+  virtual bool isInProgress() const { return true; }
+
 protected:
   PBDev::MapReducerTaskId mId;
 };

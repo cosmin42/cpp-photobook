@@ -3,24 +3,47 @@
 #include <string>
 #include <unordered_map>
 
-#include <pb/Enums.h>
-
 #include <pb/Config.h>
+#include <pb/Enums.h>
+#include <pb/ThreadScheduler.h>
+#include <pb/util/Traits.h>
+
+DECLARE_STRONG_UUID(ProgressId)
+DECLARE_STRONG_STRING(ProgressJobName)
 
 namespace PB {
 
 struct ProgressInfo {
-  JobType                  jobType = JobType::None;
-  ProgressType             progressType;
-  int                      progress = 0;
-  int                      progressCap = 0;
-  std::vector<std::string> jobsProgress;
+  PBDev::ProgressJobName name;
+  unsigned               progress = 0;
+  unsigned               progressCap = 0;
+};
+
+struct ProgressStatus {
+  std::unordered_map<PBDev::ProgressJobName, std::optional<float>,
+                     boost::hash<PBDev::ProgressJobName>>
+      statusMap;
+
+  std::string toString()
+  {
+    std::string knownProgress;
+    std::string unknownProgress;
+    for (auto const &[name, maybePercent] : statusMap) {
+      if (maybePercent) {
+        knownProgress = *name + ": " + std::to_string(*maybePercent) + ";";
+      }
+      else {
+        unknownProgress = *name + ";";
+      }
+    }
+
+    return "Pending: {" + knownProgress + "}, {" + unknownProgress + "}";
+  }
 };
 
 class ProgressManagerListener {
 public:
-  virtual void progressUpdate(PB::ProgressInfo definedProgress,
-                              PB::ProgressInfo undefinedProgress) = 0;
+  virtual void progressUpdate(PB::ProgressStatus status) = 0;
 };
 
 class ProgressManager final {
@@ -28,18 +51,23 @@ public:
   ~ProgressManager() = default;
 
   void configure(ProgressManagerListener *listener);
+  void configureScheduler(PBDev::ThreadScheduler *scheduler);
 
-  void subscribe(std::string name, JobType jobType, int progressCap = 0);
-  void update(std::string name);
-  void abort(std::string name);
-  void finish(std::string name);
+  PBDev::ProgressId start(PBDev::ProgressJobName name, unsigned taskCount = 0);
+  void              update(PBDev::ProgressId id);
+  void              abort(PBDev::ProgressId id);
+  void              finish(PBDev::ProgressId id);
 
 private:
-  ProgressInfo totalDefiniteProgress() const;
-  ProgressInfo totalIndefiniteProgress() const;
-
   ProgressManagerListener *mListener = nullptr;
+  PBDev::ThreadScheduler  *mScheduler = nullptr;
 
-  std::unordered_map<std::string, ProgressInfo> mProgress;
+  std::unordered_map<PBDev::ProgressId, ProgressInfo,
+                     boost::hash<PBDev::ProgressId>>
+      mProgressData;
+
+  ProgressStatus mProgressStatus;
+
+  ProgressStatus aggregateStatus() const;
 };
 } // namespace PB

@@ -7,85 +7,96 @@ void ProgressManager::configure(ProgressManagerListener *listener)
   mListener = listener;
 }
 
-void ProgressManager::subscribe(std::string name, JobType jobType,
-                                int progressCap)
+void ProgressManager::configureScheduler(PBDev::ThreadScheduler *scheduler)
 {
-  if (progressCap == 0) {
-    mProgress[name] =
-        ProgressInfo{jobType, ProgressType::Undefined, 0, progressCap};
-  }
-  else {
-    mProgress[name] =
-        ProgressInfo{jobType, ProgressType::Defined, 0, progressCap};
-  }
-
-  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
+  mScheduler = scheduler;
 }
 
-void ProgressManager::update(std::string name)
+PBDev::ProgressId ProgressManager::start(PBDev::ProgressJobName name,
+                                         unsigned               taskCount)
 {
-  auto &progressInfo = mProgress.at(name);
-  progressInfo.progress++;
-
-  if (progressInfo.progressCap > 0 &&
-      progressInfo.progressCap == progressInfo.progress) {
-    finish(name);
-  }
-
-  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
+  PBDev::ProgressId id(RuntimeUUID::newUUID());
+  mScheduler->post([this, id{id}, name{name}, taskCount{taskCount}]() {
+    mProgressData.emplace(id, ProgressInfo{name, taskCount, 0});
+    mListener->progressUpdate(aggregateStatus());
+  });
+  return id;
 }
 
-void ProgressManager::abort(std::string name)
+void ProgressManager::update(PBDev::ProgressId id)
 {
-  mProgress.erase(name);
-
-  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
+  mScheduler->post([this, id]() {
+    mProgressData[id].progress++;
+    auto aggregate = aggregateStatus();
+    mListener->progressUpdate(aggregate);
+  });
 }
 
-void ProgressManager::finish(std::string name)
+void ProgressManager::abort(PBDev::ProgressId id)
 {
-  mProgress.erase(name);
-  mListener->progressUpdate(totalDefiniteProgress(), totalIndefiniteProgress());
+  mScheduler->post([this, id]() { mProgressData.erase(id); });
 }
 
-ProgressInfo ProgressManager::totalDefiniteProgress() const
+void ProgressManager::finish(PBDev::ProgressId id)
 {
-  ProgressInfo totalProgressInfo;
+  mScheduler->post([this, id]() {
+    mProgressData.erase(id);
+    mListener->progressUpdate(aggregateStatus());
+  });
+}
 
-  totalProgressInfo.jobType = JobType::Full;
+ProgressStatus ProgressManager::aggregateStatus() const
+{
+  // TODO: Make this function beautiful
+  ProgressStatus status;
 
-  for (auto [name, progressInfo] : mProgress) {
-    PBDev::basicAssert(progressInfo.progressType != ProgressType::None);
-    if (progressInfo.progressType == ProgressType::Defined) {
-      totalProgressInfo.progressCap += progressInfo.progressCap;
-      totalProgressInfo.progress += progressInfo.progress;
-      totalProgressInfo.jobsProgress.push_back(name);
+  std::unordered_set<PBDev::ProgressJobName,
+                     boost::hash<PBDev::ProgressJobName>>
+      knownJobs;
+  std::unordered_set<PBDev::ProgressJobName,
+                     boost::hash<PBDev::ProgressJobName>>
+      unknownJobs;
+  for (auto [id, progressInfo] : mProgressData) {
+    if (unknownJobs.contains(progressInfo.name)) {
+      continue;
     }
-  }
-  return totalProgressInfo;
-}
-
-ProgressInfo ProgressManager::totalIndefiniteProgress() const
-{
-  ProgressInfo totalProgressInfo;
-  totalProgressInfo.jobType = JobType::Full;
-  for (auto [name, progressInfo] : mProgress) {
-    if (progressInfo.progressCap == 0) {
-      totalProgressInfo.progress += progressInfo.progress;
-      if (progressInfo.jobType == JobType::Map) {
-        totalProgressInfo.jobsProgress.push_back(
-            Path(name).filename().string());
-      }
-      else if (progressInfo.jobType == JobType::ThumbnailsProcess) {
-        totalProgressInfo.jobsProgress.push_back(
-            Path(name).filename().string());
+    else {
+      if (progressInfo.progressCap == 0) {
+        unknownJobs.insert(progressInfo.name);
+        if (knownJobs.contains(progressInfo.name)) {
+          knownJobs.erase(progressInfo.name);
+        }
       }
       else {
-        totalProgressInfo.jobsProgress.push_back(name);
+        knownJobs.insert(progressInfo.name);
       }
     }
   }
-  return totalProgressInfo;
+  std::unordered_map<PBDev::ProgressJobName, int,
+                     boost::hash<PBDev::ProgressJobName>>
+      maxCapSum;
+  std::unordered_map<PBDev::ProgressJobName, int,
+                     boost::hash<PBDev::ProgressJobName>>
+      progressSum;
+
+  for (auto const &[id, progressInfo] : mProgressData) {
+    if (knownJobs.contains(progressInfo.name)) {
+      maxCapSum[progressInfo.name] += progressInfo.progressCap;
+      progressSum[progressInfo.name] += progressInfo.progress;
+    }
+    else if (unknownJobs.contains(progressInfo.name)) {
+      status.statusMap[progressInfo.name] = std::nullopt;
+    }
+    else {
+      PBDev::basicAssert(false);
+    }
+  }
+
+  for (auto const &[jobName, progress] : progressSum) {
+    status.statusMap[jobName] =
+        (float)(progress * 100) / (float)maxCapSum.at(jobName);
+  }
+  return status;
 }
 
 } // namespace PB

@@ -41,8 +41,6 @@ public:
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onMetadataUpdated, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
-  MOCK_METHOD(void, onProgressUpdate, (PB::ProgressInfo, PB::ProgressInfo),
-              (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
 

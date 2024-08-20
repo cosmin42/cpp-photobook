@@ -69,6 +69,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
 
+  mProgressManager->configureScheduler(threadScheduler);
+
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
   mExportLogic.setExportListener(exportListener);
@@ -178,8 +180,6 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
       mImageViews.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
-  mProgressManager->subscribe(task->name(), JobType::ExportPdf,
-                             task->stepsCount());
 
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
 }
@@ -195,8 +195,6 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
           mImageViews.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
-  mProgressManager->subscribe(task->name(), JobType::ExportLibharu,
-                             task->stepsCount());
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
 }
 
@@ -216,8 +214,6 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
         mImageViews.stagedImages().stagedPhotos());
 
     task->setListener(&mExportLogic);
-    mProgressManager->subscribe(task->name(), JobType::ExportJpg,
-                               task->stepsCount());
     mExportLogic.start(task->name(),
                        std::static_pointer_cast<MapReducer>(task));
   }
@@ -254,9 +250,6 @@ void Photobook::onProjectRead(
   auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
 
   for (auto &unprocessedImage : unprocessedImages) {
-    mProgressManager->subscribe(unprocessedImage.root.string(),
-                               JobType::ThumbnailsProcess,
-                               (int)unprocessedImage.images.size());
     auto imageHash = mPersistenceService->hash(unprocessedImage.root);
     mImportLogic.processImages(
         boost::uuids::to_string(project()->currentProjectUUID()),
@@ -288,13 +281,11 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
 void Photobook::onMappingStarted(Path path)
 {
   mParent->onMappingStarted(path);
-  mProgressManager->subscribe(path.string(), JobType::Map);
 }
 
 void Photobook::onMappingAborted(Path path)
 {
   mParent->onMappingAborted(path);
-  mProgressManager->abort(path.string());
 }
 
 std::shared_ptr<CollageManager> Photobook::collageManager()
@@ -318,10 +309,6 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mImageViews.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
-  mProgressManager->finish(root.string());
-
-  mProgressManager->subscribe(root.string(), JobType::ThumbnailsProcess,
-                             (int)keyAndPaths.size());
 
   RowProcessingData rowProcessingData = {root, keyAndPaths};
   auto imageHash = mPersistenceService->hash(rowProcessingData.root);
@@ -344,8 +331,6 @@ void Photobook::onImageProcessed(Path key, Path root,
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
   auto [globalProgress, globalProgressCap] =
       mImportLogic.imageProcessingProgress();
-
-  mProgressManager->update(root.string());
 
   auto [row, index] = mImageViews.imageMonitor().position(key);
 
@@ -396,22 +381,13 @@ void Photobook::onExportComplete(std::string name) {}
 
 void Photobook::onExportAborted(std::string name)
 {
-  mProgressManager->abort(name);
 }
 
 void Photobook::onExportUpdate(std::string name)
 {
-  mProgressManager->update(name);
 }
 
-void Photobook::progressUpdate(PB::ProgressInfo definedProgress,
-                               PB::ProgressInfo undefinedProgress)
-{
-  post([this, definedProgress{definedProgress},
-        undefinedProgress{undefinedProgress}]() {
-    mParent->onProgressUpdate(definedProgress, undefinedProgress);
-  });
-}
+void Photobook::progressUpdate(PB::ProgressStatus status) {}
 
 void Photobook::onThumbnailsCreated()
 {

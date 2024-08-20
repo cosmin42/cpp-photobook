@@ -12,13 +12,6 @@ struct ProgressInfo : ProgressInfoT<ProgressInfo> {
   {
   }
 
-  JobType jobType() { return (JobType)mProgressInfo.jobType; }
-
-  ProgressType progressType()
-  {
-    return (ProgressType)mProgressInfo.progressType;
-  }
-
   int progress() { return mProgressInfo.progress; }
 
   int progressCap() { return mProgressInfo.progressCap; }
@@ -27,10 +20,6 @@ struct ProgressInfo : ProgressInfoT<ProgressInfo> {
   {
     auto nativeJobsProgress = winrt::single_threaded_vector<winrt::hstring>();
 
-    for (auto i = 0; i < mProgressInfo.jobsProgress.size(); ++i) {
-      nativeJobsProgress.Append(
-          winrt::to_hstring(mProgressInfo.jobsProgress.at(i)));
-    }
 
     return nativeJobsProgress;
   }

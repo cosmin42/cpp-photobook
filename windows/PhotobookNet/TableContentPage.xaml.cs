@@ -668,16 +668,6 @@ namespace PhotobookNet
             {
                 string concatened = "";
 
-                foreach (var name in defined.jobsProgress())
-                {
-                    concatened = defined.jobType().ToString() + " " + concatened + name + ", ";
-                }
-
-                foreach (var name in undefined.jobsProgress())
-                {
-                    concatened = undefined.jobType().ToString() + " " + concatened + name + ", " + "(" + undefined.progress().ToString() + ")";
-                }
-
                 StatusLabelText.Text = concatened;
             }
         }
@@ -1197,7 +1187,7 @@ namespace PhotobookNet
 
         public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
         {
-            if (definedProgress.jobsProgress().Count == 0 || definedProgress.progressType() == ProgressType.None)
+            if (definedProgress.jobsProgress().Count == 0)
             {
                 MainProgressBar.Visibility = Visibility.Collapsed;
             }

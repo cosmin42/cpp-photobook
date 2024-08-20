@@ -98,8 +98,7 @@ public:
   void onExportAborted(std::string name) override;
   void onExportUpdate(std::string name) override;
 
-  void progressUpdate(PB::ProgressInfo definedProgress,
-                      PB::ProgressInfo undefinedProgress) override;
+  void progressUpdate(PB::ProgressStatus status) override;
 
   void onThumbnailsCreated() override;
   void onCollageThumbnailsMakerError() override;

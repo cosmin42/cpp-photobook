@@ -31,9 +31,6 @@ public:
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onProgressUpdate(PB::ProgressInfo definedProgress,
-                                PB::ProgressInfo undefinedProgress) = 0;
-
   virtual void onCollageCreated(unsigned                          index,
                                 std::shared_ptr<PB::VirtualImage> newImage) = 0;
 

@@ -96,14 +96,6 @@ public:
     mManagedListener.Post(functor);
   }
 
-  void onProgressUpdate(PB::ProgressInfo definedProgress,
-                        PB::ProgressInfo undefinedProgress) override
-  {
-    mManagedListener.OnProgressUpdate(
-        winrt::make<ProgressInfo>(definedProgress),
-        winrt::make<ProgressInfo>(undefinedProgress));
-  }
-
   void onCollageCreated(unsigned                          index,
                         std::shared_ptr<PB::VirtualImage> newImage) override
   {

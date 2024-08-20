@@ -78,6 +78,7 @@ private:
 
 template <typename Tag> class StrongString final {
 public:
+  StrongString() = default;
   explicit StrongString(const std::string &key) : mKey(key) {}
   ~StrongString() = default;
 
@@ -130,7 +131,7 @@ private:
 DECLARE_STRONG_UUID(ParallelTaskConsumerId)
 DECLARE_STRONG_UUID(PdfPoDoFoId)
 
-    typedef PBDev::Path Path;
+typedef PBDev::Path Path;
 typedef PBDev::Json Json;
 
 #define UNUSED(x)                                                              \

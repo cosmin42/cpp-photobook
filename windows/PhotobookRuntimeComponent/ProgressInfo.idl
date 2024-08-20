@@ -14,8 +14,6 @@ enum ProgressType { None, Defined, Undefined };
 
 runtimeclass ProgressInfo
 {
-  JobType      jobType();
-  ProgressType progressType();
   Int32        progress();
   Int32        progressCap();
   IVector<String> jobsProgress();
