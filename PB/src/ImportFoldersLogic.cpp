@@ -50,7 +50,8 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   mPendingSearches.at(path).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
   mScheduler->post([this, path{path}]() { mListener->onMappingStarted(path); });
-  mTaskCruncher->crunch("image-search-job", mPendingSearches.at(path));
+  mTaskCruncher->crunch("image-search-job", mPendingSearches.at(path),
+                        PBDev::ProgressJobName{"image-search"});
 
   return std::nullopt;
 }

@@ -77,7 +77,7 @@ public:
     mListener->onImageMapped(imageId, mResultImages.at(imageId));
   }
 
-  unsigned taskCount() const override { return mImageIds.size(); }
+  unsigned taskCount() const override { return (unsigned)mImageIds.size(); }
 
 private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;

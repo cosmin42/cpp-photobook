@@ -44,7 +44,8 @@ void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
 void CollageManager::generateTemplatesImages()
 {
   mJob.mapJobs();
-  mTaskCruncher->crunch("collage-thumbnails", mJob);
+  mTaskCruncher->crunch("collage-thumbnails", mJob,
+                        PBDev::ProgressJobName{"collages-gen"});
 }
 
 std::vector<CollageTemplateInfo> CollageManager::getTemplatesPaths() const
@@ -58,7 +59,8 @@ void CollageManager::combineImages(unsigned          templateIndex,
   auto templatePaths = mJob.getSourceTemplates();
 
   mCollageMakerJob.mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
-  mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob);
+  mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob,
+                        PBDev::ProgressJobName{"collage-combine"});
 }
 
 } // namespace PB

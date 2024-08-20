@@ -39,7 +39,8 @@ public:
     mJobs.at(id).configureListener(mListener);
     mJobs.at(id).setValidator(mValidators.at(validatorName));
     mJobs.at(id).configureThreadScheduler(mThreadScheduler);
-    mTaskCruncher->crunch("search-files", mJobs.at(id));
+    mTaskCruncher->crunch("search-files", mJobs.at(id),
+                          PBDev::ProgressJobName{"inspect-dir"});
   }
 
 private:

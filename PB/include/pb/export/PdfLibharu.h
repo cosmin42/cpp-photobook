@@ -29,7 +29,7 @@ public:
 
   void onTaskFinished(PBDev::MapReducerTaskId id) override;
 
-  unsigned taskCount() const override { return mStagedImages.size(); }
+  unsigned taskCount() const override { return (unsigned)mStagedImages.size(); }
 
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";

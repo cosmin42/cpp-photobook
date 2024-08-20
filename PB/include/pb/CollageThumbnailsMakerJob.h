@@ -39,7 +39,7 @@ public:
 
   void onTaskFinished(PBDev::MapReducerTaskId) override;
 
-  unsigned taskCount() const override { return mFunctions.size(); }
+  unsigned taskCount() const override { return (unsigned)mFunctions.size(); }
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =

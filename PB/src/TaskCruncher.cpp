@@ -10,17 +10,22 @@ void TaskCruncher::registerPTC(const std::string poolName,
                std::make_unique<PBDev::ParallelTaskConsumer>(threadsCount));
 }
 
-void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper)
+void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
+                          PBDev::ProgressJobName progressName)
 {
   PBDev::basicAssert(mPTC.find(poolName) != mPTC.end());
+
+  auto progressId = mProgressManager->start(progressName, mapper.taskCount());
 
   auto task = mapper.getTask(mStopSource.get_token());
   while (task.has_value()) {
 
-    mPTC.at(poolName)->enqueue([task{task}, &mapper]() {
-      task->second();
-      mapper.onTaskFinished(task->first);
-    });
+    mPTC.at(poolName)->enqueue(
+        [this, task{task}, &mapper, progressId{progressId}]() {
+          task->second();
+          mapper.onTaskFinished(task->first);
+          mProgressManager->update(progressId);
+        });
 
     task = mapper.getTask(mStopSource.get_token());
   }
