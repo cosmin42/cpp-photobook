@@ -17,6 +17,35 @@
                      Color="#1A2224" />
     <SolidColorBrush x:Key="ContentDialogSeparatorBorderBrush"
                      Color="#374346" />
+    <Style x:Key="AppBarButtonStyle"
+           TargetType="AppBarButton">
+        <Setter Property="Foreground"
+                Value="{ThemeResource CommandBarMainColor}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="AppBarButton">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="Content.Foreground"
+                                                Value="#FF0000" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border>
+                            <ContentPresenter x:Name="Content"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Content="{TemplateBinding Icon}"
+                                              Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="ContentDialogPrimaryButtonStyle"
            TargetType="Button">
         <Setter Property="Background"
