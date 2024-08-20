@@ -75,7 +75,7 @@ std::string PdfExportTask::name() const
 }
 // TODO: implement once somehow
 std::optional<IdentifyableFunction>
-PdfExportTask::getNext(std::stop_token stopToken)
+PdfExportTask::getTask(std::stop_token stopToken)
 {
   if (mCrunchedFlag) {
     return std::nullopt;
@@ -95,7 +95,7 @@ PdfExportTask::getNext(std::stop_token stopToken)
   return f;
 }
 
-void PdfExportTask::onFinished(PBDev::MapReducerTaskId id)
+void PdfExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(id);

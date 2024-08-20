@@ -29,9 +29,9 @@ public:
   void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
 
   std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override;
+  getTask(std::stop_token stopToken) override;
 
-  void onFinished(PBDev::MapReducerTaskId) override;
+  void onTaskFinished(PBDev::MapReducerTaskId) override;
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";

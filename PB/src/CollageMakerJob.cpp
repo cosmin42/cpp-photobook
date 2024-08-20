@@ -78,7 +78,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 }
 
 std::optional<IdentifyableFunction>
-CollageMakerJob::getNext(std::stop_token stopToken)
+CollageMakerJob::getTask(std::stop_token stopToken)
 {
   if (mFunctions.size() > mIndex) {
     auto &f = mFunctions.at(mIndex);
@@ -88,7 +88,7 @@ CollageMakerJob::getNext(std::stop_token stopToken)
   return std::nullopt;
 }
 
-void CollageMakerJob::onFinished(PBDev::MapReducerTaskId reducerTaskId)
+void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
 {
   if (mCollageIndex.find(reducerTaskId) != mCollageIndex.end()) {
     mListener->onCollageCreated(mCollageIndex.at(reducerTaskId),

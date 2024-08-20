@@ -11,7 +11,7 @@
 
 namespace PB {
 std::optional<IdentifyableFunction>
-DirectoryInspectionJob::getNext(std::stop_token stopToken)
+DirectoryInspectionJob::getTask(std::stop_token stopToken)
 {
   if (mCrunchedFlag) {
     return std::nullopt;
@@ -34,7 +34,7 @@ DirectoryInspectionJob::getNext(std::stop_token stopToken)
   return f;
 }
 
-void DirectoryInspectionJob::onFinished(PBDev::MapReducerTaskId taskId)
+void DirectoryInspectionJob::onTaskFinished(PBDev::MapReducerTaskId taskId)
 {
   mListener->onInspectionFinished(mJobId, mPaths);
 }

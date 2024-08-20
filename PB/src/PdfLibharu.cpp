@@ -82,7 +82,7 @@ std::string PdfLibharuExportTask::name() const
 }
 
 std::optional<IdentifyableFunction>
-PdfLibharuExportTask::getNext(std::stop_token stopToken)
+PdfLibharuExportTask::getTask(std::stop_token stopToken)
 {
   if (mCrunchedFlag) {
     return std::nullopt;
@@ -101,7 +101,7 @@ PdfLibharuExportTask::getNext(std::stop_token stopToken)
   return f;
 }
 
-void PdfLibharuExportTask::onFinished(PBDev::MapReducerTaskId id)
+void PdfLibharuExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(id);

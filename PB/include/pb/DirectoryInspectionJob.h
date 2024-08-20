@@ -45,9 +45,9 @@ public:
   }
 
   std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override;
+  getTask(std::stop_token stopToken) override;
 
-  void onFinished(PBDev::MapReducerTaskId taskId) override;
+  void onTaskFinished(PBDev::MapReducerTaskId taskId) override;
 
 private:
   DirectoryInspectionJobListener               *mListener = nullptr;

@@ -59,7 +59,7 @@ public:
   }
 
   std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override
+  getTask(std::stop_token stopToken) override
   {
     if (mImageIndex >= mImageIds.size()) {
       return std::nullopt;
@@ -70,7 +70,7 @@ public:
     return result;
   }
 
-  void onFinished(PBDev::MapReducerTaskId taskId) override
+  void onTaskFinished(PBDev::MapReducerTaskId taskId) override
   {
     auto imageId = mImageTaskAssociation.at(taskId);
 

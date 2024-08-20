@@ -196,7 +196,7 @@ void CollageThumbnailsMakerJob::mapJobs()
 }
 
 std::optional<IdentifyableFunction>
-CollageThumbnailsMakerJob::getNext(std::stop_token stopToken)
+CollageThumbnailsMakerJob::getTask(std::stop_token stopToken)
 {
   if (mFunctions.size() > mIndex) {
     auto &f = mFunctions.at(mIndex);
@@ -206,7 +206,7 @@ CollageThumbnailsMakerJob::getNext(std::stop_token stopToken)
   return std::nullopt;
 }
 
-void CollageThumbnailsMakerJob::onFinished(PBDev::MapReducerTaskId)
+void CollageThumbnailsMakerJob::onTaskFinished(PBDev::MapReducerTaskId)
 {
   mListener->onThumbnailsCreated();
 }

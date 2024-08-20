@@ -44,7 +44,7 @@ public:
   }
 
   std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override
+  getTask(std::stop_token stopToken) override
   {
     if (mCrunchedFlag) {
       return std::nullopt;
@@ -74,7 +74,7 @@ public:
     return f;
   }
 
-  void onFinished(PBDev::MapReducerTaskId id) override
+  void onTaskFinished(PBDev::MapReducerTaskId id) override
   {
     UNUSED(id)
     if (mStopToken.stop_requested()) {

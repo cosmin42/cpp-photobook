@@ -35,9 +35,9 @@ public:
   std::vector<CollageTemplateInfo> getSourceTemplates() const;
 
   std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override;
+  getTask(std::stop_token stopToken) override;
 
-  void onFinished(PBDev::MapReducerTaskId) override;
+  void onTaskFinished(PBDev::MapReducerTaskId) override;
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =

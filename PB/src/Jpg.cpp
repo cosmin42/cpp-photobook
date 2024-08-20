@@ -73,7 +73,7 @@ std::string JpgExport::makeName(unsigned counter)
 }
 
 std::optional<IdentifyableFunction>
-JpgExport::getNext(std::stop_token stopToken)
+JpgExport::getTask(std::stop_token stopToken)
 {
   if (mCrunchedFlag) {
     return std::nullopt;
@@ -92,7 +92,7 @@ JpgExport::getNext(std::stop_token stopToken)
   return f;
 }
 
-void JpgExport::onFinished(PBDev::MapReducerTaskId id)
+void JpgExport::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(id);

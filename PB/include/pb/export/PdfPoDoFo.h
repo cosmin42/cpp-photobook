@@ -25,9 +25,9 @@ public:
   std::string name() const;
 
   virtual std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) override;
+  getTask(std::stop_token stopToken) override;
 
-  virtual void onFinished(PBDev::MapReducerTaskId id) override;
+  virtual void onTaskFinished(PBDev::MapReducerTaskId id) override;
 
 private:
   static constexpr const char *TEMPORARY_PHOTO = "temporary-photo.jpg";

@@ -23,9 +23,9 @@ public:
   void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
 
   virtual std::optional<IdentifyableFunction>
-  getNext(std::stop_token stopToken) = 0;
+  getTask(std::stop_token stopToken) = 0;
 
-  virtual void onFinished(PBDev::MapReducerTaskId) = 0;
+  virtual void onTaskFinished(PBDev::MapReducerTaskId) = 0;
 
 protected:
   PBDev::MapReducerTaskId mId;
