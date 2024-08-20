@@ -128,7 +128,7 @@ private:
   CommandStack                                mCommandStack;
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;
-  ProgressManager                             mProgressManager;
+  std::shared_ptr<ProgressManager>            mProgressManager;
   std::string                                 mProjectName;
   std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
   std::shared_ptr<CollageManager>             mCollageTemplateManager = nullptr;

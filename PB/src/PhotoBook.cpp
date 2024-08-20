@@ -16,6 +16,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
                                                    localStatePath, screenSize)),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
       mImportLogic(mPlatformInfo),
+      mProgressManager(std::make_shared<ProgressManager>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(
           std::make_shared<CollageManager>(localStatePath, installationPath)),
@@ -43,7 +44,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto progressManagerListener =
       dynamic_cast<PB::ProgressManagerListener *>(this);
   PBDev::basicAssert(progressManagerListener != nullptr);
-  mProgressManager.configure(progressManagerListener);
+  mProgressManager->configure(progressManagerListener);
 
   auto imageToPaperServiceListener =
       dynamic_cast<PB::ImageToPaperServiceListener *>(this);
@@ -177,7 +178,7 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
       mImageViews.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
-  mProgressManager.subscribe(task->name(), JobType::ExportPdf,
+  mProgressManager->subscribe(task->name(), JobType::ExportPdf,
                              task->stepsCount());
 
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
@@ -194,7 +195,7 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
           mImageViews.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
-  mProgressManager.subscribe(task->name(), JobType::ExportLibharu,
+  mProgressManager->subscribe(task->name(), JobType::ExportLibharu,
                              task->stepsCount());
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
 }
@@ -215,7 +216,7 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
         mImageViews.stagedImages().stagedPhotos());
 
     task->setListener(&mExportLogic);
-    mProgressManager.subscribe(task->name(), JobType::ExportJpg,
+    mProgressManager->subscribe(task->name(), JobType::ExportJpg,
                                task->stepsCount());
     mExportLogic.start(task->name(),
                        std::static_pointer_cast<MapReducer>(task));
@@ -253,7 +254,7 @@ void Photobook::onProjectRead(
   auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
 
   for (auto &unprocessedImage : unprocessedImages) {
-    mProgressManager.subscribe(unprocessedImage.root.string(),
+    mProgressManager->subscribe(unprocessedImage.root.string(),
                                JobType::ThumbnailsProcess,
                                (int)unprocessedImage.images.size());
     auto imageHash = mPersistenceService->hash(unprocessedImage.root);
@@ -287,13 +288,13 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
 void Photobook::onMappingStarted(Path path)
 {
   mParent->onMappingStarted(path);
-  mProgressManager.subscribe(path.string(), JobType::Map);
+  mProgressManager->subscribe(path.string(), JobType::Map);
 }
 
 void Photobook::onMappingAborted(Path path)
 {
   mParent->onMappingAborted(path);
-  mProgressManager.abort(path.string());
+  mProgressManager->abort(path.string());
 }
 
 std::shared_ptr<CollageManager> Photobook::collageManager()
@@ -317,9 +318,9 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mImageViews.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
-  mProgressManager.finish(root.string());
+  mProgressManager->finish(root.string());
 
-  mProgressManager.subscribe(root.string(), JobType::ThumbnailsProcess,
+  mProgressManager->subscribe(root.string(), JobType::ThumbnailsProcess,
                              (int)keyAndPaths.size());
 
   RowProcessingData rowProcessingData = {root, keyAndPaths};
@@ -344,7 +345,7 @@ void Photobook::onImageProcessed(Path key, Path root,
   auto [globalProgress, globalProgressCap] =
       mImportLogic.imageProcessingProgress();
 
-  mProgressManager.update(root.string());
+  mProgressManager->update(root.string());
 
   auto [row, index] = mImageViews.imageMonitor().position(key);
 
@@ -395,12 +396,12 @@ void Photobook::onExportComplete(std::string name) {}
 
 void Photobook::onExportAborted(std::string name)
 {
-  mProgressManager.abort(name);
+  mProgressManager->abort(name);
 }
 
 void Photobook::onExportUpdate(std::string name)
 {
-  mProgressManager.update(name);
+  mProgressManager->update(name);
 }
 
 void Photobook::progressUpdate(PB::ProgressInfo definedProgress,
