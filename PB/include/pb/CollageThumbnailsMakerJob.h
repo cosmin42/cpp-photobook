@@ -21,7 +21,7 @@ public:
 private:
 };
 
-class CollageThumbnailsMakerJob final : public PB::MapReducer {
+class CollageThumbnailsMakerJob final : public MapReducer {
 public:
   CollageThumbnailsMakerJob(Path localStatePath, Path installPath);
   ~CollageThumbnailsMakerJob() = default;
@@ -38,6 +38,8 @@ public:
   getTask(std::stop_token stopToken) override;
 
   void onTaskFinished(PBDev::MapReducerTaskId) override;
+
+  unsigned taskCount() const override { return mFunctions.size(); }
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =

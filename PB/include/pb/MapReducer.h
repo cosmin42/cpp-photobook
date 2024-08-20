@@ -7,6 +7,7 @@
 #include <boost/uuid/nil_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 
+#include <pb/ProgressManager.h>
 #include <pb/util/Traits.h>
 
 DECLARE_STRONG_UUID(MapReducerTaskId)
@@ -27,11 +28,10 @@ public:
 
   virtual void onTaskFinished(PBDev::MapReducerTaskId) = 0;
 
-  virtual unsigned jobSize() const { return 0; }
-
-  virtual bool isInProgress() const { return true; }
+  virtual unsigned taskCount() const = 0;
 
 protected:
-  PBDev::MapReducerTaskId mId;
+  PBDev::MapReducerTaskId          mId;
+  std::shared_ptr<ProgressManager> mProgressManager = nullptr;
 };
 } // namespace PB

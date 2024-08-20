@@ -49,6 +49,8 @@ public:
 
   void onTaskFinished(PBDev::MapReducerTaskId taskId) override;
 
+  unsigned taskCount() const override { return 1; }
+
 private:
   DirectoryInspectionJobListener               *mListener = nullptr;
   PBDev::ThreadScheduler                       *mThreadScheduler = nullptr;

@@ -87,6 +87,8 @@ public:
 
   std::vector<Path> result() const { return mSearchResults; }
 
+  unsigned taskCount() const override { return 1; }
+
 private:
   PicturesSearchConfigListener *mListener = nullptr;
   Path                          mRoot;

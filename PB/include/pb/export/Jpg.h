@@ -32,6 +32,8 @@ public:
 
   void onTaskFinished(PBDev::MapReducerTaskId id) override;
 
+  unsigned taskCount() const override { return mStagedImages.size(); }
+
 private:
   struct JPG_TEMPLATE_PARAMS {
     static constexpr const char *JPG_NAME_TEMPLATE = "PHOTO_0000000.JPG";

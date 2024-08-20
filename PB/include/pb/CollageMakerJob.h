@@ -17,7 +17,7 @@ public:
 private:
 };
 
-class CollageMakerJob final : public PB::MapReducer {
+class CollageMakerJob final : public MapReducer {
 public:
   CollageMakerJob(Path localStatePath, Path installPath);
   ~CollageMakerJob() = default;
@@ -32,6 +32,8 @@ public:
   getTask(std::stop_token stopToken) override;
 
   void onTaskFinished(PBDev::MapReducerTaskId) override;
+
+  unsigned taskCount() const override { return mFunctions.size(); }
 
 private:
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
