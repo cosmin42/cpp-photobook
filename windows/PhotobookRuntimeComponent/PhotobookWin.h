@@ -128,6 +128,11 @@ public:
                                    winrt::make<VirtualImagePtr>(image));
   }
 
+  void onProgressUpdate(PB::ProgressStatus status) override
+  {
+    mManagedListener.OnProgressUpdate(winrt::make<ProgressInfo>(status));
+  }
+
 private:
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;
 };

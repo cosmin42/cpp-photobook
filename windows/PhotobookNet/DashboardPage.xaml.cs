@@ -405,9 +405,9 @@ namespace PhotobookNet
             throw new NotImplementedException();
         }
 
-        public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
+        public void OnProgressUpdate(ProgressInfo progress)
         {
-            throw new NotImplementedException();
+            // TODO: show progress here too
         }
 
         public void Post(Functor f)

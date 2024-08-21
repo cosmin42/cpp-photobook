@@ -1,21 +1,4 @@
 namespace PhotobookRuntimeComponent {
 
-enum JobType {
-  None,
-  Map,
-  ThumbnailsProcess,
-  ExportPdf,
-  ExportJpg,
-  Full,
-  ExportLibharu
-};
-
-enum ProgressType { None, Defined, Undefined };
-
-runtimeclass ProgressInfo
-{
-  Int32        progress();
-  Int32        progressCap();
-  IVector<String> jobsProgress();
-}
+runtimeclass ProgressInfo { String Status(); }
 } // namespace PhotobookRuntimeComponent

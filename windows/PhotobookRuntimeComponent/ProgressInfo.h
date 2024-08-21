@@ -7,24 +7,17 @@
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ProgressInfo : ProgressInfoT<ProgressInfo> {
   ProgressInfo() {}
-  explicit ProgressInfo(PB::ProgressInfo progressInfo)
-      : mProgressInfo(progressInfo)
+  explicit ProgressInfo(PB::ProgressStatus progressStatus)
+      : mProgressStatus(progressStatus)
   {
   }
 
-  int progress() { return mProgressInfo.progress; }
-
-  int progressCap() { return mProgressInfo.progressCap; }
-
-  Windows::Foundation::Collections::IVector<winrt::hstring> jobsProgress()
+  winrt::hstring Status()
   {
-    auto nativeJobsProgress = winrt::single_threaded_vector<winrt::hstring>();
-
-
-    return nativeJobsProgress;
+    return winrt::to_hstring(mProgressStatus.toString());
   }
 
 private:
-  PB::ProgressInfo mProgressInfo;
+  PB::ProgressStatus mProgressStatus;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

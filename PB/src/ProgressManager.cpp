@@ -17,7 +17,7 @@ PBDev::ProgressId ProgressManager::start(PBDev::ProgressJobName name,
 {
   PBDev::ProgressId id(RuntimeUUID::newUUID());
   mScheduler->post([this, id{id}, name{name}, taskCount{taskCount}]() {
-    mProgressData.emplace(id, ProgressInfo{name, taskCount, 0});
+    mProgressData.emplace(id, ProgressInfo{name, 0, taskCount});
     auto aggregateStatus = this->aggregateStatus();
     mListener->progressUpdate(aggregateStatus);
   });

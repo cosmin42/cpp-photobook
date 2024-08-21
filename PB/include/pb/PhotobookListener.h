@@ -36,6 +36,8 @@ public:
 
   virtual void onImageMapped(PBDev::ImageToPaperId         id,
                              std::shared_ptr<VirtualImage> image) = 0;
+
+  virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 };
 
 } // namespace PB

@@ -15,7 +15,8 @@ void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
 {
   PBDev::basicAssert(mPTC.find(poolName) != mPTC.end());
 
-  auto progressId = mProgressManager->start(progressName, mapper.taskCount());
+  auto taskCount = mapper.taskCount();
+  auto progressId = mProgressManager->start(progressName, taskCount);
 
   auto token = mStopSource.get_token();
   auto task = mapper.getTask(token);

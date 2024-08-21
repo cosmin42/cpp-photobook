@@ -658,20 +658,6 @@ namespace PhotobookNet
             mLinesExclusiveSelection = false;
         }
 
-        void UpdateStatusBar(ProgressInfo defined, ProgressInfo undefined)
-        {
-            if (defined.jobsProgress().Count == 0 && undefined.jobsProgress().Count == 0)
-            {
-                StatusLabelText.Text = "Idle";
-            }
-            else
-            {
-                string concatened = "";
-
-                StatusLabelText.Text = concatened;
-            }
-        }
-
         private void OnStagedDragItemsStarting(object sender, DragItemsStartingEventArgs args)
         {
             mDragSource = DragSource.Staged;
@@ -1185,19 +1171,9 @@ namespace PhotobookNet
             }
         }
 
-        public void OnProgressUpdate(ProgressInfo definedProgress, ProgressInfo undefinedProgress)
+        public void OnProgressUpdate(ProgressInfo progress)
         {
-            if (definedProgress.jobsProgress().Count == 0)
-            {
-                MainProgressBar.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                MainProgressBar.Visibility = Visibility.Visible;
-                MainProgressBar.Maximum = definedProgress.progressCap();
-                MainProgressBar.Value = definedProgress.progress();
-            }
-            UpdateStatusBar(definedProgress, undefinedProgress);
+            StatusLabelText.Text = progress.Status();
         }
 
         public void OnPictureAdded(int index, int size)

@@ -242,7 +242,8 @@ void Photobook::onProjectRead(
   auto collageThumbnailsMakerListener =
       dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
-  mCollageTemplateManager->configureProject(project()->currentProject());
+  auto currentProject = mPersistenceService->currentProject();
+  mCollageTemplateManager->configureProject(currentProject);
   mCollageTemplateManager->generateTemplatesImages();
   mCollageTemplateManager->configureProjectId(
       boost::uuids::to_string(project()->currentProjectUUID()));
@@ -379,7 +380,10 @@ void Photobook::onExportAborted(std::string name) {}
 
 void Photobook::onExportUpdate(std::string name) {}
 
-void Photobook::progressUpdate(PB::ProgressStatus status) {}
+void Photobook::progressUpdate(PB::ProgressStatus status)
+{
+  mParent->onProgressUpdate(status);
+}
 
 void Photobook::onThumbnailsCreated()
 {
