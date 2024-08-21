@@ -30,6 +30,6 @@ public:
   virtual unsigned taskCount() const = 0;
 
 protected:
-  PBDev::MapReducerTaskId          mId;
+  PBDev::MapReducerTaskId mId;
 };
 } // namespace PB

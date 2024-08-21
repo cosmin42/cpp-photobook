@@ -18,7 +18,8 @@ PBDev::ProgressId ProgressManager::start(PBDev::ProgressJobName name,
   PBDev::ProgressId id(RuntimeUUID::newUUID());
   mScheduler->post([this, id{id}, name{name}, taskCount{taskCount}]() {
     mProgressData.emplace(id, ProgressInfo{name, taskCount, 0});
-    mListener->progressUpdate(aggregateStatus());
+    auto aggregateStatus = this->aggregateStatus();
+    mListener->progressUpdate(aggregateStatus);
   });
   return id;
 }
@@ -29,18 +30,24 @@ void ProgressManager::update(PBDev::ProgressId id)
     mProgressData[id].progress++;
     auto aggregate = aggregateStatus();
     mListener->progressUpdate(aggregate);
+    if (mProgressData.at(id).progress == mProgressData.at(id).progressCap) {
+      finish(id);
+    }
   });
-}
-
-void ProgressManager::abort(PBDev::ProgressId id)
-{
-  mScheduler->post([this, id]() { mProgressData.erase(id); });
 }
 
 void ProgressManager::finish(PBDev::ProgressId id)
 {
   mScheduler->post([this, id]() {
     mProgressData.erase(id);
+    mListener->progressUpdate(aggregateStatus());
+  });
+}
+
+void ProgressManager::abortAll()
+{
+  mScheduler->post([this]() {
+    mProgressData.clear();
     mListener->progressUpdate(aggregateStatus());
   });
 }

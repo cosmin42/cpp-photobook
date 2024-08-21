@@ -17,20 +17,24 @@ void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
 
   auto progressId = mProgressManager->start(progressName, mapper.taskCount());
 
-  auto task = mapper.getTask(mStopSource.get_token());
+  auto token = mStopSource.get_token();
+  auto task = mapper.getTask(token);
   while (task.has_value()) {
-
     mPTC.at(poolName)->enqueue(
-        [this, task{task}, &mapper, progressId{progressId}]() {
+        [this, task{task}, &mapper, progressId{progressId}, token{token}]() {
           task->second();
-          mapper.onTaskFinished(task->first);
           mProgressManager->update(progressId);
+          mapper.onTaskFinished(task->first);
         });
 
     task = mapper.getTask(mStopSource.get_token());
   }
 }
 
-void TaskCruncher::abort() { mStopSource.request_stop(); }
+void TaskCruncher::abort()
+{
+  mStopSource.request_stop();
+  mProgressManager->abortAll();
+}
 
 } // namespace PB

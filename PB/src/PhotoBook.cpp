@@ -63,13 +63,15 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mPersistenceService->configure(localStatePath);
 
+  mProgressManager->configureScheduler(threadScheduler);
+
+  mTaskCruncher->configureProgressManager(mProgressManager);
+
   mTaskCruncher->registerPTC("image-search-job", 1);
   mTaskCruncher->registerPTC("export-logic", 1);
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
-
-  mProgressManager->configureScheduler(threadScheduler);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -278,15 +280,9 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
   mImageToPaperService->configureProject(mPersistenceService->currentProject());
 }
 
-void Photobook::onMappingStarted(Path path)
-{
-  mParent->onMappingStarted(path);
-}
+void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
 
-void Photobook::onMappingAborted(Path path)
-{
-  mParent->onMappingAborted(path);
-}
+void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
 
 std::shared_ptr<CollageManager> Photobook::collageManager()
 {
@@ -379,13 +375,9 @@ void Photobook::onProjectRenamed() {}
 
 void Photobook::onExportComplete(std::string name) {}
 
-void Photobook::onExportAborted(std::string name)
-{
-}
+void Photobook::onExportAborted(std::string name) {}
 
-void Photobook::onExportUpdate(std::string name)
-{
-}
+void Photobook::onExportUpdate(std::string name) {}
 
 void Photobook::progressUpdate(PB::ProgressStatus status) {}
 

@@ -55,8 +55,8 @@ public:
 
   PBDev::ProgressId start(PBDev::ProgressJobName name, unsigned taskCount = 0);
   void              update(PBDev::ProgressId id);
-  void              abort(PBDev::ProgressId id);
   void              finish(PBDev::ProgressId id);
+  void              abortAll();
 
 private:
   ProgressManagerListener *mListener = nullptr;

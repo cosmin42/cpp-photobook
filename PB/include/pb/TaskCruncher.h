@@ -16,16 +16,23 @@ public:
   TaskCruncher &operator=(const TaskCruncher &) = delete;
   TaskCruncher(TaskCruncher &&) = delete;
 
+  void
+  configureProgressManager(std::shared_ptr<ProgressManager> progressManager)
+  {
+    mProgressManager = progressManager;
+  }
+
   void registerPTC(const std::string poolName, unsigned thrreadsCount);
 
-  void crunch(const std::string poolName, MapReducer &mapper, PBDev::ProgressJobName progressName);
+  void crunch(const std::string poolName, MapReducer &mapper,
+              PBDev::ProgressJobName progressName);
 
   void abort();
 
 private:
   std::stop_source mStopSource;
   std::unordered_map<std::string, std::unique_ptr<PBDev::ParallelTaskConsumer>>
-      mPTC;
+                                   mPTC;
   std::shared_ptr<ProgressManager> mProgressManager = nullptr;
 };
 } // namespace PB
