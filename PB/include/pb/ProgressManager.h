@@ -26,6 +26,9 @@ struct ProgressStatus {
 
   std::string toString()
   {
+    if (statusMap.empty()) {
+      return "Idle.";
+    }
     std::string knownProgress;
     std::string unknownProgress;
     for (auto const &[name, maybePercent] : statusMap) {

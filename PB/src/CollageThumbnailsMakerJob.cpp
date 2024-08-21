@@ -9,14 +9,8 @@
 
 namespace PB {
 
-CollageThumbnailsMakerJob::CollageThumbnailsMakerJob(Path localStatePath,
-                                                     Path installPath)
-    : mCollagesTemplatesResourcesPath(localStatePath /
-                                      COLLAGES_TEMPLATES_RESOURCES_NAME / ""),
-      mInstallPath(installPath),
-      mAssistant(installPath / COLLAGES_TEMPLATES_NAME,
-                 mCollagesTemplatesResourcesPath),
-      mResources(std::make_shared<SkiaResources>()),
+CollageThumbnailsMakerJob::CollageThumbnailsMakerJob()
+    : mResources(std::make_shared<SkiaResources>()),
       mDrawingService(mResources), mResourcesProviderId(RuntimeUUID::newUUID())
 {
 }
@@ -31,6 +25,19 @@ void CollageThumbnailsMakerJob::configureProject(
     std::shared_ptr<Project> project)
 {
   mProject = project;
+}
+
+void CollageThumbnailsMakerJob::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+  mAssistant =
+      std::make_shared<CollageLibraryAssistant>(collagesResourcePath());
+}
+
+Path CollageThumbnailsMakerJob::collagesResourcePath()
+{
+  return mPlatformInfo->localStatePath / COLLAGES_TEMPLATES_RESOURCES_NAME / "";
 }
 
 std::vector<CollageTemplateInfo>
@@ -102,12 +109,13 @@ CollageThumbnailsMakerJob::getSourceTemplates() const
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
-  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
+  std::filesystem::create_directories(collagesResourcePath());
 }
 
 void CollageThumbnailsMakerJob::obtainSourceTemplates()
 {
-  mSourceTemplates = getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
+  mSourceTemplates = getTemplatesPaths(mPlatformInfo->installationPath /
+                                       COLLAGES_TEMPLATES_NAME);
 }
 
 void CollageThumbnailsMakerJob::createNumberedPlaceholders()
@@ -115,7 +123,7 @@ void CollageThumbnailsMakerJob::createNumberedPlaceholders()
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
 
-  mNumberedImages = mAssistant.createNumberedImages(imageSize);
+  mNumberedImages = mAssistant->createNumberedImages(imageSize);
 }
 
 void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
@@ -125,7 +133,7 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
 
   Path path = mSourceTemplates.at(i).path;
   spdlog::info("Generating thumbnail for template: {}", path.string());
-  auto processedPath = mAssistant.createTemplateThumbnail(mNumberedImages, path,
+  auto processedPath = mAssistant->createTemplateThumbnail(mNumberedImages, path,
                                                           {4, 3}, imageSize);
 
   mProcessedSVGPaths.push_back(processedPath);
@@ -133,8 +141,7 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
 
 void CollageThumbnailsMakerJob::registerNewResource()
 {
-  mResourcesProviderId =
-      mResources->addResource(mCollagesTemplatesResourcesPath);
+  mResourcesProviderId = mResources->addResource(collagesResourcePath());
 }
 
 void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
@@ -142,8 +149,7 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
   cv::Size imageSize = {mProject->paperSettings.width / 2,
                         mProject->paperSettings.height / 2};
   Path     path = mProcessedSVGPaths.at(i);
-  Path     outFilePath =
-      mCollagesTemplatesResourcesPath / (path.stem().string() + ".png");
+  Path outFilePath = collagesResourcePath() / (path.stem().string() + ".png");
   SkFILEWStream outFile(outFilePath.string().c_str());
 
   mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
@@ -154,10 +160,10 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
 
 void CollageThumbnailsMakerJob::mapJobs()
 {
-  auto templatesList =
-      getTemplatesPaths(mInstallPath / COLLAGES_TEMPLATES_NAME);
+  auto templatesList = getTemplatesPaths(mPlatformInfo->installationPath /
+                                         COLLAGES_TEMPLATES_NAME);
 
-  std::filesystem::create_directories(mCollagesTemplatesResourcesPath);
+  std::filesystem::create_directories(collagesResourcePath());
 
   std::vector<Path> processedSVGPaths;
 
@@ -166,19 +172,18 @@ void CollageThumbnailsMakerJob::mapJobs()
 
   PBDev::basicAssert(mNumberedImages.empty());
 
-  mNumberedImages = mAssistant.createNumberedImages(imageSize);
+  mNumberedImages = mAssistant->createNumberedImages(imageSize);
 
   for (auto &collageTemplateInfo : templatesList) {
     spdlog::info("Generating thumbnail for template: {}",
                  collageTemplateInfo.path.string());
-    auto processedPath = mAssistant.createTemplateThumbnail(
+    auto processedPath = mAssistant->createTemplateThumbnail(
         mNumberedImages, collageTemplateInfo.path, {4, 3}, imageSize);
 
     processedSVGPaths.push_back(processedPath);
   }
 
-  mResourcesProviderId =
-      mResources->addResource(mCollagesTemplatesResourcesPath);
+  mResourcesProviderId = mResources->addResource(collagesResourcePath());
 
   mFunctions.push_back(
       {PBDev::MapReducerTaskId(RuntimeUUID::newUUID()), [this]() {

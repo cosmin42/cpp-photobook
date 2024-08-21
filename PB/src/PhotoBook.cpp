@@ -18,8 +18,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mImportLogic(mPlatformInfo),
       mProgressManager(std::make_shared<ProgressManager>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
-      mCollageTemplateManager(
-          std::make_shared<CollageManager>(localStatePath, installationPath)),
+      mCollageTemplateManager(std::make_shared<CollageManager>()),
       mLutService(std::make_shared<LutService>()),
       mDirectoryInspectionService(
           std::make_shared<DirectoryInspectionService>())
@@ -60,6 +59,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto collageMakerListener = dynamic_cast<PB::CollageMakerListener *>(this);
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
+
+  mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
   mPersistenceService->configure(localStatePath);
 

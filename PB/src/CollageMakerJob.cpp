@@ -2,11 +2,8 @@
 
 namespace PB {
 
-CollageMakerJob::CollageMakerJob(Path localStatePath, Path installPath)
-    : mCollagesResourcesPath(localStatePath), mInstallPath(installPath),
-      mAssistant(installPath / COLLAGES_TEMPLATES_NAME, mCollagesResourcesPath),
-      mLocalStatePath(localStatePath),
-      mResources(std::make_shared<SkiaResources>()),
+CollageMakerJob::CollageMakerJob()
+    : mResources(std::make_shared<SkiaResources>()),
       mDrawingService(mResources), mResourcesProviderId(RuntimeUUID::newUUID())
 {
 }
@@ -26,6 +23,15 @@ void CollageMakerJob::configureProjectId(std::string projectId)
   mProjectId = projectId;
 }
 
+void CollageMakerJob::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+
+  mAssistant =
+      std::make_shared<CollageLibraryAssistant>(mPlatformInfo->localStatePath);
+}
+
 void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
   PBDev::basicAssert(!mProjectId.empty());
@@ -33,7 +39,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
   cv::Size imageSize = {mProject->paperSettings.width,
                         mProject->paperSettings.height};
 
-  auto resourcePath = mLocalStatePath / "th" / mProjectId / "";
+  auto resourcePath = mPlatformInfo->localStatePath / "th" / mProjectId / "";
   mResourcesProviderId = mResources->addResource(resourcePath);
 
   std::vector<Path> imagesNames;
@@ -46,7 +52,8 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
     std::string newImageName =
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    Path projectThumbnailsRoot = mLocalStatePath / "th" / mProjectId;
+    Path projectThumbnailsRoot =
+        mPlatformInfo->localStatePath / "th" / mProjectId;
 
     auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
 
@@ -61,7 +68,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
            Path temporarySvgFilePath =
                projectThumbnailsRoot / TEMPORARY_SVG_FILE_NAME;
 
-           auto processedPath = mAssistant.createTemplateThumbnail(
+           auto processedPath = mAssistant->createTemplateThumbnail(
                imagesNames, templatePath, {4, 3}, imageSize,
                temporarySvgFilePath.string());
 

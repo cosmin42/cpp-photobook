@@ -8,32 +8,40 @@
 #include <regex>
 
 namespace PB {
-CollageManager::CollageManager(Path localStatePath, Path installPath)
-    : mJob(localStatePath, installPath),
-      mCollageMakerJob(localStatePath, installPath)
+CollageManager::CollageManager()
+    : mJob(std::make_shared<CollageThumbnailsMakerJob>()),
+      mCollageMakerJob(std::make_shared<CollageMakerJob>())
 {
 }
 
 void CollageManager::configureListener(CollageThumbnailsMakerListener *listener)
 {
-  mJob.configureListener(listener);
+  mJob->configureListener(listener);
 }
 
 void CollageManager::configureCollageMakerListener(
     CollageMakerListener *listener)
 {
-  mCollageMakerJob.configureListener(listener);
+  mCollageMakerJob->configureListener(listener);
 }
 
 void CollageManager::configureProject(std::shared_ptr<PB::Project> project)
 {
-  mJob.configureProject(project);
-  mCollageMakerJob.configureProject(project);
+  mJob->configureProject(project);
+  mCollageMakerJob->configureProject(project);
 }
 
 void CollageManager::configureProjectId(std::string projectId)
 {
-  mCollageMakerJob.configureProjectId(projectId);
+  mCollageMakerJob->configureProjectId(projectId);
+}
+
+void CollageManager::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+  mJob->configurePlatformInfo(platformInfo);
+  mCollageMakerJob->configurePlatformInfo(platformInfo);
 }
 
 void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
@@ -43,23 +51,23 @@ void CollageManager::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
 
 void CollageManager::generateTemplatesImages()
 {
-  mJob.mapJobs();
-  mTaskCruncher->crunch("collage-thumbnails", mJob,
+  mJob->mapJobs();
+  mTaskCruncher->crunch("collage-thumbnails", *mJob,
                         PBDev::ProgressJobName{"collages-gen"});
 }
 
 std::vector<CollageTemplateInfo> CollageManager::getTemplatesPaths() const
 {
-  return mJob.getTemplatesPaths();
+  return mJob->getTemplatesPaths();
 }
 
 void CollageManager::combineImages(unsigned          templateIndex,
                                    std::vector<Path> imagesPaths)
 {
-  auto templatePaths = mJob.getSourceTemplates();
+  auto templatePaths = mJob->getSourceTemplates();
 
-  mCollageMakerJob.mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
-  mTaskCruncher->crunch("collage-thumbnails", mCollageMakerJob,
+  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
+  mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
                         PBDev::ProgressJobName{"collage-combine"});
 }
 

@@ -23,11 +23,12 @@ private:
 
 class CollageThumbnailsMakerJob final : public MapReducer {
 public:
-  CollageThumbnailsMakerJob(Path localStatePath, Path installPath);
+  CollageThumbnailsMakerJob();
   ~CollageThumbnailsMakerJob() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
   void configureProject(std::shared_ptr<Project> project);
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void mapJobs();
 
@@ -47,21 +48,23 @@ private:
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
 
   CollageThumbnailsMakerListener *mListener = nullptr;
+  std::shared_ptr<PlatformInfo>   mPlatformInfo = nullptr;
 
-  Path                              mCollagesTemplatesResourcesPath;
-  Path                              mInstallPath;
-  CollageLibraryAssistant           mAssistant;
-  std::shared_ptr<SkiaResources>    mResources = nullptr;
-  DrawingService                    mDrawingService;
-  std::shared_ptr<Project>          mProject = nullptr;
-  std::vector<CollageTemplateInfo>  mGeneratedLibraries;
-  PBDev::SkiaResourcesId            mResourcesProviderId;
-  std::vector<Path>                 mNumberedImages;
-  std::vector<CollageTemplateInfo>  mSourceTemplates;
-  std::vector<Path>                 mProcessedSVGPaths;
-  std::vector<IdentifyableFunction> mFunctions;
+  Path                                     mCollagesTemplatesResourcesPath;
+  std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
+  std::shared_ptr<SkiaResources>           mResources = nullptr;
+  DrawingService                           mDrawingService;
+  std::shared_ptr<Project>                 mProject = nullptr;
+  std::vector<CollageTemplateInfo>         mGeneratedLibraries;
+  PBDev::SkiaResourcesId                   mResourcesProviderId;
+  std::vector<Path>                        mNumberedImages;
+  std::vector<CollageTemplateInfo>         mSourceTemplates;
+  std::vector<Path>                        mProcessedSVGPaths;
+  std::vector<IdentifyableFunction>        mFunctions;
 
   unsigned mIndex = 0;
+
+  Path collagesResourcePath();
 
   static CollageTemplateInfo parseTemplatePath(Path path);
 

@@ -19,12 +19,13 @@ private:
 
 class CollageMakerJob final : public MapReducer {
 public:
-  CollageMakerJob(Path localStatePath, Path installPath);
+  CollageMakerJob();
   ~CollageMakerJob() = default;
 
   void configureListener(CollageMakerListener *listener);
   void configureProject(std::shared_ptr<Project> project);
   void configureProjectId(std::string projectId);
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
 
@@ -40,18 +41,15 @@ private:
   static constexpr const char *TEMPORARY_SVG_FILE_NAME =
       "temporary-svg-file-name.svg";
 
-  CollageMakerListener *mListener = nullptr;
-
-  Path                              mCollagesResourcesPath;
-  Path                              mInstallPath;
-  Path                              mLocalStatePath;
-  CollageLibraryAssistant           mAssistant;
-  std::shared_ptr<Project>          mProject = nullptr;
-  std::shared_ptr<SkiaResources>    mResources = nullptr;
-  DrawingService                    mDrawingService;
-  PBDev::SkiaResourcesId            mResourcesProviderId;
-  std::vector<IdentifyableFunction> mFunctions;
-  std::string                       mProjectId;
+  CollageMakerListener                    *mListener = nullptr;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
+  std::shared_ptr<Project>                 mProject = nullptr;
+  std::shared_ptr<SkiaResources>           mResources = nullptr;
+  DrawingService                           mDrawingService;
+  PBDev::SkiaResourcesId                   mResourcesProviderId;
+  std::vector<IdentifyableFunction>        mFunctions;
+  std::string                              mProjectId;
 
   std::unordered_map<PBDev::MapReducerTaskId, unsigned,
                      boost::hash<PBDev::MapReducerTaskId>>

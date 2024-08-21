@@ -9,10 +9,8 @@
 #include <pb/image/ImageOperations.h>
 
 namespace PB {
-CollageLibraryAssistant::CollageLibraryAssistant(Path templatesPath,
-                                                 Path outputFolder)
-    : mCollageLibraryThumbnailsDirectory(templatesPath),
-      mThumbnailsSVGInflater(outputFolder), mOutputFolder(outputFolder)
+CollageLibraryAssistant::CollageLibraryAssistant(Path outputFolder)
+    : mThumbnailsSVGInflater(outputFolder), mOutputFolder(outputFolder)
 {
 }
 
