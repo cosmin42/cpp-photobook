@@ -31,6 +31,8 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
 
 std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat> image, Path lutPath);
 
+std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image);
+
 // TODO: Refactor all the studpid functions like resize
 auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;

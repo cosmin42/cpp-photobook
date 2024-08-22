@@ -78,6 +78,15 @@ std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat> image,
   return image;
 }
 
+std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
+{
+  if (!image) {
+    return nullptr;
+  }
+
+  return std::make_shared<cv::Mat>(*image);
+}
+
 OffsetFunction alignToCenter()
 {
   auto f = [](int smallWidth, int smallHeight, int bigWidth,
