@@ -431,11 +431,13 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }
 
-void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) {}
+void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
 
 void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                           std::vector<Path>               searchResults)
 {
+  UNUSED(id);
+  UNUSED(searchResults);
 }
 
 } // namespace PB
