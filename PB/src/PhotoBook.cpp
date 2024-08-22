@@ -73,6 +73,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
+  mTaskCruncher->registerPTC("lut-icons", 4);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -86,6 +87,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);
+  mLutService->configureTaskCruncher(mTaskCruncher);
 
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);

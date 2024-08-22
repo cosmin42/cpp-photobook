@@ -7,6 +7,14 @@
 
 namespace PB {
 
+LutService::LutService()
+{
+  auto lutIconsPreprocessingListener =
+      dynamic_cast<LutIconsPreprocessingListener *>(this);
+  PBDev::basicAssert(lutIconsPreprocessingListener != nullptr);
+  mLutIconsPreprocessingJob.configureListener(lutIconsPreprocessingListener);
+}
+
 void LutService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
@@ -25,6 +33,12 @@ void LutService::configureDirectoryInspectionService(
       directoryInspectionJobListener);
 }
 
+void LutService::configureTaskCruncher(
+    std::shared_ptr<TaskCruncher> taskCruncher)
+{
+  mTaskCruncher = taskCruncher;
+}
+
 void LutService::detectLuts()
 {
   mLutsInspectionId = PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
@@ -36,9 +50,9 @@ void LutService::detectLuts()
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
-  for (auto &path : searchResults) {
-    spdlog::info("Found LUT: {}", path.string());
-  }
+  mLutIconsPreprocessingJob.configureLuts(searchResults);
+  mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
+                        PBDev::ProgressJobName("lut-icons"));
 }
 
 std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>

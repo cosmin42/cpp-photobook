@@ -17,8 +17,10 @@ public:
 
 class LutIconsPreprocessingJob final : public MapReducer {
 public:
-  LutIconsPreprocessingJob(std::vector<Path> const &luts) : mLuts(luts) {}
+  LutIconsPreprocessingJob() = default;
   ~LutIconsPreprocessingJob() = default;
+
+  void configureLuts(std::vector<Path> const &luts) { mLuts = luts; }
 
   void configureListener(LutIconsPreprocessingListener *listener)
   {
@@ -42,8 +44,8 @@ public:
 
     return std::make_optional<IdentifyableFunction>(
         taskId, [this, taskId, lutPath] {
-          createTransformedImage(lutPath);
-          onTaskFinished(taskId);
+          auto outImagePath = createTransformedImage(lutPath);
+          mListener->onLutIconsPreprocessingFinished(outImagePath);
         });
   }
 
@@ -60,7 +62,7 @@ private:
   static constexpr const char   *IMAGE_NAME = "singapore.jpg";
   static constexpr const char   *FOLDER_NAME = "others";
 
-  std::shared_ptr<cv::Mat> originalImage = nullptr;
+  std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
 
   Path originalImagePath() const
   {
@@ -77,9 +79,12 @@ private:
 
   Path createTransformedImage(Path lutPath)
   {
-    auto clone = Process::clone(originalImage);
+    auto clone = Process::clone(mOriginalImage);
     clone = Process::applyLutInplace(clone, lutPath);
-    Process::writeImageOnDisk(clone, newImageName());
+
+    auto outImagePath = newImageName();
+    Process::writeImageOnDisk(clone, outImagePath);
+    return outImagePath;
   }
 };
 } // namespace PB
