@@ -50,7 +50,7 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
     return image;
   }
   cv::Size finalSize = {(int)floor((image->cols / maxRatio)),
-                      (int)floor(image->rows / maxRatio)};
+                        (int)floor(image->rows / maxRatio)};
 
   cv::resize(*image, *image, finalSize, 0, 0, cv::INTER_AREA);
 
@@ -58,6 +58,22 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
                                    cv::Scalar{255, 255, 255})();
 
   image->copyTo(*newImage);
+
+  return image;
+}
+
+std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat> image,
+                                         Path                     lutPath)
+{
+  PBDev::basicAssert(image != nullptr);
+
+  cv::Mat lut = cv::imread(lutPath.string(), cv::IMREAD_COLOR);
+  if (lut.empty()) {
+    spdlog::error("Lut not found at {}", lutPath.string());
+    return image;
+  }
+
+  cv::LUT(*image, lut, *image);
 
   return image;
 }

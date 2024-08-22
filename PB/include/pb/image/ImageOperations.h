@@ -29,6 +29,8 @@ bool validExtension(std::optional<Path> path);
 std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
                                 cv::Size newSize, bool keepAspectRatio);
 
+std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat> image, Path lutPath);
+
 // TODO: Refactor all the studpid functions like resize
 auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
