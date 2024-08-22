@@ -74,6 +74,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
   mTaskCruncher->registerPTC("lut-icons", 4);
+  mTaskCruncher->registerPTC("default", 2);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -88,6 +89,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);
   mLutService->configureTaskCruncher(mTaskCruncher);
+  mLutService->condifureThreadScheduler(threadScheduler);
 
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -119,7 +121,7 @@ void Photobook::configureCurrentProject()
   configure(project()->currentProject());
 }
 
-void Photobook::startPhotobook() { mLutService->detectLuts(); }
+void Photobook::startPhotobook() { mLutService->startLutService(); }
 
 void Photobook::unloadProject()
 {

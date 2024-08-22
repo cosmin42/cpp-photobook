@@ -32,6 +32,11 @@ public:
     mPlatformInfo = platformInfo;
   }
 
+  void configureOriginalImage(std::shared_ptr<cv::Mat> image)
+  {
+    mOriginalImage = image;
+  }
+
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
@@ -39,6 +44,7 @@ public:
       return std::nullopt;
     }
     auto lutPath = mLuts.at(mIndex);
+    mIndex++;
 
     PBDev::MapReducerTaskId taskId(RuntimeUUID::newUUID());
 
@@ -59,15 +65,8 @@ private:
   std::vector<Path>              mLuts;
   std::vector<Path>              mIcons;
   unsigned                       mIndex = 0;
-  static constexpr const char   *IMAGE_NAME = "singapore.jpg";
-  static constexpr const char   *FOLDER_NAME = "others";
 
   std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
-
-  Path originalImagePath() const
-  {
-    return mPlatformInfo->installationPath / FOLDER_NAME / IMAGE_NAME;
-  }
 
   Path newImageName()
   {

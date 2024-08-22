@@ -27,6 +27,8 @@ public:
   void crunch(const std::string poolName, MapReducer &mapper,
               PBDev::ProgressJobName progressName);
 
+  void crunch(std::function<void()> f);
+
   void abort();
 
 private:

@@ -32,6 +32,10 @@ void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
   }
 }
 
+void TaskCruncher::crunch(std::function<void()> f) {
+    mPTC.at("default")->enqueue(f);
+}
+
 void TaskCruncher::abort()
 {
   mStopSource.request_stop();

@@ -3,6 +3,7 @@
 #include <pb/DirectoryInspectionService.h>
 #include <pb/LutIconsPreprocessingJob.h>
 #include <pb/Platform.h>
+#include <pb/ThreadScheduler.h>
 
 DECLARE_STRONG_STRING(LutName)
 
@@ -17,7 +18,10 @@ public:
   void configureDirectoryInspectionService(
       std::shared_ptr<DirectoryInspectionService> directoryInspectionService);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
+  void condifureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
 
+
+  void startLutService();
   void detectLuts();
 
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
@@ -29,14 +33,24 @@ public:
   listLuts() const;
 
 private:
-  std::shared_ptr<PlatformInfo>               mPlatformInfo;
-  std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService;
-  std::shared_ptr<TaskCruncher>               mTaskCruncher;
+  static constexpr const char *IMAGE_NAME = "singapore.jpg";
+  static constexpr const char *FOLDER_NAME = "others";
+
+  std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
+  std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
+      nullptr;
+  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
+  PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
 
   PBDev::DirectoryInspectionJobId mLutsInspectionId =
       PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
 
   LutIconsPreprocessingJob mLutIconsPreprocessingJob;
+
+  Path originalImagePath() const
+  {
+    return mPlatformInfo->installationPath / FOLDER_NAME / IMAGE_NAME;
+  }
 
   Path lutAssetsPath() const;
 };

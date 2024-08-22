@@ -19,6 +19,7 @@ void LutService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
   mPlatformInfo = platformInfo;
+  mLutIconsPreprocessingJob.configurePlatformInfo(platformInfo);
 }
 
 void LutService::configureDirectoryInspectionService(
@@ -39,6 +40,24 @@ void LutService::configureTaskCruncher(
   mTaskCruncher = taskCruncher;
 }
 
+void LutService::condifureThreadScheduler(
+    PBDev::ThreadScheduler *threadScheduler)
+{
+  mThreadScheduler = threadScheduler;
+}
+
+void LutService::startLutService()
+{
+  mTaskCruncher->crunch([this]() {
+    auto path = originalImagePath();
+    auto originalImage = ImageReader().loadImage(path);
+    mThreadScheduler->post([this, originalImage]() {
+      mLutIconsPreprocessingJob.configureOriginalImage(originalImage);
+      detectLuts();
+    });
+  });
+}
+
 void LutService::detectLuts()
 {
   mLutsInspectionId = PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
@@ -50,9 +69,11 @@ void LutService::detectLuts()
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
-  mLutIconsPreprocessingJob.configureLuts(searchResults);
-  mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
-                        PBDev::ProgressJobName("lut-icons"));
+  mThreadScheduler->post([this, searchResults{searchResults}]() {
+    mLutIconsPreprocessingJob.configureLuts(searchResults);
+    mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
+                          PBDev::ProgressJobName("lut-icons"));
+  });
 }
 
 std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>
