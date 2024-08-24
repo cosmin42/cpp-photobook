@@ -79,7 +79,9 @@ private:
   Path createTransformedImage(Path lutPath)
   {
     auto clone = Process::clone(mOriginalImage);
-    clone = Process::applyLutInplace(clone, lutPath);
+    auto lutData = Process::readLutData(lutPath);
+
+    clone = Process::applyLutInplace(clone, lutData);
 
     auto outImagePath = newImageName();
     Process::writeImageOnDisk(clone, outImagePath);

@@ -1,5 +1,7 @@
 #include <pb/image/ImageOperations.h>
 
+#include <fstream>
+
 #pragma warning(push)
 #pragma warning(disable : 4996)
 #include <spdlog/spdlog.h>
@@ -62,18 +64,18 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
   return image;
 }
 
-std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat> image,
-                                         Path                     lutPath)
+std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat>      image,
+                                         std::vector<cv::Vec3b> const &lutData)
 {
-  PBDev::basicAssert(image != nullptr);
+  cv::Mat result = image->clone();
 
-  cv::Mat lut = cv::imread(lutPath.string(), cv::IMREAD_COLOR);
-  if (lut.empty()) {
-    spdlog::error("Lut not found at {}", lutPath.string());
-    return image;
-  }
+  auto rgbImage = extractRGBChannels(image);
 
-  cv::LUT(*image, lut, *image);
+  cv::LUT(*rgbImage, lutData, *rgbImage);
+
+  auto rgbaImage = completeWithAlphaChannel(rgbImage);
+
+  *image = *rgbaImage;
 
   return image;
 }
@@ -85,6 +87,203 @@ std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
   }
 
   return std::make_shared<cv::Mat>(*image);
+}
+
+std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath)
+{
+
+  std::ifstream file(lutPath);
+  if (!file.is_open()) {
+    throw std::runtime_error("Could not open .cube file");
+  }
+
+  std::string                                      line;
+  std::vector<std::vector<std::vector<cv::Vec3b>>> lut;
+
+  struct Counter3d {
+    unsigned i = 0;
+    unsigned j = 0;
+    unsigned k = 0;
+    unsigned size = 0;
+
+    Counter3d &operator++()
+    {
+      if (k < size - 1) {
+        ++k;
+      }
+      else if (j < size - 1) {
+        ++j;
+        k = 0;
+      }
+      else if (i < size - 1) {
+        ++i;
+        j = 0;
+        k = 0;
+      }
+      else {
+        PBDev::basicAssert(false);
+      }
+      return *this;
+    }
+  };
+
+  Counter3d counter3d;
+
+  // Skip header and comments
+  while (std::getline(file, line)) {
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
+
+    // Read LUT entries
+    std::istringstream iss(line);
+
+    if (line.find("LUT_3D_SIZE") != std::string::npos) {
+      std::string cubeRtStr;
+      iss >> cubeRtStr;
+      iss >> cubeRtStr;
+
+      try {
+        counter3d.size = std::stoi(cubeRtStr);
+      }
+      catch (...) {
+        PBDev::basicAssert(false);
+      }
+      continue;
+    }
+    if (line.find("DOMAIN_MIN") != std::string::npos) {
+      continue;
+    }
+    if (line.find("DOMAIN_MAX") != std::string::npos) {
+      continue;
+    }
+    if (line.find("TITLE") != std::string::npos) {
+      continue;
+    }
+
+    PBDev::basicAssert(counter3d.size > 0);
+
+    cv::Vec3b entry;
+    if (iss >> entry[0] >> entry[1] >> entry[2]) {
+      lut[counter3d.i][counter3d.j][counter3d.k] = entry;
+      ++counter3d;
+    }
+    else {
+      PBDev::basicAssert(false);
+    }
+  }
+  file.close();
+  return lut;
+}
+
+std::vector<cv::Vec3b> readLutData(Path lutPath)
+{
+  // TODO: Do this function better
+  auto f = [](cv::Vec3f const &entry) -> cv::Vec3b {
+    return cv::Vec3b{(uchar)(entry[0] * 255), (uchar)(entry[1] * 255),
+                     (uchar)(entry[2] * 255)};
+  };
+
+  std::ifstream file(lutPath);
+  if (!file.is_open()) {
+    throw std::runtime_error("Could not open .cube file");
+  }
+
+  std::string            line;
+  std::vector<cv::Vec3b> lut;
+
+  // Skip header and comments
+  while (std::getline(file, line)) {
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
+    if (line.find("LUT_3D_SIZE") != std::string::npos) {
+      continue;
+    }
+
+    // Read LUT entries
+    std::istringstream iss(line);
+    cv::Vec3f          entry;
+    if (iss >> entry[0] >> entry[1] >> entry[2]) {
+
+      lut.push_back(f(entry));
+    }
+  }
+  file.close();
+  return lut;
+}
+
+std::shared_ptr<cv::Mat> extractRGBChannels(std::shared_ptr<cv::Mat> image)
+{
+  if (!image) {
+    return nullptr;
+  }
+
+  auto cloneImage = clone(image);
+
+  std::vector<cv::Mat> channels;
+  cv::split(*cloneImage, channels);
+
+  if (channels.size() == 3) {
+    return cloneImage;
+  }
+  else if (channels.size() == 4) {
+    channels.erase(channels.begin() + 3);
+    cv::merge(channels, *cloneImage);
+  }
+  else {
+    PBDev::basicAssert(false);
+  }
+
+  return cloneImage;
+}
+
+std::shared_ptr<cv::Mat>
+completeWithAlphaChannel(std::shared_ptr<cv::Mat> image)
+{
+  if (!image) {
+    return nullptr;
+  }
+
+  auto cloneImage = clone(image);
+
+  std::vector<cv::Mat> channels;
+  cv::split(*cloneImage, channels);
+
+  if (channels.size() == 3) {
+    cv::Mat alpha(image->rows, image->cols, CV_8UC1);
+    alpha = cv::Scalar(255);
+    channels.push_back(alpha);
+    cv::merge(channels, *cloneImage);
+  }
+  else if (channels.size() != 4) {
+    PBDev::basicAssert(false);
+  }
+
+  return cloneImage;
+}
+
+std::shared_ptr<cv::Mat>
+ccompleteWithAlphaChannelInPlace(std::shared_ptr<cv::Mat> image)
+{
+  if (!image) {
+    return nullptr;
+  }
+
+  std::vector<cv::Mat> channels;
+  cv::split(*image, channels);
+
+  if (channels.size() == 3) {
+    cv::Mat alpha(image->rows, image->cols, CV_8UC1);
+    alpha = cv::Scalar(255);
+    channels.push_back(alpha);
+    cv::merge(channels, *image);
+  }
+  else if (channels.size() != 4) {
+    PBDev::basicAssert(false);
+  }
+
+  return image;
 }
 
 OffsetFunction alignToCenter()
