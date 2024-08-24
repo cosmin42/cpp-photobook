@@ -38,8 +38,21 @@ std::vector<cv::Vec3b> readLutData(Path lutPath);
 
 std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath);
 
-
 std::shared_ptr<cv::Mat> extractRGBChannels(std::shared_ptr<cv::Mat> image);
+
+std::vector<double> sampleNormalized(unsigned samplePointsCount)
+{
+  PBDev::basicAssert(samplePointsCount > 1);
+
+  std::vector<double> samples = {0};
+
+  for (int i = 1; i < samplePointsCount - 1; ++i) {
+    samples.push_back(static_cast<double>(i) / (samplePointsCount - 1));
+  }
+
+  samples.push_back(1);
+  return samples;
+}
 
 std::shared_ptr<cv::Mat>
 completeWithAlphaChannel(std::shared_ptr<cv::Mat> image);
