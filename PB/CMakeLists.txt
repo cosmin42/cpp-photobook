@@ -53,6 +53,7 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
@@ -217,7 +218,8 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json
     spdlog::spdlog
-    pantor::inja)
+    pantor::inja
+    glfw)
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -277,7 +279,8 @@ target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     pantor::inja
     ${PLATFORM_PODOFO}
     ${PLATFORM_SKIA}
-    ${PBLIB_LIBRARY_NAME})
+    ${PBLIB_LIBRARY_NAME}
+    glfw)
 
 if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
