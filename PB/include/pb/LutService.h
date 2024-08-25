@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pb/DirectoryInspectionService.h>
+#include <pb/GPUAcceleratedImageOperations.h>
 #include <pb/LutIconsPreprocessingJob.h>
 #include <pb/Platform.h>
 #include <pb/ThreadScheduler.h>
@@ -12,14 +13,13 @@ class LutService final : public DirectoryInspectionJobListener,
                          public LutIconsPreprocessingListener {
 public:
   LutService();
-  ~LutService() = default;
+  ~LutService();
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureDirectoryInspectionService(
       std::shared_ptr<DirectoryInspectionService> directoryInspectionService);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void condifureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
-
 
   void startLutService();
   void detectLuts();
@@ -53,5 +53,8 @@ private:
   }
 
   Path lutAssetsPath() const;
+
+  std::shared_ptr<GPUAcceleratedImageOperations>
+      mGPUAcceleratedImageOperations = nullptr;
 };
 } // namespace PB

@@ -73,7 +73,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
-  mTaskCruncher->registerPTC("lut-icons", 4);
+  mTaskCruncher->registerPTC("lut-icons", 1);
   mTaskCruncher->registerPTC("default", 2);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);

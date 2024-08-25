@@ -8,12 +8,19 @@
 namespace PB {
 
 LutService::LutService()
+    : mGPUAcceleratedImageOperations(
+          std::make_shared<GPUAcceleratedImageOperations>())
 {
   auto lutIconsPreprocessingListener =
       dynamic_cast<LutIconsPreprocessingListener *>(this);
   PBDev::basicAssert(lutIconsPreprocessingListener != nullptr);
   mLutIconsPreprocessingJob.configureListener(lutIconsPreprocessingListener);
+
+  mLutIconsPreprocessingJob.configureGPUAcceleratedImageOperations(
+      mGPUAcceleratedImageOperations);
 }
+
+LutService::~LutService() {}
 
 void LutService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)

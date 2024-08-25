@@ -3,6 +3,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/GPUAcceleratedImageOperations.h>
 #include <pb/MapReducer.h>
 #include <pb/Platform.h>
 #include <pb/image/ImageReader.h>
@@ -37,16 +38,40 @@ public:
     mOriginalImage = image;
   }
 
+  void configureGPUAcceleratedImageOperations(
+      std::shared_ptr<GPUAcceleratedImageOperations>
+          gpuAcceleratedImageOperations)
+  {
+    mGPUAcceleratedImageOperations = gpuAcceleratedImageOperations;
+  }
+
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
-    if (mIndex >= mLuts.size()) {
+    if (mInitFlag && mIndex >= mLuts.size() /* && mDestroyFlag*/) {
       return std::nullopt;
     }
-    auto lutPath = mLuts.at(mIndex);
-    mIndex++;
 
     PBDev::MapReducerTaskId taskId(RuntimeUUID::newUUID());
+
+    if (!mInitFlag) {
+      mInitFlag = true;
+      return std::make_optional<IdentifyableFunction>(taskId, [this] {
+        mGPUAcceleratedImageOperations->initOpenGL();
+        mGPUAcceleratedImageOperations->createFrameBuffer();
+        
+      });
+    }
+
+    /*
+    if (!mDestroyFlag && mIndex >= mLuts.size()) {
+      mDestroyFlag = true;
+      return std::make_optional<IdentifyableFunction>(
+          taskId, [this] { mGPUAcceleratedImageOperations->cleanup(); });
+    }
+    */
+    auto lutPath = mLuts.at(mIndex);
+    mIndex++;
 
     return std::make_optional<IdentifyableFunction>(
         taskId, [this, taskId, lutPath] {
@@ -65,8 +90,12 @@ private:
   std::vector<Path>              mLuts;
   std::vector<Path>              mIcons;
   unsigned                       mIndex = 0;
+  bool                           mInitFlag = false;
+  bool                           mDestroyFlag = false;
 
   std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
+  std::shared_ptr<GPUAcceleratedImageOperations>
+      mGPUAcceleratedImageOperations = nullptr;
 
   Path newImageName()
   {
@@ -78,13 +107,32 @@ private:
 
   Path createTransformedImage(Path lutPath)
   {
+    // auto clone = Process::clone(mOriginalImage);
+    // auto lutData = Process::readLutData(lutPath);
+
+    // clone = Process::applyLutInplace(clone, lutData);
+
+    // auto outImagePath = newImageName();
+    // Process::writeImageOnDisk(clone, outImagePath);
+
     auto clone = Process::clone(mOriginalImage);
+
+    auto rgbImage = Process::extractRGBChannels(clone);
+
+    mGPUAcceleratedImageOperations->processImage(rgbImage);
+
+    auto outImage = mGPUAcceleratedImageOperations->textureToMat(
+        rgbImage->cols, rgbImage->rows);
+
+    auto rgbaImage = Process::completeWithAlphaChannel(rgbImage);
+    /*
     auto lutData = Process::readLutData(lutPath);
 
     clone = Process::applyLutInplace(clone, lutData);
-
+    */
     auto outImagePath = newImageName();
-    Process::writeImageOnDisk(clone, outImagePath);
+
+    Process::writeImageOnDisk(outImage, outImagePath);
     return outImagePath;
   }
 };
