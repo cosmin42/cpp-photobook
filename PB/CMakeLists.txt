@@ -90,6 +90,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
     include/pb/export/PdfLibharu.h
+    include/pb/GPUAcceleratedImageOperations.h
     include/pb/ImportImageTask.h
     include/pb/ImageMonitor.h
     include/pb/ImportFoldersLogic.h
@@ -155,6 +156,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DrawingService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
+    src/GPUAcceleratedImageOperations.cpp
     src/PicturesSearchConfig.cpp
     src/FileComparator.cpp
     src/FilePersistence.cpp
