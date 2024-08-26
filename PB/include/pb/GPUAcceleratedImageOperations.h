@@ -54,6 +54,9 @@ public:
     glGenRenderbuffers(1, &mRbo);
     glBindRenderbuffer(GL_RENDERBUFFER, mRbo);
 
+    glGenTextures(1, &mLutTexture);
+    glBindTexture(GL_TEXTURE_3D, mLutTexture);
+
     test1();
   }
 
@@ -76,8 +79,20 @@ public:
     return output;
   }
 
-  void createTextureToRenderTo(std::shared_ptr<cv::Mat> inputImage)
+  void createTextureToRenderTo(
+      std::shared_ptr<cv::Mat>                          inputImage,
+      std::vector<std::vector<std::vector<cv::Vec3f>>> &lutData,
+      unsigned                                          lutSize)
   {
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, lutSize, lutSize, lutSize, 0,
+                 GL_RGB, GL_FLOAT, lutData.data());
+
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
     // Clear the buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -88,14 +103,11 @@ public:
 
     glViewport(0, 0, inputImage->cols, inputImage->rows);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, inputImage->cols, inputImage->rows,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, inputImage->cols, inputImage->rows,
                  0, GL_BGR, GL_UNSIGNED_BYTE, inputImage->data);
 
     glBindVertexArray(VAO); // Ensure VAO is bound
-    glDrawArrays(GL_TRIANGLES, 0,
-                 6); // Or glDrawElements, depending on your setup
-
-
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     // Attach the texture to the framebuffer
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
@@ -104,40 +116,40 @@ public:
     if (status != GL_FRAMEBUFFER_COMPLETE) {
       PBDev::basicAssert(false);
     }
-
     glfwPollEvents();
   }
 
   void test1()
   {
-    float vertices[] = {
-        // Positions        // Colors
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Bottom left
-        0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // Bottom right
-        0.0f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f  // Top
-    };
+    // Define a simple quad that covers the entire screen
+    float        vertices[] = {// positions       // texture coords
+                        -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
+                        0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
+                        0.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f};
+    unsigned int indices[] = {0, 1, 2, 0, 2, 3};
 
-    
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+                 GL_STATIC_DRAW);
+
     // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
                           (void *)0);
     glEnableVertexAttribArray(0);
 
-    // Color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+    // Texture coordinate attribute
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
                           (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0); 
   }
 
   void cleanup()
@@ -150,9 +162,12 @@ public:
     glfwTerminate();
   }
 
-  std::shared_ptr<cv::Mat> processImage(std::shared_ptr<cv::Mat> inputImage)
+  std::shared_ptr<cv::Mat>
+  processImage(std::shared_ptr<cv::Mat>                          inputImage,
+               std::vector<std::vector<std::vector<cv::Vec3f>>> &lutData,
+               unsigned                                          lutSize)
   {
-    createTextureToRenderTo(inputImage);
+    createTextureToRenderTo(inputImage, lutData, lutSize);
     return textureToMat(inputImage->cols, inputImage->rows);
   }
 
@@ -205,7 +220,8 @@ private:
   GLuint mRbo;
   GLuint mTextureId;
   GLuint mRenderTextureId;
-  GLuint VBO, VAO;
+  GLuint VBO, VAO, EBO;
+  GLuint mLutTexture;
 
   GLint mShaderProgram;
 
@@ -215,12 +231,75 @@ private:
     
     in vec2 TexCoord;
     uniform sampler2D texture1;
-
+    uniform sampler3D textureSampler;      // The 3D LUT
+/*
     void main() {
         vec3 color = texture(texture1, TexCoord).rgb;
-        float gray = dot(color, vec3(0.299, 0.587, 0.114));
-        FragColor = vec3(gray);
+
+        ivec3 size = textureSize(textureSampler, 0);
+
+        ivec3 lutCoords = ivec3(color * size);
+
+        ivec3 nextlutCoords;
+		nextlutCoords.x = min(lutCoords.x + 1, size.x - 1);
+		nextlutCoords.y = min(lutCoords.y + 1, size.y - 1);
+        nextlutCoords.z = min(lutCoords.z + 1, size.z - 1);
+
+        
+
+        // Fetch the color from the LUT
+        //vec4 gradedColor = texture(textureSampler, lutCoords);
+        FragColor = vec3(lutCoords);
     }
+*/
+
+void main() {
+    vec3 color = texture(texture1, TexCoord).rgb;
+
+    // Get the integer and fractional parts of the texture coordinates
+    vec3 texSize = vec3(textureSize(textureSampler, 0));
+    vec3 texCoord = color * texSize;
+    vec3 texCoordFloor = floor(texCoord);
+    vec3 texCoordFrac = texCoord - texCoordFloor;
+
+    // Convert to texture space (0 to 1)
+    vec3 texCoordNorm = texCoordFloor / texSize;
+    vec3 texCoordNormStep = 1.0 / texSize;
+
+    // Compute coordinates of the eight surrounding texels
+    vec3 texCoord000 = texCoordNorm;
+    vec3 texCoord100 = texCoordNorm + vec3(texCoordNormStep.x, 0.0, 0.0);
+    vec3 texCoord010 = texCoordNorm + vec3(0.0, texCoordNormStep.y, 0.0);
+    vec3 texCoord110 = texCoordNorm + vec3(texCoordNormStep.x, texCoordNormStep.y, 0.0);
+
+    vec3 texCoord001 = texCoordNorm + vec3(0.0, 0.0, texCoordNormStep.z);
+    vec3 texCoord101 = texCoordNorm + vec3(texCoordNormStep.x, 0.0, texCoordNormStep.z);
+    vec3 texCoord011 = texCoordNorm + vec3(0.0, texCoordNormStep.y, texCoordNormStep.z);
+    vec3 texCoord111 = texCoordNorm + texCoordNormStep;
+
+    // Sample the eight surrounding texels
+    vec4 c000 = texture(textureSampler, texCoord000);
+    vec4 c100 = texture(textureSampler, texCoord100);
+    vec4 c010 = texture(textureSampler, texCoord010);
+    vec4 c110 = texture(textureSampler, texCoord110);
+
+    vec4 c001 = texture(textureSampler, texCoord001);
+    vec4 c101 = texture(textureSampler, texCoord101);
+    vec4 c011 = texture(textureSampler, texCoord011);
+    vec4 c111 = texture(textureSampler, texCoord111);
+
+    // Perform trilinear interpolation
+    vec4 c00 = mix(c000, c100, texCoordFrac.x);
+    vec4 c10 = mix(c010, c110, texCoordFrac.x);
+    vec4 c01 = mix(c001, c101, texCoordFrac.x);
+    vec4 c11 = mix(c011, c111, texCoordFrac.x);
+
+    vec4 c0 = mix(c00, c10, texCoordFrac.y);
+    vec4 c1 = mix(c01, c11, texCoordFrac.y);
+
+    FragColor = mix(c0, c1, texCoordFrac.z).rgb;
+}
+
 )";
 
   const char *vertexShaderSource = R"(

@@ -108,7 +108,7 @@ private:
   Path createTransformedImage(Path lutPath)
   {
     // auto clone = Process::clone(mOriginalImage);
-    // auto lutData = Process::readLutData(lutPath);
+    auto lutData = Process::readLutData3D(lutPath);
 
     // clone = Process::applyLutInplace(clone, lutData);
 
@@ -119,12 +119,10 @@ private:
 
     auto rgbImage = Process::extractRGBChannels(clone);
 
-    mGPUAcceleratedImageOperations->processImage(rgbImage);
+    auto outImage = mGPUAcceleratedImageOperations->processImage(
+        rgbImage, lutData, lutData.size());
 
-    auto outImage = mGPUAcceleratedImageOperations->textureToMat(
-        rgbImage->cols, rgbImage->rows);
-
-    auto rgbaImage = Process::completeWithAlphaChannel(rgbImage);
+    auto rgbaImage = Process::completeWithAlphaChannel(outImage);
     /*
     auto lutData = Process::readLutData(lutPath);
 
