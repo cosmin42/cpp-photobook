@@ -79,11 +79,11 @@ public:
     return output;
   }
 
-  void createTextureToRenderTo(
-      std::shared_ptr<cv::Mat>                          inputImage,
-      std::vector<std::vector<std::vector<cv::Vec3f>>> &lutData,
-      unsigned                                          lutSize)
+  void createTextureToRenderTo(std::shared_ptr<cv::Mat> inputImage,
+                               std::vector<cv::Vec3f>  &lutData,
+                               unsigned                 lutSize)
   {
+    lutSize = std::cbrt(lutData.size());
     glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, lutSize, lutSize, lutSize, 0,
                  GL_RGB, GL_FLOAT, lutData.data());
 
@@ -162,10 +162,9 @@ public:
     glfwTerminate();
   }
 
-  std::shared_ptr<cv::Mat>
-  processImage(std::shared_ptr<cv::Mat>                          inputImage,
-               std::vector<std::vector<std::vector<cv::Vec3f>>> &lutData,
-               unsigned                                          lutSize)
+  std::shared_ptr<cv::Mat> processImage(std::shared_ptr<cv::Mat> inputImage,
+                                        std::vector<cv::Vec3f>  &lutData,
+                                        unsigned                 lutSize)
   {
     createTextureToRenderTo(inputImage, lutData, lutSize);
     return textureToMat(inputImage->cols, inputImage->rows);

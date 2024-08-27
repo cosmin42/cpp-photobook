@@ -89,7 +89,7 @@ std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
   return std::make_shared<cv::Mat>(*image);
 }
 
-std::vector<std::vector<std::vector<cv::Vec3f>>> readLutData3D(Path lutPath)
+std::vector<cv::Vec3f> readLutData3D(Path lutPath)
 {
 
   std::ifstream file(lutPath);
@@ -98,7 +98,7 @@ std::vector<std::vector<std::vector<cv::Vec3f>>> readLutData3D(Path lutPath)
   }
 
   std::string                                      line;
-  std::vector<std::vector<std::vector<cv::Vec3f>>> lut;
+  std::vector<cv::Vec3f> lut;
 
   struct Counter3d {
     unsigned i = 0;
@@ -144,21 +144,7 @@ std::vector<std::vector<std::vector<cv::Vec3f>>> readLutData3D(Path lutPath)
       iss >> cubeRtStr;
 
       try {
-        counter3d.size = std::stoi(cubeRtStr)+1;
-
-
-        // TODO: Do this smarter
-        for (auto i = 0; i < counter3d.size; ++i) {
-          std::vector<std::vector<cv::Vec3f>> plane;
-          for (auto j = 0; j < counter3d.size; ++j) {
-            std::vector<cv::Vec3f> row;
-            for (auto k = 0; k < counter3d.size; ++k) {
-              row.push_back(cv::Vec3f{0, 0, 0});
-            }
-            plane.push_back(row);
-          }
-          lut.push_back(plane);
-        }
+        counter3d.size = std::stoi(cubeRtStr) + 1;
       }
       catch (...) {
         PBDev::basicAssert(false);
@@ -177,9 +163,9 @@ std::vector<std::vector<std::vector<cv::Vec3f>>> readLutData3D(Path lutPath)
 
     PBDev::basicAssert(counter3d.size > 0);
 
-    cv::Vec3d entry;
+    cv::Vec3f entry;
     if (iss >> entry[0] >> entry[1] >> entry[2]) {
-      lut[counter3d.i][counter3d.j][counter3d.k] = entry;
+      lut.push_back(entry);
       ++counter3d;
     }
     else {
