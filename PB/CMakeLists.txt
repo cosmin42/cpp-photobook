@@ -95,6 +95,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/GPUAcceleratedImageOperations.h
     include/pb/ImportImageTask.h
     include/pb/ImageMonitor.h
+    include/pb/ImageProcessingData.h
     include/pb/ImportFoldersLogic.h
     include/pb/ImageToPaperService.h
     include/pb/ImageToPaperTask.h
@@ -109,8 +110,10 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/image/TextImage.h
     include/pb/LutService.h
     include/pb/LutIconsPreprocessingJob.h
+    include/pb/LutImageProcessingData.h
     include/pb/MapReducer.h
     include/pb/MetadataReader.h
+    include/pb/OGLEngine.h
     include/pb/FileComparator.h
     include/pb/persistence/FilePersistence.h
     include/pb/persistence/Persistence.h
@@ -143,6 +146,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Traits.h
     include/pb/TaskCruncher.h
     include/pb/ThreadScheduler.h
+    include/pb/TSQueue.h
     include/pb/Visitor.h
     include/pb/WorkersManager.h
 
@@ -177,6 +181,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/LutService.cpp
     src/LutIconsPreprocessingJob.cpp
     src/MetadataReader.cpp
+    src/OGLEngine.cpp
     src/PaperSettings.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
