@@ -123,8 +123,10 @@ void OGLEngine::generateRenderTexture()
 
 GLint OGLEngine::createProgram(Path fragmentShaderPath, std::string name)
 {
-  std::string fragmentShaderSource = readShaderSource(fragmentShaderPath);
-  std::string vertexShaderSource = readShaderSource(VERTEX_SHADER_PATH);
+  std::string fragmentShaderSource =
+      readShaderSource(mPlatformInfo->installationPath / fragmentShaderPath);
+  std::string vertexShaderSource =
+      readShaderSource(mPlatformInfo->installationPath / VERTEX_SHADER_PATH);
 
   GLuint fragmentShader =
       compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
@@ -161,8 +163,14 @@ void OGLEngine::loadPrograms()
 
 void OGLEngine::mainloop()
 {
+  initOpenGL();
+  initFrameBuffer();
+  generateRenderTexture();
+  loadPrograms();
+
   while (!mStopToken.stop_requested()) {
     auto imageProcessingData = mWorkQueue.dequeue();
+    loadTextureAndRender(imageProcessingData);
   }
 
   glDeleteTextures(1, &mRenderTextureId);

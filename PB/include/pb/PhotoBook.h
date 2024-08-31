@@ -13,6 +13,7 @@
 #include <pb/ImageToPaperService.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/LutService.h>
+#include <pb/OGLEngine.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
@@ -134,5 +135,6 @@ private:
   std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
+  std::shared_ptr<OGLEngine>                  mOGLEngine = nullptr;
 };
 } // namespace PB

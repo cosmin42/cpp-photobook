@@ -21,7 +21,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mCollageTemplateManager(std::make_shared<CollageManager>()),
       mLutService(std::make_shared<LutService>()),
       mDirectoryInspectionService(
-          std::make_shared<DirectoryInspectionService>())
+          std::make_shared<DirectoryInspectionService>()),
+      mOGLEngine(std::make_shared<OGLEngine>())
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
   ImageFactory::inst().configurePersistenceService(mPersistenceService);
@@ -94,6 +95,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
+
+  mOGLEngine->configurePlatformInfo(mPlatformInfo);
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
@@ -121,7 +124,11 @@ void Photobook::configureCurrentProject()
   configure(project()->currentProject());
 }
 
-void Photobook::startPhotobook() { mLutService->startLutService(); }
+void Photobook::startPhotobook()
+{
+  mOGLEngine->start(std::stop_token());
+  mLutService->startLutService();
+}
 
 void Photobook::unloadProject()
 {

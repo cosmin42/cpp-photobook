@@ -67,8 +67,8 @@ private:
   unsigned int mIndices[6] = {0, 1, 2, 0, 2, 3};
 
   const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
-      {"lut", "shaders/lut.glsl"}};
+      {"lut", Path("shaders") / "lut.glsl"}};
 
-  const Path VERTEX_SHADER_PATH = "shaders/vertex.glsl";
+  const Path VERTEX_SHADER_PATH = Path("shaders") / "vertex.glsl";
 };
 } // namespace PB
