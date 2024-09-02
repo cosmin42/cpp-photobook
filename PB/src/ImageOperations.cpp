@@ -89,6 +89,8 @@ std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
   return std::make_shared<cv::Mat>(*image);
 }
 
+
+// TODO: improve this function
 std::vector<cv::Vec3f> readLutData(Path lutPath)
 {
   std::ifstream file(lutPath);
