@@ -89,16 +89,15 @@ std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
   return std::make_shared<cv::Mat>(*image);
 }
 
-std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath)
+std::vector<cv::Vec3f> readLutData(Path lutPath)
 {
-
   std::ifstream file(lutPath);
   if (!file.is_open()) {
     throw std::runtime_error("Could not open .cube file");
   }
 
-  std::string                                      line;
-  std::vector<std::vector<std::vector<cv::Vec3b>>> lut;
+  std::string            line;
+  std::vector<cv::Vec3f> lut;
 
   struct Counter3d {
     unsigned i = 0;
@@ -144,7 +143,7 @@ std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath)
       iss >> cubeRtStr;
 
       try {
-        counter3d.size = std::stoi(cubeRtStr);
+        counter3d.size = std::stoi(cubeRtStr) + 1;
       }
       catch (...) {
         PBDev::basicAssert(false);
@@ -163,50 +162,13 @@ std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath)
 
     PBDev::basicAssert(counter3d.size > 0);
 
-    cv::Vec3b entry;
+    cv::Vec3f entry;
     if (iss >> entry[0] >> entry[1] >> entry[2]) {
-      lut[counter3d.i][counter3d.j][counter3d.k] = entry;
+      lut.push_back(entry);
       ++counter3d;
     }
     else {
       PBDev::basicAssert(false);
-    }
-  }
-  file.close();
-  return lut;
-}
-
-std::vector<cv::Vec3b> readLutData(Path lutPath)
-{
-  // TODO: Do this function better
-  auto f = [](cv::Vec3f const &entry) -> cv::Vec3b {
-    return cv::Vec3b{(uchar)(entry[0] * 255), (uchar)(entry[1] * 255),
-                     (uchar)(entry[2] * 255)};
-  };
-
-  std::ifstream file(lutPath);
-  if (!file.is_open()) {
-    throw std::runtime_error("Could not open .cube file");
-  }
-
-  std::string            line;
-  std::vector<cv::Vec3b> lut;
-
-  // Skip header and comments
-  while (std::getline(file, line)) {
-    if (line.empty() || line[0] == '#') {
-      continue;
-    }
-    if (line.find("LUT_3D_SIZE") != std::string::npos) {
-      continue;
-    }
-
-    // Read LUT entries
-    std::istringstream iss(line);
-    cv::Vec3f          entry;
-    if (iss >> entry[0] >> entry[1] >> entry[2]) {
-
-      lut.push_back(f(entry));
     }
   }
   file.close();

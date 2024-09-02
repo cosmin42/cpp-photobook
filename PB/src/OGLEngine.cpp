@@ -22,7 +22,7 @@ void OGLEngine::start(std::stop_token stopToken)
 void OGLEngine::stop(std::stop_source stopSource)
 {
   stopSource.request_stop();
-  mWorkQueue.enqueue(ImageProcessingData::empty());
+  mWorkQueue.enqueue(LutImageProcessingData());
 }
 
 void OGLEngine::initOpenGL()
@@ -51,8 +51,8 @@ void OGLEngine::initOpenGL()
 
 void OGLEngine::initFrameBuffer()
 {
-  glGenFramebuffers(1, &mFbo);
-  glBindFramebuffer(GL_FRAMEBUFFER, mFbo);
+  glGenFramebuffers(1, &mFrameBufferObject);
+  glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
 }
 
 std::string OGLEngine::readShaderSource(Path path)
@@ -91,8 +91,8 @@ void OGLEngine::generateRenderTexture()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-  glGenRenderbuffers(1, &mRenderBufferId);
-  glBindRenderbuffer(GL_RENDERBUFFER, mRenderBufferId);
+  glGenRenderbuffers(1, &mRenderBufferObject);
+  glBindRenderbuffer(GL_RENDERBUFFER, mRenderBufferObject);
 
   glGenTextures(1, &mLutTextureId);
   glBindTexture(GL_TEXTURE_3D, mLutTextureId);
@@ -158,6 +158,8 @@ void OGLEngine::loadPrograms()
   // Load shaders.
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
     mShaderPrograms[name] = createProgram(path, name);
+
+    glUseProgram(mShaderPrograms.at(name));
   }
 }
 
@@ -165,16 +167,23 @@ void OGLEngine::mainloop()
 {
   initOpenGL();
   initFrameBuffer();
-  generateRenderTexture();
   loadPrograms();
+  generateRenderTexture();
 
   while (!mStopToken.stop_requested()) {
     auto imageProcessingData = mWorkQueue.dequeue();
     loadTextureAndRender(imageProcessingData);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
+    glReadPixels(0, 0, imageProcessingData.inImage->cols,
+                 imageProcessingData.inImage->rows, GL_BGR, GL_UNSIGNED_BYTE,
+                 imageProcessingData.outImage->data);
+    mFinishedWork = true;
+    mFinishedWorkCondition.notify_one();
   }
 
   glDeleteTextures(1, &mRenderTextureId);
-  glDeleteFramebuffers(1, &mFbo);
+  glDeleteFramebuffers(1, &mFrameBufferObject);
   for (auto const &[name, program] : mShaderPrograms) {
     glDeleteProgram(program);
   }
@@ -211,7 +220,7 @@ void OGLEngine::loadTextureAndRender(
                           lutImageProcessingData.inImage->cols,
                           lutImageProcessingData.inImage->rows);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
-                              GL_RENDERBUFFER, mRenderBufferId);
+                              GL_RENDERBUFFER, mRenderBufferObject);
 
     glViewport(0, 0, lutImageProcessingData.inImage->cols,
                lutImageProcessingData.inImage->rows);
@@ -234,8 +243,12 @@ void OGLEngine::loadTextureAndRender(
   }
 }
 
-void OGLEngine::addWork(ImageProcessingData const &imageProcessingData)
+void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
 {
+  std::unique_lock lock(mWorkMutex);
+  mFinishedWork = false;
   mWorkQueue.enqueue(imageProcessingData);
+  mFinishedWorkCondition.wait(lock, [this] { return mFinishedWork; });
 }
+
 } // namespace PB

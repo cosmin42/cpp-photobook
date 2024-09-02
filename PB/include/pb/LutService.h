@@ -2,6 +2,7 @@
 
 #include <pb/DirectoryInspectionService.h>
 #include <pb/LutIconsPreprocessingJob.h>
+#include <pb/OGLEngine.h>
 #include <pb/Platform.h>
 #include <pb/ThreadScheduler.h>
 
@@ -19,7 +20,11 @@ public:
       std::shared_ptr<DirectoryInspectionService> directoryInspectionService);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void condifureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
-
+  void configureOGLEngine(std::shared_ptr<OGLEngine> oglEngine)
+  {
+    mOglEngine = oglEngine;
+    mLutIconsPreprocessingJob.configureOGLEngine(oglEngine);
+  }
 
   void startLutService();
   void detectLuts();
@@ -40,6 +45,7 @@ private:
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
+  std::shared_ptr<OGLEngine>    mOglEngine = nullptr;
   PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
 
   PBDev::DirectoryInspectionJobId mLutsInspectionId =

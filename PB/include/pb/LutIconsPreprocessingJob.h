@@ -3,7 +3,9 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/LutImageProcessingData.h>
 #include <pb/MapReducer.h>
+#include <pb/OGLEngine.h>
 #include <pb/Platform.h>
 #include <pb/image/ImageReader.h>
 
@@ -37,6 +39,11 @@ public:
     mOriginalImage = image;
   }
 
+  void configureOGLEngine(std::shared_ptr<OGLEngine> oglEngine)
+  {
+    mOglEngine = oglEngine;
+  }
+
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
@@ -61,6 +68,7 @@ public:
 
 private:
   LutIconsPreprocessingListener *mListener = nullptr;
+  std::shared_ptr<OGLEngine>     mOglEngine = nullptr;
   std::shared_ptr<PlatformInfo>  mPlatformInfo = nullptr;
   std::vector<Path>              mLuts;
   std::vector<Path>              mIcons;
@@ -78,13 +86,23 @@ private:
 
   Path createTransformedImage(Path lutPath)
   {
-    auto clone = Process::clone(mOriginalImage);
+    auto rgbImage = Process::extractRGBChannels(mOriginalImage);
+    auto clone = Process::clone(rgbImage);
     auto lutData = Process::readLutData(lutPath);
 
-    clone = Process::applyLutInplace(clone, lutData);
+    auto outImage = Process::clone(rgbImage);
+
+    LutImageProcessingData lutImageProcessingData;
+    lutImageProcessingData.inImage = clone;
+    lutImageProcessingData.outImage = outImage;
+
+    for (auto const &data : lutData) {
+      lutImageProcessingData.lut.push_back(data);
+    }
+    mOglEngine->applyLut(lutImageProcessingData);
 
     auto outImagePath = newImageName();
-    Process::writeImageOnDisk(clone, outImagePath);
+    Process::writeImageOnDisk(lutImageProcessingData.outImage, outImagePath);
     return outImagePath;
   }
 };

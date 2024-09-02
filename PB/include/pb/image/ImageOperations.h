@@ -34,9 +34,7 @@ std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat>      image,
 
 std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image);
 
-std::vector<cv::Vec3b> readLutData(Path lutPath);
-
-std::vector<std::vector<std::vector<cv::Vec3b>>> readLutData3D(Path lutPath);
+std::vector<cv::Vec3f> readLutData(Path lutPath);
 
 std::shared_ptr<cv::Mat> extractRGBChannels(std::shared_ptr<cv::Mat> image);
 

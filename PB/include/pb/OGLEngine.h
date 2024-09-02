@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <pb/ImageProcessingData.h>
+#include <pb/LutImageProcessingData.h>
 #include <pb/Platform.h>
 #include <pb/TSQueue.h>
 #include <pb/util/Traits.h>
@@ -20,7 +20,7 @@ public:
   void start(std::stop_token stopToken);
   void stop(std::stop_source stopSource);
 
-  void addWork(ImageProcessingData const &imageProcessingData);
+  void applyLut(LutImageProcessingData const &imageProcessingData);
 
 private:
   void initOpenGL();
@@ -45,26 +45,30 @@ private:
 
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 
-  TSQueue<ImageProcessingData> mWorkQueue;
-  std::jthread                 mThread;
+  TSQueue<LutImageProcessingData> mWorkQueue;
+  std::jthread                    mThread;
 
   std::stop_token mStopToken;
 
-  GLuint mFbo;
   GLuint mRenderTextureId;
-  GLuint mRenderBufferId;
   GLuint mLutTextureId;
 
   GLuint mVertexBufferObject;
   GLuint mVertexArrayObject;
   GLuint mElementBufferObject;
+  GLuint mFrameBufferObject;
+  GLuint mRenderBufferObject;
 
-  std::unordered_map<std::string, GLuint> mShaderPrograms;
+  std::unordered_map<std::string, GLint> mShaderPrograms;
 
   float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
                               0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
                               0.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f};
   unsigned int mIndices[6] = {0, 1, 2, 0, 2, 3};
+
+  std::mutex              mWorkMutex;
+  std::condition_variable mFinishedWorkCondition;
+  bool                    mFinishedWork = false;
 
   const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
       {"lut", Path("shaders") / "lut.glsl"}};
