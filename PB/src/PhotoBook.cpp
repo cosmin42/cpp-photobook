@@ -21,7 +21,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mCollageTemplateManager(std::make_shared<CollageManager>()),
       mLutService(std::make_shared<LutService>()),
       mDirectoryInspectionService(
-          std::make_shared<DirectoryInspectionService>())
+          std::make_shared<DirectoryInspectionService>()),
+      mOGLEngine(std::make_shared<OGLEngine>())
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
   ImageFactory::inst().configurePersistenceService(mPersistenceService);
@@ -62,6 +63,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
+  mOGLEngine->configurePlatformInfo(mPlatformInfo);
+
   mPersistenceService->configure(localStatePath);
 
   mProgressManager->configureScheduler(threadScheduler);
@@ -73,8 +76,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("collage-thumbnails", 1);
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
-  mTaskCruncher->registerPTC("lut-icons", 4);
-  mTaskCruncher->registerPTC("default", 2);
+  mTaskCruncher->registerPTC("lut-icons", 1);
+  mTaskCruncher->registerPTC("default", 1);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
@@ -90,6 +93,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);
   mLutService->configureTaskCruncher(mTaskCruncher);
   mLutService->condifureThreadScheduler(threadScheduler);
+  mLutService->configureOGLEngine(mOGLEngine);
 
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -121,7 +125,11 @@ void Photobook::configureCurrentProject()
   configure(project()->currentProject());
 }
 
-void Photobook::startPhotobook() { mLutService->startLutService(); }
+void Photobook::startPhotobook()
+{
+  mOGLEngine->start(std::stop_token());
+  mLutService->startLutService();
+}
 
 void Photobook::unloadProject()
 {
