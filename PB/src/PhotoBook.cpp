@@ -443,6 +443,8 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }
 
+void Photobook::onLutAdded(LutIconInfo iconInfo) {}
+
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
 
 void onInspectionFinished(PBDev::DirectoryInspectionJobId id,

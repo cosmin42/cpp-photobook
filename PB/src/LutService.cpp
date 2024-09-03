@@ -87,15 +87,11 @@ void LutService::onLutIconsPreprocessingFinished(Path icon)
   LutIconInfo lutIconInfo;
   lutIconInfo.path = icon;
   lutIconInfo.name = icon.stem().string();
-  mLutsPaths.insert(lutIconInfo);
+  mLutsPaths.push_back(lutIconInfo);
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
-std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>>
-LutService::listLuts() const
-{
-  return std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>>();
-}
+std::vector<LutIconInfo> LutService::listLuts() const { return mLutsPaths; }
 
 Path LutService::lutAssetsPath() const
 {

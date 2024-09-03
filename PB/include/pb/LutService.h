@@ -42,7 +42,7 @@ public:
 
   void onLutIconsPreprocessingFinished(Path icon) override;
 
-  std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>> listLuts() const;
+  std::vector<LutIconInfo> listLuts() const;
 
 private:
   static constexpr const char *IMAGE_NAME = "singapore.jpg";
@@ -61,7 +61,7 @@ private:
 
   LutIconsPreprocessingJob mLutIconsPreprocessingJob;
 
-  std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>> mLutsPaths;
+  std::vector<LutIconInfo> mLutsPaths;
 
   Path originalImagePath() const
   {
