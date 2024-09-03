@@ -365,7 +365,7 @@
                                     Padding="16,8"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                <Grid>
+                                <Grid MaxHeight="400">
                                     <controls:GridView x:Name="LutIconsGridView"
                                                        IsItemClickEnabled="True"
                                                        SelectionMode="Single">
