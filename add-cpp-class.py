@@ -60,3 +60,5 @@ if __name__ == "__main__":
     if not only_header:
         add_file_to_folder(".", "PB\\src\\" + cpp_file)
         fill_src("PB\\src\\" + cpp_file, namespace_name, class_name)
+
+#TODO: make namespace mandatory, currently if you miss the namespace and give the only header argument, it works

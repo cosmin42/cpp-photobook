@@ -40,10 +40,16 @@ void LutService::configureTaskCruncher(
   mTaskCruncher = taskCruncher;
 }
 
+// TODO: fix name
 void LutService::condifureThreadScheduler(
     PBDev::ThreadScheduler *threadScheduler)
 {
   mThreadScheduler = threadScheduler;
+}
+
+void LutService::configureLutServiceListener(LutServiceListener *listener)
+{
+  mLutServiceListener = listener;
 }
 
 void LutService::startLutService()
@@ -76,10 +82,19 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
   });
 }
 
-std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>
+void LutService::onLutIconsPreprocessingFinished(Path icon)
+{
+  LutIconInfo lutIconInfo;
+  lutIconInfo.path = icon;
+  lutIconInfo.name = icon.stem().string();
+  mLutsPaths.insert(lutIconInfo);
+  mLutServiceListener->onLutAdded(lutIconInfo);
+}
+
+std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>>
 LutService::listLuts() const
 {
-  return std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>();
+  return std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>>();
 }
 
 Path LutService::lutAssetsPath() const

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pb/DirectoryInspectionService.h>
+#include <pb/LutIconInfo.h>
 #include <pb/LutIconsPreprocessingJob.h>
 #include <pb/OGLEngine.h>
 #include <pb/Platform.h>
@@ -9,6 +10,11 @@
 DECLARE_STRONG_STRING(LutName)
 
 namespace PB {
+class LutServiceListener {
+public:
+  virtual void onLutAdded(LutIconInfo iconInfo) = 0;
+};
+
 class LutService final : public DirectoryInspectionJobListener,
                          public LutIconsPreprocessingListener {
 public:
@@ -26,16 +32,17 @@ public:
     mLutIconsPreprocessingJob.configureOGLEngine(oglEngine);
   }
 
+  void configureLutServiceListener(LutServiceListener *listener);
+
   void startLutService();
   void detectLuts();
 
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 
-  void onLutIconsPreprocessingFinished(Path icon) override {}
+  void onLutIconsPreprocessingFinished(Path icon) override;
 
-  std::unordered_set<PBDev::LutName, boost::hash<PBDev::LutName>>
-  listLuts() const;
+  std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>> listLuts() const;
 
 private:
   static constexpr const char *IMAGE_NAME = "singapore.jpg";
@@ -47,11 +54,14 @@ private:
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
   std::shared_ptr<OGLEngine>    mOglEngine = nullptr;
   PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
+  LutServiceListener           *mLutServiceListener = nullptr;
 
   PBDev::DirectoryInspectionJobId mLutsInspectionId =
       PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
 
   LutIconsPreprocessingJob mLutIconsPreprocessingJob;
+
+  std::unordered_set<LutIconInfo, boost::hash<LutIconInfo>> mLutsPaths;
 
   Path originalImagePath() const
   {

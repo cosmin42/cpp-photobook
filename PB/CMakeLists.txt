@@ -109,6 +109,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
     include/pb/LutService.h
+    include/pb/LutIconInfo.h
     include/pb/LutIconsPreprocessingJob.h
     include/pb/LutImageProcessingData.h
     include/pb/MapReducer.h

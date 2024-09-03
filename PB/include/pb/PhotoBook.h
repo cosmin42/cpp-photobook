@@ -37,7 +37,8 @@ class Photobook final : public PersistenceServiceListener,
                         public ExportListener,
                         public CollageThumbnailsMakerListener,
                         public ImageToPaperServiceListener,
-                        public CollageMakerListener {
+                        public CollageMakerListener,
+                        public LutServiceListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -110,6 +111,8 @@ public:
   void onImageMapped(PBDev::ImageToPaperId         id,
                      std::shared_ptr<VirtualImage> image) override;
 
+  void onLutAdded(LutIconInfo iconInfo) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;
@@ -135,6 +138,6 @@ private:
   std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
-  std::shared_ptr<OGLEngine>                  mOGLEngine = nullptr;
+  std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
 };
 } // namespace PB
