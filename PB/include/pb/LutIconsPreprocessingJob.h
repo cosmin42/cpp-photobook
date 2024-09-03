@@ -14,7 +14,7 @@ class LutIconsPreprocessingListener {
 public:
   virtual ~LutIconsPreprocessingListener() = default;
 
-  virtual void onLutIconsPreprocessingFinished(Path) = 0;
+  virtual void onLutIconsPreprocessingFinished(std::string, Path) = 0;
 };
 
 class LutIconsPreprocessingJob final : public MapReducer {
@@ -58,7 +58,8 @@ public:
     return std::make_optional<IdentifyableFunction>(
         taskId, [this, taskId, lutPath] {
           auto outImagePath = createTransformedImage(lutPath);
-          mListener->onLutIconsPreprocessingFinished(outImagePath);
+          auto lutName = extractNameFromPath(lutPath);
+          mListener->onLutIconsPreprocessingFinished(lutName, outImagePath);
         });
   }
 
@@ -75,6 +76,18 @@ private:
   unsigned                       mIndex = 0;
 
   std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
+
+  std::string extractNameFromPath(Path path)
+  {
+    auto raw = path.stem().string();
+    std::replace(raw.begin(), raw.end(), '_', ' ');
+    for (size_t i = 0; i < raw.size(); i++) {
+      if (i == 0 || raw[i - 1] == ' ') {
+        raw[i] = (char)std::toupper(raw[i]);
+      }
+    }
+    return raw;
+  }
 
   Path newImageName()
   {

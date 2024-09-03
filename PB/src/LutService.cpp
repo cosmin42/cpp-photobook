@@ -82,11 +82,11 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
   });
 }
 
-void LutService::onLutIconsPreprocessingFinished(Path icon)
+void LutService::onLutIconsPreprocessingFinished(std::string lutName, Path icon)
 {
   LutIconInfo lutIconInfo;
   lutIconInfo.path = icon;
-  lutIconInfo.name = icon.stem().string();
+  lutIconInfo.name = lutName;
   mLutsPaths.push_back(lutIconInfo);
   mLutServiceListener->onLutAdded(lutIconInfo);
 }

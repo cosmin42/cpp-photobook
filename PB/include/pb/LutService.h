@@ -40,7 +40,7 @@ public:
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 
-  void onLutIconsPreprocessingFinished(Path icon) override;
+  void onLutIconsPreprocessingFinished(std::string lutName, Path icon) override;
 
   std::vector<LutIconInfo> listLuts() const;
 
