@@ -8,6 +8,7 @@ import "StagedImagesListener.idl";
 import "ImageMonitorListener.idl";
 import "CollageTemplateInfo.idl";
 import "PaperSettings.idl";
+import "LutIconInfo.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -53,7 +54,7 @@ runtimeclass PhotobookWin
   void ExportJPGAlbum(String name, String path);
 
   IVector<CollageTemplateInfo> CollageTemplatesThumbnailsList();
-  void            MakeCollage(IVector<UInt32> images, UInt32 collageName);
+  void MakeCollage(IVector<UInt32> images, UInt32 collageName);
 
   static VirtualImagePtr copyImage(VirtualImagePtr image);
 

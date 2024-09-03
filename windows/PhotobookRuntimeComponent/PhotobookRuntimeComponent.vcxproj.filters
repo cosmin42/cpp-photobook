@@ -30,6 +30,7 @@
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
     <ClCompile Include="StagedImagesListener.cpp" />
     <ClCompile Include="CollageTemplateInfo.cpp" />
+    <ClCompile Include="LutIconInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="VICollectionStatefulIterator.h" />
     <ClInclude Include="StagedImagesListener.h" />
     <ClInclude Include="CollageTemplateInfo.h" />
+    <ClInclude Include="LutIconInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotobookWin.idl" />
@@ -64,6 +66,7 @@
     <Midl Include="ImageMonitorListener.idl" />
     <Midl Include="Int32Pair.idl" />
     <Midl Include="CollageTemplateInfo.idl" />
+    <Midl Include="LutIconInfo.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />

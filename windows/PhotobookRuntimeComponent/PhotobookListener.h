@@ -1,6 +1,9 @@
 #pragma once
 #include <pb/PhotobookListener.h>
 
+#include "LutIconInfo.g.h"
+#include "LutIconInfo.h"
+
 #include "PBError.h"
 #include "VirtualImagePtr.h"
 
@@ -13,6 +16,11 @@ public:
       PhotobookRuntimeComponent::PhotobookListener const &managedListener)
       : mManagedListener(managedListener)
   {
+  }
+
+  void onLutAdded(PB::LutIconInfo iconInfo) override
+  {
+    mManagedListener.OnLutAdded(winrt::make<LutIconInfo>(iconInfo));
   }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }

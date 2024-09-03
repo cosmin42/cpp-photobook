@@ -6,6 +6,8 @@
 #include "CollageTemplateInfo.h"
 #include "ImageViews.h"
 #include "Int32Pair.g.h"
+#include "LutIconInfo.g.h"
+#include "LutIconInfo.h"
 #include "PBError.h"
 #include "ProgressInfo.h"
 #include "Settings.h"
@@ -26,6 +28,8 @@ public:
       : mManagedListener(managedListener)
   {
   }
+
+  void onLutAdded(PB::LutIconInfo iconInfo) {}
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onProjectRenamed() override { mManagedListener.OnProjectRenamed(); }

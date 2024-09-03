@@ -1,0 +1,10 @@
+
+namespace PhotobookRuntimeComponent {
+
+runtimeclass LutIconInfo
+{
+  String Name;
+  String Path;
+}
+
+} // namespace PhotobookRuntimeComponent

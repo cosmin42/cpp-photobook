@@ -1248,6 +1248,11 @@ namespace PhotobookNet
         {
         }
 
+        public void OnLutAdded(LutIconInfo lutIconInfo)
+        {
+            
+        }
+
         public void Post(Functor f)
         {
             PhotobookSingletonWrapper.Inst().Post(() =>

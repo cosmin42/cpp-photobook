@@ -1,6 +1,7 @@
 import "PBError.idl";
 import "VirtualImagePtr.idl";
 import "ProgressInfo.idl";
+import "LutIconInfo.idl";
 
 namespace PhotobookRuntimeComponent {
 
@@ -33,6 +34,8 @@ interface PhotobookListener
   void OnCollageCreated(UInt32 index, VirtualImagePtr newImage);
 
   void OnImageMapped(Guid imageId, VirtualImagePtr image);
+
+  void OnLutAdded(LutIconInfo lutIconInfo);
 
   void Post(Functor f);
 };

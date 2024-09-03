@@ -1,6 +1,7 @@
 #pragma once
 
 #include <pb/ImageToPaperTask.h>
+#include <pb/LutIconInfo.h>
 #include <pb/ProgressManager.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Util.h>
@@ -38,6 +39,8 @@ public:
                              std::shared_ptr<VirtualImage> image) = 0;
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
+
+  virtual void onLutAdded(LutIconInfo iconInfo) = 0;
 };
 
 } // namespace PB
