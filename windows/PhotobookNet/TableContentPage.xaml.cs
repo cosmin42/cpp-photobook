@@ -84,6 +84,7 @@ namespace PhotobookNet
             mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();
 
             CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
+            LutIconsGridView.ItemsSource = PhotobookSingletonWrapper.Inst().lutIconInfos;
 
             var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
             PreviewAppBarButton.IsEnabled = collageButtonsEnabled;
@@ -1250,7 +1251,7 @@ namespace PhotobookNet
 
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
-            
+            PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
         }
 
         public void Post(Functor f)
