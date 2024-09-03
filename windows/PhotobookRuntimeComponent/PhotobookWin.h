@@ -29,7 +29,10 @@ public:
   {
   }
 
-  void onLutAdded(PB::LutIconInfo iconInfo) {}
+  void onLutAdded(PB::LutIconInfo iconInfo)
+  {
+    mManagedListener.OnLutAdded(winrt::make<LutIconInfo>(iconInfo));
+  }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onProjectRenamed() override { mManagedListener.OnProjectRenamed(); }

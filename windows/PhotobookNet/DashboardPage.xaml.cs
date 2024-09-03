@@ -412,7 +412,7 @@ namespace PhotobookNet
 
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
-            // ILE
+            PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
         }
 
         public void Post(Functor f)

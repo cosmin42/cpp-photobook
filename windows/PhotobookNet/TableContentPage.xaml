@@ -365,7 +365,37 @@
                                     Padding="16,8"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                <Grid></Grid>
+                                <Grid>
+                                    <controls:GridView x:Name="LutIconsGridView"
+                                                       IsItemClickEnabled="True"
+                                                       SelectionMode="Single">
+                                        <controls:GridView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsWrapGrid Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </controls:GridView.ItemsPanel>
+                                        <controls:GridView.ItemTemplate>
+                                            <DataTemplate x:DataType="underlying:LutIconInfo">
+                                                <!--TODO: Setup this ration based on the page size-->
+                                                <Border Height="180"
+                                                        BorderBrush="{StaticResource BorderColor}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="9*" />
+                                                            <RowDefinition Height="2*" />
+                                                        </Grid.RowDefinitions>
+                                                        <Image Grid.Row="0"
+                                                               Source="{x:Bind Path}" />
+                                                        <TextBlock Grid.Row="1"
+                                                                   HorizontalAlignment="Center"
+                                                                   Foreground="{StaticResource MainFontColor}"
+                                                                   Text="{x:Bind Name}" />
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </controls:GridView.ItemTemplate>
+                                    </controls:GridView>
+                                </Grid>
                             </Border>
                         </controls:TabViewItem>
                     </controls:TabView.TabItems>

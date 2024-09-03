@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using PhotobookRuntimeComponent;
@@ -14,6 +15,7 @@ namespace PhotobookNet
         private Microsoft.UI.Dispatching.DispatcherQueue mMainDispatcherQueue;
         private Action mOnWindowClosed = null;
         private Action<string> mChangeTitleHander = null;
+        public ObservableCollection<LutIconInfo> lutIconInfos { get; set; } = new();
 
         private nint mWindowHandle;
 

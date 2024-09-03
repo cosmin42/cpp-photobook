@@ -57,6 +57,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
   mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
 
+  auto lutServiceListener = dynamic_cast<PB::LutServiceListener *>(this);
+  PBDev::basicAssert(lutServiceListener != nullptr);
+  mLutService->configureLutServiceListener(lutServiceListener);
+
   auto collageMakerListener = dynamic_cast<PB::CollageMakerListener *>(this);
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
@@ -443,7 +447,10 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }
 
-void Photobook::onLutAdded(LutIconInfo iconInfo) {}
+void Photobook::onLutAdded(LutIconInfo iconInfo)
+{
+  post([this, iconInfo{iconInfo}]() { mParent->onLutAdded(iconInfo); });
+}
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
 
