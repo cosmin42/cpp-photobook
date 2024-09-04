@@ -81,6 +81,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/CollageTemplateInfo.h
     include/pb/CollageManager.h
     include/pb/CollageThumbnailsMakerJob.h
+    include/pb/DatabaseService.h
     include/pb/DataManager.h
     include/pb/DirectoryInspectionJob.h
     include/pb/DirectoryInspectionService.h
@@ -157,6 +158,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/CollageThumbnailsMakerJob.cpp
     src/CollageManager.cpp
     src/Config.cpp
+    src/DatabaseService.cpp
     src/DataManager.cpp
     src/DirectoryInspectionJob.cpp
     src/DirectoryInspectionService.cpp
