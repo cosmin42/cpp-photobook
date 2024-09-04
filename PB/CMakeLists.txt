@@ -86,6 +86,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/DirectoryInspectionJob.h
     include/pb/DirectoryInspectionService.h
     include/pb/DrawingService.h
+    include/pb/DurableHashService.h
     include/pb/Enums.h
     include/pb/export/ExportLogic.h
     include/pb/export/Html.h
@@ -163,6 +164,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DirectoryInspectionJob.cpp
     src/DirectoryInspectionService.cpp
     src/DrawingService.cpp
+    src/DurableHashService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
     src/GPUAcceleratedImageOperations.cpp

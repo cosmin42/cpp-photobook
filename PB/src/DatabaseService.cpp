@@ -31,11 +31,21 @@ void DatabaseService::connect()
   }
 }
 
-std::unordered_map<boost::uuids::uuid, std::string>
+void DatabaseService::maybeCreateTables()
+{
+  // TODO: Centralize this somehow from the configuration
+  maybeCreateTable<2>(OneConfig::DATABASE_PROJECTS_DATA);
+  maybeCreateTable<3>(OneConfig::DATABASE_CACHE_DATA);
+}
+
+std::unordered_map<boost::uuids::uuid, std::string,
+                   boost::hash<boost::uuids::uuid>>
 DatabaseService::deserializeProjectMetadata(
     std::vector<std::vector<std::string>> raw)
 {
-  std::unordered_map<boost::uuids::uuid, std::string> map;
+  std::unordered_map<boost::uuids::uuid, std::string,
+                     boost::hash<boost::uuids::uuid>>
+      map;
 
   for (auto const &row : raw) {
     PBDev::basicAssert(row.size() == 3);

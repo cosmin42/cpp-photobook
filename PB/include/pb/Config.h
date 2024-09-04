@@ -71,7 +71,17 @@ static constexpr std::array<const char *, 3> DATABASE_CACHE_HEADER = {
 static constexpr std::array<const char *, 2> DATABASE_PROJECT_METADATA_HEADER =
     {"uuid", "path"};
 
+static constexpr std::pair<const char *,
+                           decltype(DATABASE_PROJECT_METADATA_HEADER)>
+    DATABASE_PROJECTS_DATA = {DATABASE_PROJECT_METADATA_TABLE,
+                              DATABASE_PROJECT_METADATA_HEADER};
+
+static constexpr std::pair<const char *, decltype(DATABASE_CACHE_HEADER)>
+    DATABASE_CACHE_DATA = {DATABASE_CACHE_TABLE, DATABASE_CACHE_HEADER};
+
 static constexpr const char *DATABASE_NAME = "database.db";
+
+static constexpr unsigned MAX_HASH_CONFLICTS = 200;
 
 } // namespace OneConfig
 
