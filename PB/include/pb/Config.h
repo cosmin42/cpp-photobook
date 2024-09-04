@@ -62,6 +62,17 @@ const std::unordered_map<std::string, PB::AspectRatio> ASPECT_RATIO_PRESET = {
 
 static constexpr unsigned NUMBER_OF_COLLAGE_NUMBERED_IMAGES = 10;
 
+static constexpr const char *DATABASE_CACHE_TABLE = "CACHE_REGISTER";
+static constexpr const char *DATABASE_PROJECT_METADATA_TABLE =
+    "PROJECTS_REGISTER";
+
+static constexpr std::array<const char *, 3> DATABASE_CACHE_HEADER = {
+    "uuid", "path", "cache_path"};
+static constexpr std::array<const char *, 2> DATABASE_PROJECT_METADATA_HEADER =
+    {"uuid", "path"};
+
+static constexpr const char *DATABASE_NAME = "database.db";
+
 } // namespace OneConfig
 
 } // namespace PB
