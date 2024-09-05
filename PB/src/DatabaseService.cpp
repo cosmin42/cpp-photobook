@@ -15,7 +15,7 @@ void DatabaseService::configurePlatformInfo(
 }
 
 void DatabaseService::configureThreadScheduler(
-    std::shared_ptr<PBDev::ThreadScheduler> threadScheduler)
+    PBDev::ThreadScheduler *threadScheduler)
 {
   mThreadScheduler = threadScheduler;
 }
@@ -38,14 +38,11 @@ void DatabaseService::maybeCreateTables()
   maybeCreateTable<3>(OneConfig::DATABASE_CACHE_DATA);
 }
 
-std::unordered_map<boost::uuids::uuid, std::string,
-                   boost::hash<boost::uuids::uuid>>
+boost::bimaps::bimap<boost::uuids::uuid, std::string>
 DatabaseService::deserializeProjectMetadata(
     std::vector<std::vector<std::string>> raw)
 {
-  std::unordered_map<boost::uuids::uuid, std::string,
-                     boost::hash<boost::uuids::uuid>>
-      map;
+  boost::bimaps::bimap<boost::uuids::uuid, std::string> map;
 
   for (auto const &row : raw) {
     PBDev::basicAssert(row.size() == 3);
@@ -60,7 +57,7 @@ DatabaseService::deserializeProjectMetadata(
         path = row[i];
       }
     }
-    map[uuid] = path;
+    map.insert({uuid, path});
   }
 
   return map;

@@ -16,6 +16,12 @@ void DurableHashService::configureDatabaseService(
   mDatabaseService = databaseService;
 }
 
+void DurableHashService::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+}
+
 void DurableHashService::initialize() { mDatabaseService->maybeCreateTables(); }
 
 bool DurableHashService::containsHash(std::string key)
@@ -50,6 +56,39 @@ std::string DurableHashService::getHash(PBDev::ProjectId projectId, Path path)
   PBDev::basicAssert(cacheEntry.left.find(path) != cacheEntry.left.end());
 
   return cacheEntry.left.at(path);
+}
+
+boost::bimaps::bimap<Path, std::string>
+DurableHashService::hashSet(PBDev::ProjectId projectId)
+{
+  auto rawResults = mDatabaseService->selectData(
+      OneConfig::DATABASE_CACHE_TABLE,
+      "uuid='" + boost::uuids::to_string(*projectId) + "'",
+      OneConfig::DATABASE_CACHE_HEADER.size());
+
+  boost::bimaps::bimap<Path, std::string> map;
+  for (auto const &row : rawResults) {
+    PBDev::basicAssert(row.size() == 3);
+    Path        path;
+    std::string hash;
+    for (int i = 0; i < row.size(); i++) {
+      if (i == 1) {
+        path = Path(row[i]);
+      }
+      else if (i == 2) {
+        hash = row[i];
+      }
+    }
+    map.insert({path, hash});
+  }
+  return map;
+}
+
+Path DurableHashService::assemblePath(PBDev::ProjectId id, std::string hash)
+{
+  Path path = mPlatformInfo->localStatePath / boost::uuids::to_string(*id) /
+              (hash + ".jpg");
+  return path;
 }
 
 std::string DurableHashService::saltHash(std::string hash)

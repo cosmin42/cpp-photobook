@@ -1,5 +1,7 @@
 #pragma once
 
+#include <pb/DatabaseService.h>
+#include <pb/DurableHashService.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/persistence/FilePersistence.h>
 #include <pb/persistence/SQLPersistence.h>
@@ -42,6 +44,14 @@ public:
   void configure(PersistenceProjectListener *);
   void configure(PersistenceMetadataListener *);
 
+  void
+  configureDatabaseService(std::shared_ptr<DatabaseService> databaseService);
+  void configureDurableHashService(
+      std::shared_ptr<DurableHashService> durableHashService);
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+
+  void start();
+
   void persistProject(Path localInstallFolder, std::string name, Json json,
                       std::string thumbnailsDirectoryName);
 
@@ -53,9 +63,6 @@ public:
   void deleteMetadata(std::string id);
   void deleteProject(Path projectFile, std::string thumbnailsDirectoryName,
                      boost::uuids::uuid id);
-
-  std::string hash(Path path, boost::uuids::uuid id);
-  boost::bimaps::bimap<Path, std::string> hashSet(boost::uuids::uuid id);
 
   virtual void onSQLiteMetadataRead(
       std::unordered_map<std::string, std::string> map) override;
@@ -69,8 +76,12 @@ private:
 
   PersistenceProjectListener  *mPersistenceProjectListener = nullptr;
   PersistenceMetadataListener *mPersistenceMetadataListener = nullptr;
-  SQLitePersistence            mCentral;
-  Json                         mProjectCache;
-  Path                         mLocalStatePath;
+
+  std::shared_ptr<DatabaseService>    mDatabaseService = nullptr;
+  std::shared_ptr<DurableHashService> mDurableHashService = nullptr;
+
+  // SQLitePersistence mCentral;
+  Json mProjectCache;
+  Path mLocalStatePath;
 };
 } // namespace PB

@@ -9,10 +9,10 @@ namespace PB {
 void Persistence::configure(Path localStatePath)
 {
   mLocalStatePath = localStatePath;
-  mCentral.configure(localStatePath);
-  mCentral.configureSQLiteListener((SQLitePersistenceListener *)this);
-  auto maybeError = mCentral.connect();
-  PBDev::basicAssert(!maybeError.has_value());
+  // mCentral.configure(localStatePath);
+  // mCentral.configureSQLiteListener((SQLitePersistenceListener *)this);
+  // auto maybeError = mCentral.connect();
+  // PBDev::basicAssert(!maybeError.has_value());
 }
 
 void Persistence::configure(PersistenceProjectListener *listener)
@@ -24,6 +24,26 @@ void Persistence::configure(PersistenceMetadataListener *listener)
 {
   mPersistenceMetadataListener = listener;
 }
+
+void Persistence::configureDatabaseService(
+    std::shared_ptr<DatabaseService> databaseService)
+{
+  mDatabaseService = databaseService;
+}
+
+void Persistence::configureDurableHashService(
+    std::shared_ptr<DurableHashService> durableHashService)
+{
+  mDurableHashService = durableHashService;
+}
+
+void Persistence::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mDatabaseService->configurePlatformInfo(platformInfo);
+}
+
+void Persistence::start() { mDatabaseService->connect(); }
 
 Json Persistence::serialization(
     Project projectDetails,
@@ -103,10 +123,24 @@ void Persistence::persistMetadata(boost::uuids::uuid const &id,
   std::pair<std::string, std::string> entry = {boost::uuids::to_string(id),
                                                name};
 
-  mCentral.write(entry);
+  // mCentral.write(entry);
+
+  mDatabaseService->insert<2>(
+      OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+      OneConfig::DATABASE_PROJECT_METADATA_HEADER,
+      {boost::uuids::to_string(id).c_str(), name.c_str()});
 }
 
-void Persistence::recallMetadata() { mCentral.read(); }
+void Persistence::recallMetadata()
+{
+  auto rawData =
+      mDatabaseService->selectData(OneConfig::DATABASE_CACHE_TABLE, "",
+                                   OneConfig::DATABASE_CACHE_HEADER.size());
+
+  auto projectMetadata = DatabaseService::deserializeProjectMetadata(rawData);
+  mPersistenceMetadataListener->onMetadataRead(projectMetadata);
+  // mCentral.read();
+}
 
 void Persistence::recallProject(Path projectPath)
 {
@@ -149,8 +183,8 @@ void Persistence::recallProject(Path projectPath)
     }
     std::variant<std::vector<Path>, PBDev::Error> importedFoldersOrError;
 #ifndef _CLANG_UML_
-    importedFoldersOrError = PB::Text::deserializeSpecial(
-        jsonSerialization, "row-paths");
+    importedFoldersOrError =
+        PB::Text::deserializeSpecial(jsonSerialization, "row-paths");
 
     if (std::holds_alternative<PBDev::Error>(importedFoldersOrError) &&
         mPersistenceProjectListener) {
@@ -176,29 +210,23 @@ void Persistence::recallProject(Path projectPath)
   });
 }
 
-void Persistence::deleteMetadata(std::string id) { mCentral.deleteEntry(id); }
+void Persistence::deleteMetadata(std::string id)
+{
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid = '" + std::string(id) + "'");
+}
 
 void Persistence::deleteProject(Path               projectFile,
                                 std::string        thumbnailsDirectoryName,
                                 boost::uuids::uuid id)
 {
-  mCentral.deleteEntry(projectFile.stem().string());
-  mCentral.deleteHash(boost::uuids::to_string(id));
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid = '" + projectFile.stem().string() + "'");
+
   auto projectName = projectFile.stem().string();
   auto thumbnailsPath = mLocalStatePath / "th" / thumbnailsDirectoryName;
   std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
-}
-
-std::string Persistence::hash(Path path, boost::uuids::uuid id)
-{
-  return mCentral.hash(path, boost::uuids::to_string(id));
-}
-
-boost::bimaps::bimap<Path, std::string>
-Persistence::hashSet(boost::uuids::uuid id)
-{
-  return mCentral.hashSet(boost::uuids::to_string(id));
 }
 
 void Persistence::onSQLiteMetadataRead(

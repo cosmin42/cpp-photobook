@@ -22,7 +22,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mLutService(std::make_shared<LutService>()),
       mDirectoryInspectionService(
           std::make_shared<DirectoryInspectionService>()),
-      mOGLEngine(std::make_shared<OGLEngine>())
+      mOGLEngine(std::make_shared<OGLEngine>()),
+      mDatabaseService(std::make_shared<DatabaseService>()),
+      mDurableHashService(std::make_shared<DurableHashService>())
 {
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
   ImageFactory::inst().configurePersistenceService(mPersistenceService);
@@ -72,6 +74,11 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mPersistenceService->configure(localStatePath);
 
   mProgressManager->configureScheduler(threadScheduler);
+
+  mDatabaseService->configurePlatformInfo(mPlatformInfo);
+  mDatabaseService->configureThreadScheduler(threadScheduler);
+
+  mDurableHashService->configureDatabaseService(mDatabaseService);
 
   mTaskCruncher->configureProgressManager(mProgressManager);
 
@@ -270,7 +277,12 @@ void Photobook::onProjectRead(
   auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
 
   for (auto &unprocessedImage : unprocessedImages) {
-    auto imageHash = mPersistenceService->hash(unprocessedImage.root);
+
+    auto projectId = PBDev::ProjectId(project()->currentProjectUUID());
+    auto hash = mDurableHashService->getHash(projectId, unprocessedImage.root);
+    auto imageHash = mDurableHashService->assemblePath(projectId, hash);
+
+    // auto imageHash = mPersistenceService->hash(unprocessedImage.root);
     mImportLogic.processImages(
         boost::uuids::to_string(project()->currentProjectUUID()),
         unprocessedImage, imageHash.stem().string());
@@ -325,7 +337,11 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   mParent->onMappingFinished(root);
 
   RowProcessingData rowProcessingData = {root, keyAndPaths};
-  auto imageHash = mPersistenceService->hash(rowProcessingData.root);
+
+  auto projectId = PBDev::ProjectId(project()->currentProjectUUID());
+  auto hash = mDurableHashService->getHash(projectId, rowProcessingData.root);
+  auto imageHash = mDurableHashService->assemblePath(projectId, hash);
+
   mImportLogic.processImages(
       boost::uuids::to_string(project()->currentProjectUUID()),
       rowProcessingData, imageHash.stem().string());
@@ -411,7 +427,9 @@ void Photobook::onCollageThumbnailsMakerError() {}
 
 void Photobook::onCollageCreated(unsigned index, Path imagePath)
 {
-  auto imageHash = mPersistenceService->hash(imagePath);
+  auto projectId = PBDev::ProjectId(project()->currentProjectUUID());
+  auto hash = mDurableHashService->getHash(projectId, imagePath);
+  auto imageHash = mDurableHashService->assemblePath(projectId, hash);
 
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),

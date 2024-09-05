@@ -23,6 +23,12 @@ void ImageFactory::configurePersistenceService(
   mPersistenceService = persistenceService;
 }
 
+void ImageFactory::configureDurableHashService(
+    std::shared_ptr<DurableHashService> durableHashService)
+{
+  mDurableHashService = durableHashService;
+}
+
 std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 {
   auto regularImage =
@@ -60,7 +66,11 @@ std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
     return createRegularImage(path);
   }
   else if (std::filesystem::is_directory(path)) {
-    auto hashPath = mPersistenceService->hash(path);
+    auto projectId =
+        PBDev::ProjectId(mPersistenceService->currentProjectUUID());
+    auto hash = mDurableHashService->getHash(projectId, path);
+    auto hashPath = mDurableHashService->assemblePath(projectId, hash);
+    //auto hashPath = mPersistenceService->hash(path);
     return createTextImage(path, hashPath);
   }
   else {

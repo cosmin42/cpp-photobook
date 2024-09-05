@@ -47,8 +47,9 @@ public:
       std::vector<Path>                                       &roots) override;
   void onProjectPersistenceError(PBDev::Error) override;
 
-  void onMetadataRead(
-      boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) override;
+  void onMetadataRead(boost::bimaps::bimap<boost::uuids::uuid, std::string>
+                          metadata) override;
+
   void onMetadataPersistenceError(PBDev::Error) override;
 
   void onJsonRead(Json json) override;
@@ -78,7 +79,7 @@ public:
                                                                 &unstagedImages,
                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
                std::vector<Path> const                          &roots);
-  Path hash(Path path);
+  //Path hash(Path path);
 
 private:
   std::string name(boost::uuids::uuid uuid);
@@ -86,14 +87,15 @@ private:
 
   Path formPath(std::string hash);
 
-  PersistenceServiceListener                           *mListener = nullptr;
-  Path                                                  mLocalStatePath;
-  Persistence                                           mPersistence;
-  std::shared_ptr<Project>                              mProject = nullptr;
-  std::optional<boost::uuids::uuid>                     mOpenedUUID;
-  boost::bimaps::bimap<boost::uuids::uuid, std::string> mMetadata;
-  boost::bimaps::bimap<Path, Path>                      mCurrentHashes;
-  Json                                                  mJson;
-  std::shared_ptr<PlatformInfo>                         mPlatformInfo = nullptr;
+  PersistenceServiceListener       *mListener = nullptr;
+  Path                              mLocalStatePath;
+  Persistence                       mPersistence;
+  std::shared_ptr<Project>          mProject = nullptr;
+  std::optional<boost::uuids::uuid> mOpenedUUID;
+  boost::bimaps::bimap<boost::uuids::uuid, std::string>
+                                   mMetadata;
+  boost::bimaps::bimap<Path, Path> mCurrentHashes;
+  Json                             mJson;
+  std::shared_ptr<PlatformInfo>    mPlatformInfo = nullptr;
 };
 } // namespace PB

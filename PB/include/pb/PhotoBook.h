@@ -9,7 +9,9 @@
 #include <pb/CollageManager.h>
 #include <pb/Command.h>
 #include <pb/DataManager.h>
+#include <pb/DatabaseService.h>
 #include <pb/DirectoryInspectionService.h>
+#include <pb/DurableHashService.h>
 #include <pb/ImageToPaperService.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/LutService.h>
@@ -138,6 +140,8 @@ private:
   std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
-  std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
+  std::shared_ptr<OGLEngine>          mOGLEngine = nullptr;
+  std::shared_ptr<DatabaseService>    mDatabaseService = nullptr;
+  std::shared_ptr<DurableHashService> mDurableHashService = nullptr;
 };
 } // namespace PB

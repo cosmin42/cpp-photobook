@@ -34,23 +34,28 @@ std::shared_ptr<Project> PersistenceService::currentProject()
 
 void PersistenceService::recallProject(boost::uuids::uuid const uuid)
 {
+  /*
   auto hashSet = mPersistence.hashSet(uuid);
+  PBDev::basicAssert(hashSet.size() == 1);
   for (auto it : hashSet) {
     mCurrentHashes.insert({it.left, formPath(it.right)});
   }
   mPersistence.recallProject(name(uuid));
+  */
 }
 
+/*
 Path PersistenceService::hash(Path path)
 {
   if (mCurrentHashes.left.find(path) != mCurrentHashes.left.end()) {
     return mCurrentHashes.left.at(path);
   }
-
+  
   auto hash = mPersistence.hash(path, currentProjectUUID());
   mCurrentHashes.insert({path, formPath(hash)});
   return mCurrentHashes.left.at(path);
 }
+*/
 
 void PersistenceService::recallProject(std::string name)
 {
@@ -84,7 +89,8 @@ void PersistenceService::newProject(std::string              name,
                                     std::shared_ptr<Project> project)
 {
   mProject = project;
-  mMetadata.insert({boost::uuids::random_generator()(), name});
+  auto projectId = boost::uuids::random_generator()();
+  mMetadata.insert({projectId, name});
   mOpenedUUID = mMetadata.right.at(name);
   auto thumbnailsDirectoryName =
       boost::uuids::to_string(mMetadata.right.at(name));

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pb/DurableHashService.h>
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
 #include <pb/persistence/PersistenceService.h>
@@ -14,6 +15,8 @@ public:
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configurePersistenceService(
       std::shared_ptr<PB::PersistenceService> persistenceService);
+  void configureDurableHashService(
+	  std::shared_ptr<DurableHashService> durableHashService);
 
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
@@ -52,5 +55,6 @@ private:
   std::shared_ptr<PlatformInfo>           mPlatformInfo = nullptr;
   std::shared_ptr<PB::PersistenceService> mPersistenceService = nullptr;
   std::shared_ptr<VirtualImage>           mDefaultRegularImage = nullptr;
+  std::shared_ptr<DurableHashService>     mDurableHashService = nullptr;
 };
 } // namespace PB
