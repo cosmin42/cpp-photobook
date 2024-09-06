@@ -1,29 +1,14 @@
 #include <pb/project/ProjectMetadata.h>
 
 namespace PB {
-ProjectMetadata::ProjectMetadata(std::string uuid, std::string path)
-{
-  try {
-    boost::uuids::string_generator gen;
-    mUUID = gen(uuid);
-  }
-  catch (...) {
-    PBDev::basicAssert(false);
-  }
-  mProjectFilePath = path;
-}
 
 std::pair<boost::uuids::uuid, Path> ProjectMetadata::data() const
 {
-  return {mUUID, mProjectFilePath};
+  return {uuid, projectFilePath};
 }
-
-Path ProjectMetadata::projectFile() const { return mProjectFilePath; }
-
-boost::uuids::uuid ProjectMetadata::uuid() const { return mUUID; }
 
 bool ProjectMetadata::operator==(ProjectMetadata const &other) const
 {
-  return mUUID == other.mUUID && mProjectFilePath == other.mProjectFilePath;
+  return uuid == other.uuid && projectFilePath == other.projectFilePath;
 }
 } // namespace PB
