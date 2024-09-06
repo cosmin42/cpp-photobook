@@ -71,7 +71,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
 
-  mPersistenceService->configure(localStatePath);
+  mPersistenceService->configurePlatformInfo(mPlatformInfo);
 
   mProgressManager->configureScheduler(threadScheduler);
 

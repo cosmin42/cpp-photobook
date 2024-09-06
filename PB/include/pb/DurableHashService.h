@@ -24,7 +24,11 @@ public:
 
   boost::bimaps::bimap<Path, std::string> hashSet(PBDev::ProjectId projectId);
 
-  Path assemblePath(PBDev::ProjectId id, std::string hash);
+  Path assemblePath(PBDev::ProjectId id, std::string hash,
+                    std::string extension = ".JPG");
+
+  Path assemblePathProjectIndependent(std::string hash,
+                                      std::string extension = ".JPG");
 
 private:
   static std::string computeHash(std::string key);

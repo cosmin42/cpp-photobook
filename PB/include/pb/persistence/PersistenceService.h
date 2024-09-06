@@ -21,8 +21,9 @@ public:
   PersistenceService(std::shared_ptr<PlatformInfo> platformInfo);
   ~PersistenceService() = default;
 
-  void configure(Path localStatePath);
   void configure(PersistenceServiceListener *listener);
+
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   std::shared_ptr<Project> currentProject();
 
@@ -88,7 +89,6 @@ private:
   Path formPath(std::string hash);
 
   PersistenceServiceListener       *mListener = nullptr;
-  Path                              mLocalStatePath;
   Persistence                       mPersistence;
   std::shared_ptr<Project>          mProject = nullptr;
   std::optional<boost::uuids::uuid> mOpenedUUID;

@@ -6,15 +6,6 @@
 
 namespace PB {
 
-void Persistence::configure(Path localStatePath)
-{
-  mLocalStatePath = localStatePath;
-  // mCentral.configure(localStatePath);
-  // mCentral.configureSQLiteListener((SQLitePersistenceListener *)this);
-  // auto maybeError = mCentral.connect();
-  // PBDev::basicAssert(!maybeError.has_value());
-}
-
 void Persistence::configure(PersistenceProjectListener *listener)
 {
   mPersistenceProjectListener = listener;
@@ -40,6 +31,7 @@ void Persistence::configureDurableHashService(
 void Persistence::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
+  mPlatformInfo = platformInfo;
   mDatabaseService->configurePlatformInfo(platformInfo);
 }
 
@@ -103,16 +95,14 @@ void Persistence::persistProject(Path localInstallFolder, Path filePath,
           mPersistenceProjectListener->onProjectPersistenceError(
               PBDev::Error() << ErrorCode::CorruptPersistenceFile);
         }
-        else {
-          mProjectCache = jsonSerialization;
-        }
       });
 }
 
 void Persistence::persistProject(Path localInstallFolder, std::string name,
                                  Json json, std::string thumbnailsDirectoryName)
 {
-  Path projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
+  Path projectPath =
+      mPlatformInfo->localStatePath / (name + OneConfig::BOOK_EXTENSION);
   persistProject(localInstallFolder, projectPath, json,
                  thumbnailsDirectoryName);
 }
@@ -193,8 +183,6 @@ void Persistence::recallProject(Path projectPath)
       return;
     }
 #endif
-
-    mProjectCache = jsonSerialization;
 #ifndef _CLANG_UML_
     if (mPersistenceProjectListener) {
       mPersistenceProjectListener->onJsonRead(jsonSerialization);
@@ -224,11 +212,11 @@ void Persistence::deleteProject(Path               projectFile,
                                "uuid = '" + projectFile.stem().string() + "'");
 
   auto projectName = projectFile.stem().string();
-  auto thumbnailsPath = mLocalStatePath / "th" / thumbnailsDirectoryName;
+  auto thumbnailsPath = mPlatformInfo->localStatePath / thumbnailsDirectoryName;
   std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
 }
-
+/*
 void Persistence::onSQLiteMetadataRead(
     std::unordered_map<std::string, std::string> map)
 {
@@ -248,6 +236,7 @@ void Persistence::onSQLiteMetadataError(PBDev::Error error)
 {
   mPersistenceMetadataListener->onMetadataPersistenceError(error);
 }
+*/
 
 std::optional<PBDev::Error>
 Persistence::createSupportDirectory(Path        path,

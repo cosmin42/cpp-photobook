@@ -16,15 +16,16 @@ PersistenceService::PersistenceService(
   mPersistence.configure(persistenceProjectListener);
 }
 
-void PersistenceService::configure(Path localStatePath)
-{
-  mLocalStatePath = localStatePath;
-  mPersistence.configure(localStatePath);
-}
-
 void PersistenceService::configure(PersistenceServiceListener *listener)
 {
   mListener = listener;
+}
+
+void PersistenceService::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+  mPersistence.configurePlatformInfo(platformInfo);
 }
 
 std::shared_ptr<Project> PersistenceService::currentProject()
@@ -50,7 +51,7 @@ Path PersistenceService::hash(Path path)
   if (mCurrentHashes.left.find(path) != mCurrentHashes.left.end()) {
     return mCurrentHashes.left.at(path);
   }
-  
+
   auto hash = mPersistence.hash(path, currentProjectUUID());
   mCurrentHashes.insert({path, formPath(hash)});
   return mCurrentHashes.left.at(path);
@@ -59,7 +60,8 @@ Path PersistenceService::hash(Path path)
 
 void PersistenceService::recallProject(std::string name)
 {
-  auto projectPath = mLocalStatePath / (name + OneConfig::BOOK_EXTENSION);
+  auto projectPath =
+      mPlatformInfo->localStatePath / (name + OneConfig::BOOK_EXTENSION);
 
   mPersistence.recallProject(projectPath);
 }
@@ -107,13 +109,13 @@ Path PersistenceService::formPath(std::string hash)
   auto id = currentProjectUUID();
   auto r = mMetadata.left.at(id);
 
-  return mPlatformInfo->localStatePath / "th" /
+  return mPlatformInfo->localStatePath /
          boost::uuids::to_string(currentProjectUUID()) / (hash + ".JPG");
 }
 
 Path PersistenceService::path(boost::uuids::uuid uuid)
 {
-  return mLocalStatePath /
+  return mPlatformInfo->localStatePath /
          (mMetadata.left.at(uuid) + OneConfig::BOOK_EXTENSION);
 }
 
@@ -175,9 +177,9 @@ PersistenceService::projectsList() const
 {
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
   for (auto const &it : mMetadata) {
-    projects.push_back(
-        {it.left, it.right,
-         mLocalStatePath / (it.right + OneConfig::BOOK_EXTENSION)});
+    projects.push_back({it.left, it.right,
+                        mPlatformInfo->localStatePath /
+                            (it.right + OneConfig::BOOK_EXTENSION)});
   }
   return projects;
 }
@@ -205,9 +207,9 @@ void PersistenceService::rename(std::string newName, std::string oldName)
     mPersistence.persistMetadata(uuid, newName);
 
     auto newProjectPath =
-        mLocalStatePath / (newName + OneConfig::BOOK_EXTENSION);
+        mPlatformInfo->localStatePath / (newName + OneConfig::BOOK_EXTENSION);
     auto oldProjectPath =
-        mLocalStatePath / (oldName + OneConfig::BOOK_EXTENSION);
+        mPlatformInfo->localStatePath / (oldName + OneConfig::BOOK_EXTENSION);
     std::filesystem::rename(oldProjectPath, newProjectPath);
 
     mListener->onMetadataUpdated();

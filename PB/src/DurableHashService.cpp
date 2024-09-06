@@ -84,10 +84,19 @@ DurableHashService::hashSet(PBDev::ProjectId projectId)
   return map;
 }
 
-Path DurableHashService::assemblePath(PBDev::ProjectId id, std::string hash)
+Path DurableHashService::assemblePath(PBDev::ProjectId id, std::string hash,
+                                      std::string extension)
 {
   Path path = mPlatformInfo->localStatePath / boost::uuids::to_string(*id) /
-              (hash + ".jpg");
+              (hash + extension);
+  return path;
+}
+
+Path DurableHashService::assemblePathProjectIndependent(std::string hash,
+                                                        std::string extension)
+{
+  Path path = mPlatformInfo->localStatePath / "project-independent" /
+              (hash + extension);
   return path;
 }
 
