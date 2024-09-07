@@ -6,9 +6,7 @@ using namespace PB;
 
 TEST(TestDrawingService, TestSvgToPng)
 {
-  CollageLibraryAssistant assistant(std::filesystem::current_path() /
-                                        Path("svg-templates"),
-                                    std::filesystem::current_path() / "res");
+  CollageLibraryAssistant assistant(std::filesystem::current_path() / "res");
 
   AspectRatio aspectRatio = {4, 3};
 
@@ -58,7 +56,7 @@ TEST(CollageManager, TestGenerateTemplatesImages)
   project->paperSettings.height = 1754;
   auto templatesPath =
       std::filesystem::current_path() / "test-generate-templates";
-  CollageManager manager(templatesPath, std::filesystem::current_path());
+  CollageManager manager;
 
   manager.generateTemplatesImages();
 

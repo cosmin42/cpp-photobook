@@ -9,7 +9,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <pb/LutIconInfo.h>
 #include <pb/PhotoBook.h>
+#include <pb/ProgressManager.h>
 
 void clearProjectCache();
 
@@ -52,9 +54,8 @@ public:
 
   MOCK_METHOD(void, onMappingStarted, (Path), (override));
   MOCK_METHOD(void, onMappingFinished, (Path), (override));
-  MOCK_METHOD(void, onMappingAborted, (Path), (override));
-
   MOCK_METHOD(void, onCollageThumbnailsCreated, (), (override));
+  MOCK_METHOD(void, onMappingAborted, (Path), (override));
 
   MOCK_METHOD(void, onImageUpdated, (Path, int, int), (override));
 
@@ -65,6 +66,10 @@ public:
   MOCK_METHOD(void, onImageMapped,
               (PBDev::ImageToPaperId, std::shared_ptr<PB::VirtualImage>),
               (override));
+
+  MOCK_METHOD(void, onProgressUpdate, (PB::ProgressStatus), (override));
+
+  MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
 };
 
 class TestPersistenceProjectListener final
