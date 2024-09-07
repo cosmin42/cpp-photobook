@@ -24,12 +24,6 @@ public:
     mTaskCruncher = taskCruncher;
   }
 
-  void configurePersistenceService(
-      std::shared_ptr<PersistenceService> persistenceService)
-  {
-    mPersistenceService = persistenceService;
-  }
-
   void configureProject(std::shared_ptr<Project> project)
   {
     mProject = project;
@@ -55,7 +49,6 @@ public:
 private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
   std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
   std::shared_ptr<Project>            mProject = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>

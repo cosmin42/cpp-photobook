@@ -12,10 +12,7 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct Settings : SettingsT<Settings> {
-  Settings(std::shared_ptr<PB::PersistenceService> persistenceService)
-      : mPersistenceService(persistenceService)
-  {
-  }
+  Settings() {}
   ~Settings() = default;
 
   void RecallProject(winrt::hstring projectId)
@@ -23,26 +20,30 @@ struct Settings : SettingsT<Settings> {
     auto               generator = boost::uuids::string_generator();
     boost::uuids::uuid parsedUuid = generator(winrt::to_string(projectId));
 
-    mPersistenceService->recallProject(parsedUuid);
+    // mPersistenceService->recallProject(parsedUuid);
   }
 
   void RecallProjectByName(winrt::hstring name)
   {
-    mPersistenceService->recallProject(winrt::to_string(name));
+    // mPersistenceService->recallProject(winrt::to_string(name));
   }
 
-  void RecallMetadata() { mPersistenceService->recallMetadata(); }
+  void RecallMetadata()
+  { /*     mPersistenceService->recallMetadata(); */
+  }
 
   winrt::hstring ProjectId(winrt::hstring name)
   {
-    auto uuid = mPersistenceService->currentProjectUUID();
+    // auto uuid = mPersistenceService->currentProjectUUID();
 
-    return winrt::to_hstring(boost::uuids::to_string(uuid));
+    // return winrt::to_hstring(boost::uuids::to_string(uuid));
+    return winrt::hstring();
   }
 
   bool HasUUID(winrt::hstring name)
   {
-    return mPersistenceService->hasUUID(winrt::to_string(name));
+    // return mPersistenceService->hasUUID(winrt::to_string(name));
+    return false;
   }
 
   // void newProject(String name, std::shared_ptr<Project> project);
@@ -52,31 +53,32 @@ struct Settings : SettingsT<Settings> {
     auto generator = boost::uuids::string_generator();
     auto parsedUuid = generator(winrt::to_string(projectId));
 
-    mPersistenceService->remove(parsedUuid);
+    // mPersistenceService->remove(parsedUuid);
   }
   void RemoveByPath(winrt::hstring path)
   {
-    mPersistenceService->remove(winrt::to_string(path));
+    // mPersistenceService->remove(winrt::to_string(path));
   }
 
-  void Clear() { mPersistenceService->clear(); }
+  void Clear() { /* mPersistenceService->clear();*/ }
 
   bool Contains(winrt::hstring name)
   {
-    return mPersistenceService->contains(winrt::to_string(name));
+    // return mPersistenceService->contains(winrt::to_string(name));
+    return false;
   }
 
   Windows::Foundation::Collections::IVector<winrt::hstring> ProjectsNames()
   {
     auto projectsNames =
         winrt::single_threaded_observable_vector<winrt::hstring>();
-
+    /*
     auto nativeProjectNames = mPersistenceService->projectsNames();
 
     for (auto projectName : nativeProjectNames) {
       projectsNames.Append(winrt::to_hstring(projectName));
     }
-
+    */
     return projectsNames;
   }
 
@@ -86,7 +88,7 @@ struct Settings : SettingsT<Settings> {
   {
     auto projectsList = winrt::single_threaded_observable_vector<
         PhotobookRuntimeComponent::ProjectMetadataEntry>();
-
+    /*
     auto projects = mPersistenceService->projectsList();
 
     for (auto &project : projects) {
@@ -95,13 +97,14 @@ struct Settings : SettingsT<Settings> {
           projectId, std::get<2>(project).string(), std::get<1>(project));
       projectsList.Append(entry);
     }
+    */
     return projectsList;
   }
 
   void Rename(winrt::hstring newName, winrt::hstring oldName)
   {
-    mPersistenceService->rename(winrt::to_string(newName),
-                                winrt::to_string(oldName));
+    // mPersistenceService->rename(winrt::to_string(newName),
+    //                             winrt::to_string(oldName));
   }
 
   void Save(winrt::hstring thumbnailsDirectoryName,
@@ -144,17 +147,22 @@ struct Settings : SettingsT<Settings> {
       nativeRoots.push_back(winrt::to_string(root.GetAt(i)));
     }
 
-    mPersistenceService->save(winrt::to_string(thumbnailsDirectoryName),
-                              nativeUnstagedImages, nativesStagedImages,
-                              nativeRoots);
+    // mPersistenceService->save(winrt::to_string(thumbnailsDirectoryName),
+    //                           nativeUnstagedImages, nativesStagedImages,
+    //                           nativeRoots);
   }
 
-  bool HasProjectOpen() { return mPersistenceService->hasProjectOpen(); }
+  bool HasProjectOpen()
+  {
+    // return mPersistenceService->hasProjectOpen();
+    return false;
+  }
 
   winrt::hstring CurrentProjectUUID()
   {
-    return winrt::to_hstring(
-        boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
+    // return winrt::to_hstring(
+    //     boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
+    return winrt::hstring();
   }
 
   bool IsSaved(Windows::Foundation::Collections::IVector<
@@ -196,19 +204,21 @@ struct Settings : SettingsT<Settings> {
       nativeRoots.push_back(winrt::to_string(roots.GetAt(i)));
     }
 
-    return mPersistenceService->isSaved(nativeUnstagedImages,
-                                        nativesStagedImages, nativeRoots);
+    // return mPersistenceService->isSaved(nativeUnstagedImages,
+    //                                     nativesStagedImages,
+    //                                     nativeRoots);
+    return false;
   }
 
   winrt::hstring Hash(winrt::hstring path) { return winrt::hstring(); }
 
   PhotobookRuntimeComponent::PaperSettings GetPaperSettings()
   {
-    return winrt::make<PaperSettings>(
-        mPersistenceService->currentProject()->paperSettings);
+    // return winrt::make<PaperSettings>(
+    //     mPersistenceService->currentProject()->paperSettings);
+    return nullptr;
   }
 
 private:
-  std::shared_ptr<PB::PersistenceService> mPersistenceService = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include <pb/ProjectManagementSystem.h>
 #include <pb/RuntimeUUID.h>
 #include <pb/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
@@ -29,11 +30,15 @@ public:
 
 class ExportLogic final : public ExportLogicListener {
 public:
-  void configure(std::shared_ptr<PB::Project>      project,
-                 std::shared_ptr<PB::PlatformInfo> platformInfo)
+  void configurePlatformInfo(std::shared_ptr<PB::PlatformInfo> platformInfo)
   {
-    mProject = project;
     mPlatformInfo = platformInfo;
+  }
+
+  void configureProjectManagementSystem(
+      std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
+  {
+    mProjectManagementSystem = projectManagementSystem;
   }
 
   void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
@@ -76,12 +81,13 @@ public:
   }
 
 private:
-  ExportListener                   *mListener;
-  std::shared_ptr<PB::Project>      mProject;
-  std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
+  ExportListener                          *mListener = nullptr;
+  std::shared_ptr<PB::PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
+  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
 
   std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
-  std::shared_ptr<TaskCruncher>              mTaskCruncher;
+
   std::unordered_map<PBDev::MapReducerTaskId, std::shared_ptr<MapReducer>,
                      boost::hash<PBDev::MapReducerTaskId>>
       mPendingTasks;

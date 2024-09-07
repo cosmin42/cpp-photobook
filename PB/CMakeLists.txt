@@ -130,6 +130,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/project/ProjectMetadata.h
     include/pb/project/Project.h
     include/pb/ProjectManagementSystem.h
+    include/pb/ProjectSerializerService.h
     include/pb/ProgressManager.h
     include/pb/RowProcessingData.h
     include/pb/RuntimeUUID.h
@@ -198,6 +199,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Project.cpp
     src/ProjectMetadata.cpp
     src/ProjectManagementSystem.cpp
+    src/ProjectSerializerService.cpp
     src/PersistenceService.cpp
     src/RegularImage.cpp
     src/RuntimeUUID.cpp

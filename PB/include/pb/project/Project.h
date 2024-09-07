@@ -11,16 +11,8 @@
 
 namespace PB {
 
-class Project final {
-public:
-  static std::string generateAlbumName(std::function<bool(std::string)>);
-
+struct Project {
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
-
-  ~Project() = default;
-
-private:
-  static std::vector<std::string> HAPPY_WORDS;
 };
 
 } // namespace PB

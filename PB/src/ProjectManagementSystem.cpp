@@ -1,5 +1,7 @@
 #include <pb/ProjectManagementSystem.h>
 
+#include <pb/Config.h>
+
 namespace PB {
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> ProjectManagementSystem::HAPPY_WORDS = {"Joyful",
@@ -50,8 +52,58 @@ std::string ProjectManagementSystem::newAlbumName()
   return name;
 }
 
+void ProjectManagementSystem::configureProjectManagementSystemListener(
+    ProjectManagementSystemListener *listener)
+{
+  mListener = listener;
+}
+
+void ProjectManagementSystem::configureDatabaseService(
+    std::shared_ptr<DatabaseService> databaseService)
+{
+  mDatabaseService = databaseService;
+}
+
+void ProjectManagementSystem::configurePlatformInfo(
+    std::shared_ptr<PlatformInfo> platformInfo)
+{
+  mPlatformInfo = platformInfo;
+}
+
+void ProjectManagementSystem::recallMetadata()
+{
+  auto metadata = mDatabaseService->selectData(
+      OneConfig::DATABASE_PROJECT_METADATA_TABLE, "",
+      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+  mProjectsMetadata = DatabaseService::deserializeProjectMetadata(metadata);
+  mListener->onProjectMetadataRecalled();
+}
+
+boost::bimaps::bimap<boost::uuids::uuid, std::string>
+ProjectManagementSystem::metadata() const
+{
+  return mProjectsMetadata;
+}
+
+std::shared_ptr<IdentifyableProject>
+ProjectManagementSystem::maybeLoadedProjectInfo() const
+{
+  return maybeLoadedProject;
+}
+
 bool ProjectManagementSystem::hasProjectName(std::string name) const
 {
   return mProjectsMetadata.right.find(name) != mProjectsMetadata.right.end();
+}
 
+void ProjectManagementSystem::deleteProject(std::string id)
+{
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid = '" + id + "'");
+
+  auto projectPath = mPlatformInfo->localStatePath / "projects" / id;
+  std::filesystem::remove(projectPath);
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid = '" + std::string(id) + "'");
+}
 } // namespace PB

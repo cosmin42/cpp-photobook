@@ -14,7 +14,7 @@ public:
   virtual void onProjectRenamed() = 0;
   virtual void onPersistenceError(PBDev::Error) = 0;
 };
-
+/*
 class PersistenceService final : public PersistenceMetadataListener,
                                  public PersistenceProjectListener {
 public:
@@ -31,7 +31,7 @@ public:
 
   void recallProject(std::string name);
 
-  void recallMetadata();
+  //void recallMetadata();
 
   boost::uuids::uuid uuid(std::string name);
 
@@ -89,7 +89,7 @@ private:
   Path formPath(std::string hash);
 
   PersistenceServiceListener       *mListener = nullptr;
-  Persistence                       mPersistence;
+  //Persistence                       mPersistence;
   std::shared_ptr<Project>          mProject = nullptr;
   std::optional<boost::uuids::uuid> mOpenedUUID;
   boost::bimaps::bimap<boost::uuids::uuid, std::string>
@@ -98,4 +98,5 @@ private:
   Json                             mJson;
   std::shared_ptr<PlatformInfo>    mPlatformInfo = nullptr;
 };
+*/
 } // namespace PB

@@ -26,7 +26,7 @@ public:
       boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata) = 0;
   virtual void onMetadataPersistenceError(PBDev::Error) = 0;
 };
-
+/*
 class Persistence final {
 public:
   static std::optional<PBDev::Error>
@@ -73,4 +73,5 @@ private:
   std::shared_ptr<DatabaseService>    mDatabaseService = nullptr;
   std::shared_ptr<DurableHashService> mDurableHashService = nullptr;
 };
+*/
 } // namespace PB

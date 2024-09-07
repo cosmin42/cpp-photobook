@@ -15,6 +15,7 @@ namespace PB {
 struct ProjectMetadata {
   Path               projectFilePath;
   boost::uuids::uuid uuid;
+  std::string        name;
 
   std::pair<boost::uuids::uuid, Path> data() const;
 

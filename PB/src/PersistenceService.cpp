@@ -1,6 +1,7 @@
 #include <pb/persistence/PersistenceService.h>
 
 namespace PB {
+/*
 PersistenceService::PersistenceService(
     std::shared_ptr<PlatformInfo> platformInfo)
     : mPlatformInfo(platformInfo)
@@ -8,12 +9,12 @@ PersistenceService::PersistenceService(
   auto persistenceMetadataListener =
       dynamic_cast<PersistenceMetadataListener *>(this);
   PBDev::basicAssert(persistenceMetadataListener != nullptr);
-  mPersistence.configure(persistenceMetadataListener);
+  //mPersistence.configure(persistenceMetadataListener);
 
   auto persistenceProjectListener =
       dynamic_cast<PersistenceProjectListener *>(this);
   PBDev::basicAssert(persistenceProjectListener != nullptr);
-  mPersistence.configure(persistenceProjectListener);
+  //mPersistence.configure(persistenceProjectListener);
 }
 
 void PersistenceService::configure(PersistenceServiceListener *listener)
@@ -25,7 +26,7 @@ void PersistenceService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
   mPlatformInfo = platformInfo;
-  mPersistence.configurePlatformInfo(platformInfo);
+  //mPersistence.configurePlatformInfo(platformInfo);
 }
 
 std::shared_ptr<Project> PersistenceService::currentProject()
@@ -35,17 +36,17 @@ std::shared_ptr<Project> PersistenceService::currentProject()
 
 void PersistenceService::recallProject(boost::uuids::uuid const uuid)
 {
-  /*
+  
   auto hashSet = mPersistence.hashSet(uuid);
   PBDev::basicAssert(hashSet.size() == 1);
   for (auto it : hashSet) {
     mCurrentHashes.insert({it.left, formPath(it.right)});
   }
   mPersistence.recallProject(name(uuid));
-  */
+  
 }
 
-/*
+
 Path PersistenceService::hash(Path path)
 {
   if (mCurrentHashes.left.find(path) != mCurrentHashes.left.end()) {
@@ -56,17 +57,20 @@ Path PersistenceService::hash(Path path)
   mCurrentHashes.insert({path, formPath(hash)});
   return mCurrentHashes.left.at(path);
 }
-*/
+
 
 void PersistenceService::recallProject(std::string name)
 {
   auto projectPath =
       mPlatformInfo->localStatePath / (name + OneConfig::BOOK_EXTENSION);
 
-  mPersistence.recallProject(projectPath);
+  //mPersistence.recallProject(projectPath);
 }
 
-void PersistenceService::recallMetadata() { mPersistence.recallMetadata(); }
+//void PersistenceService::recallMetadata()
+//{
+//      mPersistence.recallMetadata();
+//}
 
 boost::uuids::uuid PersistenceService::uuid(std::string name)
 {
@@ -155,8 +159,8 @@ void PersistenceService::onJsonRead(Json json)
 
 void PersistenceService::remove(boost::uuids::uuid id)
 {
-  mPersistence.deleteMetadata(boost::uuids::to_string(id));
-  mPersistence.deleteProject(path(id), boost::uuids::to_string(id), id);
+  //mPersistence.deleteMetadata(boost::uuids::to_string(id));
+  //mPersistence.deleteProject(path(id), boost::uuids::to_string(id), id);
 }
 
 void PersistenceService::remove(Path path) {}
@@ -204,7 +208,7 @@ void PersistenceService::rename(std::string newName, std::string oldName)
     PBDev::basicAssert(success);
 
     auto &uuid = mMetadata.right.at(newName);
-    mPersistence.persistMetadata(uuid, newName);
+    //mPersistence.persistMetadata(uuid, newName);
 
     auto newProjectPath =
         mPlatformInfo->localStatePath / (newName + OneConfig::BOOK_EXTENSION);
@@ -233,13 +237,13 @@ bool PersistenceService::isSaved(
     std::vector<Path> const                          &roots)
 {
   auto project = *(mProject.get());
-  auto currentJson =
-      Persistence::serialization(project, unstagedImages, stagedImages, roots);
-  std::string currentJsonDump = currentJson.dump();
+  //auto currentJson =
+  //    Persistence::serialization(project, unstagedImages, stagedImages, roots);
+  //std::string currentJsonDump = currentJson.dump();
 
-  std::string diskJsonDump = mJson.dump();
+  //std::string diskJsonDump = mJson.dump();
 
-  return currentJson == mJson;
+  return false;
 }
 
 void PersistenceService::save(
@@ -251,7 +255,7 @@ void PersistenceService::save(
 {
   PBDev::basicAssert(mProject != nullptr);
   PBDev::basicAssert(mOpenedUUID.has_value());
-
+  
   auto project = *(mProject.get());
   mJson =
       Persistence::serialization(project, unstagedImages, stagedImages, roots);
@@ -260,6 +264,7 @@ void PersistenceService::save(
   mPersistence.persistProject(mPlatformInfo->localStatePath, name, mJson,
                               thumbnailsDirectoryName);
   mPersistence.persistMetadata(mOpenedUUID.value(), name);
+  
 }
-
+*/
 } // namespace PB

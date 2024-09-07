@@ -19,6 +19,7 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
+#include <pb/ProjectManagementSystem.h>
 #include <pb/TaskCruncher.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
@@ -62,7 +63,6 @@ public:
   void unloadProject();
 
   ImageViews                         &imageViews();
-  std::shared_ptr<PersistenceService> project();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -123,11 +123,12 @@ public:
 
   std::shared_ptr<ImageToPaperService> imageToPaperService() const;
 
+  std::shared_ptr<ProjectManagementSystem> projectManagementSystem() const;
+
 private:
   PhotobookListener                          *mParent = nullptr;
   std::shared_ptr<TaskCruncher>               mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService>         mPersistenceService = nullptr;
   ImportFoldersLogic                          mImportLogic;
   ImageViews                                  mImageViews;
   CommandStack                                mCommandStack;
@@ -140,8 +141,9 @@ private:
   std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
-  std::shared_ptr<OGLEngine>          mOGLEngine = nullptr;
-  std::shared_ptr<DatabaseService>    mDatabaseService = nullptr;
-  std::shared_ptr<DurableHashService> mDurableHashService = nullptr;
+  std::shared_ptr<OGLEngine>               mOGLEngine = nullptr;
+  std::shared_ptr<DatabaseService>         mDatabaseService = nullptr;
+  std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
+  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
 };
 } // namespace PB

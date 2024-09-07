@@ -169,8 +169,9 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
     Path projectThumbnailsRoot =
-        mPhotobook->platformInfo()->localStatePath / "th" /
-        boost::uuids::to_string(mPhotobook->project()->currentProjectUUID());
+        mPhotobook->platformInfo()->localStatePath / "th";
+    // /
+    // boost::uuids::to_string(mPhotobook->project()->currentProjectUUID());
 
     return winrt::make<VirtualImagePtr>(
         PB::ImageFactory::inst().mapImageToPaper(
@@ -318,10 +319,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   winrt::hstring GenerateProjectName()
   {
-    auto projectName = PB::Project::generateAlbumName([this](std::string name) {
-      return !mPhotobook->project()->contains(name);
-    });
-
+    auto projectName = mPhotobook->projectManagementSystem()->newAlbumName();
     return winrt::to_hstring(projectName);
   }
 
@@ -339,7 +337,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   PhotobookRuntimeComponent::Settings GetSettings()
   {
-    return winrt::make<Settings>(mPhotobook->project());
+    // return winrt::make<Settings>(mPhotobook->project());
+    return winrt::make<Settings>();
   }
 
   void AddImportFolder(winrt::hstring importPath);

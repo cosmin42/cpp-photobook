@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 namespace PB {
-
+/*
 void Persistence::configure(PersistenceProjectListener *listener)
 {
   mPersistenceProjectListener = listener;
@@ -216,7 +216,7 @@ void Persistence::deleteProject(Path               projectFile,
   std::filesystem::remove_all(thumbnailsPath);
   std::filesystem::remove(projectFile);
 }
-/*
+
 void Persistence::onSQLiteMetadataRead(
     std::unordered_map<std::string, std::string> map)
 {
@@ -236,7 +236,6 @@ void Persistence::onSQLiteMetadataError(PBDev::Error error)
 {
   mPersistenceMetadataListener->onMetadataPersistenceError(error);
 }
-*/
 
 std::optional<PBDev::Error>
 Persistence::createSupportDirectory(Path        path,
@@ -260,5 +259,5 @@ Persistence::createSupportDirectory(Path        path,
 
   return std::nullopt;
 }
-
+*/
 } // namespace PB

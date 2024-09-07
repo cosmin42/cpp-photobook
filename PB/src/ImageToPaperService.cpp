@@ -9,7 +9,6 @@ void ImageToPaperService::map(
         originalImages)
 {
   auto &&task = ImageToPaperTask(originalImages);
-  task.configurePersistenceService(mPersistenceService);
   task.configurePlatformInfo(mPlatformInfo);
   task.configureProject(mProject);
   task.setImageToPaperServiceListener(mListener);
@@ -27,7 +26,6 @@ void ImageToPaperService::map(
       std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperId>>{originalImage});
 
-  task.configurePersistenceService(mPersistenceService);
   task.configurePlatformInfo(mPlatformInfo);
   task.configureProject(mProject);
   task.setImageToPaperServiceListener(mListener);

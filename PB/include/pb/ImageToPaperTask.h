@@ -6,6 +6,7 @@
 
 #include <pb/MapReducer.h>
 #include <pb/Platform.h>
+#include <pb/ProjectManagementSystem.h>
 #include <pb/image/ImageReader.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/persistence/PersistenceService.h>
@@ -47,10 +48,10 @@ public:
     mProject = project;
   }
 
-  void configurePersistenceService(
-      std::shared_ptr<PersistenceService> persistenceService)
+  void configureProjectManagementSystem(
+      std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
   {
-    mPersistenceService = persistenceService;
+    mProjectManagementSystem = projectManagementSystem;
   }
 
   void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
@@ -80,11 +81,11 @@ public:
   unsigned taskCount() const override { return (unsigned)mImageIds.size(); }
 
 private:
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  std::shared_ptr<Project>            mProject = nullptr;
-  std::vector<PBDev::ImageToPaperId>  mImageIds;
-  unsigned                            mImageIndex = 0;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
+  std::shared_ptr<Project>                 mProject = nullptr;
+  std::vector<PBDev::ImageToPaperId>       mImageIds;
+  unsigned                                 mImageIndex = 0;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
@@ -121,9 +122,10 @@ private:
     std::string newImageName =
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    Path projectThumbnailsRoot =
-        mPlatformInfo->localStatePath / "th" /
-        boost::uuids::to_string(mPersistenceService->currentProjectUUID());
+    auto projectId = mProjectManagementSystem->maybeLoadedProjectInfo()->first;
+
+    Path projectThumbnailsRoot = mPlatformInfo->localStatePath / "th" /
+                                 boost::uuids::to_string(projectId);
 
     return projectThumbnailsRoot / newImageName;
   }
@@ -146,9 +148,11 @@ private:
     PB::Process::overlap(imageData,
                          PB::Process::alignToCenter())(singleColorImage);
 
+    auto projectId = mProjectManagementSystem->maybeLoadedProjectInfo()->first;
+
     auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
         mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
-        boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
+        boost::uuids::to_string(projectId));
 
     Process::writeImageOnDisk(singleColorImage, hashPath);
 
