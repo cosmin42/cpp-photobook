@@ -15,13 +15,11 @@ class DatabaseService final {
 public:
   ~DatabaseService();
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platform);
-  void configureThreadScheduler(
-      std::shared_ptr<PBDev::ThreadScheduler> threadScheduler);
+  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
 
   void connect();
 
-  static std::unordered_map<boost::uuids::uuid, std::string,
-                            boost::hash<boost::uuids::uuid>>
+  static boost::bimaps::bimap<boost::uuids::uuid, std::string>
   deserializeProjectMetadata(std::vector<std::vector<std::string>> raw);
 
   static boost::bimaps::bimap<Path, std::string>
@@ -33,8 +31,13 @@ public:
   selectData(std::string tableName, std::string predicate,
              unsigned expectedColumnsCount)
   {
-    std::string query =
-        "SELECT * FROM " + tableName + " WHERE " + predicate + ";";
+    std::string query;
+    if (predicate.empty()) {
+      query = "SELECT * FROM " + tableName + ";";
+    }
+    else {
+      query = "SELECT * FROM " + tableName + " WHERE " + predicate + ";";
+    }
     sqlite3_stmt *stmt;
     auto          success =
         sqlite3_prepare_v2(mDatabase, query.c_str(), -1, &stmt, nullptr);
@@ -58,6 +61,18 @@ public:
     sqlite3_finalize(stmt);
     return result;
   }
+
+  void deleteData(std::string tableName, std::string predicate)
+  {
+    std::string query =
+        "DELETE FROM " + tableName + " WHERE " + predicate + ";";
+    char *errMsg = nullptr;
+    auto  success =
+        sqlite3_exec(mDatabase, query.c_str(), nullptr, nullptr, &errMsg);
+    sqlite3_free(errMsg);
+    PBDev::basicAssert(success == SQLITE_OK);
+  }
+
   template <int N>
   void insert(std::string registerName, std::array<const char *, N> keys,
               std::array<const char *, N> values)
@@ -72,9 +87,9 @@ public:
   }
 
 private:
-  sqlite3                                *mDatabase = nullptr;
-  std::shared_ptr<PlatformInfo>           mPlatform = nullptr;
-  std::shared_ptr<PBDev::ThreadScheduler> mThreadScheduler = nullptr;
+  sqlite3                      *mDatabase = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatform = nullptr;
+  PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
 
   template <int N>
   void
