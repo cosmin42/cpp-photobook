@@ -24,7 +24,7 @@ public:
 
   std::vector<Path> deserializeRoots(Path projectPath);
 
-  void serializeProject(
+  void saveProject(
       std::string projectName, Project project,
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                        &unstagedImages,

@@ -46,8 +46,12 @@ void ProjectSerializerService::createProjectFolderStructure(
   auto projectPath = mPlatformInfo->localStatePath / "projects" /
                      boost::uuids::to_string(projectId);
 
-  std::filesystem::create_directory(projectPath);
-  std::filesystem::create_directory(projectPath / "thumbnail-images");
+  std::filesystem::create_directory(mPlatformInfo->localStatePath / "projects");
+  std::filesystem::create_directory(mPlatformInfo->localStatePath / "projects" /
+                                    boost::uuids::to_string(projectId));
+  std::filesystem::create_directories(
+      mPlatformInfo->localStatePath / "projects" /
+      boost::uuids::to_string(projectId) / "thumbnail-images");
 }
 
 Project ProjectSerializerService::deserializeProjectInfo(Path projectPath)
@@ -113,7 +117,7 @@ std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
   return std::vector<Path>();
 }
 
-void ProjectSerializerService::serializeProject(
+void ProjectSerializerService::saveProject(
     std::string projectName, Project project,
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
                                                      &unstagedImages,
