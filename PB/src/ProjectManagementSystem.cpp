@@ -110,6 +110,8 @@ void ProjectManagementSystem::newProject(PaperSettings paperSettings)
 
   auto newProjectId = boost::uuids::random_generator()();
 
+  mProjectSerializerService->createProjectFolderStructure(newProjectId);
+
   Project project;
   project.name = newAlbumName();
   project.paperSettings = paperSettings;
