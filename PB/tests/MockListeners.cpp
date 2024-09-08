@@ -34,6 +34,15 @@ mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo)
   return dbService;
 }
 
+std::shared_ptr<PB::ProjectSerializerService>
+mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo)
+{
+  auto projectSerializerService =
+      std::make_shared<PB::ProjectSerializerService>();
+  projectSerializerService->configurePlatformInfo(platformInfo);
+  return projectSerializerService;
+}
+
 std::shared_ptr<PB::DurableHashService>
 mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService)
 {

@@ -16,6 +16,7 @@
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
 #include <pb/ProjectManagementSystem.h>
+#include <pb/ProjectSerializerService.h>
 
 void clearProjectCache();
 
@@ -148,5 +149,9 @@ private:
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
 std::shared_ptr<PB::DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
+
+std::shared_ptr<PB::ProjectSerializerService>
+mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo);
+
 std::shared_ptr<PB::DurableHashService>
 mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService);
