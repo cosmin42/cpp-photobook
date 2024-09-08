@@ -139,19 +139,6 @@ void Photobook::configure(ImageMonitorListener *listener)
   mImageViews.imageMonitor().setListener(listener);
 }
 
-void Photobook::configure(std::shared_ptr<PB::Project> project)
-{
-  mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
-  mExportLogic.configure(mPersistenceService->currentProject(), mPlatformInfo);
-  mImageToPaperService->configureProject(mPersistenceService->currentProject());
-}
-
-void Photobook::configureCurrentProject()
-{
-  configure(project()->currentProject());
-}
-
 void Photobook::startPhotobook()
 {
   mOGLEngine->start(std::stop_token());
@@ -273,7 +260,6 @@ void Photobook::onProjectRead(
     std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
     std::vector<Path>                                       &roots)
 {
-  configure(mPersistenceService->currentProject());
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
 
@@ -317,7 +303,6 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
 
   mPersistenceService->newProject(name, newProject);
   mImportLogic.configure(mPersistenceService->currentProject());
-  mImageFactory->configureProject(mPersistenceService->currentProject());
   mImageToPaperService->configureProject(mPersistenceService->currentProject());
 }
 

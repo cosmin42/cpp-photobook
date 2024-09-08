@@ -9,7 +9,9 @@
 #include <pb/CollageManager.h>
 #include <pb/Command.h>
 #include <pb/DataManager.h>
+#include <pb/DatabaseService.h>
 #include <pb/DirectoryInspectionService.h>
+#include <pb/DurableHashService.h>
 #include <pb/ImageToPaperService.h>
 #include <pb/ImportFoldersLogic.h>
 #include <pb/LutService.h>
@@ -17,21 +19,19 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
+#include <pb/ProjectManagementSystem.h>
+#include <pb/ProjectSerializerService.h>
 #include <pb/TaskCruncher.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
+#include <pb/image/ImageFactory.h>
 #include <pb/persistence/Persistence.h>
 #include <pb/persistence/PersistenceService.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/util/Util.h>
-
-#include <pb/DatabaseService.h>
-#include <pb/DurableHashService.h>
-#include <pb/ProjectManagementSystem.h>
-#include <pb/ProjectSerializerService.h>
 
 namespace PB {
 
@@ -54,9 +54,6 @@ public:
   void configure(PhotobookListener *listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
-  void configure(std::shared_ptr<Project> project);
-
-  void configureCurrentProject();
 
   void startPhotobook();
 
@@ -139,16 +136,16 @@ private:
   std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
-  ImportFoldersLogic                        mImportLogic;
-  ImageViews                                mImageViews;
-  CommandStack                              mCommandStack;
-  bool                                      mMarkProjectForDeletion = false;
-  ExportLogic                               mExportLogic;
-  std::shared_ptr<ProgressManager>          mProgressManager = nullptr;
-  std::string                               mProjectName;
-  std::shared_ptr<ImageToPaperService>      mImageToPaperService = nullptr;
-  std::shared_ptr<CollageManager>           mCollageTemplateManager = nullptr;
-  std::shared_ptr<LutService>               mLutService = nullptr;
+  ImportFoldersLogic                          mImportLogic;
+  ImageViews                                  mImageViews;
+  CommandStack                                mCommandStack;
+  bool                                        mMarkProjectForDeletion = false;
+  ExportLogic                                 mExportLogic;
+  std::shared_ptr<ProgressManager>            mProgressManager = nullptr;
+  std::string                                 mProjectName;
+  std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
+  std::shared_ptr<CollageManager>             mCollageTemplateManager = nullptr;
+  std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
   std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
