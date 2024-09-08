@@ -33,3 +33,11 @@ mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo)
   dbService->maybeCreateTables();
   return dbService;
 }
+
+std::shared_ptr<PB::DurableHashService>
+mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService)
+{
+  auto durableHashService = std::make_shared<PB::DurableHashService>();
+  durableHashService->configureDatabaseService(databaseService);
+  return durableHashService;
+}
