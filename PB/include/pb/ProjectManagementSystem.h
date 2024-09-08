@@ -4,7 +4,9 @@
 #include <boost/uuid/uuid.hpp>
 
 #include <pb/DatabaseService.h>
+#include <pb/ProjectSerializerService.h>
 #include <pb/image/VirtualImage.h>
+#include <pb/project/PaperSettings.h>
 #include <pb/project/Project.h>
 #include <pb/project/ProjectMetadata.h>
 #include <pb/util/Traits.h>
@@ -30,12 +32,15 @@ public:
   void
   configureDatabaseService(std::shared_ptr<DatabaseService> databaseService);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configureProjectSerializerService(
+      std::shared_ptr<ProjectSerializerService> projectSerializerService);
 
   void recallMetadata();
 
   std::string newAlbumName();
 
   void newProject(PaperSettings paperSettings);
+  void loadProject(boost::uuids::uuid id);
   void unloadProject();
 
   void saveMetadata();
@@ -50,11 +55,11 @@ private:
 
   ProjectManagementSystemListener *mListener = nullptr;
 
-  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
+  std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
+  std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
 
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mProjectsMetadata;
-
-  std::shared_ptr<DatabaseService> mDatabaseService = nullptr;
 
   std::shared_ptr<IdentifyableProject> maybeLoadedProject = nullptr;
 

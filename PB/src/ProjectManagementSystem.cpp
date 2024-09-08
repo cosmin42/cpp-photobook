@@ -70,6 +70,12 @@ void ProjectManagementSystem::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
+void ProjectManagementSystem::configureProjectSerializerService(
+    std::shared_ptr<ProjectSerializerService> projectSerializerService)
+{
+  mProjectSerializerService = projectSerializerService;
+}
+
 void ProjectManagementSystem::recallMetadata()
 {
   auto metadata = mDatabaseService->selectData(
@@ -112,6 +118,17 @@ void ProjectManagementSystem::newProject(PaperSettings paperSettings)
       std::make_pair(newProjectId, project));
 
   mProjectsMetadata.insert({newProjectId, project.name});
+}
+
+void ProjectManagementSystem::loadProject(boost::uuids::uuid id)
+{
+  PBDev::basicAssert(maybeLoadedProject == nullptr);
+  std::string projectName = mProjectsMetadata.left.at(id);
+  auto        projectPath = mPlatformInfo->projectPath(projectName);
+  auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);
+
+  maybeLoadedProject =
+      std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 }
 
 void ProjectManagementSystem::unloadProject()
