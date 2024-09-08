@@ -15,6 +15,7 @@
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
 #include <pb/ProgressManager.h>
+#include <pb/ProjectManagementSystem.h>
 
 void clearProjectCache();
 
@@ -105,6 +106,13 @@ class TestProjectPersistenceListener final
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
 };
 
+class TestProjectManagementSystemListener final
+    : public PB::ProjectManagementSystemListener {
+public:
+  ~TestProjectManagementSystemListener() = default;
+  MOCK_METHOD(void, onProjectMetadataRecalled, (), (override));
+};
+
 class TestMainLoop final : public PBDev::ThreadScheduler {
 public:
   ~TestMainLoop() = default;
@@ -140,5 +148,5 @@ private:
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
 std::shared_ptr<PB::DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
-std::shared_ptr<PB::DurableHashService> mockDurableHashService(
-	std::shared_ptr<PB::DatabaseService> databaseService);
+std::shared_ptr<PB::DurableHashService>
+mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService);

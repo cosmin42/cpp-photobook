@@ -259,7 +259,9 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestDrawingService.cpp
     tests/TestDatabaseService.cpp
     tests/TestMain.cpp
-    tests/TestDurableHashService.cpp)
+    tests/TestDurableHashService.cpp
+    tests/TestProjectSerializerService.cpp
+    tests/TestProjectManagementSystem.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
