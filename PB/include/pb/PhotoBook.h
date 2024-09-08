@@ -28,6 +28,11 @@
 #include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/util/Util.h>
 
+#include <pb/DatabaseService.h>
+#include <pb/DurableHashService.h>
+#include <pb/ProjectManagementSystem.h>
+#include <pb/ProjectSerializerService.h>
+
 namespace PB {
 
 class Photobook final : public PersistenceServiceListener,
@@ -122,20 +127,24 @@ public:
   std::shared_ptr<ImageToPaperService> imageToPaperService() const;
 
 private:
-  PhotobookListener                          *mParent = nullptr;
-  std::shared_ptr<TaskCruncher>               mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService>         mPersistenceService = nullptr;
-  ImportFoldersLogic                          mImportLogic;
-  ImageViews                                  mImageViews;
-  CommandStack                                mCommandStack;
-  bool                                        mMarkProjectForDeletion = false;
-  ExportLogic                                 mExportLogic;
-  std::shared_ptr<ProgressManager>            mProgressManager;
-  std::string                                 mProjectName;
-  std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
-  std::shared_ptr<CollageManager>             mCollageTemplateManager = nullptr;
-  std::shared_ptr<LutService>                 mLutService = nullptr;
+  PhotobookListener                        *mParent = nullptr;
+  std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
+  std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
+  std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
+  std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
+  std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
+  std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
+  ImportFoldersLogic                        mImportLogic;
+  ImageViews                                mImageViews;
+  CommandStack                              mCommandStack;
+  bool                                      mMarkProjectForDeletion = false;
+  ExportLogic                               mExportLogic;
+  std::shared_ptr<ProgressManager>          mProgressManager;
+  std::string                               mProjectName;
+  std::shared_ptr<ImageToPaperService>      mImageToPaperService = nullptr;
+  std::shared_ptr<CollageManager>           mCollageTemplateManager = nullptr;
+  std::shared_ptr<LutService>               mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
   std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
