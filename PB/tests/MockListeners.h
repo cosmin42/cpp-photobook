@@ -11,6 +11,7 @@
 
 #include <pb/LutIconInfo.h>
 #include <pb/PhotoBook.h>
+#include <pb/Platform.h>
 #include <pb/ProgressManager.h>
 
 void clearProjectCache();
@@ -101,3 +102,37 @@ class TestProjectPersistenceListener final
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
 };
+
+class TestMainLoop final : public PBDev::ThreadScheduler {
+public:
+  ~TestMainLoop() = default;
+
+  void post(std::function<void()> f) override
+  {
+    std::lock_guard<std::mutex> lock(mutex);
+    q.push(f);
+    ifTaskOccurs.notify_one();
+  }
+
+  void run()
+  {
+    std::unique_lock<std::mutex> lock(mutex);
+    while (true) {
+      ifTaskOccurs.wait_for(lock, std::chrono::seconds(1),
+                            [this] { return !q.empty(); });
+      if (q.empty()) {
+        break;
+      }
+      auto f = q.front();
+      q.pop();
+      f();
+    }
+  }
+
+private:
+  std::queue<std::function<void()>> q;
+  std::mutex                        mutex;
+  std::condition_variable           ifTaskOccurs;
+};
+
+std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();

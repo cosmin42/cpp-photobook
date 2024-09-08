@@ -13,3 +13,13 @@ void clearProjectCache()
     }
   }
 }
+
+std::shared_ptr<PB::PlatformInfo> mockPlatformInfo()
+{
+  std::shared_ptr<PB::PlatformInfo> platform =
+      std::make_shared<PB::PlatformInfo>();
+  platform->installationPath = std::filesystem::current_path();
+  platform->localStatePath = std::filesystem::current_path();
+  platform->screenSize = std::make_pair(1920, 1080);
+  return platform;
+}

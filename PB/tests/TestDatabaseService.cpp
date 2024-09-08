@@ -7,48 +7,9 @@
 #include <pb/TaskCruncher.h>
 #include <pb/ThreadScheduler.h>
 
+#include "MockListeners.h"
+
 using namespace PB;
-
-std::shared_ptr<PlatformInfo> mockPlatformInfo()
-{
-  std::shared_ptr<PlatformInfo> platform = std::make_shared<PlatformInfo>();
-  platform->installationPath = std::filesystem::current_path();
-  platform->localStatePath = std::filesystem::current_path();
-  platform->screenSize = std::make_pair(1920, 1080);
-  return platform;
-}
-
-class TestMainLoop final : public PBDev::ThreadScheduler {
-public:
-  ~TestMainLoop() = default;
-
-  void post(std::function<void()> f) override
-  {
-    std::lock_guard<std::mutex> lock(mutex);
-    q.push(f);
-    ifTaskOccurs.notify_one();
-  }
-
-  void run()
-  {
-    std::unique_lock<std::mutex> lock(mutex);
-    while (true) {
-      ifTaskOccurs.wait_for(lock, std::chrono::seconds(1),
-                            [this] { return !q.empty(); });
-      if (q.empty()) {
-        break;
-      }
-      auto f = q.front();
-      q.pop();
-      f();
-    }
-  }
-
-private:
-  std::queue<std::function<void()>> q;
-  std::mutex                        mutex;
-  std::condition_variable           ifTaskOccurs;
-};
 
 TEST(TestDatabaseService, TestConnect)
 {
