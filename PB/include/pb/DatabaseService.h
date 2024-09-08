@@ -7,6 +7,7 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Platform.h>
+#include <pb/TaskCruncher.h>
 #include <pb/ThreadScheduler.h>
 
 namespace PB {
@@ -15,9 +16,9 @@ class DatabaseService final {
 public:
   ~DatabaseService();
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platform);
-  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
 
   void connect();
+  void disconnect();
 
   static boost::bimaps::bimap<boost::uuids::uuid, std::string>
   deserializeProjectMetadata(std::vector<std::vector<std::string>> raw);
@@ -26,6 +27,8 @@ public:
   deserializeCacheEntry(std::vector<std::vector<std::string>> raw);
 
   void maybeCreateTables();
+
+  bool checkTableExists(std::string tableName);
 
   std::vector<std::vector<std::string>>
   selectData(std::string tableName, std::string predicate,
@@ -89,7 +92,6 @@ public:
 private:
   sqlite3                      *mDatabase = nullptr;
   std::shared_ptr<PlatformInfo> mPlatform = nullptr;
-  PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
 
   template <int N>
   void
@@ -142,14 +144,18 @@ private:
   {
     std::string query = "INSERT INTO " + registryName + " (";
     for (int i = 0; i < N; i++) {
+      query += "'";
       query += keys[i];
+      query += "'";
       if (i < N - 1) {
         query += ", ";
       }
     }
     query += ") VALUES (";
     for (int i = 0; i < N; i++) {
+      query += "'";
       query += values[i];
+      query += "'";
       if (i < N - 1) {
         query += ", ";
       }

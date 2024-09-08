@@ -6,18 +6,12 @@
 
 namespace PB {
 
-DatabaseService ::~DatabaseService() {}
+DatabaseService ::~DatabaseService() { disconnect(); }
 
 void DatabaseService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platform)
 {
   mPlatform = platform;
-}
-
-void DatabaseService::configureThreadScheduler(
-    PBDev::ThreadScheduler *threadScheduler)
-{
-  mThreadScheduler = threadScheduler;
 }
 
 void DatabaseService::connect()
@@ -31,11 +25,42 @@ void DatabaseService::connect()
   }
 }
 
+void DatabaseService::disconnect()
+{
+  if (mDatabase) {
+    auto rc = sqlite3_close(mDatabase);
+    PBDev::basicAssert(rc == SQLITE_OK);
+    mDatabase = nullptr;
+  }
+}
+
 void DatabaseService::maybeCreateTables()
 {
   // TODO: Centralize this somehow from the configuration
   maybeCreateTable<2>(OneConfig::DATABASE_PROJECTS_DATA);
   maybeCreateTable<3>(OneConfig::DATABASE_CACHE_DATA);
+}
+
+bool DatabaseService::checkTableExists(std::string tableName)
+{
+  std::string query = "SELECT name FROM sqlite_master WHERE type='table' AND "
+                      "name='" +
+                      tableName + "';";
+
+  sqlite3_stmt *stmt;
+  auto          success =
+      sqlite3_prepare_v2(mDatabase, query.c_str(), -1, &stmt, nullptr);
+
+  if (success != SQLITE_OK) {
+    return false;
+  }
+
+  if (sqlite3_step(stmt) == SQLITE_ROW) {
+    sqlite3_finalize(stmt);
+    return true;
+  }
+  sqlite3_finalize(stmt);
+  return false;
 }
 
 boost::bimaps::bimap<boost::uuids::uuid, std::string>
