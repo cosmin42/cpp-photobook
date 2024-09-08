@@ -1,5 +1,12 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#include <spdlog/sinks/msvc_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 #include <pb/AspectRatio.h>
 #include <pb/project/PaperSettings.h>
 
@@ -82,6 +89,8 @@ static constexpr std::pair<const char *, decltype(DATABASE_CACHE_HEADER)>
 static constexpr const char *DATABASE_NAME = "databasev2.db";
 
 static constexpr unsigned MAX_HASH_CONFLICTS = 200;
+
+static std::shared_ptr<spdlog::logger> LOGGER = nullptr;
 
 } // namespace OneConfig
 

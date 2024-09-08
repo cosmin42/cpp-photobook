@@ -28,6 +28,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
           std::make_shared<DirectoryInspectionService>()),
       mOGLEngine(std::make_shared<OGLEngine>())
 {
+
+  initLogger();
+
   ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
   ImageFactory::inst().configurePersistenceService(mPersistenceService);
 
@@ -106,6 +109,21 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
+}
+
+void Photobook::initLogger()
+{
+  try {
+#ifdef WIN32
+    OneConfig::LOGGER = std::make_shared<spdlog::logger>(
+        "msvc_logger", std::make_shared<spdlog::sinks::msvc_sink_mt>());
+    OneConfig::LOGGER->set_level(spdlog::level::debug);
+    OneConfig::LOGGER->info("Log init succeeded");
+#endif
+  }
+  catch (const spdlog::spdlog_ex &ex) {
+    std::cout << "Log init failed: " << ex.what() << std::endl;
+  }
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }

@@ -49,6 +49,8 @@ public:
                      std::pair<unsigned, unsigned> screenSize);
   ~Photobook() = default;
 
+  void initLogger();
+
   void configure(PhotobookListener *listener);
   void configure(StagedImagesListener *listener);
   void configure(ImageMonitorListener *listener);
