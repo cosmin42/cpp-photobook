@@ -9,6 +9,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <pb/DatabaseService.h>
 #include <pb/LutIconInfo.h>
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
@@ -136,3 +137,5 @@ private:
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
+std::shared_ptr<PB::DatabaseService>
+mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);

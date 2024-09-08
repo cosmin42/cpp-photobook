@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-  ::testing::GTEST_FLAG(filter) = "TestDatabaseService.*";
+  ::testing::GTEST_FLAG(filter) = "TestDurableHashService.*";
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

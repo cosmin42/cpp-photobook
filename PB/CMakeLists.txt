@@ -258,7 +258,8 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestCollageLibraryAssistant.cpp
     tests/TestDrawingService.cpp
     tests/TestDatabaseService.cpp
-    tests/TestMain.cpp)
+    tests/TestMain.cpp
+    tests/TestDurableHashService.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include

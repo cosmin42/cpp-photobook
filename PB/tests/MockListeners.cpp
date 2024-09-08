@@ -23,3 +23,13 @@ std::shared_ptr<PB::PlatformInfo> mockPlatformInfo()
   platform->screenSize = std::make_pair(1920, 1080);
   return platform;
 }
+
+std::shared_ptr<PB::DatabaseService>
+mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo)
+{
+  auto dbService = std::make_shared<PB::DatabaseService>();
+  dbService->configurePlatformInfo(platformInfo);
+  dbService->connect();
+  dbService->maybeCreateTables();
+  return dbService;
+}
