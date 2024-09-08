@@ -25,10 +25,12 @@ public:
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
+      PBDev::ProjectId projectId, PaperSettings paperSettings,
       std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
-      : MapReducer(), mOriginalImages(originalImages)
+      : MapReducer(), mOriginalImages(originalImages),
+        mPaperSettings(paperSettings), mProjectId(projectId)
   {
     for (const auto &[id, image] : originalImages) {
       mImageIds.push_back(id);
@@ -40,17 +42,6 @@ public:
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
   {
     mPlatformInfo = platformInfo;
-  }
-
-  void configureProject(std::shared_ptr<Project> project)
-  {
-    mProject = project;
-  }
-
-  void configurePersistenceService(
-      std::shared_ptr<PersistenceService> persistenceService)
-  {
-    mPersistenceService = persistenceService;
   }
 
   void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
@@ -80,11 +71,11 @@ public:
   unsigned taskCount() const override { return (unsigned)mImageIds.size(); }
 
 private:
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  std::shared_ptr<Project>            mProject = nullptr;
-  std::vector<PBDev::ImageToPaperId>  mImageIds;
-  unsigned                            mImageIndex = 0;
+  std::shared_ptr<PlatformInfo>      mPlatformInfo = nullptr;
+  std::vector<PBDev::ImageToPaperId> mImageIds;
+  unsigned                           mImageIndex = 0;
+  PBDev::ProjectId                   mProjectId;
+  PaperSettings                      mPaperSettings;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
@@ -121,9 +112,8 @@ private:
     std::string newImageName =
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    Path projectThumbnailsRoot =
-        mPlatformInfo->localStatePath / "th" /
-        boost::uuids::to_string(mPersistenceService->currentProjectUUID());
+    Path projectThumbnailsRoot = mPlatformInfo->localStatePath / "th" /
+                                 boost::uuids::to_string(*mProjectId);
 
     return projectThumbnailsRoot / newImageName;
   }
@@ -133,13 +123,12 @@ private:
   {
     auto hashPath = GetNewImagePath();
 
-    auto imageData = ImageReader().read(
-        image->frontend().full, true,
-        {mProject->paperSettings.width, mProject->paperSettings.height});
+    auto imageData =
+        ImageReader().read(image->frontend().full, true,
+                           {mPaperSettings.width, mPaperSettings.height});
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
-        mProject->paperSettings.width, mProject->paperSettings.height,
-        {255, 255, 255})();
+        mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
     PBDev::basicAssert(imageData != nullptr);
 
@@ -148,12 +137,11 @@ private:
 
     auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
         mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
-        boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
+        boost::uuids::to_string(*mProjectId));
 
     Process::writeImageOnDisk(singleColorImage, hashPath);
 
-    Process::imageWriteThumbnail(mProject->paperSettings.width,
-                                 mProject->paperSettings.height,
+    Process::imageWriteThumbnail(mPaperSettings.width, mPaperSettings.height,
                                  singleColorImage, mediumPath, smallPath);
 
     ImageResources imageResources = {hashPath, mediumPath, smallPath,

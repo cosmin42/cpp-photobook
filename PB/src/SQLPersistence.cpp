@@ -1,5 +1,5 @@
 #include <pb/persistence/SQLPersistence.h>
-
+/*
 namespace PB {
 
 void SQLitePersistence::configure(Path localStatePath)
@@ -364,3 +364,4 @@ SQLitePersistence::queryProjectEntry(std::string searchedUUID)
   return std::nullopt;
 }
 } // namespace PB
+*/

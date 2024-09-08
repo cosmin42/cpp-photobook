@@ -1,5 +1,5 @@
 #include <pb/persistence/PersistenceService.h>
-
+/*
 namespace PB {
 PersistenceService::PersistenceService(
     std::shared_ptr<PlatformInfo> platformInfo)
@@ -255,3 +255,4 @@ void PersistenceService::save(
 }
 
 } // namespace PB
+*/

@@ -12,16 +12,16 @@ void ImageFactory::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ImageFactory::configurePersistenceService(
-    std::shared_ptr<PB::PersistenceService> persistenceService)
-{
-  mPersistenceService = persistenceService;
-}
-
 void ImageFactory::configureProjectManagementSystem(
     std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
 {
   mProjectManagementSystem = projectManagementSystem;
+}
+
+void ImageFactory::configureDurableHashService(
+    std::shared_ptr<DurableHashService> durableHashService)
+{
+  mDurableHashService = durableHashService;
 }
 
 std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
@@ -61,11 +61,20 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
 
 std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
 {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  PBDev::ProjectId projectId(maybeProject->first);
+
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);
   }
   else if (std::filesystem::is_directory(path)) {
-    auto hashPath = mPersistenceService->hash(path);
+    auto coreHash = mDurableHashService->getHash(projectId, path);
+
+    auto hashPath =
+        mPlatformInfo->thumbnailByHash(maybeProject->first, coreHash);
+
     return createTextImage(path, hashPath);
   }
   else {
@@ -114,7 +123,7 @@ ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
 
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
-      boost::uuids::to_string(mPersistenceService->currentProjectUUID()));
+      boost::uuids::to_string(maybeProject->first));
 
   Process::writeImageOnDisk(singleColorImage, hashPath);
 

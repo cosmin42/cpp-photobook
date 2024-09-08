@@ -8,10 +8,14 @@ void ImageToPaperService::map(
                        boost::hash<PBDev::ImageToPaperId>>
         originalImages)
 {
-  auto &&task = ImageToPaperTask(originalImages);
-  task.configurePersistenceService(mPersistenceService);
+
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  auto &&task =
+      ImageToPaperTask(PBDev::ProjectId(maybeProject->first),
+                       maybeProject->second.paperSettings, originalImages);
   task.configurePlatformInfo(mPlatformInfo);
-  task.configureProject(mProject);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
@@ -23,13 +27,15 @@ void ImageToPaperService::map(
     std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>>
         originalImage)
 {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
   auto &&task = ImageToPaperTask(
+      PBDev::ProjectId(maybeProject->first), maybeProject->second.paperSettings,
       std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperId>>{originalImage});
 
-  task.configurePersistenceService(mPersistenceService);
   task.configurePlatformInfo(mPlatformInfo);
-  task.configureProject(mProject);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),

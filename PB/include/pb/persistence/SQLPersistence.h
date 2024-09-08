@@ -9,7 +9,7 @@
 
 #include <pb/Config.h>
 #include <pb/util/Util.h>
-
+/*
 namespace PB {
 
 class SQLitePersistenceListener {
@@ -80,3 +80,4 @@ private:
   std::shared_ptr<sqlite3>   mDatabaseHandle = nullptr;
 };
 } // namespace PB
+*/

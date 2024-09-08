@@ -44,7 +44,11 @@ public:
   void unloadProject();
 
   void saveMetadata();
+  void renameProject(std::string oldName, std::string newName);
   void deleteProject(std::string id);
+
+  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
+  projectsList() const;
 
   boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata() const;
 

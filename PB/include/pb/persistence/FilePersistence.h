@@ -5,7 +5,7 @@
 #include <pb/util/Util.h>
 
 namespace PB {
-
+/*
 class FilePersistence final {
 public:
   FilePersistence() = default;
@@ -23,4 +23,5 @@ private:
 
   Path mPath;
 };
+*/
 } // namespace PB

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pb/persistence/Persistence.h>
-
+/*
 namespace PB {
 class PersistenceServiceListener {
 public:
@@ -97,3 +97,4 @@ private:
   std::shared_ptr<PlatformInfo>                         mPlatformInfo = nullptr;
 };
 } // namespace PB
+*/

@@ -4,8 +4,6 @@
 
 #include <pb/util/Traits.h>
 
-DECLARE_STRONG_UUID(ProjectId)
-
 namespace PB {
 class DurableHashService final {
 public:

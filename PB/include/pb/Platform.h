@@ -29,9 +29,12 @@ struct PlatformInfo {
     return localStatePath / OneConfig::DATABASE_NAME;
   }
 
-  Path logPath() const
+  Path logPath() const { return localStatePath / "log.txt"; }
+
+  Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash) const
   {
-	return localStatePath / "log.txt";
+    return projectSupportFolder(projectId) / "thumbnail-images" /
+           (hash + ".JPG");
   }
 };
 } // namespace PB

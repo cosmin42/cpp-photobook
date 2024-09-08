@@ -4,7 +4,7 @@
 #include <pb/persistence/FilePersistence.h>
 #include <pb/persistence/SQLPersistence.h>
 #include <pb/project/Project.h>
-
+/*
 namespace PB {
 class PersistenceProjectListener {
 public:
@@ -73,4 +73,6 @@ private:
   Json                         mProjectCache;
   Path                         mLocalStatePath;
 };
+
 } // namespace PB
+*/

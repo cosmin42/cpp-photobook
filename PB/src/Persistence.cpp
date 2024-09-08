@@ -3,7 +3,7 @@
 #include <pb/persistence/SerializationStrategy.h>
 
 #include <unordered_map>
-
+/*
 namespace PB {
 
 void Persistence::configure(Path localStatePath)
@@ -245,3 +245,4 @@ Persistence::createSupportDirectory(Path        path,
 }
 
 } // namespace PB
+*/

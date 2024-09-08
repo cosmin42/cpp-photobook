@@ -1,5 +1,6 @@
 #pragma once
 
+#include <pb/DurableHashService.h>
 #include <pb/Platform.h>
 #include <pb/ProjectManagementSystem.h>
 #include <pb/image/RegularImage.h>
@@ -12,9 +13,10 @@ public:
   ~ImageFactory() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configurePersistenceService(
-      std::shared_ptr<PB::PersistenceService> persistenceService);
-  void configureProjectManagementSystem(std::shared_ptr<ProjectManagementSystem> projectManagementSystem);
+  void configureProjectManagementSystem(
+      std::shared_ptr<ProjectManagementSystem> projectManagementSystem);
+  void configureDurableHashService(
+	  std::shared_ptr<DurableHashService> durableHashService);
 
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
@@ -46,8 +48,8 @@ public:
 
 private:
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  std::shared_ptr<PB::PersistenceService>  mPersistenceService = nullptr;
   std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
+  std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
   std::shared_ptr<VirtualImage>            mDefaultRegularImage = nullptr;
 };
 } // namespace PB

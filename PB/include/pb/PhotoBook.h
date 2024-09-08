@@ -35,8 +35,7 @@
 
 namespace PB {
 
-class Photobook final : public PersistenceServiceListener,
-                        public ImportFoldersLogicListener,
+class Photobook final : public ImportFoldersLogicListener,
                         public PBDev::ThreadScheduler,
                         public ProgressManagerListener,
                         public ExportListener,
@@ -63,8 +62,7 @@ public:
   void newProject(std::string name, PaperSettings paperSettings);
   void unloadProject();
 
-  ImageViews                         &imageViews();
-  std::shared_ptr<PersistenceService> project();
+  ImageViews &imageViews();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -76,7 +74,7 @@ public:
   std::shared_ptr<CollageManager> collageManager();
 
   void onError(PBDev::Error error);
-
+  /*
   void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
       std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
@@ -85,7 +83,7 @@ public:
   void onMetadataUpdated() override;
 
   void onPersistenceError(PBDev::Error) override;
-
+  */
   void onMappingStarted(Path path) override;
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
   void onMappingAborted(Path) override;
@@ -98,7 +96,7 @@ public:
 
   void post(std::function<void()> f) override;
 
-  void onProjectRenamed() override;
+  // void onProjectRenamed() override;
 
   void onExportComplete(std::string name) override;
   void onExportAborted(std::string name) override;
@@ -125,6 +123,10 @@ public:
 
   std::shared_ptr<ImageToPaperService> imageToPaperService() const;
 
+  std::shared_ptr<ImageFactory> imageFactory() const;
+
+  std::shared_ptr<ProjectManagementSystem> projectManagementSystem() const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
@@ -133,7 +135,6 @@ private:
   std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
   std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
   std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
-  std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
   ImportFoldersLogic                          mImportLogic;
@@ -142,7 +143,6 @@ private:
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;
   std::shared_ptr<ProgressManager>            mProgressManager = nullptr;
-  std::string                                 mProjectName;
   std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
   std::shared_ptr<CollageManager>             mCollageTemplateManager = nullptr;
   std::shared_ptr<LutService>                 mLutService = nullptr;

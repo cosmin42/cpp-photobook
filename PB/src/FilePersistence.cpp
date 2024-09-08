@@ -1,7 +1,7 @@
 #include <pb/persistence/FilePersistence.h>
 
 #include <fstream>
-
+/*
 namespace PB {
 FilePersistence::FilePersistence(Path path) : mPath(path) {}
 
@@ -69,3 +69,4 @@ FilePersistence::parseData(std::string const &rawData)
   return parsed;
 }
 } // namespace PB
+*/
