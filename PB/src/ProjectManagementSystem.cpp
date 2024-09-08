@@ -102,8 +102,7 @@ void ProjectManagementSystem::newProject(PaperSettings paperSettings)
 {
   PBDev::basicAssert(maybeLoadedProject == nullptr);
 
-  auto newProjectId =
-      boost::uuids::to_string(boost::uuids::random_generator()());
+  auto newProjectId = boost::uuids::random_generator()();
 
   Project project;
   project.name = newAlbumName();
@@ -111,6 +110,8 @@ void ProjectManagementSystem::newProject(PaperSettings paperSettings)
 
   maybeLoadedProject = std::make_shared<IdentifyableProject>(
       std::make_pair(newProjectId, project));
+
+  mProjectsMetadata.insert({newProjectId, project.name});
 }
 
 void ProjectManagementSystem::unloadProject()
