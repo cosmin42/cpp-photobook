@@ -256,7 +256,9 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestStagedImages.cpp
     tests/TestThirdPartyLinks.cpp
     tests/TestCollageLibraryAssistant.cpp
-    tests/TestDrawingService.cpp)
+    tests/TestDrawingService.cpp
+    tests/TestDatabaseService.cpp
+    tests/TestMain.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include

@@ -106,10 +106,3 @@ TEST(TestStagedImages, AddPictures)
 
   stagedImages->clear();
 }
-
-int main(int argc, char **argv)
-{
-  //::testing::GTEST_FLAG(filter) = "TestDrawingService.TestSvgToPng";
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
