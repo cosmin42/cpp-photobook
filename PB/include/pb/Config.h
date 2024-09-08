@@ -79,7 +79,7 @@ static constexpr std::pair<const char *,
 static constexpr std::pair<const char *, decltype(DATABASE_CACHE_HEADER)>
     DATABASE_CACHE_DATA = {DATABASE_CACHE_TABLE, DATABASE_CACHE_HEADER};
 
-static constexpr const char *DATABASE_NAME = "database.db";
+static constexpr const char *DATABASE_NAME = "databasev2.db";
 
 static constexpr unsigned MAX_HASH_CONFLICTS = 200;
 

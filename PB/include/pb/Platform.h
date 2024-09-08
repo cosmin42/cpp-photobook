@@ -20,5 +20,10 @@ struct PlatformInfo {
   {
     return localStatePath / "projects" / (name + OneConfig::BOOK_EXTENSION);
   }
+
+  Path databasePath() const
+  {
+    return localStatePath / OneConfig::DATABASE_NAME;
+  }
 };
 } // namespace PB
