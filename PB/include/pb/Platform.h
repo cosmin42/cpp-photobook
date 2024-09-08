@@ -28,5 +28,10 @@ struct PlatformInfo {
   {
     return localStatePath / OneConfig::DATABASE_NAME;
   }
+
+  Path logPath() const
+  {
+	return localStatePath / "log.txt";
+  }
 };
 } // namespace PB
