@@ -9,6 +9,13 @@ struct PlatformInfo {
   Path                          localStatePath;
   std::pair<unsigned, unsigned> screenSize;
 
+  Path projectFolderPath() const { return localStatePath / "projects"; }
+
+  Path projectSupportFolder(boost::uuids::uuid projectId) const
+  {
+    return projectFolderPath() / boost::uuids::to_string(projectId);
+  }
+
   Path projectPath(std::string name) const
   {
     return localStatePath / "projects" / (name + OneConfig::BOOK_EXTENSION);
