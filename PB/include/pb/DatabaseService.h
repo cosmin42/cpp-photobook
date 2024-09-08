@@ -53,7 +53,7 @@ public:
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
       std::vector<std::string> row;
-      for (auto i = 2; i < expectedColumnsCount; ++i) {
+      for (auto i = 1; i < expectedColumnsCount+1; ++i) {
         const char *data =
             reinterpret_cast<const char *>(sqlite3_column_text(stmt, i));
         row.push_back(data);
@@ -91,15 +91,15 @@ public:
 
   template <int N>
   void update(std::string registerName, std::array<const char *, N> keys,
-			  std::array<const char *, N> values)
+              std::array<const char *, N> values)
   {
-	auto command = assembleDatabaseUpdate<N>(registerName, keys, values);
+    auto command = assembleDatabaseUpdate<N>(registerName, keys, values);
 
-	char *errMsg = nullptr;
-	auto  success =
-		sqlite3_exec(mDatabase, command.c_str(), nullptr, nullptr, &errMsg);
-	sqlite3_free(errMsg);
-	PBDev::basicAssert(success == SQLITE_OK);
+    char *errMsg = nullptr;
+    auto  success =
+        sqlite3_exec(mDatabase, command.c_str(), nullptr, nullptr, &errMsg);
+    sqlite3_free(errMsg);
+    PBDev::basicAssert(success == SQLITE_OK);
   }
 
 private:
@@ -184,7 +184,13 @@ private:
   {
     std::string query = "UPDATE " + registryName + " SET ";
     for (int i = 0; i < N; i++) {
-      query += keys[i] + " = " + values[i];
+      query += "'";
+      query += keys[i];
+      query += "'";
+      query += "=";
+      query += "'";
+      query += values[i];
+      query += "'";
       if (i < N - 1) {
         query += ", ";
       }
