@@ -17,6 +17,8 @@ public:
 
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
 
+  std::string name;
+
   ~Project() = default;
 
 private:

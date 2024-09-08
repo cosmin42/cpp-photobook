@@ -96,14 +96,56 @@ bool ProjectManagementSystem::hasProjectName(std::string name) const
   return mProjectsMetadata.right.find(name) != mProjectsMetadata.right.end();
 }
 
-void ProjectManagementSystem::deleteProject(std::string id)
-{
-  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
-                               "uuid = '" + id + "'");
+void ProjectManagementSystem::deleteProject(std::string id) {}
 
-  auto projectPath = mPlatformInfo->localStatePath / "projects" / id;
-  std::filesystem::remove(projectPath);
-  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
-                               "uuid = '" + std::string(id) + "'");
+void ProjectManagementSystem::newProject(PaperSettings paperSettings)
+{
+  PBDev::basicAssert(maybeLoadedProject == nullptr);
+
+  auto newProjectId =
+      boost::uuids::to_string(boost::uuids::random_generator()());
+
+  Project project;
+  project.name = newAlbumName();
+  project.paperSettings = paperSettings;
+
+  maybeLoadedProject = std::make_shared<IdentifyableProject>(
+      std::make_pair(newProjectId, project));
 }
+
+void ProjectManagementSystem::unloadProject()
+{
+  PBDev::basicAssert(maybeLoadedProject != nullptr);
+  PBDev::basicAssert(maybeLoadedProject.use_count() == 1);
+
+  maybeLoadedProject.reset();
+  maybeLoadedProject = nullptr;
+}
+
+void ProjectManagementSystem::saveMetadata()
+{
+  PBDev::basicAssert(maybeLoadedProject != nullptr);
+
+  auto projectId = maybeLoadedProject->first;
+  auto project = maybeLoadedProject->second;
+
+  auto result = mDatabaseService->selectData(
+      OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+      "uuid='" + boost::uuids::to_string(projectId) + "'",
+      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+
+  if (result.empty()) {
+    mDatabaseService->insert<2>(
+        OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+        OneConfig::DATABASE_PROJECT_METADATA_HEADER,
+        {boost::uuids::to_string(projectId).c_str(), project.name.c_str()});
+  }
+  else {
+    mDatabaseService->update<2>(
+        OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+        OneConfig::DATABASE_PROJECT_METADATA_HEADER,
+        {boost::uuids::to_string(projectId).c_str(), project.name.c_str()});
+  }
+}
+
 } // namespace PB

@@ -4,6 +4,7 @@
 #include <boost/uuid/uuid.hpp>
 
 #include <pb/DatabaseService.h>
+#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 #include <pb/project/ProjectMetadata.h>
 #include <pb/util/Traits.h>
@@ -34,11 +35,15 @@ public:
 
   std::string newAlbumName();
 
+  void newProject(PaperSettings paperSettings);
+  void unloadProject();
+
+  void saveMetadata();
+  void deleteProject(std::string id);
+
   boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata() const;
 
   std::shared_ptr<IdentifyableProject> maybeLoadedProjectInfo() const;
-
-  void deleteProject(std::string id);
 
 private:
   static std::vector<std::string> HAPPY_WORDS;

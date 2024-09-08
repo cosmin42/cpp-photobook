@@ -89,6 +89,19 @@ public:
     PBDev::basicAssert(success == SQLITE_OK);
   }
 
+  template <int N>
+  void update(std::string registerName, std::array<const char *, N> keys,
+			  std::array<const char *, N> values)
+  {
+	auto command = assembleDatabaseUpdate<N>(registerName, keys, values);
+
+	char *errMsg = nullptr;
+	auto  success =
+		sqlite3_exec(mDatabase, command.c_str(), nullptr, nullptr, &errMsg);
+	sqlite3_free(errMsg);
+	PBDev::basicAssert(success == SQLITE_OK);
+  }
+
 private:
   sqlite3                      *mDatabase = nullptr;
   std::shared_ptr<PlatformInfo> mPlatform = nullptr;
