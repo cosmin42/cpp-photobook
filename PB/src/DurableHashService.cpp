@@ -16,8 +16,6 @@ void DurableHashService::configureDatabaseService(
   mDatabaseService = databaseService;
 }
 
-void DurableHashService::initialize() { mDatabaseService->maybeCreateTables(); }
-
 bool DurableHashService::containsHash(std::string key)
 {
   std::string predicate = "cache_path='" + key + "'";
