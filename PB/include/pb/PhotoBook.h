@@ -137,12 +137,14 @@ private:
   std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
   std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
   std::shared_ptr<PersistenceService>       mPersistenceService = nullptr;
+  std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
+
   ImportFoldersLogic                        mImportLogic;
   ImageViews                                mImageViews;
   CommandStack                              mCommandStack;
   bool                                      mMarkProjectForDeletion = false;
   ExportLogic                               mExportLogic;
-  std::shared_ptr<ProgressManager>          mProgressManager;
+  std::shared_ptr<ProgressManager>          mProgressManager = nullptr;
   std::string                               mProjectName;
   std::shared_ptr<ImageToPaperService>      mImageToPaperService = nullptr;
   std::shared_ptr<CollageManager>           mCollageTemplateManager = nullptr;

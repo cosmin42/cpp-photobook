@@ -19,6 +19,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mDurableHashService(std::make_shared<DurableHashService>()),
       mProjectManagementSystem(std::make_shared<ProjectManagementSystem>()),
       mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
+      mImageFactory(std::make_shared<ImageFactory>()),
       mImportLogic(mPlatformInfo),
       mProgressManager(std::make_shared<ProgressManager>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
@@ -30,9 +31,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 {
 
   initLogger();
-
-  ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
-  ImageFactory::inst().configurePersistenceService(mPersistenceService);
 
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);
@@ -109,6 +107,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
+
+  mImageFactory->configurePlatformInfo(mPlatformInfo);
+  mImageFactory->configurePersistenceService(mPersistenceService);
 }
 
 void Photobook::initLogger()
@@ -316,7 +317,7 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
 
   mPersistenceService->newProject(name, newProject);
   mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
+  mImageFactory->configureProject(mPersistenceService->currentProject());
   mImageToPaperService->configureProject(mPersistenceService->currentProject());
 }
 
@@ -336,7 +337,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   std::vector<ProcessingData> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
+    auto virtualImage = mImageFactory->createImage(newFiles.at(i));
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back({virtualImage->frontend().full,
                            virtualImage->frontend().full, (unsigned)i});
@@ -439,7 +440,7 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
       boost::uuids::to_string(project()->currentProjectUUID()));
 
-  auto newImage = ImageFactory::inst().createRegularImage(imagePath);
+  auto newImage = mImageFactory->createRegularImage(imagePath);
 
   std::function<void(unsigned, unsigned)> onFinished =
       [this, index{index}, newImage{newImage}, imagePath{imagePath},
