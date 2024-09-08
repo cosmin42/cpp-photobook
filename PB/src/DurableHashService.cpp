@@ -54,11 +54,18 @@ std::string DurableHashService::saltHash(std::string hash)
 {
   for (int i = 0; i < OneConfig::MAX_HASH_CONFLICTS; ++i) {
     std::string hashAttempt = hash + std::to_string(i);
-    if (containsHash(hashAttempt)) {
+    if (!containsHash(hashAttempt)) {
       return hashAttempt;
     }
   }
   PBDev::basicAssert(false);
   return "";
+}
+
+void DurableHashService::deleteHashByProjectId(PBDev::ProjectId projectId)
+{
+  auto projectIdStr = boost::uuids::to_string(*projectId);
+  mDatabaseService->deleteData(OneConfig::DATABASE_CACHE_TABLE,
+                               "uuid='" + projectIdStr + "'");
 }
 } // namespace PB

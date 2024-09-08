@@ -18,6 +18,8 @@ public:
 
   std::string getHash(PBDev::ProjectId projectId, Path path);
 
+  void deleteHashByProjectId(PBDev::ProjectId projectId);
+
 private:
   static std::string computeHash(std::string key);
 
