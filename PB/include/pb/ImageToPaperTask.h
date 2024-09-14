@@ -107,21 +107,11 @@ private:
             }};
   }
 
-  Path GetNewImagePath()
-  {
-    std::string newImageName =
-        boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
-
-    Path projectThumbnailsRoot = mPlatformInfo->localStatePath / "th" /
-                                 boost::uuids::to_string(*mProjectId);
-
-    return projectThumbnailsRoot / newImageName;
-  }
-
   std::shared_ptr<VirtualImage>
   CreatePaperImage(std::shared_ptr<VirtualImage> image)
   {
-    auto hashPath = GetNewImagePath();
+    auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
+    auto hashPath = mPlatformInfo->thumbnailByHash(*mProjectId, hash, ".png");
 
     auto imageData =
         ImageReader().read(image->frontend().full, true,

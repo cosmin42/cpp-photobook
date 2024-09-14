@@ -334,8 +334,8 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   auto coreHash = mDurableHashService->getHash(
       PBDev::ProjectId(maybeLoadedProjectInfo->first), rowProcessingData.root);
 
-  auto imageHash =
-      mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first, coreHash);
+  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
+                                                  coreHash, "jpg");
 
   mImportLogic.processImages(
       boost::uuids::to_string(maybeLoadedProjectInfo->first), rowProcessingData,
@@ -446,8 +446,8 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
   auto coreHash = mDurableHashService->getHash(
       PBDev::ProjectId(maybeLoadedProjectInfo->first), imagePath);
 
-  auto imageHash =
-      mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first, coreHash);
+  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
+                                                  coreHash, ".jpg");
 
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),

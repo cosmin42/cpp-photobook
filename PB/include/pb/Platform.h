@@ -31,10 +31,10 @@ struct PlatformInfo {
 
   Path logPath() const { return localStatePath / "log.txt"; }
 
-  Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash) const
+  Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash, std::string extension) const
   {
     return projectSupportFolder(projectId) / "thumbnail-images" /
-           (hash + ".JPG");
+           (hash + extension);
   }
 };
 } // namespace PB

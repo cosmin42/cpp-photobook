@@ -73,7 +73,7 @@ std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
     auto coreHash = mDurableHashService->getHash(projectId, path);
 
     auto hashPath =
-        mPlatformInfo->thumbnailByHash(maybeProject->first, coreHash);
+        mPlatformInfo->thumbnailByHash(maybeProject->first, coreHash, ".jpg");
 
     return createTextImage(path, hashPath);
   }
