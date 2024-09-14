@@ -210,6 +210,7 @@ struct Settings : SettingsT<Settings> {
       nativeRoots.push_back(winrt::to_string(roots.GetAt(i)));
     }
 
+    throw std::runtime_error("Not implemented yet");
     //return mPersistenceService->isSaved(nativeUnstagedImages,
     //                                    nativesStagedImages, nativeRoots);
     return false;
