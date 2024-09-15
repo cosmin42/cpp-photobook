@@ -239,10 +239,6 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   else {
     auto success = std::filesystem::create_directories(newFolder);
     PBDev::basicAssert(success);
-
-    auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
-    PBDev::basicAssert(maybeProject != nullptr);
-
     std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
         newFolder, maybeProject->second.paperSettings,
         maybeProject->second.stagedImages().stagedPhotos());
@@ -362,8 +358,7 @@ void Photobook::onImageProcessed(Path key, Path root,
   maybeProject->second.imageMonitor().image(key)->setSizePath(
       imageResources.full, imageResources.medium, imageResources.small);
   maybeProject->second.imageMonitor().image(key)->setSize(
-      imageResources.width,
-                                                 imageResources.height);
+      imageResources.width, imageResources.height);
   maybeProject->second.imageMonitor().image(key)->finishProcessing();
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);

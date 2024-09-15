@@ -75,6 +75,7 @@ void LutService::detectLuts()
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
+  UNUSED(id);
   mThreadScheduler->post([this, searchResults{searchResults}]() {
     mLutIconsPreprocessingJob.configureLuts(searchResults);
     mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,

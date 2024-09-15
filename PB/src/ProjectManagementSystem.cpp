@@ -80,7 +80,7 @@ void ProjectManagementSystem::recallMetadata()
 {
   auto metadata = mDatabaseService->selectData(
       OneConfig::DATABASE_PROJECT_METADATA_TABLE, "",
-      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+      (unsigned)OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
   mProjectsMetadata = DatabaseService::deserializeProjectMetadata(metadata);
   mListener->onProjectMetadataRecalled();
 }
@@ -164,7 +164,7 @@ void ProjectManagementSystem::saveMetadata()
   auto result = mDatabaseService->selectData(
       OneConfig::DATABASE_PROJECT_METADATA_TABLE,
       "uuid='" + boost::uuids::to_string(projectId) + "'",
-      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+      (unsigned)OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
 
   if (result.empty()) {
     mDatabaseService->insert<2>(
