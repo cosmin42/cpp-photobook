@@ -379,7 +379,9 @@ void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full)
 {
   bool success = cv::imwrite(full.string(), *image);
   PBDev::basicAssert(success);
+#ifndef _CLANG_UML_
   spdlog::info("Image written to {}", full.string());
+#endif
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,
@@ -396,7 +398,9 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
 
   bool success = cv::imwrite(medium.string(), *mediumImagePointer);
   PBDev::basicAssert(success);
+#ifndef _CLANG_UML_
   spdlog::info("Medium thumbnail written to {}", medium.string());
+#endif
 
   auto smallImagePointer = PB::Process::resize(
       image,
@@ -405,7 +409,9 @@ void imageWriteThumbnail(int screenWidth, int screenHeight,
 
   success = cv::imwrite(small.string(), *smallImagePointer);
   PBDev::basicAssert(success);
+#ifndef _CLANG_UML_
   spdlog::info("Small thumbnail written to {}", small.string());
+#endif
 }
 
 unsigned pointsFromPixels(double points, unsigned ppi)

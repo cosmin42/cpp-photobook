@@ -76,8 +76,9 @@ std::variant<Json, PBDev::Error> serialize(int depth, T object)
 #else
   Json json = object;
 #endif
-
+#ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
+#endif
   return json;
 }
 
@@ -94,7 +95,9 @@ serialize(int depth, std::pair<std::string, T> const &entry)
 #else
   json[entry.first] = entry.second;
 #endif
+#ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
+#endif
   return json;
 }
 
@@ -109,23 +112,25 @@ serialize(int depth, std::pair<std::string, Head> const &head,
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
   }
+#ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
                std::get<Json>(jsonOrError).dump());
-
+#endif
   std::variant<Json, PBDev::Error> headJsonOrError =
       serialize<Head>(depth + 1, head);
 
   if (std::holds_alternative<PBDev::Error>(headJsonOrError)) {
     return headJsonOrError;
   }
-
+#ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
                std::get<Json>(headJsonOrError).dump());
-
+#endif
   std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
-
+#ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
                std::get<Json>(jsonOrError).dump());
+#endif
   return jsonOrError;
 }
 

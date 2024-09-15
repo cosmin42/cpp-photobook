@@ -242,8 +242,10 @@ serialize(int depth, std::pair<std::string, boost::uuids::uuid> const &entry)
 {
   Json json;
   json[entry.first] = boost::uuids::to_string(entry.second);
+#ifndef _CLANG_UML_
   spdlog::info("{}(string, uuid) {}\n", std::string(depth * 2, ' '),
                json.dump());
+#endif
   return json;
 }
 
@@ -260,8 +262,10 @@ serialize(int depth, std::pair<std::string, std::vector<Path>> const &entry)
     }
     json[entry.first].push_back(std::get<Json>(jasonOrError));
   }
+#ifndef _CLANG_UML_
   spdlog::info("{}(string, vector) {}\n", std::string(depth * 2, ' '),
                json.dump());
+#endif
   return json;
 }
 
@@ -277,9 +281,10 @@ serialize(int depth,
   for (auto bimapEntry : entry.second) {
     json[entry.first][bimapEntry.left.string()] = bimapEntry.right;
   }
-
+#ifndef _CLANG_UML_
   spdlog::info("{}(bimap<Path, string>) {}\n", std::string(depth * 2, ' '),
                json.dump());
+#endif
   return json;
 }
 
@@ -298,8 +303,10 @@ serialize(int depth, std::pair<std::string, PaperSettings> const &entry)
   }
   Json json;
   json[key] = std::get<Json>(jsonOrError);
+#ifndef _CLANG_UML_
   spdlog::info("{}(string, PaperSettings) {}\n", std::string(depth * 2, ' '),
                json.dump());
+#endif
   return json;
 }
 
@@ -318,8 +325,10 @@ serialize(int depth, std::pair<std::string, Project> const &entry)
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
+#ifndef _CLANG_UML_
   spdlog::info("{}(string, Project) {}\n", std::string(depth * 2, ' '),
                json.dump());
+#endif
   return json;
 }
 
@@ -332,10 +341,10 @@ serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
   Json json;
 
   json[key] = magic_enum::enum_name(imageType);
-
+#ifndef _CLANG_UML_
   spdlog::info("%s(string, RegularImage) %s\n",
                std::string(depth * 2, ' ').c_str(), json.dump().c_str());
-
+#endif
   return json;
 }
 
@@ -362,8 +371,10 @@ serialize(int                                                          depth,
 
   Json json;
   json[key] = std::get<Json>(jsonOrError);
+#ifndef _CLANG_UML_
   spdlog::info("%s(string, RegularImage) %s\n",
                std::string(depth * 2, ' ').c_str(), json.dump());
+#endif
   return json;
 }
 

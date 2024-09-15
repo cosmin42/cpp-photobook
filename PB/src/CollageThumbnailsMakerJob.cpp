@@ -132,9 +132,11 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
                         mProject->paperSettings.height / 2};
 
   Path path = mSourceTemplates.at(i).path;
+#ifndef _CLANG_UML_
   spdlog::info("Generating thumbnail for template: {}", path.string());
-  auto processedPath = mAssistant->createTemplateThumbnail(mNumberedImages, path,
-                                                          {4, 3}, imageSize);
+#endif
+  auto processedPath = mAssistant->createTemplateThumbnail(
+      mNumberedImages, path, {4, 3}, imageSize);
 
   mProcessedSVGPaths.push_back(processedPath);
 }
@@ -175,8 +177,10 @@ void CollageThumbnailsMakerJob::mapJobs()
   mNumberedImages = mAssistant->createNumberedImages(imageSize);
 
   for (auto &collageTemplateInfo : templatesList) {
+#ifndef _CLANG_UML_
     spdlog::info("Generating thumbnail for template: {}",
                  collageTemplateInfo.path.string());
+#endif
     auto processedPath = mAssistant->createTemplateThumbnail(
         mNumberedImages, collageTemplateInfo.path, {4, 3}, imageSize);
 

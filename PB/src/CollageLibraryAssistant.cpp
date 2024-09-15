@@ -81,7 +81,9 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
   auto imagePath = mOutputFolder / Path(name);
   bool success = cv::imwrite(imagePath.string(), *image);
   PBDev::basicAssert(success);
+#ifndef _CLANG_UML_
   spdlog::info("Image created: {}", (mOutputFolder / Path(name)).string());
+#endif
   return Path(name);
 }
 } // namespace PB

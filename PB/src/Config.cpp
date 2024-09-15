@@ -14,7 +14,9 @@ void basicAssert(int shouldBetrue, const std::source_location location)
     std::string message = std::string(location.function_name()) + ":" +
                           std::to_string(location.line());
 
+#ifndef _CLANG_UML_
     spdlog::info("{}\n", message);
+#endif
   }
 #ifdef _DEBUG
   assert(shouldBetrue);
