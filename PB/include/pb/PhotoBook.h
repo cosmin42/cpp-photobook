@@ -42,7 +42,8 @@ class Photobook final : public ImportFoldersLogicListener,
                         public CollageThumbnailsMakerListener,
                         public ImageToPaperServiceListener,
                         public CollageMakerListener,
-                        public LutServiceListener {
+                        public LutServiceListener,
+                        public ProjectManagementSystemListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -51,8 +52,6 @@ public:
   void initLogger();
 
   void configure(PhotobookListener *listener);
-  void configure(StagedImagesListener *listener);
-  void configure(ImageMonitorListener *listener);
 
   void startPhotobook();
 
@@ -61,8 +60,6 @@ public:
 
   void newProject(std::string name, PaperSettings paperSettings);
   void unloadProject();
-
-  ImageViews &imageViews();
 
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
@@ -84,6 +81,10 @@ public:
 
   void onPersistenceError(PBDev::Error) override;
   */
+
+  void onProjectRecalled() override;
+  void onProjectMetadataRecalled() override;
+
   void onMappingStarted(Path path) override;
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
   void onMappingAborted(Path) override;
@@ -138,7 +139,6 @@ private:
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
   ImportFoldersLogic                          mImportLogic;
-  ImageViews                                  mImageViews;
   CommandStack                                mCommandStack;
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;

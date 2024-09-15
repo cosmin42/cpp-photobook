@@ -253,8 +253,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   void MakeCollage(Windows::Foundation::Collections::IVector<unsigned> images,
                    unsigned const collageIndex)
   {
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
     // TODO: Fix redundant staged images staged photos.
-    auto stagedPhotos = mPhotobook->imageViews().stagedImages().stagedPhotos();
+    auto stagedPhotos = maybeProject->second.stagedImages().stagedPhotos();
 
     std::vector<Path> imagesToMerge;
 
@@ -276,7 +279,10 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mStagedImagesListener =
         new PhotobookRuntimeComponent::implementation::StagedImagesListener(
             listener);
-    mPhotobook->configure(
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    maybeProject->second.stagedImages().setListener(
         dynamic_cast<PB::StagedImagesListener *>(mStagedImagesListener));
   }
 
@@ -287,7 +293,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
       delete mImageMonitorListener;
     }
     mImageMonitorListener = new ImageMonitorListener(listener);
-    mPhotobook->configure(
+
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    maybeProject->second.imageMonitor().setListener(
         dynamic_cast<PB::ImageMonitorListener *>(mImageMonitorListener));
   }
 
@@ -324,7 +334,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   PhotobookRuntimeComponent::ImageViews GetImageViews()
   {
-    return winrt::make<ImageViews>(mPhotobook->imageViews());
+    return winrt::make<ImageViews>(mPhotobook->projectManagementSystem());
   }
 
   PhotobookRuntimeComponent::Settings GetSettings()

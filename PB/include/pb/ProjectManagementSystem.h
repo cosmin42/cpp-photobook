@@ -20,6 +20,7 @@ public:
   virtual ~ProjectManagementSystemListener() = default;
 
   virtual void onProjectMetadataRecalled() = 0;
+  virtual void onProjectRecalled() = 0;
 };
 
 class ProjectManagementSystem final {
