@@ -1,14 +1,14 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
+#include <unordered_set>
 
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
 #include <pb/RowProcessingData.h>
-#include <pb/image/Image.h>
-#include <pb/util/Util.h>
+#include <pb/image/VirtualImage.h>
+#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 class ImageMonitorListener {

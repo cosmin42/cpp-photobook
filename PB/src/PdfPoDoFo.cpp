@@ -1,6 +1,7 @@
 #include <pb/export/PdfPoDoFo.h>
 
-#include <pb/image/Image.h>
+#include <pb/image/ImageOperations.h>
+#include <pb/image/ImageReader.h>
 
 namespace PB {
 PdfExportTask::PdfExportTask(

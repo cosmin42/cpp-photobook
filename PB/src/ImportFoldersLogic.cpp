@@ -1,6 +1,6 @@
 #include <pb/ImportFoldersLogic.h>
 
-#include <pb/util/Util.h>
+#include <pb/util/FileInfo.h>
 
 namespace PB {
 ImportFoldersLogic::ImportFoldersLogic(

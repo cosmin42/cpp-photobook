@@ -5,7 +5,6 @@
 #include <pb/ProjectManagementSystem.h>
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
-#include <pb/persistence/PersistenceService.h>
 
 namespace PB {
 class ImageFactory final {

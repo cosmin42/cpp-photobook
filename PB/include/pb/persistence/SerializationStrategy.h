@@ -7,7 +7,9 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
-#include <pb/util/Util.h>
+#include <pb/util/Concepts.h>
+#include <pb/util/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PB::Text {
 

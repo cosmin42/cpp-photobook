@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include <pb/FileComparator.h>
-#include <pb/util/Util.h>
 
 using namespace PB;
 

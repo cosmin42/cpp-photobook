@@ -7,8 +7,8 @@
 #include <pb/MapReducer.h>
 #include <pb/Platform.h>
 #include <pb/image/ImageReader.h>
+#include <pb/image/RegularImage.h>
 #include <pb/image/VirtualImage.h>
-#include <pb/persistence/PersistenceService.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
 

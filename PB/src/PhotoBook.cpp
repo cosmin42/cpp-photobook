@@ -3,7 +3,6 @@
 #include <pb/ImportImageTask.h>
 #include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
-#include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
 
 namespace PB {

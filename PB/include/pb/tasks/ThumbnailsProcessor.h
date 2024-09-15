@@ -1,7 +1,6 @@
 #pragma once
 
 #include <pb/RowProcessingData.h>
-#include <pb/image/Image.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 

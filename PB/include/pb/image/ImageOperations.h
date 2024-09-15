@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #pragma warning(push)
 #pragma warning(disable : 5054)
 #pragma warning(disable : 4127)
@@ -9,7 +11,7 @@
 #pragma warning(pop)
 
 #include <pb/Enums.h>
-#include <pb/util/Util.h>
+#include <pb/util/Traits.h>
 
 namespace PB::Process {
 

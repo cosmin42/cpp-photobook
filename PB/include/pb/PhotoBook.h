@@ -27,11 +27,8 @@
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
 #include <pb/image/ImageFactory.h>
-#include <pb/persistence/Persistence.h>
-#include <pb/persistence/PersistenceService.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/PicturesSearchConfig.h>
-#include <pb/util/Util.h>
 
 namespace PB {
 

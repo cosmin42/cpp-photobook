@@ -4,7 +4,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
-#include <pb/util/Util.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 struct PlatformInfo {
@@ -31,7 +31,8 @@ struct PlatformInfo {
 
   Path logPath() const { return localStatePath / "log.txt"; }
 
-  Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash, std::string extension) const
+  Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash,
+                       std::string extension) const
   {
     return projectSupportFolder(projectId) / "thumbnail-images" /
            (hash + extension);

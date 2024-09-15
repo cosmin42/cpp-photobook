@@ -9,6 +9,7 @@
 #include <pb/ThreadScheduler.h>
 #include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
+#include <pb/util/Error.h>
 
 namespace PB {
 
@@ -66,9 +67,9 @@ private:
   void onImageProcessed(Path key, Path root, ImageResources imageResources,
                         int progressCap);
 
-  ImportFoldersLogicListener              *mListener = nullptr;
-  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
-  PBDev::ThreadScheduler                  *mScheduler = nullptr;
+  ImportFoldersLogicListener                    *mListener = nullptr;
+  std::shared_ptr<TaskCruncher>                  mTaskCruncher = nullptr;
+  PBDev::ThreadScheduler                        *mScheduler = nullptr;
   std::unordered_map<Path, std::pair<int, int>>  mImageProcessingProgress;
   ThumbnailsProcessor                            mThumbnailsProcessor;
   std::unordered_set<Path>                       mRemovalMarks;

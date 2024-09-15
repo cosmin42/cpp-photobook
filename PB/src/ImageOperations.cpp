@@ -8,7 +8,6 @@
 #pragma warning(pop)
 
 #include <pb/image/ImageReader.h>
-#include <pb/image/ImageSetWriter.h>
 
 namespace PB::Process {
 bool validExtension(std::optional<Path> path)

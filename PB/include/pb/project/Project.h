@@ -9,7 +9,6 @@
 #include <pb/ImageMonitor.h>
 #include <pb/Platform.h>
 #include <pb/StagedImages.h>
-#include <pb/util/Util.h>
 
 namespace PB {
 
