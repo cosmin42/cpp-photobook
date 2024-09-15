@@ -80,7 +80,7 @@ void ProjectManagementSystem::recallMetadata()
 {
   auto metadata = mDatabaseService->selectData(
       OneConfig::DATABASE_PROJECT_METADATA_TABLE, "",
-      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+      (unsigned)OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
   mProjectsMetadata = DatabaseService::deserializeProjectMetadata(metadata);
   mListener->onProjectMetadataRecalled();
 }
@@ -103,6 +103,18 @@ bool ProjectManagementSystem::hasProjectName(std::string name) const
 }
 
 void ProjectManagementSystem::deleteProject(std::string id) {}
+
+std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
+ProjectManagementSystem::projectsList() const
+{
+
+  std::vector<std::tuple<boost::uuids::uuid, std::string, Path>> projects;
+  for (auto const &it : mProjectsMetadata) {
+    projects.push_back(
+        {it.left, it.right, mPlatformInfo->projectPath(it.right)});
+  }
+  return projects;
+}
 
 void ProjectManagementSystem::newProject(PaperSettings paperSettings)
 {
@@ -152,7 +164,7 @@ void ProjectManagementSystem::saveMetadata()
   auto result = mDatabaseService->selectData(
       OneConfig::DATABASE_PROJECT_METADATA_TABLE,
       "uuid='" + boost::uuids::to_string(projectId) + "'",
-      OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
+      (unsigned)OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
 
   if (result.empty()) {
     mDatabaseService->insert<2>(
@@ -165,6 +177,40 @@ void ProjectManagementSystem::saveMetadata()
         OneConfig::DATABASE_PROJECT_METADATA_TABLE,
         OneConfig::DATABASE_PROJECT_METADATA_HEADER,
         {boost::uuids::to_string(projectId).c_str(), project.name.c_str()});
+  }
+}
+
+void ProjectManagementSystem::renameProject(std::string oldName,
+                                            std::string newName)
+{
+  PBDev::basicAssert(!oldName.empty());
+  PBDev::basicAssert(!newName.empty());
+  PBDev::basicAssert(mProjectsMetadata.right.find(oldName) !=
+                     mProjectsMetadata.right.end());
+
+  if (newName != oldName) {
+    bool success = mProjectsMetadata.right.replace_key(
+        mProjectsMetadata.right.find(oldName), newName);
+    PBDev::basicAssert(success);
+
+    auto &uuid = mProjectsMetadata.right.at(newName);
+
+    mDatabaseService->update<2>(
+        OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+        OneConfig::DATABASE_PROJECT_METADATA_HEADER,
+        {boost::uuids::to_string(uuid).c_str(), newName.c_str()});
+
+    if (maybeLoadedProject != nullptr) {
+      if (maybeLoadedProject->second.name == oldName) {
+        auto project = maybeLoadedProject->second;
+        project.name = newName;
+        maybeLoadedProject->second = project;
+      }
+    }
+
+    auto newProjectPath = mPlatformInfo->projectPath(newName);
+    auto oldProjectPath = mPlatformInfo->projectPath(oldName);
+    std::filesystem::rename(oldProjectPath, newProjectPath);
   }
 }
 

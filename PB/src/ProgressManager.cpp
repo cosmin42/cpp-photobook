@@ -1,5 +1,7 @@
 #include <pb/ProgressManager.h>
 
+#include <unordered_set>
+
 namespace PB {
 
 void ProgressManager::configure(ProgressManagerListener *listener)

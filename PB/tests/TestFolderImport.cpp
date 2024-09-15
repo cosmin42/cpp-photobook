@@ -17,9 +17,6 @@ TEST(TestFolderImport, Test0)
   TestPhotobookListener photobookListener;
 
   PB::Photobook photobook(".", ".", {1280, 720});
-  photobook.configure(stagedImageListener.get());
-  photobook.configure((PB::ImageMonitorListener *)&imageMonitorListener);
-  photobook.configure((PB::StagedImagesListener *)&photobookListener);
   photobook.configure((PB::PhotobookListener *)&photobookListener);
 
   EXPECT_CALL(photobookListener, onMetadataUpdated());

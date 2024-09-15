@@ -76,7 +76,7 @@ public:
 
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
 };
-
+/*
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
 public:
@@ -106,7 +106,7 @@ class TestProjectPersistenceListener final
   MOCK_METHOD(void, onProjectRenamed, (), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
 };
-
+*/
 class TestProjectManagementSystemListener final
     : public PB::ProjectManagementSystemListener {
 public:

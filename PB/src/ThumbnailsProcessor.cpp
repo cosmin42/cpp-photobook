@@ -22,12 +22,6 @@ void ThumbnailsProcessor::setScreenSize(std::pair<int, int> screenSize)
   mScreenHeight = screenSize.second;
 }
 
-void ThumbnailsProcessor::provideProjectDetails(
-    std::shared_ptr<Project> project)
-{
-  mProject = project;
-}
-
 void ThumbnailsProcessor::generateThumbnails(
     std::string thumbnailsDirectoryName, Path root,
     std::vector<ProcessingData> mediaMap, std::string groupIdentifier,

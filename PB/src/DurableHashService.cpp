@@ -21,7 +21,7 @@ bool DurableHashService::containsHash(std::string key)
   std::string predicate = "cache_path='" + key + "'";
   auto        hashFound =
       mDatabaseService->selectData(OneConfig::DATABASE_CACHE_TABLE, predicate,
-                                   OneConfig::DATABASE_CACHE_HEADER.size());
+                                   (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
   return !hashFound.empty();
 }
 
@@ -32,7 +32,7 @@ std::string DurableHashService::getHash(PBDev::ProjectId projectId, Path path)
   // TODO: Change this to select also by project id
   auto rawData = mDatabaseService->selectData(
       OneConfig::DATABASE_CACHE_TABLE, "path='" + path.string() + "'",
-      OneConfig::DATABASE_CACHE_HEADER.size());
+      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
   auto cacheEntry = DatabaseService::deserializeCacheEntry(rawData);
 
   if (cacheEntry.empty()) {

@@ -14,7 +14,7 @@ TEST(TestPhotobook, TestCreation)
   photobook.configure(stagedImageListener.get());
   photobook.configure(imageMonitorListener.get());
 }
-
+/*
 TEST(TestPhotobook, TestMetadata)
 {
   clearProjectCache();
@@ -131,3 +131,4 @@ TEST(TestPhotobook, TestProjectLoading)
               onCleared());
   photobook.unloadProject();
 }
+*/

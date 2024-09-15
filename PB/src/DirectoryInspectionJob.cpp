@@ -36,6 +36,7 @@ DirectoryInspectionJob::getTask(std::stop_token stopToken)
 
 void DirectoryInspectionJob::onTaskFinished(PBDev::MapReducerTaskId taskId)
 {
+  UNUSED(taskId);
   mListener->onInspectionFinished(mJobId, mPaths);
 }
 

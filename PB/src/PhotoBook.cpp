@@ -3,7 +3,6 @@
 #include <pb/ImportImageTask.h>
 #include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
-#include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
 
 namespace PB {
@@ -18,7 +17,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mProjectSerializerService(std::make_shared<ProjectSerializerService>()),
       mDurableHashService(std::make_shared<DurableHashService>()),
       mProjectManagementSystem(std::make_shared<ProjectManagementSystem>()),
-      mPersistenceService(std::make_shared<PersistenceService>(mPlatformInfo)),
+      mImageFactory(std::make_shared<ImageFactory>()),
       mImportLogic(mPlatformInfo),
       mProgressManager(std::make_shared<ProgressManager>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
@@ -31,9 +30,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   initLogger();
 
-  ImageFactory::inst().configurePlatformInfo(mPlatformInfo);
-  ImageFactory::inst().configurePersistenceService(mPersistenceService);
-
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);
   PBDev::basicAssert(importFoldersLogicListener != nullptr);
@@ -42,11 +38,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto threadScheduler = dynamic_cast<PBDev::ThreadScheduler *>(this);
   PBDev::basicAssert(threadScheduler != nullptr);
   mImportLogic.configure(threadScheduler);
-
-  auto persistenceServiceListener =
-      dynamic_cast<PersistenceServiceListener *>(this);
-  PBDev::basicAssert(persistenceServiceListener != nullptr);
-  mPersistenceService->configure(persistenceServiceListener);
 
   auto progressManagerListener =
       dynamic_cast<PB::ProgressManagerListener *>(this);
@@ -72,11 +63,15 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
+  auto projectManagementSystemListener =
+      dynamic_cast<PB::ProjectManagementSystemListener *>(this);
+  PBDev::basicAssert(projectManagementSystemListener != nullptr);
+  mProjectManagementSystem->configureProjectManagementSystemListener(
+      projectManagementSystemListener);
+
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
-
-  mPersistenceService->configure(localStatePath);
 
   mProgressManager->configureScheduler(threadScheduler);
 
@@ -106,9 +101,14 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->condifureThreadScheduler(threadScheduler);
   mLutService->configureOGLEngine(mOGLEngine);
 
-  mImageToPaperService->configurePersistenceService(mPersistenceService);
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
+  mImageToPaperService->configureProjectManagementSystem(
+      mProjectManagementSystem);
+
+  mImageFactory->configurePlatformInfo(mPlatformInfo);
+
+  mProjectManagementSystem->configureDatabaseService(mDatabaseService);
 }
 
 void Photobook::initLogger()
@@ -128,29 +128,6 @@ void Photobook::initLogger()
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 
-void Photobook::configure(StagedImagesListener *listener)
-{
-  mImageViews.stagedImages().setListener(listener);
-}
-
-void Photobook::configure(ImageMonitorListener *listener)
-{
-  mImageViews.imageMonitor().setListener(listener);
-}
-
-void Photobook::configure(std::shared_ptr<PB::Project> project)
-{
-  mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
-  mExportLogic.configure(mPersistenceService->currentProject(), mPlatformInfo);
-  mImageToPaperService->configureProject(mPersistenceService->currentProject());
-}
-
-void Photobook::configureCurrentProject()
-{
-  configure(project()->currentProject());
-}
-
 void Photobook::startPhotobook()
 {
   mOGLEngine->start(std::stop_token());
@@ -161,26 +138,28 @@ void Photobook::unloadProject()
 {
   mImportLogic.stopAll();
   if (mImportLogic.runningImageProcessingJobs().empty()) {
-    mPersistenceService->clear();
-    mImageViews.imageMonitor().clear();
-    mImageViews.stagedImages().clear();
+    mProjectManagementSystem->unloadProject();
   }
   else {
     mMarkProjectForDeletion = true;
   }
 }
 
-void Photobook::recallMetadata() { mPersistenceService->recallMetadata(); }
+void Photobook::recallMetadata() { mProjectManagementSystem->recallMetadata(); }
 
 void Photobook::recallProject(std::string name)
 {
-  mProjectName = name;
-  mPersistenceService->recallProject(name);
+  auto metadata = mProjectManagementSystem->metadata();
+  auto projectId = metadata.right.at(name);
+
+  mProjectManagementSystem->loadProject(projectId);
 }
 
 void Photobook::addImportFolder(Path path)
 {
-  if (mImageViews.imageMonitor().containsRow(path, true)) {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  if (maybeProject->second.imageMonitor().containsRow(path, true)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
     return;
   }
@@ -201,11 +180,14 @@ void Photobook::removeImportFolder(Path path)
 
   mImportLogic.stop(path);
 
-  if (mImageViews.imageMonitor().isPending(path)) {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  if (maybeProject->second.imageMonitor().isPending(path)) {
     mImportLogic.markForDeletion(path);
   }
   else {
-    mImageViews.imageMonitor().removeRow(path);
+    maybeProject->second.imageMonitor().removeRow(path);
   }
 }
 
@@ -213,12 +195,15 @@ void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportPDFAlbum(std::string name, Path path)
 {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
   auto pdfName = path / (name + ".pdf");
 
   std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
       pdfName, mPlatformInfo->localStatePath,
-      mPersistenceService->currentProject()->paperSettings,
-      mImageViews.stagedImages().stagedPhotos());
+      maybeProject->second.paperSettings,
+      maybeProject->second.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
 
@@ -229,11 +214,14 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
 {
   auto pdfName = path / (name + "-libharu" + ".pdf");
 
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
   std::shared_ptr<PdfLibharuExportTask> task =
       std::make_shared<PdfLibharuExportTask>(
           pdfName, mPlatformInfo->localStatePath,
-          mPersistenceService->currentProject()->paperSettings,
-          mImageViews.stagedImages().stagedPhotos());
+          maybeProject->second.paperSettings,
+          maybeProject->second.stagedImages().stagedPhotos());
 
   task->setListener(&mExportLogic);
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
@@ -241,6 +229,8 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
 
 void Photobook::exportJPGAlbum(std::string name, Path path)
 {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
   auto newFolder = path / name;
   if (std::filesystem::exists(newFolder)) {
     mParent->onError(PBDev::Error()
@@ -249,10 +239,9 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   else {
     auto success = std::filesystem::create_directories(newFolder);
     PBDev::basicAssert(success);
-
     std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
-        newFolder, mPersistenceService->currentProject()->paperSettings,
-        mImageViews.stagedImages().stagedPhotos());
+        newFolder, maybeProject->second.paperSettings,
+        maybeProject->second.stagedImages().stagedPhotos());
 
     task->setListener(&mExportLogic);
     mExportLogic.start(task->name(),
@@ -260,19 +249,12 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   }
 }
 
-std::shared_ptr<PersistenceService> Photobook::project()
-{
-  return mPersistenceService;
-}
-
-ImageViews &Photobook::imageViews() { return mImageViews; }
-
+/*
 void Photobook::onProjectRead(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
     std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
     std::vector<Path>                                       &roots)
 {
-  configure(mPersistenceService->currentProject());
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
   mImageViews.stagedImages().configure(stagedImages);
 
@@ -305,19 +287,18 @@ void Photobook::onPersistenceError(PBDev::Error error)
 {
   mParent->onPersistenceError(error);
 }
+*/
+
+void Photobook::onProjectRecalled() {}
+
+void Photobook::onProjectMetadataRecalled() { mParent->onMetadataUpdated(); }
 
 void Photobook::newProject(std::string name, PaperSettings paperSettings)
 {
-  mProjectName = name;
-  // TODO: mPersistenceService should announce mImportLogic when the project was
-  // updated
-  auto newProject = std::make_shared<Project>();
-  newProject->paperSettings = paperSettings;
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
 
-  mPersistenceService->newProject(name, newProject);
-  mImportLogic.configure(mPersistenceService->currentProject());
-  ImageFactory::inst().configureProject(mPersistenceService->currentProject());
-  mImageToPaperService->configureProject(mPersistenceService->currentProject());
+  mProjectManagementSystem->newProject(paperSettings);
 }
 
 void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
@@ -331,26 +312,39 @@ std::shared_ptr<CollageManager> Photobook::collageManager()
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
   std::vector<std::shared_ptr<VirtualImage>> imagesSet;
 
   std::vector<ProcessingData> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = PB::ImageFactory::inst().createImage(newFiles.at(i));
+    auto virtualImage = mImageFactory->createImage(newFiles.at(i));
     imagesSet.push_back(virtualImage);
     keyAndPaths.push_back({virtualImage->frontend().full,
                            virtualImage->frontend().full, (unsigned)i});
   }
 
-  mImageViews.imageMonitor().addRow(root, imagesSet);
+  maybeProject->second.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
 
   RowProcessingData rowProcessingData = {root, keyAndPaths};
-  auto imageHash = mPersistenceService->hash(rowProcessingData.root);
+
+  auto maybeLoadedProjectInfo =
+      mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
+
+  auto coreHash = mDurableHashService->getHash(
+      PBDev::ProjectId(maybeLoadedProjectInfo->first), rowProcessingData.root);
+
+  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
+                                                  coreHash, "jpg");
+
   mImportLogic.processImages(
-      boost::uuids::to_string(project()->currentProjectUUID()),
-      rowProcessingData, imageHash.stem().string());
+      boost::uuids::to_string(maybeLoadedProjectInfo->first), rowProcessingData,
+      imageHash.stem().string());
 }
 
 void Photobook::onImportStop(Path) {}
@@ -358,34 +352,37 @@ void Photobook::onImportStop(Path) {}
 void Photobook::onImageProcessed(Path key, Path root,
                                  ImageResources imageResources)
 {
-  mImageViews.imageMonitor().image(key)->setSizePath(
+  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  maybeProject->second.imageMonitor().image(key)->setSizePath(
       imageResources.full, imageResources.medium, imageResources.small);
-  mImageViews.imageMonitor().image(key)->setSize(imageResources.width,
-                                                 imageResources.height);
-  mImageViews.imageMonitor().image(key)->finishProcessing();
+  maybeProject->second.imageMonitor().image(key)->setSize(
+      imageResources.width, imageResources.height);
+  maybeProject->second.imageMonitor().image(key)->finishProcessing();
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
   auto [globalProgress, globalProgressCap] =
       mImportLogic.imageProcessingProgress();
 
-  auto [row, index] = mImageViews.imageMonitor().position(key);
+  auto [row, index] = maybeProject->second.imageMonitor().position(key);
 
   mParent->onImageUpdated(root, row, index);
 
   if (progress == progressCap) {
-    auto rowIndex = mImageViews.imageMonitor().rowIndex(root);
-    mImageViews.imageMonitor().completeRow(rowIndex);
+    auto rowIndex = maybeProject->second.imageMonitor().rowIndex(root);
+    maybeProject->second.imageMonitor().completeRow(rowIndex);
 
     mImportLogic.clearJob(root);
 
     if (mImportLogic.marked(root)) {
-      mImageViews.imageMonitor().removeRow(root);
+      maybeProject->second.imageMonitor().removeRow(root);
       mImportLogic.removeMarkForDeletion(root);
     }
 
     if (mMarkProjectForDeletion) {
       mMarkProjectForDeletion = false;
-      mImageViews.imageMonitor().clear();
+      maybeProject->second.imageMonitor().clear();
     }
   }
 }
@@ -399,7 +396,13 @@ std::vector<Path> Photobook::pendingMappingPathList() const
   return mImportLogic.pendingMappingFolders();
 }
 
-std::string Photobook::projectName() const { return mProjectName; }
+std::string Photobook::projectName() const
+{
+  auto maybeLoadedProjectInfo =
+      mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
+  return maybeLoadedProjectInfo->second.name;
+}
 
 std::shared_ptr<PlatformInfo> Photobook::platformInfo() const
 {
@@ -411,7 +414,18 @@ std::shared_ptr<ImageToPaperService> Photobook::imageToPaperService() const
   return mImageToPaperService;
 }
 
-void Photobook::onProjectRenamed() {}
+std::shared_ptr<ImageFactory> Photobook::imageFactory() const
+{
+  return mImageFactory;
+}
+
+std::shared_ptr<ProjectManagementSystem>
+Photobook::projectManagementSystem() const
+{
+  return mProjectManagementSystem;
+}
+
+// void Photobook::onProjectRenamed() {}
 
 void Photobook::onExportComplete(std::string name) {}
 
@@ -433,13 +447,21 @@ void Photobook::onCollageThumbnailsMakerError() {}
 
 void Photobook::onCollageCreated(unsigned index, Path imagePath)
 {
-  auto imageHash = mPersistenceService->hash(imagePath);
+  auto maybeLoadedProjectInfo =
+      mProjectManagementSystem->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
+
+  auto coreHash = mDurableHashService->getHash(
+      PBDev::ProjectId(maybeLoadedProjectInfo->first), imagePath);
+
+  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
+                                                  coreHash, ".jpg");
 
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
-      boost::uuids::to_string(project()->currentProjectUUID()));
+      boost::uuids::to_string(maybeLoadedProjectInfo->first));
 
-  auto newImage = ImageFactory::inst().createRegularImage(imagePath);
+  auto newImage = mImageFactory->createRegularImage(imagePath);
 
   std::function<void(unsigned, unsigned)> onFinished =
       [this, index{index}, newImage{newImage}, imagePath{imagePath},

@@ -1,6 +1,6 @@
 #include <pb/ImportFoldersLogic.h>
 
-#include <pb/util/Util.h>
+#include <pb/util/FileInfo.h>
 
 namespace PB {
 ImportFoldersLogic::ImportFoldersLogic(
@@ -18,12 +18,6 @@ void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
 void ImportFoldersLogic::configure(PBDev::ThreadScheduler *scheduler)
 {
   mScheduler = scheduler;
-}
-
-void ImportFoldersLogic::configure(std::shared_ptr<Project> project)
-{
-  mThumbnailsProcessor.provideProjectDetails(project);
-  mProject = project;
 }
 
 void ImportFoldersLogic::setTaskCruncher(

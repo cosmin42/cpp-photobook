@@ -28,7 +28,6 @@ runtimeclass PhotobookWin
 
   void ConfigureStagedImagesListener(StagedImagesListener listener);
   void ConfigureImageMonitorListener(ImageMonitorListener listener);
-  void ConfigureCurrentProject();
 
   void StartPhotobook();
 
@@ -55,8 +54,6 @@ runtimeclass PhotobookWin
 
   IVector<CollageTemplateInfo> CollageTemplatesThumbnailsList();
   void MakeCollage(IVector<UInt32> images, UInt32 collageName);
-
-  static VirtualImagePtr copyImage(VirtualImagePtr image);
 
   VirtualImagePtr mapImageToSPL(VirtualImagePtr image);
 

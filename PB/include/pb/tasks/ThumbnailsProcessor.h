@@ -1,7 +1,6 @@
 #pragma once
 
 #include <pb/RowProcessingData.h>
-#include <pb/image/Image.h>
 #include <pb/project/Project.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
@@ -13,8 +12,6 @@ public:
   ~ThumbnailsProcessor();
 
   void setScreenSize(std::pair<int, int> size);
-
-  void provideProjectDetails(std::shared_ptr<Project>);
 
   void generateThumbnails(
       std::string projectName, Path root, std::vector<ProcessingData> mediaMap,
@@ -36,7 +33,6 @@ private:
   std::pair<Path, Path>    assembleOutputPaths(int         index,
                                                std::string groupIdentifier,
                                                std::string projectName);
-  std::shared_ptr<Project> mProject;
 
   PBDev::ParallelTaskConsumer mParallelTaskConsumer;
 

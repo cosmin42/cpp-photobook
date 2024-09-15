@@ -101,12 +101,10 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/ImportFoldersLogic.h
     include/pb/ImageToPaperService.h
     include/pb/ImageToPaperTask.h
-    include/pb/image/Image.h
     include/pb/image/ImageFactory.h
     include/pb/ImageMetadataLogic.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
-    include/pb/image/ImageSetWriter.h
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
@@ -118,11 +116,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/MetadataReader.h
     include/pb/OGLEngine.h
     include/pb/FileComparator.h
-    include/pb/persistence/FilePersistence.h
-    include/pb/persistence/Persistence.h
     include/pb/persistence/SerializationStrategy.h
-    include/pb/persistence/SQLPersistence.h
-    include/pb/persistence/PersistenceService.h
     include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
     include/pb/Platform.h
@@ -135,14 +129,11 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/RowProcessingData.h
     include/pb/RuntimeUUID.h
     include/pb/SkiaResources.h
-    include/pb/tasks/Tasks.h
     include/pb/tasks/PicturesSearchConfig.h
     include/pb/tasks/ParallelTaskConsumer.h
-    include/pb/tasks/SequentialTaskConsumer.h
     include/pb/tasks/ThumbnailsProcessor.h
     include/pb/StagedImages.h
     include/pb/SVGInflater.h
-    include/pb/util/Util.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
@@ -153,7 +144,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/ThreadScheduler.h
     include/pb/TSQueue.h
     include/pb/Visitor.h
-    include/pb/WorkersManager.h
 
     src/CollageLibraryAssistant.cpp
     src/Command.cpp
@@ -172,14 +162,12 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/GPUAcceleratedImageOperations.cpp
     src/PicturesSearchConfig.cpp
     src/FileComparator.cpp
-    src/FilePersistence.cpp
     src/Html.cpp
     src/ImageFactory.cpp
     src/ImageReader.cpp
     src/ImageMetadataLogic.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
-    src/ImageSetWriter.cpp
     src/ImageToPaperService.cpp
     src/ImageToPaperTask.cpp
     src/ImportImageTask.cpp
@@ -193,30 +181,25 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/PdfLibharu.cpp
-    src/Persistence.cpp
     src/Photobook.cpp
     src/ProgressManager.cpp
     src/Project.cpp
     src/ProjectMetadata.cpp
     src/ProjectManagementSystem.cpp
     src/ProjectSerializerService.cpp
-    src/PersistenceService.cpp
     src/RegularImage.cpp
     src/RuntimeUUID.cpp
     src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
     src/SkiaResources.cpp
-    src/SQLPersistence.cpp
     src/StagedImages.cpp
     src/SVGInflater.cpp
     src/util/FileInfo.cpp
     src/util/Timer.cpp
-    src/util/SequentialTaskConsumer.cpp
     src/util/ParallelTaskConsumer.cpp
     src/TaskCruncher.cpp
     src/TextImage.cpp
-    src/VirtualImage.cpp
-    src/WorkersManager.cpp)
+    src/VirtualImage.cpp)
 
 target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
     include
@@ -242,16 +225,13 @@ set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
     tests/MockListeners.h
     tests/MockListeners.cpp
-    tests/TestPersistence.cpp
     tests/TestIteratorWithState.cpp
     tests/TestComparator.cpp
     tests/TestErrors.cpp
     tests/TestFolderImport.cpp
     tests/TestImageMonitor.cpp
     tests/TestParallelTaskConsumer.cpp
-    tests/TestPersistenceService.cpp
     tests/TestPhotobook.cpp
-    tests/TestPersistenceService.cpp
     tests/TestRuntimeUUID.cpp
     tests/TestStagedImages.cpp
     tests/TestThirdPartyLinks.cpp

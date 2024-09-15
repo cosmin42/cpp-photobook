@@ -25,6 +25,7 @@ Json ProjectSerializerService::loadAsJson(Path projectPath)
   }
   catch (Json::exception err) {
     auto what = err.what();
+    UNUSED(what);
     PBDev::basicAssert(false);
   }
   return Json();

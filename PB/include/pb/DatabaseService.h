@@ -53,7 +53,7 @@ public:
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
       std::vector<std::string> row;
-      for (auto i = 1; i < expectedColumnsCount+1; ++i) {
+      for (unsigned int i = 1; i < expectedColumnsCount + 1; ++i) {
         const char *data =
             reinterpret_cast<const char *>(sqlite3_column_text(stmt, i));
         row.push_back(data);

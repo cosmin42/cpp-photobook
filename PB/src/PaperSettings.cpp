@@ -1,5 +1,7 @@
 #include <pb/project/PaperSettings.h>
 
+#include <pb/util/Traits.h>
+
 namespace PB {
 
 PaperType deserializePaperType(std::string paperType)

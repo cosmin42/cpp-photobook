@@ -145,18 +145,6 @@ private:
 };
 
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
-  static PhotobookRuntimeComponent::VirtualImagePtr
-  copyImage(PhotobookRuntimeComponent::VirtualImagePtr image)
-  {
-    auto nativeImagePtr =
-        winrt::get_self<
-            winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
-            image)
-            ->Unwrap();
-    return winrt::make<VirtualImagePtr>(
-        PB::ImageFactory::inst().copyImage(nativeImagePtr));
-  }
-
   PhotobookRuntimeComponent::VirtualImagePtr
   mapImageToSPL(PhotobookRuntimeComponent::VirtualImagePtr image)
   {
@@ -168,12 +156,18 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     std::string newImageName =
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    Path projectThumbnailsRoot =
-        mPhotobook->platformInfo()->localStatePath / "th" /
-        boost::uuids::to_string(mPhotobook->project()->currentProjectUUID());
+    auto projectManagementSystem = mPhotobook->projectManagementSystem();
+    auto maybeLoadedProjectInfo =
+        projectManagementSystem->maybeLoadedProjectInfo();
+
+    PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
+
+    auto projectThumbnailsRoot =
+        mPhotobook->platformInfo()->projectSupportFolder(
+            maybeLoadedProjectInfo->first);
 
     return winrt::make<VirtualImagePtr>(
-        PB::ImageFactory::inst().mapImageToPaper(
+        mPhotobook->imageFactory()->mapImageToPaper(
             nativeImagePtr, projectThumbnailsRoot / newImageName));
   }
 
@@ -259,8 +253,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   void MakeCollage(Windows::Foundation::Collections::IVector<unsigned> images,
                    unsigned const collageIndex)
   {
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
     // TODO: Fix redundant staged images staged photos.
-    auto stagedPhotos = mPhotobook->imageViews().stagedImages().stagedPhotos();
+    auto stagedPhotos = maybeProject->second.stagedImages().stagedPhotos();
 
     std::vector<Path> imagesToMerge;
 
@@ -282,7 +279,10 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mStagedImagesListener =
         new PhotobookRuntimeComponent::implementation::StagedImagesListener(
             listener);
-    mPhotobook->configure(
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    maybeProject->second.stagedImages().setListener(
         dynamic_cast<PB::StagedImagesListener *>(mStagedImagesListener));
   }
 
@@ -293,7 +293,11 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
       delete mImageMonitorListener;
     }
     mImageMonitorListener = new ImageMonitorListener(listener);
-    mPhotobook->configure(
+
+    auto maybeProject =
+        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    maybeProject->second.imageMonitor().setListener(
         dynamic_cast<PB::ImageMonitorListener *>(mImageMonitorListener));
   }
 
@@ -308,21 +312,17 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
   }
 
-  void ConfigureCurrentProject() { mPhotobook->configureCurrentProject(); }
-
   PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
   {
     return winrt::make<VirtualImagePtr>(
-        PB::ImageFactory::inst().defaultRegularImage());
+        mPhotobook->imageFactory()->defaultRegularImage());
   }
 
   winrt::hstring GenerateProjectName()
   {
-    auto projectName = PB::Project::generateAlbumName([this](std::string name) {
-      return !mPhotobook->project()->contains(name);
-    });
+    auto newProjectName = mPhotobook->projectManagementSystem()->newAlbumName();
 
-    return winrt::to_hstring(projectName);
+    return winrt::to_hstring(newProjectName);
   }
 
   void RecallMetadata();
@@ -334,12 +334,12 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   PhotobookRuntimeComponent::ImageViews GetImageViews()
   {
-    return winrt::make<ImageViews>(mPhotobook->imageViews());
+    return winrt::make<ImageViews>(mPhotobook->projectManagementSystem());
   }
 
   PhotobookRuntimeComponent::Settings GetSettings()
   {
-    return winrt::make<Settings>(mPhotobook->project());
+    return winrt::make<Settings>(mPhotobook->projectManagementSystem());
   }
 
   void AddImportFolder(winrt::hstring importPath);

@@ -2,6 +2,7 @@
 
 #include <pb/ImageToPaperTask.h>
 #include <pb/Platform.h>
+#include <pb/ProjectManagementSystem.h>
 #include <pb/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
 
@@ -24,15 +25,10 @@ public:
     mTaskCruncher = taskCruncher;
   }
 
-  void configurePersistenceService(
-      std::shared_ptr<PersistenceService> persistenceService)
+  void configureProjectManagementSystem(
+	  std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
   {
-    mPersistenceService = persistenceService;
-  }
-
-  void configureProject(std::shared_ptr<Project> project)
-  {
-    mProject = project;
+	mProjectManagementSystem = projectManagementSystem;
   }
 
   void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
@@ -53,10 +49,9 @@ public:
   void removeTask(PBDev::ImageToPaperServiceId id);
 
 private:
-  std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
-  std::shared_ptr<TaskCruncher>       mTaskCruncher = nullptr;
-  std::shared_ptr<PersistenceService> mPersistenceService = nullptr;
-  std::shared_ptr<Project>            mProject = nullptr;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
+  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>
       mTasks;

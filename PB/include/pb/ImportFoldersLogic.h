@@ -3,11 +3,13 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
+#include <pb/ProjectManagementSystem.h>
 #include <pb/RowProcessingData.h>
 #include <pb/TaskCruncher.h>
 #include <pb/ThreadScheduler.h>
 #include <pb/tasks/PicturesSearchConfig.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
+#include <pb/util/Error.h>
 
 namespace PB {
 
@@ -32,8 +34,6 @@ public:
   ~ImportFoldersLogic() = default;
   void configure(ImportFoldersLogicListener *listener);
   void configure(PBDev::ThreadScheduler *scheduler);
-
-  void configure(std::shared_ptr<Project> project);
 
   void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 

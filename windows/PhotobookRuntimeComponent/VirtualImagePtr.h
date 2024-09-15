@@ -5,8 +5,8 @@
 
 #include "Int32Pair.h"
 
-#include <pb/image/Image.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/image/ImageReader.h>
 
 #include <winrt/Microsoft.Graphics.Canvas.h>
 

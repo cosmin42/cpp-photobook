@@ -6,8 +6,9 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/Config.h>
+#include <pb/ImageMonitor.h>
 #include <pb/Platform.h>
-#include <pb/util/Util.h>
+#include <pb/StagedImages.h>
 
 namespace PB {
 
@@ -21,8 +22,14 @@ public:
 
   ~Project() = default;
 
+  ImageMonitor &imageMonitor() { return mImageMonitor; }
+  StagedImages &stagedImages() { return mStagedImages; }
+
 private:
   static std::vector<std::string> HAPPY_WORDS;
+
+  ImageMonitor mImageMonitor;
+  StagedImages mStagedImages;
 };
 
 } // namespace PB

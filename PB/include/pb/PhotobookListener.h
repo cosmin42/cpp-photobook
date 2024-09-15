@@ -4,7 +4,8 @@
 #include <pb/LutIconInfo.h>
 #include <pb/ProgressManager.h>
 #include <pb/tasks/ThumbnailsProcessor.h>
-#include <pb/util/Util.h>
+#include <pb/util/Error.h>
+#include <pb/util/Traits.h>
 
 namespace PB {
 class PhotobookListener {

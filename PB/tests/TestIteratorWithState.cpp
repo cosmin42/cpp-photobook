@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <pb/util/Util.h>
+#include <pb/util/Error.h>
+#include <pb/util/IteratorWithState.h>
 
 TEST(TestIteratorWithState, TestEmpty)
 {
