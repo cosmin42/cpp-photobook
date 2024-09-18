@@ -39,9 +39,6 @@ public:
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
-  void stop(Path path);
-  void stopAll();
-
   void clearJob(Path root);
 
   void processImages(std::string       thumbnailsDirectoryName,

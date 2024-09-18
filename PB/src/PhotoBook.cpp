@@ -136,7 +136,6 @@ void Photobook::startPhotobook()
 
 void Photobook::unloadProject()
 {
-  mImportLogic.stopAll();
   if (mImportLogic.runningImageProcessingJobs().empty()) {
     mProjectManagementSystem->unloadProject();
   }
@@ -177,8 +176,6 @@ void Photobook::removeImportFolder(Path path)
   if (mImportLogic.marked(path)) {
     return;
   }
-
-  mImportLogic.stop(path);
 
   auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);

@@ -50,10 +50,6 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   return std::nullopt;
 }
 
-void ImportFoldersLogic::stop(Path path) { mThumbnailsProcessor.abort(path); }
-
-void ImportFoldersLogic::stopAll() { mTaskCruncher->abort(); }
-
 void ImportFoldersLogic::clearJob(Path root)
 {
   mImageProcessingProgress.erase(root);
