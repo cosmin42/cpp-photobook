@@ -56,7 +56,7 @@ public:
     PBDev::MapReducerTaskId taskId(RuntimeUUID::newUUID());
 
     return std::make_optional<IdentifyableFunction>(
-        taskId, [this, taskId, lutPath] {
+        taskId, [this, lutPath] {
           auto outImagePath = createTransformedImage(lutPath);
           auto lutName = extractNameFromPath(lutPath);
           mListener->onLutIconsPreprocessingFinished(lutName, outImagePath);

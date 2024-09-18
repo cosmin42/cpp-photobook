@@ -149,6 +149,8 @@ deserialize(Json jsonData)
   else {
     PBDev::basicAssert(false);
   }
+#else
+  UNUSED(processingFinished);
 #endif
   return nullptr;
 }

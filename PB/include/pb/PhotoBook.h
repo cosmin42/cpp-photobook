@@ -67,7 +67,7 @@ public:
 
   std::shared_ptr<CollageManager> collageManager();
 
-  void onError(PBDev::Error error);
+  void onError(PBDev::Error error) override;
   /*
   void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,

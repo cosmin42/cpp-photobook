@@ -362,9 +362,6 @@ void Photobook::onImageProcessed(Path key, Path root,
   maybeProject->second.imageMonitor().image(key)->finishProcessing();
 
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
-  auto [globalProgress, globalProgressCap] =
-      mImportLogic.imageProcessingProgress();
-
   auto [row, index] = maybeProject->second.imageMonitor().position(key);
 
   mParent->onImageUpdated(root, row, index);

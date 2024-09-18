@@ -39,9 +39,9 @@ private:
   ExportLogicListener                       *mListener = nullptr;
   int                                        mIndex = 0;
   std::vector<std::shared_ptr<VirtualImage>> mStagedImages;
+  Path                                       mPdfPath;
   Path                                       mLocalStatePath;
   PaperSettings                              mPaperSettings;
-  Path                                       mPdfPath;
   HPDF_Doc                                   mPDFFile;
   bool                                       mCrunchedFlag = false;
   std::stop_token                            mStopToken;
