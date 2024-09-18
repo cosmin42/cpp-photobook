@@ -39,8 +39,6 @@ public:
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
-  void clearJob(Path root);
-
   void processImages(std::string       thumbnailsDirectoryName,
                      RowProcessingData rowProcessingData, std::string hash);
 

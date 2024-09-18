@@ -367,8 +367,6 @@ void Photobook::onImageProcessed(Path key, Path root,
     auto rowIndex = maybeProject->second.imageMonitor().rowIndex(root);
     maybeProject->second.imageMonitor().completeRow(rowIndex);
 
-    mImportLogic.clearJob(root);
-
     if (mImportLogic.marked(root)) {
       maybeProject->second.imageMonitor().removeRow(root);
       mImportLogic.removeMarkForDeletion(root);

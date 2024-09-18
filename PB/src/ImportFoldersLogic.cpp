@@ -50,11 +50,6 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   return std::nullopt;
 }
 
-void ImportFoldersLogic::clearJob(Path root)
-{
-  mImageProcessingProgress.erase(root);
-}
-
 void ImportFoldersLogic::onImageProcessed(Path key, Path root,
                                           ImageResources imageResources,
                                           int            progressCap)
