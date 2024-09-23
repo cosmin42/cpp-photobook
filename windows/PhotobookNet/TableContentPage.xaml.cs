@@ -76,9 +76,6 @@ namespace PhotobookNet
 
             mPhotobook.ConfigurePhotobookListener(this);
 
-            mPhotobook.ConfigureStagedImagesListener(this);
-            mPhotobook.ConfigureImageMonitorListener(this);
-
             mNavigationItemsCollection = new ObservableCollection<string>();
             mUnstagedImageCollection = new ObservableCollection<VirtualImagePtr>();
             mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();

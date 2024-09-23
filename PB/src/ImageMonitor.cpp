@@ -3,10 +3,6 @@
 #include <boost/bimap/support/lambda.hpp>
 
 namespace PB {
-void ImageMonitor::setListener(ImageMonitorListener *listener)
-{
-  mListener = listener;
-}
 
 void ImageMonitor::replaceImageMonitorData(
     std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
@@ -45,8 +41,6 @@ void ImageMonitor::addRow(Path                                       path,
         .push_back(images.at(i));
   }
 
-  mListener->onImportFolderAdded();
-
   mPendingRows.insert((int)mRowIndexes.size() - 1);
   log();
 }
@@ -75,7 +69,6 @@ void ImageMonitor::removeRow(int row)
         mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
     PBDev::basicAssert(success);
   }
-  mListener->onImportFolderRemoved(row);
   log();
 }
 
@@ -92,8 +85,6 @@ void ImageMonitor::clear()
   mRowIndexes.clear();
   mPositions.clear();
   mUnstagedImagesMatrix.clear();
-
-  mListener->onCleared();
   log();
 }
 

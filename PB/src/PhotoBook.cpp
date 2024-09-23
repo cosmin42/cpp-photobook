@@ -17,8 +17,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mProjectSerializerService(std::make_shared<ProjectSerializerService>()),
       mDurableHashService(std::make_shared<DurableHashService>()),
       mProjectManagementSystem(std::make_shared<ProjectManagementSystem>()),
-      mImageFactory(std::make_shared<ImageFactory>()),
-      mImportLogic(mPlatformInfo),
+      mImageFactory(std::make_shared<ImageFactory>()), mImportLogic(),
       mProgressManager(std::make_shared<ProgressManager>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(std::make_shared<CollageManager>()),
@@ -33,11 +32,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto importFoldersLogicListener =
       dynamic_cast<ImportFoldersLogicListener *>(this);
   PBDev::basicAssert(importFoldersLogicListener != nullptr);
-  mImportLogic.configure(importFoldersLogicListener);
 
   auto threadScheduler = dynamic_cast<PBDev::ThreadScheduler *>(this);
   PBDev::basicAssert(threadScheduler != nullptr);
-  mImportLogic.configure(threadScheduler);
 
   auto progressManagerListener =
       dynamic_cast<PB::ProgressManagerListener *>(this);
@@ -83,13 +80,18 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mTaskCruncher->registerPTC("upl-to-spl-map", 4);
   mTaskCruncher->registerPTC("search-files", 1);
   mTaskCruncher->registerPTC("lut-icons", 1);
+  mTaskCruncher->registerPTC("thumbnails-job", 1);
   mTaskCruncher->registerPTC("default", 1);
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
   mExportLogic.setExportListener(exportListener);
 
-  mImportLogic.setTaskCruncher(mTaskCruncher);
+  mImportLogic->configureTaskCruncher(mTaskCruncher);
+  mImportLogic->configurePlatformInfo(mPlatformInfo);
+  mImportLogic->configureProjectManagementSystem(mProjectManagementSystem);
+  mImportLogic->configureListener(importFoldersLogicListener);
+
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
   mDirectoryInspectionService->configureTaskCruncher(mTaskCruncher);
@@ -136,12 +138,14 @@ void Photobook::startPhotobook()
 
 void Photobook::unloadProject()
 {
+  /*
   if (mImportLogic.runningImageProcessingJobs().empty()) {
     mProjectManagementSystem->unloadProject();
   }
   else {
     mMarkProjectForDeletion = true;
   }
+  */
 }
 
 void Photobook::recallMetadata() { mProjectManagementSystem->recallMetadata(); }
@@ -163,7 +167,7 @@ void Photobook::addImportFolder(Path path)
     return;
   }
 
-  auto maybeError = mImportLogic.addImportFolder(path);
+  auto maybeError = mImportLogic->addImportFolder(path);
 
   if (maybeError) {
     mParent->onError(maybeError.value());
@@ -173,22 +177,20 @@ void Photobook::addImportFolder(Path path)
 
 void Photobook::removeImportFolder(Path path)
 {
-  if (mImportLogic.marked(path)) {
-    return;
-  }
+  // if (mImportLogic.marked(path)) {
+  //   return;
+  // }
 
   auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   if (maybeProject->second.imageMonitor().isPending(path)) {
-    mImportLogic.markForDeletion(path);
+    // mImportLogic.markForDeletion(path);
   }
   else {
     maybeProject->second.imageMonitor().removeRow(path);
   }
 }
-
-void Photobook::onError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::exportPDFAlbum(std::string name, Path path)
 {
@@ -298,10 +300,6 @@ void Photobook::newProject(std::string name, PaperSettings paperSettings)
   mProjectManagementSystem->newProject(paperSettings);
 }
 
-void Photobook::onMappingStarted(Path path) { mParent->onMappingStarted(path); }
-
-void Photobook::onMappingAborted(Path path) { mParent->onMappingAborted(path); }
-
 std::shared_ptr<CollageManager> Photobook::collageManager()
 {
   return mCollageTemplateManager;
@@ -309,6 +307,8 @@ std::shared_ptr<CollageManager> Photobook::collageManager()
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
+  mParent->onMappingFinished(root);
+  /*
   auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
@@ -338,13 +338,11 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
                                                   coreHash, "jpg");
-
-  mImportLogic.processImages(
-      boost::uuids::to_string(maybeLoadedProjectInfo->first), rowProcessingData,
-      imageHash.stem().string());
+*/
+  // mImportLogic.processImages(
+  //     boost::uuids::to_string(maybeLoadedProjectInfo->first),
+  //     rowProcessingData, imageHash.stem().string());
 }
-
-void Photobook::onImportStop(Path) {}
 
 void Photobook::onImageProcessed(Path key, Path root,
                                  ImageResources imageResources)
@@ -357,7 +355,7 @@ void Photobook::onImageProcessed(Path key, Path root,
   maybeProject->second.imageMonitor().image(key)->setSize(
       imageResources.width, imageResources.height);
   maybeProject->second.imageMonitor().image(key)->finishProcessing();
-
+  /*
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
   auto [row, index] = maybeProject->second.imageMonitor().position(key);
 
@@ -369,7 +367,7 @@ void Photobook::onImageProcessed(Path key, Path root,
 
     if (mImportLogic.marked(root)) {
       maybeProject->second.imageMonitor().removeRow(root);
-      mImportLogic.removeMarkForDeletion(root);
+      //mImportLogic.removeMarkForDeletion(root);
     }
 
     if (mMarkProjectForDeletion) {
@@ -377,6 +375,7 @@ void Photobook::onImageProcessed(Path key, Path root,
       maybeProject->second.imageMonitor().clear();
     }
   }
+  */
 }
 
 void Photobook::onImageProcessingJobEnded(Path root) {}
@@ -385,7 +384,8 @@ void Photobook::post(std::function<void()> f) { mParent->post(f); }
 
 std::vector<Path> Photobook::pendingMappingPathList() const
 {
-  return mImportLogic.pendingMappingFolders();
+  // return mImportLogic.pendingMappingFolders();
+  return std::vector<Path>();
 }
 
 std::string Photobook::projectName() const

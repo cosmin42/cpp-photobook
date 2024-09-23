@@ -131,6 +131,7 @@ private:
 DECLARE_STRONG_UUID(ParallelTaskConsumerId)
 DECLARE_STRONG_UUID(PdfPoDoFoId)
 DECLARE_STRONG_UUID(ProjectId)
+DECLARE_STRONG_UUID(ThumbnailsJobId)
 
 typedef PBDev::Path Path;
 typedef PBDev::Json Json;

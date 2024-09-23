@@ -11,6 +11,7 @@
 #pragma warning(pop)
 
 #include <pb/Enums.h>
+#include <pb/project/PaperSettings.h>
 #include <pb/util/Traits.h>
 
 namespace PB::Process {
@@ -45,6 +46,9 @@ std::vector<double> sampleNormalized(unsigned samplePointsCount);
 std::shared_ptr<cv::Mat>
 completeWithAlphaChannel(std::shared_ptr<cv::Mat> image);
 
+void createTextImage(PaperSettings paperSettings, std::string const &text,
+                     Path path);
+
 // TODO: Refactor all the studpid functions like resize
 auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
     -> std::function<std::shared_ptr<cv::Mat>(std::shared_ptr<cv::Mat>)>;
@@ -66,3 +70,9 @@ void imageWriteThumbnail(int width, int height, std::shared_ptr<cv::Mat> image,
 unsigned pointsFromPixels(double points, unsigned ppi);
 
 } // namespace PB::Process
+
+namespace PB::Geometry {
+cv::Size scaleToFitBoundingBox(cv::Size size, cv::Size boundingBox);
+
+cv::Size scaleToFillBoundingBox(cv::Size size, cv::Size boundingBox);
+} // namespace PB::Geometry

@@ -3,28 +3,6 @@
 #include <pb/util/FileInfo.h>
 
 namespace PB {
-ImportFoldersLogic::ImportFoldersLogic(
-    std::shared_ptr<PlatformInfo> platformInfo)
-    : mThumbnailsProcessor(platformInfo)
-{
-  mThumbnailsProcessor.setScreenSize(platformInfo->screenSize);
-}
-
-void ImportFoldersLogic::configure(ImportFoldersLogicListener *listener)
-{
-  mListener = listener;
-}
-
-void ImportFoldersLogic::configure(PBDev::ThreadScheduler *scheduler)
-{
-  mScheduler = scheduler;
-}
-
-void ImportFoldersLogic::setTaskCruncher(
-    std::shared_ptr<TaskCruncher> taskCruncher)
-{
-  mTaskCruncher = taskCruncher;
-}
 
 std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
 {
@@ -33,128 +11,61 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
     return std::get<PBDev::Error>(errorOrPath);
   }
 
-  for (auto &[key, value] : mPendingSearches) {
-    if (PBDev::FileInfo::contains(key, path)) {
+  for (auto &[key, value] : mRootPaths) {
+    if (PBDev::FileInfo::contains(value, path)) {
       return PBDev::Error() << PB::ErrorCode::FolderAlreadyImported;
     }
   }
 
-  mPendingSearches.emplace(path, PicturesSearchConfig(path));
-  mPendingSearches.at(path).setPicturesSearchConfigListener(this);
-  mPendingSearches.at(path).assignUuid(
+  PBDev::ThumbnailsJobId jobId(RuntimeUUID::newUUID());
+  mRootPaths[jobId] = path;
+  mSearches.emplace(jobId, PicturesSearchConfig(jobId, path));
+  mSearches.at(jobId).setPicturesSearchConfigListener(this);
+  mSearches.at(jobId).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
-  mScheduler->post([this, path{path}]() { mListener->onMappingStarted(path); });
-  mTaskCruncher->crunch("image-search-job", mPendingSearches.at(path),
+
+  mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
                         PBDev::ProgressJobName{"image-search"});
 
   return std::nullopt;
 }
 
-void ImportFoldersLogic::onImageProcessed(Path key, Path root,
-                                          ImageResources imageResources,
-                                          int            progressCap)
+void ImportFoldersLogic::startThumbnailsCreation(
+    PBDev::ThumbnailsJobId jobId, std::vector<Path> searchResults)
 {
-  mScheduler->post([this, root, imageResources, progressCap, key{key}]() {
-    if (mImageProcessingProgress.find(root) != mImageProcessingProgress.end()) {
-      mImageProcessingProgress[root] = {
-          mImageProcessingProgress.at(root).first + 1, progressCap};
-    }
-    else {
-      mImageProcessingProgress[root] = {1, progressCap};
-    }
+  mThumbnailsJobs.emplace(jobId, ThumbnailsJob(jobId, searchResults));
 
-    mListener->onImageProcessed(key, root, imageResources);
-  });
-}
+  mThumbnailsJobs.at(jobId).configureListener(this);
+  mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
+  mThumbnailsJobs.at(jobId).configureProjectManagementSystem(
+      mProjectManagementSystem);
 
-void ImportFoldersLogic::processImages(std::string thumbnailsDirectoryName,
-                                       RowProcessingData rowProcessingData,
-                                       std::string       hash)
-{
-  mThumbnailsProcessor.generateThumbnails(
-      thumbnailsDirectoryName, rowProcessingData.root, rowProcessingData.images,
-      hash,
-      [this, root{rowProcessingData.root},
-       maxProgress{rowProcessingData.images.size()}](
-          Path keyPath, ImageResources imageResources) {
-        onImageProcessed(keyPath, root, imageResources, (int)maxProgress);
-      });
+  mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
+                        PBDev::ProgressJobName{"thumbnails"});
 }
 
 void ImportFoldersLogic::onPicturesSearchFinished(
-    Path root, std::vector<Path> searchResults)
+    PBDev::ThumbnailsJobId jobId, Path root, std::vector<Path> searchResults)
 {
-  mScheduler->post([this, root{root}, searchResults{searchResults}]() {
-    mPendingSearches.erase(root);
-    if (searchResults.empty()) {
-      mListener->onMappingAborted(root);
-      mListener->onError(PBDev::Error() << ErrorCode::NoImages);
-    }
-    else {
-      mListener->onMappingFinished(root, searchResults);
-    }
-  });
+  mScheduler->post(
+      [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
+        mSearches.erase(jobId);
+        mListener->onMappingFinished(root, searchResults);
+
+        startThumbnailsCreation(jobId, searchResults);
+      });
 }
 
-void ImportFoldersLogic::onPicturesSearchAborted(Path root)
+void ImportFoldersLogic::onPicturesSearchAborted(Path root) {}
+
+void ImportFoldersLogic::imageProcessed(
+    PBDev::ThumbnailsJobId jobId, std::tuple<Path, Path, Path> thumbnailPaths)
 {
-  mScheduler->post([this, root{root}]() {
-    mPendingSearches.erase(root);
-    mListener->onMappingAborted(root);
-  });
+  auto root = mRootPaths.at(jobId);
+  mListener->onImageProcessed(root, root,
+                              PB::ImageResources{std::get<0>(thumbnailPaths),
+                                                 std::get<1>(thumbnailPaths),
+                                                 std::get<2>(thumbnailPaths)});
 }
 
-std::pair<int, int> ImportFoldersLogic::imageProcessingProgress() const
-{
-  int totalProgress = 0;
-  int totalProgressCap = 0;
-
-  for (auto [root, progress] : mImageProcessingProgress) {
-    totalProgress += progress.first;
-    totalProgressCap += progress.second;
-  }
-
-  return {totalProgress, totalProgressCap};
-}
-
-std::pair<int, int> ImportFoldersLogic::imageProcessingProgress(Path path) const
-{
-  return mImageProcessingProgress.at(path);
-}
-
-std::vector<Path> ImportFoldersLogic::runningImageProcessingJobs() const
-{
-  std::vector<Path> result;
-  for (auto &[path, progress] : mImageProcessingProgress) {
-    if (progress.first != progress.second) {
-      result.push_back(path);
-    }
-  }
-  return result;
-}
-
-std::vector<Path> ImportFoldersLogic::pendingMappingFolders() const
-{
-  std::vector<Path> keys;
-  for (auto &[root, values] : mPendingSearches) {
-    keys.push_back(root);
-  }
-
-  return keys;
-}
-
-void ImportFoldersLogic::markForDeletion(Path path)
-{
-  mRemovalMarks.insert(path);
-}
-void ImportFoldersLogic::removeMarkForDeletion(Path path)
-{
-  mRemovalMarks.erase(path);
-  mThumbnailsProcessor.clearJob(path);
-}
-
-bool ImportFoldersLogic::marked(Path path) const
-{
-  return mRemovalMarks.contains(path);
-}
 } // namespace PB

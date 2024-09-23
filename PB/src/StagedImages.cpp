@@ -2,11 +2,6 @@
 
 namespace PB {
 
-void StagedImages::setListener(StagedImagesListener *listener)
-{
-  mListener = listener;
-}
-
 void StagedImages::configure(
     std::vector<std::shared_ptr<VirtualImage>> &stagedImages)
 {
@@ -18,13 +13,7 @@ void StagedImages::configure(
 void StagedImages::addPictures(
     std::vector<std::shared_ptr<VirtualImage>> pictures)
 {
-  int nextIndex = (int)mStagedPhotos.size();
   mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
-
-  PBDev::basicAssert(mListener != nullptr);
-  if (pictures.size() > 0) {
-    mListener->onPicturesAdded(nextIndex, (int)pictures.size());
-  }
 }
 
 void StagedImages::addPictures(
@@ -40,17 +29,11 @@ void StagedImages::addPictures(
   else {
     mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
   }
-
-  PBDev::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded(position, (int)pictures.size());
 }
 
 void StagedImages::addPicture(std::shared_ptr<VirtualImage> picture)
 {
   mStagedPhotos.push_back(picture);
-  PBDev::basicAssert(mListener != nullptr);
-  mListener->onPicturesAdded((int)mStagedPhotos.size() - 1,
-                             (int)mStagedPhotos.size());
 }
 
 void StagedImages::removePicture(std::vector<unsigned> indexes)
@@ -59,7 +42,6 @@ void StagedImages::removePicture(std::vector<unsigned> indexes)
   for (int i = 0; i < (int)indexes.size(); ++i) {
     mStagedPhotos.erase(mStagedPhotos.begin() + indexes.at(i));
   }
-  mListener->onPictureRemoved(indexes);
 }
 
 void StagedImages::stashImages(std::vector<unsigned> indexes)
@@ -70,7 +52,6 @@ void StagedImages::stashImages(std::vector<unsigned> indexes)
     mStash.push_back(mStagedPhotos.at(indexes.at(i)));
     mStagedPhotos.erase(mStagedPhotos.begin() + indexes.at(i));
   }
-  mListener->onPictureRemoved(indexes);
 }
 
 void StagedImages::popImages(int position)
@@ -86,7 +67,6 @@ void StagedImages::clear()
     clearedIndexes.push_back(i);
   }
   mStagedPhotos.clear();
-  mListener->onPictureRemoved(clearedIndexes);
 }
 
 std::vector<std::shared_ptr<VirtualImage>> const &

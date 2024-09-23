@@ -26,9 +26,6 @@ runtimeclass PhotobookWin
 
   void ConfigurePhotobookListener(PhotobookListener listener);
 
-  void ConfigureStagedImagesListener(StagedImagesListener listener);
-  void ConfigureImageMonitorListener(ImageMonitorListener listener);
-
   void StartPhotobook();
 
   VirtualImagePtr EmptyImage();
