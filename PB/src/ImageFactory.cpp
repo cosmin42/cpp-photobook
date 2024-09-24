@@ -99,46 +99,4 @@ ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
   }
 }
 
-std::shared_ptr<VirtualImage>
-ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
-                              Path                          hashPath)
-{
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-  auto project = maybeProject->second;
-
-  auto imageData = ImageReader().read(
-      image->frontend().full, true,
-      {project.paperSettings.width, project.paperSettings.height});
-
-  std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
-      project.paperSettings.width, project.paperSettings.height,
-      {255, 255, 255})();
-
-  PBDev::basicAssert(imageData != nullptr);
-
-  PB::Process::overlap(imageData,
-                       PB::Process::alignToCenter())(singleColorImage);
-  /*
-  auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
-      mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
-      boost::uuids::to_string(maybeProject->first));
-
-  Process::writeImageOnDisk(singleColorImage, hashPath);
-
-  Process::imageWriteThumbnail(project.paperSettings.width,
-                               project.paperSettings.height, singleColorImage,
-                               mediumPath, smallPath);
-
-  ImageResources imageResources = {hashPath, mediumPath, smallPath,
-                                   (unsigned)singleColorImage->cols,
-                                   (unsigned)singleColorImage->rows};
-
-  auto newImage = std::make_shared<RegularImage>(imageResources, hashPath);
-
-  return newImage;
-  */
-  return nullptr;
-}
-
 } // namespace PB

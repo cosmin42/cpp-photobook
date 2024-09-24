@@ -22,8 +22,6 @@ public:
 
   std::shared_ptr<VirtualImage> createImage(Path path);
   std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
-  std::shared_ptr<VirtualImage>
-  mapImageToPaper(std::shared_ptr<VirtualImage> image, Path hashPath);
 
   // TODO: Fix this if taking into account the platform info...
   std::shared_ptr<VirtualImage> defaultRegularImage()

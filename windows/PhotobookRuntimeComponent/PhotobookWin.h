@@ -145,32 +145,6 @@ private:
 };
 
 struct PhotobookWin : PhotobookWinT<PhotobookWin> {
-  PhotobookRuntimeComponent::VirtualImagePtr
-  mapImageToSPL(PhotobookRuntimeComponent::VirtualImagePtr image)
-  {
-    auto nativeImagePtr =
-        winrt::get_self<
-            winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
-            image)
-            ->Unwrap();
-    std::string newImageName =
-        boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
-
-    auto projectManagementService = mPhotobook->projectManagementService();
-    auto maybeLoadedProjectInfo =
-        projectManagementService->maybeLoadedProjectInfo();
-
-    PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
-
-    auto projectThumbnailsRoot =
-        mPhotobook->platformInfo()->projectSupportFolder(
-            maybeLoadedProjectInfo->first);
-
-    return winrt::make<VirtualImagePtr>(
-        mPhotobook->imageFactory()->mapImageToPaper(
-            nativeImagePtr, projectThumbnailsRoot / newImageName));
-  }
-
   static PhotobookRuntimeComponent::PaperSettings
   GetDefaultSettings(PhotobookRuntimeComponent::PaperType paperType)
   {
