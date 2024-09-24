@@ -5,13 +5,13 @@
 #include "ImageMonitor.h"
 #include "StagedImages.h"
 
-#include <pb/ProjectManagementSystem.h>
+#include <pb/services/ProjectManagementService.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ImageViews : ImageViewsT<ImageViews> {
   ImageViews(
-      std::shared_ptr<PB::ProjectManagementSystem> projectManagementSystem)
-      : mProjectManagementSystem(projectManagementSystem)
+      std::shared_ptr<PB::ProjectManagementService> projectManagementService)
+      : mProjectManagementService(projectManagementService)
   {
   }
   ~ImageViews() = default;
@@ -19,7 +19,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
   PhotobookRuntimeComponent::ImageMonitor ImageMonitor()
   {
     auto maybeLoadedProject =
-        mProjectManagementSystem->maybeLoadedProjectInfo();
+        mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProject != nullptr);
 
     return winrt::make<
@@ -30,7 +30,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
   PhotobookRuntimeComponent::StagedImages StagedImages()
   {
     auto maybeLoadedProject =
-        mProjectManagementSystem->maybeLoadedProjectInfo();
+        mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProject != nullptr);
 
     return winrt::make<
@@ -40,7 +40,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
   }
 
 private:
-  std::shared_ptr<PB::ProjectManagementSystem> mProjectManagementSystem =
+  std::shared_ptr<PB::ProjectManagementService> mProjectManagementService =
       nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

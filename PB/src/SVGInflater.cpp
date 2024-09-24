@@ -1,5 +1,5 @@
 #include <filesystem>
-#include <pb/SVGInflater.h>
+#include <pb/components/SVGInflater.h>
 
 #pragma warning(push)
 #pragma warning(disable : 4996)

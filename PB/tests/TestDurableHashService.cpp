@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <pb/Config.h>
-#include <pb/DurableHashService.h>
+#include <pb/services/DurableHashService.h>
 
 #include "MockListeners.h"
 

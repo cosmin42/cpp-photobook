@@ -9,7 +9,7 @@
 
 #include <boost/functional/hash.hpp>
 
-#include <pb/RuntimeUUID.h>
+#include <pb/components/RuntimeUUID.h>
 
 namespace PBDev {
 

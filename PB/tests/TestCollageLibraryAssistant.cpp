@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/CollageLibraryAssistant.h>
+#include <pb/components/CollageLibraryAssistant.h>
 
 using namespace PB;
 

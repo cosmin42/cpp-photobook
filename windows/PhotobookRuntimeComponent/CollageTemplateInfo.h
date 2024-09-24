@@ -2,7 +2,7 @@
 
 #include "CollageTemplateInfo.g.h"
 
-#include <pb/CollageTemplateInfo.h>
+#include <pb/entities/CollageTemplateInfo.h>
 #include <pb/util/Traits.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {

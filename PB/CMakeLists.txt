@@ -71,22 +71,20 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(${PBLIB_LIBRARY_NAME} STATIC
-    include/pb/AspectRatio.h
+    include/pb/entities/AspectRatio.h
     include/pb/util/IteratorWithState.h
-    include/pb/CollageMakerJob.h
-    include/pb/CollageLibraryAssistant.h
-    include/pb/Command.h
+    include/pb/jobs/CollageMakerJob.h
+    include/pb/components/CollageLibraryAssistant.h
     include/pb/Config.h
-    include/pb/BasicSVGModel.h
-    include/pb/CollageTemplateInfo.h
-    include/pb/CollageManager.h
-    include/pb/CollageThumbnailsMakerJob.h
-    include/pb/DatabaseService.h
-    include/pb/DataManager.h
-    include/pb/DirectoryInspectionJob.h
-    include/pb/DirectoryInspectionService.h
-    include/pb/DrawingService.h
-    include/pb/DurableHashService.h
+    include/pb/entities/BasicSVGModel.h
+    include/pb/entities/CollageTemplateInfo.h
+    include/pb/services/CollageService.h
+    include/pb/jobs/CollageThumbnailsMakerJob.h
+    include/pb/services/DatabaseService.h
+    include/pb/jobs/DirectoryInspectionJob.h
+    include/pb/services/DirectoryInspectionService.h
+    include/pb/services/DrawingService.h
+    include/pb/services/DurableHashService.h
     include/pb/Enums.h
     include/pb/export/ExportLogic.h
     include/pb/export/Html.h
@@ -94,80 +92,71 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/export/Pdf.h
     include/pb/export/PdfPoDoFo.h
     include/pb/export/PdfLibharu.h
-    include/pb/GPUAcceleratedImageOperations.h
-    include/pb/ImportImageTask.h
+    include/pb/components/ImportImageTask.h
     include/pb/ImageMonitor.h
-    include/pb/ImageProcessingData.h
-    include/pb/ImportFoldersService.h
-    include/pb/ImageToPaperService.h
-    include/pb/ImageToPaperTask.h
+    include/pb/entities/ImageProcessingData.h
+    include/pb/services/ImportFoldersService.h
+    include/pb/services/ImageToPaperService.h
+    include/pb/components/ImageToPaperTask.h
     include/pb/image/ImageFactory.h
-    include/pb/ImageMetadataLogic.h
+    include/pb/components/ImageMetadataInspector.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
     include/pb/image/RegularImage.h
     include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
-    include/pb/LutService.h
-    include/pb/LutIconInfo.h
-    include/pb/LutIconsPreprocessingJob.h
-    include/pb/LutImageProcessingData.h
-    include/pb/MapReducer.h
-    include/pb/MetadataReader.h
-    include/pb/OGLEngine.h
-    include/pb/FileComparator.h
-    include/pb/persistence/SerializationStrategy.h
+    include/pb/services/LutService.h
+    include/pb/entities/LutIconInfo.h
+    include/pb/jobs/LutIconsPreprocessingJob.h
+    include/pb/entities/LutImageProcessingData.h
+    include/pb/components/MapReducer.h
+    include/pb/components/OGLEngine.h
+    include/pb/components/SerializationStrategy.h
     include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
     include/pb/Platform.h
-    include/pb/project/PaperSettings.h
-    include/pb/project/ProjectMetadata.h
+    include/pb/entities/PaperSettings.h
+    include/pb/entities/ProjectMetadata.h
     include/pb/project/Project.h
-    include/pb/ProjectManagementSystem.h
-    include/pb/ProjectSerializerService.h
-    include/pb/ProgressManager.h
-    include/pb/RowProcessingData.h
-    include/pb/RuntimeUUID.h
-    include/pb/SkiaResources.h
-    include/pb/tasks/PicturesSearchConfig.h
+    include/pb/services/ProjectManagementService.h
+    include/pb/services/ProjectSerializerService.h
+    include/pb/services/ProgressService.h
+    include/pb/entities/RowProcessingData.h
+    include/pb/components/RuntimeUUID.h
+    include/pb/components/SkiaResources.h
+    include/pb/jobs/PicturesSearchJob.h
     include/pb/tasks/ParallelTaskConsumer.h
-    include/pb/tasks/ThumbnailsProcessor.h
     include/pb/StagedImages.h
-    include/pb/SVGInflater.h
+    include/pb/components/SVGInflater.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
     include/pb/util/Observable.h
     include/pb/util/Timer.h
     include/pb/util/Traits.h
-    include/pb/TaskCruncher.h
-    include/pb/ThreadScheduler.h
-    include/pb/ThumbnailsJob.h
-    include/pb/ThumbnailsTask.h
-    include/pb/TSQueue.h
-    include/pb/Visitor.h
+    include/pb/components/TaskCruncher.h
+    include/pb/components/ThreadScheduler.h
+    include/pb/jobs/ThumbnailsJob.h
+    include/pb/components/ThumbnailsTask.h
+    include/pb/components/TSQueue.h
 
     src/CollageLibraryAssistant.cpp
-    src/Command.cpp
     src/CollageMakerJob.cpp
     src/CollageThumbnailsMakerJob.cpp
-    src/CollageManager.cpp
+    src/CollageService.cpp
     src/Config.cpp
     src/DatabaseService.cpp
-    src/DataManager.cpp
     src/DirectoryInspectionJob.cpp
     src/DirectoryInspectionService.cpp
     src/DrawingService.cpp
     src/DurableHashService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
-    src/GPUAcceleratedImageOperations.cpp
-    src/PicturesSearchConfig.cpp
-    src/FileComparator.cpp
+    src/PicturesSearchJob.cpp
     src/Html.cpp
     src/ImageFactory.cpp
     src/ImageReader.cpp
-    src/ImageMetadataLogic.cpp
+    src/ImageMetadataInspector.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
     src/ImageToPaperService.cpp
@@ -177,21 +166,19 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/Jpg.cpp
     src/LutService.cpp
     src/LutIconsPreprocessingJob.cpp
-    src/MetadataReader.cpp
     src/OGLEngine.cpp
     src/PaperSettings.cpp
     src/Pdf.cpp
     src/PdfPoDoFo.cpp
     src/PdfLibharu.cpp
     src/Photobook.cpp
-    src/ProgressManager.cpp
+    src/ProgressService.cpp
     src/Project.cpp
     src/ProjectMetadata.cpp
-    src/ProjectManagementSystem.cpp
+    src/ProjectManagementService.cpp
     src/ProjectSerializerService.cpp
     src/RegularImage.cpp
     src/RuntimeUUID.cpp
-    src/ThumbnailsProcessor.cpp
     src/SerializationStrategy.cpp
     src/SkiaResources.cpp
     src/StagedImages.cpp
@@ -230,7 +217,6 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/MockListeners.h
     tests/MockListeners.cpp
     tests/TestIteratorWithState.cpp
-    tests/TestComparator.cpp
     tests/TestErrors.cpp
     tests/TestFolderImport.cpp
     tests/TestImageMonitor.cpp

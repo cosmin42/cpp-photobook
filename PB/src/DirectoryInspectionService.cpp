@@ -1,4 +1,4 @@
-#include <pb/DirectoryInspectionService.h>
+#include <pb/services/DirectoryInspectionService.h>
 
 
 namespace PB

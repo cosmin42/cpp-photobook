@@ -11,7 +11,7 @@
 #pragma warning(pop)
 
 #include <pb/Enums.h>
-#include <pb/project/PaperSettings.h>
+#include <pb/entities/PaperSettings.h>
 #include <pb/util/Traits.h>
 
 namespace PB::Process {

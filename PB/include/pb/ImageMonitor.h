@@ -6,7 +6,7 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Config.h>
-#include <pb/RowProcessingData.h>
+#include <pb/entities/RowProcessingData.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/util/IteratorWithState.h>
 

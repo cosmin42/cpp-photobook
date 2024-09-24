@@ -9,14 +9,14 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <pb/DatabaseService.h>
-#include <pb/DurableHashService.h>
-#include <pb/LutIconInfo.h>
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
-#include <pb/ProgressManager.h>
-#include <pb/ProjectManagementSystem.h>
-#include <pb/ProjectSerializerService.h>
+#include <pb/entities/LutIconInfo.h>
+#include <pb/services/DatabaseService.h>
+#include <pb/services/DurableHashService.h>
+#include <pb/services/ProgressService.h>
+#include <pb/services/ProjectManagementService.h>
+#include <pb/services/ProjectSerializerService.h>
 
 void clearProjectCache();
 

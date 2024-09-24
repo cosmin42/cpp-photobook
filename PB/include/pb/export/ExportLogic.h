@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include <pb/RuntimeUUID.h>
-#include <pb/TaskCruncher.h>
+#include <pb/components/RuntimeUUID.h>
+#include <pb/components/TaskCruncher.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 

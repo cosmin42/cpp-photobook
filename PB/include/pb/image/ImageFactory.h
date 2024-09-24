@@ -1,10 +1,10 @@
 #pragma once
 
-#include <pb/DurableHashService.h>
 #include <pb/Platform.h>
-#include <pb/ProjectManagementSystem.h>
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>
+#include <pb/services/DurableHashService.h>
+#include <pb/services/ProjectManagementService.h>
 
 namespace PB {
 class ImageFactory final {
@@ -12,10 +12,10 @@ public:
   ~ImageFactory() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureProjectManagementSystem(
-      std::shared_ptr<ProjectManagementSystem> projectManagementSystem);
+  void configureProjectManagementService(
+      std::shared_ptr<ProjectManagementService> projectManagementService);
   void configureDurableHashService(
-	  std::shared_ptr<DurableHashService> durableHashService);
+      std::shared_ptr<DurableHashService> durableHashService);
 
   std::shared_ptr<RegularImage> createRegularImage(Path path);
   std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
@@ -46,9 +46,9 @@ public:
   }
 
 private:
-  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
-  std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
-  std::shared_ptr<VirtualImage>            mDefaultRegularImage = nullptr;
+  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
+  std::shared_ptr<VirtualImage>             mDefaultRegularImage = nullptr;
 };
 } // namespace PB

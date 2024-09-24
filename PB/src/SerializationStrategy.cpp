@@ -1,4 +1,4 @@
-#include <pb/persistence/SerializationStrategy.h>
+#include <pb/components/SerializationStrategy.h>
 
 #include <pb/image/RegularImage.h>
 #include <pb/image/TextImage.h>

@@ -1,4 +1,4 @@
-#include <pb/DurableHashService.h>
+#include <pb/services/DurableHashService.h>
 
 #include <boost/uuid/uuid_io.hpp>
 

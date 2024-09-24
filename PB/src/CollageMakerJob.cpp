@@ -1,4 +1,4 @@
-#include <pb/CollageMakerJob.h>
+#include <pb/jobs/CollageMakerJob.h>
 
 namespace PB {
 

@@ -2,7 +2,6 @@
 
 #include <pb/image/ImageOperations.h>
 #include <pb/image/ImageReader.h>
-#include <pb/tasks/ThumbnailsProcessor.h>
 
 namespace PB {
 
@@ -12,10 +11,10 @@ void ImageFactory::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ImageFactory::configureProjectManagementSystem(
-    std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
+void ImageFactory::configureProjectManagementService(
+    std::shared_ptr<ProjectManagementService> projectManagementService)
 {
-  mProjectManagementSystem = projectManagementSystem;
+  mProjectManagementService = projectManagementService;
 }
 
 void ImageFactory::configureDurableHashService(
@@ -34,7 +33,7 @@ std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
 std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
                                                          Path hashPath)
 {
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   auto project = maybeProject->second;
@@ -61,7 +60,7 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
 
 std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
 {
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   PBDev::ProjectId projectId(maybeProject->first);
@@ -104,7 +103,7 @@ std::shared_ptr<VirtualImage>
 ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
                               Path                          hashPath)
 {
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto project = maybeProject->second;
 
@@ -120,7 +119,7 @@ ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
 
   PB::Process::overlap(imageData,
                        PB::Process::alignToCenter())(singleColorImage);
-
+  /*
   auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
       mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
       boost::uuids::to_string(maybeProject->first));
@@ -138,6 +137,8 @@ ImageFactory::mapImageToPaper(std::shared_ptr<VirtualImage> image,
   auto newImage = std::make_shared<RegularImage>(imageResources, hashPath);
 
   return newImage;
+  */
+  return nullptr;
 }
 
 } // namespace PB

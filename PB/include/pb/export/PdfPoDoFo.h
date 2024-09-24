@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/MapReducer.h>
+#include <pb/components/MapReducer.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>

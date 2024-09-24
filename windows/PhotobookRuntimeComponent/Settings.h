@@ -8,12 +8,13 @@
 
 #include "ProjectMetadataEntry.h"
 
-#include <pb/ProjectManagementSystem.h>
+#include <pb/services/ProjectManagementService.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct Settings : SettingsT<Settings> {
-  Settings(std::shared_ptr<PB::ProjectManagementSystem> projectManagementSystem)
-      : mProjectManagementSystem(projectManagementSystem)
+  Settings(
+      std::shared_ptr<PB::ProjectManagementService> projectManagementService)
+      : mProjectManagementService(projectManagementService)
   {
   }
   ~Settings() = default;
@@ -23,22 +24,22 @@ struct Settings : SettingsT<Settings> {
     auto               generator = boost::uuids::string_generator();
     boost::uuids::uuid parsedUuid = generator(winrt::to_string(projectId));
 
-    mProjectManagementSystem->recallMetadata();
+    mProjectManagementService->recallMetadata();
   }
 
   void RecallProjectByName(winrt::hstring name)
   {
-    auto metadata = mProjectManagementSystem->metadata();
+    auto metadata = mProjectManagementService->metadata();
     auto id = metadata.right.at(winrt::to_string(name));
-    mProjectManagementSystem->loadProject(id);
+    mProjectManagementService->loadProject(id);
   }
 
-  void RecallMetadata() { mProjectManagementSystem->recallMetadata(); }
+  void RecallMetadata() { mProjectManagementService->recallMetadata(); }
 
   winrt::hstring ProjectId(winrt::hstring name)
   {
     auto maybeLoadedProjectInfo =
-        mProjectManagementSystem->maybeLoadedProjectInfo();
+        mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
     auto uuid = maybeLoadedProjectInfo->first;
@@ -48,27 +49,28 @@ struct Settings : SettingsT<Settings> {
 
   bool HasUUID(winrt::hstring name)
   {
-    auto metadata = mProjectManagementSystem->metadata();
+    auto metadata = mProjectManagementService->metadata();
     return metadata.right.find(winrt::to_string(name)) != metadata.right.end();
   }
 
   void RemoveById(winrt::hstring projectId)
   {
-    mProjectManagementSystem->deleteProject(winrt::to_string(projectId));
+    mProjectManagementService->deleteProject(winrt::to_string(projectId));
   }
   void RemoveByPath(winrt::hstring path)
   {
-    auto metadata = mProjectManagementSystem->metadata();
+    auto metadata = mProjectManagementService->metadata();
 
     auto projectId = metadata.right.at(winrt::to_string(path));
-    mProjectManagementSystem->deleteProject(boost::uuids::to_string(projectId));
+    mProjectManagementService->deleteProject(
+        boost::uuids::to_string(projectId));
   }
 
-  void Clear() { mProjectManagementSystem->unloadProject(); }
+  void Clear() { mProjectManagementService->unloadProject(); }
 
   bool Contains(winrt::hstring name)
   {
-    auto metadata = mProjectManagementSystem->metadata();
+    auto metadata = mProjectManagementService->metadata();
     return metadata.right.find(winrt::to_string(name)) != metadata.right.end();
   }
 
@@ -77,7 +79,7 @@ struct Settings : SettingsT<Settings> {
     auto projectsNames =
         winrt::single_threaded_observable_vector<winrt::hstring>();
 
-    auto metadata = mProjectManagementSystem->metadata();
+    auto metadata = mProjectManagementService->metadata();
     for (auto it : metadata.right) {
       projectsNames.Append(winrt::to_hstring(it.first));
     }
@@ -92,7 +94,7 @@ struct Settings : SettingsT<Settings> {
     auto projectsList = winrt::single_threaded_observable_vector<
         PhotobookRuntimeComponent::ProjectMetadataEntry>();
 
-    auto projects = mProjectManagementSystem->projectsList();
+    auto projects = mProjectManagementService->projectsList();
 
     for (auto &project : projects) {
       auto projectId = boost::uuids::to_string(std::get<0>(project));
@@ -105,8 +107,8 @@ struct Settings : SettingsT<Settings> {
 
   void Rename(winrt::hstring newName, winrt::hstring oldName)
   {
-    mProjectManagementSystem->renameProject(winrt::to_string(oldName),
-                                            winrt::to_string(newName));
+    mProjectManagementService->renameProject(winrt::to_string(oldName),
+                                             winrt::to_string(newName));
   }
 
   void Save(winrt::hstring thumbnailsDirectoryName,
@@ -148,22 +150,22 @@ struct Settings : SettingsT<Settings> {
     for (int i = 0; i < (int)root.Size(); ++i) {
       nativeRoots.push_back(winrt::to_string(root.GetAt(i)));
     }
-    mProjectManagementSystem->saveMetadata();
+    mProjectManagementService->saveMetadata();
 
-    //mPersistenceService->save(winrt::to_string(thumbnailsDirectoryName),
-    //                          nativeUnstagedImages, nativesStagedImages,
-    //                          nativeRoots);
+    // mPersistenceService->save(winrt::to_string(thumbnailsDirectoryName),
+    //                           nativeUnstagedImages, nativesStagedImages,
+    //                           nativeRoots);
   }
 
   bool HasProjectOpen()
   {
-    return mProjectManagementSystem->maybeLoadedProjectInfo() != nullptr;
+    return mProjectManagementService->maybeLoadedProjectInfo() != nullptr;
   }
 
   winrt::hstring CurrentProjectUUID()
   {
     auto maybeLoadedProjectInfo =
-        mProjectManagementSystem->maybeLoadedProjectInfo();
+        mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
     auto uuid = maybeLoadedProjectInfo->first;
@@ -211,8 +213,8 @@ struct Settings : SettingsT<Settings> {
     }
 
     throw std::runtime_error("Not implemented yet");
-    //return mPersistenceService->isSaved(nativeUnstagedImages,
-    //                                    nativesStagedImages, nativeRoots);
+    // return mPersistenceService->isSaved(nativeUnstagedImages,
+    //                                     nativesStagedImages, nativeRoots);
     return false;
   }
 
@@ -221,7 +223,7 @@ struct Settings : SettingsT<Settings> {
   PhotobookRuntimeComponent::PaperSettings GetPaperSettings()
   {
     auto maybeLoadedProjectInfo =
-        mProjectManagementSystem->maybeLoadedProjectInfo();
+        mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
     return winrt::make<PaperSettings>(
@@ -229,7 +231,7 @@ struct Settings : SettingsT<Settings> {
   }
 
 private:
-  std::shared_ptr<PB::ProjectManagementSystem> mProjectManagementSystem =
+  std::shared_ptr<PB::ProjectManagementService> mProjectManagementService =
       nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

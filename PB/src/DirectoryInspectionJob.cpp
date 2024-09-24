@@ -1,4 +1,4 @@
-#include <pb/DirectoryInspectionJob.h>
+#include <pb/jobs/DirectoryInspectionJob.h>
 
 #pragma warning(push)
 #pragma warning(disable : 4996)

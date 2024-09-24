@@ -1,9 +1,8 @@
 #pragma once
 
-#include <pb/ImageToPaperTask.h>
-#include <pb/LutIconInfo.h>
-#include <pb/ProgressManager.h>
-#include <pb/tasks/ThumbnailsProcessor.h>
+#include <pb/entities/LutIconInfo.h>
+#include <pb/components/ImageToPaperTask.h>
+#include <pb/services/ProgressService.h>
 #include <pb/util/Error.h>
 #include <pb/util/Traits.h>
 

@@ -2,7 +2,7 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
-#include <pb/RuntimeUUID.h>
+#include <pb/components/RuntimeUUID.h>
 
 using namespace PB;
 

@@ -2,7 +2,7 @@
 
 #include <hpdf.h>
 
-#include <pb/MapReducer.h>
+#include <pb/components/MapReducer.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/util/Traits.h>

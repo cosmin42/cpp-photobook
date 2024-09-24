@@ -1,4 +1,4 @@
-#include <pb/ImageToPaperTask.h>
+#include <pb/components/ImageToPaperTask.h>
 
 
 namespace PB

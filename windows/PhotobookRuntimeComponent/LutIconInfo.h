@@ -2,7 +2,7 @@
 
 #include "LutIconInfo.g.h"
 
-#include <pb/LutIconInfo.h>
+#include <pb/entities/LutIconInfo.h>
 #include <pb/util/Traits.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {

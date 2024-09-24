@@ -1,8 +1,8 @@
-#include <pb/OGLEngine.h>
+#include <pb/components/OGLEngine.h>
 
 #include <fstream>
 
-#include <pb/LutImageProcessingData.h>
+#include <pb/entities/LutImageProcessingData.h>
 #include <pb/util/Traits.h>
 
 namespace PB {

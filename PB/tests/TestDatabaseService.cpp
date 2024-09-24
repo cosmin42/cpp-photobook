@@ -2,10 +2,10 @@
 
 #include <queue>
 
-#include <pb/DatabaseService.h>
-#include <pb/ProgressManager.h>
-#include <pb/TaskCruncher.h>
-#include <pb/ThreadScheduler.h>
+#include <pb/components/TaskCruncher.h>
+#include <pb/components/ThreadScheduler.h>
+#include <pb/services/DatabaseService.h>
+#include <pb/services/ProgressService.h>
 
 #include "MockListeners.h"
 

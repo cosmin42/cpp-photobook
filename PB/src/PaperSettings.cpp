@@ -1,4 +1,4 @@
-#include <pb/project/PaperSettings.h>
+#include <pb/entities/PaperSettings.h>
 
 #include <pb/util/Traits.h>
 

@@ -1,6 +1,6 @@
 #include "MockListeners.h"
 
-#include <pb/project/ProjectMetadata.h>
+#include <pb/components/ProjectMetadata.h>
 
 using ::testing::_;
 using ::testing::AtLeast;

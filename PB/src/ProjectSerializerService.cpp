@@ -1,6 +1,6 @@
-#include <pb/ProjectSerializerService.h>
+#include <pb/services/ProjectSerializerService.h>
 
-#include <pb/persistence/SerializationStrategy.h>
+#include <pb/components/SerializationStrategy.h>
 
 #include <fstream>
 

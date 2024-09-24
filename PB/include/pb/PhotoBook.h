@@ -6,41 +6,39 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-#include <pb/CollageManager.h>
-#include <pb/Command.h>
-#include <pb/DataManager.h>
-#include <pb/DatabaseService.h>
-#include <pb/DirectoryInspectionService.h>
-#include <pb/DurableHashService.h>
-#include <pb/ImageToPaperService.h>
-#include <pb/ImportFoldersService.h>
-#include <pb/LutService.h>
-#include <pb/OGLEngine.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
-#include <pb/ProgressManager.h>
-#include <pb/ProjectManagementSystem.h>
-#include <pb/ProjectSerializerService.h>
-#include <pb/TaskCruncher.h>
+#include <pb/components/OGLEngine.h>
+#include <pb/components/TaskCruncher.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/jobs/PicturesSearchJob.h>
 #include <pb/project/Project.h>
-#include <pb/tasks/PicturesSearchConfig.h>
+#include <pb/services/CollageService.h>
+#include <pb/services/DatabaseService.h>
+#include <pb/services/DirectoryInspectionService.h>
+#include <pb/services/DurableHashService.h>
+#include <pb/services/ImageToPaperService.h>
+#include <pb/services/ImportFoldersService.h>
+#include <pb/services/LutService.h>
+#include <pb/services/ProgressService.h>
+#include <pb/services/ProjectManagementService.h>
+#include <pb/services/ProjectSerializerService.h>
 
 namespace PB {
 
 class Photobook final : public ImportFoldersServiceListener,
                         public PBDev::ThreadScheduler,
-                        public ProgressManagerListener,
+                        public ProgressServiceListener,
                         public ExportListener,
                         public CollageThumbnailsMakerListener,
                         public ImageToPaperServiceListener,
                         public CollageMakerListener,
                         public LutServiceListener,
-                        public ProjectManagementSystemListener {
+                        public ProjectManagementServiceListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -65,7 +63,7 @@ public:
   void exportPDFLibharu(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);
 
-  std::shared_ptr<CollageManager> collageManager();
+  std::shared_ptr<CollageService> collageService();
 
   /*
   void onProjectRead(
@@ -119,7 +117,7 @@ public:
 
   std::shared_ptr<ImageFactory> imageFactory() const;
 
-  std::shared_ptr<ProjectManagementSystem> projectManagementSystem() const;
+  std::shared_ptr<ProjectManagementService> projectManagementService() const;
 
 private:
   PhotobookListener                        *mParent = nullptr;
@@ -128,16 +126,15 @@ private:
   std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
   std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
   std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
-  std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
+  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
-  std::shared_ptr<ImportFoldersService>         mImportLogic = nullptr;
-  CommandStack                                mCommandStack;
+  std::shared_ptr<ImportFoldersService>       mImportLogic = nullptr;
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;
-  std::shared_ptr<ProgressManager>            mProgressManager = nullptr;
+  std::shared_ptr<ProgressService>            mProgressService = nullptr;
   std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
-  std::shared_ptr<CollageManager>             mCollageTemplateManager = nullptr;
+  std::shared_ptr<CollageService>             mCollageTemplateManager = nullptr;
   std::shared_ptr<LutService>                 mLutService = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;

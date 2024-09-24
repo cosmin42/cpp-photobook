@@ -2,7 +2,7 @@
 
 #include "PaperSettings.g.h"
 
-#include <pb/project/PaperSettings.h>
+#include <pb/entities/PaperSettings.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct PaperSettings : PaperSettingsT<PaperSettings> {

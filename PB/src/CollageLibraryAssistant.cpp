@@ -1,4 +1,4 @@
-#include <pb/CollageLibraryAssistant.h>
+#include <pb/components/CollageLibraryAssistant.h>
 
 #pragma warning(push)
 #pragma warning(disable : 4996)

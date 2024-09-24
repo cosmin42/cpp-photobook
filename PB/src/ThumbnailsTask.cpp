@@ -1,5 +1,6 @@
-#include <pb/ImageMetadataLogic.h>
-#include <pb/ThumbnailsTask.h>
+#include <pb/components/ThumbnailsTask.h>
+
+#include <pb/components/ImageMetadataInspector.h>
 #include <pb/image/ImageReader.h>
 
 namespace PB {
@@ -13,31 +14,32 @@ void ThumbnailsTask::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ThumbnailsTask::configureProjectManagementSystem(
-    std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
+void ThumbnailsTask::configureProjectManagementService(
+    std::shared_ptr<ProjectManagementService> projectManagementService)
 {
-  mProjectManagementSystem = projectManagementSystem;
+  mProjectManagementService = projectManagementService;
 }
 
 std::tuple<Path, Path, Path> ThumbnailsTask::createThumbnails()
 {
-  auto maybleProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybleProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybleProject != nullptr);
 
   auto projectId = maybleProject->first;
 
   auto [large, medium, small] = mPlatformInfo->newThumbnailPaths(projectId);
 
-  ImageMetadataLogic imageMetadataLogic(mOriginalPath);
+  ImageMetadataInspector imageMetadataInspector(mOriginalPath);
 
-  imageMetadataLogic.inspect();
+  imageMetadataInspector.inspect();
 
-  auto width = imageMetadataLogic.width();
-  auto height = imageMetadataLogic.height();
+  auto width = imageMetadataInspector.width();
+  auto height = imageMetadataInspector.height();
 
-  auto [largeSize, mediumSize, smallSize] = thumbnailSizes(
-      cv::Size{(int)width, (int)height}, {(int)maybleProject->second.paperSettings.width,
-                                (int)maybleProject->second.paperSettings.height});
+  auto [largeSize, mediumSize, smallSize] =
+      thumbnailSizes(cv::Size{(int)width, (int)height},
+                     {(int)maybleProject->second.paperSettings.width,
+                      (int)maybleProject->second.paperSettings.height});
 
   auto originalImage = ImageReader().loadImage(mOriginalPath);
 

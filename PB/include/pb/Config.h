@@ -7,8 +7,8 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
-#include <pb/AspectRatio.h>
-#include <pb/project/PaperSettings.h>
+#include <pb/entities/AspectRatio.h>
+#include <pb/entities/PaperSettings.h>
 
 namespace PB {
 

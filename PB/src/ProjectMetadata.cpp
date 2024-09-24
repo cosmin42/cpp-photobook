@@ -1,4 +1,4 @@
-#include <pb/project/ProjectMetadata.h>
+#include <pb/entities/ProjectMetadata.h>
 
 namespace PB {
 ProjectMetadata::ProjectMetadata(std::string uuid, std::string path)

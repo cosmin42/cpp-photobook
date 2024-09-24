@@ -1,4 +1,4 @@
-#include <pb/ImageToPaperService.h>
+#include <pb/services/ImageToPaperService.h>
 
 namespace PB {
 
@@ -9,7 +9,7 @@ void ImageToPaperService::map(
         originalImages)
 {
 
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   auto &&task =
@@ -27,7 +27,7 @@ void ImageToPaperService::map(
     std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>>
         originalImage)
 {
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   auto &&task = ImageToPaperTask(

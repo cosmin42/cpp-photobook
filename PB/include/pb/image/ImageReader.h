@@ -15,7 +15,7 @@
 #pragma warning(pop)
 
 #include <pb/Config.h>
-#include <pb/tasks/PicturesSearchConfig.h>
+#include <pb/jobs/PicturesSearchJob.h>
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {

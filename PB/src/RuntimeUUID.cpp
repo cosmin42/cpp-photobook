@@ -1,4 +1,4 @@
-#include <pb/RuntimeUUID.h>
+#include <pb/components/RuntimeUUID.h>
 
 namespace PB {
 uint8_t RuntimeUUID::guid[UUID_SIZE] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,

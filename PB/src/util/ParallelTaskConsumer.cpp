@@ -1,6 +1,6 @@
 #include <pb/tasks/ParallelTaskConsumer.h>
 
-#include <pb/RuntimeUUID.h>
+#include <pb/components/RuntimeUUID.h>
 
 namespace PBDev {
 ParallelTaskConsumer::ParallelTaskConsumer(unsigned threadCount)

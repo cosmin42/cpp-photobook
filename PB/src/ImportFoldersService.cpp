@@ -1,4 +1,4 @@
-#include <pb/ImportFoldersService.h>
+#include <pb/services/ImportFoldersService.h>
 
 #include <pb/util/FileInfo.h>
 
@@ -19,8 +19,8 @@ std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
 
   PBDev::ThumbnailsJobId jobId(RuntimeUUID::newUUID());
   mRootPaths[jobId] = path;
-  mSearches.emplace(jobId, PicturesSearchConfig(jobId, path));
-  mSearches.at(jobId).setPicturesSearchConfigListener(this);
+  mSearches.emplace(jobId, PicturesSearchJob(jobId, path));
+  mSearches.at(jobId).setPicturesSearchJobListener(this);
   mSearches.at(jobId).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
 
@@ -37,8 +37,8 @@ void ImportFoldersService::startThumbnailsCreation(
 
   mThumbnailsJobs.at(jobId).configureListener(this);
   mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
-  mThumbnailsJobs.at(jobId).configureProjectManagementSystem(
-      mProjectManagementSystem);
+  mThumbnailsJobs.at(jobId).configureProjectManagementService(
+      mProjectManagementService);
 
   mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
                         PBDev::ProgressJobName{"thumbnails"});

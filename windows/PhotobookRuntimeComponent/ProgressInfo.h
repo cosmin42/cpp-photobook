@@ -2,7 +2,7 @@
 
 #include "ProgressInfo.g.h"
 
-#include <pb/ProgressManager.h>
+#include <pb/services/ProgressService.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ProgressInfo : ProgressInfoT<ProgressInfo> {

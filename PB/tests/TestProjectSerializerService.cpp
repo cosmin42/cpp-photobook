@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/ProjectSerializerService.h>
+#include <pb/services/ProjectSerializerService.h>
 
 #include "MockListeners.h"
 

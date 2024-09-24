@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/MapReducer.h>
+#include <pb/components/MapReducer.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
@@ -16,10 +16,7 @@ public:
       std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
   ~JpgExport() = default;
 
-  void setListener(ExportLogicListener *listener)
-  {
-    mListener = listener;
-  }
+  void setListener(ExportLogicListener *listener) { mListener = listener; }
 
   bool stoppingCondition() const;
   int  stepsCount() const;
@@ -44,7 +41,7 @@ private:
   std::string makeName(unsigned counter);
   void        writeImage(Path inputPath, Path outputPath) const;
 
-  ExportLogicListener            *mListener = nullptr;
+  ExportLogicListener                       *mListener = nullptr;
   unsigned                                   mIndex = 0;
   Path                                       mRoot;
   PaperSettings                              mPaperSettings;

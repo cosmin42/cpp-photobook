@@ -1,9 +1,9 @@
-#include <pb/ImportImageTask.h>
+#include <pb/components/ImportImageTask.h>
 
 #include <pb/Enums.h>
 
 #include <pb/Config.h>
-#include <pb/ImageMetadataLogic.h>
+#include <pb/components/ImageMetadataInspector.h>
 #include <pb/image/ImageOperations.h>
 
 namespace PB {
@@ -40,12 +40,12 @@ void ImportImageTask::operator()() const
     PBDev::basicAssert(false);
   }
 
-  ImageMetadataLogic imageMetadataLogic(mFullSizePath);
+  ImageMetadataInspector imageMetadatainspector(mFullSizePath);
 
-  imageMetadataLogic.inspect();
+  imageMetadatainspector.inspect();
 
-  auto width = imageMetadataLogic.width();
-  auto height = imageMetadataLogic.height();
+  auto width = imageMetadatainspector.width();
+  auto height = imageMetadatainspector.height();
 
   if constexpr (OneConfig::SIMULATE_SLOW_THUMBNAILS_PROCESSOR) {
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));

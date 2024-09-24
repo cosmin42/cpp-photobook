@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/CollageManager.h>
+#include <pb/services/CollageService.h>
 
 using namespace PB;
 

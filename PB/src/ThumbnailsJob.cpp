@@ -1,4 +1,4 @@
-#include <pb/ThumbnailsJob.h>
+#include <pb/jobs/ThumbnailsJob.h>
 
 
 namespace PB

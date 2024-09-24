@@ -1,4 +1,4 @@
-#include <pb/SkiaResources.h>
+#include <pb/components/SkiaResources.h>
 
 #include <src/utils/SkOSPath.h>
 
