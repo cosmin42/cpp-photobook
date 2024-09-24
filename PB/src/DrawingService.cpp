@@ -55,6 +55,8 @@ void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
   SkRect bounds =
       SkRect::MakeIWH(originalImageSize.width, originalImageSize.height);
 
+  UNUSED(bounds);
+
   svgDOM->setContainerSize(SkSize::Make((SkScalar)originalImageSize.width,
                                         (SkScalar)originalImageSize.height));
 

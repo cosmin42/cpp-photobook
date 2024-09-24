@@ -7,8 +7,8 @@
 #include <pb/RowProcessingData.h>
 #include <pb/TaskCruncher.h>
 #include <pb/ThreadScheduler.h>
+#include <pb/ThumbnailsJob.h>
 #include <pb/tasks/PicturesSearchConfig.h>
-#include <pb/tasks/ThumbnailsProcessor.h>
 #include <pb/util/Error.h>
 
 namespace PB {
@@ -17,63 +17,70 @@ class ImportFoldersLogicListener {
 public:
   virtual ~ImportFoldersLogicListener() = default;
 
-  virtual void onMappingStarted(Path path) = 0;
   virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
-  virtual void onMappingAborted(Path) = 0;
-
-  virtual void onImportStop(Path) = 0;
   virtual void onImageProcessed(Path key, Path root,
                                 ImageResources imageResources) = 0;
-
-  virtual void onError(PBDev::Error error) = 0;
 };
 
-class ImportFoldersLogic final : public PicturesSearchConfigListener {
+class ImportFoldersLogic final : public PicturesSearchConfigListener,
+                                 public ThumbnailsJobListener {
 public:
-  explicit ImportFoldersLogic(std::shared_ptr<PlatformInfo> platformInfo);
   ~ImportFoldersLogic() = default;
-  void configure(ImportFoldersLogicListener *listener);
-  void configure(PBDev::ThreadScheduler *scheduler);
 
-  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
+  void configureListener(ImportFoldersLogicListener *listener)
+  {
+    mListener = listener;
+  }
+
+  void configureScheduler(PBDev::ThreadScheduler *scheduler)
+  {
+    mScheduler = scheduler;
+  }
+
+  void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
+  {
+    mTaskCruncher = taskCruncher;
+  }
+
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
+  {
+    mPlatformInfo = platformInfo;
+  }
+
+  void configureProjectManagementSystem(
+      std::shared_ptr<ProjectManagementSystem> projectManagementSystem)
+  {
+    mProjectManagementSystem = projectManagementSystem;
+  }
 
   std::optional<PBDev::Error> addImportFolder(Path path);
 
-  void stop(Path path);
-  void stopAll();
-
-  void clearJob(Path root);
-
-  void processImages(std::string       thumbnailsDirectoryName,
-                     RowProcessingData rowProcessingData, std::string hash);
-
-  void onPicturesSearchFinished(Path              root,
+  void onPicturesSearchFinished(PBDev::ThumbnailsJobId jobId, Path root,
                                 std::vector<Path> searchResults) override;
+
   void onPicturesSearchAborted(Path root) override;
 
-  std::pair<int, int> imageProcessingProgress() const;
-  std::pair<int, int> imageProcessingProgress(Path path) const;
-  std::vector<Path>   runningImageProcessingJobs() const;
-
-  std::vector<Path> pendingMappingFolders() const;
-
-  // todo: marking should be externalized to photobook.
-  void markForDeletion(Path path);
-  void removeMarkForDeletion(Path path);
-
-  bool marked(Path path) const;
+  void imageProcessed(PBDev::ThumbnailsJobId       jobId,
+                      std::tuple<Path, Path, Path> thumbnailPaths) override;
 
 private:
-  void onImageProcessed(Path key, Path root, ImageResources imageResources,
-                        int progressCap);
+  ImportFoldersLogicListener              *mListener = nullptr;
+  PBDev::ThreadScheduler                  *mScheduler = nullptr;
+  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
+  std::shared_ptr<ProjectManagementSystem> mProjectManagementSystem = nullptr;
 
-  ImportFoldersLogicListener                    *mListener = nullptr;
-  std::shared_ptr<TaskCruncher>                  mTaskCruncher = nullptr;
-  PBDev::ThreadScheduler                        *mScheduler = nullptr;
-  std::unordered_map<Path, std::pair<int, int>>  mImageProcessingProgress;
-  ThumbnailsProcessor                            mThumbnailsProcessor;
-  std::unordered_set<Path>                       mRemovalMarks;
-  std::shared_ptr<Project>                       mProject = nullptr;
-  std::unordered_map<Path, PicturesSearchConfig> mPendingSearches;
+  std::unordered_map<PBDev::ThumbnailsJobId, Path,
+                     boost::hash<PBDev::ThumbnailsJobId>>
+      mRootPaths;
+  std::unordered_map<PBDev::ThumbnailsJobId, ThumbnailsJob,
+                     boost::hash<PBDev::ThumbnailsJobId>>
+      mThumbnailsJobs;
+  std::unordered_map<PBDev::ThumbnailsJobId, PicturesSearchConfig,
+                     boost::hash<PBDev::ThumbnailsJobId>>
+      mSearches;
+
+  void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
+                               std::vector<Path>      searchResults);
 };
 } // namespace PB

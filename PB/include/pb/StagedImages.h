@@ -8,17 +8,8 @@
 
 namespace PB {
 
-class StagedImagesListener {
-public:
-  virtual ~StagedImagesListener() = default;
-  virtual void onPicturesAdded(int index, int size) = 0;
-  virtual void onPictureRemoved(std::vector<unsigned> index) = 0;
-};
-
 class StagedImages final {
 public:
-  void setListener(StagedImagesListener *listener);
-
   void configure(std::vector<std::shared_ptr<VirtualImage>> &stagedImages);
 
   void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures);
@@ -39,7 +30,6 @@ public:
       -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
 
 private:
-  StagedImagesListener                      *mListener = nullptr;
   std::vector<std::shared_ptr<VirtualImage>> mStagedPhotos;
   std::vector<std::shared_ptr<VirtualImage>> mStash;
 };

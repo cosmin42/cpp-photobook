@@ -67,7 +67,6 @@ public:
 
   std::shared_ptr<CollageManager> collageManager();
 
-  void onError(PBDev::Error error);
   /*
   void onProjectRead(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
@@ -82,11 +81,8 @@ public:
   void onProjectRecalled() override;
   void onProjectMetadataRecalled() override;
 
-  void onMappingStarted(Path path) override;
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
-  void onMappingAborted(Path) override;
 
-  void onImportStop(Path) override;
   void onImageProcessed(Path key, Path root,
                         ImageResources imageResources) override;
 
@@ -135,7 +131,7 @@ private:
   std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
-  ImportFoldersLogic                          mImportLogic;
+  std::shared_ptr<ImportFoldersLogic>         mImportLogic = nullptr;
   CommandStack                                mCommandStack;
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;

@@ -142,6 +142,8 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Traits.h
     include/pb/TaskCruncher.h
     include/pb/ThreadScheduler.h
+    include/pb/ThumbnailsJob.h
+    include/pb/ThumbnailsTask.h
     include/pb/TSQueue.h
     include/pb/Visitor.h
 
@@ -199,6 +201,8 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/util/ParallelTaskConsumer.cpp
     src/TaskCruncher.cpp
     src/TextImage.cpp
+    src/ThumbnailsJob.cpp
+    src/ThumbnailsTask.cpp
     src/VirtualImage.cpp)
 
 target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC

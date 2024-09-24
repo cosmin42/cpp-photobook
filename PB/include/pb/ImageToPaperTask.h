@@ -29,8 +29,8 @@ public:
       std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
-      : MapReducer(), mOriginalImages(originalImages),
-        mPaperSettings(paperSettings), mProjectId(projectId)
+      : MapReducer(), mPaperSettings(paperSettings), mProjectId(projectId),
+        mOriginalImages(originalImages)
   {
     for (const auto &[id, image] : originalImages) {
       mImageIds.push_back(id);
@@ -74,8 +74,8 @@ private:
   std::shared_ptr<PlatformInfo>      mPlatformInfo = nullptr;
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
-  PBDev::ProjectId                   mProjectId;
   PaperSettings                      mPaperSettings;
+  PBDev::ProjectId                   mProjectId;
 
   ImageToPaperServiceListener *mListener = nullptr;
 

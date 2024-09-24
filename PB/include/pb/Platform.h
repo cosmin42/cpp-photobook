@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
@@ -36,6 +37,25 @@ struct PlatformInfo {
   {
     return projectSupportFolder(projectId) / "thumbnail-images" /
            (hash + extension);
+  }
+
+  std::tuple<Path, Path, Path>
+  newThumbnailPaths(boost::uuids::uuid projectId) const
+  {
+    auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
+    return std::make_tuple(projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + ".jpg"),
+                           projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + "-m.jpg"),
+                           projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + "-s.jpg"));
+  }
+
+  Path newTemporaryImage(boost::uuids::uuid projectId) const
+  {
+    return projectSupportFolder(projectId) /
+           (boost::uuids::to_string(boost::uuids::random_generator()()) +
+            ".jpg");
   }
 };
 } // namespace PB

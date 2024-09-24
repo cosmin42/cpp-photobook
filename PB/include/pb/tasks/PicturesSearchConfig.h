@@ -15,7 +15,7 @@ namespace PB {
 class PicturesSearchConfigListener {
 public:
   virtual ~PicturesSearchConfigListener() = default;
-  virtual void onPicturesSearchFinished(Path              root,
+  virtual void onPicturesSearchFinished(PBDev::ThumbnailsJobId jobId, Path root,
                                         std::vector<Path> searchResults) = 0;
   virtual void onPicturesSearchAborted(Path root) = 0;
 };
@@ -35,7 +35,7 @@ public:
     return false;
   }
 
-  PicturesSearchConfig(Path root) : mRoot(root) {}
+  PicturesSearchConfig(PBDev::ThumbnailsJobId jobId, Path root) : mRoot(root), mJobId(jobId) {}
   ~PicturesSearchConfig() {}
 
   void setPicturesSearchConfigListener(PicturesSearchConfigListener *listener)
@@ -81,7 +81,7 @@ public:
       mListener->onPicturesSearchAborted(mRoot);
     }
     else {
-      mListener->onPicturesSearchFinished(mRoot, mSearchResults);
+      mListener->onPicturesSearchFinished(mJobId, mRoot, mSearchResults);
     }
   }
 
@@ -95,6 +95,7 @@ private:
   std::vector<Path>             mSearchResults;
   bool                          mCrunchedFlag = false;
   std::stop_token               mStopToken;
+  PBDev::ThumbnailsJobId        mJobId;
 };
 
 } // namespace PB

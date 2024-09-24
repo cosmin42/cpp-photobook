@@ -270,37 +270,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     mPhotobook->collageManager()->combineImages(collageIndex, imagesToMerge);
   }
 
-  void ConfigureStagedImagesListener(
-      PhotobookRuntimeComponent::StagedImagesListener const &listener)
-  {
-    if (mStagedImagesListener) {
-      delete mStagedImagesListener;
-    }
-    mStagedImagesListener =
-        new PhotobookRuntimeComponent::implementation::StagedImagesListener(
-            listener);
-    auto maybeProject =
-        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
-    PBDev::basicAssert(maybeProject != nullptr);
-    maybeProject->second.stagedImages().setListener(
-        dynamic_cast<PB::StagedImagesListener *>(mStagedImagesListener));
-  }
-
-  void ConfigureImageMonitorListener(
-      PhotobookRuntimeComponent::ImageMonitorListener const &listener)
-  {
-    if (mImageMonitorListener) {
-      delete mImageMonitorListener;
-    }
-    mImageMonitorListener = new ImageMonitorListener(listener);
-
-    auto maybeProject =
-        mPhotobook->projectManagementSystem()->maybeLoadedProjectInfo();
-    PBDev::basicAssert(maybeProject != nullptr);
-    maybeProject->second.imageMonitor().setListener(
-        dynamic_cast<PB::ImageMonitorListener *>(mImageMonitorListener));
-  }
-
   void ConfigurePhotobookListener(
       PhotobookRuntimeComponent::PhotobookListener const &listener)
   {
@@ -356,8 +325,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
   PB::PhotobookListener         *mPhotobookListener = nullptr;
-  PB::StagedImagesListener      *mStagedImagesListener = nullptr;
-  PB::ImageMonitorListener      *mImageMonitorListener = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
 

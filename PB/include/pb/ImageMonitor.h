@@ -11,20 +11,9 @@
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {
-class ImageMonitorListener {
-public:
-  virtual ~ImageMonitorListener() = default;
-
-  virtual void onImportFolderAdded() = 0;
-  virtual void onImportFolderRemoved(unsigned index) = 0;
-  virtual void onRefresh() = 0;
-  virtual void onCleared() = 0;
-};
 
 class ImageMonitor {
 public:
-  void setListener(ImageMonitorListener *listener);
-
   void replaceImageMonitorData(
       std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
       std::vector<Path>                                       &roots);
@@ -64,7 +53,6 @@ public:
   void log() const;
 
 private:
-  ImageMonitorListener                                   *mListener = nullptr;
   boost::bimaps::bimap<Path, int>                         mRowIndexes = {};
   boost::bimaps::bimap<Path, std::pair<int, int>>         mPositions = {};
   std::vector<std::vector<std::shared_ptr<VirtualImage>>> mUnstagedImagesMatrix;

@@ -239,6 +239,24 @@ completeWithAlphaChannel(std::shared_ptr<cv::Mat> image)
   return cloneImage;
 }
 
+void createTextImage(PaperSettings paperSettings, std::string const &text,
+                     Path path)
+{
+  auto blankImage = Process::singleColorImage(
+      paperSettings.width, paperSettings.height, {255, 255, 255})();
+
+  Process::CVFontInfo fontInfo;
+  fontInfo.color = {0, 0, 0};
+  fontInfo.pixelSize = Process::pointsFromPixels(24, paperSettings.ppi);
+  fontInfo.thickness = 8;
+
+  auto image =
+      PB::Process::addText({paperSettings.width / 2, paperSettings.height / 2},
+                           text, fontInfo)(blankImage);
+
+  Process::writeImageOnDisk(image, path);
+}
+
 std::shared_ptr<cv::Mat>
 ccompleteWithAlphaChannelInPlace(std::shared_ptr<cv::Mat> image)
 {
@@ -420,3 +438,27 @@ unsigned pointsFromPixels(double points, unsigned ppi)
 }
 
 } // namespace PB::Process
+
+namespace PB::Geometry {
+cv::Size scaleToFitBoundingBox(cv::Size size, cv::Size boundingBox)
+{
+  auto [width, height] = size;
+  auto [boundingWidth, boundingHeight] = boundingBox;
+
+  auto ratio =
+      std::min((float)boundingWidth / width, (float)boundingHeight / height);
+
+  return {static_cast<int>(width * ratio), static_cast<int>(height * ratio)};
+}
+
+cv::Size scaleToFillBoundingBox(cv::Size size, cv::Size boundingBox)
+{
+  auto [width, height] = size;
+  auto [boundingWidth, boundingHeight] = boundingBox;
+
+  auto ratio =
+      std::max((float)boundingWidth / width, (float)boundingHeight / height);
+
+  return {static_cast<int>(width * ratio), static_cast<int>(height * ratio)};
+}
+} // namespace PB::Geometry
