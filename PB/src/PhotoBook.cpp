@@ -29,9 +29,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   initLogger();
 
-  auto importFoldersLogicListener =
-      dynamic_cast<ImportFoldersLogicListener *>(this);
-  PBDev::basicAssert(importFoldersLogicListener != nullptr);
+  auto importFoldersServiceListener =
+      dynamic_cast<ImportFoldersServiceListener *>(this);
+  PBDev::basicAssert(importFoldersServiceListener != nullptr);
 
   auto threadScheduler = dynamic_cast<PBDev::ThreadScheduler *>(this);
   PBDev::basicAssert(threadScheduler != nullptr);
@@ -90,7 +90,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureProjectManagementSystem(mProjectManagementSystem);
-  mImportLogic->configureListener(importFoldersLogicListener);
+  mImportLogic->configureListener(importFoldersServiceListener);
 
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);

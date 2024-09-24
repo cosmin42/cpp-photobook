@@ -98,7 +98,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/ImportImageTask.h
     include/pb/ImageMonitor.h
     include/pb/ImageProcessingData.h
-    include/pb/ImportFoldersLogic.h
+    include/pb/ImportFoldersService.h
     include/pb/ImageToPaperService.h
     include/pb/ImageToPaperTask.h
     include/pb/image/ImageFactory.h
@@ -173,7 +173,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImageToPaperService.cpp
     src/ImageToPaperTask.cpp
     src/ImportImageTask.cpp
-    src/ImportFoldersLogic.cpp
+    src/ImportFoldersService.cpp
     src/Jpg.cpp
     src/LutService.cpp
     src/LutIconsPreprocessingJob.cpp

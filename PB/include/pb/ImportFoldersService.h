@@ -13,21 +13,21 @@
 
 namespace PB {
 
-class ImportFoldersLogicListener {
+class ImportFoldersServiceListener {
 public:
-  virtual ~ImportFoldersLogicListener() = default;
+  virtual ~ImportFoldersServiceListener() = default;
 
   virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
   virtual void onImageProcessed(Path key, Path root,
                                 ImageResources imageResources) = 0;
 };
 
-class ImportFoldersLogic final : public PicturesSearchConfigListener,
+class ImportFoldersService final : public PicturesSearchConfigListener,
                                  public ThumbnailsJobListener {
 public:
-  ~ImportFoldersLogic() = default;
+  ~ImportFoldersService() = default;
 
-  void configureListener(ImportFoldersLogicListener *listener)
+  void configureListener(ImportFoldersServiceListener *listener)
   {
     mListener = listener;
   }
@@ -64,7 +64,7 @@ public:
                       std::tuple<Path, Path, Path> thumbnailPaths) override;
 
 private:
-  ImportFoldersLogicListener              *mListener = nullptr;
+  ImportFoldersServiceListener              *mListener = nullptr;
   PBDev::ThreadScheduler                  *mScheduler = nullptr;
   std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;

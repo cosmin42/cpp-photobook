@@ -13,7 +13,7 @@
 #include <pb/DirectoryInspectionService.h>
 #include <pb/DurableHashService.h>
 #include <pb/ImageToPaperService.h>
-#include <pb/ImportFoldersLogic.h>
+#include <pb/ImportFoldersService.h>
 #include <pb/LutService.h>
 #include <pb/OGLEngine.h>
 #include <pb/PhotobookListener.h>
@@ -32,7 +32,7 @@
 
 namespace PB {
 
-class Photobook final : public ImportFoldersLogicListener,
+class Photobook final : public ImportFoldersServiceListener,
                         public PBDev::ThreadScheduler,
                         public ProgressManagerListener,
                         public ExportListener,
@@ -131,7 +131,7 @@ private:
   std::shared_ptr<ProjectManagementSystem>  mProjectManagementSystem = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
-  std::shared_ptr<ImportFoldersLogic>         mImportLogic = nullptr;
+  std::shared_ptr<ImportFoldersService>         mImportLogic = nullptr;
   CommandStack                                mCommandStack;
   bool                                        mMarkProjectForDeletion = false;
   ExportLogic                                 mExportLogic;

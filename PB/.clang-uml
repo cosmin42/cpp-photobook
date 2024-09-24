@@ -21,7 +21,7 @@ diagrams:
     type: class
     generate_packages: true
     glob:
-      - src/ImportFoldersLogic.cpp
+      - src/ImportFoldersService.cpp
     include:
       namespaces:
         - PB
@@ -153,12 +153,12 @@ diagrams:
   top_level_class_diagram:
     type: class
     glob:
-      - src/ImportFoldersLogic.cpp
+      - src/ImportFoldersService.cpp
     include:
       context:
         - match:
             radius: 1
-            pattern: PB::ImportFoldersLogic
+            pattern: PB::ImportFoldersService
       access:
         - public
     exclude:

@@ -1,10 +1,10 @@
-#include <pb/ImportFoldersLogic.h>
+#include <pb/ImportFoldersService.h>
 
 #include <pb/util/FileInfo.h>
 
 namespace PB {
 
-std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
+std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
 {
   auto errorOrPath = PBDev::FileInfo::validInputRootPath(path);
   if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
@@ -30,7 +30,7 @@ std::optional<PBDev::Error> ImportFoldersLogic::addImportFolder(Path path)
   return std::nullopt;
 }
 
-void ImportFoldersLogic::startThumbnailsCreation(
+void ImportFoldersService::startThumbnailsCreation(
     PBDev::ThumbnailsJobId jobId, std::vector<Path> searchResults)
 {
   mThumbnailsJobs.emplace(jobId, ThumbnailsJob(jobId, searchResults));
@@ -44,7 +44,7 @@ void ImportFoldersLogic::startThumbnailsCreation(
                         PBDev::ProgressJobName{"thumbnails"});
 }
 
-void ImportFoldersLogic::onPicturesSearchFinished(
+void ImportFoldersService::onPicturesSearchFinished(
     PBDev::ThumbnailsJobId jobId, Path root, std::vector<Path> searchResults)
 {
   mScheduler->post(
@@ -56,9 +56,9 @@ void ImportFoldersLogic::onPicturesSearchFinished(
       });
 }
 
-void ImportFoldersLogic::onPicturesSearchAborted(Path root) {}
+void ImportFoldersService::onPicturesSearchAborted(Path root) {}
 
-void ImportFoldersLogic::imageProcessed(
+void ImportFoldersService::imageProcessed(
     PBDev::ThumbnailsJobId jobId, std::tuple<Path, Path, Path> thumbnailPaths)
 {
   auto root = mRootPaths.at(jobId);
