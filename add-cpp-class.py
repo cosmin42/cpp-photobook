@@ -41,7 +41,7 @@ def fill_src(file_path, namespace_name, class_name):
 if __name__ == "__main__":
     # Check if at least two arguments (folder path and file name) are provided
     if len(sys.argv) < 3:
-        print("Usage: python script.py <class_name> <namespace_name> [--only-header]")
+        print("Usage: python add-cpp-class.py <class_name> <namespace_name> [--only-header]")
         sys.exit(1)
 
     only_header = False
