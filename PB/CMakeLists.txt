@@ -71,79 +71,79 @@ include(third-party/windows/pdfium/PDFiumConfig.cmake)
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(${PBLIB_LIBRARY_NAME} STATIC
-    include/pb/entities/AspectRatio.h
-    include/pb/util/IteratorWithState.h
-    include/pb/jobs/CollageMakerJob.h
-    include/pb/components/CollageLibraryAssistant.h
     include/pb/Config.h
+    include/pb/Enums.h
+    include/pb/ImageMonitor.h
+    include/pb/PhotoBook.h
+    include/pb/PhotobookListener.h
+    include/pb/Platform.h
+    include/pb/StagedImages.h
+    include/pb/components/CollageLibraryAssistant.h
+    include/pb/components/ImageMetadataInspector.h
+    include/pb/components/ImageToPaperTask.h
+    include/pb/components/ImportImageTask.h
+    include/pb/components/MapReducer.h
+    include/pb/components/OGLEngine.h
+    include/pb/components/RuntimeUUID.h
+    include/pb/components/SVGInflater.h
+    include/pb/components/SerializationStrategy.h
+    include/pb/components/SkiaResources.h
+    include/pb/components/TSQueue.h
+    include/pb/components/TaskCruncher.h
+    include/pb/components/ThreadScheduler.h
+    include/pb/components/ThumbnailsTask.h
+    include/pb/entities/AspectRatio.h
     include/pb/entities/BasicSVGModel.h
     include/pb/entities/CollageTemplateInfo.h
-    include/pb/services/CollageService.h
-    include/pb/jobs/CollageThumbnailsMakerJob.h
-    include/pb/services/DatabaseService.h
-    include/pb/jobs/DirectoryInspectionJob.h
-    include/pb/services/DirectoryInspectionService.h
-    include/pb/services/DrawingService.h
-    include/pb/services/DurableHashService.h
-    include/pb/Enums.h
+    include/pb/entities/ImageProcessingData.h
+    include/pb/entities/LutIconInfo.h
+    include/pb/entities/LutImageProcessingData.h
+    include/pb/entities/PaperSettings.h
+    include/pb/entities/ProjectMetadata.h
+    include/pb/entities/RowProcessingData.h
     include/pb/export/ExportLogic.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
-    include/pb/export/PdfPoDoFo.h
     include/pb/export/PdfLibharu.h
-    include/pb/components/ImportImageTask.h
-    include/pb/ImageMonitor.h
-    include/pb/entities/ImageProcessingData.h
-    include/pb/services/ImportFoldersService.h
-    include/pb/services/ImageToPaperService.h
-    include/pb/components/ImageToPaperTask.h
+    include/pb/export/PdfPoDoFo.h
     include/pb/image/ImageFactory.h
-    include/pb/components/ImageMetadataInspector.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
     include/pb/image/RegularImage.h
-    include/pb/image/VirtualImage.h
     include/pb/image/TextImage.h
-    include/pb/services/LutService.h
-    include/pb/entities/LutIconInfo.h
+    include/pb/image/VirtualImage.h
+    include/pb/jobs/CollageMakerJob.h
+    include/pb/jobs/CollageThumbnailsMakerJob.h
+    include/pb/jobs/DirectoryInspectionJob.h
     include/pb/jobs/LutIconsPreprocessingJob.h
-    include/pb/entities/LutImageProcessingData.h
-    include/pb/components/MapReducer.h
-    include/pb/components/OGLEngine.h
-    include/pb/components/SerializationStrategy.h
-    include/pb/PhotoBook.h
-    include/pb/PhotobookListener.h
-    include/pb/Platform.h
-    include/pb/entities/PaperSettings.h
-    include/pb/entities/ProjectMetadata.h
+    include/pb/jobs/PicturesSearchJob.h
+    include/pb/jobs/ThumbnailsJob.h
     include/pb/project/Project.h
+    include/pb/services/CollageService.h
+    include/pb/services/DatabaseService.h
+    include/pb/services/DirectoryInspectionService.h
+    include/pb/services/DrawingService.h
+    include/pb/services/DurableHashService.h
+    include/pb/services/ImageToPaperService.h
+    include/pb/services/ImportFoldersService.h
+    include/pb/services/LutService.h
+    include/pb/services/ProgressService.h
     include/pb/services/ProjectManagementService.h
     include/pb/services/ProjectSerializerService.h
-    include/pb/services/ProgressService.h
-    include/pb/entities/RowProcessingData.h
-    include/pb/components/RuntimeUUID.h
-    include/pb/components/SkiaResources.h
-    include/pb/jobs/PicturesSearchJob.h
     include/pb/tasks/ParallelTaskConsumer.h
-    include/pb/StagedImages.h
-    include/pb/components/SVGInflater.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
+    include/pb/util/IteratorWithState.h
     include/pb/util/Observable.h
     include/pb/util/Timer.h
     include/pb/util/Traits.h
-    include/pb/components/TaskCruncher.h
-    include/pb/components/ThreadScheduler.h
-    include/pb/jobs/ThumbnailsJob.h
-    include/pb/components/ThumbnailsTask.h
-    include/pb/components/TSQueue.h
 
     src/CollageLibraryAssistant.cpp
     src/CollageMakerJob.cpp
-    src/CollageThumbnailsMakerJob.cpp
     src/CollageService.cpp
+    src/CollageThumbnailsMakerJob.cpp
     src/Config.cpp
     src/DatabaseService.cpp
     src/DirectoryInspectionJob.cpp
@@ -152,45 +152,46 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DurableHashService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
-    src/PicturesSearchJob.cpp
     src/Html.cpp
     src/ImageFactory.cpp
-    src/ImageReader.cpp
     src/ImageMetadataInspector.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
+    src/ImageReader.cpp
     src/ImageToPaperService.cpp
     src/ImageToPaperTask.cpp
-    src/ImportImageTask.cpp
     src/ImportFoldersService.cpp
+    src/ImportImageTask.cpp
     src/Jpg.cpp
-    src/LutService.cpp
     src/LutIconsPreprocessingJob.cpp
+    src/LutService.cpp
     src/OGLEngine.cpp
     src/PaperSettings.cpp
     src/Pdf.cpp
-    src/PdfPoDoFo.cpp
     src/PdfLibharu.cpp
+    src/PdfPoDoFo.cpp
     src/Photobook.cpp
+    src/PicturesSearchJob.cpp
     src/ProgressService.cpp
     src/Project.cpp
-    src/ProjectMetadata.cpp
     src/ProjectManagementService.cpp
+    src/ProjectMetadata.cpp
     src/ProjectSerializerService.cpp
     src/RegularImage.cpp
     src/RuntimeUUID.cpp
+    src/SVGInflater.cpp
     src/SerializationStrategy.cpp
     src/SkiaResources.cpp
     src/StagedImages.cpp
-    src/SVGInflater.cpp
-    src/util/FileInfo.cpp
-    src/util/Timer.cpp
-    src/util/ParallelTaskConsumer.cpp
     src/TaskCruncher.cpp
     src/TextImage.cpp
     src/ThumbnailsJob.cpp
     src/ThumbnailsTask.cpp
-    src/VirtualImage.cpp)
+    src/VirtualImage.cpp
+    src/util/FileInfo.cpp
+    src/util/ParallelTaskConsumer.cpp
+    src/util/Timer.cpp
+    )
 
 target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
     include
