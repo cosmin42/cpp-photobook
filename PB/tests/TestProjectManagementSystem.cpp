@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/ProjectManagementSystem.h>
+#include <pb/services/ProjectManagementService.h>
 
 #include "MockListeners.h"
 
@@ -10,13 +10,13 @@ TEST(TestProjectManagementSystem, TestRecallEmptyMetadata)
 {
   auto platformInfo = mockPlatformInfo();
   auto databaseService = mockDatabaseService(platformInfo);
-  TestProjectManagementSystemListener projectManagementSystemListener;
+  TestProjectManagementServiceListener projectManagementSystemListener;
 
-  ProjectManagementSystem projectManagementSystem;
+  ProjectManagementService projectManagementSystem;
   projectManagementSystem.configurePlatformInfo(platformInfo);
   projectManagementSystem.configureDatabaseService(databaseService);
-  projectManagementSystem.configureProjectManagementSystemListener(
-      (PB::ProjectManagementSystemListener *)&projectManagementSystemListener);
+  projectManagementSystem.configureProjectManagementServiceListener(
+      (PB::ProjectManagementServiceListener *)&projectManagementSystemListener);
 
   EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
   projectManagementSystem.recallMetadata();
@@ -35,14 +35,14 @@ TEST(TestProjectManagementSystem, TestNewProject)
   auto platformInfo = mockPlatformInfo();
   auto databaseService = mockDatabaseService(platformInfo);
   auto projectSeiralizer = mockProjectSerializerService(platformInfo);
-  TestProjectManagementSystemListener projectManagementSystemListener;
+  TestProjectManagementServiceListener projectManagementSystemListener;
 
-  ProjectManagementSystem projectManagementSystem;
+  ProjectManagementService projectManagementSystem;
   projectManagementSystem.configurePlatformInfo(platformInfo);
   projectManagementSystem.configureDatabaseService(databaseService);
   projectManagementSystem.configureProjectSerializerService(projectSeiralizer);
-  projectManagementSystem.configureProjectManagementSystemListener(
-      (PB::ProjectManagementSystemListener *)&projectManagementSystemListener);
+  projectManagementSystem.configureProjectManagementServiceListener(
+      (PB::ProjectManagementServiceListener *)&projectManagementSystemListener);
 
   EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
   projectManagementSystem.recallMetadata();

@@ -5,13 +5,7 @@
 #include <pb/image/ImageFactory.h>
 
 // TODO: Remove redundant listeners
-class MockImageMonitorListener final : public PB::ImageMonitorListener {
-public:
-  MOCK_METHOD(void, onImportFolderAdded, (), (override));
-  MOCK_METHOD(void, onImportFolderRemoved, (unsigned index), (override));
-  MOCK_METHOD(void, onRefresh, (), (override));
-  MOCK_METHOD(void, onCleared, (), (override));
-};
+
 
 /*
 class ImageMonitorVirtualImage : public PB::VirtualImage {
@@ -29,27 +23,6 @@ private:
   Path mPath;
 };
 */
-TEST(TestImageMonitor, TestCreation)
-{
-  PB::ImageMonitor imageMonitor;
-
-  auto listenerPtr = std::make_shared<MockImageMonitorListener>();
-
-  imageMonitor.setListener(listenerPtr.get());
-}
-
-TEST(TestImageMonitor, TestEmpty)
-{
-  PB::ImageMonitor imageMonitor;
-
-  auto listenerPtr = std::make_shared<MockImageMonitorListener>();
-
-  imageMonitor.setListener(listenerPtr.get());
-
-  EXPECT_CALL(*listenerPtr.get(), onCleared());
-
-  imageMonitor.clear();
-}
 
 TEST(TestImageMonitor, TestAdding)
 {

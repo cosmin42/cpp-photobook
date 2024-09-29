@@ -45,9 +45,9 @@ TEST(TestProjectSerializerService, TestSaveEmptyProject)
 
   projectSerializerService.createProjectFolderStructure(projectId);
 
-  projectSerializerService.saveProject("TestName", Project(),
-                                       VirtualImageMatrix(), VirtualImageLine(),
-                                       std::vector<Path>());
+  projectSerializerService.saveProject(
+      "TestName", Project(), GenericImagePtrMatrix(), GenericImagePtrLine(),
+      std::vector<Path>());
   auto projectFileCreated = std::filesystem::exists(
       platformInfo->localStatePath / "projects" / "TestName.photobook");
   ASSERT_TRUE(projectFileCreated);

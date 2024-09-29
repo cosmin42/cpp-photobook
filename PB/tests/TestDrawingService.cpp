@@ -46,7 +46,7 @@ TEST(TestDrawingService, TestSvgToPng)
   std::filesystem::remove(thumbnailToRemove);
 }
 
-TEST(CollageManager, TestGenerateTemplatesImages)
+TEST(CollageService, TestGenerateTemplatesImages)
 {
   auto success = std::filesystem::create_directories(
       std::filesystem::current_path() / "test-generate-templates");
@@ -56,7 +56,7 @@ TEST(CollageManager, TestGenerateTemplatesImages)
   project->paperSettings.height = 1754;
   auto templatesPath =
       std::filesystem::current_path() / "test-generate-templates";
-  CollageManager manager;
+  CollageService manager;
 
   manager.generateTemplatesImages();
 

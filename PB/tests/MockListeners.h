@@ -20,27 +20,10 @@
 
 void clearProjectCache();
 
-typedef std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
-                                                       VirtualImageMatrix;
-typedef std::vector<std::shared_ptr<PB::VirtualImage>> VirtualImageLine;
+typedef std::vector<std::vector<PB::GenericImagePtr>>     VirtualImageMatrix;
+typedef std::vector<std::shared_ptr<PB::GenericImagePtr>> VirtualImageLine;
 
 typedef std::vector<Path> &RootsVector;
-
-class TestPhotobookStagedImagesListener : public PB::StagedImagesListener {
-public:
-  MOCK_METHOD(void, onPicturesAdded, (int index, int size), (override));
-  MOCK_METHOD(void, onPictureRemoved, (std::vector<unsigned> index),
-              (override));
-};
-
-class MockPhotobookImageMonitorListener final
-    : public PB::ImageMonitorListener {
-public:
-  MOCK_METHOD(void, onImportFolderAdded, (), (override));
-  MOCK_METHOD(void, onImportFolderRemoved, (unsigned index), (override));
-  MOCK_METHOD(void, onRefresh, (), (override));
-  MOCK_METHOD(void, onCleared, (), (override));
-};
 
 class TestPhotobookListener final : public PB::PhotobookListener {
 public:
@@ -51,10 +34,6 @@ public:
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
 
-  MOCK_METHOD(void, onStagedImageAdded,
-              (std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-               int                                            index),
-              (override));
   MOCK_METHOD(void, onStagedImageRemoved, (std::vector<unsigned>), (override));
 
   MOCK_METHOD(void, onMappingStarted, (Path), (override));
@@ -65,17 +44,26 @@ public:
   MOCK_METHOD(void, onImageUpdated, (Path, int, int), (override));
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
-  MOCK_METHOD(void, onCollageCreated,
-              (unsigned, std::shared_ptr<PB::VirtualImage>), (override));
 
-  MOCK_METHOD(void, onImageMapped,
-              (PBDev::ImageToPaperId, std::shared_ptr<PB::VirtualImage>),
+  MOCK_METHOD(void, onCollageCreated, (unsigned, PB::GenericImagePtr),
+              (override));
+
+  MOCK_METHOD(void, onImageMapped, (PBDev::ImageToPaperId, PB::GenericImagePtr),
               (override));
 
   MOCK_METHOD(void, onProgressUpdate, (PB::ProgressStatus), (override));
 
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
 };
+
+class TestProjectManagementServiceListener final
+    : public PB::ProjectManagementServiceListener {
+public:
+  ~TestProjectManagementServiceListener() = default;
+  MOCK_METHOD(void, onProjectMetadataRecalled, (), (override));
+  MOCK_METHOD(void, onProjectRecalled, (), (override));
+};
+
 /*
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
@@ -107,12 +95,6 @@ class TestProjectPersistenceListener final
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
 };
 */
-class TestProjectManagementSystemListener final
-    : public PB::ProjectManagementSystemListener {
-public:
-  ~TestProjectManagementSystemListener() = default;
-  MOCK_METHOD(void, onProjectMetadataRecalled, (), (override));
-};
 
 class TestMainLoop final : public PBDev::ThreadScheduler {
 public:
