@@ -18,8 +18,7 @@ public:
   virtual ~ImportFoldersServiceListener() = default;
 
   virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
-  virtual void onImageProcessed(Path key, Path root,
-                                ImageResources imageResources) = 0;
+  virtual void onImageProcessed(Path key, Path root, GenericImagePtr image) = 0;
 };
 
 class ImportFoldersService final : public PicturesSearchJobListener,
@@ -60,8 +59,8 @@ public:
 
   void onPicturesSearchAborted(Path root) override;
 
-  void imageProcessed(PBDev::ThumbnailsJobId       jobId,
-                      std::tuple<Path, Path, Path> thumbnailPaths) override;
+  void imageProcessed(PBDev::ThumbnailsJobId jobId,
+                      GenericImagePtr        image) override;
 
 private:
   ImportFoldersServiceListener             *mListener = nullptr;

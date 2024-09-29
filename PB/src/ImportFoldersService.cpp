@@ -58,14 +58,11 @@ void ImportFoldersService::onPicturesSearchFinished(
 
 void ImportFoldersService::onPicturesSearchAborted(Path root) {}
 
-void ImportFoldersService::imageProcessed(
-    PBDev::ThumbnailsJobId jobId, std::tuple<Path, Path, Path> thumbnailPaths)
+void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
+                                          GenericImagePtr        image)
 {
   auto root = mRootPaths.at(jobId);
-  mListener->onImageProcessed(root, root,
-                              PB::ImageResources{std::get<0>(thumbnailPaths),
-                                                 std::get<1>(thumbnailPaths),
-                                                 std::get<2>(thumbnailPaths)});
+  mListener->onImageProcessed(root, root, image);
 }
 
 } // namespace PB

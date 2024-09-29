@@ -9,22 +9,7 @@ runtimeclass VirtualImagePtr
 {
   VirtualImageType Imagetype();
 
-  IVector<String> Resources();
-
-  Int32Pair Size();
-
-  void SetFullSizePath(String path);
-  void SetMediumSizePath(String path);
-  void SetSmallSizePath(String path);
-
-  void SetSizePath(String fullSizePath, String mediumSizePath,
-                   String smallSizePath);
-
   ImageResources Frontend { get; };
-
-  Boolean Processed();
-
-  void FinishProcessing();
 
   void GalleryProjection(ref UInt8[] buffer, Int32 portviewWidth,
                          Int32 portviewHeight);

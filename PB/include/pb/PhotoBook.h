@@ -81,8 +81,7 @@ public:
 
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
 
-  void onImageProcessed(Path key, Path root,
-                        ImageResources imageResources) override;
+  void onImageProcessed(Path key, Path root, GenericImagePtr image) override;
 
   void onImageProcessingJobEnded(Path root);
 
@@ -102,8 +101,7 @@ public:
   void onCollageCreated(unsigned index, Path imagePath) override;
   void onCollageMakerError() override;
 
-  void onImageMapped(PBDev::ImageToPaperId         id,
-                     std::shared_ptr<VirtualImage> image) override;
+  void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image) override;
 
   void onLutAdded(LutIconInfo iconInfo) override;
 

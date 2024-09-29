@@ -5,7 +5,6 @@
 
 #include <pb/entities/PaperSettings.h>
 #include <pb/entities/ProjectMetadata.h>
-#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/ProjectSerializerService.h>

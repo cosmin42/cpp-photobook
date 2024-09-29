@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pb/components/MapReducer.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/export/ExportLogic.h>
-#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 
 #include <podofo/podofo.h>
@@ -12,8 +12,8 @@ namespace PB {
 class PdfExportTask final : public MapReducer {
 public:
   PdfExportTask(Path exportPdfPath, Path localStatePath,
-                PaperSettings                                     paperSettings,
-                std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
+                PaperSettings                       paperSettings,
+                std::vector<GenericImagePtr> const &stagedImages);
   ~PdfExportTask() = default;
 
   void setListener(ExportLogicListener *listener) { mListener = listener; }
@@ -38,7 +38,7 @@ private:
 
   ExportLogicListener                         *mListener = nullptr;
   int                                          mIndex = 0;
-  std::vector<std::shared_ptr<VirtualImage>>   mStagedImages;
+  std::vector<GenericImagePtr>                 mStagedImages;
   std::shared_ptr<PoDoFo::PdfStreamedDocument> mDocument = nullptr;
   Path                                         mLocalStatePath;
   PaperSettings                                mPaperSettings;

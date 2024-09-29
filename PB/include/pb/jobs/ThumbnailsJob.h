@@ -5,6 +5,8 @@
 #include <pb/Platform.h>
 #include <pb/components/MapReducer.h>
 #include <pb/components/ThumbnailsTask.h>
+#include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/services/ProjectManagementService.h>
 #include <pb/util/Traits.h>
@@ -13,8 +15,8 @@ namespace PB {
 
 class ThumbnailsJobListener {
 public:
-  virtual void imageProcessed(PBDev::ThumbnailsJobId       jobId,
-                              std::tuple<Path, Path, Path> thumbnailPaths) = 0;
+  virtual void imageProcessed(PBDev::ThumbnailsJobId jobId,
+                              GenericImagePtr        image) = 0;
 };
 
 class ThumbnailsJob : public MapReducer {
@@ -72,13 +74,16 @@ private:
   unsigned                                  mIndex = 0;
   std::vector<Path>                         mPaths;
 
-  std::tuple<Path, Path, Path> process(Path path)
+  GenericImagePtr process(Path path)
   {
     if (std::filesystem::is_regular_file(path)) {
       ThumbnailsTask task(path);
       task.configurePlatformInfo(mPlatformInfo);
       task.configureProjectManagementService(mProjectManagementService);
-      return task.createThumbnails();
+      auto hash = task.createThumbnails();
+
+      return std::make_shared<RegularImageV2>(
+          mPlatformInfo->projectFolderPath(), hash, path);
     }
     else if (std::filesystem::is_directory(path)) {
 
@@ -95,10 +100,12 @@ private:
       ThumbnailsTask task(temporaryImagePath);
       task.configurePlatformInfo(mPlatformInfo);
       task.configureProjectManagementService(mProjectManagementService);
-      auto results = task.createThumbnails();
+      auto hash = task.createThumbnails();
 
       std::filesystem::remove(temporaryImagePath);
-      return results;
+
+      return std::make_shared<TextImageV2>(mPlatformInfo->projectFolderPath(),
+                                           hash, directoryName);
     }
     else {
       PBDev::basicAssert(false);

@@ -114,9 +114,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/image/ImageFactory.h
     include/pb/image/ImageOperations.h
     include/pb/image/ImageReader.h
-    include/pb/image/RegularImage.h
-    include/pb/image/TextImage.h
-    include/pb/image/VirtualImage.h
     include/pb/jobs/CollageMakerJob.h
     include/pb/jobs/CollageThumbnailsMakerJob.h
     include/pb/jobs/DirectoryInspectionJob.h
@@ -183,7 +180,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ProjectManagementService.cpp
     src/ProjectMetadata.cpp
     src/ProjectSerializerService.cpp
-    src/RegularImage.cpp
     src/RegularImageV2.cpp
     src/RuntimeUUID.cpp
     src/SVGInflater.cpp
@@ -191,11 +187,9 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/SkiaResources.cpp
     src/StagedImages.cpp
     src/TaskCruncher.cpp
-    src/TextImage.cpp
     src/TextImageV2.cpp
     src/ThumbnailsJob.cpp
     src/ThumbnailsTask.cpp
-    src/VirtualImage.cpp
     src/util/FileInfo.cpp
     src/util/ParallelTaskConsumer.cpp
     src/util/Timer.cpp

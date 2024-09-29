@@ -73,43 +73,12 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   ImageMonitor(PB::ImageMonitor &monitor) : mImageMonitor(monitor) {}
   ~ImageMonitor() = default;
 
-  void ReplaceImageMonitorData(
-      Windows::Foundation::Collections::IVector<
-          Windows::Foundation::Collections::IVector<
-              PhotobookRuntimeComponent::VirtualImagePtr>>
-                                                                unstagedImages,
-      Windows::Foundation::Collections::IVector<winrt::hstring> roots)
-  {
-    std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
-                      nativeUnstagedImages;
-    std::vector<Path> nativeRoots;
-
-    for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-      std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedLine;
-      for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
-        auto nativeImagePtr =
-            winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                                VirtualImagePtr>(
-                unstagedImages.GetAt(i).GetAt(j))
-                ->Unwrap();
-        nativeUnstagedLine.push_back(nativeImagePtr);
-      }
-      nativeUnstagedImages.push_back(nativeUnstagedLine);
-    }
-
-    for (int i = 0; i < (int)roots.Size(); ++i) {
-      auto nativeRoot = winrt::to_string(roots.GetAt(i));
-      nativeRoots.push_back(nativeRoot);
-    }
-    mImageMonitor.replaceImageMonitorData(nativeUnstagedImages, nativeRoots);
-  }
-
   void AddRow(winrt::hstring path,
               Windows::Foundation::Collections::IVector<
                   PhotobookRuntimeComponent::VirtualImagePtr>
                   images)
   {
-    std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedImages;
+    std::vector<PB::GenericImagePtr> nativeUnstagedImages;
 
     for (int i = 0; i < (int)images.Size(); ++i) {
 
@@ -194,21 +163,6 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
     auto nativePath = winrt::to_string(full);
     auto positionPair = mImageMonitor.position(nativePath);
     return winrt::make<Int32Pair>(positionPair.first, positionPair.second);
-  }
-
-  Windows::Foundation::Collections::IVector<
-      PhotobookRuntimeComponent::RowProcessingData>
-  UnprocessedImages()
-  {
-    auto nativeUnprocessedImages = mImageMonitor.unprocessedImages();
-    auto managedUnprocessedImages = winrt::single_threaded_vector<
-        PhotobookRuntimeComponent::RowProcessingData>();
-
-    for (int i = 0; i < (int)nativeUnprocessedImages.size(); ++i) {
-      managedUnprocessedImages.Append(
-          winrt::make<RowProcessingData>(nativeUnprocessedImages.at(i)));
-    }
-    return managedUnprocessedImages;
   }
 
   Windows::Foundation::Collections::IVector<

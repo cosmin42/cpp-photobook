@@ -67,38 +67,37 @@ Project ProjectSerializerService::deserializeProjectInfo(Path projectPath)
   return std::get<Project>(projectDetailsOrError);
 }
 
-std::vector<std::vector<std::shared_ptr<VirtualImage>>>
+std::vector<std::vector<GenericImagePtr>>
 ProjectSerializerService::deserializeUnstagedImages(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
-  auto unstagedImagesOrError = PB::Text::deserialize<
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
-      jsonSerialization.at("unstaged"));
+  auto unstagedImagesOrError =
+      PB::Text::deserialize<std::vector<std::vector<GenericImagePtr>>>(
+          jsonSerialization.at("unstaged"));
 
-  PBDev::basicAssert(std::holds_alternative<
-                     std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
-      unstagedImagesOrError));
+  PBDev::basicAssert(
+      std::holds_alternative<std::vector<std::vector<GenericImagePtr>>>(
+          unstagedImagesOrError));
 
-  return std::get<std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
+  return std::get<std::vector<std::vector<GenericImagePtr>>>(
       unstagedImagesOrError);
 }
 
-std::vector<std::shared_ptr<VirtualImage>>
+std::vector<GenericImagePtr>
 ProjectSerializerService::deserializeStagedImages(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
   auto stagedImagesOrError =
-      PB::Text::deserialize<std::vector<std::shared_ptr<VirtualImage>>>(
+      PB::Text::deserialize<std::vector<GenericImagePtr>>(
           jsonSerialization.at("staged"));
 
   PBDev::basicAssert(
-      std::holds_alternative<std::vector<std::shared_ptr<VirtualImage>>>(
+      std::holds_alternative<std::vector<GenericImagePtr>>(
           stagedImagesOrError));
 
-  return std::get<std::vector<std::shared_ptr<VirtualImage>>>(
-      stagedImagesOrError);
+  return std::get<std::vector<GenericImagePtr>>(stagedImagesOrError);
 }
 
 std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
@@ -120,10 +119,9 @@ std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
 
 void ProjectSerializerService::saveProject(
     std::string projectName, Project project,
-    std::vector<std::vector<std::shared_ptr<VirtualImage>>> const
-                                                     &unstagedImages,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages,
-    std::vector<Path> const                          &roots)
+    std::vector<std::vector<GenericImagePtr>> const &unstagedImages,
+    std::vector<GenericImagePtr> const              &stagedImages,
+    std::vector<Path> const                         &roots)
 {
   auto projectPath = mPlatformInfo->localStatePath / "projects" /
                      (projectName + OneConfig::BOOK_EXTENSION);
@@ -132,16 +130,16 @@ void ProjectSerializerService::saveProject(
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  auto imageJsonOrError = PB::Text::serialize<
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>>>(
-      0, {"unstaged", unstagedImages});
+  auto imageJsonOrError =
+      PB::Text::serialize<std::vector<std::vector<GenericImagePtr>>>(
+          0, {"unstaged", unstagedImages});
 
   PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
 
   std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
 
   imageJsonOrError =
-      PB::Text::serialize<std::vector<std::shared_ptr<VirtualImage>>>(
+      PB::Text::serialize<std::vector<GenericImagePtr>>(
           0, {"staged", stagedImages});
 
   PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));

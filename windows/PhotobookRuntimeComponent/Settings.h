@@ -121,13 +121,12 @@ struct Settings : SettingsT<Settings> {
                 stagedImages,
             Windows::Foundation::Collections::IVector<winrt::hstring> root)
   {
-    std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
-                                                   nativeUnstagedImages;
-    std::vector<std::shared_ptr<PB::VirtualImage>> nativesStagedImages;
-    std::vector<Path>                              nativeRoots;
+    std::vector<std::vector<PB::GenericImagePtr>> nativeUnstagedImages;
+    std::vector<PB::GenericImagePtr>              nativesStagedImages;
+    std::vector<Path>                             nativeRoots;
 
     for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-      std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedLine;
+      std::vector<PB::GenericImagePtr> nativeUnstagedLine;
       for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
         auto nativeImagePtr =
             winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
@@ -182,13 +181,12 @@ struct Settings : SettingsT<Settings> {
                    stagedImages,
                Windows::Foundation::Collections::IVector<winrt::hstring> roots)
   {
-    std::vector<std::vector<std::shared_ptr<PB::VirtualImage>>>
-                                                   nativeUnstagedImages;
-    std::vector<std::shared_ptr<PB::VirtualImage>> nativesStagedImages;
-    std::vector<Path>                              nativeRoots;
+    std::vector<std::vector<PB::GenericImagePtr>> nativeUnstagedImages;
+    std::vector<PB::GenericImagePtr>              nativesStagedImages;
+    std::vector<Path>                             nativeRoots;
 
     for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-      std::vector<std::shared_ptr<PB::VirtualImage>> nativeUnstagedLine;
+      std::vector<PB::GenericImagePtr> nativeUnstagedLine;
       for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
         auto nativeImagePtr =
             winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::

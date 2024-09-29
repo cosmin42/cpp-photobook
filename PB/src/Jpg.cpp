@@ -9,7 +9,7 @@ namespace PB {
 
 JpgExport::JpgExport(
     Path root, PaperSettings paperSettings,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+    std::vector<GenericImagePtr> const &stagedImages)
     : mRoot(root), mPaperSettings{paperSettings}
 {
   for (auto const &it : stagedImages) {
@@ -29,7 +29,7 @@ void JpgExport::taskStep()
   Path imagePath = mRoot / makeName(mIndex);
 
   auto virtualImage = mStagedImages.at(mIndex);
-  writeImage(virtualImage->frontend().full, imagePath);
+  writeImage(virtualImage->full(), imagePath);
 
   mIndex++;
 

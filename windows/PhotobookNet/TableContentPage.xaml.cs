@@ -568,7 +568,7 @@ namespace PhotobookNet
 
             System.Diagnostics.Debug.Assert(imagePtr != null);
 
-            frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
+            //frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
 
             double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
 
@@ -675,11 +675,6 @@ namespace PhotobookNet
             foreach (var item in args.Items)
             {
                 var image = item as VirtualImagePtr;
-                if (!image.Processed())
-                {
-                    allowDrag = false;
-                    break;
-                }
                 var keyPath = image.Frontend.FullPath;
                 var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath);
                 mDragAndDropSelectedImages.Add(imagePtr);

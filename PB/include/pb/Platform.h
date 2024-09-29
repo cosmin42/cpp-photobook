@@ -39,7 +39,7 @@ struct PlatformInfo {
            (hash + extension);
   }
 
-  std::tuple<Path, Path, Path>
+  std::tuple<Path, Path, Path, std::string>
   newThumbnailPaths(boost::uuids::uuid projectId) const
   {
     auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
@@ -48,7 +48,8 @@ struct PlatformInfo {
                            projectSupportFolder(projectId) /
                                "thumbnail-images" / (hash + "-m.jpg"),
                            projectSupportFolder(projectId) /
-                               "thumbnail-images" / (hash + "-s.jpg"));
+                               "thumbnail-images" / (hash + "-s.jpg"),
+                           hash);
   }
 
   Path newTemporaryImage(boost::uuids::uuid projectId) const

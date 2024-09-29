@@ -3,7 +3,7 @@
 #include <pb/Platform.h>
 #include <pb/components/ImageToPaperTask.h>
 #include <pb/components/TaskCruncher.h>
-#include <pb/image/VirtualImage.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/services/ProjectManagementService.h>
 
 DECLARE_STRONG_UUID(ImageToPaperServiceId)
@@ -36,21 +36,19 @@ public:
     mListener = listener;
   }
 
-  void
-  map(PBDev::ImageToPaperServiceId,
-      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
-                         boost::hash<PBDev::ImageToPaperId>>
-          originalImages);
+  void map(PBDev::ImageToPaperServiceId,
+           std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+                              boost::hash<PBDev::ImageToPaperId>>
+               originalImages);
 
-  void
-  map(PBDev::ImageToPaperServiceId,
-      std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>> image);
+  void map(PBDev::ImageToPaperServiceId,
+           std::pair<PBDev::ImageToPaperId, GenericImagePtr> image);
 
   void removeTask(PBDev::ImageToPaperServiceId id);
 
 private:
-  std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
-  std::shared_ptr<TaskCruncher>            mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
+  std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>

@@ -1,6 +1,4 @@
-#include <pb/CollageImage.h>
+#include <pb/entities/CollageImage.h>
 
-
-namespace PB
-{
+namespace PB {
 }

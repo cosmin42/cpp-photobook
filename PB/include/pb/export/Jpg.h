@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pb/components/MapReducer.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/export/ExportLogic.h>
-#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 #include <pb/util/Traits.h>
 
@@ -11,9 +11,8 @@ namespace PB {
 // TODO: Change name to be consistent with the pdf tasks.
 class JpgExport final : public MapReducer {
 public:
-  explicit JpgExport(
-      Path root, PaperSettings paperSettings,
-      std::vector<std::shared_ptr<VirtualImage>> const &stagedImages);
+  explicit JpgExport(Path root, PaperSettings paperSettings,
+                     std::vector<GenericImagePtr> const &stagedImages);
   ~JpgExport() = default;
 
   void setListener(ExportLogicListener *listener) { mListener = listener; }
@@ -41,12 +40,12 @@ private:
   std::string makeName(unsigned counter);
   void        writeImage(Path inputPath, Path outputPath) const;
 
-  ExportLogicListener                       *mListener = nullptr;
-  unsigned                                   mIndex = 0;
-  Path                                       mRoot;
-  PaperSettings                              mPaperSettings;
-  std::vector<std::shared_ptr<VirtualImage>> mStagedImages;
-  bool                                       mCrunchedFlag = false;
-  std::stop_token                            mStopToken;
+  ExportLogicListener         *mListener = nullptr;
+  unsigned                     mIndex = 0;
+  Path                         mRoot;
+  PaperSettings                mPaperSettings;
+  std::vector<GenericImagePtr> mStagedImages;
+  bool                         mCrunchedFlag = false;
+  std::stop_token              mStopToken;
 };
 } // namespace PB

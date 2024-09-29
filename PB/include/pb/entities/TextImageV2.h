@@ -13,6 +13,8 @@ public:
 
   std::string text() const { return mText; }
 
+  ImageType type() const override { return ImageType::Text; }
+
 private:
   std::string mText;
 };
