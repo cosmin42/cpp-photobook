@@ -101,6 +101,10 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/entities/PaperSettings.h
     include/pb/entities/ProjectMetadata.h
     include/pb/entities/RowProcessingData.h
+    include/pb/entities/CollageImage.h
+    include/pb/entities/GenericImage.h
+    include/pb/entities/RegularImageV2.h
+    include/pb/entities/TextImageV2.h
     include/pb/export/ExportLogic.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
@@ -140,6 +144,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Timer.h
     include/pb/util/Traits.h
 
+    src/CollageImage.cpp
     src/CollageLibraryAssistant.cpp
     src/CollageMakerJob.cpp
     src/CollageService.cpp
@@ -152,6 +157,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DurableHashService.cpp
     src/Enums.cpp
     src/ExportLogic.cpp
+    src/GenericImage.cpp
     src/Html.cpp
     src/ImageFactory.cpp
     src/ImageMetadataInspector.cpp
@@ -178,6 +184,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ProjectMetadata.cpp
     src/ProjectSerializerService.cpp
     src/RegularImage.cpp
+    src/RegularImageV2.cpp
     src/RuntimeUUID.cpp
     src/SVGInflater.cpp
     src/SerializationStrategy.cpp
@@ -185,6 +192,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/StagedImages.cpp
     src/TaskCruncher.cpp
     src/TextImage.cpp
+    src/TextImageV2.cpp
     src/ThumbnailsJob.cpp
     src/ThumbnailsTask.cpp
     src/VirtualImage.cpp
