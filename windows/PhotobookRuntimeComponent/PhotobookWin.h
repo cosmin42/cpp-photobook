@@ -47,20 +47,7 @@ public:
   {
     mManagedListener.OnError(winrt::make<PBError>(error));
   }
-  void onStagedImageAdded(std::vector<PB::GenericImagePtr> photos,
-                          int                              index) override
-  {
-    Windows::Foundation::Collections::IVector<
-        PhotobookRuntimeComponent::VirtualImagePtr>
-        managedPhotos = winrt::single_threaded_vector<
-            PhotobookRuntimeComponent::VirtualImagePtr>();
-
-    for (auto photo : photos) {
-      managedPhotos.Append(winrt::make<VirtualImagePtr>(photo));
-    }
-
-    mManagedListener.OnStagedImageAdded(managedPhotos, index);
-  }
+ 
   void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override
   {
     Windows::Foundation::Collections::IVector<uint32_t> managedPhotos =

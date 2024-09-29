@@ -724,8 +724,6 @@ namespace PhotobookNet
 
             // WORKAROUND END
 
-            OnStagedImageAdded(mDragAndDropSelectedImages, insertPosition);
-
             mDragAndDropSelectedImages.Clear();
         }
 
@@ -1077,7 +1075,7 @@ namespace PhotobookNet
             GenericErrorTextBlock.Text = "Code: " + errorString;
             await GenericErrorDialog.ShowAsync();
         }
-
+        /*
         public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
         {
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
@@ -1122,7 +1120,7 @@ namespace PhotobookNet
                 mPhotobook.mapImagesToSPL(imagesToBeProcessed);
             }
         }
-
+        */
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
             // sort removedIndexes in decreasing order
