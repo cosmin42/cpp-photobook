@@ -25,6 +25,8 @@ private:
   std::string mHash;
 };
 
-typedef std::shared_ptr<GenericImage> GenericImagePtr;
+typedef std::shared_ptr<GenericImage>             GenericImagePtr;
+typedef std::vector<GenericImagePtr>              GenericImagePtrLine;
+typedef std::vector<std::vector<GenericImagePtr>> GenericImagePtrMatrix;
 
 } // namespace PB

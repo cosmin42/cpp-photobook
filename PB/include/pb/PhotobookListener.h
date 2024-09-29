@@ -18,8 +18,6 @@ public:
 
   virtual void onExportFinished() = 0;
   virtual void onError(PBDev::Error) = 0;
-  virtual void onStagedImageAdded(std::vector<GenericImagePtr> photos,
-                                  int                          index = -1) = 0;
   virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
 
   virtual void onMappingStarted(Path path) = 0;
