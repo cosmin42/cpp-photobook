@@ -86,6 +86,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/OGLEngine.h
     include/pb/components/RuntimeUUID.h
     include/pb/components/SVGInflater.h
+    include/pb/components/Serializer.h
     include/pb/components/SerializationStrategy.h
     include/pb/components/SkiaResources.h
     include/pb/components/TSQueue.h
@@ -187,6 +188,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/RegularImageV2.cpp
     src/RuntimeUUID.cpp
     src/SVGInflater.cpp
+    src/Serializer.cpp
     src/SerializationStrategy.cpp
     src/SkiaResources.cpp
     src/StagedImages.cpp
@@ -240,7 +242,8 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestMain.cpp
     tests/TestDurableHashService.cpp
     tests/TestProjectSerializerService.cpp
-    tests/TestProjectManagementSystem.cpp)
+    tests/TestProjectManagementSystem.cpp
+    tests/TestSerializer.cpp)
 
 target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     include
