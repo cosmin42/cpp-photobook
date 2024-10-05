@@ -62,7 +62,7 @@ void PhotobookWin::mapImagesToSPL(
 {
   auto imageToPaperService = mPhotobook->imageToPaperService();
 
-  std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<PB::VirtualImage>,
+  std::unordered_map<PBDev::ImageToPaperId, PB::GenericImagePtr,
                      boost::hash<PBDev::ImageToPaperId>>
       backendMap;
 

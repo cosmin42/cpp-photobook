@@ -19,9 +19,6 @@ runtimeclass RowProcessingData
 
 runtimeclass ImageMonitor
 {
-  void ReplaceImageMonitorData(IVector<IVector<VirtualImagePtr> > unstagedImages,
-                               IVector<String>                   roots);
-
   void AddRow(String path, IVector<VirtualImagePtr> images);
   void RemoveRowByIndex(Int32 index);
   void RemoveRowByPath(String path);
@@ -43,8 +40,6 @@ runtimeclass ImageMonitor
   VirtualImagePtr Image(UInt32 row, UInt32 index);
   VirtualImagePtr Image(String full);
   Int32Pair       Position(String full);
-
-  IVector<RowProcessingData> UnprocessedImages();
 
   IVector<IVector<VirtualImagePtr> > Unstaged();
 

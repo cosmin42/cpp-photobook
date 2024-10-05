@@ -1,19 +1,7 @@
 #include "MockListeners.h"
 
-#include <pb/components/ProjectMetadata.h>
+#include <pb/entities/ProjectMetadata.h>
 
-TEST(TestPhotobook, TestCreation)
-{
-  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
-      std::make_shared<TestPhotobookStagedImagesListener>();
-
-  std::shared_ptr<PB::ImageMonitorListener> imageMonitorListener =
-      std::make_shared<MockPhotobookImageMonitorListener>();
-
-  PB::Photobook photobook(".", ".", {1280, 720});
-  photobook.configure(stagedImageListener.get());
-  photobook.configure(imageMonitorListener.get());
-}
 /*
 TEST(TestPhotobook, TestMetadata)
 {

@@ -23,15 +23,15 @@ void ImageFactory::configureDurableHashService(
   mDurableHashService = durableHashService;
 }
 
-std::shared_ptr<RegularImage> ImageFactory::createRegularImage(Path path)
+std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
 {
-  auto regularImage =
-      std::make_shared<RegularImage>(defaultImageFrontend(), path);
+  auto regularImage = std::make_shared<RegularImageV2>(
+      mPlatformInfo->projectFolderPath(), RegularImageV2::defaultHash(), path);
   return regularImage;
 }
 
-std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
-                                                         Path hashPath)
+std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path path,
+                                                           Path hashPath)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
@@ -53,12 +53,12 @@ std::shared_ptr<TextImage> ImageFactory::createTextImage(Path path,
 
   Process::writeImageOnDisk(image, hashPath);
 
-  auto textImage =
-      std::make_shared<TextImage>(defaultImageFrontend(), hashPath);
+  auto textImage = std::make_shared<TextImageV2>(
+      mPlatformInfo->projectFolderPath(), "", path.stem().string());
   return textImage;
 }
 
-std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
+GenericImagePtr ImageFactory::createImage(Path path)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
@@ -75,23 +75,6 @@ std::shared_ptr<VirtualImage> ImageFactory::createImage(Path path)
         mPlatformInfo->thumbnailByHash(maybeProject->first, coreHash, ".jpg");
 
     return createTextImage(path, hashPath);
-  }
-  else {
-    PBDev::basicAssert(false);
-    return nullptr;
-  }
-}
-
-std::shared_ptr<VirtualImage>
-ImageFactory::copyImage(std::shared_ptr<VirtualImage> image)
-{
-  if (image->type() == VirtualImageType::Regular) {
-    return std::make_shared<RegularImage>(image->frontend(), image->processed(),
-                                          image->resources());
-  }
-  else if (image->type() == VirtualImageType::Text) {
-    return std::make_shared<TextImage>(image->frontend(), image->processed(),
-                                       image->resources());
   }
   else {
     PBDev::basicAssert(false);

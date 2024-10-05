@@ -1,5 +1,11 @@
 #pragma once
 
+#pragma warning(push)
+#pragma warning(disable : 5054)
+#pragma warning(disable : 4127)
+#include <opencv2/core.hpp>
+#pragma warning(pop)
+
 #include <pb/Platform.h>
 #include <pb/services/ProjectManagementService.h>
 #include <pb/util/Traits.h>
@@ -14,7 +20,7 @@ public:
   void configureProjectManagementService(
       std::shared_ptr<ProjectManagementService> projectManagementService);
 
-  std::tuple<Path, Path, Path> createThumbnails();
+  std::string createThumbnails();
 
 private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;

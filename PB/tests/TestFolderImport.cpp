@@ -1,6 +1,6 @@
 #include "MockListeners.h"
 
-#include <pb/components/ProjectMetadata.h>
+#include <pb/entities/ProjectMetadata.h>
 
 using ::testing::_;
 using ::testing::AtLeast;
@@ -8,11 +8,6 @@ using ::testing::AtLeast;
 TEST(TestFolderImport, Test0)
 {
   clearProjectCache();
-
-  std::shared_ptr<PB::StagedImagesListener> stagedImageListener =
-      std::make_shared<TestPhotobookStagedImagesListener>();
-
-  MockPhotobookImageMonitorListener imageMonitorListener;
 
   TestPhotobookListener photobookListener;
 

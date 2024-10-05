@@ -13,6 +13,8 @@ public:
 
   std::optional<Path> original() const { return maybeOriginal; }
 
+  ImageType type() const override { return ImageType::Regular; }
+
 private:
   std::optional<Path> maybeOriginal;
 };

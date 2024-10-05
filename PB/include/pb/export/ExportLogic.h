@@ -5,7 +5,7 @@
 
 #include <pb/components/RuntimeUUID.h>
 #include <pb/components/TaskCruncher.h>
-#include <pb/image/VirtualImage.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/project/Project.h>
 
 DECLARE_STRONG_UUID(ExportLogicReducersId)
@@ -80,8 +80,8 @@ private:
   std::shared_ptr<PB::Project>      mProject;
   std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
 
-  std::vector<std::shared_ptr<VirtualImage>> mPtrImages;
-  std::shared_ptr<TaskCruncher>              mTaskCruncher;
+  std::vector<GenericImagePtr>  mPtrImages;
+  std::shared_ptr<TaskCruncher> mTaskCruncher;
   std::unordered_map<PBDev::MapReducerTaskId, std::shared_ptr<MapReducer>,
                      boost::hash<PBDev::MapReducerTaskId>>
       mPendingTasks;

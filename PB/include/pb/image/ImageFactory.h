@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pb/Platform.h>
-#include <pb/image/RegularImage.h>
-#include <pb/image/TextImage.h>
+#include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
 #include <pb/services/DurableHashService.h>
 #include <pb/services/ProjectManagementService.h>
 
@@ -17,36 +17,26 @@ public:
   void configureDurableHashService(
       std::shared_ptr<DurableHashService> durableHashService);
 
-  std::shared_ptr<RegularImage> createRegularImage(Path path);
-  std::shared_ptr<TextImage>    createTextImage(Path path, Path hashPath);
+  std::shared_ptr<RegularImageV2> createRegularImage(Path path);
+  std::shared_ptr<TextImageV2>    createTextImage(Path path, Path hashPath);
 
-  std::shared_ptr<VirtualImage> createImage(Path path);
-  std::shared_ptr<VirtualImage> copyImage(std::shared_ptr<VirtualImage> image);
+  GenericImagePtr createImage(Path path);
 
   // TODO: Fix this if taking into account the platform info...
-  std::shared_ptr<VirtualImage> defaultRegularImage()
+  GenericImagePtr defaultRegularImage()
   {
     if (mDefaultRegularImage == nullptr) {
-      mDefaultRegularImage =
-          std::make_shared<RegularImage>(defaultImageFrontend());
+      mDefaultRegularImage = std::make_shared<RegularImageV2>(
+          mPlatformInfo->projectFolderPath(), RegularImageV2::defaultHash(),
+          Path());
     }
     return mDefaultRegularImage;
-  }
-
-  ImageResources defaultImageFrontend()
-  {
-    return {mPlatformInfo->installationPath /
-                Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
-            mPlatformInfo->installationPath /
-                Path(OneConfig::LOADING_PHOTO_PLACEHOLDER),
-            mPlatformInfo->installationPath /
-                Path(OneConfig::PHOTO_TIMELINE_DEFAULT_IMAGE)};
   }
 
 private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
-  std::shared_ptr<VirtualImage>             mDefaultRegularImage = nullptr;
+  GenericImagePtr                           mDefaultRegularImage = nullptr;
 };
 } // namespace PB

@@ -1,6 +1,4 @@
-#include <pb/RegularImageV2.h>
+#include <pb/entities/RegularImageV2.h>
 
-
-namespace PB
-{
+namespace PB {
 }

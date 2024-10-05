@@ -38,7 +38,7 @@ enum class PaperType {
   Square_Paper
 };
 
-enum class VirtualImageType { None, Text, Regular, Test };
+enum class ImageType { None, Text, Regular, Collage };
 
 enum class JobType { None, Map, ThumbnailsProcess, ExportPdf, ExportJpg, Full, ExportLibharu };
 

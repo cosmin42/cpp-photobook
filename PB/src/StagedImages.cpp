@@ -2,22 +2,20 @@
 
 namespace PB {
 
-void StagedImages::configure(
-    std::vector<std::shared_ptr<VirtualImage>> &stagedImages)
+void StagedImages::configure(std::vector<GenericImagePtr> &stagedImages)
 {
   for (int i = 0; i < stagedImages.size(); ++i) {
     mStagedPhotos.push_back(stagedImages.at(i));
   }
 }
 
-void StagedImages::addPictures(
-    std::vector<std::shared_ptr<VirtualImage>> pictures)
+void StagedImages::addPictures(std::vector<GenericImagePtr> pictures)
 {
   mStagedPhotos.insert(mStagedPhotos.end(), pictures.begin(), pictures.end());
 }
 
-void StagedImages::addPictures(
-    std::vector<std::shared_ptr<VirtualImage>> pictures, int position)
+void StagedImages::addPictures(std::vector<GenericImagePtr> pictures,
+                               int                          position)
 {
   PBDev::basicAssert(position > -1);
   PBDev::basicAssert(position <= (int)mStagedPhotos.size());
@@ -31,7 +29,7 @@ void StagedImages::addPictures(
   }
 }
 
-void StagedImages::addPicture(std::shared_ptr<VirtualImage> picture)
+void StagedImages::addPicture(GenericImagePtr picture)
 {
   mStagedPhotos.push_back(picture);
 }
@@ -69,23 +67,21 @@ void StagedImages::clear()
   mStagedPhotos.clear();
 }
 
-std::vector<std::shared_ptr<VirtualImage>> const &
-StagedImages::stagedPhotos() const
+std::vector<GenericImagePtr> const &StagedImages::stagedPhotos() const
 {
   return mStagedPhotos;
 }
 
-std::shared_ptr<VirtualImage> StagedImages::picture(unsigned index) const
+GenericImagePtr StagedImages::picture(unsigned index) const
 {
   PBDev::basicAssert(index < mStagedPhotos.size());
   return mStagedPhotos.at(index);
 }
 
 auto StagedImages::statefullIterator()
-    -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
+    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
 {
-  return PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
-      mStagedPhotos);
+  return PBDev::IteratorWithState<std::vector<GenericImagePtr>>(mStagedPhotos);
 }
 
 } // namespace PB

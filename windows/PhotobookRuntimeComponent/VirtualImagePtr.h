@@ -13,28 +13,22 @@
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
 
-  explicit VirtualImagePtr(std::shared_ptr<PB::VirtualImage> virtualImage)
-      : mVirtualImage(virtualImage)
+  explicit VirtualImagePtr(PB::GenericImagePtr genericImage)
+      : mGenericImage(genericImage)
   {
   }
 
   ~VirtualImagePtr() = default;
 
-  PhotobookRuntimeComponent::Int32Pair Size()
-  {
-    return winrt::make<Int32Pair>(mVirtualImage->frontend().width,
-                                  mVirtualImage->frontend().height);
-  }
-
   VirtualImageType Imagetype()
   {
-    return (VirtualImageType)mVirtualImage->type();
+    return (VirtualImageType)mGenericImage->type();
   }
 
   void GalleryProjection(winrt::array_view<uint8_t> buffer, int portviewWidth,
                          int portviewHeight)
   {
-    auto mediumThumbnailPath = mVirtualImage->frontend().medium;
+    auto mediumThumbnailPath = mGenericImage->medium();
 
     auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(), false,
                                            {portviewWidth, portviewHeight});
@@ -44,51 +38,15 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
                 buffer.begin());
   }
 
-  Windows::Foundation::Collections::IVector<winrt::hstring> Resources()
-  {
-    auto nativeResources = winrt::single_threaded_vector<winrt::hstring>();
-
-    for (auto i = 0; i < mVirtualImage->resources().size(); ++i) {
-      nativeResources.Append(
-          winrt::to_hstring(mVirtualImage->resources().at(i).string()));
-    }
-
-    return nativeResources;
-  }
-
-  void SetFullSizePath(winrt::hstring path)
-  {
-    mVirtualImage->setFullSizePath(winrt::to_string(path));
-  }
-  void SetMediumSizePath(winrt::hstring path)
-  {
-    mVirtualImage->setMediumSizePath(winrt::to_string(path));
-  }
-  void SetSmallSizePath(winrt::hstring path)
-  {
-    mVirtualImage->setSmallSizePath(winrt::to_string(path));
-  }
-
-  void SetSizePath(winrt::hstring fullSizePath, winrt::hstring mediumSizePath,
-                   winrt::hstring smallSizePath)
-  {
-    mVirtualImage->setSizePath(winrt::to_string(fullSizePath),
-                               winrt::to_string(mediumSizePath),
-                               winrt::to_string(smallSizePath));
-  }
-
   PhotobookRuntimeComponent::ImageResources Frontend()
   {
-    return winrt::make<ImageResources>(mVirtualImage->frontend());
+    return winrt::make<ImageResources>(
+        mGenericImage->full(), mGenericImage->medium(), mGenericImage->smaLL());
   }
 
-  bool Processed() { return mVirtualImage->processed(); }
-
-  void FinishProcessing() { mVirtualImage->finishProcessing(); }
-
-  std::shared_ptr<PB::VirtualImage> Unwrap() { return mVirtualImage; }
+  PB::GenericImagePtr Unwrap() { return mGenericImage; }
 
 private:
-  std::shared_ptr<PB::VirtualImage> mVirtualImage;
+  PB::GenericImagePtr mGenericImage = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

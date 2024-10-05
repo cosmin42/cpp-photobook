@@ -1,6 +1,4 @@
-#include <pb/TextImageV2.h>
+#include <pb/entities/TextImageV2.h>
 
-
-namespace PB
-{
+namespace PB {
 }

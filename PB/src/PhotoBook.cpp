@@ -148,7 +148,10 @@ void Photobook::unloadProject()
   */
 }
 
-void Photobook::recallMetadata() { mProjectManagementService->recallMetadata(); }
+void Photobook::recallMetadata()
+{
+  mProjectManagementService->recallMetadata();
+}
 
 void Photobook::recallProject(std::string name)
 {
@@ -250,8 +253,8 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
 
 /*
 void Photobook::onProjectRead(
-    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-    std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
+    std::vector<std::vector<std::shared_ptr<GenericImagePtr>>> &unstagedImages,
+    std::vector<std::shared_ptr<GenericImagePtr>>              &stagedImages,
     std::vector<Path>                                       &roots)
 {
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
@@ -312,15 +315,15 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
-  std::vector<std::shared_ptr<VirtualImage>> imagesSet;
+  std::vector<std::shared_ptr<GenericImagePtr>> imagesSet;
 
   std::vector<ProcessingData> keyAndPaths;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto virtualImage = mImageFactory->createImage(newFiles.at(i));
-    imagesSet.push_back(virtualImage);
-    keyAndPaths.push_back({virtualImage->frontend().full,
-                           virtualImage->frontend().full, (unsigned)i});
+    auto GenericImagePtr = mImageFactory->createImage(newFiles.at(i));
+    imagesSet.push_back(GenericImagePtr);
+    keyAndPaths.push_back({GenericImagePtr->frontend().full,
+                           GenericImagePtr->frontend().full, (unsigned)i});
   }
 
   maybeProject->second.imageMonitor().addRow(root, imagesSet);
@@ -345,8 +348,9 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 }
 
 void Photobook::onImageProcessed(Path key, Path root,
-                                 ImageResources imageResources)
+                                 GenericImagePtr imageResources)
 {
+  /*
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
@@ -355,6 +359,7 @@ void Photobook::onImageProcessed(Path key, Path root,
   maybeProject->second.imageMonitor().image(key)->setSize(
       imageResources.width, imageResources.height);
   maybeProject->second.imageMonitor().image(key)->finishProcessing();
+  */
   /*
   auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
   auto [row, index] = maybeProject->second.imageMonitor().position(key);
@@ -478,8 +483,7 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
 
 void Photobook::onCollageMakerError() {}
 
-void Photobook::onImageMapped(PBDev::ImageToPaperId         id,
-                              std::shared_ptr<VirtualImage> image)
+void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 {
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }

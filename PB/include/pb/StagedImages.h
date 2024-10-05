@@ -3,19 +3,18 @@
 #include <memory>
 #include <vector>
 
-#include <pb/image/VirtualImage.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/util/IteratorWithState.h>
 
 namespace PB {
 
 class StagedImages final {
 public:
-  void configure(std::vector<std::shared_ptr<VirtualImage>> &stagedImages);
+  void configure(std::vector<GenericImagePtr> &stagedImages);
 
-  void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures);
-  void addPictures(std::vector<std::shared_ptr<VirtualImage>> pictures,
-                   int                                        position);
-  void addPicture(std::shared_ptr<VirtualImage> picture);
+  void addPictures(std::vector<GenericImagePtr> pictures);
+  void addPictures(std::vector<GenericImagePtr> pictures, int position);
+  void addPicture(GenericImagePtr picture);
 
   void removePicture(std::vector<unsigned> indexes);
   void clear();
@@ -23,14 +22,14 @@ public:
   void stashImages(std::vector<unsigned> indexes);
   void popImages(int position);
 
-  std::vector<std::shared_ptr<VirtualImage>> const &stagedPhotos() const;
-  std::shared_ptr<VirtualImage> picture(unsigned index) const;
+  std::vector<GenericImagePtr> const &stagedPhotos() const;
+  GenericImagePtr                     picture(unsigned index) const;
 
   auto statefullIterator()
-      -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>;
+      -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>;
 
 private:
-  std::vector<std::shared_ptr<VirtualImage>> mStagedPhotos;
-  std::vector<std::shared_ptr<VirtualImage>> mStash;
+  std::vector<GenericImagePtr> mStagedPhotos;
+  std::vector<GenericImagePtr> mStash;
 };
 } // namespace PB

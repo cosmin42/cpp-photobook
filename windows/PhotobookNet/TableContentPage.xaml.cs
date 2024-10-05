@@ -568,7 +568,7 @@ namespace PhotobookNet
 
             System.Diagnostics.Debug.Assert(imagePtr != null);
 
-            frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
+            //frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
 
             double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
 
@@ -675,11 +675,6 @@ namespace PhotobookNet
             foreach (var item in args.Items)
             {
                 var image = item as VirtualImagePtr;
-                if (!image.Processed())
-                {
-                    allowDrag = false;
-                    break;
-                }
                 var keyPath = image.Frontend.FullPath;
                 var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath);
                 mDragAndDropSelectedImages.Add(imagePtr);
@@ -728,8 +723,6 @@ namespace PhotobookNet
             }
 
             // WORKAROUND END
-
-            OnStagedImageAdded(mDragAndDropSelectedImages, insertPosition);
 
             mDragAndDropSelectedImages.Clear();
         }
@@ -1082,7 +1075,7 @@ namespace PhotobookNet
             GenericErrorTextBlock.Text = "Code: " + errorString;
             await GenericErrorDialog.ShowAsync();
         }
-
+        /*
         public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
         {
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
@@ -1127,7 +1120,7 @@ namespace PhotobookNet
                 mPhotobook.mapImagesToSPL(imagesToBeProcessed);
             }
         }
-
+        */
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
             // sort removedIndexes in decreasing order

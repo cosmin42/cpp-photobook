@@ -36,20 +36,7 @@ public:
   {
     mManagedListener.OnError(winrt::make<PBError>(error));
   }
-  void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-                          int index) override
-  {
-    Windows::Foundation::Collections::IVector<
-        PhotobookRuntimeComponent::VirtualImagePtr>
-        managedPhotos = winrt::single_threaded_vector<
-            PhotobookRuntimeComponent::VirtualImagePtr>();
 
-    for (auto photo : photos) {
-      managedPhotos.Append(winrt::make<VirtualImagePtr>(photo));
-    }
-
-    mManagedListener.OnStagedImageAdded(managedPhotos, index);
-  }
   void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override
   {
     Windows::Foundation::Collections::IVector<uint32_t> managedPhotos =
@@ -72,15 +59,14 @@ public:
     mManagedListener.OnCollageThumbnailsCreated();
   }
 
-  void onCollageCreated(unsigned                          index,
-                        std::shared_ptr<PB::VirtualImage> newImage) override
+  void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override
   {
     mManagedListener.OnCollageCreated(index,
                                       winrt::make<VirtualImagePtr>(newImage));
   }
 
-  void onImageMapped(PBDev::ImageToPaperId             id,
-                     std::shared_ptr<PB::VirtualImage> image) override
+  void onImageMapped(PBDev::ImageToPaperId id,
+                     PB::GenericImagePtr   image) override
   {
     auto nativeUuid = id.raw();
 

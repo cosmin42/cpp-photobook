@@ -15,7 +15,7 @@ void libharu_error_handler([[maybe_unused]] HPDF_STATUS error_no,
 
 PdfLibharuExportTask::PdfLibharuExportTask(
     Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+    std::vector<GenericImagePtr> const &stagedImages)
     : mPdfPath{exportPdfPath}, mLocalStatePath{localStatePath},
       mPaperSettings{paperSettings}
 {
@@ -42,7 +42,7 @@ void PdfLibharuExportTask::taskStep()
 
   auto virtualImage = mStagedImages.at(mIndex);
 
-  writeImage(virtualImage->frontend().full, tmpImageDestination);
+  writeImage(virtualImage->full(), tmpImageDestination);
 
   HPDF_Page page = HPDF_AddPage(mPDFFile);
 

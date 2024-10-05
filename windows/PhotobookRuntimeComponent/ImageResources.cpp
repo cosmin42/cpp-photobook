@@ -10,15 +10,15 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 
 winrt::hstring ImageResources::FullPath()
 {
-  return winrt::to_hstring(mImageResource.full.string());
+  return winrt::to_hstring(mFull.string());
 }
 winrt::hstring ImageResources::MediumPath()
 {
-  return winrt::to_hstring(mImageResource.medium.string());
+  return winrt::to_hstring(mMedium.string());
 }
 winrt::hstring ImageResources::SmallPath()
 {
-  return winrt::to_hstring(mImageResource.small.string());
+  return winrt::to_hstring(mSmall.string());
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation

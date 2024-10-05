@@ -375,11 +375,6 @@ namespace PhotobookNet
             throw new NotImplementedException();
         }
 
-        public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
-        {
-            throw new NotImplementedException();
-        }
-
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
             throw new NotImplementedException();

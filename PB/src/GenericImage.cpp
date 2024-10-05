@@ -16,9 +16,11 @@ Path GenericImage::medium() const
   return mProjectPath / (mHash + "-medium" + ".jpg");
 }
 
-Path GenericImage::small() const
+Path GenericImage::smaLL() const
 {
   return mProjectPath / (mHash + "-small" + ".jpg");
 }
+
+std::string GenericImage::defaultHash() { return ""; }
 
 } // namespace PB

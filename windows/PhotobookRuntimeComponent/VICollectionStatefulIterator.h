@@ -4,7 +4,7 @@
 
 #include "VICollectionStatefulIterator.h"
 
-#include <pb/image/VirtualImage.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/util/IteratorWithState.h>
 
 #include "VirtualImagePtr.g.h"
@@ -14,8 +14,7 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 struct VICollectionStatefulIterator
     : VICollectionStatefulIteratorT<VICollectionStatefulIterator> {
   VICollectionStatefulIterator(
-      PBDev::IteratorWithState<std::vector<std::shared_ptr<PB::VirtualImage>>>
-          iterator)
+      PBDev::IteratorWithState<std::vector<PB::GenericImagePtr>> iterator)
       : mIterator(iterator)
   {
   }
@@ -37,7 +36,6 @@ struct VICollectionStatefulIterator
   bool Valid() { return mIterator.valid(); }
 
 private:
-  PBDev::IteratorWithState<std::vector<std::shared_ptr<PB::VirtualImage>>>
-      mIterator;
+  PBDev::IteratorWithState<std::vector<PB::GenericImagePtr>> mIterator;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

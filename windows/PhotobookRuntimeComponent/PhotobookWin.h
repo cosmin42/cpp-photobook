@@ -47,20 +47,7 @@ public:
   {
     mManagedListener.OnError(winrt::make<PBError>(error));
   }
-  void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos,
-                          int index) override
-  {
-    Windows::Foundation::Collections::IVector<
-        PhotobookRuntimeComponent::VirtualImagePtr>
-        managedPhotos = winrt::single_threaded_vector<
-            PhotobookRuntimeComponent::VirtualImagePtr>();
-
-    for (auto photo : photos) {
-      managedPhotos.Append(winrt::make<VirtualImagePtr>(photo));
-    }
-
-    mManagedListener.OnStagedImageAdded(managedPhotos, index);
-  }
+ 
   void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override
   {
     Windows::Foundation::Collections::IVector<uint32_t> managedPhotos =
@@ -103,15 +90,13 @@ public:
     mManagedListener.Post(functor);
   }
 
-  void onCollageCreated(unsigned                          index,
-                        std::shared_ptr<PB::VirtualImage> newImage) override
+  void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override
   {
     mManagedListener.OnCollageCreated(index,
                                       winrt::make<VirtualImagePtr>(newImage));
   }
 
-  void onImageMapped(PBDev::ImageToPaperId             id,
-                     std::shared_ptr<PB::VirtualImage> image)
+  void onImageMapped(PBDev::ImageToPaperId id, PB::GenericImagePtr image)
   {
     auto nativeUuid = id.raw();
 
@@ -237,7 +222,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
     for (int i = 0; i < (int)images.Size(); ++i) {
       auto imagePath =
-          stagedPhotos.at((unsigned)images.GetAt(i))->frontend().medium;
+          stagedPhotos.at((unsigned)images.GetAt(i))->medium();
       imagesToMerge.push_back(imagePath);
     }
 
@@ -263,7 +248,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   winrt::hstring GenerateProjectName()
   {
-    auto newProjectName = mPhotobook->projectManagementService()->newAlbumName();
+    auto newProjectName =
+        mPhotobook->projectManagementService()->newAlbumName();
 
     return winrt::to_hstring(newProjectName);
   }

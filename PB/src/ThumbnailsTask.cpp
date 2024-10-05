@@ -20,14 +20,15 @@ void ThumbnailsTask::configureProjectManagementService(
   mProjectManagementService = projectManagementService;
 }
 
-std::tuple<Path, Path, Path> ThumbnailsTask::createThumbnails()
+std::string ThumbnailsTask::createThumbnails()
 {
   auto maybleProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybleProject != nullptr);
 
   auto projectId = maybleProject->first;
 
-  auto [large, medium, small] = mPlatformInfo->newThumbnailPaths(projectId);
+  auto [large, medium, small, hash] =
+      mPlatformInfo->newThumbnailPaths(projectId);
 
   ImageMetadataInspector imageMetadataInspector(mOriginalPath);
 
@@ -55,7 +56,7 @@ std::tuple<Path, Path, Path> ThumbnailsTask::createThumbnails()
   PB::Process::writeImageOnDisk(mediumImage, medium);
   PB::Process::writeImageOnDisk(largeImage, large);
 
-  return {large, medium, small};
+  return hash;
 }
 
 std::tuple<cv::Size, cv::Size, cv::Size>

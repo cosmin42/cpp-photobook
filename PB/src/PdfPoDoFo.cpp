@@ -4,9 +4,9 @@
 #include <pb/image/ImageReader.h>
 
 namespace PB {
-PdfExportTask::PdfExportTask(
-    Path exportPdfPath, Path localStatePath, PaperSettings paperSettings,
-    std::vector<std::shared_ptr<VirtualImage>> const &stagedImages)
+PdfExportTask::PdfExportTask(Path exportPdfPath, Path localStatePath,
+                             PaperSettings                       paperSettings,
+                             std::vector<GenericImagePtr> const &stagedImages)
     : mPdfPath{exportPdfPath}, mLocalStatePath{localStatePath},
       mPaperSettings{paperSettings}
 {
@@ -46,7 +46,7 @@ void PdfExportTask::taskStep()
 
   auto virtualImage = mStagedImages.at(mIndex);
 
-  writeImage(virtualImage->frontend().full, tmpImageDestination);
+  writeImage(virtualImage->full(), tmpImageDestination);
 
   PoDoFo::PdfPage &pPage = mDocument->GetPages().CreatePage(
       PoDoFo::PdfPage::CreateStandardPageSize(PoDoFo::PdfPageSize::A4, true));

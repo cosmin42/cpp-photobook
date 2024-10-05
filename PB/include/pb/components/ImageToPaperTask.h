@@ -6,9 +6,8 @@
 
 #include <pb/Platform.h>
 #include <pb/components/MapReducer.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/image/ImageReader.h>
-#include <pb/image/RegularImage.h>
-#include <pb/image/VirtualImage.h>
 #include <pb/project/Project.h>
 
 DECLARE_STRONG_UUID(ImageToPaperId)
@@ -17,15 +16,15 @@ namespace PB {
 
 class ImageToPaperServiceListener {
 public:
-  virtual void onImageMapped(PBDev::ImageToPaperId         id,
-                             std::shared_ptr<VirtualImage> image) = 0;
+  virtual void onImageMapped(PBDev::ImageToPaperId id,
+                             GenericImagePtr       image) = 0;
 };
 
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
       PBDev::ProjectId projectId, PaperSettings paperSettings,
-      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+      std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
       : MapReducer(), mPaperSettings(paperSettings), mProjectId(projectId),
@@ -78,7 +77,7 @@ private:
 
   ImageToPaperServiceListener *mListener = nullptr;
 
-  std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+  std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                      boost::hash<PBDev::ImageToPaperId>>
       mOriginalImages;
 
@@ -86,7 +85,7 @@ private:
                      boost::hash<PBDev::MapReducerTaskId>>
       mImageTaskAssociation;
 
-  std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+  std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                      boost::hash<PBDev::ImageToPaperId>>
       mResultImages;
 
@@ -106,14 +105,13 @@ private:
             }};
   }
 
-  std::shared_ptr<VirtualImage>
-  CreatePaperImage(std::shared_ptr<VirtualImage> image)
+  GenericImagePtr CreatePaperImage(GenericImagePtr image)
   {
     auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
     auto hashPath = mPlatformInfo->thumbnailByHash(*mProjectId, hash, ".png");
 
     auto imageData =
-        ImageReader().read(image->frontend().full, true,
+        ImageReader().read(image->full(), true,
                            {mPaperSettings.width, mPaperSettings.height});
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(

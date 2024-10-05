@@ -4,38 +4,18 @@
 
 namespace PB {
 
-void ImageMonitor::replaceImageMonitorData(
-    std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-    std::vector<Path>                                       &roots)
-{
-  for (int i = 0; i < roots.size(); ++i) {
-    mRowIndexes.insert({roots.at(i), i});
-  }
-
-  for (int i = 0; i < unstagedImages.size(); ++i) {
-    mUnstagedImagesMatrix.push_back(unstagedImages.at(i));
-    for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
-      mPositions.insert(
-          {mUnstagedImagesMatrix.at(i).at(j)->frontend().full, {i, j}});
-      if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
-        mPendingRows.insert(i);
-      }
-    }
-  }
-}
-
 void ImageMonitor::addRow(Path                                       path,
-                          std::vector<std::shared_ptr<VirtualImage>> images)
+                          std::vector<GenericImagePtr> images)
 {
   if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
     return;
   }
   mRowIndexes.insert({path, (int)mRowIndexes.size()});
 
-  mUnstagedImagesMatrix.push_back(std::vector<std::shared_ptr<VirtualImage>>());
+  mUnstagedImagesMatrix.push_back(std::vector<GenericImagePtr>());
 
   for (auto i = 0; i < images.size(); ++i) {
-    mPositions.insert({images.at(i)->frontend().full,
+    mPositions.insert({images.at(i)->full(),
                        {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
         .push_back(images.at(i));
@@ -90,9 +70,6 @@ void ImageMonitor::clear()
 
 void ImageMonitor::completeRow(int index)
 {
-  for (auto imagePtr : mUnstagedImagesMatrix.at(index)) {
-    imagePtr->finishProcessing();
-  }
   mPendingRows.erase(index);
 }
 
@@ -148,7 +125,7 @@ Path ImageMonitor::rowPath(unsigned row) const
   return mRowIndexes.right.at(row);
 }
 
-std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
+GenericImagePtr ImageMonitor::image(unsigned row,
                                                   unsigned index) const
 {
   PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
@@ -157,7 +134,7 @@ std::shared_ptr<VirtualImage> ImageMonitor::image(unsigned row,
   return mUnstagedImagesMatrix.at(row).at(index);
 }
 
-std::shared_ptr<VirtualImage> ImageMonitor::image(Path full) const
+GenericImagePtr ImageMonitor::image(Path full) const
 {
   PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
 
@@ -172,48 +149,26 @@ std::pair<int, int> ImageMonitor::position(Path full) const
   return mPositions.left.at(full);
 }
 
-std::vector<RowProcessingData> ImageMonitor::unprocessedImages()
-{
-  std::vector<RowProcessingData> allRowsProcessingData;
-
-  for (int i = 0; i < mUnstagedImagesMatrix.size(); ++i) {
-    RowProcessingData rowProcessingData;
-    rowProcessingData.root = mRowIndexes.right.at(i);
-    for (int j = 0; j < mUnstagedImagesMatrix.at(i).size(); ++j) {
-      if (!mUnstagedImagesMatrix.at(i).at(j)->processed()) {
-        rowProcessingData.images.push_back(
-            {mUnstagedImagesMatrix.at(i).at(j)->frontend().full,
-             mUnstagedImagesMatrix.at(i).at(j)->resources().at(0),
-             (unsigned)j});
-      }
-    }
-    if (!rowProcessingData.images.empty()) {
-      allRowsProcessingData.push_back(rowProcessingData);
-    }
-  }
-  return allRowsProcessingData;
-}
-
-std::vector<std::vector<std::shared_ptr<VirtualImage>>> const &
+std::vector<std::vector<GenericImagePtr>> const &
 ImageMonitor::unstaged() const
 {
   return mUnstagedImagesMatrix;
 }
 
 auto ImageMonitor::statefulIterator(Path root)
-    -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
+    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
 {
   return statefulIterator(mRowIndexes.left.at(root));
 }
 
 auto ImageMonitor::statefulIterator(unsigned row)
-    -> PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>
+    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
 {
   if (row >= mUnstagedImagesMatrix.size()) {
     return PBDev::IteratorWithState<
-        std::vector<std::shared_ptr<VirtualImage>>>();
+        std::vector<GenericImagePtr>>();
   }
-  return PBDev::IteratorWithState<std::vector<std::shared_ptr<VirtualImage>>>(
+  return PBDev::IteratorWithState<std::vector<GenericImagePtr>>(
       mUnstagedImagesMatrix.at(row));
 }
 

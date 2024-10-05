@@ -1,8 +1,6 @@
 #include <pb/components/SerializationStrategy.h>
 
-#include <pb/image/RegularImage.h>
-#include <pb/image/TextImage.h>
-#include <pb/image/VirtualImage.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/project/Project.h>
 
 #include <boost/bimap/bimap.hpp>
@@ -95,8 +93,7 @@ template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 }
 
 template <>
-std::variant<std::shared_ptr<VirtualImage>, PBDev::Error>
-deserialize(Json jsonData)
+std::variant<GenericImagePtr, PBDev::Error> deserialize(Json jsonData)
 {
   auto imageType = jsonData.at("img-type").get<std::string>();
 
@@ -131,24 +128,26 @@ deserialize(Json jsonData)
   auto frontendFull = std::get<Path>(frontendFullOrError);
   auto frontendMedium = std::get<Path>(frontendMediumOrError);
   auto frontendSmall = std::get<Path>(frontendSmallOrError);
-  auto processingFinished = std::get<bool>(processingFinishedOrError);
+  //auto processingFinished = std::get<bool>(processingFinishedOrError);
 
 #ifndef _CLANG_UML_
+  /*
   if (imageType == "Regular") {
     auto imagePtr = std::make_shared<RegularImage>(
         ImageResources{frontendFull, frontendMedium, frontendSmall},
         processingFinished, std::get<std::vector<Path>>(resourcesOrError));
-    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
+    return std::dynamic_pointer_cast<GenericImagePtr>(imagePtr);
   }
   else if (imageType == "Text") {
     auto imagePtr = std::make_shared<TextImage>(
         ImageResources{frontendFull, frontendMedium, frontendSmall},
         processingFinished, std::get<std::vector<Path>>(resourcesOrError));
-    return std::dynamic_pointer_cast<VirtualImage>(imagePtr);
+    return std::dynamic_pointer_cast<GenericImagePtr>(imagePtr);
   }
   else {
     PBDev::basicAssert(false);
   }
+  */
 #else
   UNUSED(processingFinished);
 #endif
@@ -156,43 +155,46 @@ deserialize(Json jsonData)
 }
 
 template <>
-std::variant<std::vector<std::vector<std::shared_ptr<VirtualImage>>>,
-             PBDev::Error>
+std::variant<std::vector<std::vector<GenericImagePtr>>, PBDev::Error>
 deserialize(Json jsonData)
 {
-  std::vector<std::vector<std::shared_ptr<VirtualImage>>> result;
-
+  std::vector<std::vector<GenericImagePtr>> result;
+  /*
   for (auto &jsonLineData : jsonData) {
-    std::vector<std::shared_ptr<VirtualImage>> line;
+    std::vector<std::shared_ptr<GenericImagePtr>> line;
     for (auto &jsonElement : jsonLineData) {
       auto imageOrError =
-          deserialize<std::shared_ptr<VirtualImage>>(jsonElement);
+          deserialize<std::shared_ptr<GenericImagePtr>>(jsonElement);
       if (std::holds_alternative<PBDev::Error>(imageOrError)) {
         return std::get<PBDev::Error>(imageOrError);
       }
-      auto virtualImage = std::get<std::shared_ptr<VirtualImage>>(imageOrError);
-      line.push_back(virtualImage);
+      auto GenericImagePtr =
+  std::get<std::shared_ptr<GenericImagePtr>>(imageOrError);
+      line.push_back(GenericImagePtr);
     }
     result.push_back(line);
   }
-
+  */
   return result;
 }
 
 template <>
-std::variant<std::vector<std::shared_ptr<VirtualImage>>, PBDev::Error>
+std::variant<std::vector<GenericImagePtr>, PBDev::Error>
 deserialize(Json jsonData)
 {
-  std::vector<std::shared_ptr<VirtualImage>> line;
+  std::vector<GenericImagePtr> line;
+  /*
   for (auto &jsonElement : jsonData) {
-    auto imageOrError = deserialize<std::shared_ptr<VirtualImage>>(jsonElement);
-    if (std::holds_alternative<PBDev::Error>(imageOrError)) {
-      return std::get<PBDev::Error>(imageOrError);
+    auto imageOrError =
+  deserialize<std::shared_ptr<GenericImagePtr>>(jsonElement); if
+  (std::holds_alternative<PBDev::Error>(imageOrError)) { return
+  std::get<PBDev::Error>(imageOrError);
     }
-    auto virtualImage = std::get<std::shared_ptr<VirtualImage>>(imageOrError);
-    line.push_back(virtualImage);
+    auto GenericImagePtr =
+  std::get<std::shared_ptr<GenericImagePtr>>(imageOrError);
+    line.push_back(GenericImagePtr);
   }
-
+  */
   return line;
 }
 
@@ -336,31 +338,32 @@ serialize(int depth, std::pair<std::string, Project> const &entry)
 
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int depth, std::pair<std::string, VirtualImageType> const &entry)
+serialize(int depth, std::pair<std::string, GenericImagePtr> const &entry)
 {
   auto [key, imageType] = entry;
 
   Json json;
-
+  /*
   json[key] = magic_enum::enum_name(imageType);
 #ifndef _CLANG_UML_
   spdlog::info("%s(string, RegularImage) %s\n",
                std::string(depth * 2, ' ').c_str(), json.dump().c_str());
 #endif
+*/
   return json;
 }
 
 // TODO: Find alternative to shared_ptr const&
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int                                                          depth,
-          std::pair<std::string, std::shared_ptr<VirtualImage>> const &entry)
+serialize(int depth, std::pair<std::string, ImageType> const &entry)
 {
+  /*
   auto [key, image] = entry;
 
   auto resources = std::vector<Path>{image->resources()};
   auto jsonOrError =
-      serialize<VirtualImageType, Path, Path, Path, std::vector<Path>, bool>(
+      serialize<GenericImagePtrType, Path, Path, Path, std::vector<Path>, bool>(
           depth + 1, {"img-type", image->type()},
           {"frontend-full", image->frontend().full},
           {"frontend-medium", image->frontend().medium},
@@ -370,22 +373,23 @@ serialize(int                                                          depth,
   if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
     return jsonOrError;
   }
-
+  */
   Json json;
+  /*
   json[key] = std::get<Json>(jsonOrError);
 #ifndef _CLANG_UML_
   spdlog::info("%s(string, RegularImage) %s\n",
                std::string(depth * 2, ' ').c_str(), json.dump());
 #endif
+*/
   return json;
 }
 
 template <>
-std::variant<Json, PBDev::Error> serialize(
-    int depth,
-    std::pair<std::string,
-              std::vector<std::vector<std::shared_ptr<VirtualImage>>>> const
-        &entry)
+std::variant<Json, PBDev::Error>
+serialize(int                                                         depth,
+          std::pair<std::string,
+                    std::vector<std::vector<GenericImagePtr>>> const &entry)
 {
 
   auto [key, imageMatrix] = entry;
@@ -397,7 +401,7 @@ std::variant<Json, PBDev::Error> serialize(
   for (int i = 0; i < imageMatrix.size(); ++i) {
     Json line;
     for (int j = 0; j < imageMatrix.at(i).size(); ++j) {
-      auto jasonOrError = serialize<std::shared_ptr<VirtualImage>>(
+      auto jasonOrError = serialize<GenericImagePtr>(
           depth + 1, {"placeholder", imageMatrix.at(i).at(j)});
       if (std::holds_alternative<PBDev::Error>(jasonOrError)) {
         return jasonOrError;
@@ -413,9 +417,8 @@ std::variant<Json, PBDev::Error> serialize(
 
 template <>
 std::variant<Json, PBDev::Error>
-serialize(int                                                          depth,
-          std::pair<std::string,
-                    std::vector<std::shared_ptr<VirtualImage>>> const &entry)
+serialize(int                                                         depth,
+          std::pair<std::string, std::vector<GenericImagePtr>> const &entry)
 {
 
   auto [key, imageMatrix] = entry;
@@ -425,7 +428,7 @@ serialize(int                                                          depth,
   line[key];
 
   for (int i = 0; i < imageMatrix.size(); ++i) {
-    auto jasonOrError = serialize<std::shared_ptr<VirtualImage>>(
+    auto jasonOrError = serialize<GenericImagePtr>(
         depth + 1, {"placeholder", imageMatrix.at(i)});
     if (std::holds_alternative<PBDev::Error>(jasonOrError)) {
       return jasonOrError;

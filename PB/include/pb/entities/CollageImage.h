@@ -14,6 +14,8 @@ public:
 
   std::vector<Path> sources() const { return mSources; }
 
+  ImageType type() const override { return ImageType::Collage; }
+
 private:
   std::vector<Path> mSources;
 };

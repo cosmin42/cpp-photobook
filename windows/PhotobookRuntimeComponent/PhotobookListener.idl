@@ -18,7 +18,6 @@ interface PhotobookListener
   void OnExportFinished();
   void OnError(PBError error);
 
-  void OnStagedImageAdded(IVector<VirtualImagePtr> photos, Int32 index);
   void OnStagedImageRemoved(IVector<UInt32> removedIndexes);
 
   void OnMappingStarted(String path);

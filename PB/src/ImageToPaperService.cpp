@@ -4,7 +4,7 @@ namespace PB {
 
 void ImageToPaperService::map(
     PBDev::ImageToPaperServiceId id,
-    std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+    std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                        boost::hash<PBDev::ImageToPaperId>>
         originalImages)
 {
@@ -24,7 +24,7 @@ void ImageToPaperService::map(
 
 void ImageToPaperService::map(
     PBDev::ImageToPaperServiceId id,
-    std::pair<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>>
+    std::pair<PBDev::ImageToPaperId, GenericImagePtr>
         originalImage)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
@@ -32,7 +32,7 @@ void ImageToPaperService::map(
 
   auto &&task = ImageToPaperTask(
       PBDev::ProjectId(maybeProject->first), maybeProject->second.paperSettings,
-      std::unordered_map<PBDev::ImageToPaperId, std::shared_ptr<VirtualImage>,
+      std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                          boost::hash<PBDev::ImageToPaperId>>{originalImage});
 
   task.configurePlatformInfo(mPlatformInfo);
