@@ -60,6 +60,19 @@ std::variant<Json, PBDev::Error> flatAndTagSimple(int depth, std::string tag,
 
 template <typename Head, typename... Tail>
 std::variant<Json, PBDev::Error>
+flatDictionary(int depth, std::tuple<std::string, Head> const &head)
+{
+  auto &[tag, object] = head;
+
+  std::variant<Json, PBDev::Error> headJsonOrError =
+      flatAndTagSimple<Head>(depth + 1, tag, object);
+
+  return headJsonOrError;
+}
+
+
+template <typename Head, typename... Tail>
+std::variant<Json, PBDev::Error>
 flatDictionary(int depth, std::tuple<std::string, Head> const &head,
                std::tuple<std::string, Tail> const &...args)
 {
@@ -73,10 +86,10 @@ flatDictionary(int depth, std::tuple<std::string, Head> const &head,
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
                std::get<Json>(jsonOrError).dump());
 #endif
-  auto &[tag, head] = head;
+  auto &[tag, object] = head;
 
   std::variant<Json, PBDev::Error> headJsonOrError =
-      flatAndTagSimple<Head>(depth + 1, tag, head);
+      flatAndTagSimple<Head>(depth + 1, tag, object);
 
   if (std::holds_alternative<PBDev::Error>(headJsonOrError)) {
     return headJsonOrError;

@@ -6,6 +6,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/components/Serializer.h>
+#include <pb/entities/RegularImageV2.h>
 
 TEST(TestSerializer, TestSimple)
 {
@@ -123,4 +124,87 @@ TEST(TestSerializer, TestMap)
   ASSERT_EQ(json1["a"], 1);
   ASSERT_EQ(json1["b"], 2);
   ASSERT_EQ(json1["c"], 3);
+}
+
+TEST(TestSerializer, TestGenericImage)
+{
+  PB::GenericImagePtr genericImage = std::make_shared<PB::RegularImageV2>(
+      Path("projectPath"), "hash", Path("original"));
+  auto json = PB::flatAndTagSimple<PB::GenericImagePtr>(0, "image", genericImage);
+  ASSERT_TRUE(std::holds_alternative<Json>(json));
+  Json json0 = std::get<Json>(json);
+  ASSERT_TRUE(json0.is_object());
+  ASSERT_EQ(json0.size(), 1);
+  ASSERT_TRUE(json0.contains("image"));
+  ASSERT_TRUE(json0["image"].is_object());
+  ASSERT_EQ(json0["image"].size(), 2);
+  ASSERT_TRUE(json0["image"].contains("hash"));
+  ASSERT_EQ(json0["image"]["hash"], "hash");
+  ASSERT_TRUE(json0["image"].contains("type"));
+  ASSERT_EQ(json0["image"]["type"], "Regular");
+}
+
+TEST(TestSerializer, TestStagedAndUnstaged)
+{
+      std::vector<PB::GenericImagePtr> staged;
+  staged.push_back(std::make_shared<PB::RegularImageV2>(
+	  Path("projectPath"), "hash0", Path("original")));
+  staged.push_back(std::make_shared<PB::RegularImageV2>(
+	  Path("projectPath"), "hash1", Path("original")));
+
+
+  auto jsonOrError = PB::flatMaybeContainer<PB::GenericImagePtrLine>(0, staged);
+  ASSERT_TRUE(std::holds_alternative<Json>(jsonOrError));
+  Json json = std::get<Json>(jsonOrError);
+  ASSERT_TRUE(json.is_array());
+  ASSERT_EQ(json.size(), 2);
+  ASSERT_TRUE(json[0].is_object());
+  ASSERT_EQ(json[0].size(), 2);
+  ASSERT_TRUE(json[0].contains("hash"));
+  ASSERT_EQ(json[0]["hash"], "hash0");
+  ASSERT_TRUE(json[0].contains("type"));
+  ASSERT_EQ(json[0]["type"], "Regular");
+  ASSERT_TRUE(json[1].is_object());
+  ASSERT_EQ(json[1].size(), 2);
+  ASSERT_TRUE(json[1].contains("hash"));
+  ASSERT_EQ(json[1]["hash"], "hash1");
+  ASSERT_TRUE(json[1].contains("type"));
+  ASSERT_EQ(json[1]["type"], "Regular");
+
+  PB::GenericImagePtrMatrix unstaged;
+  unstaged.push_back(staged);
+  unstaged.push_back(staged);
+  jsonOrError = PB::flatMaybeContainer<PB::GenericImagePtrMatrix>(0, unstaged);
+  ASSERT_TRUE(std::holds_alternative<Json>(jsonOrError));
+  json = std::get<Json>(jsonOrError);
+  ASSERT_TRUE(json.is_array());
+  ASSERT_EQ(json.size(), 2);
+  ASSERT_TRUE(json[0].is_array());
+  ASSERT_EQ(json[0].size(), 2);
+  ASSERT_TRUE(json[0][0].is_object());
+  ASSERT_EQ(json[0][0].size(), 2);
+  ASSERT_TRUE(json[0][0].contains("hash"));
+  ASSERT_EQ(json[0][0]["hash"], "hash0");
+  ASSERT_TRUE(json[0][0].contains("type"));
+  ASSERT_EQ(json[0][0]["type"], "Regular");
+  ASSERT_TRUE(json[0][1].is_object());
+  ASSERT_EQ(json[0][1].size(), 2);
+  ASSERT_TRUE(json[0][1].contains("hash"));
+  ASSERT_EQ(json[0][1]["hash"], "hash1");
+  ASSERT_TRUE(json[0][1].contains("type"));
+  ASSERT_EQ(json[0][1]["type"], "Regular");
+  ASSERT_TRUE(json[1].is_array());
+  ASSERT_EQ(json[1].size(), 2);
+  ASSERT_TRUE(json[1][0].is_object());
+  ASSERT_EQ(json[1][0].size(), 2);
+  ASSERT_TRUE(json[1][0].contains("hash"));
+  ASSERT_EQ(json[1][0]["hash"], "hash0");
+  ASSERT_TRUE(json[1][0].contains("type"));
+  ASSERT_EQ(json[1][0]["type"], "Regular");
+  ASSERT_TRUE(json[1][1].is_object());
+  ASSERT_EQ(json[1][1].size(), 2);
+  ASSERT_TRUE(json[1][1].contains("hash"));
+  ASSERT_EQ(json[1][1]["hash"], "hash1");
+  ASSERT_TRUE(json[1][1].contains("type"));
+  ASSERT_EQ(json[1][1]["type"], "Regular");
 }

@@ -14,7 +14,7 @@ int main(int argc, char **argv)
   catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log init failed: " << ex.what() << std::endl;
   }
-  ::testing::GTEST_FLAG(filter) = "TestProjectManagementSystem.*";
+  ::testing::GTEST_FLAG(filter) = "TestSerializer.*";
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
