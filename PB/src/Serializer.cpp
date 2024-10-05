@@ -5,6 +5,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/entities/GenericImage.h>
+#include <pb/entities/PaperSettings.h>
 
 namespace PB {
 template <>
@@ -34,6 +35,23 @@ std::variant<Json, PBDev::Error> flatSimple(int             depth,
   return flatDictionary<std::string, ImageType>(
       depth, std::make_tuple("hash", genericImage->hash()),
       std::make_tuple("type", genericImage->type()));
+}
+
+template <>
+std::variant<Json, PBDev::Error> flatSimple(int depth, PaperType genericImage)
+{
+  Json json;
+  json = magic_enum::enum_name(genericImage);
+  return json;
+}
+
+template <>
+std::variant<Json, PBDev::Error> flatSimple(int depth, PaperSettings paper)
+{
+  return flatDictionary<PaperType, int, int, int>(
+      depth, std::make_tuple("type", paper.type),
+      std::make_tuple("ppi", paper.ppi), std::make_tuple("width", paper.width),
+      std::make_tuple("height", paper.height));
 }
 
 } // namespace PB

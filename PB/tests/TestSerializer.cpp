@@ -6,6 +6,7 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include <pb/components/Serializer.h>
+#include <pb/entities/PaperSettings.h>
 #include <pb/entities/RegularImageV2.h>
 
 TEST(TestSerializer, TestSimple)
@@ -130,7 +131,8 @@ TEST(TestSerializer, TestGenericImage)
 {
   PB::GenericImagePtr genericImage = std::make_shared<PB::RegularImageV2>(
       Path("projectPath"), "hash", Path("original"));
-  auto json = PB::flatAndTagSimple<PB::GenericImagePtr>(0, "image", genericImage);
+  auto json =
+      PB::flatAndTagSimple<PB::GenericImagePtr>(0, "image", genericImage);
   ASSERT_TRUE(std::holds_alternative<Json>(json));
   Json json0 = std::get<Json>(json);
   ASSERT_TRUE(json0.is_object());
@@ -146,12 +148,11 @@ TEST(TestSerializer, TestGenericImage)
 
 TEST(TestSerializer, TestStagedAndUnstaged)
 {
-      std::vector<PB::GenericImagePtr> staged;
+  std::vector<PB::GenericImagePtr> staged;
   staged.push_back(std::make_shared<PB::RegularImageV2>(
-	  Path("projectPath"), "hash0", Path("original")));
+      Path("projectPath"), "hash0", Path("original")));
   staged.push_back(std::make_shared<PB::RegularImageV2>(
-	  Path("projectPath"), "hash1", Path("original")));
-
+      Path("projectPath"), "hash1", Path("original")));
 
   auto jsonOrError = PB::flatMaybeContainer<PB::GenericImagePtrLine>(0, staged);
   ASSERT_TRUE(std::holds_alternative<Json>(jsonOrError));
@@ -207,4 +208,31 @@ TEST(TestSerializer, TestStagedAndUnstaged)
   ASSERT_EQ(json[1][1]["hash"], "hash1");
   ASSERT_TRUE(json[1][1].contains("type"));
   ASSERT_EQ(json[1][1]["type"], "Regular");
+}
+
+TEST(TestSerializer, TestPaperSettings)
+{
+  PB::PaperSettings paperSettings;
+  paperSettings.type = PB::PaperType::A4_Landscape;
+  paperSettings.ppi = 300;
+  paperSettings.width = 2480;
+  paperSettings.height = 3508;
+
+  auto jsonOrError =
+      PB::flatAndTagSimple<PB::PaperSettings>(0, "paper", paperSettings);
+  ASSERT_TRUE(std::holds_alternative<Json>(jsonOrError));
+  Json json = std::get<Json>(jsonOrError);
+  ASSERT_TRUE(json.is_object());
+  ASSERT_EQ(json.size(), 1);
+  ASSERT_TRUE(json.contains("paper"));
+  ASSERT_TRUE(json["paper"].is_object());
+  ASSERT_EQ(json["paper"].size(), 4);
+  ASSERT_TRUE(json["paper"].contains("type"));
+  ASSERT_EQ(json["paper"]["type"], "A4_Landscape");
+  ASSERT_TRUE(json["paper"].contains("ppi"));
+  ASSERT_EQ(json["paper"]["ppi"], 300);
+  ASSERT_TRUE(json["paper"].contains("width"));
+  ASSERT_EQ(json["paper"]["width"], 2480);
+  ASSERT_TRUE(json["paper"].contains("height"));
+  ASSERT_EQ(json["paper"]["height"], 3508);
 }
