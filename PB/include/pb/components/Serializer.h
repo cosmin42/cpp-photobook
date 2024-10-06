@@ -62,14 +62,16 @@ template <typename Head, typename... Tail>
 std::variant<Json, PBDev::Error>
 flatDictionary(int depth, std::tuple<std::string, Head> const &head)
 {
+  Json json;
   auto &[tag, object] = head;
 
   std::variant<Json, PBDev::Error> headJsonOrError =
-      flatAndTagSimple<Head>(depth + 1, tag, object);
+      flatMaybeContainer<Head>(depth + 1, object);
 
-  return headJsonOrError;
+  json[tag] = std::get<Json>(headJsonOrError);
+
+  return json;
 }
-
 
 template <typename Head, typename... Tail>
 std::variant<Json, PBDev::Error>
@@ -89,16 +91,19 @@ flatDictionary(int depth, std::tuple<std::string, Head> const &head,
   auto &[tag, object] = head;
 
   std::variant<Json, PBDev::Error> headJsonOrError =
-      flatAndTagSimple<Head>(depth + 1, tag, object);
+      flatMaybeContainer<Head>(depth + 1, object);
 
   if (std::holds_alternative<PBDev::Error>(headJsonOrError)) {
     return headJsonOrError;
   }
+
+  Json taggedJson;
+  taggedJson[tag] = std::get<Json>(headJsonOrError);
+
 #ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
-               std::get<Json>(headJsonOrError).dump());
+  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), taggedJson.dump());
 #endif
-  std::get<Json>(jsonOrError).update(std::get<Json>(headJsonOrError));
+  std::get<Json>(jsonOrError).update(taggedJson);
 #ifndef _CLANG_UML_
   spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
                std::get<Json>(jsonOrError).dump());

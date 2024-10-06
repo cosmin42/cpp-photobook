@@ -61,8 +61,7 @@ TEST(TestProjectManagementSystem, TestNewProject)
   ASSERT_EQ(metadata.size(), 1);
 
   projectManagementSystem.saveMetadata();
-  projectSeiralizer->saveProject(maybeIdentifyableProject->second.name,
-                                 maybeIdentifyableProject->second, {}, {}, {});
+  projectSeiralizer->saveProject(maybeIdentifyableProject->second);
 
   auto projectId = maybeIdentifyableProject->first;
   maybeIdentifyableProject.reset();

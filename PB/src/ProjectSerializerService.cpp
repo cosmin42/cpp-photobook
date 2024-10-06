@@ -1,6 +1,7 @@
 #include <pb/services/ProjectSerializerService.h>
 
 #include <pb/components/SerializationStrategy.h>
+#include <pb/components/Serializer.h>
 
 #include <fstream>
 
@@ -93,9 +94,8 @@ ProjectSerializerService::deserializeStagedImages(Path projectPath)
       PB::Text::deserialize<std::vector<GenericImagePtr>>(
           jsonSerialization.at("staged"));
 
-  PBDev::basicAssert(
-      std::holds_alternative<std::vector<GenericImagePtr>>(
-          stagedImagesOrError));
+  PBDev::basicAssert(std::holds_alternative<std::vector<GenericImagePtr>>(
+      stagedImagesOrError));
 
   return std::get<std::vector<GenericImagePtr>>(stagedImagesOrError);
 }
@@ -117,43 +117,16 @@ std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
   return std::vector<Path>();
 }
 
-void ProjectSerializerService::saveProject(
-    std::string projectName, Project project,
-    std::vector<std::vector<GenericImagePtr>> const &unstagedImages,
-    std::vector<GenericImagePtr> const              &stagedImages,
-    std::vector<Path> const                         &roots)
+void ProjectSerializerService ::saveProject(Project project)
 {
   auto projectPath = mPlatformInfo->localStatePath / "projects" /
-                     (projectName + OneConfig::BOOK_EXTENSION);
+                     (project.name + OneConfig::BOOK_EXTENSION);
 
-  auto jsonOrError = PB::Text::serialize<PB::Project>(0, {"root", project});
+  auto jsonOrError = flatSimple<Project>(0, project);
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  auto imageJsonOrError =
-      PB::Text::serialize<std::vector<std::vector<GenericImagePtr>>>(
-          0, {"unstaged", unstagedImages});
-
-  PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
-
-  std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
-
-  imageJsonOrError =
-      PB::Text::serialize<std::vector<GenericImagePtr>>(
-          0, {"staged", stagedImages});
-
-  PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
-
-  std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
-
-  imageJsonOrError =
-      PB::Text::serialize<std::vector<Path>>(0, {"row-paths", roots});
-
-  PBDev::basicAssert(std::holds_alternative<Json>(imageJsonOrError));
-
-  std::get<Json>(jsonOrError).update(std::get<Json>(imageJsonOrError));
-
+  // TODO: Separate tis save to an infrastructure class.
   saveAsJson(projectPath, std::get<Json>(jsonOrError));
 }
-
 } // namespace PB

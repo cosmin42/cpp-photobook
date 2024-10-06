@@ -23,11 +23,7 @@ public:
 
   std::vector<Path> deserializeRoots(Path projectPath);
 
-  void
-  saveProject(std::string projectName, Project project,
-              std::vector<std::vector<GenericImagePtr>> const &unstagedImages,
-              std::vector<GenericImagePtr> const              &stagedImages,
-              std::vector<Path> const                         &roots);
+  void saveProject(Project project);
 
 private:
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;

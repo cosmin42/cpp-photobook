@@ -45,25 +45,25 @@ TEST(TestProjectSerializerService, TestSaveEmptyProject)
 
   projectSerializerService.createProjectFolderStructure(projectId);
 
-  projectSerializerService.saveProject(
-      "TestName", Project(), GenericImagePtrMatrix(), GenericImagePtrLine(),
-      std::vector<Path>());
+  Project project;
+  project.name = "TestName";
+
+  projectSerializerService.saveProject(project);
+
   auto projectFileCreated = std::filesystem::exists(
       platformInfo->localStatePath / "projects" / "TestName.photobook");
   ASSERT_TRUE(projectFileCreated);
 
   std::string reference = R"({
-  "root": {
-    "paper-settings": {
-      "height": 2480,
-      "ppi": 300,
-      "type": 1,
-      "width": 3508
-    }
+  "imageMonitor": null,
+  "name": "TestName",
+  "paperSettings": {
+    "height": 2480,
+    "ppi": 300,
+    "type": "A4_Landscape",
+    "width": 3508
   },
-  "row-paths": null,
-  "staged": null,
-  "unstaged": null
+  "stagedImages": null
 })";
 
   auto projectContent = readFile(platformInfo->localStatePath / "projects" /

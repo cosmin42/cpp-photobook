@@ -6,6 +6,7 @@
 
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/PaperSettings.h>
+#include <pb/project/Project.h>
 
 namespace PB {
 template <>
@@ -52,6 +53,26 @@ std::variant<Json, PBDev::Error> flatSimple(int depth, PaperSettings paper)
       depth, std::make_tuple("type", paper.type),
       std::make_tuple("ppi", paper.ppi), std::make_tuple("width", paper.width),
       std::make_tuple("height", paper.height));
+}
+
+template <>
+std::variant<Json, PBDev::Error> flatSimple(int depth, Project project)
+{
+
+  return flatDictionary<std::string, PaperSettings, GenericImagePtrMatrix,
+                        GenericImagePtrLine>(
+      depth, std::make_tuple("name", project.name),
+      std::make_tuple("paperSettings", project.paperSettings),
+      std::make_tuple("imageMonitor", project.imageMonitor().unstaged()),
+      std::make_tuple("stagedImages", project.stagedImages().stagedPhotos()));
+  /*
+  return flatDictionary<std::string, PaperSettings, GenericImagePtrMatrix,
+                        GenericImagePtrLine>(
+      depth, std::make_tuple("name", project.name),
+      std::make_tuple("paperSettings", project.paperSettings),
+      std::make_tuple("imageMonitor", project.imageMonitor().unstaged()),
+      std::make_tuple("stagedImages", project.stagedImages().stagedPhotos()));
+      */
 }
 
 } // namespace PB

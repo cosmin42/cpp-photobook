@@ -17,8 +17,7 @@ public:
   static std::string generateAlbumName(std::function<bool(std::string)>);
 
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
-
-  std::string name;
+  std::string   name;
 
   ~Project() = default;
 
