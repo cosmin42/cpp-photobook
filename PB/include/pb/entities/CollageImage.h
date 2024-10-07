@@ -5,9 +5,8 @@
 namespace PB {
 class CollageImage : public GenericImage {
 public:
-  explicit CollageImage(Path projectPath, std::string hash,
-                        std::vector<Path> sources)
-      : GenericImage(projectPath, hash), mSources(sources)
+  explicit CollageImage(std::string hash, std::vector<Path> sources)
+      : GenericImage(hash), mSources(sources)
   {
   }
   ~CollageImage() = default;

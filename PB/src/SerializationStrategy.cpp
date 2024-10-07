@@ -1,6 +1,10 @@
 #include <pb/components/SerializationStrategy.h>
 
+#include <pb/components/SerializationStrategy.h>
+#include <pb/entities/CollageImage.h>
 #include <pb/entities/GenericImage.h>
+#include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
 #include <pb/project/Project.h>
 
 #include <boost/bimap/bimap.hpp>
@@ -95,63 +99,47 @@ template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
 template <>
 std::variant<GenericImagePtr, PBDev::Error> deserialize(Json jsonData)
 {
-  auto imageType = jsonData.at("img-type").get<std::string>();
 
-  PBDev::basicAssert(!imageType.empty());
+  auto imageType = (ImageType)jsonData.at("type").get<unsigned>();
 
-  auto frontendFullOrError = deserialize<Path>(jsonData, "frontend-full");
-  if (std::holds_alternative<PBDev::Error>(frontendFullOrError)) {
-    return std::get<PBDev::Error>(frontendFullOrError);
+  auto hashOrErrror = deserialize<std::string>(jsonData, "hash");
+
+  if (std::holds_alternative<PBDev::Error>(hashOrErrror)) {
+    return std::get<PBDev::Error>(hashOrErrror);
   }
 
-  auto frontendMediumOrError = deserialize<Path>(jsonData, "frontend-medium");
-  if (std::holds_alternative<PBDev::Error>(frontendMediumOrError)) {
-    return std::get<PBDev::Error>(frontendMediumOrError);
-  }
+  if (imageType == ImageType::Regular) {
+    auto originalOrError = deserialize<Path>(jsonData.at("original"));
+    if (std::holds_alternative<PBDev::Error>(originalOrError)) {
+      return std::get<PBDev::Error>(originalOrError);
+    }
 
-  auto frontendSmallOrError = deserialize<Path>(jsonData, "frontend-small");
-  if (std::holds_alternative<PBDev::Error>(frontendSmallOrError)) {
-    return std::get<PBDev::Error>(frontendSmallOrError);
+    return std::make_shared<RegularImageV2>(std::get<std::string>(hashOrErrror),
+                                            std::get<Path>(originalOrError));
   }
+  else if (imageType == ImageType::Text) {
+    auto textOrError = deserialize<std::string>(jsonData.at("text"));
+    if (std::holds_alternative<PBDev::Error>(textOrError)) {
+      return std::get<PBDev::Error>(textOrError);
+    }
 
-  auto processingFinishedOrError =
-      deserialize<bool>(jsonData, "processing-finished");
-  if (std::holds_alternative<PBDev::Error>(processingFinishedOrError)) {
-    return std::get<PBDev::Error>(processingFinishedOrError);
+    return std::make_shared<TextImageV2>(std::get<std::string>(hashOrErrror),
+                                         std::get<std::string>(textOrError));
   }
-#ifndef _CLANG_UML_
-  auto resourcesOrError = deserializeSpecial(jsonData, "resource");
-  if (std::holds_alternative<PBDev::Error>(resourcesOrError)) {
-    return std::get<PBDev::Error>(resourcesOrError);
-  }
-#endif
-  auto frontendFull = std::get<Path>(frontendFullOrError);
-  auto frontendMedium = std::get<Path>(frontendMediumOrError);
-  auto frontendSmall = std::get<Path>(frontendSmallOrError);
-  //auto processingFinished = std::get<bool>(processingFinishedOrError);
+  else if (imageType == ImageType::Collage) {
+    auto imagesOrError = deserializeSpecial(jsonData.at("images"));
+    if (std::holds_alternative<PBDev::Error>(imagesOrError)) {
+      return std::get<PBDev::Error>(imagesOrError);
+    }
 
-#ifndef _CLANG_UML_
-  /*
-  if (imageType == "Regular") {
-    auto imagePtr = std::make_shared<RegularImage>(
-        ImageResources{frontendFull, frontendMedium, frontendSmall},
-        processingFinished, std::get<std::vector<Path>>(resourcesOrError));
-    return std::dynamic_pointer_cast<GenericImagePtr>(imagePtr);
-  }
-  else if (imageType == "Text") {
-    auto imagePtr = std::make_shared<TextImage>(
-        ImageResources{frontendFull, frontendMedium, frontendSmall},
-        processingFinished, std::get<std::vector<Path>>(resourcesOrError));
-    return std::dynamic_pointer_cast<GenericImagePtr>(imagePtr);
+    return std::make_shared<CollageImage>(
+        std::get<std::string>(hashOrErrror),
+        std::get<std::vector<Path>>(imagesOrError));
   }
   else {
     PBDev::basicAssert(false);
   }
-  */
-#else
-  UNUSED(processingFinished);
-#endif
-  return nullptr;
+  return PBDev::Error() << "Unknown image type";
 }
 
 template <>
@@ -159,22 +147,17 @@ std::variant<std::vector<std::vector<GenericImagePtr>>, PBDev::Error>
 deserialize(Json jsonData)
 {
   std::vector<std::vector<GenericImagePtr>> result;
-  /*
   for (auto &jsonLineData : jsonData) {
-    std::vector<std::shared_ptr<GenericImagePtr>> line;
+    std::vector<GenericImagePtr> line;
     for (auto &jsonElement : jsonLineData) {
-      auto imageOrError =
-          deserialize<std::shared_ptr<GenericImagePtr>>(jsonElement);
+      auto imageOrError = deserialize<GenericImagePtr>(jsonElement);
       if (std::holds_alternative<PBDev::Error>(imageOrError)) {
         return std::get<PBDev::Error>(imageOrError);
       }
-      auto GenericImagePtr =
-  std::get<std::shared_ptr<GenericImagePtr>>(imageOrError);
-      line.push_back(GenericImagePtr);
+      line.push_back(std::get<GenericImagePtr>(imageOrError));
     }
     result.push_back(line);
   }
-  */
   return result;
 }
 
@@ -183,18 +166,13 @@ std::variant<std::vector<GenericImagePtr>, PBDev::Error>
 deserialize(Json jsonData)
 {
   std::vector<GenericImagePtr> line;
-  /*
   for (auto &jsonElement : jsonData) {
-    auto imageOrError =
-  deserialize<std::shared_ptr<GenericImagePtr>>(jsonElement); if
-  (std::holds_alternative<PBDev::Error>(imageOrError)) { return
-  std::get<PBDev::Error>(imageOrError);
+    auto imageOrError = deserialize<GenericImagePtr>(jsonElement);
+    if (std::holds_alternative<PBDev::Error>(imageOrError)) {
+      return std::get<PBDev::Error>(imageOrError);
     }
-    auto GenericImagePtr =
-  std::get<std::shared_ptr<GenericImagePtr>>(imageOrError);
-    line.push_back(GenericImagePtr);
+    line.push_back(std::get<GenericImagePtr>(imageOrError));
   }
-  */
   return line;
 }
 

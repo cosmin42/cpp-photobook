@@ -82,8 +82,7 @@ private:
       task.configureProjectManagementService(mProjectManagementService);
       auto hash = task.createThumbnails();
 
-      return std::make_shared<RegularImageV2>(
-          mPlatformInfo->projectFolderPath(), hash, path);
+      return std::make_shared<RegularImageV2>(hash, path);
     }
     else if (std::filesystem::is_directory(path)) {
 
@@ -104,8 +103,7 @@ private:
 
       std::filesystem::remove(temporaryImagePath);
 
-      return std::make_shared<TextImageV2>(mPlatformInfo->projectFolderPath(),
-                                           hash, directoryName);
+      return std::make_shared<TextImageV2>(hash, directoryName);
     }
     else {
       PBDev::basicAssert(false);

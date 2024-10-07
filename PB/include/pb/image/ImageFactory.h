@@ -27,8 +27,7 @@ public:
   {
     if (mDefaultRegularImage == nullptr) {
       mDefaultRegularImage = std::make_shared<RegularImageV2>(
-          mPlatformInfo->projectFolderPath(), RegularImageV2::defaultHash(),
-          Path());
+          RegularImageV2::defaultHash(), Path());
     }
     return mDefaultRegularImage;
   }

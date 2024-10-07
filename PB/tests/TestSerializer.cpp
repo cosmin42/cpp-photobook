@@ -129,8 +129,8 @@ TEST(TestSerializer, TestMap)
 
 TEST(TestSerializer, TestGenericImage)
 {
-  PB::GenericImagePtr genericImage = std::make_shared<PB::RegularImageV2>(
-      Path("projectPath"), "hash", Path("original"));
+  PB::GenericImagePtr genericImage =
+      std::make_shared<PB::RegularImageV2>("hash", Path("original"));
   auto json =
       PB::flatAndTagSimple<PB::GenericImagePtr>(0, "image", genericImage);
   ASSERT_TRUE(std::holds_alternative<Json>(json));
@@ -149,10 +149,10 @@ TEST(TestSerializer, TestGenericImage)
 TEST(TestSerializer, TestStagedAndUnstaged)
 {
   std::vector<PB::GenericImagePtr> staged;
-  staged.push_back(std::make_shared<PB::RegularImageV2>(
-      Path("projectPath"), "hash0", Path("original")));
-  staged.push_back(std::make_shared<PB::RegularImageV2>(
-      Path("projectPath"), "hash1", Path("original")));
+  staged.push_back(
+      std::make_shared<PB::RegularImageV2>("hash0", Path("original")));
+  staged.push_back(
+      std::make_shared<PB::RegularImageV2>("hash1", Path("original")));
 
   auto jsonOrError = PB::flatMaybeContainer<PB::GenericImagePtrLine>(0, staged);
   ASSERT_TRUE(std::holds_alternative<Json>(jsonOrError));

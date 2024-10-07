@@ -4,8 +4,11 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/entities/CollageImage.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/PaperSettings.h>
+#include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
 #include <pb/project/Project.h>
 
 namespace PB {
@@ -29,13 +32,53 @@ std::variant<Json, PBDev::Error> flatSimple(int depth, ImageType imageType)
   return json;
 }
 
+std::variant<Json, PBDev::Error>
+flatRegularImage(int depth, std::shared_ptr<RegularImageV2> regularImage)
+{
+  return flatDictionary<std::string, Path, ImageType>(
+      depth, std::make_tuple("hash", regularImage->hash()),
+      std::make_tuple("original", regularImage->original()),
+      std::make_tuple("type", regularImage->type()));
+}
+
+std::variant<Json, PBDev::Error>
+flatTextImage(int depth, std::shared_ptr<TextImageV2> textImage)
+{
+  return flatDictionary<std::string, std::string, ImageType>(
+      depth, std::make_tuple("hash", textImage->hash()),
+      std::make_tuple("text", textImage->text()),
+      std::make_tuple("type", textImage->type()));
+}
+
+std::variant<Json, PBDev::Error>
+flatCollageImage(int depth, std::shared_ptr<CollageImage> collageImage)
+{
+  return flatDictionary<std::string, std::vector<Path>, ImageType>(
+      depth, std::make_tuple("hash", collageImage->hash()),
+      std::make_tuple("images", collageImage->sources()),
+      std::make_tuple("type", collageImage->type()));
+}
+
 template <>
 std::variant<Json, PBDev::Error> flatSimple(int             depth,
                                             GenericImagePtr genericImage)
 {
-  return flatDictionary<std::string, ImageType>(
-      depth, std::make_tuple("hash", genericImage->hash()),
-      std::make_tuple("type", genericImage->type()));
+  if (genericImage->type() == ImageType::Regular) {
+    return flatRegularImage(
+        depth, std::static_pointer_cast<RegularImageV2>(genericImage));
+  }
+  else if (genericImage->type() == ImageType::Text) {
+    return flatTextImage(depth,
+                         std::static_pointer_cast<TextImageV2>(genericImage));
+  }
+  else if (genericImage->type() == ImageType::Collage) {
+    return flatCollageImage(
+        depth, std::static_pointer_cast<CollageImage>(genericImage));
+  }
+  else {
+    PBDev::basicAssert(false);
+  }
+  return PBDev::Error() << "Unknown image type";
 }
 
 template <>

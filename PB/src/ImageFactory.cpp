@@ -25,8 +25,8 @@ void ImageFactory::configureDurableHashService(
 
 std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
 {
-  auto regularImage = std::make_shared<RegularImageV2>(
-      mPlatformInfo->projectFolderPath(), RegularImageV2::defaultHash(), path);
+  auto regularImage =
+      std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
   return regularImage;
 }
 
@@ -53,8 +53,7 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path path,
 
   Process::writeImageOnDisk(image, hashPath);
 
-  auto textImage = std::make_shared<TextImageV2>(
-      mPlatformInfo->projectFolderPath(), "", path.stem().string());
+  auto textImage = std::make_shared<TextImageV2>("", path.stem().string());
   return textImage;
 }
 

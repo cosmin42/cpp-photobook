@@ -5,8 +5,8 @@
 namespace PB {
 class TextImageV2 final : public GenericImage {
 public:
-  explicit TextImageV2(Path projectPath, std::string hash, std::string text)
-      : GenericImage(projectPath, hash), mText(text)
+  explicit TextImageV2(std::string hash, std::string text)
+      : GenericImage(hash), mText(text)
   {
   }
   ~TextImageV2() = default;

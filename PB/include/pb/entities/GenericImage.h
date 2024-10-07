@@ -9,7 +9,12 @@ class GenericImage {
 public:
   static std::string defaultHash();
 
-  explicit GenericImage(Path projectPath, std::string hash);
+  static void configureProjectPath(const Path &projectPath)
+  {
+    sProjectPath = projectPath;
+  }
+
+  explicit GenericImage(std::string hash);
   virtual ~GenericImage() = default;
 
   Path full() const;
@@ -21,7 +26,7 @@ public:
   virtual ImageType type() const = 0;
 
 private:
-  Path        mProjectPath;
+  static Path sProjectPath;
   std::string mHash;
 };
 
