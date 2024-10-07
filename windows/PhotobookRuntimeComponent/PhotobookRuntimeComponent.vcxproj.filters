@@ -60,7 +60,6 @@
     <Midl Include="StagedImages.idl" />
     <Midl Include="ImageMonitor.idl" />
     <Midl Include="ImageViews.idl" />
-    <Midl Include="Project.idl" />
     <Midl Include="PaperSettings.idl" />
     <Midl Include="StagedImagesListener.idl" />
     <Midl Include="Int32Pair.idl" />

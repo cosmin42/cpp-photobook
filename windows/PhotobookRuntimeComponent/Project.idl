@@ -1,5 +1,0 @@
-
-namespace PhotobookRuntimeComponent {
-
-runtimeclass Project { void f(); }
-} // namespace PhotobookRuntimeComponent

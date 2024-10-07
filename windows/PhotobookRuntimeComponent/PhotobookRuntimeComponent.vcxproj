@@ -190,9 +190,6 @@
     <ClInclude Include="PaperSettings.h">
       <DependentUpon>PaperSettings.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="Project.h">
-      <DependentUpon>Project.idl</DependentUpon>
-    </ClInclude>
     <ClInclude Include="StagedImagesListener.h">
       <DependentUpon>StagedImagesListener.idl</DependentUpon>
     </ClInclude>
@@ -241,9 +238,6 @@
     <ClCompile Include="ProgressInfo.cpp">
       <DependentUpon>ProgressInfo.idl</DependentUpon>
     </ClCompile>
-    <ClCompile Include="Project.cpp">
-      <DependentUpon>Project.idl</DependentUpon>
-    </ClCompile>
     <ClCompile Include="ProjectItem.cpp">
       <DependentUpon>ProjectItem.idl</DependentUpon>
     </ClCompile>
@@ -282,7 +276,6 @@
     <Midl Include="ImageMonitor.idl" />
     <Midl Include="ImageViews.idl" />
     <Midl Include="Settings.idl" />
-    <Midl Include="Project.idl" />
     <Midl Include="PaperSettings.idl" />
     <Midl Include="StagedImagesListener.idl" />
     <Midl Include="VICollectionStatefulIterator.idl" />
