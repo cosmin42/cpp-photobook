@@ -63,7 +63,6 @@
     <Midl Include="Project.idl" />
     <Midl Include="PaperSettings.idl" />
     <Midl Include="StagedImagesListener.idl" />
-    <Midl Include="ImageMonitorListener.idl" />
     <Midl Include="Int32Pair.idl" />
     <Midl Include="CollageTemplateInfo.idl" />
     <Midl Include="LutIconInfo.idl" />

@@ -37,7 +37,7 @@ namespace PhotobookNet
     /// <summary>
     /// The page that displays the content of the photobook.
     /// </summary>
-    public sealed partial class TableContentPage : Page, PhotobookListener, StagedImagesListener, ImageMonitorListener
+    public sealed partial class TableContentPage : Page, PhotobookListener, StagedImagesListener
     {
 
         ObservableCollection<string> mNavigationItemsCollection;

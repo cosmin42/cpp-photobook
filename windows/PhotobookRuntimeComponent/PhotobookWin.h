@@ -14,7 +14,6 @@
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
 
-#include "ImageMonitorListener.h"
 #include "StagedImagesListener.h"
 
 #include <pb/PhotoBook.h>
