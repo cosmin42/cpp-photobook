@@ -4,7 +4,6 @@ import "PhotobookListener.idl";
 import "Settings.idl";
 import "VirtualImagePtr.idl";
 import "ImageMonitor.idl";
-import "StagedImagesListener.idl";
 import "CollageTemplateInfo.idl";
 import "PaperSettings.idl";
 import "LutIconInfo.idl";

@@ -190,9 +190,6 @@
     <ClInclude Include="PaperSettings.h">
       <DependentUpon>PaperSettings.idl</DependentUpon>
     </ClInclude>
-    <ClInclude Include="StagedImagesListener.h">
-      <DependentUpon>StagedImagesListener.idl</DependentUpon>
-    </ClInclude>
     <ClInclude Include="VICollectionStatefulIterator.h">
       <DependentUpon>VICollectionStatefulIterator.idl</DependentUpon>
     </ClInclude>
@@ -251,9 +248,6 @@
     <ClCompile Include="StagedImages.cpp">
       <DependentUpon>StagedImages.idl</DependentUpon>
     </ClCompile>
-    <ClCompile Include="StagedImagesListener.cpp">
-      <DependentUpon>StagedImagesListener.idl</DependentUpon>
-    </ClCompile>
     <ClCompile Include="VICollectionStatefulIterator.cpp">
       <DependentUpon>VICollectionStatefulIterator.idl</DependentUpon>
     </ClCompile>
@@ -277,7 +271,6 @@
     <Midl Include="ImageViews.idl" />
     <Midl Include="Settings.idl" />
     <Midl Include="PaperSettings.idl" />
-    <Midl Include="StagedImagesListener.idl" />
     <Midl Include="VICollectionStatefulIterator.idl" />
     <Midl Include="VirtualImagePtr.idl" />
   </ItemGroup>

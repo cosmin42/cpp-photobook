@@ -25,7 +25,6 @@
     <ClCompile Include="VirtualImagePtr.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="PaperSettings.cpp" />
-    <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
     <ClCompile Include="StagedImagesListener.cpp" />
@@ -61,7 +60,6 @@
     <Midl Include="ImageMonitor.idl" />
     <Midl Include="ImageViews.idl" />
     <Midl Include="PaperSettings.idl" />
-    <Midl Include="StagedImagesListener.idl" />
     <Midl Include="Int32Pair.idl" />
     <Midl Include="CollageTemplateInfo.idl" />
     <Midl Include="LutIconInfo.idl" />
