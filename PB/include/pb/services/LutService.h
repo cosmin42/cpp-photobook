@@ -22,8 +22,6 @@ public:
   ~LutService() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureDirectoryInspectionService(
-      std::shared_ptr<DirectoryInspectionService> directoryInspectionService);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void condifureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
   void configureOGLEngine(std::shared_ptr<OGLEngine> oglEngine)

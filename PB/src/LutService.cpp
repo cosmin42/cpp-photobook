@@ -7,12 +7,18 @@
 
 namespace PB::Service {
 
-LutService::LutService()
+LutService::LutService() : mDirectoryInspectionService(std::make_shared<DirectoryInspectionService>())
 {
   auto lutIconsPreprocessingListener =
       dynamic_cast<LutIconsPreprocessingListener *>(this);
   PBDev::basicAssert(lutIconsPreprocessingListener != nullptr);
   mLutIconsPreprocessingJob.configureListener(lutIconsPreprocessingListener);
+
+  auto directoryInspectionJobListener =
+      dynamic_cast<DirectoryInspectionJobListener *>(this);
+  PBDev::basicAssert(directoryInspectionJobListener != nullptr);
+  mDirectoryInspectionService->configureListener(
+      directoryInspectionJobListener);
 }
 
 void LutService::configurePlatformInfo(
@@ -22,22 +28,11 @@ void LutService::configurePlatformInfo(
   mLutIconsPreprocessingJob.configurePlatformInfo(platformInfo);
 }
 
-void LutService::configureDirectoryInspectionService(
-    std::shared_ptr<DirectoryInspectionService> directoryInspectionService)
-{
-  mDirectoryInspectionService = directoryInspectionService;
-
-  auto directoryInspectionJobListener =
-      dynamic_cast<DirectoryInspectionJobListener *>(this);
-  PBDev::basicAssert(directoryInspectionJobListener != nullptr);
-  mDirectoryInspectionService->configureListener(
-      directoryInspectionJobListener);
-}
-
 void LutService::configureTaskCruncher(
     std::shared_ptr<TaskCruncher> taskCruncher)
 {
   mTaskCruncher = taskCruncher;
+  mDirectoryInspectionService->configureTaskCruncher(taskCruncher);
 }
 
 // TODO: fix name
@@ -45,6 +40,7 @@ void LutService::condifureThreadScheduler(
     PBDev::ThreadScheduler *threadScheduler)
 {
   mThreadScheduler = threadScheduler;
+  mDirectoryInspectionService->configureThreadScheduler(threadScheduler);
 }
 
 void LutService::configureLutServiceListener(LutServiceListener *listener)

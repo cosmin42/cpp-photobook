@@ -25,8 +25,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(std::make_shared<CollageService>()),
       mLutService(std::make_shared<LutService>()),
-      mDirectoryInspectionService(
-          std::make_shared<DirectoryInspectionService>()),
       mOGLEngine(std::make_shared<OGLEngine>())
 {
 
@@ -96,11 +94,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
-  mDirectoryInspectionService->configureTaskCruncher(mTaskCruncher);
-  mDirectoryInspectionService->configureThreadScheduler(threadScheduler);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
-  mLutService->configureDirectoryInspectionService(mDirectoryInspectionService);
   mLutService->configureTaskCruncher(mTaskCruncher);
   mLutService->condifureThreadScheduler(threadScheduler);
   mLutService->configureOGLEngine(mOGLEngine);

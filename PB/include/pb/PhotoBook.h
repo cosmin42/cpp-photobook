@@ -134,8 +134,6 @@ private:
   std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
   std::shared_ptr<CollageService>             mCollageTemplateManager = nullptr;
   std::shared_ptr<LutService>                 mLutService = nullptr;
-  std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
-      nullptr;
   std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
 };
 } // namespace PB
