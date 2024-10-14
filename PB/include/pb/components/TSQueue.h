@@ -28,6 +28,20 @@ public:
     return item;
   }
 
+  //Dequeue but with a timeout
+  T dequeue(std::chrono::milliseconds timeout)
+  {
+	std::unique_lock<std::mutex> lock(mtx);
+	if (!cv.wait_for(lock, timeout, [this] {
+		  return !q.empty();
+		})) { // Wait until the queue is not empty.
+	  return T();
+	}
+	T item = std::move(q.front());
+	q.pop();
+	return item;
+  }
+
   // Returns true if the queue is empty.
   bool empty() const
   {
