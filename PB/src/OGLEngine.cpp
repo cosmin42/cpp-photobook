@@ -5,7 +5,7 @@
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Service {
 
 void OGLEngine::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)

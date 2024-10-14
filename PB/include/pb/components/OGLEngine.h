@@ -10,7 +10,7 @@
 
 DECLARE_STRONG_STRING(OGLRenderId)
 
-namespace PB {
+namespace PB::Service {
 class OGLEngine final {
 public:
   ~OGLEngine() = default;

@@ -9,6 +9,8 @@
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/image/ImageReader.h>
 
+using namespace PB::Service;
+
 namespace PB::Job {
 class LutIconsPreprocessingListener {
 public:
@@ -118,4 +120,4 @@ private:
     return outImagePath;
   }
 };
-} // namespace PB
+} // namespace PB::Job
