@@ -66,6 +66,11 @@ public:
   MOCK_METHOD(void, onProjectRecalled, (), (override));
 };
 
+class TestLutServiceListener final : public LutServiceListener {
+public:
+  MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
+};
+
 /*
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
@@ -130,7 +135,13 @@ private:
   std::condition_variable           ifTaskOccurs;
 };
 
+class ProgressServiceListenerTest final : public ProgressServiceListener {
+public:
+  MOCK_METHOD(void, progressUpdate, (PB::ProgressStatus), (override));
+};
+
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
+
 std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
 

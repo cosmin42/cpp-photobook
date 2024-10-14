@@ -233,6 +233,7 @@ add_executable(${PBLIB_TESTS_LIBRARY_NAME}
     tests/TestCollageLibraryAssistant.cpp
     tests/TestDrawingService.cpp
     tests/TestDatabaseService.cpp
+    tests/TestLutService.cpp
     tests/TestMain.cpp
     tests/TestDurableHashService.cpp
     tests/TestProjectSerializerService.cpp
