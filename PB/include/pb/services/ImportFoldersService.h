@@ -11,6 +11,8 @@
 #include <pb/services/ProjectManagementService.h>
 #include <pb/util/Error.h>
 
+using namespace PB::Job;
+
 namespace PB::Service {
 
 class ImportFoldersServiceListener {

@@ -28,7 +28,7 @@ void LutService::configureDirectoryInspectionService(
   mDirectoryInspectionService = directoryInspectionService;
 
   auto directoryInspectionJobListener =
-      dynamic_cast<PB::DirectoryInspectionJobListener *>(this);
+      dynamic_cast<DirectoryInspectionJobListener *>(this);
   PBDev::basicAssert(directoryInspectionJobListener != nullptr);
   mDirectoryInspectionService->configureListener(
       directoryInspectionJobListener);

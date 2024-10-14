@@ -1,6 +1,5 @@
 #include <pb/jobs/ThumbnailsJob.h>
 
 
-namespace PB
-{
+namespace PB::Job {
 }

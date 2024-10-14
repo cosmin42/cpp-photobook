@@ -10,6 +10,8 @@
 #include <pb/project/Project.h>
 #include <pb/services/DrawingService.h>
 
+using namespace PB::Job;
+
 namespace PB::Service {
 class CollageService {
 public:

@@ -1,6 +1,5 @@
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 
 
-namespace PB
-{
+namespace PB::Job {
 }

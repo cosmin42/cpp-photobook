@@ -50,7 +50,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       imageToPaperServiceListener);
 
   auto collageThumbnailsMakerListener =
-      dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
+      dynamic_cast<CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
   mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
 
@@ -58,7 +58,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(lutServiceListener != nullptr);
   mLutService->configureLutServiceListener(lutServiceListener);
 
-  auto collageMakerListener = dynamic_cast<PB::CollageMakerListener *>(this);
+  auto collageMakerListener = dynamic_cast<CollageMakerListener *>(this);
   PBDev::basicAssert(collageMakerListener != nullptr);
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 

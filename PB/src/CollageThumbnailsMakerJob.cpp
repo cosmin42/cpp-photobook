@@ -7,7 +7,7 @@
 
 #include <regex>
 
-namespace PB {
+namespace PB::Job {
 
 CollageThumbnailsMakerJob::CollageThumbnailsMakerJob()
     : mResources(std::make_shared<SkiaResources>()),

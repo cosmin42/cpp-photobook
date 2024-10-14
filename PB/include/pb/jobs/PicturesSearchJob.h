@@ -11,7 +11,7 @@
 #include <pb/image/ImageOperations.h>
 
 // TODO: Rename FileMapper
-namespace PB {
+namespace PB::Job {
 class PicturesSearchJobListener {
 public:
   virtual ~PicturesSearchJobListener() = default;

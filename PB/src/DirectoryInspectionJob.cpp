@@ -9,7 +9,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PB::Job {
 std::optional<IdentifyableFunction>
 DirectoryInspectionJob::getTask(std::stop_token stopToken)
 {

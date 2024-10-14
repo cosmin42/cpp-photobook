@@ -6,7 +6,7 @@
 #include <pb/project/Project.h>
 #include <pb/services/DrawingService.h>
 
-namespace PB {
+namespace PB::Job {
 class CollageMakerListener {
 public:
   virtual ~CollageMakerListener() = default;

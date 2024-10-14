@@ -9,7 +9,7 @@
 
 DECLARE_STRONG_UUID(DirectoryInspectionJobId)
 
-namespace PB {
+namespace PB::Job {
 
 class DirectoryInspectionJobListener {
 public:

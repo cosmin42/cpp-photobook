@@ -1,6 +1,6 @@
 #include <pb/jobs/CollageMakerJob.h>
 
-namespace PB {
+namespace PB::Job {
 
 CollageMakerJob::CollageMakerJob()
     : mResources(std::make_shared<SkiaResources>()),

@@ -11,7 +11,7 @@
 #include <pb/services/ProjectManagementService.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Job {
 
 class ThumbnailsJobListener {
 public:

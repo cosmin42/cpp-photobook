@@ -11,7 +11,7 @@
 
 using namespace PB::Service;
 
-namespace PB {
+namespace PB::Job {
 
 class CollageThumbnailsMakerListener {
 public:

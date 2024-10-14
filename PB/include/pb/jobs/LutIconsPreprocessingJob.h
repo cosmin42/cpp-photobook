@@ -9,7 +9,7 @@
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/image/ImageReader.h>
 
-namespace PB {
+namespace PB::Job {
 class LutIconsPreprocessingListener {
 public:
   virtual ~LutIconsPreprocessingListener() = default;
