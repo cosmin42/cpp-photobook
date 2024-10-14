@@ -23,7 +23,7 @@ public:
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
-  void condifureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
+  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
   void configureOGLEngine(std::shared_ptr<OGLEngine> oglEngine)
   {
     mOglEngine = oglEngine;

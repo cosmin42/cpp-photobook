@@ -35,8 +35,7 @@ void LutService::configureTaskCruncher(
   mDirectoryInspectionService->configureTaskCruncher(taskCruncher);
 }
 
-// TODO: fix name
-void LutService::condifureThreadScheduler(
+void LutService::configureThreadScheduler(
     PBDev::ThreadScheduler *threadScheduler)
 {
   mThreadScheduler = threadScheduler;

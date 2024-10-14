@@ -97,7 +97,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureTaskCruncher(mTaskCruncher);
-  mLutService->condifureThreadScheduler(threadScheduler);
+  mLutService->configureThreadScheduler(threadScheduler);
   mLutService->configureOGLEngine(mOGLEngine);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
