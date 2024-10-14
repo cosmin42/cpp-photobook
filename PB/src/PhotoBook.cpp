@@ -19,7 +19,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mProjectSerializerService(std::make_shared<ProjectSerializerService>()),
       mDurableHashService(std::make_shared<DurableHashService>()),
       mProjectManagementService(std::make_shared<ProjectManagementService>()),
-      mImageFactory(std::make_shared<ImageFactory>()), mImportLogic(),
+      mImageFactory(std::make_shared<ImageFactory>()),
+      mImportLogic(std::make_shared<ImportFoldersService>()),
       mProgressService(std::make_shared<ProgressService>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(std::make_shared<CollageService>()),
@@ -38,8 +39,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto threadScheduler = dynamic_cast<PBDev::ThreadScheduler *>(this);
   PBDev::basicAssert(threadScheduler != nullptr);
 
-  auto progressServiceListener =
-      dynamic_cast<ProgressServiceListener *>(this);
+  auto progressServiceListener = dynamic_cast<ProgressServiceListener *>(this);
   PBDev::basicAssert(progressServiceListener != nullptr);
   mProgressService->configure(progressServiceListener);
 
