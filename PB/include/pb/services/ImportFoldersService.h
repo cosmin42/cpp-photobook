@@ -11,7 +11,7 @@
 #include <pb/services/ProjectManagementService.h>
 #include <pb/util/Error.h>
 
-namespace PB {
+namespace PB::Service {
 
 class ImportFoldersServiceListener {
 public:

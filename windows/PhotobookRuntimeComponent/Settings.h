@@ -10,10 +10,12 @@
 
 #include <pb/services/ProjectManagementService.h>
 
+using namespace PB::Service;
+
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct Settings : SettingsT<Settings> {
   Settings(
-      std::shared_ptr<PB::ProjectManagementService> projectManagementService)
+      std::shared_ptr<ProjectManagementService> projectManagementService)
       : mProjectManagementService(projectManagementService)
   {
   }
@@ -229,7 +231,7 @@ struct Settings : SettingsT<Settings> {
   }
 
 private:
-  std::shared_ptr<PB::ProjectManagementService> mProjectManagementService =
+  std::shared_ptr<ProjectManagementService> mProjectManagementService =
       nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

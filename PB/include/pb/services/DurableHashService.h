@@ -4,7 +4,7 @@
 
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Service {
 class DurableHashService final {
 public:
   ~DurableHashService() = default;

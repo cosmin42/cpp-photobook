@@ -10,7 +10,7 @@
 #include <pb/components/TaskCruncher.h>
 #include <pb/components/ThreadScheduler.h>
 
-namespace PB {
+namespace PB::Service {
 
 class DatabaseService final {
 public:

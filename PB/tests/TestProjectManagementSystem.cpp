@@ -16,7 +16,7 @@ TEST(TestProjectManagementSystem, TestRecallEmptyMetadata)
   projectManagementSystem.configurePlatformInfo(platformInfo);
   projectManagementSystem.configureDatabaseService(databaseService);
   projectManagementSystem.configureProjectManagementServiceListener(
-      (PB::ProjectManagementServiceListener *)&projectManagementSystemListener);
+      (ProjectManagementServiceListener *)&projectManagementSystemListener);
 
   EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
   projectManagementSystem.recallMetadata();
@@ -42,7 +42,7 @@ TEST(TestProjectManagementSystem, TestNewProject)
   projectManagementSystem.configureDatabaseService(databaseService);
   projectManagementSystem.configureProjectSerializerService(projectSeiralizer);
   projectManagementSystem.configureProjectManagementServiceListener(
-      (PB::ProjectManagementServiceListener *)&projectManagementSystemListener);
+      (ProjectManagementServiceListener *)&projectManagementSystemListener);
 
   EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
   projectManagementSystem.recallMetadata();

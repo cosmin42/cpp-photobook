@@ -6,7 +6,7 @@
 
 DECLARE_STRONG_STRING(ValidatorFunctionName)
 
-namespace PB {
+namespace PB::Service {
 
 class DirectoryInspectionService final {
 public:

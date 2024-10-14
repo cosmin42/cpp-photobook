@@ -5,6 +5,8 @@
 #include <pb/export/PdfPoDoFo.h>
 #include <pb/image/ImageFactory.h>
 
+using namespace PB::Service;
+
 namespace PB {
 
 // TODO: Break this into multiple methods
@@ -37,7 +39,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(threadScheduler != nullptr);
 
   auto progressServiceListener =
-      dynamic_cast<PB::ProgressServiceListener *>(this);
+      dynamic_cast<ProgressServiceListener *>(this);
   PBDev::basicAssert(progressServiceListener != nullptr);
   mProgressService->configure(progressServiceListener);
 
@@ -52,7 +54,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
   mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
 
-  auto lutServiceListener = dynamic_cast<PB::LutServiceListener *>(this);
+  auto lutServiceListener = dynamic_cast<LutServiceListener *>(this);
   PBDev::basicAssert(lutServiceListener != nullptr);
   mLutService->configureLutServiceListener(lutServiceListener);
 
@@ -61,7 +63,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
   auto projectManagementServiceListener =
-      dynamic_cast<PB::ProjectManagementServiceListener *>(this);
+      dynamic_cast<ProjectManagementServiceListener *>(this);
   PBDev::basicAssert(projectManagementServiceListener != nullptr);
   mProjectManagementService->configureProjectManagementServiceListener(
       projectManagementServiceListener);

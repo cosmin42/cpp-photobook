@@ -1,6 +1,5 @@
 #include <pb/services/DirectoryInspectionService.h>
 
 
-namespace PB
-{
+namespace PB::Service {
 }

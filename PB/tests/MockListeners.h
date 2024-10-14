@@ -25,6 +25,8 @@ typedef std::vector<std::shared_ptr<PB::GenericImagePtr>> VirtualImageLine;
 
 typedef std::vector<Path> &RootsVector;
 
+using namespace PB::Service;
+
 class TestPhotobookListener final : public PB::PhotobookListener {
 public:
   MOCK_METHOD(void, onProjectRead, (), (override));
@@ -57,7 +59,7 @@ public:
 };
 
 class TestProjectManagementServiceListener final
-    : public PB::ProjectManagementServiceListener {
+    : public ProjectManagementServiceListener {
 public:
   ~TestProjectManagementServiceListener() = default;
   MOCK_METHOD(void, onProjectMetadataRecalled, (), (override));
@@ -129,11 +131,11 @@ private:
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
-std::shared_ptr<PB::DatabaseService>
+std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
 
-std::shared_ptr<PB::ProjectSerializerService>
+std::shared_ptr<ProjectSerializerService>
 mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo);
 
-std::shared_ptr<PB::DurableHashService>
-mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService);
+std::shared_ptr<DurableHashService>
+mockDurableHashService(std::shared_ptr<DatabaseService> databaseService);

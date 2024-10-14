@@ -18,7 +18,7 @@
 #include <pb/components/SkiaResources.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Service {
 class DrawingService {
 public:
   explicit DrawingService(std::shared_ptr<SkiaResources> resources);

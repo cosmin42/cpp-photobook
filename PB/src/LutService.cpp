@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
-namespace PB {
+namespace PB::Service {
 
 LutService::LutService()
 {

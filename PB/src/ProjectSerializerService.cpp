@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-namespace PB {
+namespace PB::Service {
 void ProjectSerializerService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {

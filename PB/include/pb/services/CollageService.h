@@ -10,7 +10,7 @@
 #include <pb/project/Project.h>
 #include <pb/services/DrawingService.h>
 
-namespace PB {
+namespace PB::Service {
 class CollageService {
 public:
   explicit CollageService();

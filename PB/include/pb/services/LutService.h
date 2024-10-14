@@ -9,7 +9,7 @@
 
 DECLARE_STRONG_STRING(LutName)
 
-namespace PB {
+namespace PB::Service {
 class LutServiceListener {
 public:
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;

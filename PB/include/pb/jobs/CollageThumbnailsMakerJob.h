@@ -9,6 +9,8 @@
 #include <pb/project/Project.h>
 #include <pb/services/DrawingService.h>
 
+using namespace PB::Service;
+
 namespace PB {
 
 class CollageThumbnailsMakerListener {

@@ -2,7 +2,7 @@
 
 #include <unordered_set>
 
-namespace PB {
+namespace PB::Service {
 
 void ProgressService::configure(ProgressServiceListener *listener)
 {

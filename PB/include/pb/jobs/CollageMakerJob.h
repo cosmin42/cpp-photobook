@@ -46,7 +46,7 @@ private:
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
   std::shared_ptr<Project>                 mProject = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
-  DrawingService                           mDrawingService;
+  Service::DrawingService                  mDrawingService;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
   std::vector<IdentifyableFunction>        mFunctions;
   std::string                              mProjectId;

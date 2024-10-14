@@ -2,7 +2,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PB::Service {
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> ProjectManagementService::HAPPY_WORDS = {"Joyful",
                                                                  "Blissful"};

@@ -6,6 +6,8 @@
 #include <pb/services/ProgressService.h>
 #include <pb/tasks/ParallelTaskConsumer.h>
 
+using namespace PB::Service;
+
 namespace PB {
 class TaskCruncher final {
 public:

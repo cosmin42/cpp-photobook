@@ -10,7 +10,7 @@
 #include <pb/services/ProjectSerializerService.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Service {
 
 typedef std::pair<boost::uuids::uuid, Project> IdentifyableProject;
 

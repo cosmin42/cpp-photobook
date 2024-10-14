@@ -14,7 +14,7 @@
 #include <modules/svg/include/SkSVGDOM.h>
 #pragma warning(pop)
 
-namespace PB {
+namespace PB::Service {
 
 DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
     : mResources(resources)

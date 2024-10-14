@@ -4,7 +4,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PB::Service {
 std::string DurableHashService::computeHash(std::string key)
 {
   return std::to_string(std::hash<std::string>{}(key));

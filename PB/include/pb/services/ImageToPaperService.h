@@ -8,7 +8,7 @@
 
 DECLARE_STRONG_UUID(ImageToPaperServiceId)
 
-namespace PB {
+namespace PB::Service {
 
 class ImageToPaperService final {
 public:

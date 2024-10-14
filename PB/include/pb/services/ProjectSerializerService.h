@@ -5,7 +5,7 @@
 #include <pb/project/Project.h>
 #include <pb/util/Traits.h>
 
-namespace PB {
+namespace PB::Service {
 class ProjectSerializerService final {
 public:
   ~ProjectSerializerService() = default;

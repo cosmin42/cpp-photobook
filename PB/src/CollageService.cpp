@@ -7,7 +7,7 @@
 
 #include <regex>
 
-namespace PB {
+namespace PB::Service {
 CollageService::CollageService()
     : mJob(std::make_shared<CollageThumbnailsMakerJob>()),
       mCollageMakerJob(std::make_shared<CollageMakerJob>())

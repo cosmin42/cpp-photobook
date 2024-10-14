@@ -7,10 +7,12 @@
 
 #include <pb/services/ProjectManagementService.h>
 
+using namespace PB::Service;
+
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ImageViews : ImageViewsT<ImageViews> {
   ImageViews(
-      std::shared_ptr<PB::ProjectManagementService> projectManagementService)
+      std::shared_ptr<ProjectManagementService> projectManagementService)
       : mProjectManagementService(projectManagementService)
   {
   }
@@ -40,7 +42,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
   }
 
 private:
-  std::shared_ptr<PB::ProjectManagementService> mProjectManagementService =
+  std::shared_ptr<ProjectManagementService> mProjectManagementService =
       nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

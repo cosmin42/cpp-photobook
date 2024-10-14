@@ -12,7 +12,6 @@ DECLARE_STRONG_UUID(ProgressId)
 DECLARE_STRONG_STRING(ProgressJobName)
 
 namespace PB {
-
 struct ProgressInfo {
   PBDev::ProgressJobName name;
   unsigned               progress = 0;
@@ -43,6 +42,9 @@ struct ProgressStatus {
     return "Pending: {" + knownProgress + "}, {" + unknownProgress + "}";
   }
 };
+} // namespace PB
+
+namespace PB::Service {
 
 class ProgressServiceListener {
 public:
@@ -73,4 +75,4 @@ private:
 
   ProgressStatus aggregateStatus() const;
 };
-} // namespace PB
+} // namespace PB::Service

@@ -24,29 +24,29 @@ std::shared_ptr<PB::PlatformInfo> mockPlatformInfo()
   return platform;
 }
 
-std::shared_ptr<PB::DatabaseService>
+std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo)
 {
-  auto dbService = std::make_shared<PB::DatabaseService>();
+  auto dbService = std::make_shared<DatabaseService>();
   dbService->configurePlatformInfo(platformInfo);
   dbService->connect();
   dbService->maybeCreateTables();
   return dbService;
 }
 
-std::shared_ptr<PB::ProjectSerializerService>
+std::shared_ptr<ProjectSerializerService>
 mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo)
 {
   auto projectSerializerService =
-      std::make_shared<PB::ProjectSerializerService>();
+      std::make_shared<ProjectSerializerService>();
   projectSerializerService->configurePlatformInfo(platformInfo);
   return projectSerializerService;
 }
 
-std::shared_ptr<PB::DurableHashService>
-mockDurableHashService(std::shared_ptr<PB::DatabaseService> databaseService)
+std::shared_ptr<DurableHashService>
+mockDurableHashService(std::shared_ptr<DatabaseService> databaseService)
 {
-  auto durableHashService = std::make_shared<PB::DurableHashService>();
+  auto durableHashService = std::make_shared<DurableHashService>();
   durableHashService->configureDatabaseService(databaseService);
   return durableHashService;
 }

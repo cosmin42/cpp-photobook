@@ -1,6 +1,6 @@
 #include <pb/services/ImageToPaperService.h>
 
-namespace PB {
+namespace PB::Service {
 
 void ImageToPaperService::map(
     PBDev::ImageToPaperServiceId id,

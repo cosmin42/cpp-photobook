@@ -4,7 +4,7 @@
 
 #include <pb/Config.h>
 
-namespace PB {
+namespace PB::Service {
 
 DatabaseService ::~DatabaseService() { disconnect(); }
 

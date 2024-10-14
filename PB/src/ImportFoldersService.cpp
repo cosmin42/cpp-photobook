@@ -2,7 +2,7 @@
 
 #include <pb/util/FileInfo.h>
 
-namespace PB {
+namespace PB::Service {
 
 std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
 {
