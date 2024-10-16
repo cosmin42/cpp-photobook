@@ -92,6 +92,8 @@ static constexpr unsigned MAX_HASH_CONFLICTS = 200;
 
 static std::shared_ptr<spdlog::logger> LOGGER = nullptr;
 
+static constexpr const char *PROCESSED_LUTS_FOLDER_NAME = "processed-luts";
+
 } // namespace OneConfig
 
 } // namespace PB

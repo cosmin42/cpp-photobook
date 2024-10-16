@@ -58,5 +58,7 @@ struct PlatformInfo {
            (boost::uuids::to_string(boost::uuids::random_generator()()) +
             ".jpg");
   }
+
+  Path processedLutsPath() const { return localStatePath / OneConfig::PROCESSED_LUTS_FOLDER_NAME; }
 };
 } // namespace PB

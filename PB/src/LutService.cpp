@@ -7,7 +7,9 @@
 
 namespace PB::Service {
 
-LutService::LutService() : mDirectoryInspectionService(std::make_shared<DirectoryInspectionService>())
+LutService::LutService()
+    : mDirectoryInspectionService(
+          std::make_shared<DirectoryInspectionService>())
 {
   auto lutIconsPreprocessingListener =
       dynamic_cast<LutIconsPreprocessingListener *>(this);
@@ -49,6 +51,9 @@ void LutService::configureLutServiceListener(LutServiceListener *listener)
 
 void LutService::startLutService()
 {
+  if (!std::filesystem::exists(mPlatformInfo->processedLutsPath())) {
+    std::filesystem::create_directory(mPlatformInfo->processedLutsPath());
+  }
   mTaskCruncher->crunch([this]() {
     auto path = originalImagePath();
     auto originalImage = ImageReader().loadImage(path);
@@ -94,4 +99,4 @@ Path LutService::lutAssetsPath() const
   return mPlatformInfo->installationPath / "film-luts";
 }
 
-} // namespace PB
+} // namespace PB::Service

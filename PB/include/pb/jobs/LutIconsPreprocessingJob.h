@@ -95,7 +95,7 @@ private:
     std::string newImageName =
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    return mPlatformInfo->localStatePath / newImageName;
+    return mPlatformInfo->processedLutsPath() / newImageName;
   }
 
   Path createTransformedImage(Path lutPath)
