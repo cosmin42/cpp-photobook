@@ -5,30 +5,32 @@
 #include <pb/components/TSQueue.h>
 #include <pb/services/LutService.h>
 
+using ::testing::_;
+using ::testing::AtLeast;
 using namespace PB;
 
 class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
 public:
   ~ThreadSchedulerMock() = default;
 
-  void post(std::function<void()> f) override { f(); }
+  void post(std::function<void()> f) override { mQueue.enqueue(f); }
 
   void mainloop()
   {
     while (true) {
-      std::function<void()> f;
-      auto                  f = mQueue.dequeue(std::chrono::milliseconds(2000));
+      auto f = mQueue.dequeue(std::chrono::milliseconds(3000));
       if (f) {
         f();
       }
       else {
-        throw;
+        break;
       }
     }
   }
 
 private:
   TSQueue<std::function<void()>> mQueue;
+  unsigned                       mIndex = 0;
 };
 
 TEST(TestLutService, TestEmpty)
@@ -48,6 +50,11 @@ TEST(TestLutService, TestEmpty)
   std::shared_ptr<TaskCruncher> taskCruncher = std::make_shared<TaskCruncher>();
   taskCruncher->configureProgressService(progressService);
 
+  taskCruncher->registerPTC("search-files", 1);
+  taskCruncher->registerPTC("lut-icons", 1);
+  taskCruncher->registerPTC("thumbnails-job", 1);
+  taskCruncher->registerPTC("default", 1);
+
   auto platformInfo = mockPlatformInfo();
 
   std::shared_ptr<OGLEngine> mOGLEngine = std::make_shared<OGLEngine>();
@@ -58,11 +65,26 @@ TEST(TestLutService, TestEmpty)
   mLutService->configureTaskCruncher(taskCruncher);
   mLutService->configureOGLEngine(mOGLEngine);
   mLutService->configureThreadScheduler(threadScheduler);
+  mLutService->configureLutServiceListener(testLutServiceListener);
 
   std::stop_source stopSource;
 
+  EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(100));
+  EXPECT_CALL(*testLutServiceListener, onLutAdded(_)).Times(AtLeast(100));
+
   mOGLEngine->start(stopSource.get_token());
   mLutService->startLutService();
+
+  threadScheduler->mainloop();
+
+  // count files in folder
+  auto count = std::count_if(
+      std::filesystem::directory_iterator(platformInfo->localStatePath /
+                                          "processed-luts"),
+      std::filesystem::directory_iterator(), [](auto) { return true; });
+
+  EXPECT_EQ(count, 296);
+  std::filesystem::remove_all(platformInfo->processedLutsPath());
 
   delete threadScheduler;
   delete testLutServiceListener;
