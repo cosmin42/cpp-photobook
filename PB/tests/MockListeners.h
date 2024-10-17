@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <regex>
 #include <string>
 
@@ -11,6 +12,7 @@
 
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
+#include <pb/components/TSQueue.h>
 #include <pb/entities/LutIconInfo.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DurableHashService.h>
@@ -103,41 +105,32 @@ class TestProjectPersistenceListener final
 };
 */
 
-class TestMainLoop final : public PBDev::ThreadScheduler {
+class ProgressServiceListenerTest final : public ProgressServiceListener {
 public:
-  ~TestMainLoop() = default;
+  MOCK_METHOD(void, progressUpdate, (PB::ProgressStatus), (override));
+};
 
-  void post(std::function<void()> f) override
-  {
-    std::lock_guard<std::mutex> lock(mutex);
-    q.push(f);
-    ifTaskOccurs.notify_one();
-  }
+class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
+public:
+  ~ThreadSchedulerMock() = default;
 
-  void run()
+  void post(std::function<void()> f) override { mQueue.enqueue(f); }
+
+  void mainloop()
   {
-    std::unique_lock<std::mutex> lock(mutex);
     while (true) {
-      ifTaskOccurs.wait_for(lock, std::chrono::seconds(1),
-                            [this] { return !q.empty(); });
-      if (q.empty()) {
+      auto f = mQueue.dequeue(std::chrono::milliseconds(3000));
+      if (f) {
+        f();
+      }
+      else {
         break;
       }
-      auto f = q.front();
-      q.pop();
-      f();
     }
   }
 
 private:
-  std::queue<std::function<void()>> q;
-  std::mutex                        mutex;
-  std::condition_variable           ifTaskOccurs;
-};
-
-class ProgressServiceListenerTest final : public ProgressServiceListener {
-public:
-  MOCK_METHOD(void, progressUpdate, (PB::ProgressStatus), (override));
+  PB::TSQueue<std::function<void()>> mQueue;
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();

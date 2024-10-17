@@ -221,6 +221,7 @@ set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
     tests/MockListeners.h
     tests/MockListeners.cpp
+    tests/TestCollageService.cpp
     tests/TestIteratorWithState.cpp
     tests/TestErrors.cpp
     tests/TestFolderImport.cpp

@@ -2,36 +2,11 @@
 
 #include "MockListeners.h"
 
-#include <pb/components/TSQueue.h>
 #include <pb/services/LutService.h>
 
 using ::testing::_;
 using ::testing::AtLeast;
 using namespace PB;
-
-class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
-public:
-  ~ThreadSchedulerMock() = default;
-
-  void post(std::function<void()> f) override { mQueue.enqueue(f); }
-
-  void mainloop()
-  {
-    while (true) {
-      auto f = mQueue.dequeue(std::chrono::milliseconds(3000));
-      if (f) {
-        f();
-      }
-      else {
-        break;
-      }
-    }
-  }
-
-private:
-  TSQueue<std::function<void()>> mQueue;
-  unsigned                       mIndex = 0;
-};
 
 TEST(TestLutService, TestEmpty)
 {
