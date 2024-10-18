@@ -73,6 +73,19 @@ public:
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
 };
 
+class TestCollageMakerListener final : public CollageMakerListener {
+public:
+  MOCK_METHOD(void, onCollageCreated, (unsigned, Path), (override));
+  MOCK_METHOD(void, onCollageMakerError, (), (override));
+};
+
+class TestCollageThumbnailsMakerListener final
+    : public CollageThumbnailsMakerListener {
+public:
+  MOCK_METHOD(void, onThumbnailsCreated, (), (override));
+  MOCK_METHOD(void, onCollageThumbnailsMakerError, (), (override));
+};
+
 /*
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
