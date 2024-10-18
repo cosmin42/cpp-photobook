@@ -75,15 +75,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mTaskCruncher->configureProgressService(mProgressService);
 
-  mTaskCruncher->registerPTC("image-search-job", 1);
-  mTaskCruncher->registerPTC("export-logic", 1);
-  mTaskCruncher->registerPTC("collage-thumbnails", 1);
-  mTaskCruncher->registerPTC("upl-to-spl-map", 4);
-  mTaskCruncher->registerPTC("search-files", 1);
-  mTaskCruncher->registerPTC("lut-icons", 1);
-  mTaskCruncher->registerPTC("thumbnails-job", 1);
-  mTaskCruncher->registerPTC("default", 1);
-
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
   mExportLogic.setExportListener(exportListener);
@@ -109,6 +100,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageFactory->configurePlatformInfo(mPlatformInfo);
 
   mProjectManagementService->configureDatabaseService(mDatabaseService);
+
+  for (auto const &[poolName, poolSize] : OneConfig::TASK_CRUNCHER_POOLS_INFO) {
+    mTaskCruncher->registerPTC(poolName, poolSize);
+  }
 }
 
 void Photobook::initLogger()
