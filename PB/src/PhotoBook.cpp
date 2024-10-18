@@ -50,7 +50,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto collageThumbnailsMakerListener =
       dynamic_cast<CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
-  mCollageTemplateManager->configureListener(collageThumbnailsMakerListener);
+  mCollageTemplateManager->configureThumbnailsListener(
+      collageThumbnailsMakerListener);
 
   auto lutServiceListener = dynamic_cast<LutServiceListener *>(this);
   PBDev::basicAssert(lutServiceListener != nullptr);
@@ -93,7 +94,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureListener(importFoldersServiceListener);
 
   mExportLogic.setTaskCruncher(mTaskCruncher);
-  mCollageTemplateManager->setTaskCruncher(mTaskCruncher);
+  mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureTaskCruncher(mTaskCruncher);

@@ -18,20 +18,21 @@ public:
   explicit CollageService();
   ~CollageService() = default;
 
-  void configureListener(CollageThumbnailsMakerListener *listener);
+  void configureThumbnailsListener(CollageThumbnailsMakerListener *listener);
   void configureCollageMakerListener(CollageMakerListener *listener);
+
   void configureProject(std::shared_ptr<PB::Project> project);
   void configureProjectId(std::string projectId);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
-  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void generateTemplatesImages();
   void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
 
   std::vector<CollageTemplateInfo> getTemplatesPaths() const;
 
 private:
-  std::shared_ptr<CollageThumbnailsMakerJob> mJob = nullptr;
+  std::shared_ptr<CollageThumbnailsMakerJob> mThumbnailsJob = nullptr;
   std::shared_ptr<CollageMakerJob>           mCollageMakerJob = nullptr;
   std::shared_ptr<TaskCruncher>              mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>              mPlatformInfo = nullptr;

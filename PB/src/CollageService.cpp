@@ -9,14 +9,14 @@
 
 namespace PB::Service {
 CollageService::CollageService()
-    : mJob(std::make_shared<CollageThumbnailsMakerJob>()),
+    : mThumbnailsJob(std::make_shared<CollageThumbnailsMakerJob>()),
       mCollageMakerJob(std::make_shared<CollageMakerJob>())
 {
 }
 
-void CollageService::configureListener(CollageThumbnailsMakerListener *listener)
+void CollageService::configureThumbnailsListener(CollageThumbnailsMakerListener *listener)
 {
-  mJob->configureListener(listener);
+  mThumbnailsJob->configureListener(listener);
 }
 
 void CollageService::configureCollageMakerListener(
@@ -27,7 +27,7 @@ void CollageService::configureCollageMakerListener(
 
 void CollageService::configureProject(std::shared_ptr<PB::Project> project)
 {
-  mJob->configureProject(project);
+  mThumbnailsJob->configureProject(project);
   mCollageMakerJob->configureProject(project);
 }
 
@@ -40,35 +40,36 @@ void CollageService::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
   mPlatformInfo = platformInfo;
-  mJob->configurePlatformInfo(platformInfo);
+  mThumbnailsJob->configurePlatformInfo(platformInfo);
   mCollageMakerJob->configurePlatformInfo(platformInfo);
 }
 
-void CollageService::setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
+void CollageService::configureTaskCruncher(
+    std::shared_ptr<TaskCruncher> taskCruncher)
 {
   mTaskCruncher = taskCruncher;
 }
 
 void CollageService::generateTemplatesImages()
 {
-  mJob->mapJobs();
-  mTaskCruncher->crunch("collage-thumbnails", *mJob,
+  mThumbnailsJob->mapJobs();
+  mTaskCruncher->crunch("collage-thumbnails", *mThumbnailsJob,
                         PBDev::ProgressJobName{"collages-gen"});
 }
 
 std::vector<CollageTemplateInfo> CollageService::getTemplatesPaths() const
 {
-  return mJob->getTemplatesPaths();
+  return mThumbnailsJob->getTemplatesPaths();
 }
 
 void CollageService::combineImages(unsigned          templateIndex,
                                    std::vector<Path> imagesPaths)
 {
-  auto templatePaths = mJob->getSourceTemplates();
+  auto templatePaths = mThumbnailsJob->getSourceTemplates();
 
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
                         PBDev::ProgressJobName{"collage-combine"});
 }
 
-} // namespace PB
+} // namespace PB::Service
