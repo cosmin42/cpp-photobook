@@ -125,6 +125,10 @@ public:
 
 class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
 public:
+  explicit ThreadSchedulerMock(std::chrono::milliseconds waitTime)
+      : mWaitTime(waitTime)
+  {
+  }
   ~ThreadSchedulerMock() = default;
 
   void post(std::function<void()> f) override { mQueue.enqueue(f); }
@@ -132,7 +136,7 @@ public:
   void mainloop()
   {
     while (true) {
-      auto f = mQueue.dequeue(std::chrono::milliseconds(3000));
+      auto f = mQueue.dequeue(mWaitTime);
       if (f) {
         f();
       }
@@ -144,6 +148,7 @@ public:
 
 private:
   PB::TSQueue<std::function<void()>> mQueue;
+  std::chrono::milliseconds          mWaitTime;
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();

@@ -19,7 +19,8 @@ TEST(TestCollageService, TestEmpty)
   TestCollageThumbnailsMakerListener *testCollageThumbnailsMakerListener =
       new TestCollageThumbnailsMakerListener();
 
-  ThreadSchedulerMock *threadScheduler = new ThreadSchedulerMock();
+  ThreadSchedulerMock *threadScheduler =
+      new ThreadSchedulerMock(std::chrono::milliseconds(5000));
 
   std::shared_ptr<ProgressService> progressService =
       std::make_shared<ProgressService>();
@@ -55,8 +56,13 @@ TEST(TestCollageService, TestEmpty)
   mCollageService->generateTemplatesImages();
 
   EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(1));
-
+  EXPECT_CALL(*testCollageThumbnailsMakerListener, onThumbnailsCreated())
+      .Times(1);
   threadScheduler->mainloop();
+
+  auto collagePaths = mCollageService->getTemplatesPaths();
+
+  EXPECT_EQ(collagePaths.size(), 5);
 
   delete threadScheduler;
   delete testCollageMakerListener;

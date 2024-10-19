@@ -15,7 +15,8 @@ TEST(TestLutService, TestEmpty)
 
   TestLutServiceListener *testLutServiceListener = new TestLutServiceListener();
 
-  ThreadSchedulerMock *threadScheduler = new ThreadSchedulerMock();
+  ThreadSchedulerMock *threadScheduler =
+      new ThreadSchedulerMock(std::chrono::milliseconds(3000));
 
   std::shared_ptr<ProgressService> progressService =
       std::make_shared<ProgressService>();
