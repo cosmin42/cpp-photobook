@@ -23,38 +23,27 @@ public:
     explicit PhotobookListenerManaged(PhotobookListenerWrapperCLevel const & managedListener):mManagedListener(managedListener)
     {
     }
-
     ~PhotobookListenerManaged() = default;
-
     void onProjectRead() override {
         [&mManagedListener onProjectRead];
     }
-
     void onProjectRenamed() override {}
-
     void onMetadataUpdated() override {}
-
     void onPersistenceError(PBDev::Error) override {}
-
     void onExportFinished() override {}
-
     void onError(PBDev::Error) override {}
-
-    void onStagedImageAdded(std::vector<std::shared_ptr<PB::VirtualImage>> photos, int index = -1) override {}
-
     void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override {}
-
     void onMappingStarted(Path path) override {}
-
     void onMappingFinished(Path path) override {}
-
     void onMappingAborted(Path path) override {}
-
+    void onCollageThumbnailsCreated() override {}
     void onImageUpdated(Path root, int row, int index) override {}
-
     void post(std::function<void()> f) override {}
-
-    void onProgressUpdate(PB::ProgressInfo definedProgress, PB::ProgressInfo undefinedProgress) override {}
+    void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override {}
+    void onImageMapped(PBDev::ImageToPaperId id,
+                               PB::GenericImagePtr       image) override {}
+    void onProgressUpdate(PB::ProgressStatus status) override {}
+    void onLutAdded(PB::LutIconInfo iconInfo) override {}
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
 };
@@ -62,17 +51,14 @@ private:
 
 @implementation Photobook
 
-PB::Photobook mPhotobook("a", "b");
+PB::Photobook mPhotobook("a", "b", {1280, 720});
 
 PhotobookListenerManaged* mListener = nullptr;
 
 -(id)init {
     NSLog(@"Initializing photobook");
-    mPhotobook.configure(std::pair<int, int>{3, 4});
     return self;
 }
-
--
 
 - (void) setPhotobookListener:(PhotobookListenerWrapperCLevel const &)photobookListenerWrapperCLevel {
     if (mListener)
