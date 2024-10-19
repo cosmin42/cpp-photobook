@@ -1,0 +1,19 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_ENABLE_SKOTTIE -DSK_ENABLE_SKOTTIE_SKSLEFFECT -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE
+framework_dirs =
+include_dirs = -I../../modules/skottie/utils -I../../modules/skottie/include -I../..
+cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target arm64-apple-macos11 -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = utils
+
+build obj/modules/skottie/utils/utils.SkottieUtils.o: cxx ../../modules/skottie/utils/SkottieUtils.cpp || obj/third_party/icu/make_data_assembly.stamp
+  source_file_part = SkottieUtils.cpp
+  source_name_part = SkottieUtils
+build obj/modules/skottie/utils/utils.TextEditor.o: cxx ../../modules/skottie/utils/TextEditor.cpp || obj/third_party/icu/make_data_assembly.stamp
+  source_file_part = TextEditor.cpp
+  source_name_part = TextEditor
+build obj/modules/skottie/utils/utils.TextPreshape.o: cxx ../../modules/skottie/utils/TextPreshape.cpp || obj/third_party/icu/make_data_assembly.stamp
+  source_file_part = TextPreshape.cpp
+  source_name_part = TextPreshape
+
+build obj/modules/skottie/utils.stamp: stamp obj/modules/skottie/utils/utils.SkottieUtils.o obj/modules/skottie/utils/utils.TextEditor.o obj/modules/skottie/utils/utils.TextPreshape.o || ./libskottie.a ./libskia.a ./libsksg.a ./libskshaper.a ./libskunicode_core.a ./libskunicode_icu.a

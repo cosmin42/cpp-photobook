@@ -1,0 +1,8 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+root_out_dir = .
+target_output_name = skx
+
+
+build obj/skx.stamp: stamp

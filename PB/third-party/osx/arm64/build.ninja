@@ -1,0 +1,326 @@
+ninja_required_version = 1.7.2
+
+rule gn
+  command = ../../buildtools/mac/gn --root=../.. -q --regeneration gen .
+  pool = console
+  description = Regenerating ninja files
+
+# The 'gn' rule also writes build.ninja, unbeknownst to ninja. The
+# build.ninja edge is separate to prevent ninja from deleting it
+# (due to depfile usage) if interrupted. gn uses atomic writes to
+# ensure that build.ninja is always valid even if interrupted.
+build build.ninja.stamp: gn
+  generator = 1
+  depfile = build.ninja.d
+
+build build.ninja: phony build.ninja.stamp
+  generator = 1
+
+subninja toolchain.ninja
+
+build android_utils: phony obj/android_utils.stamp
+build avif: phony obj/avif.stamp
+build compile_all_sksl_tests: phony obj/compile_all_sksl_tests.stamp
+build compile_sksl_glsl_nosettings_tests: phony obj/compile_sksl_glsl_nosettings_tests.stamp
+build compile_sksl_glsl_tests: phony obj/compile_sksl_glsl_tests.stamp
+build compile_sksl_hlsl_tests: phony obj/compile_sksl_hlsl_tests.stamp
+build compile_sksl_metal_tests: phony obj/compile_sksl_metal_tests.stamp
+build compile_sksl_skrp_tests: phony obj/compile_sksl_skrp_tests.stamp
+build compile_sksl_spirv_tests: phony obj/compile_sksl_spirv_tests.stamp
+build compile_sksl_wgsl_tests: phony obj/compile_sksl_wgsl_tests.stamp
+build crabbyavif: phony obj/crabbyavif.stamp
+build fontmgr_FontConfigInterface: phony obj/fontmgr_FontConfigInterface.stamp
+build fontmgr_FontConfigInterface_tests: phony obj/fontmgr_FontConfigInterface_tests.stamp
+build fontmgr_android: phony obj/fontmgr_android.stamp
+build fontmgr_android_ndk: phony obj/fontmgr_android_ndk.stamp
+build fontmgr_android_tests: phony obj/fontmgr_android_tests.stamp
+build fontmgr_custom: phony obj/fontmgr_custom.stamp
+build fontmgr_custom_directory: phony obj/fontmgr_custom_directory.stamp
+build fontmgr_custom_embedded: phony obj/fontmgr_custom_embedded.stamp
+build fontmgr_custom_empty: phony obj/fontmgr_custom_empty.stamp
+build fontmgr_fontations_empty: phony obj/fontmgr_fontations_empty.stamp
+build fontmgr_fontconfig: phony obj/fontmgr_fontconfig.stamp
+build fontmgr_fontconfig_tests: phony obj/fontmgr_fontconfig_tests.stamp
+build fontmgr_fuchsia: phony obj/fontmgr_fuchsia.stamp
+build fontmgr_mac_ct: phony obj/fontmgr_mac_ct.stamp
+build fontmgr_win: phony obj/fontmgr_win.stamp
+build fontmgr_win_gdi: phony obj/fontmgr_win_gdi.stamp
+build gpu: phony obj/gpu.stamp
+build gpu_shared: phony obj/gpu_shared.stamp
+build graphite: phony obj/graphite.stamp
+build heif: phony obj/heif.stamp
+build hsw: phony obj/hsw.stamp
+build jpeg_decode: phony obj/jpeg_decode.stamp
+build jpeg_encode: phony obj/jpeg_encode.stamp
+build jpeg_mpf: phony obj/jpeg_mpf.stamp
+build jpegxl_decode: phony obj/jpegxl_decode.stamp
+build lasx: phony obj/lasx.stamp
+build minify_sksl: phony obj/minify_sksl.stamp
+build minify_sksl_tests: phony obj/minify_sksl_tests.stamp
+build modules: phony obj/modules.stamp
+build ndk_images: phony obj/ndk_images.stamp
+build pathkit: phony ./libpathkit.a
+build pdf: phony obj/pdf.stamp
+build png_decode: phony obj/png_decode.stamp
+build png_encode: phony obj/png_encode.stamp
+build raw: phony obj/raw.stamp
+build run_sksllex: phony obj/run_sksllex.stamp
+build skia: phony ./libskia.a
+build skx: phony obj/skx.stamp
+build typeface_fontations: phony obj/typeface_fontations.stamp
+build typeface_fontations_tests: phony obj/typeface_fontations_tests.stamp
+build typeface_freetype: phony obj/typeface_freetype.stamp
+build vello: phony obj/vello.stamp
+build webp_decode: phony obj/webp_decode.stamp
+build webp_encode: phony obj/webp_encode.stamp
+build wuffs: phony obj/wuffs.stamp
+build xml: phony obj/xml.stamp
+build xps: phony obj/xps.stamp
+build bentleyottmann: phony ./libbentleyottmann.a
+build compression_utils_portable: phony ./libcompression_utils_portable.a
+build dng_sdk: phony ./libdng_sdk.a
+build expat: phony ./libexpat.a
+build harfbuzz: phony ./libharfbuzz.a
+build headers: phony obj/third_party/icu/headers.stamp
+build icu: phony ./libicu.a
+build icudata: phony obj/third_party/icu/icudata.stamp
+build libjpeg: phony ./libjpeg.a
+build libpng: phony ./libpng.a
+build libwebp: phony ./libwebp.a
+build libwebp_sse41: phony ./libwebp_sse41.a
+build make_data_assembly: phony obj/third_party/icu/make_data_assembly.stamp
+build piex: phony ./libpiex.a
+build skcms: phony ./libskcms.a
+build skcms_TransformHsw: phony obj/modules/skcms/skcms_TransformHsw.stamp
+build skcms_TransformSkx: phony obj/modules/skcms/skcms_TransformSkx.stamp
+build skottie: phony ./libskottie.a
+build skparagraph: phony ./libskparagraph.a
+build skresources: phony ./libskresources.a
+build sksg: phony ./libsksg.a
+build skshaper: phony ./libskshaper.a
+build skunicode: phony obj/modules/skunicode/skunicode.stamp
+build skunicode_core: phony ./libskunicode_core.a
+build skunicode_icu: phony ./libskunicode_icu.a
+build svg: phony ./libsvg.a
+build utils: phony obj/modules/skottie/utils.stamp
+build video_decoder: phony obj/experimental/ffmpeg/video_decoder.stamp
+build video_encoder: phony obj/experimental/ffmpeg/video_encoder.stamp
+build zlib: phony ./libzlib.a
+build zlib_adler32_simd: phony obj/third_party/zlib/zlib_adler32_simd.stamp
+build zlib_arm_crc32: phony obj/third_party/zlib/zlib_arm_crc32.stamp
+build zlib_common_headers: phony obj/third_party/zlib/zlib_common_headers.stamp
+build zlib_crc32_simd: phony obj/third_party/zlib/zlib_crc32_simd.stamp
+build zlib_inflate_chunk_simd: phony obj/third_party/zlib/zlib_inflate_chunk_simd.stamp
+build zlib_slide_hash_simd: phony obj/third_party/zlib/zlib_slide_hash_simd.stamp
+build $:android_utils: phony obj/android_utils.stamp
+build $:avif: phony obj/avif.stamp
+build $:compile_all_sksl_tests: phony obj/compile_all_sksl_tests.stamp
+build $:compile_sksl_glsl_nosettings_tests: phony obj/compile_sksl_glsl_nosettings_tests.stamp
+build $:compile_sksl_glsl_tests: phony obj/compile_sksl_glsl_tests.stamp
+build $:compile_sksl_hlsl_tests: phony obj/compile_sksl_hlsl_tests.stamp
+build $:compile_sksl_metal_tests: phony obj/compile_sksl_metal_tests.stamp
+build $:compile_sksl_skrp_tests: phony obj/compile_sksl_skrp_tests.stamp
+build $:compile_sksl_spirv_tests: phony obj/compile_sksl_spirv_tests.stamp
+build $:compile_sksl_wgsl_tests: phony obj/compile_sksl_wgsl_tests.stamp
+build $:crabbyavif: phony obj/crabbyavif.stamp
+build $:fontmgr_FontConfigInterface: phony obj/fontmgr_FontConfigInterface.stamp
+build $:fontmgr_FontConfigInterface_tests: phony obj/fontmgr_FontConfigInterface_tests.stamp
+build $:fontmgr_android: phony obj/fontmgr_android.stamp
+build $:fontmgr_android_ndk: phony obj/fontmgr_android_ndk.stamp
+build $:fontmgr_android_tests: phony obj/fontmgr_android_tests.stamp
+build $:fontmgr_custom: phony obj/fontmgr_custom.stamp
+build $:fontmgr_custom_directory: phony obj/fontmgr_custom_directory.stamp
+build $:fontmgr_custom_embedded: phony obj/fontmgr_custom_embedded.stamp
+build $:fontmgr_custom_empty: phony obj/fontmgr_custom_empty.stamp
+build $:fontmgr_fontations_empty: phony obj/fontmgr_fontations_empty.stamp
+build $:fontmgr_fontconfig: phony obj/fontmgr_fontconfig.stamp
+build $:fontmgr_fontconfig_tests: phony obj/fontmgr_fontconfig_tests.stamp
+build $:fontmgr_fuchsia: phony obj/fontmgr_fuchsia.stamp
+build $:fontmgr_mac_ct: phony obj/fontmgr_mac_ct.stamp
+build $:fontmgr_win: phony obj/fontmgr_win.stamp
+build $:fontmgr_win_gdi: phony obj/fontmgr_win_gdi.stamp
+build $:gpu: phony obj/gpu.stamp
+build $:gpu_shared: phony obj/gpu_shared.stamp
+build $:graphite: phony obj/graphite.stamp
+build $:heif: phony obj/heif.stamp
+build $:hsw: phony obj/hsw.stamp
+build $:jpeg_decode: phony obj/jpeg_decode.stamp
+build $:jpeg_encode: phony obj/jpeg_encode.stamp
+build $:jpeg_mpf: phony obj/jpeg_mpf.stamp
+build $:jpegxl_decode: phony obj/jpegxl_decode.stamp
+build $:lasx: phony obj/lasx.stamp
+build $:minify_sksl: phony obj/minify_sksl.stamp
+build $:minify_sksl_tests: phony obj/minify_sksl_tests.stamp
+build $:modules: phony obj/modules.stamp
+build $:ndk_images: phony obj/ndk_images.stamp
+build $:pathkit: phony ./libpathkit.a
+build $:pdf: phony obj/pdf.stamp
+build $:png_decode: phony obj/png_decode.stamp
+build $:png_encode: phony obj/png_encode.stamp
+build $:raw: phony obj/raw.stamp
+build $:run_sksllex: phony obj/run_sksllex.stamp
+build $:skia: phony ./libskia.a
+build $:skx: phony obj/skx.stamp
+build $:typeface_fontations: phony obj/typeface_fontations.stamp
+build $:typeface_fontations_tests: phony obj/typeface_fontations_tests.stamp
+build $:typeface_freetype: phony obj/typeface_freetype.stamp
+build $:vello: phony obj/vello.stamp
+build $:webp_decode: phony obj/webp_decode.stamp
+build $:webp_encode: phony obj/webp_encode.stamp
+build $:wuffs: phony obj/wuffs.stamp
+build $:xml: phony obj/xml.stamp
+build $:xps: phony obj/xps.stamp
+build experimental/ffmpeg$:video_decoder: phony obj/experimental/ffmpeg/video_decoder.stamp
+build experimental/ffmpeg$:video_encoder: phony obj/experimental/ffmpeg/video_encoder.stamp
+build modules/bentleyottmann$:bentleyottmann: phony ./libbentleyottmann.a
+build modules/bentleyottmann: phony ./libbentleyottmann.a
+build modules/skcms$:skcms: phony ./libskcms.a
+build modules/skcms: phony ./libskcms.a
+build modules/skcms$:skcms_TransformHsw: phony obj/modules/skcms/skcms_TransformHsw.stamp
+build modules/skcms$:skcms_TransformSkx: phony obj/modules/skcms/skcms_TransformSkx.stamp
+build modules/skottie$:skottie: phony ./libskottie.a
+build modules/skottie: phony ./libskottie.a
+build modules/skottie$:utils: phony obj/modules/skottie/utils.stamp
+build modules/skparagraph$:skparagraph: phony ./libskparagraph.a
+build modules/skparagraph: phony ./libskparagraph.a
+build modules/skresources$:skresources: phony ./libskresources.a
+build modules/skresources: phony ./libskresources.a
+build modules/sksg$:sksg: phony ./libsksg.a
+build modules/sksg: phony ./libsksg.a
+build modules/skshaper$:skshaper: phony ./libskshaper.a
+build modules/skshaper: phony ./libskshaper.a
+build modules/skunicode$:skunicode: phony obj/modules/skunicode/skunicode.stamp
+build modules/skunicode: phony obj/modules/skunicode/skunicode.stamp
+build modules/skunicode$:skunicode_core: phony ./libskunicode_core.a
+build modules/skunicode$:skunicode_icu: phony ./libskunicode_icu.a
+build modules/svg$:svg: phony ./libsvg.a
+build modules/svg: phony ./libsvg.a
+build third_party/dng_sdk$:dng_sdk: phony ./libdng_sdk.a
+build third_party/dng_sdk: phony ./libdng_sdk.a
+build third_party/expat$:expat: phony ./libexpat.a
+build third_party/expat: phony ./libexpat.a
+build third_party/harfbuzz$:harfbuzz: phony ./libharfbuzz.a
+build third_party/harfbuzz: phony ./libharfbuzz.a
+build third_party/icu$:headers: phony obj/third_party/icu/headers.stamp
+build third_party/icu$:icu: phony ./libicu.a
+build third_party/icu: phony ./libicu.a
+build third_party/icu$:icudata: phony obj/third_party/icu/icudata.stamp
+build third_party/icu$:make_data_assembly: phony obj/third_party/icu/make_data_assembly.stamp
+build third_party/libjpeg-turbo$:libjpeg: phony ./libjpeg.a
+build third_party/libpng$:libpng: phony ./libpng.a
+build third_party/libpng: phony ./libpng.a
+build third_party/libwebp$:libwebp: phony ./libwebp.a
+build third_party/libwebp: phony ./libwebp.a
+build third_party/libwebp$:libwebp_sse41: phony ./libwebp_sse41.a
+build third_party/piex$:piex: phony ./libpiex.a
+build third_party/piex: phony ./libpiex.a
+build third_party/wuffs$:wuffs: phony ./libwuffs.a
+build third_party/wuffs: phony ./libwuffs.a
+build third_party/zlib$:compression_utils_portable: phony ./libcompression_utils_portable.a
+build third_party/zlib$:zlib: phony ./libzlib.a
+build third_party/zlib: phony ./libzlib.a
+build third_party/zlib$:zlib_adler32_simd: phony obj/third_party/zlib/zlib_adler32_simd.stamp
+build third_party/zlib$:zlib_arm_crc32: phony obj/third_party/zlib/zlib_arm_crc32.stamp
+build third_party/zlib$:zlib_common_headers: phony obj/third_party/zlib/zlib_common_headers.stamp
+build third_party/zlib$:zlib_crc32_simd: phony obj/third_party/zlib/zlib_crc32_simd.stamp
+build third_party/zlib$:zlib_inflate_chunk_simd: phony obj/third_party/zlib/zlib_inflate_chunk_simd.stamp
+build third_party/zlib$:zlib_slide_hash_simd: phony obj/third_party/zlib/zlib_slide_hash_simd.stamp
+
+build all: phony $
+    obj/android_utils.stamp $
+    obj/avif.stamp $
+    obj/compile_all_sksl_tests.stamp $
+    obj/compile_sksl_glsl_nosettings_tests.stamp $
+    obj/compile_sksl_glsl_tests.stamp $
+    obj/compile_sksl_hlsl_tests.stamp $
+    obj/compile_sksl_metal_tests.stamp $
+    obj/compile_sksl_skrp_tests.stamp $
+    obj/compile_sksl_spirv_tests.stamp $
+    obj/compile_sksl_wgsl_tests.stamp $
+    obj/crabbyavif.stamp $
+    obj/fontmgr_FontConfigInterface.stamp $
+    obj/fontmgr_FontConfigInterface_tests.stamp $
+    obj/fontmgr_android.stamp $
+    obj/fontmgr_android_ndk.stamp $
+    obj/fontmgr_android_tests.stamp $
+    obj/fontmgr_custom.stamp $
+    obj/fontmgr_custom_directory.stamp $
+    obj/fontmgr_custom_embedded.stamp $
+    obj/fontmgr_custom_empty.stamp $
+    obj/fontmgr_fontations_empty.stamp $
+    obj/fontmgr_fontconfig.stamp $
+    obj/fontmgr_fontconfig_tests.stamp $
+    obj/fontmgr_fuchsia.stamp $
+    obj/fontmgr_mac_ct.stamp $
+    obj/fontmgr_win.stamp $
+    obj/fontmgr_win_gdi.stamp $
+    obj/gpu.stamp $
+    obj/gpu_shared.stamp $
+    obj/graphite.stamp $
+    obj/heif.stamp $
+    obj/hsw.stamp $
+    obj/jpeg_decode.stamp $
+    obj/jpeg_encode.stamp $
+    obj/jpeg_mpf.stamp $
+    obj/jpegxl_decode.stamp $
+    obj/lasx.stamp $
+    obj/minify_sksl.stamp $
+    obj/minify_sksl_tests.stamp $
+    obj/modules.stamp $
+    obj/ndk_images.stamp $
+    ./libpathkit.a $
+    obj/pdf.stamp $
+    obj/png_decode.stamp $
+    obj/png_encode.stamp $
+    obj/raw.stamp $
+    obj/run_sksllex.stamp $
+    ./libskia.a $
+    obj/skx.stamp $
+    obj/typeface_fontations.stamp $
+    obj/typeface_fontations_tests.stamp $
+    obj/typeface_freetype.stamp $
+    obj/vello.stamp $
+    obj/webp_decode.stamp $
+    obj/webp_encode.stamp $
+    obj/wuffs.stamp $
+    obj/xml.stamp $
+    obj/xps.stamp $
+    obj/experimental/ffmpeg/video_decoder.stamp $
+    obj/experimental/ffmpeg/video_encoder.stamp $
+    ./libbentleyottmann.a $
+    ./libskcms.a $
+    obj/modules/skcms/skcms_TransformHsw.stamp $
+    obj/modules/skcms/skcms_TransformSkx.stamp $
+    ./libskottie.a $
+    obj/modules/skottie/utils.stamp $
+    ./libskparagraph.a $
+    ./libskresources.a $
+    ./libsksg.a $
+    ./libskshaper.a $
+    obj/modules/skunicode/skunicode.stamp $
+    ./libskunicode_core.a $
+    ./libskunicode_icu.a $
+    ./libsvg.a $
+    ./libdng_sdk.a $
+    ./libexpat.a $
+    ./libharfbuzz.a $
+    obj/third_party/icu/headers.stamp $
+    ./libicu.a $
+    obj/third_party/icu/icudata.stamp $
+    obj/third_party/icu/make_data_assembly.stamp $
+    ./libjpeg.a $
+    ./libpng.a $
+    ./libwebp.a $
+    ./libwebp_sse41.a $
+    ./libpiex.a $
+    ./libwuffs.a $
+    ./libcompression_utils_portable.a $
+    ./libzlib.a $
+    obj/third_party/zlib/zlib_adler32_simd.stamp $
+    obj/third_party/zlib/zlib_arm_crc32.stamp $
+    obj/third_party/zlib/zlib_common_headers.stamp $
+    obj/third_party/zlib/zlib_crc32_simd.stamp $
+    obj/third_party/zlib/zlib_inflate_chunk_simd.stamp $
+    obj/third_party/zlib/zlib_slide_hash_simd.stamp
+
+default all

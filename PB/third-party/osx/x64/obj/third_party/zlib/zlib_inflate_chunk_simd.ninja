@@ -1,0 +1,16 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE
+framework_dirs =
+include_dirs = -I../../third_party/externals/zlib -I../../third_party/externals/zlib/contrib/optimizations
+cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -Wno-incompatible-pointer-types -Wunused-variable
+cflags_c =
+root_out_dir = .
+target_output_name = zlib_inflate_chunk_simd
+
+build obj/third_party/externals/zlib/contrib/optimizations/zlib_inflate_chunk_simd.inffast_chunk.o: cc ../../third_party/externals/zlib/contrib/optimizations/inffast_chunk.c
+  source_file_part = inffast_chunk.c
+  source_name_part = inffast_chunk
+build obj/third_party/externals/zlib/contrib/optimizations/zlib_inflate_chunk_simd.inflate.o: cc ../../third_party/externals/zlib/contrib/optimizations/inflate.c
+  source_file_part = inflate.c
+  source_name_part = inflate
+
+build obj/third_party/zlib/zlib_inflate_chunk_simd.stamp: stamp obj/third_party/externals/zlib/contrib/optimizations/zlib_inflate_chunk_simd.inffast_chunk.o obj/third_party/externals/zlib/contrib/optimizations/zlib_inflate_chunk_simd.inflate.o || obj/third_party/zlib/zlib_common_headers.stamp

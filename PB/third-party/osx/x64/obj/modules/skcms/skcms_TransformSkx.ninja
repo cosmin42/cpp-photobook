@@ -1,0 +1,13 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+cflags = -mavx512f -mavx512dq -mavx512cd -mavx512bw -mavx512vl -std=c11 -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = skcms_TransformSkx
+
+build obj/modules/skcms/src/skcms_TransformSkx.skcms_TransformSkx.o: cxx ../../modules/skcms/src/skcms_TransformSkx.cc
+  source_file_part = skcms_TransformSkx.cc
+  source_name_part = skcms_TransformSkx
+
+build obj/modules/skcms/skcms_TransformSkx.stamp: stamp obj/modules/skcms/src/skcms_TransformSkx.skcms_TransformSkx.o

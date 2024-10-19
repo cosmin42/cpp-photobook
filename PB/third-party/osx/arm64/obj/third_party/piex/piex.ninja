@@ -1,0 +1,31 @@
+defines = -DBREAK_IF_DEBUGGING_AND_OUT_OF_RANGE -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target arm64-apple-macos11 -O3 -isystem /Users/cosminmihai/skia/third_party/externals/piex
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = libpiex
+
+build obj/third_party/externals/piex/src/binary_parse/libpiex.cached_paged_byte_array.o: cxx ../../third_party/externals/piex/src/binary_parse/cached_paged_byte_array.cc
+  source_file_part = cached_paged_byte_array.cc
+  source_name_part = cached_paged_byte_array
+build obj/third_party/externals/piex/src/binary_parse/libpiex.range_checked_byte_ptr.o: cxx ../../third_party/externals/piex/src/binary_parse/range_checked_byte_ptr.cc
+  source_file_part = range_checked_byte_ptr.cc
+  source_name_part = range_checked_byte_ptr
+build obj/third_party/externals/piex/src/image_type_recognition/libpiex.image_type_recognition_lite.o: cxx ../../third_party/externals/piex/src/image_type_recognition/image_type_recognition_lite.cc
+  source_file_part = image_type_recognition_lite.cc
+  source_name_part = image_type_recognition_lite
+build obj/third_party/externals/piex/src/libpiex.piex.o: cxx ../../third_party/externals/piex/src/piex.cc
+  source_file_part = piex.cc
+  source_name_part = piex
+build obj/third_party/externals/piex/src/tiff_directory/libpiex.tiff_directory.o: cxx ../../third_party/externals/piex/src/tiff_directory/tiff_directory.cc
+  source_file_part = tiff_directory.cc
+  source_name_part = tiff_directory
+build obj/third_party/externals/piex/src/libpiex.tiff_parser.o: cxx ../../third_party/externals/piex/src/tiff_parser.cc
+  source_file_part = tiff_parser.cc
+  source_name_part = tiff_parser
+
+build ./libpiex.a: alink obj/third_party/externals/piex/src/binary_parse/libpiex.cached_paged_byte_array.o obj/third_party/externals/piex/src/binary_parse/libpiex.range_checked_byte_ptr.o obj/third_party/externals/piex/src/image_type_recognition/libpiex.image_type_recognition_lite.o obj/third_party/externals/piex/src/libpiex.piex.o obj/third_party/externals/piex/src/tiff_directory/libpiex.tiff_directory.o obj/third_party/externals/piex/src/libpiex.tiff_parser.o
+  arflags =
+  output_extension = .a
+  output_dir = 

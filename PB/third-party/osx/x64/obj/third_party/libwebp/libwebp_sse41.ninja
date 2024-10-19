@@ -1,0 +1,34 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DWEBP_SWAP_16BIT_CSP
+framework_dirs =
+include_dirs =
+cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/skia/third_party/externals/libwebp
+cflags_c = -msse4.1
+root_out_dir = .
+target_output_name = libwebp_sse41
+
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.alpha_processing_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/alpha_processing_sse41.c
+  source_file_part = alpha_processing_sse41.c
+  source_name_part = alpha_processing_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.dec_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/dec_sse41.c
+  source_file_part = dec_sse41.c
+  source_name_part = dec_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.enc_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/enc_sse41.c
+  source_file_part = enc_sse41.c
+  source_name_part = enc_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.lossless_enc_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/lossless_enc_sse41.c
+  source_file_part = lossless_enc_sse41.c
+  source_name_part = lossless_enc_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.lossless_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/lossless_sse41.c
+  source_file_part = lossless_sse41.c
+  source_name_part = lossless_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.upsampling_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/upsampling_sse41.c
+  source_file_part = upsampling_sse41.c
+  source_name_part = upsampling_sse41
+build obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.yuv_sse41.o: cc ../../third_party/externals/libwebp/src/dsp/yuv_sse41.c
+  source_file_part = yuv_sse41.c
+  source_name_part = yuv_sse41
+
+build ./libwebp_sse41.a: alink obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.alpha_processing_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.dec_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.enc_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.lossless_enc_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.lossless_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.upsampling_sse41.o obj/third_party/externals/libwebp/src/dsp/libwebp_sse41.yuv_sse41.o
+  arflags =
+  output_extension = .a
+  output_dir = 

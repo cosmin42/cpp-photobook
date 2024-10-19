@@ -1,0 +1,13 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DADLER32_SIMD_SSSE3 -DX86_NOT_WINDOWS
+framework_dirs =
+include_dirs =
+cflags = -mssse3 -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3
+cflags_c =
+root_out_dir = .
+target_output_name = zlib_adler32_simd
+
+build obj/third_party/externals/zlib/zlib_adler32_simd.adler32_simd.o: cc ../../third_party/externals/zlib/adler32_simd.c
+  source_file_part = adler32_simd.c
+  source_name_part = adler32_simd
+
+build obj/third_party/zlib/zlib_adler32_simd.stamp: stamp obj/third_party/externals/zlib/zlib_adler32_simd.adler32_simd.o || obj/third_party/zlib/zlib_common_headers.stamp

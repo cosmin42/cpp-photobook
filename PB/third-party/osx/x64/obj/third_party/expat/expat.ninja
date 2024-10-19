@@ -1,0 +1,22 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DXML_STATIC
+framework_dirs =
+include_dirs =
+cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/externals/expat/expat/lib -isystem /Users/cosminmihai/skia/third_party/expat/include/expat_config
+cflags_c =
+root_out_dir = .
+target_output_name = libexpat
+
+build obj/third_party/externals/expat/expat/lib/libexpat.xmlparse.o: cc ../../third_party/externals/expat/expat/lib/xmlparse.c
+  source_file_part = xmlparse.c
+  source_name_part = xmlparse
+build obj/third_party/externals/expat/expat/lib/libexpat.xmlrole.o: cc ../../third_party/externals/expat/expat/lib/xmlrole.c
+  source_file_part = xmlrole.c
+  source_name_part = xmlrole
+build obj/third_party/externals/expat/expat/lib/libexpat.xmltok.o: cc ../../third_party/externals/expat/expat/lib/xmltok.c
+  source_file_part = xmltok.c
+  source_name_part = xmltok
+
+build ./libexpat.a: alink obj/third_party/externals/expat/expat/lib/libexpat.xmlparse.o obj/third_party/externals/expat/expat/lib/libexpat.xmlrole.o obj/third_party/externals/expat/expat/lib/libexpat.xmltok.o
+  arflags =
+  output_extension = .a
+  output_dir = 
