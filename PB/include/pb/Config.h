@@ -99,6 +99,9 @@ const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
     {"upl-to-spl-map", 4},   {"search-files", 1}, {"lut-icons", 1},
     {"thumbnails-job", 1},   {"default", 1}};
 
+const std::unordered_map<std::string, std::stop_source> BG_CONTROL = {
+    {"ogl-engine", std::stop_source()}};
+
 } // namespace OneConfig
 
 } // namespace PB

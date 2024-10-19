@@ -125,7 +125,7 @@ void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 
 void Photobook::startPhotobook()
 {
-  mOGLEngine->start(std::stop_token());
+  mOGLEngine->start(OneConfig::BG_CONTROL.at("ogl-engine").get_token());
   mLutService->startLutService();
 }
 
