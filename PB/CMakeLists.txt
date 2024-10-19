@@ -64,7 +64,13 @@ if (WIN32)
     include_directories(third-party/podofo-build/include)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/include)
+if (WIN32)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia)
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/include)
+endif()
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
