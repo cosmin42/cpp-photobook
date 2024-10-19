@@ -65,7 +65,7 @@ if (WIN32)
 endif()
 
 if (WIN32)
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/include)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
