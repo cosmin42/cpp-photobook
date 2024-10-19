@@ -40,19 +40,21 @@ namespace PhotobookNet
             this.InitializeComponent();
             PhotobookSingletonWrapper.Inst().SetThisThreadAsMainDispatcher();
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
+            
             mProjectsList = new ObservableCollection<ProjectItem>();
+            
             mPhotobook.ConfigurePhotobookListener(this);
+
             mMenuFlyout = new MenuFlyout();
             mMenuFlyout.Items.Add(DeleteFlyout());
             mMenuFlyout.Items.Add(RenameFlyout());
-
             mPhotobook.StartPhotobook();
-            mPhotobook.RecallMetadata();
+            mPhotobook.GetSettings().RecallMetadata();
         }
 
         private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
-            mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
+            //mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
         }
 
         private void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
@@ -62,35 +64,42 @@ namespace PhotobookNet
 
         private void OnListViewRightTapped(object sender, RightTappedRoutedEventArgs args)
         {
+            /*
             var clickedElement = (args.OriginalSource as FrameworkElement).DataContext as ProjectItem;
             mRightClickedId = clickedElement.ItemId;
             mMenuFlyout.ShowAt(args.OriginalSource as FrameworkElement);
+            */
         }
 
         private void OpenProjectClicked(object sender, ItemClickEventArgs args)
         {
+            /*
             var item = args.ClickedItem as ProjectItem;
             var projectName = item.Name;
             mLastClickedProjectName = projectName;
             mPhotobook.RecallProject(projectName);
+            */
         }
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)
         {
-            CreateProjectDialogDisplay();
+            //CreateProjectDialogDisplay();
         }
 
         private void OnCreateProjectDialogNext(object sender, ContentDialogButtonClickEventArgs args)
         {
+            /*
             var newProjectName = mPhotobook.GenerateProjectName();
             var paperSettings = GetPaperSettings();
             mPhotobook.NewProject(newProjectName, paperSettings);
             PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
             Frame.Navigate(typeof(TableContentPage));
+            */
         }
 
         private void UpdateNewProjectDialog(string selectedPaperType)
         {
+            /*
             var paperSettings = PhotobookWin.GetDefaultSerializedSettings(selectedPaperType);
 
             TextBoxPaperWidth.BeforeTextChanging -= OnTextBoxPaperWidthBeforeTextChanging;
@@ -104,10 +113,12 @@ namespace PhotobookNet
             TextBoxPaperWidth.BeforeTextChanging += OnTextBoxPaperWidthBeforeTextChanging;
             TextBoxPaperHeight.BeforeTextChanging += OnTextBoxPaperHeightBeforeTextChanging;
             TextBoxPaperPPI.BeforeTextChanging += OnTextBoxPaperPpiBeforeTextChanging;
+            */
         }
 
         private PaperSettings GetPaperSettings()
         {
+            /*
             var comboTypeName = (ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString();
             PaperSettings paperSettings = PhotobookWin.GetDefaultSerializedSettings(comboTypeName);
 
@@ -116,15 +127,19 @@ namespace PhotobookNet
             paperSettings.Ppi = int.Parse(TextBoxPaperPPI.Text);
 
             return paperSettings;
+            */
+            return null;
         }
 
         private void ComboBoxPaperSettingsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            /*
             var comboBoxItemContent = (ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString();
             if (IsPaperSettingsDialogReady() && comboBoxItemContent != "Custom")
             {
                 UpdateNewProjectDialog((ComboBoxPaperSettings.SelectedItem as ComboBoxItem).Content.ToString());
             }
+            */
         }
 
         private void OnCreateProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
@@ -139,12 +154,15 @@ namespace PhotobookNet
 
         public void OnProjectRead()
         {
+            /*
             PhotobookSingletonWrapper.Inst().UpdateTitle(mLastClickedProjectName);
             Frame.Navigate(typeof(TableContentPage));
+            */
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
+            /*
             mPhotobook.ConfigurePhotobookListener(this);
 
             if (args.Parameter != null)
@@ -170,10 +188,12 @@ namespace PhotobookNet
             {
                 PhotobookSingletonWrapper.Inst().UpdateTitle();
             }
+            */
         }
 
         public void OnProjectRenamed()
         {
+            /*
             for (int i = 0; i < mProjectsList.Count; i++)
             {
                 var projectItem = mProjectsList[i];
@@ -183,6 +203,7 @@ namespace PhotobookNet
                     break;
                 }
             }
+            */
         }
 
         static private int SqrtIntF(int size)
@@ -194,6 +215,7 @@ namespace PhotobookNet
 
         public void OnMetadataUpdated()
         {
+
             var settings = mPhotobook.GetSettings();
 
             var projectList = settings.ProjectsList();
@@ -230,6 +252,7 @@ namespace PhotobookNet
 
         private void OnTextBoxPaperWidthBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            /*
             NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(args.NewText) && !string.IsNullOrEmpty(TextBoxPaperHeight.Text.ToString()) && !string.IsNullOrEmpty(TextBoxPaperPPI.Text.ToString());
 
             if (!args.NewText.All(char.IsDigit))
@@ -240,10 +263,12 @@ namespace PhotobookNet
             {
                 ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
             }
+            */
         }
 
         private void OnTextBoxPaperHeightBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            /*
             NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(TextBoxPaperWidth.Text.ToString()) && !string.IsNullOrEmpty(args.NewText) && !string.IsNullOrEmpty(TextBoxPaperPPI.Text.ToString());
 
             if (!args.NewText.All(char.IsDigit))
@@ -254,10 +279,12 @@ namespace PhotobookNet
             {
                 ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
             }
+            */
         }
 
         private void OnTextBoxPaperPpiBeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
+            /*
             NewProjectDialog.IsPrimaryButtonEnabled = !string.IsNullOrEmpty(TextBoxPaperWidth.Text.ToString()) && !string.IsNullOrEmpty(TextBoxPaperHeight.Text.ToString()) && !string.IsNullOrEmpty(args.NewText);
 
             if (!args.NewText.All(char.IsDigit))
@@ -268,10 +295,12 @@ namespace PhotobookNet
             {
                 ComboBoxPaperSettings.SelectedIndex = ComboBoxPaperSettings.Items.Count - 1;
             }
+            */
         }
 
         private void OnDeleteClicked(object sender, RoutedEventArgs e)
         {
+            /*
             if (!string.IsNullOrEmpty(mRightClickedId))
             {
                 for (int i = 0; i < mProjectsList.Count; i++)
@@ -286,6 +315,7 @@ namespace PhotobookNet
                 }
             }
             mRightClickedId = string.Empty;
+            */
         }
 
         private Microsoft.UI.Xaml.Controls.MenuFlyoutItem RenameFlyout()
@@ -302,6 +332,7 @@ namespace PhotobookNet
 
         private void OnRenameClicked(object sender, RoutedEventArgs e)
         {
+            /*
             if (!string.IsNullOrEmpty(mRightClickedId))
             {
                 string name = "";
@@ -324,15 +355,17 @@ namespace PhotobookNet
                 RenameProjectDialogTextBox.PlaceholderText = mOldProjectName;
                 RenameProjectDialogDisplay();
             }
+            */
         }
 
         private void RenameProjectDialogDisplay()
         {
+            /*
             PhotobookSingletonWrapper.Inst().Post(async () =>
             {
                 await RenameProjectDialog.ShowAsync();
             });
-
+            */
         }
 
         private bool IsPaperSettingsDialogReady()
@@ -345,7 +378,7 @@ namespace PhotobookNet
 
         private void CreateProjectDialogDisplay()
         {
-            PhotobookSingletonWrapper.Inst().Post(async () =>
+/*            PhotobookSingletonWrapper.Inst().Post(async () =>
             {
                 NewProjectDialog.Loaded += (sender, args) =>
                 {
@@ -357,7 +390,7 @@ namespace PhotobookNet
                 await NewProjectDialog.ShowAsync();
 
 
-            });
+            });*/
         }
 
         public void OnPersistenceError(PBError error)
@@ -407,7 +440,7 @@ namespace PhotobookNet
 
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
-            PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
+            //PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
         }
 
         public void Post(Functor f)
