@@ -58,6 +58,10 @@ std::variant<Json, PBDev::Error> flatAndTagSimple(int depth, std::string tag,
   return json;
 }
 
+template <typename T>
+std::variant<Json, PBDev::Error> flatMaybeContainer(int      depth,
+                                                    T const &maybeContainer);
+
 template <typename Head, typename... Tail>
 std::variant<Json, PBDev::Error>
 flatDictionary(int depth, std::tuple<std::string, Head> const &head)
@@ -127,6 +131,7 @@ flatAndTagDictionary(int depth, std::string tag,
   json[tag] = std::get<Json>(jsonOrError);
   return json;
 }
+
 template <typename T>
 std::variant<Json, PBDev::Error> flatMaybeContainer(int      depth,
                                                     T const &maybeContainer)
