@@ -17,7 +17,6 @@
 		73049ED82C163A53009EA667 /* libbrotlicommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E392C162B22009EA667 /* libbrotlicommon.a */; };
 		73049ED92C163A53009EA667 /* libbrotlidec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E562C162B23009EA667 /* libbrotlidec.a */; };
 		73049EDA2C163A53009EA667 /* libbrotlienc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E262C162B21009EA667 /* libbrotlienc.a */; };
-		73049EDB2C163A53009EA667 /* libbz2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E292C162B21009EA667 /* libbz2d.a */; };
 		73049EDC2C163A53009EA667 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E2B2C162B22009EA667 /* libcrypto.a */; };
 		73049EDD2C163A53009EA667 /* libexiv2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E492C162B22009EA667 /* libexiv2.a */; };
 		73049EDE2C163A53009EA667 /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E2F2C162B22009EA667 /* libexpat.a */; };
@@ -64,16 +63,9 @@
 		73049F072C163A53009EA667 /* libprotocd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E632C162B23009EA667 /* libprotocd.a */; };
 		73049F082C163A53009EA667 /* libquirc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E532C162B22009EA667 /* libquirc.a */; };
 		73049F092C163A53009EA667 /* libsharpyuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E5C2C162B23009EA667 /* libsharpyuv.a */; };
-		73049F0A2C163A53009EA667 /* libskia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E5A2C162B23009EA667 /* libskia.a */; };
-		73049F0B2C163A53009EA667 /* libskottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E272C162B21009EA667 /* libskottie.a */; };
-		73049F0C2C163A53009EA667 /* libskparagraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E4C2C162B22009EA667 /* libskparagraph.a */; };
-		73049F0D2C163A53009EA667 /* libsksg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E282C162B21009EA667 /* libsksg.a */; };
-		73049F0E2C163A53009EA667 /* libskshaper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E5E2C162B23009EA667 /* libskshaper.a */; };
-		73049F0F2C163A53009EA667 /* libskunicode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E422C162B22009EA667 /* libskunicode.a */; };
 		73049F102C163A53009EA667 /* libspdlogd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E432C162B22009EA667 /* libspdlogd.a */; };
 		73049F112C163A53009EA667 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E352C162B22009EA667 /* libsqlite3.a */; };
 		73049F122C163A53009EA667 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E692C162B23009EA667 /* libssl.a */; };
-		73049F132C163A53009EA667 /* libsvg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E652C162B23009EA667 /* libsvg.a */; };
 		73049F142C163A53009EA667 /* libtiffd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E382C162B22009EA667 /* libtiffd.a */; };
 		73049F152C163A53009EA667 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E4F2C162B22009EA667 /* libturbojpeg.a */; };
 		73049F162C163A53009EA667 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E542C162B22009EA667 /* libwebp.a */; };
@@ -82,35 +74,18 @@
 		73049F192C163A53009EA667 /* libwebpmux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E4D2C162B22009EA667 /* libwebpmux.a */; };
 		73049F1B2C163A53009EA667 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E602C162B23009EA667 /* libz.a */; };
 		73049F1C2C163AD8009EA667 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E5D2C162B23009EA667 /* libxml2.a */; };
-		73049F1E2C163C08009EA667 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049F1D2C163C08009EA667 /* libiconv.tbd */; };
-		7321EB562C163E6700B3D27F /* FileInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB262C163E6700B3D27F /* FileInfo.cpp */; };
-		7321EB572C163E6700B3D27F /* ParallelTaskConsumer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */; };
-		7321EB592C163E6700B3D27F /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB292C163E6700B3D27F /* Timer.cpp */; };
-		7321EB5A2C163E6800B3D27F /* CollageLibraryAssistant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */; };
-		7321EB5C2C163E6800B3D27F /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2D2C163E6700B3D27F /* Config.cpp */; };
-		7321EB5E2C163E6800B3D27F /* DrawingService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2F2C163E6700B3D27F /* DrawingService.cpp */; };
-		7321EB5F2C163E6800B3D27F /* Enums.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB302C163E6700B3D27F /* Enums.cpp */; };
-		7321EB602C163E6800B3D27F /* ExportLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB312C163E6700B3D27F /* ExportLogic.cpp */; };
-		7321EB642C163E6800B3D27F /* Html.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB352C163E6700B3D27F /* Html.cpp */; };
-		7321EB652C163E6800B3D27F /* ImageFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB362C163E6700B3D27F /* ImageFactory.cpp */; };
-		7321EB662C163E6800B3D27F /* ImageMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB372C163E6700B3D27F /* ImageMonitor.cpp */; };
-		7321EB672C163E6800B3D27F /* ImageOperations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB382C163E6700B3D27F /* ImageOperations.cpp */; };
-		7321EB682C163E6800B3D27F /* ImageReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB392C163E6700B3D27F /* ImageReader.cpp */; };
-		7321EB6B2C163E6800B3D27F /* Jpg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3C2C163E6700B3D27F /* Jpg.cpp */; };
-		7321EB6D2C163E6800B3D27F /* PaperSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */; };
-		7321EB6F2C163E6800B3D27F /* Pdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB402C163E6700B3D27F /* Pdf.cpp */; };
-		7321EB702C163E6800B3D27F /* PdfLibharu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB412C163E6700B3D27F /* PdfLibharu.cpp */; };
-		7321EB712C163E6800B3D27F /* PdfPoDoFo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */; };
-		7321EB732C163E6800B3D27F /* PhotoBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB442C163E6700B3D27F /* PhotoBook.cpp */; };
-		7321EB752C163E6800B3D27F /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB462C163E6700B3D27F /* Project.cpp */; };
-		7321EB762C163E6800B3D27F /* ProjectMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */; };
-		7321EB7A2C163E6800B3D27F /* RuntimeUUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */; };
-		7321EB7B2C163E6800B3D27F /* SerializationStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */; };
-		7321EB7D2C163E6800B3D27F /* StagedImages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4E2C163E6700B3D27F /* StagedImages.cpp */; };
-		7321EB7E2C163E6800B3D27F /* SVGInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */; };
-		7321EB7F2C163E6800B3D27F /* TaskCruncher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB502C163E6700B3D27F /* TaskCruncher.cpp */; };
 		7321EB862C18B8E800B3D27F /* Photobook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.m */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
+		739153622CC3BE6700703394 /* libpblib-Darwin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E232C16271D009EA667 /* libpblib-Darwin.a */; };
+		739153692CC3C30C00703394 /* libskunicode_icu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153652CC3C03200703394 /* libskunicode_icu.a */; };
+		7391536A2CC3C32700703394 /* libskunicode_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153632CC3C03200703394 /* libskunicode_core.a */; };
+		7391536B2CC3FCF000703394 /* libskia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153642CC3C03200703394 /* libskia.a */; };
+		7391536C2CC3FD2E00703394 /* libsvg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153662CC3C03300703394 /* libsvg.a */; };
+		7391536D2CC3FD4D00703394 /* libskshaper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153672CC3C03300703394 /* libskshaper.a */; };
+		7391536F2CC3FFA900703394 /* libbz2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E292C162B21009EA667 /* libbz2d.a */; };
+		739153712CC400A400703394 /* libGLEWd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153702CC4004800703394 /* libGLEWd.a */; };
+		739153732CC4013100703394 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153722CC4011100703394 /* libglfw3.a */; };
+		739153752CC4028B00703394 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153742CC4027500703394 /* libiconv.tbd */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -139,48 +114,6 @@
 
 /* Begin PBXFileReference section */
 		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
-		73049DC92C1600CC009EA667 /* Exportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exportable.h; sourceTree = "<group>"; };
-		73049DCA2C1600CC009EA667 /* ExportLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExportLogic.h; sourceTree = "<group>"; };
-		73049DCB2C1600CC009EA667 /* Html.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Html.h; sourceTree = "<group>"; };
-		73049DCC2C1600CC009EA667 /* Jpg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jpg.h; sourceTree = "<group>"; };
-		73049DCD2C1600CC009EA667 /* Pdf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pdf.h; sourceTree = "<group>"; };
-		73049DCE2C1600CC009EA667 /* PdfLibharu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfLibharu.h; sourceTree = "<group>"; };
-		73049DCF2C1600CC009EA667 /* PdfPoDoFo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfPoDoFo.h; sourceTree = "<group>"; };
-		73049DD12C1600CC009EA667 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		73049DD22C1600CC009EA667 /* ImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFactory.h; sourceTree = "<group>"; };
-		73049DD32C1600CC009EA667 /* ImageOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageOperations.h; sourceTree = "<group>"; };
-		73049DD42C1600CC009EA667 /* ImageReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageReader.h; sourceTree = "<group>"; };
-		73049DDD2C1600CC009EA667 /* SerializationStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerializationStrategy.h; sourceTree = "<group>"; };
-		73049DE02C1600CC009EA667 /* PaperSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperSettings.h; sourceTree = "<group>"; };
-		73049DE22C1600CC009EA667 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
-		73049DE32C1600CC009EA667 /* ProjectMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectMetadata.h; sourceTree = "<group>"; };
-		73049DE92C1600CC009EA667 /* Tasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
-		73049DEC2C1600CC009EA667 /* CircularIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularIterator.h; sourceTree = "<group>"; };
-		73049DED2C1600CC009EA667 /* Concepts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Concepts.h; sourceTree = "<group>"; };
-		73049DEE2C1600CC009EA667 /* Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Error.h; sourceTree = "<group>"; };
-		73049DEF2C1600CC009EA667 /* FileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileInfo.h; sourceTree = "<group>"; };
-		73049DF02C1600CC009EA667 /* IteratorWithState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IteratorWithState.h; sourceTree = "<group>"; };
-		73049DF12C1600CC009EA667 /* Observable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Observable.h; sourceTree = "<group>"; };
-		73049DF22C1600CC009EA667 /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
-		73049DF32C1600CC009EA667 /* Traits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Traits.h; sourceTree = "<group>"; };
-		73049DF42C1600CC009EA667 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
-		73049DF62C1600CC009EA667 /* AspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AspectRatio.h; sourceTree = "<group>"; };
-		73049DF72C1600CC009EA667 /* BasicSVGModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicSVGModel.h; sourceTree = "<group>"; };
-		73049DF82C1600CC009EA667 /* CollageLibraryAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollageLibraryAssistant.h; sourceTree = "<group>"; };
-		73049DFA2C1600CC009EA667 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
-		73049DFC2C1600CC009EA667 /* DrawingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingService.h; sourceTree = "<group>"; };
-		73049DFD2C1600CC009EA667 /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
-		73049DFF2C1600CC009EA667 /* ImageMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMonitor.h; sourceTree = "<group>"; };
-		73049E032C1600CC009EA667 /* PhotoBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBook.h; sourceTree = "<group>"; };
-		73049E042C1600CC009EA667 /* PhotobookListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotobookListener.h; sourceTree = "<group>"; };
-		73049E052C1600CC009EA667 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
-		73049E072C1600CC009EA667 /* RowProcessingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowProcessingData.h; sourceTree = "<group>"; };
-		73049E082C1600CC009EA667 /* RuntimeUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeUUID.h; sourceTree = "<group>"; };
-		73049E092C1600CC009EA667 /* StagedImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StagedImages.h; sourceTree = "<group>"; };
-		73049E0A2C1600CC009EA667 /* SVGInflater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGInflater.h; sourceTree = "<group>"; };
-		73049E0B2C1600CC009EA667 /* TaskCruncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCruncher.h; sourceTree = "<group>"; };
-		73049E0C2C1600CC009EA667 /* ThreadScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadScheduler.h; sourceTree = "<group>"; };
-		73049E0D2C1600CC009EA667 /* Visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visitor.h; sourceTree = "<group>"; };
 		73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PhotoBook-Bridging-Header.m"; sourceTree = "<group>"; };
 		73049E232C16271D009EA667 /* libpblib-Darwin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin.a"; path = "../../PB/build/libpblib-Darwin.a"; sourceTree = "<group>"; };
 		73049E262C162B21009EA667 /* libbrotlienc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlienc.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libbrotlienc.a"; sourceTree = "<group>"; };
@@ -258,35 +191,19 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		73049ECF2C163598009EA667 /* libpodofo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo.a; path = "../../vcpkg/installed/x64-osx/lib/libpodofo.a"; sourceTree = "<group>"; };
 		73049F1D2C163C08009EA667 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.5.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
-		7321EB262C163E6700B3D27F /* FileInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileInfo.cpp; sourceTree = "<group>"; };
-		7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParallelTaskConsumer.cpp; sourceTree = "<group>"; };
-		7321EB292C163E6700B3D27F /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
-		7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollageLibraryAssistant.cpp; sourceTree = "<group>"; };
-		7321EB2D2C163E6700B3D27F /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Config.cpp; sourceTree = "<group>"; };
-		7321EB2F2C163E6700B3D27F /* DrawingService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawingService.cpp; sourceTree = "<group>"; };
-		7321EB302C163E6700B3D27F /* Enums.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enums.cpp; sourceTree = "<group>"; };
-		7321EB312C163E6700B3D27F /* ExportLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExportLogic.cpp; sourceTree = "<group>"; };
-		7321EB352C163E6700B3D27F /* Html.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Html.cpp; sourceTree = "<group>"; };
-		7321EB362C163E6700B3D27F /* ImageFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageFactory.cpp; sourceTree = "<group>"; };
-		7321EB372C163E6700B3D27F /* ImageMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageMonitor.cpp; sourceTree = "<group>"; };
-		7321EB382C163E6700B3D27F /* ImageOperations.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageOperations.cpp; sourceTree = "<group>"; };
-		7321EB392C163E6700B3D27F /* ImageReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageReader.cpp; sourceTree = "<group>"; };
-		7321EB3C2C163E6700B3D27F /* Jpg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jpg.cpp; sourceTree = "<group>"; };
-		7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PaperSettings.cpp; sourceTree = "<group>"; };
-		7321EB402C163E6700B3D27F /* Pdf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pdf.cpp; sourceTree = "<group>"; };
-		7321EB412C163E6700B3D27F /* PdfLibharu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdfLibharu.cpp; sourceTree = "<group>"; };
-		7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdfPoDoFo.cpp; sourceTree = "<group>"; };
-		7321EB442C163E6700B3D27F /* PhotoBook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhotoBook.cpp; sourceTree = "<group>"; };
-		7321EB462C163E6700B3D27F /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
-		7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectMetadata.cpp; sourceTree = "<group>"; };
-		7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RuntimeUUID.cpp; sourceTree = "<group>"; };
-		7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationStrategy.cpp; sourceTree = "<group>"; };
-		7321EB4E2C163E6700B3D27F /* StagedImages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StagedImages.cpp; sourceTree = "<group>"; };
-		7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVGInflater.cpp; sourceTree = "<group>"; };
-		7321EB502C163E6700B3D27F /* TaskCruncher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskCruncher.cpp; sourceTree = "<group>"; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photobook.m; sourceTree = "<group>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
+		739153632CC3C03200703394 /* libskunicode_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_core.a; path = "../../PB/third-party/osx/skia/x86_64/libskunicode_core.a"; sourceTree = "<group>"; };
+		739153642CC3C03200703394 /* libskia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskia.a; path = "../../PB/third-party/osx/skia/x86_64/libskia.a"; sourceTree = "<group>"; };
+		739153652CC3C03200703394 /* libskunicode_icu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_icu.a; path = "../../PB/third-party/osx/skia/x86_64/libskunicode_icu.a"; sourceTree = "<group>"; };
+		739153662CC3C03300703394 /* libsvg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsvg.a; path = "../../PB/third-party/osx/skia/x86_64/libsvg.a"; sourceTree = "<group>"; };
+		739153672CC3C03300703394 /* libskshaper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskshaper.a; path = "../../PB/third-party/osx/skia/x86_64/libskshaper.a"; sourceTree = "<group>"; };
+		739153682CC3C0A400703394 /* libskresources.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskresources.a; path = "../../PB/third-party/osx/skia/x86_64/libskresources.a"; sourceTree = "<group>"; };
+		7391536E2CC3FE4600703394 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = "../../vcpkg/installed/x64-osx/lib/libGLEW.a"; sourceTree = "<group>"; };
+		739153702CC4004800703394 /* libGLEWd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEWd.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libGLEWd.a"; sourceTree = "<group>"; };
+		739153722CC4011100703394 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libglfw3.a"; sourceTree = "<group>"; };
+		739153742CC4027500703394 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -305,7 +222,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73049F1E2C163C08009EA667 /* libiconv.tbd in Frameworks */,
 				73049F1C2C163AD8009EA667 /* libxml2.a in Frameworks */,
 				73049ED32C163A53009EA667 /* libboost_container.a in Frameworks */,
 				73049ED42C163A53009EA667 /* libboost_program_options.a in Frameworks */,
@@ -315,9 +231,10 @@
 				73049ED82C163A53009EA667 /* libbrotlicommon.a in Frameworks */,
 				73049ED92C163A53009EA667 /* libbrotlidec.a in Frameworks */,
 				73049EDA2C163A53009EA667 /* libbrotlienc.a in Frameworks */,
-				73049EDB2C163A53009EA667 /* libbz2d.a in Frameworks */,
+				7391536A2CC3C32700703394 /* libskunicode_core.a in Frameworks */,
 				73049EDC2C163A53009EA667 /* libcrypto.a in Frameworks */,
 				73049EDD2C163A53009EA667 /* libexiv2.a in Frameworks */,
+				7391536D2CC3FD4D00703394 /* libskshaper.a in Frameworks */,
 				73049EDE2C163A53009EA667 /* libexpat.a in Frameworks */,
 				73049EDF2C163A53009EA667 /* libflatbuffers.a in Frameworks */,
 				73049EE02C163A53009EA667 /* libfmtd.a in Frameworks */,
@@ -331,6 +248,7 @@
 				73049EE82C163A53009EA667 /* libicudata.a in Frameworks */,
 				73049EE92C163A53009EA667 /* libicui18n.a in Frameworks */,
 				73049EEA2C163A53009EA667 /* libicuio.a in Frameworks */,
+				7391536B2CC3FCF000703394 /* libskia.a in Frameworks */,
 				73049EEB2C163A53009EA667 /* libicutu.a in Frameworks */,
 				73049EEC2C163A53009EA667 /* libicuuc.a in Frameworks */,
 				73049EED2C163A53009EA667 /* libinih.a in Frameworks */,
@@ -345,11 +263,14 @@
 				73049EF62C163A53009EA667 /* libopencv_flann4d.a in Frameworks */,
 				73049EF72C163A53009EA667 /* libopencv_highgui4d.a in Frameworks */,
 				73049EF82C163A53009EA667 /* libopencv_imgcodecs4d.a in Frameworks */,
+				739153732CC4013100703394 /* libglfw3.a in Frameworks */,
+				739153752CC4028B00703394 /* libiconv.tbd in Frameworks */,
 				73049EF92C163A53009EA667 /* libopencv_imgproc4d.a in Frameworks */,
 				73049EFA2C163A53009EA667 /* libopencv_ml4d.a in Frameworks */,
 				73049EFB2C163A53009EA667 /* libopencv_objdetect4d.a in Frameworks */,
 				73049EFC2C163A53009EA667 /* libopencv_photo4d.a in Frameworks */,
 				73049EFD2C163A53009EA667 /* libopencv_stitching4d.a in Frameworks */,
+				7391536C2CC3FD2E00703394 /* libsvg.a in Frameworks */,
 				73049EFE2C163A53009EA667 /* libopencv_video4d.a in Frameworks */,
 				73049EFF2C163A53009EA667 /* libopencv_videoio4d.a in Frameworks */,
 				73049F002C163A53009EA667 /* libpkgconf.a in Frameworks */,
@@ -362,22 +283,19 @@
 				73049F072C163A53009EA667 /* libprotocd.a in Frameworks */,
 				73049F082C163A53009EA667 /* libquirc.a in Frameworks */,
 				73049F092C163A53009EA667 /* libsharpyuv.a in Frameworks */,
-				73049F0A2C163A53009EA667 /* libskia.a in Frameworks */,
-				73049F0B2C163A53009EA667 /* libskottie.a in Frameworks */,
-				73049F0C2C163A53009EA667 /* libskparagraph.a in Frameworks */,
-				73049F0D2C163A53009EA667 /* libsksg.a in Frameworks */,
-				73049F0E2C163A53009EA667 /* libskshaper.a in Frameworks */,
-				73049F0F2C163A53009EA667 /* libskunicode.a in Frameworks */,
+				739153622CC3BE6700703394 /* libpblib-Darwin.a in Frameworks */,
 				73049F102C163A53009EA667 /* libspdlogd.a in Frameworks */,
+				739153712CC400A400703394 /* libGLEWd.a in Frameworks */,
+				739153692CC3C30C00703394 /* libskunicode_icu.a in Frameworks */,
 				73049F112C163A53009EA667 /* libsqlite3.a in Frameworks */,
 				73049F122C163A53009EA667 /* libssl.a in Frameworks */,
-				73049F132C163A53009EA667 /* libsvg.a in Frameworks */,
 				73049F142C163A53009EA667 /* libtiffd.a in Frameworks */,
 				73049F152C163A53009EA667 /* libturbojpeg.a in Frameworks */,
 				73049F162C163A53009EA667 /* libwebp.a in Frameworks */,
 				73049F172C163A53009EA667 /* libwebpdecoder.a in Frameworks */,
 				73049F182C163A53009EA667 /* libwebpdemux.a in Frameworks */,
 				73049F192C163A53009EA667 /* libwebpmux.a in Frameworks */,
+				7391536F2CC3FFA900703394 /* libbz2d.a in Frameworks */,
 				73049F1B2C163A53009EA667 /* libz.a in Frameworks */,
 				73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */,
 			);
@@ -400,107 +318,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		73049DD02C1600CC009EA667 /* export */ = {
-			isa = PBXGroup;
-			children = (
-				73049DC92C1600CC009EA667 /* Exportable.h */,
-				73049DCA2C1600CC009EA667 /* ExportLogic.h */,
-				73049DCB2C1600CC009EA667 /* Html.h */,
-				73049DCC2C1600CC009EA667 /* Jpg.h */,
-				73049DCD2C1600CC009EA667 /* Pdf.h */,
-				73049DCE2C1600CC009EA667 /* PdfLibharu.h */,
-				73049DCF2C1600CC009EA667 /* PdfPoDoFo.h */,
-			);
-			path = export;
-			sourceTree = "<group>";
-		};
-		73049DD92C1600CC009EA667 /* image */ = {
-			isa = PBXGroup;
-			children = (
-				73049DD12C1600CC009EA667 /* Image.h */,
-				73049DD22C1600CC009EA667 /* ImageFactory.h */,
-				73049DD32C1600CC009EA667 /* ImageOperations.h */,
-				73049DD42C1600CC009EA667 /* ImageReader.h */,
-			);
-			path = image;
-			sourceTree = "<group>";
-		};
-		73049DDF2C1600CC009EA667 /* persistence */ = {
-			isa = PBXGroup;
-			children = (
-				73049DDD2C1600CC009EA667 /* SerializationStrategy.h */,
-			);
-			path = persistence;
-			sourceTree = "<group>";
-		};
-		73049DE52C1600CC009EA667 /* project */ = {
-			isa = PBXGroup;
-			children = (
-				73049DE02C1600CC009EA667 /* PaperSettings.h */,
-				73049DE22C1600CC009EA667 /* Project.h */,
-				73049DE32C1600CC009EA667 /* ProjectMetadata.h */,
-			);
-			path = project;
-			sourceTree = "<group>";
-		};
-		73049DEB2C1600CC009EA667 /* tasks */ = {
-			isa = PBXGroup;
-			children = (
-				73049DE92C1600CC009EA667 /* Tasks.h */,
-			);
-			path = tasks;
-			sourceTree = "<group>";
-		};
-		73049DF52C1600CC009EA667 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				73049DEC2C1600CC009EA667 /* CircularIterator.h */,
-				73049DED2C1600CC009EA667 /* Concepts.h */,
-				73049DEE2C1600CC009EA667 /* Error.h */,
-				73049DEF2C1600CC009EA667 /* FileInfo.h */,
-				73049DF02C1600CC009EA667 /* IteratorWithState.h */,
-				73049DF12C1600CC009EA667 /* Observable.h */,
-				73049DF22C1600CC009EA667 /* Timer.h */,
-				73049DF32C1600CC009EA667 /* Traits.h */,
-				73049DF42C1600CC009EA667 /* Util.h */,
-			);
-			path = util;
-			sourceTree = "<group>";
-		};
-		73049E0F2C1600CC009EA667 /* pb */ = {
-			isa = PBXGroup;
-			children = (
-				73049DD02C1600CC009EA667 /* export */,
-				73049DD92C1600CC009EA667 /* image */,
-				73049DDF2C1600CC009EA667 /* persistence */,
-				73049DE52C1600CC009EA667 /* project */,
-				73049DEB2C1600CC009EA667 /* tasks */,
-				73049DF52C1600CC009EA667 /* util */,
-				73049DF62C1600CC009EA667 /* AspectRatio.h */,
-				73049DF72C1600CC009EA667 /* BasicSVGModel.h */,
-				73049DF82C1600CC009EA667 /* CollageLibraryAssistant.h */,
-				73049DFA2C1600CC009EA667 /* Config.h */,
-				73049DFC2C1600CC009EA667 /* DrawingService.h */,
-				73049DFD2C1600CC009EA667 /* Enums.h */,
-				73049DFF2C1600CC009EA667 /* ImageMonitor.h */,
-				73049E032C1600CC009EA667 /* PhotoBook.h */,
-				73049E042C1600CC009EA667 /* PhotobookListener.h */,
-				73049E052C1600CC009EA667 /* Platform.h */,
-				73049E072C1600CC009EA667 /* RowProcessingData.h */,
-				73049E082C1600CC009EA667 /* RuntimeUUID.h */,
-				73049E092C1600CC009EA667 /* StagedImages.h */,
-				73049E0A2C1600CC009EA667 /* SVGInflater.h */,
-				73049E0B2C1600CC009EA667 /* TaskCruncher.h */,
-				73049E0C2C1600CC009EA667 /* ThreadScheduler.h */,
-				73049E0D2C1600CC009EA667 /* Visitor.h */,
-			);
-			name = pb;
-			path = ../../PB/include/pb;
-			sourceTree = "<group>";
-		};
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				739153742CC4027500703394 /* libiconv.tbd */,
+				739153722CC4011100703394 /* libglfw3.a */,
+				739153702CC4004800703394 /* libGLEWd.a */,
+				7391536E2CC3FE4600703394 /* libGLEW.a */,
+				739153682CC3C0A400703394 /* libskresources.a */,
+				739153642CC3C03200703394 /* libskia.a */,
+				739153672CC3C03300703394 /* libskshaper.a */,
+				739153632CC3C03200703394 /* libskunicode_core.a */,
+				739153652CC3C03200703394 /* libskunicode_icu.a */,
+				739153662CC3C03300703394 /* libsvg.a */,
 				73049F1D2C163C08009EA667 /* libiconv.tbd */,
 				73049ECF2C163598009EA667 /* libpodofo.a */,
 				73049EB62C162BDB009EA667 /* OpenCL.framework */,
@@ -581,53 +411,9 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7321EB2A2C163E6700B3D27F /* util */ = {
-			isa = PBXGroup;
-			children = (
-				7321EB262C163E6700B3D27F /* FileInfo.cpp */,
-				7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */,
-				7321EB292C163E6700B3D27F /* Timer.cpp */,
-			);
-			path = util;
-			sourceTree = "<group>";
-		};
-		7321EB552C163E6700B3D27F /* src */ = {
-			isa = PBXGroup;
-			children = (
-				7321EB2A2C163E6700B3D27F /* util */,
-				7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */,
-				7321EB2D2C163E6700B3D27F /* Config.cpp */,
-				7321EB2F2C163E6700B3D27F /* DrawingService.cpp */,
-				7321EB302C163E6700B3D27F /* Enums.cpp */,
-				7321EB312C163E6700B3D27F /* ExportLogic.cpp */,
-				7321EB352C163E6700B3D27F /* Html.cpp */,
-				7321EB362C163E6700B3D27F /* ImageFactory.cpp */,
-				7321EB372C163E6700B3D27F /* ImageMonitor.cpp */,
-				7321EB382C163E6700B3D27F /* ImageOperations.cpp */,
-				7321EB392C163E6700B3D27F /* ImageReader.cpp */,
-				7321EB3C2C163E6700B3D27F /* Jpg.cpp */,
-				7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */,
-				7321EB402C163E6700B3D27F /* Pdf.cpp */,
-				7321EB412C163E6700B3D27F /* PdfLibharu.cpp */,
-				7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */,
-				7321EB442C163E6700B3D27F /* PhotoBook.cpp */,
-				7321EB462C163E6700B3D27F /* Project.cpp */,
-				7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */,
-				7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */,
-				7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */,
-				7321EB4E2C163E6700B3D27F /* StagedImages.cpp */,
-				7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */,
-				7321EB502C163E6700B3D27F /* TaskCruncher.cpp */,
-			);
-			name = src;
-			path = ../../PB/src;
-			sourceTree = "<group>";
-		};
 		73C4EC952AA0C0E0006C4108 = {
 			isa = PBXGroup;
 			children = (
-				7321EB552C163E6700B3D27F /* src */,
-				73049E0F2C1600CC009EA667 /* pb */,
 				73C4ECA02AA0C0E1006C4108 /* PhotoBook */,
 				73C4ECB22AA0C0E3006C4108 /* PhotoBookTests */,
 				73C4ECBC2AA0C0E3006C4108 /* PhotoBookUITests */,
@@ -820,36 +606,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7321EB862C18B8E800B3D27F /* Photobook.m in Sources */,
-				7321EB702C163E6800B3D27F /* PdfLibharu.cpp in Sources */,
-				7321EB752C163E6800B3D27F /* Project.cpp in Sources */,
-				7321EB602C163E6800B3D27F /* ExportLogic.cpp in Sources */,
-				7321EB5A2C163E6800B3D27F /* CollageLibraryAssistant.cpp in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
-				7321EB6B2C163E6800B3D27F /* Jpg.cpp in Sources */,
-				7321EB562C163E6700B3D27F /* FileInfo.cpp in Sources */,
-				7321EB7D2C163E6800B3D27F /* StagedImages.cpp in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
-				7321EB732C163E6800B3D27F /* PhotoBook.cpp in Sources */,
-				7321EB712C163E6800B3D27F /* PdfPoDoFo.cpp in Sources */,
-				7321EB6F2C163E6800B3D27F /* Pdf.cpp in Sources */,
-				7321EB5E2C163E6800B3D27F /* DrawingService.cpp in Sources */,
-				7321EB6D2C163E6800B3D27F /* PaperSettings.cpp in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
-				7321EB672C163E6800B3D27F /* ImageOperations.cpp in Sources */,
-				7321EB7A2C163E6800B3D27F /* RuntimeUUID.cpp in Sources */,
-				7321EB7F2C163E6800B3D27F /* TaskCruncher.cpp in Sources */,
 				73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */,
-				7321EB5F2C163E6800B3D27F /* Enums.cpp in Sources */,
-				7321EB652C163E6800B3D27F /* ImageFactory.cpp in Sources */,
-				7321EB682C163E6800B3D27F /* ImageReader.cpp in Sources */,
-				7321EB592C163E6700B3D27F /* Timer.cpp in Sources */,
-				7321EB5C2C163E6800B3D27F /* Config.cpp in Sources */,
-				7321EB642C163E6800B3D27F /* Html.cpp in Sources */,
-				7321EB7E2C163E6800B3D27F /* SVGInflater.cpp in Sources */,
-				7321EB7B2C163E6800B3D27F /* SerializationStrategy.cpp in Sources */,
-				7321EB572C163E6700B3D27F /* ParallelTaskConsumer.cpp in Sources */,
-				7321EB662C163E6800B3D27F /* ImageMonitor.cpp in Sources */,
-				7321EB762C163E6800B3D27F /* ProjectMetadata.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,7 +650,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CC = /usr/local/bin/clang;
+				CC = /usr/local/opt/llvm/bin/clang;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
@@ -921,7 +681,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COMPILER_INDEX_STORE_ENABLE = NO;
 				COPY_PHASE_STRIP = NO;
-				CXX = "/usr/local/bin/clang++";
+				CXX = "/usr/local/opt/llvm/bin/clang++";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -945,11 +705,12 @@
 					../../PB/include,
 					"../../vcpkg/installed/x64-osx/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include/skia",
+					"../../pb/third-party/osx/skia/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					../../PB/build,
+					../../pb/build,
 					"../../vcpkg/installed/x64-osx/debug/lib",
+					"../../pb/third-party/osx/skia/x86_64",
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1010,11 +771,12 @@
 					../../PB/include,
 					"../../vcpkg/installed/x64-osx/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include/skia",
+					"../../pb/third-party/osx/skia/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					../../PB/build,
+					../../pb/build,
 					"../../vcpkg/installed/x64-osx/debug/lib",
+					"../../pb/third-party/osx/skia/x86_64",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1028,19 +790,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CC = /usr/local/opt/llvm/bin/clang;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PhotoBook/PhotoBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				CXX = "/usr/local/opt/llvm/bin/clang++";
 				DEVELOPMENT_ASSET_PATHS = "\"PhotoBook/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_VERSION = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../PB/include,
-					"../../vcpkg/installed/x64-osx/include",
+					"../../pb/third-party/osx/skia/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include/skia",
+					"../../vcpkg/installed/x64-osx/include",
 				);
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -1059,12 +823,14 @@
 					../../PB/build,
 					"../../vcpkg/installed/x64-osx/debug/lib",
 					"$(SDKROOT)/usr/lib/i18n",
+					"../../pb/third-party/osx/skia/x86_64",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-fexperimental-library",
+					"-Wno-module-import-in-extern-c",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1094,9 +860,9 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					../../PB/include,
-					"../../vcpkg/installed/x64-osx/include",
+					"../../pb/third-party/osx/skia/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include/skia",
+					"../../vcpkg/installed/x64-osx/include",
 				);
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -1115,12 +881,14 @@
 					../../PB/build,
 					"../../vcpkg/installed/x64-osx/debug/lib",
 					"$(SDKROOT)/usr/lib/i18n",
+					"../../pb/third-party/osx/skia/x86_64",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-fexperimental-library",
+					"-Wno-module-import-in-extern-c",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
