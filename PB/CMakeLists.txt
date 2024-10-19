@@ -261,6 +261,14 @@ if (WIN32)
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skunicode_icu.lib)
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskia.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libsvg.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskshaper.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskunicode_core.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskunicode_icu.a)
+endif()
+
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
     opencv_core
     opencv_imgcodecs
