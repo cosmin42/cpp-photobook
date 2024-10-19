@@ -85,50 +85,30 @@
 		73049F1E2C163C08009EA667 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049F1D2C163C08009EA667 /* libiconv.tbd */; };
 		7321EB562C163E6700B3D27F /* FileInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB262C163E6700B3D27F /* FileInfo.cpp */; };
 		7321EB572C163E6700B3D27F /* ParallelTaskConsumer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */; };
-		7321EB582C163E6700B3D27F /* SequentialTaskConsumer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB282C163E6700B3D27F /* SequentialTaskConsumer.cpp */; };
 		7321EB592C163E6700B3D27F /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB292C163E6700B3D27F /* Timer.cpp */; };
 		7321EB5A2C163E6800B3D27F /* CollageLibraryAssistant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */; };
-		7321EB5B2C163E6800B3D27F /* Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2C2C163E6700B3D27F /* Command.cpp */; };
 		7321EB5C2C163E6800B3D27F /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2D2C163E6700B3D27F /* Config.cpp */; };
-		7321EB5D2C163E6800B3D27F /* DataManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2E2C163E6700B3D27F /* DataManager.cpp */; };
 		7321EB5E2C163E6800B3D27F /* DrawingService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB2F2C163E6700B3D27F /* DrawingService.cpp */; };
 		7321EB5F2C163E6800B3D27F /* Enums.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB302C163E6700B3D27F /* Enums.cpp */; };
 		7321EB602C163E6800B3D27F /* ExportLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB312C163E6700B3D27F /* ExportLogic.cpp */; };
-		7321EB612C163E6800B3D27F /* FileComparator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB322C163E6700B3D27F /* FileComparator.cpp */; };
-		7321EB622C163E6800B3D27F /* FileMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB332C163E6700B3D27F /* FileMapper.cpp */; };
-		7321EB632C163E6800B3D27F /* FilePersistence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB342C163E6700B3D27F /* FilePersistence.cpp */; };
 		7321EB642C163E6800B3D27F /* Html.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB352C163E6700B3D27F /* Html.cpp */; };
 		7321EB652C163E6800B3D27F /* ImageFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB362C163E6700B3D27F /* ImageFactory.cpp */; };
 		7321EB662C163E6800B3D27F /* ImageMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB372C163E6700B3D27F /* ImageMonitor.cpp */; };
 		7321EB672C163E6800B3D27F /* ImageOperations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB382C163E6700B3D27F /* ImageOperations.cpp */; };
 		7321EB682C163E6800B3D27F /* ImageReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB392C163E6700B3D27F /* ImageReader.cpp */; };
-		7321EB692C163E6800B3D27F /* ImageSetWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3A2C163E6700B3D27F /* ImageSetWriter.cpp */; };
-		7321EB6A2C163E6800B3D27F /* ImportFoldersLogic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3B2C163E6700B3D27F /* ImportFoldersLogic.cpp */; };
 		7321EB6B2C163E6800B3D27F /* Jpg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3C2C163E6700B3D27F /* Jpg.cpp */; };
-		7321EB6C2C163E6800B3D27F /* MetadataReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3D2C163E6700B3D27F /* MetadataReader.cpp */; };
 		7321EB6D2C163E6800B3D27F /* PaperSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */; };
-		7321EB6E2C163E6800B3D27F /* PathCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB3F2C163E6700B3D27F /* PathCache.cpp */; };
 		7321EB6F2C163E6800B3D27F /* Pdf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB402C163E6700B3D27F /* Pdf.cpp */; };
 		7321EB702C163E6800B3D27F /* PdfLibharu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB412C163E6700B3D27F /* PdfLibharu.cpp */; };
 		7321EB712C163E6800B3D27F /* PdfPoDoFo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */; };
-		7321EB722C163E6800B3D27F /* Persistence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB432C163E6700B3D27F /* Persistence.cpp */; };
 		7321EB732C163E6800B3D27F /* PhotoBook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB442C163E6700B3D27F /* PhotoBook.cpp */; };
-		7321EB742C163E6800B3D27F /* ProgressManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB452C163E6700B3D27F /* ProgressManager.cpp */; };
 		7321EB752C163E6800B3D27F /* Project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB462C163E6700B3D27F /* Project.cpp */; };
 		7321EB762C163E6800B3D27F /* ProjectMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */; };
-		7321EB772C163E6800B3D27F /* ProjectPersistence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB482C163E6700B3D27F /* ProjectPersistence.cpp */; };
-		7321EB782C163E6800B3D27F /* ProjectSnapshot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB492C163E6700B3D27F /* ProjectSnapshot.cpp */; };
-		7321EB792C163E6800B3D27F /* RegularImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4A2C163E6700B3D27F /* RegularImage.cpp */; };
 		7321EB7A2C163E6800B3D27F /* RuntimeUUID.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */; };
 		7321EB7B2C163E6800B3D27F /* SerializationStrategy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */; };
-		7321EB7C2C163E6800B3D27F /* SQLPersistence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4D2C163E6700B3D27F /* SQLPersistence.cpp */; };
 		7321EB7D2C163E6800B3D27F /* StagedImages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4E2C163E6700B3D27F /* StagedImages.cpp */; };
 		7321EB7E2C163E6800B3D27F /* SVGInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */; };
 		7321EB7F2C163E6800B3D27F /* TaskCruncher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB502C163E6700B3D27F /* TaskCruncher.cpp */; };
-		7321EB802C163E6800B3D27F /* TextImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB512C163E6700B3D27F /* TextImage.cpp */; };
-		7321EB812C163E6800B3D27F /* ThumbnailsProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB522C163E6700B3D27F /* ThumbnailsProcessor.cpp */; };
-		7321EB822C163E6800B3D27F /* VirtualImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB532C163E6700B3D27F /* VirtualImage.cpp */; };
-		7321EB832C163E6800B3D27F /* WorkersManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB542C163E6700B3D27F /* WorkersManager.cpp */; };
 		7321EB862C18B8E800B3D27F /* Photobook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.m */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
@@ -170,23 +150,11 @@
 		73049DD22C1600CC009EA667 /* ImageFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFactory.h; sourceTree = "<group>"; };
 		73049DD32C1600CC009EA667 /* ImageOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageOperations.h; sourceTree = "<group>"; };
 		73049DD42C1600CC009EA667 /* ImageReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageReader.h; sourceTree = "<group>"; };
-		73049DD52C1600CC009EA667 /* ImageSetWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSetWriter.h; sourceTree = "<group>"; };
-		73049DD62C1600CC009EA667 /* RegularImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularImage.h; sourceTree = "<group>"; };
-		73049DD72C1600CC009EA667 /* TextImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextImage.h; sourceTree = "<group>"; };
-		73049DD82C1600CC009EA667 /* VirtualImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualImage.h; sourceTree = "<group>"; };
-		73049DDA2C1600CC009EA667 /* FilePersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilePersistence.h; sourceTree = "<group>"; };
-		73049DDB2C1600CC009EA667 /* Persistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
-		73049DDC2C1600CC009EA667 /* ProjectPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectPersistence.h; sourceTree = "<group>"; };
 		73049DDD2C1600CC009EA667 /* SerializationStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerializationStrategy.h; sourceTree = "<group>"; };
-		73049DDE2C1600CC009EA667 /* SQLPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLPersistence.h; sourceTree = "<group>"; };
 		73049DE02C1600CC009EA667 /* PaperSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperSettings.h; sourceTree = "<group>"; };
-		73049DE12C1600CC009EA667 /* PathCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathCache.h; sourceTree = "<group>"; };
 		73049DE22C1600CC009EA667 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
 		73049DE32C1600CC009EA667 /* ProjectMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectMetadata.h; sourceTree = "<group>"; };
-		73049DE42C1600CC009EA667 /* ProjectSnapshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSnapshot.h; sourceTree = "<group>"; };
-		73049DE82C1600CC009EA667 /* SequentialTaskConsumer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SequentialTaskConsumer.h; sourceTree = "<group>"; };
 		73049DE92C1600CC009EA667 /* Tasks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
-		73049DEA2C1600CC009EA667 /* ThumbnailsProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailsProcessor.h; sourceTree = "<group>"; };
 		73049DEC2C1600CC009EA667 /* CircularIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularIterator.h; sourceTree = "<group>"; };
 		73049DED2C1600CC009EA667 /* Concepts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Concepts.h; sourceTree = "<group>"; };
 		73049DEE2C1600CC009EA667 /* Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Error.h; sourceTree = "<group>"; };
@@ -199,19 +167,13 @@
 		73049DF62C1600CC009EA667 /* AspectRatio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AspectRatio.h; sourceTree = "<group>"; };
 		73049DF72C1600CC009EA667 /* BasicSVGModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicSVGModel.h; sourceTree = "<group>"; };
 		73049DF82C1600CC009EA667 /* CollageLibraryAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollageLibraryAssistant.h; sourceTree = "<group>"; };
-		73049DF92C1600CC009EA667 /* Command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Command.h; sourceTree = "<group>"; };
 		73049DFA2C1600CC009EA667 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
-		73049DFB2C1600CC009EA667 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		73049DFC2C1600CC009EA667 /* DrawingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingService.h; sourceTree = "<group>"; };
 		73049DFD2C1600CC009EA667 /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
-		73049DFE2C1600CC009EA667 /* FileComparator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileComparator.h; sourceTree = "<group>"; };
 		73049DFF2C1600CC009EA667 /* ImageMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageMonitor.h; sourceTree = "<group>"; };
-		73049E002C1600CC009EA667 /* ImportFoldersLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImportFoldersLogic.h; sourceTree = "<group>"; };
-		73049E022C1600CC009EA667 /* MetadataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataReader.h; sourceTree = "<group>"; };
 		73049E032C1600CC009EA667 /* PhotoBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBook.h; sourceTree = "<group>"; };
 		73049E042C1600CC009EA667 /* PhotobookListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotobookListener.h; sourceTree = "<group>"; };
 		73049E052C1600CC009EA667 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
-		73049E062C1600CC009EA667 /* ProgressManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressManager.h; sourceTree = "<group>"; };
 		73049E072C1600CC009EA667 /* RowProcessingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowProcessingData.h; sourceTree = "<group>"; };
 		73049E082C1600CC009EA667 /* RuntimeUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RuntimeUUID.h; sourceTree = "<group>"; };
 		73049E092C1600CC009EA667 /* StagedImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StagedImages.h; sourceTree = "<group>"; };
@@ -219,7 +181,6 @@
 		73049E0B2C1600CC009EA667 /* TaskCruncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCruncher.h; sourceTree = "<group>"; };
 		73049E0C2C1600CC009EA667 /* ThreadScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadScheduler.h; sourceTree = "<group>"; };
 		73049E0D2C1600CC009EA667 /* Visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visitor.h; sourceTree = "<group>"; };
-		73049E0E2C1600CC009EA667 /* WorkersManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkersManager.h; sourceTree = "<group>"; };
 		73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PhotoBook-Bridging-Header.m"; sourceTree = "<group>"; };
 		73049E232C16271D009EA667 /* libpblib-Darwin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin.a"; path = "../../PB/build/libpblib-Darwin.a"; sourceTree = "<group>"; };
 		73049E262C162B21009EA667 /* libbrotlienc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlienc.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libbrotlienc.a"; sourceTree = "<group>"; };
@@ -299,50 +260,30 @@
 		73049F1D2C163C08009EA667 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.5.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		7321EB262C163E6700B3D27F /* FileInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileInfo.cpp; sourceTree = "<group>"; };
 		7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParallelTaskConsumer.cpp; sourceTree = "<group>"; };
-		7321EB282C163E6700B3D27F /* SequentialTaskConsumer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SequentialTaskConsumer.cpp; sourceTree = "<group>"; };
 		7321EB292C163E6700B3D27F /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollageLibraryAssistant.cpp; sourceTree = "<group>"; };
-		7321EB2C2C163E6700B3D27F /* Command.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Command.cpp; sourceTree = "<group>"; };
 		7321EB2D2C163E6700B3D27F /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Config.cpp; sourceTree = "<group>"; };
-		7321EB2E2C163E6700B3D27F /* DataManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataManager.cpp; sourceTree = "<group>"; };
 		7321EB2F2C163E6700B3D27F /* DrawingService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawingService.cpp; sourceTree = "<group>"; };
 		7321EB302C163E6700B3D27F /* Enums.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Enums.cpp; sourceTree = "<group>"; };
 		7321EB312C163E6700B3D27F /* ExportLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExportLogic.cpp; sourceTree = "<group>"; };
-		7321EB322C163E6700B3D27F /* FileComparator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileComparator.cpp; sourceTree = "<group>"; };
-		7321EB332C163E6700B3D27F /* FileMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileMapper.cpp; sourceTree = "<group>"; };
-		7321EB342C163E6700B3D27F /* FilePersistence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilePersistence.cpp; sourceTree = "<group>"; };
 		7321EB352C163E6700B3D27F /* Html.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Html.cpp; sourceTree = "<group>"; };
 		7321EB362C163E6700B3D27F /* ImageFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageFactory.cpp; sourceTree = "<group>"; };
 		7321EB372C163E6700B3D27F /* ImageMonitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageMonitor.cpp; sourceTree = "<group>"; };
 		7321EB382C163E6700B3D27F /* ImageOperations.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageOperations.cpp; sourceTree = "<group>"; };
 		7321EB392C163E6700B3D27F /* ImageReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageReader.cpp; sourceTree = "<group>"; };
-		7321EB3A2C163E6700B3D27F /* ImageSetWriter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImageSetWriter.cpp; sourceTree = "<group>"; };
-		7321EB3B2C163E6700B3D27F /* ImportFoldersLogic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ImportFoldersLogic.cpp; sourceTree = "<group>"; };
 		7321EB3C2C163E6700B3D27F /* Jpg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Jpg.cpp; sourceTree = "<group>"; };
-		7321EB3D2C163E6700B3D27F /* MetadataReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MetadataReader.cpp; sourceTree = "<group>"; };
 		7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PaperSettings.cpp; sourceTree = "<group>"; };
-		7321EB3F2C163E6700B3D27F /* PathCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PathCache.cpp; sourceTree = "<group>"; };
 		7321EB402C163E6700B3D27F /* Pdf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Pdf.cpp; sourceTree = "<group>"; };
 		7321EB412C163E6700B3D27F /* PdfLibharu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdfLibharu.cpp; sourceTree = "<group>"; };
 		7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PdfPoDoFo.cpp; sourceTree = "<group>"; };
-		7321EB432C163E6700B3D27F /* Persistence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Persistence.cpp; sourceTree = "<group>"; };
 		7321EB442C163E6700B3D27F /* PhotoBook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhotoBook.cpp; sourceTree = "<group>"; };
-		7321EB452C163E6700B3D27F /* ProgressManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProgressManager.cpp; sourceTree = "<group>"; };
 		7321EB462C163E6700B3D27F /* Project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Project.cpp; sourceTree = "<group>"; };
 		7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectMetadata.cpp; sourceTree = "<group>"; };
-		7321EB482C163E6700B3D27F /* ProjectPersistence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectPersistence.cpp; sourceTree = "<group>"; };
-		7321EB492C163E6700B3D27F /* ProjectSnapshot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectSnapshot.cpp; sourceTree = "<group>"; };
-		7321EB4A2C163E6700B3D27F /* RegularImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RegularImage.cpp; sourceTree = "<group>"; };
 		7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RuntimeUUID.cpp; sourceTree = "<group>"; };
 		7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerializationStrategy.cpp; sourceTree = "<group>"; };
-		7321EB4D2C163E6700B3D27F /* SQLPersistence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SQLPersistence.cpp; sourceTree = "<group>"; };
 		7321EB4E2C163E6700B3D27F /* StagedImages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StagedImages.cpp; sourceTree = "<group>"; };
 		7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVGInflater.cpp; sourceTree = "<group>"; };
 		7321EB502C163E6700B3D27F /* TaskCruncher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TaskCruncher.cpp; sourceTree = "<group>"; };
-		7321EB512C163E6700B3D27F /* TextImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextImage.cpp; sourceTree = "<group>"; };
-		7321EB522C163E6700B3D27F /* ThumbnailsProcessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThumbnailsProcessor.cpp; sourceTree = "<group>"; };
-		7321EB532C163E6700B3D27F /* VirtualImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtualImage.cpp; sourceTree = "<group>"; };
-		7321EB542C163E6700B3D27F /* WorkersManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WorkersManager.cpp; sourceTree = "<group>"; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photobook.m; sourceTree = "<group>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
@@ -480,10 +421,6 @@
 				73049DD22C1600CC009EA667 /* ImageFactory.h */,
 				73049DD32C1600CC009EA667 /* ImageOperations.h */,
 				73049DD42C1600CC009EA667 /* ImageReader.h */,
-				73049DD52C1600CC009EA667 /* ImageSetWriter.h */,
-				73049DD62C1600CC009EA667 /* RegularImage.h */,
-				73049DD72C1600CC009EA667 /* TextImage.h */,
-				73049DD82C1600CC009EA667 /* VirtualImage.h */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -491,11 +428,7 @@
 		73049DDF2C1600CC009EA667 /* persistence */ = {
 			isa = PBXGroup;
 			children = (
-				73049DDA2C1600CC009EA667 /* FilePersistence.h */,
-				73049DDB2C1600CC009EA667 /* Persistence.h */,
-				73049DDC2C1600CC009EA667 /* ProjectPersistence.h */,
 				73049DDD2C1600CC009EA667 /* SerializationStrategy.h */,
-				73049DDE2C1600CC009EA667 /* SQLPersistence.h */,
 			);
 			path = persistence;
 			sourceTree = "<group>";
@@ -504,10 +437,8 @@
 			isa = PBXGroup;
 			children = (
 				73049DE02C1600CC009EA667 /* PaperSettings.h */,
-				73049DE12C1600CC009EA667 /* PathCache.h */,
 				73049DE22C1600CC009EA667 /* Project.h */,
 				73049DE32C1600CC009EA667 /* ProjectMetadata.h */,
-				73049DE42C1600CC009EA667 /* ProjectSnapshot.h */,
 			);
 			path = project;
 			sourceTree = "<group>";
@@ -515,9 +446,7 @@
 		73049DEB2C1600CC009EA667 /* tasks */ = {
 			isa = PBXGroup;
 			children = (
-				73049DE82C1600CC009EA667 /* SequentialTaskConsumer.h */,
 				73049DE92C1600CC009EA667 /* Tasks.h */,
-				73049DEA2C1600CC009EA667 /* ThumbnailsProcessor.h */,
 			);
 			path = tasks;
 			sourceTree = "<group>";
@@ -550,19 +479,13 @@
 				73049DF62C1600CC009EA667 /* AspectRatio.h */,
 				73049DF72C1600CC009EA667 /* BasicSVGModel.h */,
 				73049DF82C1600CC009EA667 /* CollageLibraryAssistant.h */,
-				73049DF92C1600CC009EA667 /* Command.h */,
 				73049DFA2C1600CC009EA667 /* Config.h */,
-				73049DFB2C1600CC009EA667 /* DataManager.h */,
 				73049DFC2C1600CC009EA667 /* DrawingService.h */,
 				73049DFD2C1600CC009EA667 /* Enums.h */,
-				73049DFE2C1600CC009EA667 /* FileComparator.h */,
 				73049DFF2C1600CC009EA667 /* ImageMonitor.h */,
-				73049E002C1600CC009EA667 /* ImportFoldersLogic.h */,
-				73049E022C1600CC009EA667 /* MetadataReader.h */,
 				73049E032C1600CC009EA667 /* PhotoBook.h */,
 				73049E042C1600CC009EA667 /* PhotobookListener.h */,
 				73049E052C1600CC009EA667 /* Platform.h */,
-				73049E062C1600CC009EA667 /* ProgressManager.h */,
 				73049E072C1600CC009EA667 /* RowProcessingData.h */,
 				73049E082C1600CC009EA667 /* RuntimeUUID.h */,
 				73049E092C1600CC009EA667 /* StagedImages.h */,
@@ -570,7 +493,6 @@
 				73049E0B2C1600CC009EA667 /* TaskCruncher.h */,
 				73049E0C2C1600CC009EA667 /* ThreadScheduler.h */,
 				73049E0D2C1600CC009EA667 /* Visitor.h */,
-				73049E0E2C1600CC009EA667 /* WorkersManager.h */,
 			);
 			name = pb;
 			path = ../../PB/include/pb;
@@ -664,7 +586,6 @@
 			children = (
 				7321EB262C163E6700B3D27F /* FileInfo.cpp */,
 				7321EB272C163E6700B3D27F /* ParallelTaskConsumer.cpp */,
-				7321EB282C163E6700B3D27F /* SequentialTaskConsumer.cpp */,
 				7321EB292C163E6700B3D27F /* Timer.cpp */,
 			);
 			path = util;
@@ -675,47 +596,28 @@
 			children = (
 				7321EB2A2C163E6700B3D27F /* util */,
 				7321EB2B2C163E6700B3D27F /* CollageLibraryAssistant.cpp */,
-				7321EB2C2C163E6700B3D27F /* Command.cpp */,
 				7321EB2D2C163E6700B3D27F /* Config.cpp */,
-				7321EB2E2C163E6700B3D27F /* DataManager.cpp */,
 				7321EB2F2C163E6700B3D27F /* DrawingService.cpp */,
 				7321EB302C163E6700B3D27F /* Enums.cpp */,
 				7321EB312C163E6700B3D27F /* ExportLogic.cpp */,
-				7321EB322C163E6700B3D27F /* FileComparator.cpp */,
-				7321EB332C163E6700B3D27F /* FileMapper.cpp */,
-				7321EB342C163E6700B3D27F /* FilePersistence.cpp */,
 				7321EB352C163E6700B3D27F /* Html.cpp */,
 				7321EB362C163E6700B3D27F /* ImageFactory.cpp */,
 				7321EB372C163E6700B3D27F /* ImageMonitor.cpp */,
 				7321EB382C163E6700B3D27F /* ImageOperations.cpp */,
 				7321EB392C163E6700B3D27F /* ImageReader.cpp */,
-				7321EB3A2C163E6700B3D27F /* ImageSetWriter.cpp */,
-				7321EB3B2C163E6700B3D27F /* ImportFoldersLogic.cpp */,
 				7321EB3C2C163E6700B3D27F /* Jpg.cpp */,
-				7321EB3D2C163E6700B3D27F /* MetadataReader.cpp */,
 				7321EB3E2C163E6700B3D27F /* PaperSettings.cpp */,
-				7321EB3F2C163E6700B3D27F /* PathCache.cpp */,
 				7321EB402C163E6700B3D27F /* Pdf.cpp */,
 				7321EB412C163E6700B3D27F /* PdfLibharu.cpp */,
 				7321EB422C163E6700B3D27F /* PdfPoDoFo.cpp */,
-				7321EB432C163E6700B3D27F /* Persistence.cpp */,
 				7321EB442C163E6700B3D27F /* PhotoBook.cpp */,
-				7321EB452C163E6700B3D27F /* ProgressManager.cpp */,
 				7321EB462C163E6700B3D27F /* Project.cpp */,
 				7321EB472C163E6700B3D27F /* ProjectMetadata.cpp */,
-				7321EB482C163E6700B3D27F /* ProjectPersistence.cpp */,
-				7321EB492C163E6700B3D27F /* ProjectSnapshot.cpp */,
-				7321EB4A2C163E6700B3D27F /* RegularImage.cpp */,
 				7321EB4B2C163E6700B3D27F /* RuntimeUUID.cpp */,
 				7321EB4C2C163E6700B3D27F /* SerializationStrategy.cpp */,
-				7321EB4D2C163E6700B3D27F /* SQLPersistence.cpp */,
 				7321EB4E2C163E6700B3D27F /* StagedImages.cpp */,
 				7321EB4F2C163E6700B3D27F /* SVGInflater.cpp */,
 				7321EB502C163E6700B3D27F /* TaskCruncher.cpp */,
-				7321EB512C163E6700B3D27F /* TextImage.cpp */,
-				7321EB522C163E6700B3D27F /* ThumbnailsProcessor.cpp */,
-				7321EB532C163E6700B3D27F /* VirtualImage.cpp */,
-				7321EB542C163E6700B3D27F /* WorkersManager.cpp */,
 			);
 			name = src;
 			path = ../../PB/src;
@@ -925,49 +827,29 @@
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				7321EB6B2C163E6800B3D27F /* Jpg.cpp in Sources */,
 				7321EB562C163E6700B3D27F /* FileInfo.cpp in Sources */,
-				7321EB6E2C163E6800B3D27F /* PathCache.cpp in Sources */,
-				7321EB7C2C163E6800B3D27F /* SQLPersistence.cpp in Sources */,
-				7321EB5B2C163E6800B3D27F /* Command.cpp in Sources */,
 				7321EB7D2C163E6800B3D27F /* StagedImages.cpp in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				7321EB732C163E6800B3D27F /* PhotoBook.cpp in Sources */,
 				7321EB712C163E6800B3D27F /* PdfPoDoFo.cpp in Sources */,
-				7321EB792C163E6800B3D27F /* RegularImage.cpp in Sources */,
 				7321EB6F2C163E6800B3D27F /* Pdf.cpp in Sources */,
-				7321EB5D2C163E6800B3D27F /* DataManager.cpp in Sources */,
 				7321EB5E2C163E6800B3D27F /* DrawingService.cpp in Sources */,
 				7321EB6D2C163E6800B3D27F /* PaperSettings.cpp in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
 				7321EB672C163E6800B3D27F /* ImageOperations.cpp in Sources */,
-				7321EB832C163E6800B3D27F /* WorkersManager.cpp in Sources */,
 				7321EB7A2C163E6800B3D27F /* RuntimeUUID.cpp in Sources */,
-				7321EB802C163E6800B3D27F /* TextImage.cpp in Sources */,
 				7321EB7F2C163E6800B3D27F /* TaskCruncher.cpp in Sources */,
 				73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */,
 				7321EB5F2C163E6800B3D27F /* Enums.cpp in Sources */,
 				7321EB652C163E6800B3D27F /* ImageFactory.cpp in Sources */,
-				7321EB722C163E6800B3D27F /* Persistence.cpp in Sources */,
-				7321EB582C163E6700B3D27F /* SequentialTaskConsumer.cpp in Sources */,
-				7321EB772C163E6800B3D27F /* ProjectPersistence.cpp in Sources */,
 				7321EB682C163E6800B3D27F /* ImageReader.cpp in Sources */,
-				7321EB822C163E6800B3D27F /* VirtualImage.cpp in Sources */,
 				7321EB592C163E6700B3D27F /* Timer.cpp in Sources */,
 				7321EB5C2C163E6800B3D27F /* Config.cpp in Sources */,
-				7321EB782C163E6800B3D27F /* ProjectSnapshot.cpp in Sources */,
 				7321EB642C163E6800B3D27F /* Html.cpp in Sources */,
 				7321EB7E2C163E6800B3D27F /* SVGInflater.cpp in Sources */,
-				7321EB622C163E6800B3D27F /* FileMapper.cpp in Sources */,
-				7321EB632C163E6800B3D27F /* FilePersistence.cpp in Sources */,
 				7321EB7B2C163E6800B3D27F /* SerializationStrategy.cpp in Sources */,
-				7321EB742C163E6800B3D27F /* ProgressManager.cpp in Sources */,
-				7321EB812C163E6800B3D27F /* ThumbnailsProcessor.cpp in Sources */,
-				7321EB6A2C163E6800B3D27F /* ImportFoldersLogic.cpp in Sources */,
 				7321EB572C163E6700B3D27F /* ParallelTaskConsumer.cpp in Sources */,
 				7321EB662C163E6800B3D27F /* ImageMonitor.cpp in Sources */,
-				7321EB612C163E6800B3D27F /* FileComparator.cpp in Sources */,
-				7321EB692C163E6800B3D27F /* ImageSetWriter.cpp in Sources */,
 				7321EB762C163E6800B3D27F /* ProjectMetadata.cpp in Sources */,
-				7321EB6C2C163E6800B3D27F /* MetadataReader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,7 +1064,6 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-stdlib=libc++",
 					"-fexperimental-library",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
@@ -1239,7 +1120,6 @@
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-stdlib=libc++",
 					"-fexperimental-library",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
