@@ -1,0 +1,49 @@
+name: Xcode - Build and Analyze
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and analyse default scheme using xcodebuild command
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: lukka/get-cmake@latest
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v11.1
+        with:
+          # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
+          vcpkgGitCommitId: '943c5ef1c8f6b5e6ced092b242c8299caae2ff01'
+          # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
+          runVcpkgInstall: true
+          # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
+          doNotCache: false
+          # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
+          vcpkgJsonGlob: '**/windows/vcpkg.json'
+  
+      - name: vcpkg install x64
+        run: ./vcpkg/vcpkg install boost-program-options:x64-osx boost-uuid:x64-osx brotli:x64-osx opencv:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx dp-thread-pool:x64-osx libharu:x64-osx sqlite3:x64-osx nlohmann-json:x64-osx boost-bimap:x64-osx spdlog:x64-osx inja:x64-osx skia:x64-osx podofo:x64-osx glfw3:x64-osx glew:x64-osx
+  
+      - name: vcpkg integrate install
+        run: ./vcpkg/vcpkg integrate install
+        
+      - name: Set Default Scheme
+        run: |
+          scheme_list=$(xcodebuild -list -json | tr -d "\n")
+          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+          echo $default | cat >default
+          echo Using default scheme: $default
+      - name: Build
+        env:
+          scheme: ${{ 'default' }}
+        run: |
+          if [ $scheme = default ]; then scheme=$(cat default); fi
+          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
+          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
+          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty && exit ${PIPESTATUS[0]}
