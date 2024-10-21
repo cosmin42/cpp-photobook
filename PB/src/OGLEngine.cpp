@@ -16,6 +16,10 @@ void OGLEngine::configurePlatformInfo(
 void OGLEngine::start(std::stop_token stopToken)
 {
   mStopToken = stopToken;
+  initOpenGL();
+  initFrameBuffer();
+  loadPrograms();
+  generateRenderTexture();
   mThread = std::jthread([this] { mainloop(); });
 }
 
@@ -35,6 +39,9 @@ void OGLEngine::initOpenGL()
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required on macOS
+#endif
 
   GLFWwindow *window = glfwCreateWindow(1, 1, "", nullptr, nullptr);
   if (!window) {
@@ -165,10 +172,7 @@ void OGLEngine::loadPrograms()
 
 void OGLEngine::mainloop()
 {
-  initOpenGL();
-  initFrameBuffer();
-  loadPrograms();
-  generateRenderTexture();
+  
 
   while (!mStopToken.stop_requested()) {
     auto imageProcessingData = mWorkQueue.dequeue();
