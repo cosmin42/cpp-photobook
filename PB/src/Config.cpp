@@ -18,7 +18,7 @@ void basicAssert(int shouldBetrue, const std::source_location location)
     spdlog::info("{}\n", message);
 #endif
   }
-#ifdef _DEBUG
+#if defined(_DEBUG) || defined(__APPLE__)
   assert(shouldBetrue);
 #else
   (void)shouldBetrue;
