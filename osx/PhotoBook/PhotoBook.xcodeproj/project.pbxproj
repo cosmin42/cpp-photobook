@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -74,7 +74,7 @@
 		73049F192C163A53009EA667 /* libwebpmux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E4D2C162B22009EA667 /* libwebpmux.a */; };
 		73049F1B2C163A53009EA667 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E602C162B23009EA667 /* libz.a */; };
 		73049F1C2C163AD8009EA667 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E5D2C162B23009EA667 /* libxml2.a */; };
-		7321EB862C18B8E800B3D27F /* Photobook.m in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.m */; };
+		7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		739153622CC3BE6700703394 /* libpblib-Darwin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E232C16271D009EA667 /* libpblib-Darwin.a */; };
 		739153692CC3C30C00703394 /* libskunicode_icu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153652CC3C03200703394 /* libskunicode_icu.a */; };
@@ -86,6 +86,10 @@
 		739153712CC400A400703394 /* libGLEWd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153702CC4004800703394 /* libGLEWd.a */; };
 		739153732CC4013100703394 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153722CC4011100703394 /* libglfw3.a */; };
 		739153752CC4028B00703394 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 739153742CC4027500703394 /* libiconv.tbd */; };
+		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
+		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
+		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
+		739164812CC4F7E200703394 /* others in Resources */ = {isa = PBXBuildFile; fileRef = 7391647D2CC4F7E200703394 /* others */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -113,7 +117,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
+		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
 		73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PhotoBook-Bridging-Header.m"; sourceTree = "<group>"; };
 		73049E232C16271D009EA667 /* libpblib-Darwin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin.a"; path = "../../PB/build/libpblib-Darwin.a"; sourceTree = "<group>"; };
 		73049E262C162B21009EA667 /* libbrotlienc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlienc.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libbrotlienc.a"; sourceTree = "<group>"; };
@@ -191,8 +195,8 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		73049ECF2C163598009EA667 /* libpodofo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo.a; path = "../../vcpkg/installed/x64-osx/lib/libpodofo.a"; sourceTree = "<group>"; };
 		73049F1D2C163C08009EA667 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.5.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
-		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
-		7321EB852C18B8E800B3D27F /* Photobook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photobook.m; sourceTree = "<group>"; };
+		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
+		7321EB852C18B8E800B3D27F /* Photobook.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Photobook.mm; sourceTree = "<group>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
 		739153632CC3C03200703394 /* libskunicode_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_core.a; path = "../../PB/third-party/osx/skia/x86_64/libskunicode_core.a"; sourceTree = "<group>"; };
 		739153642CC3C03200703394 /* libskia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskia.a; path = "../../PB/third-party/osx/skia/x86_64/libskia.a"; sourceTree = "<group>"; };
@@ -204,6 +208,11 @@
 		739153702CC4004800703394 /* libGLEWd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEWd.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libGLEWd.a"; sourceTree = "<group>"; };
 		739153722CC4011100703394 /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = "../../vcpkg/installed/x64-osx/debug/lib/libglfw3.a"; sourceTree = "<group>"; };
 		739153742CC4027500703394 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
+		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
+		7391647B2CC4F7E200703394 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = "../../PB/pb-assets/shaders"; sourceTree = "<group>"; };
+		7391647C2CC4F7E200703394 /* film-luts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "film-luts"; path = "../../PB/pb-assets/film-luts"; sourceTree = "<group>"; };
+		7391647D2CC4F7E200703394 /* others */ = {isa = PBXFileReference; lastKnownFileType = folder; name = others; path = "../../PB/pb-assets/others"; sourceTree = "<group>"; };
+		7391648C2CC575E900703394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -321,6 +330,7 @@
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7391648C2CC575E900703394 /* Foundation.framework */,
 				739153742CC4027500703394 /* libiconv.tbd */,
 				739153722CC4011100703394 /* libglfw3.a */,
 				739153702CC4004800703394 /* libGLEWd.a */,
@@ -414,6 +424,10 @@
 		73C4EC952AA0C0E0006C4108 = {
 			isa = PBXGroup;
 			children = (
+				7391647C2CC4F7E200703394 /* film-luts */,
+				7391647D2CC4F7E200703394 /* others */,
+				7391647B2CC4F7E200703394 /* shaders */,
+				7391647A2CC4F7E200703394 /* svg-templates */,
 				73C4ECA02AA0C0E1006C4108 /* PhotoBook */,
 				73C4ECB22AA0C0E3006C4108 /* PhotoBookTests */,
 				73C4ECBC2AA0C0E3006C4108 /* PhotoBookUITests */,
@@ -435,7 +449,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
-				7321EB852C18B8E800B3D27F /* Photobook.m */,
+				7321EB852C18B8E800B3D27F /* Photobook.mm */,
 				73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */,
 				73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */,
 				73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */,
@@ -555,7 +569,6 @@
 				};
 			};
 			buildConfigurationList = 73C4EC992AA0C0E0006C4108 /* Build configuration list for PBXProject "PhotoBook" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -563,6 +576,7 @@
 				Base,
 			);
 			mainGroup = 73C4EC952AA0C0E0006C4108;
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 73C4EC9F2AA0C0E1006C4108 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -579,6 +593,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7391647E2CC4F7E200703394 /* svg-templates in Resources */,
+				7391647F2CC4F7E200703394 /* shaders in Resources */,
+				739164802CC4F7E200703394 /* film-luts in Resources */,
+				739164812CC4F7E200703394 /* others in Resources */,
 				73C4ECAA2AA0C0E3006C4108 /* Preview Assets.xcassets in Resources */,
 				73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */,
 			);
@@ -605,7 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7321EB862C18B8E800B3D27F /* Photobook.m in Sources */,
+				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
@@ -790,12 +808,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CC = /usr/local/opt/llvm/bin/clang;
+				CC = "";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = PhotoBook/PhotoBook.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				CXX = "/usr/local/opt/llvm/bin/clang++";
+				CXX = "";
 				DEVELOPMENT_ASSET_PATHS = "\"PhotoBook/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_VERSION = "";
@@ -806,6 +824,7 @@
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../vcpkg/installed/x64-osx/include",
 				);
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -814,9 +833,9 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -825,7 +844,7 @@
 					"$(SDKROOT)/usr/lib/i18n",
 					"../../pb/third-party/osx/skia/x86_64",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -864,6 +883,7 @@
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../vcpkg/installed/x64-osx/include",
 				);
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -872,9 +892,9 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -883,7 +903,7 @@
 					"$(SDKROOT)/usr/lib/i18n",
 					"../../pb/third-party/osx/skia/x86_64",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -998,7 +1018,7 @@
 				73C4ECC22AA0C0E3006C4108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		73C4ECC32AA0C0E3006C4108 /* Build configuration list for PBXNativeTarget "PhotoBook" */ = {
 			isa = XCConfigurationList;
@@ -1007,7 +1027,7 @@
 				73C4ECC52AA0C0E3006C4108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		73C4ECC62AA0C0E3006C4108 /* Build configuration list for PBXNativeTarget "PhotoBookTests" */ = {
 			isa = XCConfigurationList;
@@ -1016,7 +1036,7 @@
 				73C4ECC82AA0C0E3006C4108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		73C4ECC92AA0C0E3006C4108 /* Build configuration list for PBXNativeTarget "PhotoBookUITests" */ = {
 			isa = XCConfigurationList;
@@ -1025,7 +1045,7 @@
 				73C4ECCB2AA0C0E3006C4108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
