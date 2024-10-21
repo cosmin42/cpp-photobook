@@ -14,6 +14,7 @@
 
 @interface Photobook : NSObject
 - (id)init;
+- (void) startPhotobook;
 - (void) setPhotobookListener:PhotobookListenerWrapperCLevel;
 @end
 

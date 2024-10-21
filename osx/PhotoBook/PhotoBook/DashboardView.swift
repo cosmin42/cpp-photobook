@@ -9,6 +9,17 @@ import SwiftUI
 
 struct DashboardView: View {
     var buttonBackgroundColor: Color
+    var photobook: Photobook
+    
+    init(buttonBackgroundColor:Color, photobook: Photobook)
+    {
+        self.buttonBackgroundColor = buttonBackgroundColor
+        self.photobook = photobook
+        
+        self.photobook.start()
+    }
+    
+    //var photobook: Photobook
     var body: some View {
         VStack {
             Spacer()
@@ -36,6 +47,6 @@ struct DashboardView: View {
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100))
+        DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook: Photobook())
     }
 }

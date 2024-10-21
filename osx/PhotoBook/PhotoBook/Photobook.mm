@@ -10,11 +10,16 @@
 
 #include "Photobook.h"
 
+
+
 @implementation PhotobookListenerWrapperCLevel
 - (id) init
 {
     return self;
 }
+- (void)onProjectRead {
+}
+
 @end
 
 class PhotobookListenerManaged final: public PB::PhotobookListener
@@ -41,7 +46,7 @@ public:
     void post(std::function<void()> f) override {}
     void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override {}
     void onImageMapped(PBDev::ImageToPaperId id,
-                               PB::GenericImagePtr       image) override {}
+                       PB::GenericImagePtr       image) override {}
     void onProgressUpdate(PB::ProgressStatus status) override {}
     void onLutAdded(PB::LutIconInfo iconInfo) override {}
 private:
@@ -51,13 +56,25 @@ private:
 
 @implementation Photobook
 
-PB::Photobook mPhotobook("a", "b", {1280, 720});
+NSString* installFolderPath = [[NSBundle mainBundle] resourcePath];
+NSString* localFolderPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+
+Path nativeInstallFolderPath = [installFolderPath UTF8String];
+Path nativeLocalFolderPath = [localFolderPath UTF8String];
+
+PB::Photobook mPhotobook(nativeLocalFolderPath, nativeInstallFolderPath, {1280, 720});
 
 PhotobookListenerManaged* mListener = nullptr;
 
 -(id)init {
     NSLog(@"Initializing photobook");
+    NSLog(@"Local folder: %@", localFolderPath);
+    NSLog(@"Install folder: %@", installFolderPath);
     return self;
+}
+
+- (void) startPhotobook {
+    mPhotobook.startPhotobook();
 }
 
 - (void) setPhotobookListener:(PhotobookListenerWrapperCLevel const &)photobookListenerWrapperCLevel {
