@@ -4,6 +4,7 @@
 #include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/Config.h>
 
 using namespace PB::Service;
 
@@ -69,6 +70,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
+  mOGLEngine->configureThreadScheduler(threadScheduler);
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
 
   mProgressService->configureScheduler(threadScheduler);

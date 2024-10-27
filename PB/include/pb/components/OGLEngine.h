@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include <pb/Platform.h>
+#ifdef __APPLE__
+#include <pb/components/ThreadScheduler.h>
+#endif
 #include <pb/components/TSQueue.h>
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/util/Traits.h>
@@ -15,6 +18,9 @@ class OGLEngine final {
 public:
   ~OGLEngine() = default;
 
+#ifdef __APPLE__
+  void configureThreadScheduler(PBDev::ThreadScheduler* threadScheduler);
+#endif
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void start(std::stop_token stopToken);
@@ -42,6 +48,10 @@ private:
   Path vertexShaderPath() const;
 
   void loadTextureAndRender(ImageProcessingData const &imageProcessingData);
+
+#ifdef __APPLE__
+  PBDev::ThreadScheduler* mThreadScheduler = nullptr;
+#endif
 
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 

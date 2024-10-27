@@ -2,11 +2,18 @@
 
 #include <fstream>
 
+#include <pb/components/ThreadScheduler.h>
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/util/Traits.h>
 
 namespace PB::Service {
 
+#ifdef __APPLE__
+void OGLEngine::configureThreadScheduler(PBDev::ThreadScheduler* threadScheduler)
+{
+  mThreadScheduler = threadScheduler;
+}
+#endif
 void OGLEngine::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
@@ -16,10 +23,6 @@ void OGLEngine::configurePlatformInfo(
 void OGLEngine::start(std::stop_token stopToken)
 {
   mStopToken = stopToken;
-  initOpenGL();
-  initFrameBuffer();
-  loadPrograms();
-  generateRenderTexture();
   mThread = std::jthread([this] { mainloop(); });
 }
 
@@ -172,10 +175,22 @@ void OGLEngine::loadPrograms()
 
 void OGLEngine::mainloop()
 {
-  
+#ifdef __APPLE__
+  mThreadScheduler->post([this](){
+#endif
+    initOpenGL();
+    initFrameBuffer();
+    loadPrograms();
+    generateRenderTexture();
+#ifdef __APPLE__
+  });
+#endif
 
   while (!mStopToken.stop_requested()) {
     auto imageProcessingData = mWorkQueue.dequeue();
+#ifdef __APPLE__
+    mThreadScheduler->post([this, imageProcessingData{imageProcessingData}](){
+#endif
     loadTextureAndRender(imageProcessingData);
 
     glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
@@ -184,8 +199,14 @@ void OGLEngine::mainloop()
                  imageProcessingData.outImage->data);
     mFinishedWork = true;
     mFinishedWorkCondition.notify_one();
+#ifdef __APPLE__
+    });
+#endif
   }
 
+#ifdef __APPLE__
+    mThreadScheduler->post([this](){
+#endif
   glDeleteTextures(1, &mRenderTextureId);
   glDeleteFramebuffers(1, &mFrameBufferObject);
   for (auto const &[name, program] : mShaderPrograms) {
@@ -193,6 +214,10 @@ void OGLEngine::mainloop()
   }
 
   glfwTerminate();
+
+#ifdef __APPLE__
+    });
+#endif
 }
 
 Path OGLEngine::vertexShaderPath() const
