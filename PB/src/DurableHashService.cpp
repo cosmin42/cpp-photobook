@@ -5,6 +5,9 @@
 #include <pb/Config.h>
 
 namespace PB::Service {
+
+PBDev::ProjectId DurableHashService::DEFAULT_PROJECT_ID(RuntimeUUID::ZERO());
+
 std::string DurableHashService::computeHash(std::string key)
 {
   return std::to_string(std::hash<std::string>{}(key));
@@ -19,9 +22,9 @@ void DurableHashService::configureDatabaseService(
 bool DurableHashService::containsHash(std::string key)
 {
   std::string predicate = "cache_path='" + key + "'";
-  auto        hashFound =
-      mDatabaseService->selectData(OneConfig::DATABASE_CACHE_TABLE, predicate,
-                                   (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
+  auto        hashFound = mDatabaseService->selectData(
+      OneConfig::DATABASE_CACHE_TABLE, predicate,
+      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
   return !hashFound.empty();
 }
 
@@ -50,6 +53,11 @@ std::string DurableHashService::getHash(PBDev::ProjectId projectId, Path path)
   return cacheEntry.left.at(path);
 }
 
+std::string DurableHashService::getHash(Path path)
+{
+  return getHash(DEFAULT_PROJECT_ID, path);
+}
+
 std::string DurableHashService::saltHash(std::string hash)
 {
   for (int i = 0; i < OneConfig::MAX_HASH_CONFLICTS; ++i) {
@@ -68,4 +76,4 @@ void DurableHashService::deleteHashByProjectId(PBDev::ProjectId projectId)
   mDatabaseService->deleteData(OneConfig::DATABASE_CACHE_TABLE,
                                "uuid='" + projectIdStr + "'");
 }
-} // namespace PB
+} // namespace PB::Service
