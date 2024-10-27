@@ -76,6 +76,7 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
   UNUSED(id);
+
   mThreadScheduler->post([this, searchResults{searchResults}]() {
     mLutIconsPreprocessingJob.configureLuts(searchResults);
     mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
@@ -97,6 +98,15 @@ std::vector<LutIconInfo> LutService::listLuts() const { return mLutsPaths; }
 Path LutService::lutAssetsPath() const
 {
   return mPlatformInfo->installationPath / "film-luts";
+}
+
+bool LutService::lutExists(const Path &path) const
+{
+  if (!std::filesystem::exists(path)) {
+    return false;
+  }
+
+  return ImageReader().isValid(path);
 }
 
 } // namespace PB::Service
