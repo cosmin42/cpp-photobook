@@ -19,6 +19,14 @@ void DurableHashService::configureDatabaseService(
   mDatabaseService = databaseService;
 }
 
+void DurableHashService::createLink(std::string key, std::string value)
+{
+  auto defaultProjectName = boost::uuids::to_string(*DEFAULT_PROJECT_ID);
+  mDatabaseService->insert<3>(
+      OneConfig::DATABASE_CACHE_TABLE, OneConfig::DATABASE_CACHE_HEADER,
+      {defaultProjectName.c_str(), key.c_str(), value.c_str()});
+}
+
 bool DurableHashService::containsHash(std::string key)
 {
   std::string predicate = "cache_path='" + key + "'";

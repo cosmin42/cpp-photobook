@@ -76,21 +76,33 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
   UNUSED(id);
+  std::vector<Path> unprocessedPaths;
+  for (auto &path : searchResults) {
+    if (lutExists(path)) {
+      Path iconPath = mDurableHashService->getHash(path.string());
+      auto lutName = Job::LutIconsPreprocessingJob::extractNameFromPath(path);
+      onLutIconsPreprocessingFinished(lutName, path, iconPath);
+    }
+    else {
+      unprocessedPaths.push_back(path);
+    }
+  }
 
-  mThreadScheduler->post([this, searchResults{searchResults}]() {
-    mLutIconsPreprocessingJob.configureLuts(searchResults);
+  mThreadScheduler->post([this, unprocessedPaths{unprocessedPaths}]() {
+    mLutIconsPreprocessingJob.configureLuts(unprocessedPaths);
     mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
                           PBDev::ProgressJobName("lut-icons"));
   });
 }
 
-void LutService::onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile, Path icon)
+void LutService::onLutIconsPreprocessingFinished(std::string lutName,
+                                                 Path cubeFile, Path icon)
 {
   LutIconInfo lutIconInfo;
   lutIconInfo.path = icon;
   lutIconInfo.name = lutName;
   mLutsPaths.push_back(lutIconInfo);
-
+  mDurableHashService->createLink(cubeFile.string(), icon.string());
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
@@ -103,11 +115,17 @@ Path LutService::lutAssetsPath() const
 
 bool LutService::lutExists(const Path &path) const
 {
-  if (!std::filesystem::exists(path)) {
+  if (!mDurableHashService->containsHash(path.string())) {
     return false;
   }
 
-  return ImageReader().isValid(path);
+  auto correspondingPath = mDurableHashService->getHash(path.string());
+
+  if (!std::filesystem::exists(correspondingPath)) {
+    return false;
+  }
+
+  return ImageReader().isValid(correspondingPath);
 }
 
 } // namespace PB::Service
