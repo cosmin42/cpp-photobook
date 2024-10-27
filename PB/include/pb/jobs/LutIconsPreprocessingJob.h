@@ -21,6 +21,18 @@ public:
 
 class LutIconsPreprocessingJob final : public MapReducer {
 public:
+  static std::string extractNameFromPath(Path path)
+  {
+    auto raw = path.stem().string();
+    std::replace(raw.begin(), raw.end(), '_', ' ');
+    for (size_t i = 0; i < raw.size(); i++) {
+      if (i == 0 || raw[i - 1] == ' ') {
+        raw[i] = (char)std::toupper(raw[i]);
+      }
+    }
+    return raw;
+  }
+
   LutIconsPreprocessingJob() = default;
   ~LutIconsPreprocessingJob() = default;
 
@@ -77,18 +89,6 @@ private:
   unsigned                       mIndex = 0;
 
   std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
-
-  std::string extractNameFromPath(Path path)
-  {
-    auto raw = path.stem().string();
-    std::replace(raw.begin(), raw.end(), '_', ' ');
-    for (size_t i = 0; i < raw.size(); i++) {
-      if (i == 0 || raw[i - 1] == ' ') {
-        raw[i] = (char)std::toupper(raw[i]);
-      }
-    }
-    return raw;
-  }
 
   Path newImageName()
   {

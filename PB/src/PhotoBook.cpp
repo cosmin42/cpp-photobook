@@ -1,10 +1,10 @@
 #include <pb/PhotoBook.h>
 
+#include <pb/Config.h>
 #include <pb/components/ImportImageTask.h>
 #include <pb/export/PdfLibharu.h>
 #include <pb/export/PdfPoDoFo.h>
 #include <pb/image/ImageFactory.h>
-#include <pb/Config.h>
 
 using namespace PB::Service;
 
@@ -94,6 +94,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->configureTaskCruncher(mTaskCruncher);
   mLutService->configureThreadScheduler(threadScheduler);
   mLutService->configureOGLEngine(mOGLEngine);
+  mLutService->configureDurableHashService(mDurableHashService);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);

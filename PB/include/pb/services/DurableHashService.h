@@ -12,6 +12,8 @@ public:
   void
   configureDatabaseService(std::shared_ptr<DatabaseService> databaseService);
 
+  void createLink(std::string key, std::string value);
+
   bool containsHash(std::string key);
 
   std::string getHash(PBDev::ProjectId projectId, Path path);

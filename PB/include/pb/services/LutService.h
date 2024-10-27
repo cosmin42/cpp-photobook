@@ -6,6 +6,7 @@
 #include <pb/entities/LutIconInfo.h>
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
+#include <pb/services/DurableHashService.h>
 
 DECLARE_STRONG_STRING(LutName)
 
@@ -30,6 +31,12 @@ public:
     mLutIconsPreprocessingJob.configureOGLEngine(oglEngine);
   }
 
+  void configureDurableHashService(
+      std::shared_ptr<DurableHashService> durableHashService)
+  {
+    mDurableHashService = durableHashService;
+  }
+
   void configureLutServiceListener(LutServiceListener *listener);
 
   void startLutService();
@@ -38,7 +45,8 @@ public:
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 
-  void onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile, Path icon) override;
+  void onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile,
+                                       Path icon) override;
 
   std::vector<LutIconInfo> listLuts() const;
 
@@ -46,6 +54,7 @@ private:
   static constexpr const char *IMAGE_NAME = "singapore.jpg";
   static constexpr const char *FOLDER_NAME = "others";
 
+  std::shared_ptr<DurableHashService>         mDurableHashService = nullptr;
   std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;
@@ -70,4 +79,4 @@ private:
 
   bool lutExists(const Path &path) const;
 };
-} // namespace PB
+} // namespace PB::Service
