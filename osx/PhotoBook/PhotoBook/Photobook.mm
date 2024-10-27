@@ -6,6 +6,8 @@
 //
 #import <Foundation/Foundation.h>
 
+#include <memory>
+
 #include <pb/PhotoBook.h>
 
 #include "Photobook.h"
@@ -43,7 +45,11 @@ public:
     void onMappingAborted(Path path) override {}
     void onCollageThumbnailsCreated() override {}
     void onImageUpdated(Path root, int row, int index) override {}
-    void post(std::function<void()> f) override {}
+    void post(std::function<void()> f) override {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            f();
+        });
+    }
     void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override {}
     void onImageMapped(PBDev::ImageToPaperId id,
                        PB::GenericImagePtr       image) override {}
@@ -62,7 +68,7 @@ NSString* localFolderPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirec
 Path nativeInstallFolderPath = [installFolderPath UTF8String];
 Path nativeLocalFolderPath = [localFolderPath UTF8String];
 
-PB::Photobook mPhotobook(nativeLocalFolderPath, nativeInstallFolderPath, {1280, 720});
+std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
 
 PhotobookListenerManaged* mListener = nullptr;
 
@@ -70,11 +76,13 @@ PhotobookListenerManaged* mListener = nullptr;
     NSLog(@"Initializing photobook");
     NSLog(@"Local folder: %@", localFolderPath);
     NSLog(@"Install folder: %@", installFolderPath);
+
+    mPhotobook = std::make_shared<PB::Photobook>(nativeLocalFolderPath, nativeInstallFolderPath, std::pair{1280, 720});
     return self;
 }
 
 - (void) startPhotobook {
-    mPhotobook.startPhotobook();
+    mPhotobook->startPhotobook();
 }
 
 - (void) setPhotobookListener:(PhotobookListenerWrapperCLevel const &)photobookListenerWrapperCLevel {
@@ -83,6 +91,6 @@ PhotobookListenerManaged* mListener = nullptr;
         delete mListener;
     }
     mListener = new PhotobookListenerManaged(photobookListenerWrapperCLevel);
-    mPhotobook.configure(mListener);
+    mPhotobook->configure(mListener);
 }
 @end
