@@ -10,13 +10,10 @@ import SwiftUI
 struct DashboardView: View {
     var buttonBackgroundColor: Color
     var photobook: Photobook
-    
     init(buttonBackgroundColor:Color, photobook: Photobook)
     {
         self.buttonBackgroundColor = buttonBackgroundColor
         self.photobook = photobook
-        
-        self.photobook.start()
     }
     
     //var photobook: Photobook
@@ -42,6 +39,10 @@ struct DashboardView: View {
             Spacer()
         }
         .padding()
+        .onAppear()
+        {
+            self.photobook.start()
+        }
     }
 }
 
