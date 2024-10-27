@@ -69,8 +69,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       projectManagementServiceListener);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
-
+#ifdef __APPLE__
   mOGLEngine->configureThreadScheduler(threadScheduler);
+#endif
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
 
   mProgressService->configureScheduler(threadScheduler);
