@@ -42,7 +42,7 @@ class Photobook final : public ImportFoldersServiceListener,
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
-  ~Photobook() = default;
+  ~Photobook();
 
   void initLogger();
 

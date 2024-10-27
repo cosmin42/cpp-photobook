@@ -115,7 +115,7 @@ Path LutService::lutAssetsPath() const
 
 bool LutService::lutExists(const Path &path) const
 {
-  if (!mDurableHashService->containsHash(path.string())) {
+  if (!mDurableHashService->containsKey(path.string())) {
     return false;
   }
 

@@ -36,6 +36,15 @@ bool DurableHashService::containsHash(std::string key)
   return !hashFound.empty();
 }
 
+bool DurableHashService::containsKey(std::string key) {
+  std::string predicate = "path='" + key + "'";
+  auto        hashFound = mDatabaseService->selectData(
+      OneConfig::DATABASE_CACHE_TABLE, predicate,
+      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
+  return !hashFound.empty();
+
+}
+
 std::string DurableHashService::getHash(PBDev::ProjectId projectId, Path path)
 {
   auto projectIdStr = boost::uuids::to_string(*projectId);

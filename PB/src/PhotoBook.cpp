@@ -82,6 +82,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(exportListener != nullptr);
   mExportLogic.setExportListener(exportListener);
 
+  mDatabaseService->configurePlatformInfo(mPlatformInfo);
+
+  mDurableHashService->configureDatabaseService(mDatabaseService);
+
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureProjectManagementService(mProjectManagementService);
@@ -110,6 +114,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   }
 }
 
+Photobook ::~Photobook() { mDatabaseService->disconnect(); }
+
 void Photobook::initLogger()
 {
   try {
@@ -129,6 +135,8 @@ void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 
 void Photobook::startPhotobook()
 {
+  mDatabaseService->connect();
+  mDatabaseService->maybeCreateTables();
   mOGLEngine->start(OneConfig::BG_CONTROL.at("ogl-engine").get_token());
   mLutService->startLutService();
 }

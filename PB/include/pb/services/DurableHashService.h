@@ -16,6 +16,8 @@ public:
 
   bool containsHash(std::string key);
 
+  bool containsKey(std::string key);
+
   std::string getHash(PBDev::ProjectId projectId, Path path);
   std::string getHash(Path path);
 
