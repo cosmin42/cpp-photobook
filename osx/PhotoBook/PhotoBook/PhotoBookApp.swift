@@ -17,11 +17,10 @@ import SwiftUI
 
 @main
 struct PhotoBookApp: App {
-    var photobook: Photobook
+    var photobook: Photobook = Photobook()
     init()
     {
-        var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
-        photobook = Photobook()
+        let photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
     }
     

@@ -720,7 +720,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../PB/include,
+					../../pb/include,
 					"../../vcpkg/installed/x64-osx/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../pb/third-party/osx/skia/include",
@@ -786,7 +786,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../PB/include,
+					../../pb/include,
 					"../../vcpkg/installed/x64-osx/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../pb/third-party/osx/skia/include",
@@ -819,7 +819,7 @@
 				GCC_VERSION = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../PB/include,
+					../../pb/include,
 					"../../pb/third-party/osx/skia/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../vcpkg/installed/x64-osx/include",
@@ -878,7 +878,7 @@
 				GCC_VERSION = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../PB/include,
+					../../pb/include,
 					"../../pb/third-party/osx/skia/include",
 					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
 					"../../vcpkg/installed/x64-osx/include",
