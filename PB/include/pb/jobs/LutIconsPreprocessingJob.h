@@ -16,7 +16,7 @@ class LutIconsPreprocessingListener {
 public:
   virtual ~LutIconsPreprocessingListener() = default;
 
-  virtual void onLutIconsPreprocessingFinished(std::string, Path) = 0;
+  virtual void onLutIconsPreprocessingFinished(std::string, Path, Path) = 0;
 };
 
 class LutIconsPreprocessingJob final : public MapReducer {
@@ -60,7 +60,7 @@ public:
     return std::make_optional<IdentifyableFunction>(taskId, [this, lutPath] {
       auto outImagePath = createTransformedImage(lutPath);
       auto lutName = extractNameFromPath(lutPath);
-      mListener->onLutIconsPreprocessingFinished(lutName, outImagePath);
+      mListener->onLutIconsPreprocessingFinished(lutName, lutPath, outImagePath);
     });
   }
 

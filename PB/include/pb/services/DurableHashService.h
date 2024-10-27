@@ -15,14 +15,17 @@ public:
   bool containsHash(std::string key);
 
   std::string getHash(PBDev::ProjectId projectId, Path path);
+  std::string getHash(Path path);
 
   void deleteHashByProjectId(PBDev::ProjectId projectId);
 
 private:
+  static PBDev::ProjectId DEFAULT_PROJECT_ID;
+
   static std::string computeHash(std::string key);
 
   std::shared_ptr<DatabaseService> mDatabaseService = nullptr;
 
   std::string saltHash(std::string hash);
 };
-} // namespace PB
+} // namespace PB::Service
