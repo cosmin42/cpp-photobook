@@ -67,5 +67,7 @@ private:
   }
 
   Path lutAssetsPath() const;
+
+  bool lutExists(const Path &path) const;
 };
 } // namespace PB

@@ -66,6 +66,12 @@ public:
     return inputImage;
   }
 
+  bool isValid(Path const path) const
+  {
+    auto image = cv::imread(path.string(), cv::IMREAD_COLOR);
+    return !image.empty();
+  }
+
   void loadBuffer(PBDev::IteratorWithState<std::vector<Path>> iterator)
   {
     if (!iterator.valid()) {
