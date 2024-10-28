@@ -24,7 +24,7 @@ public:
   void deleteHashByProjectId(PBDev::ProjectId projectId);
 
 private:
-  static PBDev::ProjectId DEFAULT_PROJECT_ID;
+  static const PBDev::ProjectId DEFAULT_PROJECT_ID;
 
   static std::string computeHash(std::string key);
 

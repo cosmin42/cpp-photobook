@@ -11,7 +11,7 @@ class RuntimeUUID final {
 public:
   static boost::uuids::uuid newUUID();
 
-  static boost::uuids::uuid ZERO() { return boost::uuids::nil_uuid(); }
+  static boost::uuids::uuid zero() { return boost::uuids::nil_uuid(); }
 
 private:
   static constexpr size_t UUID_SIZE = 16;

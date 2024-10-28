@@ -6,7 +6,7 @@
 
 namespace PB::Service {
 
-PBDev::ProjectId DurableHashService::DEFAULT_PROJECT_ID(RuntimeUUID::ZERO());
+const PBDev::ProjectId DurableHashService::DEFAULT_PROJECT_ID = PBDev::ProjectId(RuntimeUUID::zero());
 
 std::string DurableHashService::computeHash(std::string key)
 {
