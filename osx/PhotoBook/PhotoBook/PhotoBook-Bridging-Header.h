@@ -5,5 +5,5 @@
 #import <Foundation/Foundation.h>
 
 #include "Photobook.h"
-
+#include "PaperSettings.h"
 

@@ -90,6 +90,8 @@
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
 		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
 		739164812CC4F7E200703394 /* others in Resources */ = {isa = PBXBuildFile; fileRef = 7391647D2CC4F7E200703394 /* others */; };
+		73AA29DE2CD5615B00DAB031 /* PaperSettings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AA29DD2CD5615800DAB031 /* PaperSettings.mm */; };
+		73AA29E02CD5619100DAB031 /* PaperSettings.h in Resources */ = {isa = PBXBuildFile; fileRef = 73AA29DF2CD5618800DAB031 /* PaperSettings.h */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -213,6 +215,8 @@
 		7391647C2CC4F7E200703394 /* film-luts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "film-luts"; path = "../../PB/pb-assets/film-luts"; sourceTree = "<group>"; };
 		7391647D2CC4F7E200703394 /* others */ = {isa = PBXFileReference; lastKnownFileType = folder; name = others; path = "../../PB/pb-assets/others"; sourceTree = "<group>"; };
 		7391648C2CC575E900703394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		73AA29DD2CD5615800DAB031 /* PaperSettings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PaperSettings.mm; sourceTree = "<group>"; };
+		73AA29DF2CD5618800DAB031 /* PaperSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaperSettings.h; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -449,6 +453,8 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73AA29DF2CD5618800DAB031 /* PaperSettings.h */,
+				73AA29DD2CD5615800DAB031 /* PaperSettings.mm */,
 				7321EB852C18B8E800B3D27F /* Photobook.mm */,
 				73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */,
 				73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */,
@@ -596,6 +602,7 @@
 				7391647E2CC4F7E200703394 /* svg-templates in Resources */,
 				7391647F2CC4F7E200703394 /* shaders in Resources */,
 				739164802CC4F7E200703394 /* film-luts in Resources */,
+				73AA29E02CD5619100DAB031 /* PaperSettings.h in Resources */,
 				739164812CC4F7E200703394 /* others in Resources */,
 				73C4ECAA2AA0C0E3006C4108 /* Preview Assets.xcassets in Resources */,
 				73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */,
@@ -623,6 +630,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73AA29DE2CD5615B00DAB031 /* PaperSettings.mm in Sources */,
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
