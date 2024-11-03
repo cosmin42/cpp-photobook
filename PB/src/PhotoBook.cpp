@@ -86,6 +86,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mDurableHashService->configureDatabaseService(mDatabaseService);
 
+  mProjectManagementService->configurePlatformInfo(mPlatformInfo);
+  mProjectManagementService->configureProjectSerializerService(mProjectSerializerService);
+
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureProjectManagementService(mProjectManagementService);
