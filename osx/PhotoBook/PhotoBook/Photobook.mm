@@ -81,9 +81,6 @@ PhotobookListenerManaged* mListener = nullptr;
     return self;
 }
 
-- (void) startPhotobook {
-    mPhotobook->startPhotobook();
-}
 
 - (void) setPhotobookListener:(PhotobookListenerWrapperCLevel const &)photobookListenerWrapperCLevel {
     if (mListener)
@@ -93,4 +90,16 @@ PhotobookListenerManaged* mListener = nullptr;
     mListener = new PhotobookListenerManaged(photobookListenerWrapperCLevel);
     mPhotobook->configure(mListener);
 }
+
+- (void) startPhotobook {
+    mPhotobook->startPhotobook();
+}
+
+- (NSString*) generateProjectName
+{
+    auto newProjectName = mPhotobook->projectManagementService()->newAlbumName();
+    
+    return [NSString stringWithUTF8String:newProjectName.c_str()];
+}
+
 @end

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
     var buttonBackgroundColor: Color
-    var photobook: Photobook
+    @State var photobook: Photobook
     
     @State private var isDialogVisible = false
     @State private var paperSetting: PaperSettings
@@ -30,7 +30,7 @@ struct DashboardView: View {
     init(buttonBackgroundColor:Color, photobook: Photobook)
     {
         self.buttonBackgroundColor = buttonBackgroundColor
-        self.photobook = photobook
+        _photobook = State(initialValue: photobook)
         
         _paperSetting = State(initialValue: PaperSettings.getDefaultSettings(PaperType.A4_Landscape))
         
@@ -59,7 +59,7 @@ struct DashboardView: View {
                 .cornerRadius(8)
                 .sheet(isPresented: $isDialogVisible) {
                     // Dialog content
-                    DialogView(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, options: options)
+                    DialogView(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
                 }
                 Spacer()
             }
@@ -81,6 +81,7 @@ struct DialogView: View {
     @Binding var paperHeightText: String
     @Binding var paperPpiText: String
     @Binding var paperSettings: PaperSettings
+    @Binding var photobook: Photobook
     
     let options: [String]
     
@@ -112,7 +113,6 @@ struct DialogView: View {
                     Text("Paper Width:")
                     TextField(String(paperSettings.width), text: $paperWidthText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
                         .onChange(of: paperWidthText) { newValue in
                             selectedOption = "Custom"
                         }
@@ -122,7 +122,6 @@ struct DialogView: View {
                     Text("Paper Height:")
                     TextField(String(paperSettings.height), text: $paperHeightText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
                         .onChange(of: paperHeightText) { newValue in
                             selectedOption = "Custom"
                         }
@@ -132,7 +131,6 @@ struct DialogView: View {
                     Text("Paper Finess:")
                     TextField(String(paperSettings.ppi), text: $paperPpiText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
                         .onChange(of: paperPpiText) { newValue in
                             selectedOption = "Custom"
                         }

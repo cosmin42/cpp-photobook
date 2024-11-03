@@ -14,8 +14,11 @@
 
 @interface Photobook : NSObject
 - (id)init;
-- (void) startPhotobook;
 - (void) setPhotobookListener:PhotobookListenerWrapperCLevel;
+
+- (void) startPhotobook;
+
+- (NSString*) generateProjectName;
 @end
 
 #endif /* Photobook_h */
