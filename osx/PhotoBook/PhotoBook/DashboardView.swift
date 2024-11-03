@@ -12,13 +12,15 @@ struct DashboardView: View, PhotobookUIListener {
     @State var photobook: Photobook
     
     @State private var isDialogVisible = false
+    @State private var isRenameDialogVisible = false
+    @State private var isDeleteDialogVisible = false;
     @State private var paperSetting: PaperSettings
     @State private var selectedOption = "A4 Landscape"
     @State private var paperWidthText: String = ""
     @State private var paperHeightText: String = ""
     @State private var paperPpiText: String = ""
-    
     @State private var projectsList: [ProjectMetadataEntry] = []
+    @State private var toRenameProjectName: String = ""
     
     let options = ["A3 Portrait",
                    "A3 Landscape",
@@ -89,8 +91,9 @@ struct DashboardView: View, PhotobookUIListener {
                     .cornerRadius(8)
                     .contextMenu {
                         Button(action: {
-    
-                            print("Pressed rename")
+                            toRenameProjectName = item.name
+                            isRenameDialogVisible = true
+                            
                         }) {
                             Text("Rename")
                             Image(systemName: "pencil")
@@ -105,6 +108,12 @@ struct DashboardView: View, PhotobookUIListener {
                     }
                     
                 }
+            }
+            .sheet(isPresented: $isRenameDialogVisible) {
+                RenameProjectView(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
+            }
+            .sheet(isPresented: $isDeleteDialogVisible) {
+                DeleteProjectView(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
             }
             .frame(alignment: .center)
             .padding()
@@ -222,6 +231,65 @@ struct DialogView: View {
             
         }
         .padding()
+    }
+}
+
+struct RenameProjectView: View {
+    @Binding var isRenameDialogVisible: Bool
+    @Binding var projectName: String
+    @Binding var photobook: Photobook
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Rename Album")
+                .font(.headline)
+            HStack {
+                Text("Project Name:")
+                TextField("Project placeholder name", text: $projectName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            
+            HStack {
+                Button("Rename")
+                {
+                    isRenameDialogVisible = false
+                }
+                
+                Button("Cancel")
+                {
+                    isRenameDialogVisible = false
+                }
+            }
+        }
+    }
+}
+
+struct DeleteProjectView: View {
+    @Binding var isDeleteDialogVisible: Bool
+    @Binding var projectName: String
+    @Binding var photobook: Photobook
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Rename Album")
+                .font(.headline)
+            HStack {
+                Text("Type DELETE:")
+                TextField("", text: $projectName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            
+            HStack {
+                Button("Delete")
+                {
+                    // TODO: Add delete validation
+                    isDeleteDialogVisible = false
+                }
+                
+                Button("Cancel")
+                {
+                    isDeleteDialogVisible = false
+                }
+            }
+        }
     }
 }
 
