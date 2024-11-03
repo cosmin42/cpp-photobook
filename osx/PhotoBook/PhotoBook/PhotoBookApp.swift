@@ -10,17 +10,22 @@ import SwiftUI
 @objc extension PhotobookListenerWrapperCLevel
 {
     func onProjectRead() {
-        NSLog("Test project read")
+        NSLog("Test project read.")
+    }
+    
+    func onMetadataUpdated()
+    {
+        NSLog("Project metadata updated.")
     }
 }
 
 
 @main
 struct PhotoBookApp: App {
-    var photobook: Photobook = Photobook()
+    @State var photobook: Photobook = Photobook()
+    @State var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
     init()
     {
-        let photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
     }
     

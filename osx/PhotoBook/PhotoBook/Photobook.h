@@ -12,6 +12,7 @@
 
 @interface PhotobookListenerWrapperCLevel: NSObject
 - (void)onProjectRead;
+- (void)onMetadataUpdated;
 @end
 
 @interface Photobook : NSObject
@@ -22,6 +23,7 @@
 
 - (NSString*) generateProjectName;
 - (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings;
+- (void) RecallMetadata;
 
 @end
 

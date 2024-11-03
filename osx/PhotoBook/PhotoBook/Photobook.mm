@@ -20,6 +20,10 @@
 - (void)onProjectRead {
 }
 
+- (void)onMetadataUpdated {
+    
+}
+
 @end
 
 class PhotobookListenerManaged final: public PB::PhotobookListener
@@ -27,13 +31,16 @@ class PhotobookListenerManaged final: public PB::PhotobookListener
 public:
     explicit PhotobookListenerManaged(PhotobookListenerWrapperCLevel const & managedListener):mManagedListener(managedListener)
     {
+        NSLog(@"Setting up PBN listener.");
     }
     ~PhotobookListenerManaged() = default;
     void onProjectRead() override {
         [&mManagedListener onProjectRead];
     }
     void onProjectRenamed() override {}
-    void onMetadataUpdated() override {}
+    void onMetadataUpdated() override {
+        [&mManagedListener onMetadataUpdated];
+    }
     void onPersistenceError(PBDev::Error) override {}
     void onExportFinished() override {}
     void onError(PBDev::Error) override {}
@@ -105,6 +112,11 @@ PhotobookListenerManaged* mListener = nullptr;
     auto nativeName = [name UTF8String];
     PB::PaperSettings nativePaperSettings = {(PB::PaperType)paperSettings.paperType, paperSettings.width, paperSettings.height, paperSettings.ppi};
     mPhotobook->newProject(nativeName, nativePaperSettings);
+}
+
+- (void) RecallMetadata
+{
+    mPhotobook->recallMetadata();
 }
 
 @end

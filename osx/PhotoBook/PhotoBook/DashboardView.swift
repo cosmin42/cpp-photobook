@@ -69,6 +69,7 @@ struct DashboardView: View {
         .onAppear()
         {
             self.photobook.start()
+            self.photobook.recallMetadata()
         }
     }
 }
