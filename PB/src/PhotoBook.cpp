@@ -309,6 +309,10 @@ void Photobook::onProjectMetadataRecalled() { mParent->onMetadataUpdated(); }
 void Photobook::newProject(std::string name, PaperSettings paperSettings)
 {
   mProjectManagementService->newProject(paperSettings);
+  auto currentProject = mProjectManagementService->maybeLoadedProjectInfo();
+  PBDev::basicAssert(currentProject != nullptr);
+  mProjectManagementService->saveMetadata();
+  mProjectSerializerService->saveProject(currentProject->second);
 }
 
 std::shared_ptr<CollageService> Photobook::collageService()

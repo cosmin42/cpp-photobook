@@ -355,8 +355,6 @@ namespace PhotobookNet
                     }
                 };
                 await NewProjectDialog.ShowAsync();
-
-
             });
         }
 
