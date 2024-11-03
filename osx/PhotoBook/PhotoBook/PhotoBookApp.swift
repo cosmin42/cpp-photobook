@@ -20,7 +20,6 @@ private var photobookUIListener: PhotobookUIListener? = nil;
     {
         photobookUIListener?.onMetadataUpdated()
     }
-    
 }
 
 

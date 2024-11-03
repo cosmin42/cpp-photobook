@@ -117,7 +117,7 @@ PhotobookListenerManaged* mListener = nullptr;
 
 -(NSArray<ProjectMetadataEntry*>*) projectsList
 {
-    NSMutableArray<ProjectMetadataEntry*>* result = @[];
+    NSMutableArray<ProjectMetadataEntry*>* result = [[NSMutableArray alloc] init];
     auto projectsList = mPhotobook->projectManagementService()->projectsList();
     for(auto& projectEntity: projectsList)
     {
