@@ -69,7 +69,7 @@ struct DashboardView: View, PhotobookUIListener {
                 .cornerRadius(8)
                 .sheet(isPresented: $isDialogVisible) {
                     // Dialog content
-                    DialogView(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
+                    NewProjectDialog(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
                 }
                 Spacer()
             }
@@ -110,10 +110,10 @@ struct DashboardView: View, PhotobookUIListener {
                 }
             }
             .sheet(isPresented: $isRenameDialogVisible) {
-                RenameProjectView(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
+                RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
             }
             .sheet(isPresented: $isDeleteDialogVisible) {
-                DeleteProjectView(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
+                DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
             }
             .frame(alignment: .center)
             .padding()
@@ -145,7 +145,7 @@ struct DashboardView: View, PhotobookUIListener {
 }
 
 
-struct DialogView: View {
+struct NewProjectDialog: View {
     @Binding var isVisible: Bool
     @Binding var selectedOption: String
     @Binding var paperWidthText: String
@@ -234,7 +234,7 @@ struct DialogView: View {
     }
 }
 
-struct RenameProjectView: View {
+struct RenameProjectDialog: View {
     @Binding var isRenameDialogVisible: Bool
     @Binding var projectName: String
     @Binding var photobook: Photobook
@@ -263,7 +263,7 @@ struct RenameProjectView: View {
     }
 }
 
-struct DeleteProjectView: View {
+struct DeleteProjectDialog: View {
     @Binding var isDeleteDialogVisible: Bool
     @Binding var projectName: String
     @Binding var photobook: Photobook
