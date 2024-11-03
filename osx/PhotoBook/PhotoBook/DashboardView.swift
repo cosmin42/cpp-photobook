@@ -87,10 +87,10 @@ struct DialogView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Select an Option")
+            Text("New Album")
                 .font(.headline)
             
-            Picker("Select an Option", selection: $selectedOption) {
+            Picker("ALbum Settings", selection: $selectedOption) {
                 ForEach(options, id: \.self) { option in
                     Text(option).tag(option)
                 }
@@ -142,13 +142,13 @@ struct DialogView: View {
                     // Close the dialog
                     isVisible = false
                     
-                    var projectName = photobook.generateProjectName()
+                    let projectName = photobook.generateProjectName()
                     photobook.newProject(projectName, paperSettings: paperSettings)
                 }
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(8)
-                
+                // TODO: Work out the colors for the buttons
                 Button("Cancel") {
                     // Close the dialog
                     isVisible = false
@@ -162,9 +162,6 @@ struct DialogView: View {
         .padding()
     }
 }
-
-
-
 
 struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
