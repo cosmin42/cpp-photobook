@@ -112,6 +112,7 @@ struct DialogView: View {
                     Text("Paper Width:")
                     TextField(String(paperSettings.width), text: $paperWidthText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
                         .onChange(of: paperWidthText) { newValue in
                             selectedOption = "Custom"
                         }
@@ -121,6 +122,7 @@ struct DialogView: View {
                     Text("Paper Height:")
                     TextField(String(paperSettings.height), text: $paperHeightText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
                         .onChange(of: paperHeightText) { newValue in
                             selectedOption = "Custom"
                         }
@@ -130,6 +132,7 @@ struct DialogView: View {
                     Text("Paper Finess:")
                     TextField(String(paperSettings.ppi), text: $paperPpiText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
                         .onChange(of: paperPpiText) { newValue in
                             selectedOption = "Custom"
                         }
