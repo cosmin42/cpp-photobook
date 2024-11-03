@@ -18,6 +18,8 @@ struct DashboardView: View, PhotobookUIListener {
     @State private var paperHeightText: String = ""
     @State private var paperPpiText: String = ""
     
+    @State private var projectsList: [ProjectMetadataEntry] = []
+    
     let options = ["A3 Portrait",
                    "A3 Landscape",
                    "A4 Portrait",
@@ -26,6 +28,12 @@ struct DashboardView: View, PhotobookUIListener {
                    "A5 Landscape",
                    "Square",
                    "Custom"]
+    
+    @State var columns = [
+        GridItem(), // Each column resizes based on available space
+        GridItem(),
+        GridItem()
+    ]
     
     init(buttonBackgroundColor:Color, photobook: Photobook)
     {
@@ -41,7 +49,7 @@ struct DashboardView: View, PhotobookUIListener {
     
     //var photobook: Photobook
     var body: some View {
-        VStack {
+        HStack {
             Spacer()
             HStack {
                 Spacer()
@@ -63,7 +71,26 @@ struct DashboardView: View, PhotobookUIListener {
                 }
                 Spacer()
             }
-            Spacer()
+            
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(projectsList, id: \.self) { item in
+                    // Each item in the grid
+                    Button(action: {
+                        print("Button was pressed!")
+                    }){
+                        Text("\(item.name)")
+                            .frame(minWidth: 100, minHeight: 100)
+                            .padding()
+                            .background(buttonBackgroundColor)
+                        
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                }
+            }
+            .frame(alignment: .center)
+            .padding()
         }
         .padding()
         .onAppear()
@@ -77,9 +104,17 @@ struct DashboardView: View, PhotobookUIListener {
     func onProjectRead(){
         
     }
+    
     func onMetadataUpdated(){
-        var projectsList = photobook.projectsList()
-        NSLog("\(projectsList?.count)")
+        projectsList = photobook.projectsList()
+        
+        let columnsCount: Int = Int(sqrt(Double(projectsList.count)))
+        
+        columns.removeAll()
+        
+        for _ in 0..<columnsCount {
+            columns.append(GridItem(spacing: 10, alignment: .leading))
+        }
     }
 }
 
