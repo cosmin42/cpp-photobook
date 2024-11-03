@@ -12,8 +12,6 @@
 
 #include "Photobook.h"
 
-
-
 @implementation PhotobookListenerWrapperCLevel
 - (id) init
 {
@@ -76,7 +74,7 @@ PhotobookListenerManaged* mListener = nullptr;
     NSLog(@"Initializing photobook");
     NSLog(@"Local folder: %@", localFolderPath);
     NSLog(@"Install folder: %@", installFolderPath);
-
+    
     mPhotobook = std::make_shared<PB::Photobook>(nativeLocalFolderPath, nativeInstallFolderPath, std::pair{1280, 720});
     return self;
 }
@@ -100,6 +98,13 @@ PhotobookListenerManaged* mListener = nullptr;
     auto newProjectName = mPhotobook->projectManagementService()->newAlbumName();
     
     return [NSString stringWithUTF8String:newProjectName.c_str()];
+}
+
+- (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings
+{
+    auto nativeName = [name UTF8String];
+    PB::PaperSettings nativePaperSettings = {(PB::PaperType)paperSettings.paperType, paperSettings.width, paperSettings.height, paperSettings.ppi};
+    mPhotobook->newProject(nativeName, nativePaperSettings);
 }
 
 @end

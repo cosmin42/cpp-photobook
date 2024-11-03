@@ -141,6 +141,9 @@ struct DialogView: View {
                 Button("Create") {
                     // Close the dialog
                     isVisible = false
+                    
+                    var projectName = photobook.generateProjectName()
+                    photobook.newProject(projectName, paperSettings: paperSettings)
                 }
                 .background(Color.blue)
                 .foregroundColor(.white)
