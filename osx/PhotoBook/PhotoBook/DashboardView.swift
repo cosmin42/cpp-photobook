@@ -87,6 +87,22 @@ struct DashboardView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .foregroundColor(.white)
                     .cornerRadius(8)
+                    .contextMenu {
+                        Button(action: {
+                            print("Pressed rename")
+                        }) {
+                            Text("Rename")
+                            Image(systemName: "pencil")
+                        }
+                        
+                        Button(action: {
+                            print("Pressed delete")
+                        }) {
+                            Text("Delete")
+                            Image(systemName: "trash")
+                        }
+                    }
+                    
                 }
             }
             .frame(alignment: .center)
