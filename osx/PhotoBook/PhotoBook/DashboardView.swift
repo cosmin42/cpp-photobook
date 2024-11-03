@@ -12,10 +12,11 @@ struct DashboardView: View {
     var photobook: Photobook
     
     @State private var isDialogVisible = false
+    @State private var paperSetting: PaperSettings
     @State private var selectedOption = "A4 Landscape"
-    @State private var textField1 = ""
-    @State private var textField2 = ""
-    @State private var paperSetting: PaperSettings = PaperSettings.getDefaultSettings(PaperType)
+    @State private var paperWidthText: String = ""
+    @State private var paperHeightText: String = ""
+    @State private var paperPpiText: String = ""
     
     let options = ["A3 Portrait",
                    "A3 Landscape",
@@ -30,6 +31,12 @@ struct DashboardView: View {
     {
         self.buttonBackgroundColor = buttonBackgroundColor
         self.photobook = photobook
+        
+        _paperSetting = State(initialValue: PaperSettings.getDefaultSettings(PaperType.A4_Landscape))
+        
+        _paperWidthText = State(initialValue: String(self.paperSetting.width))
+        _paperHeightText = State(initialValue: String(self.paperSetting.height))
+        _paperPpiText = State(initialValue: String(self.paperSetting.ppi))
     }
     
     //var photobook: Photobook
@@ -52,7 +59,7 @@ struct DashboardView: View {
                 .cornerRadius(8)
                 .sheet(isPresented: $isDialogVisible) {
                     // Dialog content
-                    DialogView(isVisible: $isDialogVisible, selectedOption: $selectedOption, textField1: $textField1, textField2: $textField2, paperSettings: $paperSetting, options: options)
+                    DialogView(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, options: options)
                 }
                 Spacer()
             }
@@ -70,8 +77,9 @@ struct DashboardView: View {
 struct DialogView: View {
     @Binding var isVisible: Bool
     @Binding var selectedOption: String
-    @Binding var textField1: String
-    @Binding var textField2: String
+    @Binding var paperWidthText: String
+    @Binding var paperHeightText: String
+    @Binding var paperPpiText: String
     @Binding var paperSettings: PaperSettings
     
     let options: [String]
@@ -86,42 +94,66 @@ struct DialogView: View {
                     Text(option).tag(option)
                 }
             }
+            .onChange(of: selectedOption) { newValue in
+                if (newValue != "Custom")
+                {
+                    paperSettings = PaperSettings.getDefaultSettings(byName: newValue)
+                    
+                    paperWidthText = String(paperSettings.width)
+                    paperWidthText = String(paperSettings.height)
+                    paperPpiText = String(paperSettings.ppi)
+                }
+            }
             .pickerStyle(MenuPickerStyle()) // Combo box style
             
             // Text input fields
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Paper Width:")
-                    TextField("", text: $textField1)
+                    TextField(String(paperSettings.width), text: $paperWidthText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .onAppear()
-                    {
-                        
-                    }
+                        .onChange(of: paperWidthText) { newValue in
+                            selectedOption = "Custom"
+                        }
                     Text("px")
                 }
                 HStack {
                     Text("Paper Height:")
-                    TextField("", text: $textField2)
+                    TextField(String(paperSettings.height), text: $paperHeightText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onChange(of: paperHeightText) { newValue in
+                            selectedOption = "Custom"
+                        }
                     Text("px")
                 }
                 HStack {
                     Text("Paper Finess:")
-                    TextField("", text: $textField2)
+                    TextField(String(paperSettings.ppi), text: $paperPpiText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onChange(of: paperPpiText) { newValue in
+                            selectedOption = "Custom"
+                        }
                     Text("ppi")
                 }
             }
-            
-            Button("Done") {
-                // Close the dialog
-                isVisible = false
+            HStack {
+                Button("Create") {
+                    // Close the dialog
+                    isVisible = false
+                }
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                
+                Button("Cancel") {
+                    // Close the dialog
+                    isVisible = false
+                }
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
             }
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
+            
         }
         .padding()
     }

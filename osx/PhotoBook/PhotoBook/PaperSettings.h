@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, PaperType) {
 
 @interface PaperSettings : NSObject
 + (PaperSettings*) GetDefaultSettings: (PaperType)paperType;
++ (PaperSettings*) GetDefaultSettingsByName: (NSString*)paperType;
 
 - (id)init;
 

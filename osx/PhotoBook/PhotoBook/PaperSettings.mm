@@ -52,10 +52,8 @@
         case Square_Paper:
             return [[PaperSettings alloc] initWithCpp:(PB::OneConfig::SQUARE_PAPER)];
         case None:
-            <#code#>
             break;
         case Custom:
-            <#code#>
             break;
     }
     
@@ -63,4 +61,12 @@
     
     return [[PaperSettings alloc] init];
 }
+
++ (PaperSettings*) GetDefaultSettingsByName: (NSString*)paperType
+{
+    auto nativePaperTypeName = [paperType UTF8String];
+    PaperType managedPaperType = (PaperType)PB::deserializePaperType(nativePaperTypeName);
+    return [PaperSettings GetDefaultSettings:managedPaperType];
+}
+
 @end
