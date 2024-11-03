@@ -9,12 +9,14 @@
 #define Photobook_h
 
 #include "PaperSettings.h"
+#include "ProjectMetadataEntry.h"
 
 @interface PhotobookListenerWrapperCLevel: NSObject
 - (void)onProjectRead;
 - (void)onMetadataUpdated;
 @end
 
+// TODO: Fix inconsistent capita letters naming
 @interface Photobook : NSObject
 - (id)init;
 - (void) setPhotobookListener:PhotobookListenerWrapperCLevel;
@@ -25,6 +27,8 @@
 - (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings;
 - (void) RecallMetadata;
 
+
+-(NSArray<ProjectMetadataEntry*>*) projectsList;
 @end
 
 #endif /* Photobook_h */

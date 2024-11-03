@@ -119,4 +119,19 @@ PhotobookListenerManaged* mListener = nullptr;
     mPhotobook->recallMetadata();
 }
 
+-(NSArray<ProjectMetadataEntry*>*) projectsList
+{
+    NSMutableArray<ProjectMetadataEntry*>* result = @[];
+    auto projectsList = mPhotobook->projectManagementService()->projectsList();
+    for(auto& projectEntity: projectsList)
+    {
+        NSString* projectId = [NSString stringWithUTF8String:boost::uuids::to_string(std::get<0>(projectEntity)).c_str()];
+        NSString* projectName = [NSString stringWithUTF8String:std::get<1>(projectEntity).c_str()];
+        NSString* projectPath = [NSString stringWithUTF8String:std::get<2>(projectEntity).string().c_str()];
+        ProjectMetadataEntry* managedProjectEntity = [[ProjectMetadataEntry alloc] init:projectId projectName:projectName projectPath:projectPath];
+        [result addObject: managedProjectEntity];
+    }
+    return result;
+}
+
 @end
