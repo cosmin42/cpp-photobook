@@ -26,9 +26,9 @@
 - (NSString*) generateProjectName;
 - (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings;
 - (void) RecallMetadata;
-
-
--(NSArray<ProjectMetadataEntry*>*) projectsList;
+- (void) rename:(NSString*)oldName newName:(NSString*)newName;
+- (void) remove:(NSString*)projectId;
+- (NSArray<ProjectMetadataEntry*>*) projectsList;
 @end
 
 #endif /* Photobook_h */

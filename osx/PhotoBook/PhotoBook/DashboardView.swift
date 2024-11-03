@@ -89,6 +89,7 @@ struct DashboardView: View, PhotobookUIListener {
                     .cornerRadius(8)
                     .contextMenu {
                         Button(action: {
+    
                             print("Pressed rename")
                         }) {
                             Text("Rename")

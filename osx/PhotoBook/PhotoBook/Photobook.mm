@@ -115,7 +115,7 @@ PhotobookListenerManaged* mListener = nullptr;
     mPhotobook->recallMetadata();
 }
 
--(NSArray<ProjectMetadataEntry*>*) projectsList
+- (NSArray<ProjectMetadataEntry*>*) projectsList
 {
     NSMutableArray<ProjectMetadataEntry*>* result = [[NSMutableArray alloc] init];
     auto projectsList = mPhotobook->projectManagementService()->projectsList();
@@ -128,6 +128,19 @@ PhotobookListenerManaged* mListener = nullptr;
         [result addObject: managedProjectEntity];
     }
     return result;
+}
+
+- (void) rename:(NSString*)oldName newName:(NSString*)newName
+{
+    std::string nativeOldName = [oldName UTF8String];
+    std::string nativeNewName = [newName UTF8String];
+    mPhotobook->projectManagementService()->renameProject(nativeOldName, nativeNewName);
+}
+
+- (void) remove:(NSString*)projectId
+{
+    std::string nativeProjectIdStr = [projectId UTF8String];
+    mPhotobook->projectManagementService()->deleteProject(nativeProjectIdStr);
 }
 
 @end
