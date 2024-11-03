@@ -13,10 +13,6 @@
 #include "Photobook.h"
 
 @implementation PhotobookListenerWrapperCLevel
-- (id) init
-{
-    return self;
-}
 - (void)onProjectRead {
 }
 

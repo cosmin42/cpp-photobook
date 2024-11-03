@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DashboardView: View {
+struct DashboardView: View, PhotobookUIListener {
     var buttonBackgroundColor: Color
     @State var photobook: Photobook
     
@@ -68,9 +68,18 @@ struct DashboardView: View {
         .padding()
         .onAppear()
         {
+            PhotoBookApp.setListener(listener: self)
             self.photobook.start()
             self.photobook.recallMetadata()
         }
+    }
+    
+    func onProjectRead(){
+        
+    }
+    func onMetadataUpdated(){
+        var projectsList = photobook.projectsList()
+        NSLog("\(projectsList?.count)")
     }
 }
 
