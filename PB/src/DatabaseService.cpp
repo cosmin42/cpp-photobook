@@ -63,6 +63,7 @@ bool DatabaseService::checkTableExists(std::string tableName)
   return false;
 }
 
+// TODO: improve this function
 boost::bimaps::bimap<boost::uuids::uuid, std::string>
 DatabaseService::deserializeProjectMetadata(
     std::vector<std::vector<std::string>> raw)
@@ -70,15 +71,15 @@ DatabaseService::deserializeProjectMetadata(
   boost::bimaps::bimap<boost::uuids::uuid, std::string> map;
 
   for (auto const &row : raw) {
-    PBDev::basicAssert(row.size() == 3);
+    PBDev::basicAssert(row.size() == 2);
     boost::uuids::uuid uuid;
     std::string        path;
     for (int i = 0; i < row.size(); i++) {
-      if (i == 1) {
+      if (i == 0) {
         auto generator = boost::uuids::string_generator();
         uuid = generator(row[i]);
       }
-      else if (i == 2) {
+      else if (i == 1) {
         path = row[i];
       }
     }
@@ -112,4 +113,4 @@ boost::bimaps::bimap<Path, std::string> DatabaseService::deserializeCacheEntry(
   return map;
 }
 
-} // namespace PB
+} // namespace PB::Service
