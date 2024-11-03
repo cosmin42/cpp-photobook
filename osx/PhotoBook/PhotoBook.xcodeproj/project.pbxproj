@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		73023A3A2CD79C4E005EA3CF /* ProjectMetadataEntry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73023A392CD79C4C005EA3CF /* ProjectMetadataEntry.mm */; };
 		73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
 		73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049EB62C162BDB009EA667 /* OpenCL.framework */; platformFilters = (macos, ); };
 		73049ED32C163A53009EA667 /* libboost_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049E572C162B23009EA667 /* libboost_container.a */; };
@@ -119,6 +120,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		73023A382CD79C3F005EA3CF /* ProjectMetadataEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectMetadataEntry.h; sourceTree = "<group>"; };
+		73023A392CD79C4C005EA3CF /* ProjectMetadataEntry.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectMetadataEntry.mm; sourceTree = "<group>"; };
 		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
 		73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PhotoBook-Bridging-Header.m"; sourceTree = "<group>"; };
 		73049E232C16271D009EA667 /* libpblib-Darwin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin.a"; path = "../../PB/build/libpblib-Darwin.a"; sourceTree = "<group>"; };
@@ -453,6 +456,8 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73023A392CD79C4C005EA3CF /* ProjectMetadataEntry.mm */,
+				73023A382CD79C3F005EA3CF /* ProjectMetadataEntry.h */,
 				73AA29DF2CD5618800DAB031 /* PaperSettings.h */,
 				73AA29DD2CD5615800DAB031 /* PaperSettings.mm */,
 				7321EB852C18B8E800B3D27F /* Photobook.mm */,
@@ -631,6 +636,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73AA29DE2CD5615B00DAB031 /* PaperSettings.mm in Sources */,
+				73023A3A2CD79C4E005EA3CF /* ProjectMetadataEntry.mm in Sources */,
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
