@@ -89,6 +89,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
   mProjectManagementService->configureProjectSerializerService(mProjectSerializerService);
 
+
+  mProjectSerializerService->configurePlatformInfo(mPlatformInfo);
+
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureProjectManagementService(mProjectManagementService);
@@ -305,9 +308,6 @@ void Photobook::onProjectMetadataRecalled() { mParent->onMetadataUpdated(); }
 
 void Photobook::newProject(std::string name, PaperSettings paperSettings)
 {
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
   mProjectManagementService->newProject(paperSettings);
 }
 

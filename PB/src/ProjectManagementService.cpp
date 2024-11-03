@@ -156,8 +156,6 @@ void ProjectManagementService::unloadProject()
 
 void ProjectManagementService::saveMetadata()
 {
-  PBDev::basicAssert(maybeLoadedProject != nullptr);
-
   auto projectId = maybeLoadedProject->first;
   auto project = maybeLoadedProject->second;
 
