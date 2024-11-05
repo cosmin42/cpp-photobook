@@ -1,0 +1,16 @@
+{
+  "original-palette": {
+    "ui": {
+      "PrimaryColor": "#1A2224",
+      "BorderColor": "#09191D",
+      "ButtonBackgroundColor": "#374346",
+      "ButtonPointerOverWhenSelected": "#516165",
+      "RemoveButtonBackground": "#541C1C"
+    },
+    "fonts": {
+      "MainFontColor": "#FFFFFF",
+      "CommandBarMainColor": "#D3D3D3",
+      "DialogTextColor": "#808080"
+    }
+  }
+}
