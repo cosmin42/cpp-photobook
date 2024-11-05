@@ -8,19 +8,19 @@
 import SwiftUI
 
 extension Color {
-    init?(hex: String) {
+    static func parseColor(hex: String) -> Color {
         let hex = hex.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "#", with: "")
         
         // Ensure hex string is the correct length
         guard hex.count == 6 || hex.count == 8 else {
-            return nil
+            return Color.black
         }
         
         var rgb: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&rgb)
         
         let red, green, blue, alpha: Double
-        
+
         if hex.count == 6 {
             red = Double((rgb >> 16) & 0xFF) / 255
             green = Double((rgb >> 8) & 0xFF) / 255
@@ -33,15 +33,15 @@ extension Color {
             blue = Double(rgb & 0xFF) / 255
         }
         
-        self.init(red: red, green: green, blue: blue, opacity: alpha)
+        return Color(red: red, green: green, blue: blue, opacity: alpha)
     }
     
-    static let PrimaryColor = Color("#1A2224")
-    static let BorderColor = Color("#09191D")
-    static let ButtonBackgroundColor = Color("#374346")
-    static let ButtonPointerOverWhenSelected = Color("#516165")
-    static let RemoveButtonBackground = Color("#541C1C")
-    static let MainFontColor = Color("#FFFFFF")
-    static let CommandBarMainColor = Color("#D3D3D3")
-    static let DialogTextColor = Color("#808080")
+    static let PrimaryColor = parseColor(hex: "#1A2224")
+    static let BorderColor = parseColor(hex: "#09191D")
+    static let ButtonBackgroundColor = parseColor(hex: "#374346")
+    static let ButtonPointerOverWhenSelected = parseColor(hex: "#516165")
+    static let RemoveButtonBackground = parseColor(hex: "#541C1C")
+    static let MainFontColor = parseColor(hex: "#FFFFFF")
+    static let CommandBarMainColor = parseColor(hex: "#D3D3D3")
+    static let DialogTextColor = parseColor(hex: "#808080")
 }

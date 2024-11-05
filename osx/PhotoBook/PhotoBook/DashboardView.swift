@@ -216,15 +216,15 @@ struct NewProjectDialog: View {
                     let projectName = photobook.generateProjectName()
                     photobook.newProject(projectName, paperSettings: paperSettings)
                 }
-                .background(Color.blue)
-                .foregroundColor(.white)
+                .background(Color.PrimaryColor)
+                .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
                 // TODO: Work out the colors for the buttons
                 Button("Cancel") {
                     // Close the dialog
                     isVisible = false
                 }
-                .background(Color.blue)
+                .background(Color.RemoveButtonBackground)
                 .foregroundColor(.white)
                 .cornerRadius(8)
             }

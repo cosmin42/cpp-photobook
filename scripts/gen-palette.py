@@ -47,9 +47,9 @@ def load_palette(file_name, palette_name):
     print("// Generated for SwiftUI")
     print("extension Color {")
     for name, color in ui_palette.items():
-        print(f"    static let {name} = Color(\"{color}\")")
+        print(f"    static let {name} = parseColor(\"hex: {color}\")")
     for name, color in fonts_palette.items():
-        print(f"    static let {name} = Color(\"{color}\")")
+        print(f"    static let {name} = parseColor(\"hex: {color}\")")
     print("}")
 
 
