@@ -44,7 +44,7 @@ def load_palette(file_name, palette_name):
     print()
     print()
 
-    print("// Generated from SwiftUI")
+    print("// Generated for SwiftUI")
     print("extension Color {")
     for name, color in ui_palette.items():
         print(f"    static let {name} = Color(\"{color}\")")
