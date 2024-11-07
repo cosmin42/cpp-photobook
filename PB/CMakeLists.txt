@@ -17,6 +17,7 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 endif()
+
 if (STATIC_CHECK)
     message("Static check ON")
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
@@ -267,11 +268,11 @@ if (WIN32)
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskia.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libsvg.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskshaper.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskunicode_core.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_SYSTEM_PROCESSOR}/libskunicode_icu.a)
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
 endif()
 
 target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
@@ -307,11 +308,11 @@ if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 else()
     add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build/")
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
 
     add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build/")
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
 endif()
 
 #add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
@@ -319,6 +320,6 @@ endif()
 #        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}"
 #        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}/" VERBATIM)
 
-add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
+#add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+#        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
