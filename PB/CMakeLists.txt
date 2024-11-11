@@ -53,10 +53,15 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-find_package(glfw3 CONFIG REQUIRED)
-find_package(GLEW REQUIRED)
+if(NOT ${SYSTEM_PLATFORM} STREQUAL "iOS")
+    find_package(glfw3 CONFIG REQUIRED)
+    find_package(GLEW REQUIRED)
+endif()
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    find_package(podofo CONFIG REQUIRED)
+endif()
+if(${SYSTEM_PLATFORM} STREQUAL "iOS")
     find_package(podofo CONFIG REQUIRED)
 endif()
 
@@ -70,6 +75,10 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/include)
+endif()
+
+if(${SYSTEM_PLATFORM} STREQUAL "iOS")
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/include)
 endif()
 
 include(third-party/windows/pdfium/PDFiumConfig.cmake)
@@ -208,6 +217,8 @@ target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
     third-party/windows/pdfium/include
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
+
+if(SYSTEM_PLATFORM STREQUAL "iOS")
 target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     opencv_core
     Boost::boost
@@ -218,11 +229,31 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     unofficial::sqlite3::sqlite3
     nlohmann_json::nlohmann_json
     spdlog::spdlog
-    pantor::inja
-    glfw
-    GLEW::GLEW)
+    pantor::inja)
+else()
+    target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
+        opencv_core
+        Boost::boost
+        Boost::program_options
+        Exiv2::exiv2lib
+        dp::thread-pool
+        unofficial::libharu::hpdf
+        unofficial::sqlite3::sqlite3
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        pantor::inja
+        glfw
+        GLEW::GLEW)
+endif()
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
+if(SYSTEM_PLATFORM STREQUAL "iOS")
+    set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES
+        XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+        XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ""
+        XCODE_ATTRIBUTE_ENABLE_BITCODE "NO")
+endif()
 
 add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
     tests/MockListeners.h
@@ -275,28 +306,49 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
 endif()
 
-target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-    opencv_core
-    opencv_imgcodecs
-    Boost::boost
-    Boost::program_options
-    Exiv2::exiv2lib
-    GTest::gtest GTest::gtest_main GTest::gmock
-    magic_enum::magic_enum
-    dp::thread-pool
-    unofficial::libharu::hpdf
-    unofficial::sqlite3::sqlite3
-    ${MAYBE_BCRYPT}
-    nlohmann_json::nlohmann_json
-    spdlog::spdlog
-    pantor::inja
-    ${PLATFORM_PODOFO}
-    ${PLATFORM_SKIA}
-    ${PBLIB_LIBRARY_NAME}
-    glfw
-    GLEW::GLEW)
+if(SYSTEM_PLATFORM STREQUAL "iOS")
+    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+        opencv_core
+        opencv_imgcodecs
+        Boost::boost
+        Boost::program_options
+        Exiv2::exiv2lib
+        GTest::gtest GTest::gtest_main GTest::gmock
+        magic_enum::magic_enum
+        dp::thread-pool
+        unofficial::libharu::hpdf
+        unofficial::sqlite3::sqlite3
+        ${MAYBE_BCRYPT}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        pantor::inja
+        ${PLATFORM_PODOFO}
+        ${PLATFORM_SKIA}
+        ${PBLIB_LIBRARY_NAME})
+else()
+    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+        opencv_core
+        opencv_imgcodecs
+        Boost::boost
+        Boost::program_options
+        Exiv2::exiv2lib
+        GTest::gtest GTest::gtest_main GTest::gmock
+        magic_enum::magic_enum
+        dp::thread-pool
+        unofficial::libharu::hpdf
+        unofficial::sqlite3::sqlite3
+        ${MAYBE_BCRYPT}
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        pantor::inja
+        ${PLATFORM_PODOFO}
+        ${PLATFORM_SKIA}
+        ${PBLIB_LIBRARY_NAME}
+        glfw
+        GLEW::GLEW)
+endif()
 
-if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+if (WIN32)
     add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
@@ -305,7 +357,9 @@ if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
         "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
-else()
+endif()
+
+if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
         "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
@@ -314,6 +368,17 @@ else()
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
         "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
 endif()
+
+if(${SYSTEM_PLATFORM} STREQUAL "iOS")
+    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
+
+    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+        "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
+endif()
+
 
 #add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
 #    COMMAND ${CMAKE_COMMAND} -E copy_directory
