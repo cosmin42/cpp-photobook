@@ -1,7 +1,15 @@
 #pragma once
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
+#if TARGET_OS_IOS
+// TODO: Add the OpenGL ES libraries
+#else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#endif
 
 #include <pb/Platform.h>
 #ifdef __APPLE__

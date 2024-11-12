@@ -53,7 +53,7 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-if(NOT ${SYSTEM_PLATFORM} STREQUAL "iOS")
+if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     find_package(glfw3 CONFIG REQUIRED)
     find_package(GLEW REQUIRED)
 endif()
@@ -61,7 +61,7 @@ endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
 endif()
-if(${SYSTEM_PLATFORM} STREQUAL "iOS")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     find_package(podofo CONFIG REQUIRED)
 endif()
 
@@ -77,7 +77,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/include)
 endif()
 
-if(${SYSTEM_PLATFORM} STREQUAL "iOS")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/include)
 endif()
 
@@ -218,7 +218,7 @@ target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 
-if(SYSTEM_PLATFORM STREQUAL "iOS")
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
 target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     opencv_core
     Boost::boost
@@ -248,7 +248,7 @@ endif()
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
-if(SYSTEM_PLATFORM STREQUAL "iOS")
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
     set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES
         XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
         XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ""
@@ -306,7 +306,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
 endif()
 
-if(SYSTEM_PLATFORM STREQUAL "iOS")
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
     target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         opencv_core
         opencv_imgcodecs
@@ -369,7 +369,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
         "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
 endif()
 
-if(${SYSTEM_PLATFORM} STREQUAL "iOS")
+if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
         "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
