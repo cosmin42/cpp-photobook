@@ -306,6 +306,14 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
 endif()
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
+endif()
+
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
     target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         opencv_core
