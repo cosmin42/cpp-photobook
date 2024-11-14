@@ -1,0 +1,19 @@
+defines = -DSKCMS_DISABLE_HSW -DSKCMS_DISABLE_SKX -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+cflags = -std=c11 -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = libskcms
+
+build obj/modules/skcms/libskcms.skcms.o: cxx ../../modules/skcms/skcms.cc
+  source_file_part = skcms.cc
+  source_name_part = skcms
+build obj/modules/skcms/src/libskcms.skcms_TransformBaseline.o: cxx ../../modules/skcms/src/skcms_TransformBaseline.cc
+  source_file_part = skcms_TransformBaseline.cc
+  source_name_part = skcms_TransformBaseline
+
+build ./libskcms.a: alink obj/modules/skcms/libskcms.skcms.o obj/modules/skcms/src/libskcms.skcms_TransformBaseline.o || obj/modules/skcms/skcms_TransformHsw.stamp obj/modules/skcms/skcms_TransformSkx.stamp
+  arflags =
+  output_extension = .a
+  output_dir = 

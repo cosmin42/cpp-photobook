@@ -1,0 +1,67 @@
+defines = -DPNG_SET_OPTION_SUPPORTED -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3 -isystem /Users/cosminmihai/skia/third_party/libpng -isystem /Users/cosminmihai/skia/third_party/externals/libpng -isystem /Users/cosminmihai/skia/third_party/externals/zlib
+cflags_c =
+root_out_dir = .
+target_output_name = libpng
+
+build obj/third_party/externals/libpng/libpng.png.o: cc ../../third_party/externals/libpng/png.c
+  source_file_part = png.c
+  source_name_part = png
+build obj/third_party/externals/libpng/libpng.pngerror.o: cc ../../third_party/externals/libpng/pngerror.c
+  source_file_part = pngerror.c
+  source_name_part = pngerror
+build obj/third_party/externals/libpng/libpng.pngget.o: cc ../../third_party/externals/libpng/pngget.c
+  source_file_part = pngget.c
+  source_name_part = pngget
+build obj/third_party/externals/libpng/libpng.pngmem.o: cc ../../third_party/externals/libpng/pngmem.c
+  source_file_part = pngmem.c
+  source_name_part = pngmem
+build obj/third_party/externals/libpng/libpng.pngpread.o: cc ../../third_party/externals/libpng/pngpread.c
+  source_file_part = pngpread.c
+  source_name_part = pngpread
+build obj/third_party/externals/libpng/libpng.pngread.o: cc ../../third_party/externals/libpng/pngread.c
+  source_file_part = pngread.c
+  source_name_part = pngread
+build obj/third_party/externals/libpng/libpng.pngrio.o: cc ../../third_party/externals/libpng/pngrio.c
+  source_file_part = pngrio.c
+  source_name_part = pngrio
+build obj/third_party/externals/libpng/libpng.pngrtran.o: cc ../../third_party/externals/libpng/pngrtran.c
+  source_file_part = pngrtran.c
+  source_name_part = pngrtran
+build obj/third_party/externals/libpng/libpng.pngrutil.o: cc ../../third_party/externals/libpng/pngrutil.c
+  source_file_part = pngrutil.c
+  source_name_part = pngrutil
+build obj/third_party/externals/libpng/libpng.pngset.o: cc ../../third_party/externals/libpng/pngset.c
+  source_file_part = pngset.c
+  source_name_part = pngset
+build obj/third_party/externals/libpng/libpng.pngtrans.o: cc ../../third_party/externals/libpng/pngtrans.c
+  source_file_part = pngtrans.c
+  source_name_part = pngtrans
+build obj/third_party/externals/libpng/libpng.pngwio.o: cc ../../third_party/externals/libpng/pngwio.c
+  source_file_part = pngwio.c
+  source_name_part = pngwio
+build obj/third_party/externals/libpng/libpng.pngwrite.o: cc ../../third_party/externals/libpng/pngwrite.c
+  source_file_part = pngwrite.c
+  source_name_part = pngwrite
+build obj/third_party/externals/libpng/libpng.pngwtran.o: cc ../../third_party/externals/libpng/pngwtran.c
+  source_file_part = pngwtran.c
+  source_name_part = pngwtran
+build obj/third_party/externals/libpng/libpng.pngwutil.o: cc ../../third_party/externals/libpng/pngwutil.c
+  source_file_part = pngwutil.c
+  source_name_part = pngwutil
+build obj/third_party/externals/libpng/arm/libpng.arm_init.o: cc ../../third_party/externals/libpng/arm/arm_init.c
+  source_file_part = arm_init.c
+  source_name_part = arm_init
+build obj/third_party/externals/libpng/arm/libpng.filter_neon_intrinsics.o: cc ../../third_party/externals/libpng/arm/filter_neon_intrinsics.c
+  source_file_part = filter_neon_intrinsics.c
+  source_name_part = filter_neon_intrinsics
+build obj/third_party/externals/libpng/arm/libpng.palette_neon_intrinsics.o: cc ../../third_party/externals/libpng/arm/palette_neon_intrinsics.c
+  source_file_part = palette_neon_intrinsics.c
+  source_name_part = palette_neon_intrinsics
+
+build ./libpng.a: alink obj/third_party/externals/libpng/libpng.png.o obj/third_party/externals/libpng/libpng.pngerror.o obj/third_party/externals/libpng/libpng.pngget.o obj/third_party/externals/libpng/libpng.pngmem.o obj/third_party/externals/libpng/libpng.pngpread.o obj/third_party/externals/libpng/libpng.pngread.o obj/third_party/externals/libpng/libpng.pngrio.o obj/third_party/externals/libpng/libpng.pngrtran.o obj/third_party/externals/libpng/libpng.pngrutil.o obj/third_party/externals/libpng/libpng.pngset.o obj/third_party/externals/libpng/libpng.pngtrans.o obj/third_party/externals/libpng/libpng.pngwio.o obj/third_party/externals/libpng/libpng.pngwrite.o obj/third_party/externals/libpng/libpng.pngwtran.o obj/third_party/externals/libpng/libpng.pngwutil.o obj/third_party/externals/libpng/arm/libpng.arm_init.o obj/third_party/externals/libpng/arm/libpng.filter_neon_intrinsics.o obj/third_party/externals/libpng/arm/libpng.palette_neon_intrinsics.o || ./libzlib.a obj/third_party/zlib/zlib_adler32_simd.stamp obj/third_party/zlib/zlib_common_headers.stamp obj/third_party/zlib/zlib_inflate_chunk_simd.stamp obj/third_party/zlib/zlib_slide_hash_simd.stamp obj/third_party/zlib/zlib_arm_crc32.stamp
+  arflags =
+  output_extension = .a
+  output_dir = 

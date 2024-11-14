@@ -1,0 +1,16 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+framework_dirs =
+include_dirs =
+cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3 -isystem /Users/cosminmihai/skia/third_party/externals/zlib/google -isystem /Users/cosminmihai/skia/third_party/externals/zlib
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = libcompression_utils_portable
+
+build obj/third_party/externals/zlib/google/libcompression_utils_portable.compression_utils_portable.o: cxx ../../third_party/externals/zlib/google/compression_utils_portable.cc
+  source_file_part = compression_utils_portable.cc
+  source_name_part = compression_utils_portable
+
+build ./libcompression_utils_portable.a: alink obj/third_party/externals/zlib/google/libcompression_utils_portable.compression_utils_portable.o || ./libzlib.a obj/third_party/zlib/zlib_adler32_simd.stamp obj/third_party/zlib/zlib_common_headers.stamp obj/third_party/zlib/zlib_inflate_chunk_simd.stamp obj/third_party/zlib/zlib_slide_hash_simd.stamp obj/third_party/zlib/zlib_arm_crc32.stamp
+  arflags =
+  output_extension = .a
+  output_dir = 

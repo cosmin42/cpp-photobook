@@ -1,0 +1,13 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DCRC32_ARMV8_CRC32 -DARMV8_OS_IOS
+framework_dirs =
+include_dirs = -I../../third_party/externals/zlib -I../../third_party/externals/zlib/contrib/optimizations
+cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3
+cflags_c =
+root_out_dir = .
+target_output_name = zlib_arm_crc32
+
+build obj/third_party/externals/zlib/zlib_arm_crc32.crc32_simd.o: cc ../../third_party/externals/zlib/crc32_simd.c
+  source_file_part = crc32_simd.c
+  source_name_part = crc32_simd
+
+build obj/third_party/zlib/zlib_arm_crc32.stamp: stamp obj/third_party/externals/zlib/zlib_arm_crc32.crc32_simd.o || obj/third_party/zlib/zlib_common_headers.stamp

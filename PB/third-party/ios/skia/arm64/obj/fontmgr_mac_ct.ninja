@@ -1,0 +1,19 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1 -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE
+framework_dirs =
+include_dirs = -I../..
+cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = fontmgr_mac_ct
+
+build obj/src/ports/fontmgr_mac_ct.SkFontMgr_mac_ct.o: cxx ../../src/ports/SkFontMgr_mac_ct.cpp
+  source_file_part = SkFontMgr_mac_ct.cpp
+  source_name_part = SkFontMgr_mac_ct
+build obj/src/ports/fontmgr_mac_ct.SkScalerContext_mac_ct.o: cxx ../../src/ports/SkScalerContext_mac_ct.cpp
+  source_file_part = SkScalerContext_mac_ct.cpp
+  source_name_part = SkScalerContext_mac_ct
+build obj/src/ports/fontmgr_mac_ct.SkTypeface_mac_ct.o: cxx ../../src/ports/SkTypeface_mac_ct.cpp
+  source_file_part = SkTypeface_mac_ct.cpp
+  source_name_part = SkTypeface_mac_ct
+
+build obj/fontmgr_mac_ct.stamp: stamp obj/src/ports/fontmgr_mac_ct.SkFontMgr_mac_ct.o obj/src/ports/fontmgr_mac_ct.SkScalerContext_mac_ct.o obj/src/ports/fontmgr_mac_ct.SkTypeface_mac_ct.o
