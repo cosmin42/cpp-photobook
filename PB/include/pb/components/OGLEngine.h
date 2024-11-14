@@ -6,6 +6,7 @@
 
 #if TARGET_OS_IOS
 // TODO: Add the OpenGL ES libraries
+#include <GLES3/gl3.h>
 #else
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

@@ -34,6 +34,7 @@ void OGLEngine::stop(std::stop_source stopSource)
 
 void OGLEngine::initOpenGL()
 {
+#if !defined(TARGET_OS_IOS)
   if (!glfwInit()) {
     PBDev::basicAssert(false);
   }
@@ -57,6 +58,7 @@ void OGLEngine::initOpenGL()
   if (glewInit() != GLEW_OK) {
     PBDev::basicAssert(false);
   }
+#endif
 }
 
 void OGLEngine::initFrameBuffer()
@@ -194,9 +196,18 @@ void OGLEngine::mainloop()
     loadTextureAndRender(imageProcessingData);
 
     glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
+
+#if TARGET_OS_IOS
     glReadPixels(0, 0, imageProcessingData.inImage->cols,
+                 imageProcessingData.inImage->rows, GL_RGB, GL_UNSIGNED_BYTE,
+                 imageProcessingData.outImage->data);
+#else
+    glReadPixels(0, 0, imageProcessingData.inImage->cols, 
                  imageProcessingData.inImage->rows, GL_BGR, GL_UNSIGNED_BYTE,
                  imageProcessingData.outImage->data);
+#endif
+
+
     mFinishedWork = true;
     mFinishedWorkCondition.notify_one();
 #ifdef __APPLE__
@@ -212,8 +223,9 @@ void OGLEngine::mainloop()
   for (auto const &[name, program] : mShaderPrograms) {
     glDeleteProgram(program);
   }
-
+#if !defined(TARGET_OS_IOS)
   glfwTerminate();
+#endif
 
 #ifdef __APPLE__
     });
@@ -253,10 +265,15 @@ void OGLEngine::loadTextureAndRender(
 
     glViewport(0, 0, lutImageProcessingData.inImage->cols,
                lutImageProcessingData.inImage->rows);
-
+#if TARGET_OS_IOS
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutImageProcessingData.inImage->cols,
+                 lutImageProcessingData.inImage->rows, 0, GL_RGB,
+                 GL_UNSIGNED_BYTE, lutImageProcessingData.inImage->data);
+#else
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutImageProcessingData.inImage->cols,
                  lutImageProcessingData.inImage->rows, 0, GL_BGR,
                  GL_UNSIGNED_BYTE, lutImageProcessingData.inImage->data);
+#endif
 
     glBindVertexArray(mVertexArrayObject); // Ensure VAO is bound
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -268,7 +285,9 @@ void OGLEngine::loadTextureAndRender(
     if (status != GL_FRAMEBUFFER_COMPLETE) {
       PBDev::basicAssert(false);
     }
+#if !defined(TARGET_OS_IOS)
     glfwPollEvents();
+#endif
   }
 }
 

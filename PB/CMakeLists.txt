@@ -255,144 +255,146 @@ if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
         XCODE_ATTRIBUTE_ENABLE_BITCODE "NO")
 endif()
 
-add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
-    tests/MockListeners.h
-    tests/MockListeners.cpp
-    tests/TestCollageService.cpp
-    tests/TestIteratorWithState.cpp
-    tests/TestErrors.cpp
-    tests/TestFolderImport.cpp
-    tests/TestImageMonitor.cpp
-    tests/TestParallelTaskConsumer.cpp
-    tests/TestPhotobook.cpp
-    tests/TestRuntimeUUID.cpp
-    tests/TestStagedImages.cpp
-    tests/TestThirdPartyLinks.cpp
-    tests/TestCollageLibraryAssistant.cpp
-    tests/TestDrawingService.cpp
-    tests/TestDatabaseService.cpp
-    tests/TestLutService.cpp
-    tests/TestMain.cpp
-    tests/TestDurableHashService.cpp
-    tests/TestProjectSerializerService.cpp
-    tests/TestProjectManagementSystem.cpp
-    tests/TestSerializer.cpp)
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    add_executable(${PBLIB_TESTS_LIBRARY_NAME} 
+        tests/MockListeners.h
+        tests/MockListeners.cpp
+        tests/TestCollageService.cpp
+        tests/TestIteratorWithState.cpp
+        tests/TestErrors.cpp
+        tests/TestFolderImport.cpp
+        tests/TestImageMonitor.cpp
+        tests/TestParallelTaskConsumer.cpp
+        tests/TestPhotobook.cpp
+        tests/TestRuntimeUUID.cpp
+        tests/TestStagedImages.cpp
+        tests/TestThirdPartyLinks.cpp
+        tests/TestCollageLibraryAssistant.cpp
+        tests/TestDrawingService.cpp
+        tests/TestDatabaseService.cpp
+        tests/TestLutService.cpp
+        tests/TestMain.cpp
+        tests/TestDurableHashService.cpp
+        tests/TestProjectSerializerService.cpp
+        tests/TestProjectManagementSystem.cpp
+        tests/TestSerializer.cpp)
 
-target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-    include
-    ${CMAKE_CURRENT_BINARY_DIR}/include)
+    target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+        include
+        ${CMAKE_CURRENT_BINARY_DIR}/include)
 
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    set(PLATFORM_PODOFO $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>)
+    if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+        set(PLATFORM_PODOFO $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>)
+    endif()
+    if (WIN32)
+        set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
+    endif()
+
+    if (WIN32)
+        set(MAYBE_BCRYPT bcrypt)
+        set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skia.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/svg.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skshaper.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skunicode_core.lib
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skunicode_icu.lib)
+    endif()
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
+    endif()
+
+    if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+        set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
+            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
+    endif()
+
+    if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+        target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+            opencv_core
+            opencv_imgcodecs
+            Boost::boost
+            Boost::program_options
+            Exiv2::exiv2lib
+            GTest::gtest GTest::gtest_main GTest::gmock
+            magic_enum::magic_enum
+            dp::thread-pool
+            unofficial::libharu::hpdf
+            unofficial::sqlite3::sqlite3
+            ${MAYBE_BCRYPT}
+            nlohmann_json::nlohmann_json
+            spdlog::spdlog
+            pantor::inja
+            ${PLATFORM_PODOFO}
+            ${PLATFORM_SKIA}
+            ${PBLIB_LIBRARY_NAME})
+    else()
+        target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
+            opencv_core
+            opencv_imgcodecs
+            Boost::boost
+            Boost::program_options
+            Exiv2::exiv2lib
+            GTest::gtest GTest::gtest_main GTest::gmock
+            magic_enum::magic_enum
+            dp::thread-pool
+            unofficial::libharu::hpdf
+            unofficial::sqlite3::sqlite3
+            ${MAYBE_BCRYPT}
+            nlohmann_json::nlohmann_json
+            spdlog::spdlog
+            pantor::inja
+            ${PLATFORM_PODOFO}
+            ${PLATFORM_SKIA}
+            ${PBLIB_LIBRARY_NAME}
+            glfw
+            GLEW::GLEW)
+    endif()
+
+    if (WIN32)
+        add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/" VERBATIM)
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
+    endif()
+
+    if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
+    endif()
+
+    if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
+    endif()
+
+
+    #add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    #    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    #        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}"
+    #        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}/" VERBATIM)
+
+    #add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+    #    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+    #        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
 endif()
-if (WIN32)
-    set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
-endif()
-
-if (WIN32)
-    set(MAYBE_BCRYPT bcrypt)
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skia.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/svg.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skshaper.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skunicode_core.lib
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/Debug/skunicode_icu.lib)
-endif()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/osx/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
-endif()
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    set(PLATFORM_SKIA ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskia.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libsvg.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskshaper.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_core.a
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/${CMAKE_OSX_ARCHITECTURES}/libskunicode_icu.a)
-endif()
-
-if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
-    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-        opencv_core
-        opencv_imgcodecs
-        Boost::boost
-        Boost::program_options
-        Exiv2::exiv2lib
-        GTest::gtest GTest::gtest_main GTest::gmock
-        magic_enum::magic_enum
-        dp::thread-pool
-        unofficial::libharu::hpdf
-        unofficial::sqlite3::sqlite3
-        ${MAYBE_BCRYPT}
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        pantor::inja
-        ${PLATFORM_PODOFO}
-        ${PLATFORM_SKIA}
-        ${PBLIB_LIBRARY_NAME})
-else()
-    target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
-        opencv_core
-        opencv_imgcodecs
-        Boost::boost
-        Boost::program_options
-        Exiv2::exiv2lib
-        GTest::gtest GTest::gtest_main GTest::gmock
-        magic_enum::magic_enum
-        dp::thread-pool
-        unofficial::libharu::hpdf
-        unofficial::sqlite3::sqlite3
-        ${MAYBE_BCRYPT}
-        nlohmann_json::nlohmann_json
-        spdlog::spdlog
-        pantor::inja
-        ${PLATFORM_PODOFO}
-        ${PLATFORM_SKIA}
-        ${PBLIB_LIBRARY_NAME}
-        glfw
-        GLEW::GLEW)
-endif()
-
-if (WIN32)
-    add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/" VERBATIM)
-
-    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
-endif()
-
-if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
-
-    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
-endif()
-
-if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
-    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
-
-    add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/build-ios-arm64/")
-endif()
-
-
-#add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        "${CMAKE_CURRENT_SOURCE_DIR}/third-party/windows/skia/${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}"
-#        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/${CMAKE_BUILD_TYPE}/" VERBATIM)
-
-#add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
-#    COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-#        "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
