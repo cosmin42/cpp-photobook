@@ -34,7 +34,7 @@ void OGLEngine::stop(std::stop_source stopSource)
 
 void OGLEngine::initOpenGL()
 {
-#if !defined(TARGET_OS_IOS)
+#if !(TARGET_OS_IOS)
   if (!glfwInit()) {
     PBDev::basicAssert(false);
   }
@@ -223,7 +223,7 @@ void OGLEngine::mainloop()
   for (auto const &[name, program] : mShaderPrograms) {
     glDeleteProgram(program);
   }
-#if !defined(TARGET_OS_IOS)
+#if !TARGET_OS_IOS
   glfwTerminate();
 #endif
 
@@ -285,7 +285,7 @@ void OGLEngine::loadTextureAndRender(
     if (status != GL_FRAMEBUFFER_COMPLETE) {
       PBDev::basicAssert(false);
     }
-#if !defined(TARGET_OS_IOS)
+#if !TARGET_OS_IOS
     glfwPollEvents();
 #endif
   }

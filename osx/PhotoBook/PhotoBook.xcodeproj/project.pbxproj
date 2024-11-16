@@ -302,7 +302,6 @@
 		732BA5622CE6B03700916922 /* libopencv_stitching4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA45B2CE6AFC600916922 /* libopencv_stitching4d.a */; platformFilter = ios; };
 		732BA5632CE6B03700916922 /* libopencv_video4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4A82CE6AFD900916922 /* libopencv_video4d.a */; platformFilter = ios; };
 		732BA5642CE6B03800916922 /* libopencv_videoio4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4842CE6AFCF00916922 /* libopencv_videoio4d.a */; platformFilter = ios; };
-		732BA5652CE6B03800916922 /* libpng16d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4D52CE6AFE700916922 /* libpng16d.a */; };
 		732BA5662CE6B03800916922 /* libpng16d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4D52CE6AFE700916922 /* libpng16d.a */; platformFilter = ios; };
 		732BA5672CE6B03800916922 /* libpodofo_private.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4E12CE6AFEC00916922 /* libpodofo_private.a */; platformFilter = ios; };
 		732BA5682CE6B03900916922 /* libpodofo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA4D62CE6AFE800916922 /* libpodofo.a */; platformFilter = ios; };
@@ -346,7 +345,6 @@
 		732BA5A62CE6B1EE00916922 /* libdng_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5912CE6B1BF00916922 /* libdng_sdk.a */; platformFilter = ios; };
 		732BA5A72CE6B1EE00916922 /* libcompression_utils_portable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */; platformFilter = ios; };
 		732BA5A82CE6B1EF00916922 /* libbentleyottmann.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5802CE6B1BC00916922 /* libbentleyottmann.a */; platformFilter = ios; };
-		732BA5A92CE6B22F00916922 /* libskia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA57D2CE6B1BC00916922 /* libskia.a */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
@@ -876,7 +874,6 @@
 				732BA59B2CE6B1EB00916922 /* libsksg.a in Frameworks */,
 				732BA3BF2CE6A49900916922 /* libz-macos.a in Frameworks */,
 				732BA5462CE6B03100916922 /* libcharset.a in Frameworks */,
-				732BA5652CE6B03800916922 /* libpng16d.a in Frameworks */,
 				732BA4372CE6A75F00916922 /* libdng_sdk-macos.a in Frameworks */,
 				732BA3C52CE6A49900916922 /* libGLEWd-macos.a in Frameworks */,
 				732BA3B12CE6A49800916922 /* libwebp-macos.a in Frameworks */,
@@ -1039,7 +1036,6 @@
 				732BA5552CE6B03400916922 /* libjpeg.a in Frameworks */,
 				732BA5972CE6B1EA00916922 /* libsvg.a in Frameworks */,
 				732BA4FA2CE6B02200916922 /* libabsl_failure_signal_handler.a in Frameworks */,
-				732BA5A92CE6B22F00916922 /* libskia.a in Frameworks */,
 				732BA3AD2CE6A49700916922 /* libboost_random-macos.a in Frameworks */,
 				732BA50C2CE6B02500916922 /* libabsl_log_entry.a in Frameworks */,
 				732BA3752CE6A49400916922 /* libabsl_log_internal_globals-macos.a in Frameworks */,
@@ -1893,12 +1889,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../../pb/include,
-					"../../vcpkg/installed/x64-osx/include",
-					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../pb/third-party/osx/skia/include",
-				);
 				"HEADER_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
 					../../pb/include,
 					"../../vcpkg/installed/x64-ios/include",
@@ -1917,14 +1907,14 @@
 					"../../pb/third-party/ios/skia/x86_64",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = (
-					"../../pb/build-arm64",
-					"../../vcpkg/installed/x64-osx/debug/lib",
-					"../../pb/third-party/osx/skia/x86_64",
+					../../PB/build,
+					"../../PB/vcpkg-fat",
+					"../../PB/skia-fat",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = (
-					"../../pb/build-x86_64",
-					"../../vcpkg/installed/x64-osx/debug/lib",
-					"../../pb/third-party/osx/skia/x86_64",
+					../../PB/build,
+					"../../PB/vcpkg-fat",
+					"../../PB/skia-fat",
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2004,12 +1994,7 @@
 				ENABLE_PREVIEWS = YES;
 				GCC_VERSION = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					../../pb/include,
-					"../../pb/third-party/osx/skia/include",
-					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include",
-				);
+				HEADER_SEARCH_PATHS = "";
 				"HEADER_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
 					../../pb/include,
 					"../../pb/third-party/ios/skia/include",

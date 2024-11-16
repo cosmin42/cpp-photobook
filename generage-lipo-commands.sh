@@ -37,12 +37,11 @@ if __name__ == "__main__":
             print("    " + os.path.join(args.folder2, file))
             print()
 
-    print("mkdir pb/build")
+        print("mkdir pb/build")
 
-    print("lipo -create -output pb/build/libpblib-macos.a \\")
-    print("    pb/x64-macos/libpblib-Darwin.a \\")
-    print("    pb/arm64-macos/libpblib-Darwin.a")
-)
-    
+        print("lipo -create -output pb/build/libpblib-macos.a \\")
+        print("    pb/x64-macos/libpblib-Darwin.a \\")
+        print("    pb/arm64-macos/libpblib-Darwin.a")
+
     else:
         print("No common files found.")
