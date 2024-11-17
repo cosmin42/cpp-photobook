@@ -1,9 +1,10 @@
-#version 330 core
-out vec3 FragColor;
+#version 450 core
+layout(location = 0) out vec3 FragColor;
 
-in vec2 TexCoord;
-uniform sampler2D texture1;
-uniform sampler3D textureSampler;      // The 3D LUT
+layout(location = 1) in vec2 TexCoord;
+
+layout(binding = 2) uniform sampler2D texture1;
+layout(binding = 3) uniform sampler3D textureSampler;      // The 3D LUT
 
 void main() {
     vec3 color = texture(texture1, TexCoord).rgb;
