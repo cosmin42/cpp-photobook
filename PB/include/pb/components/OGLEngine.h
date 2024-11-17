@@ -4,13 +4,7 @@
 #include <TargetConditionals.h>
 #endif
 
-#if TARGET_OS_IOS
-// TODO: Add the OpenGL ES libraries
-#include <GLES3/gl3.h>
-#else
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#endif
+#include <vulkan/vulkan.h>
 
 #include <pb/Platform.h>
 #ifdef __APPLE__
@@ -28,7 +22,7 @@ public:
   ~OGLEngine() = default;
 
 #ifdef __APPLE__
-  void configureThreadScheduler(PBDev::ThreadScheduler* threadScheduler);
+  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
 #endif
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
@@ -40,15 +34,20 @@ public:
 private:
   void initOpenGL();
 
-  void initFrameBuffer();
+  void createCommandPool();
 
-  GLint createProgram(Path path, std::string name);
+  void createCommandBuffer();
+
+  void beginCommandBuffer();
+
+  void endCommandBuffer();
+
+  void submitCommandBuffer();
 
   std::string readShaderSource(Path path);
 
-  GLuint compileShader(GLenum type, std::string source);
-
-  void generateRenderTexture();
+  void transitionImageLayout(VkImage image, VkImageLayout oldLayout,
+                             VkImageLayout newLayout);
 
   void loadPrograms();
 
@@ -59,7 +58,7 @@ private:
   void loadTextureAndRender(ImageProcessingData const &imageProcessingData);
 
 #ifdef __APPLE__
-  PBDev::ThreadScheduler* mThreadScheduler = nullptr;
+  PBDev::ThreadScheduler *mThreadScheduler = nullptr;
 #endif
 
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
@@ -69,16 +68,12 @@ private:
 
   std::stop_token mStopToken;
 
-  GLuint mRenderTextureId;
-  GLuint mLutTextureId;
-
-  GLuint mVertexBufferObject;
-  GLuint mVertexArrayObject;
-  GLuint mElementBufferObject;
-  GLuint mFrameBufferObject;
-  GLuint mRenderBufferObject;
-
-  std::unordered_map<std::string, GLint> mShaderPrograms;
+  VkInstance       mInstance;
+  VkPhysicalDevice mPhysicalDevice = VK_NULL_HANDLE;
+  VkDevice         mDevice;
+  VkQueue          mQueue;
+  VkCommandPool    mCommandPool;
+  VkCommandBuffer  mCommandBuffer;
 
   float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
                               0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
@@ -94,4 +89,4 @@ private:
 
   const Path VERTEX_SHADER_PATH = Path("shaders") / "vertex.glsl";
 };
-} // namespace PB
+} // namespace PB::Service

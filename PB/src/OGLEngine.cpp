@@ -9,7 +9,8 @@
 namespace PB::Service {
 
 #ifdef __APPLE__
-void OGLEngine::configureThreadScheduler(PBDev::ThreadScheduler* threadScheduler)
+void OGLEngine::configureThreadScheduler(
+    PBDev::ThreadScheduler *threadScheduler)
 {
   mThreadScheduler = threadScheduler;
 }
@@ -34,37 +35,110 @@ void OGLEngine::stop(std::stop_source stopSource)
 
 void OGLEngine::initOpenGL()
 {
-#if !(TARGET_OS_IOS)
-  if (!glfwInit()) {
-    PBDev::basicAssert(false);
-  }
-  // Create an invisible window
-  glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required on macOS
-#endif
+  VkInstanceCreateInfo createInfo = {};
+  createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+  // Additional configuration of createInfo if needed
 
-  GLFWwindow *window = glfwCreateWindow(1, 1, "", nullptr, nullptr);
-  if (!window) {
-    glfwTerminate();
+  if (vkCreateInstance(&createInfo, nullptr, &mInstance) != VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
 
-  glfwMakeContextCurrent(window);
+  uint32_t deviceCount = 0;
+  vkEnumeratePhysicalDevices(mInstance, &deviceCount, nullptr);
 
-  if (glewInit() != GLEW_OK) {
+  if (deviceCount == 0) {
     PBDev::basicAssert(false);
   }
-#endif
+
+  std::vector<VkPhysicalDevice> devices(deviceCount);
+  vkEnumeratePhysicalDevices(mInstance, &deviceCount, devices.data());
+
+  // Choose a suitable physical device (e.g., first available)
+  mPhysicalDevice = devices[0];
+
+  float queuePriority = 1.0f;
+
+  // Define the queue creation info
+  VkDeviceQueueCreateInfo queueCreateInfo = {};
+  queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+  queueCreateInfo.queueFamilyIndex = 0; // Replace with the correct family index
+  queueCreateInfo.queueCount = 1;
+  queueCreateInfo.pQueuePriorities = &queuePriority;
+
+  // Specify device features
+  VkPhysicalDeviceFeatures deviceFeatures = {};
+
+  // Create the logical device
+  VkDeviceCreateInfo deviceCreateInfo = {};
+  deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+  deviceCreateInfo.pQueueCreateInfos = &queueCreateInfo;
+  deviceCreateInfo.queueCreateInfoCount = 1;
+  deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
+
+  if (vkCreateDevice(mPhysicalDevice, &deviceCreateInfo, nullptr, &mDevice) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+
+  vkGetDeviceQueue(mDevice, 0, 0, &mQueue);
 }
 
-void OGLEngine::initFrameBuffer()
+void OGLEngine::createCommandPool()
 {
-  glGenFramebuffers(1, &mFrameBufferObject);
-  glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
+  VkCommandPoolCreateInfo poolInfo{};
+  poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+  poolInfo.queueFamilyIndex = 0;
+  poolInfo.flags = 0;
+
+  if (vkCreateCommandPool(mDevice, &poolInfo, nullptr, &mCommandPool) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::createCommandBuffer()
+{
+  VkCommandBufferAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+  allocInfo.commandPool = mCommandPool;
+  allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+  allocInfo.commandBufferCount = 1;
+
+  if (vkAllocateCommandBuffers(mDevice, &allocInfo, &mCommandBuffer) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::beginCommandBuffer()
+{
+  VkCommandBufferBeginInfo beginInfo{};
+  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+  if (vkBeginCommandBuffer(mCommandBuffer, &beginInfo) != VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::endCommandBuffer()
+{
+  if (vkEndCommandBuffer(mCommandBuffer) != VK_SUCCESS) {
+    throw std::runtime_error("Failed to record command buffer!");
+  }
+}
+
+void OGLEngine::submitCommandBuffer()
+{
+  VkSubmitInfo submitInfo{};
+  submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+  submitInfo.commandBufferCount = 1;
+  submitInfo.pCommandBuffers = &mCommandBuffer;
+
+  if (vkQueueSubmit(mQueue, 1, &submitInfo, VK_NULL_HANDLE) != VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+  vkQueueWaitIdle(mQueue);
 }
 
 std::string OGLEngine::readShaderSource(Path path)
@@ -75,161 +149,34 @@ std::string OGLEngine::readShaderSource(Path path)
   return source;
 }
 
-GLuint OGLEngine::compileShader(GLenum type, std::string source)
+void OGLEngine::transitionImageLayout(VkImage image, VkImageLayout oldLayout,
+                                      VkImageLayout newLayout)
 {
-  GLuint      shader = glCreateShader(type);
-  const char *c_str = source.c_str();
-  glShaderSource(shader, 1, &c_str, NULL);
-  glCompileShader(shader);
 
-  // Check for compilation errors
-  GLint success;
-  glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    char infoLog[512];
-    glGetShaderInfoLog(shader, 512, NULL, infoLog);
-    PBDev::basicAssert(false);
-  }
-
-  return shader;
-}
-
-void OGLEngine::generateRenderTexture()
-{
-  glGenTextures(1, &mRenderTextureId);
-  glBindTexture(GL_TEXTURE_2D, mRenderTextureId);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-  glGenRenderbuffers(1, &mRenderBufferObject);
-  glBindRenderbuffer(GL_RENDERBUFFER, mRenderBufferObject);
-
-  glGenTextures(1, &mLutTextureId);
-  glBindTexture(GL_TEXTURE_3D, mLutTextureId);
-
-  glGenVertexArrays(1, &mVertexArrayObject);
-  glGenBuffers(1, &mVertexBufferObject);
-  glGenBuffers(1, &mElementBufferObject);
-
-  glBindVertexArray(mVertexArrayObject);
-
-  glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferObject);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(mImageVertices), mImageVertices,
-               GL_STATIC_DRAW);
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mElementBufferObject);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(mIndices), mIndices,
-               GL_STATIC_DRAW);
-
-  // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-  glEnableVertexAttribArray(0);
-
-  // Texture coordinate attribute
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-                        (void *)(3 * sizeof(float)));
-  glEnableVertexAttribArray(1);
-}
-
-GLint OGLEngine::createProgram(Path fragmentShaderPath, std::string name)
-{
-  std::string fragmentShaderSource =
-      readShaderSource(mPlatformInfo->installationPath / fragmentShaderPath);
-  std::string vertexShaderSource =
-      readShaderSource(mPlatformInfo->installationPath / VERTEX_SHADER_PATH);
-
-  GLuint fragmentShader =
-      compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
-
-  GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
-
-  GLint shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-
-  // Check for linking errors
-  GLint success;
-  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-  if (!success) {
-    char infoLog[512];
-    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    PBDev::basicAssert(false);
-  }
-
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
-
-  return shaderProgram;
+  
 }
 
 void OGLEngine::loadPrograms()
 {
   // Load shaders.
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
-    mShaderPrograms[name] = createProgram(path, name);
-
-    glUseProgram(mShaderPrograms.at(name));
   }
 }
 
 void OGLEngine::mainloop()
 {
-#ifdef __APPLE__
-  mThreadScheduler->post([this](){
-#endif
-    initOpenGL();
-    initFrameBuffer();
-    loadPrograms();
-    generateRenderTexture();
-#ifdef __APPLE__
-  });
-#endif
+  initOpenGL();
+  createCommandPool();
+  createCommandBuffer();
+  loadPrograms();
 
   while (!mStopToken.stop_requested()) {
     auto imageProcessingData = mWorkQueue.dequeue();
-#ifdef __APPLE__
-    mThreadScheduler->post([this, imageProcessingData{imageProcessingData}](){
-#endif
     loadTextureAndRender(imageProcessingData);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, mFrameBufferObject);
-
-#if TARGET_OS_IOS
-    glReadPixels(0, 0, imageProcessingData.inImage->cols,
-                 imageProcessingData.inImage->rows, GL_RGB, GL_UNSIGNED_BYTE,
-                 imageProcessingData.outImage->data);
-#else
-    glReadPixels(0, 0, imageProcessingData.inImage->cols, 
-                 imageProcessingData.inImage->rows, GL_BGR, GL_UNSIGNED_BYTE,
-                 imageProcessingData.outImage->data);
-#endif
-
 
     mFinishedWork = true;
     mFinishedWorkCondition.notify_one();
-#ifdef __APPLE__
-    });
-#endif
   }
-
-#ifdef __APPLE__
-    mThreadScheduler->post([this](){
-#endif
-  glDeleteTextures(1, &mRenderTextureId);
-  glDeleteFramebuffers(1, &mFrameBufferObject);
-  for (auto const &[name, program] : mShaderPrograms) {
-    glDeleteProgram(program);
-  }
-#if !TARGET_OS_IOS
-  glfwTerminate();
-#endif
-
-#ifdef __APPLE__
-    });
-#endif
 }
 
 Path OGLEngine::vertexShaderPath() const
@@ -243,60 +190,30 @@ void OGLEngine::loadTextureAndRender(
   if (imageProcessingData.type() == ImageProcessingType::LUT) {
     auto lutImageProcessingData =
         dynamic_cast<LutImageProcessingData const &>(imageProcessingData);
-
-    GLsizei lutSize = (GLsizei)std::cbrt(lutImageProcessingData.lut.size());
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB32F, lutSize, lutSize, lutSize, 0,
-                 GL_RGB, GL_FLOAT, lutImageProcessingData.lut.data());
-
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-    // Clear the buffer
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8,
-                          lutImageProcessingData.inImage->cols,
-                          lutImageProcessingData.inImage->rows);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT,
-                              GL_RENDERBUFFER, mRenderBufferObject);
-
-    glViewport(0, 0, lutImageProcessingData.inImage->cols,
-               lutImageProcessingData.inImage->rows);
-#if TARGET_OS_IOS
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutImageProcessingData.inImage->cols,
-                 lutImageProcessingData.inImage->rows, 0, GL_RGB,
-                 GL_UNSIGNED_BYTE, lutImageProcessingData.inImage->data);
-#else
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutImageProcessingData.inImage->cols,
-                 lutImageProcessingData.inImage->rows, 0, GL_BGR,
-                 GL_UNSIGNED_BYTE, lutImageProcessingData.inImage->data);
-#endif
-
-    glBindVertexArray(mVertexArrayObject); // Ensure VAO is bound
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-    // Attach the texture to the framebuffer
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                           mRenderTextureId, 0);
-    auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if (status != GL_FRAMEBUFFER_COMPLETE) {
-      PBDev::basicAssert(false);
-    }
-#if !TARGET_OS_IOS
-    glfwPollEvents();
-#endif
+    applyLut(lutImageProcessingData);
   }
 }
 
 void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
 {
-  std::unique_lock lock(mWorkMutex);
-  mFinishedWork = false;
-  mWorkQueue.enqueue(imageProcessingData);
-  mFinishedWorkCondition.wait(lock, [this] { return mFinishedWork; });
+  // Load the image into VKImage
+  VkImage inputImage = VK_NULL_HANDLE;
+  VkImage outputImage = VK_NULL_HANDLE;
+
+  beginCommandBuffer();
+
+  // Transition input and output images to appropriate layouts
+  transitionImageLayout(inputImage, VK_IMAGE_LAYOUT_UNDEFINED,
+                        VK_IMAGE_LAYOUT_GENERAL);
+  transitionImageLayout(outputImage, VK_IMAGE_LAYOUT_UNDEFINED,
+                        VK_IMAGE_LAYOUT_GENERAL);
+
+  // Record commands to apply the LUT shader (this step would involve
+  // dispatching a compute shader or rendering) Placeholder for shader execution
+  // logic
+
+  endCommandBuffer();
+  submitCommandBuffer();
 }
 
-} // namespace PB
+} // namespace PB::Service
