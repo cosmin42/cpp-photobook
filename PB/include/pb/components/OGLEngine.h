@@ -44,10 +44,10 @@ private:
 
   void submitCommandBuffer();
 
-  std::string readShaderSource(Path path);
-
   void transitionImageLayout(VkImage image, VkImageLayout oldLayout,
                              VkImageLayout newLayout);
+
+  VkShaderModule createShaderModule(Path shaderSpv) const;
 
   void loadPrograms();
 
@@ -74,6 +74,8 @@ private:
   VkQueue          mQueue;
   VkCommandPool    mCommandPool;
   VkCommandBuffer  mCommandBuffer;
+
+  std::unordered_map<std::string, VkShaderModule> mShaderPrograms;
 
   float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
                               0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,

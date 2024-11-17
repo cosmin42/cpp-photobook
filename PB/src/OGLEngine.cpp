@@ -141,25 +141,43 @@ void OGLEngine::submitCommandBuffer()
   vkQueueWaitIdle(mQueue);
 }
 
-std::string OGLEngine::readShaderSource(Path path)
+VkShaderModule OGLEngine::createShaderModule(Path shaderSpv) const
 {
-  std::ifstream file(path);
-  std::string   source((std::istreambuf_iterator<char>(file)),
-                       std::istreambuf_iterator<char>());
-  return source;
+  std::ifstream file(shaderSpv, std::ios::ate | std::ios::binary);
+  if (!file.is_open()) {
+    PBDev::basicAssert(false);
+  }
+
+  size_t            fileSize = static_cast<size_t>(file.tellg());
+  std::vector<char> buffer(fileSize);
+  file.seekg(0);
+  file.read(buffer.data(), fileSize);
+
+  VkShaderModuleCreateInfo createInfo = {};
+  createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+  createInfo.codeSize = buffer.size();
+  createInfo.pCode = reinterpret_cast<const uint32_t *>(buffer.data());
+
+  VkShaderModule shaderModule;
+  if (vkCreateShaderModule(mDevice, &createInfo, nullptr, &shaderModule) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+
+  return shaderModule;
 }
 
 void OGLEngine::transitionImageLayout(VkImage image, VkImageLayout oldLayout,
                                       VkImageLayout newLayout)
 {
 
-  
 }
 
 void OGLEngine::loadPrograms()
 {
   // Load shaders.
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
+    mShaderPrograms[name] = createShaderModule(path);
   }
 }
 
