@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(SolutionDir)..\PB\third-party\windows\skia\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
