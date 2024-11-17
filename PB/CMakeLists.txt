@@ -53,10 +53,6 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
-if(NOT ${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
-    find_package(glfw3 CONFIG REQUIRED)
-    find_package(GLEW REQUIRED)
-endif()
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
@@ -241,9 +237,7 @@ else()
         unofficial::sqlite3::sqlite3
         nlohmann_json::nlohmann_json
         spdlog::spdlog
-        pantor::inja
-        glfw
-        GLEW::GLEW)
+        pantor::inja)
 endif()
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
@@ -352,9 +346,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
             pantor::inja
             ${PLATFORM_PODOFO}
             ${PLATFORM_SKIA}
-            ${PBLIB_LIBRARY_NAME}
-            glfw
-            GLEW::GLEW)
+            ${PBLIB_LIBRARY_NAME})
     endif()
 
     if (WIN32)
