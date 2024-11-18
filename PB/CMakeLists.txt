@@ -53,6 +53,7 @@ find_package(unofficial-sqlite3 CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
+find_package(Vulkan REQUIRED)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
@@ -237,7 +238,8 @@ else()
         unofficial::sqlite3::sqlite3
         nlohmann_json::nlohmann_json
         spdlog::spdlog
-        pantor::inja)
+        pantor::inja
+        Vulkan::Vulkan)
 endif()
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)

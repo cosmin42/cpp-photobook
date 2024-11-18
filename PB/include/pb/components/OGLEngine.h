@@ -44,6 +44,11 @@ private:
 
   void submitCommandBuffer();
 
+  std::pair<VkImage, VkSampler> createVkImage(std::shared_ptr<cv::Mat> image);
+
+  uint32_t findMemoryType(uint32_t              typeFilter,
+                          VkMemoryPropertyFlags properties);
+
   void transitionImageLayout(VkImage image, VkImageLayout oldLayout,
                              VkImageLayout newLayout);
 
@@ -68,12 +73,12 @@ private:
 
   std::stop_token mStopToken;
 
-  VkInstance       mInstance;
+  VkInstance       mInstance = VK_NULL_HANDLE;
   VkPhysicalDevice mPhysicalDevice = VK_NULL_HANDLE;
-  VkDevice         mDevice;
-  VkQueue          mQueue;
-  VkCommandPool    mCommandPool;
-  VkCommandBuffer  mCommandBuffer;
+  VkDevice         mDevice = VK_NULL_HANDLE;
+  VkQueue          mQueue = VK_NULL_HANDLE;
+  VkCommandPool    mCommandPool = VK_NULL_HANDLE;
+  VkCommandBuffer  mCommandBuffer = VK_NULL_HANDLE;
 
   std::unordered_map<std::string, VkShaderModule> mShaderPrograms;
 

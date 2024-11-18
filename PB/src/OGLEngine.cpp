@@ -24,6 +24,7 @@ void OGLEngine::configurePlatformInfo(
 void OGLEngine::start(std::stop_token stopToken)
 {
   mStopToken = stopToken;
+  initOpenGL();
   mThread = std::jthread([this] { mainloop(); });
 }
 
@@ -33,11 +34,57 @@ void OGLEngine::stop(std::stop_source stopSource)
   mWorkQueue.enqueue(LutImageProcessingData());
 }
 
+bool checkValidationLayerSupport()
+{
+  uint32_t layerCount;
+  vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+  std::vector<VkLayerProperties> availableLayers(layerCount);
+  vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+  const char *validationLayers[] = {"VK_LAYER_KHRONOS_validation"};
+
+  for (const char *layerName : validationLayers) {
+    bool layerFound = false;
+
+    for (const auto &layerProperties : availableLayers) {
+      if (strcmp(layerName, layerProperties.layerName) == 0) {
+        layerFound = true;
+        break;
+      }
+    }
+
+    if (!layerFound) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+
 void OGLEngine::initOpenGL()
 {
+  if (!checkValidationLayerSupport()) {
+    PBDev::basicAssert(false);
+  }
+
+  VkApplicationInfo appInfo = {};
+  appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+  appInfo.pApplicationName = "PhotoboookNoir";
+  appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+  appInfo.pEngineName = "PhotoboookNoirEngine";
+  appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+  appInfo.apiVersion = VK_API_VERSION_1_3;
+
   VkInstanceCreateInfo createInfo = {};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-  // Additional configuration of createInfo if needed
+  createInfo.pApplicationInfo = &appInfo;
+
+  const char *extensions[] = {VK_EXT_DEBUG_UTILS_EXTENSION_NAME};
+  createInfo.enabledExtensionCount = 1;
+  createInfo.ppEnabledExtensionNames = extensions;
+
 
   if (vkCreateInstance(&createInfo, nullptr, &mInstance) != VK_SUCCESS) {
     PBDev::basicAssert(false);
@@ -170,7 +217,6 @@ VkShaderModule OGLEngine::createShaderModule(Path shaderSpv) const
 void OGLEngine::transitionImageLayout(VkImage image, VkImageLayout oldLayout,
                                       VkImageLayout newLayout)
 {
-
 }
 
 void OGLEngine::loadPrograms()
@@ -183,7 +229,7 @@ void OGLEngine::loadPrograms()
 
 void OGLEngine::mainloop()
 {
-  initOpenGL();
+
   createCommandPool();
   createCommandBuffer();
   loadPrograms();
@@ -195,6 +241,8 @@ void OGLEngine::mainloop()
     mFinishedWork = true;
     mFinishedWorkCondition.notify_one();
   }
+
+  vkDestroyInstance(mInstance, nullptr);
 }
 
 Path OGLEngine::vertexShaderPath() const
@@ -212,10 +260,99 @@ void OGLEngine::loadTextureAndRender(
   }
 }
 
+uint32_t OGLEngine::findMemoryType(uint32_t              typeFilter,
+                                   VkMemoryPropertyFlags properties)
+{
+  VkPhysicalDeviceMemoryProperties memoryProperties;
+  vkGetPhysicalDeviceMemoryProperties(mPhysicalDevice, &memoryProperties);
+
+  // Iterate over all memory types
+  for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++) {
+    // Check if the memory type is compatible with the requested properties
+    if ((typeFilter & (1 << i)) &&
+        (memoryProperties.memoryTypes[i].propertyFlags & properties) ==
+            properties) {
+      return i; // Return the index of the first suitable memory type
+    }
+  }
+
+  throw std::runtime_error("failed to find suitable memory type!");
+}
+
+std::pair<VkImage, VkSampler>
+OGLEngine::createVkImage(std::shared_ptr<cv::Mat> image)
+{
+  VkImageCreateInfo imageCreateInfo = {};
+  imageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+  imageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+  imageCreateInfo.format = VK_FORMAT_R8G8B8A8_UNORM; // Assuming RGBA format
+  imageCreateInfo.extent = {(uint32_t)image->cols, (uint32_t)image->rows,
+                            1}; // Width and height of the image
+  imageCreateInfo.mipLevels = 1;
+  imageCreateInfo.arrayLayers = 1;
+  imageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+  imageCreateInfo.tiling = VK_IMAGE_TILING_LINEAR;
+  imageCreateInfo.usage =
+      VK_IMAGE_USAGE_TRANSFER_DST_BIT |
+      VK_IMAGE_USAGE_SAMPLED_BIT; // We will sample from this image
+  imageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+  imageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+  VkImage vkImage;
+  if (vkCreateImage(mDevice, &imageCreateInfo, nullptr, &vkImage) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+
+  VkMemoryRequirements memRequirements;
+  vkGetImageMemoryRequirements(mDevice, vkImage, &memRequirements);
+
+  VkMemoryAllocateInfo allocInfo = {};
+  allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+  allocInfo.allocationSize = memRequirements.size;
+  allocInfo.memoryTypeIndex = findMemoryType(
+      memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+                                          VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+  VkDeviceMemory imageMemory;
+  if (vkAllocateMemory(mDevice, &allocInfo, nullptr, &imageMemory) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+
+  vkBindImageMemory(mDevice, vkImage, imageMemory, 0);
+
+  VkSamplerCreateInfo samplerCreateInfo = {};
+  samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+  samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
+  samplerCreateInfo.minFilter = VK_FILTER_LINEAR;
+  samplerCreateInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerCreateInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerCreateInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+  samplerCreateInfo.anisotropyEnable = VK_FALSE;
+  samplerCreateInfo.maxAnisotropy = 1.0f;
+  samplerCreateInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
+  samplerCreateInfo.unnormalizedCoordinates = VK_FALSE;
+  samplerCreateInfo.compareEnable = VK_FALSE;
+  samplerCreateInfo.compareOp = VK_COMPARE_OP_ALWAYS;
+  samplerCreateInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
+  samplerCreateInfo.mipLodBias = 0.0f;
+  samplerCreateInfo.minLod = 0.0f;
+  samplerCreateInfo.maxLod = 1.0f;
+
+  VkSampler textureSampler;
+  if (vkCreateSampler(mDevice, &samplerCreateInfo, nullptr, &textureSampler) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+
+  return {vkImage, textureSampler};
+}
+
 void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
 {
   // Load the image into VKImage
-  VkImage inputImage = VK_NULL_HANDLE;
+  auto [inputImage, inputSampler] = createVkImage(imageProcessingData.inImage);
   VkImage outputImage = VK_NULL_HANDLE;
 
   beginCommandBuffer();
