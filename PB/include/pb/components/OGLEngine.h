@@ -4,8 +4,6 @@
 #include <TargetConditionals.h>
 #endif
 
-#include <vulkan/vulkan.h>
-
 #include <pb/Platform.h>
 #ifdef __APPLE__
 #include <pb/components/ThreadScheduler.h>
@@ -34,21 +32,6 @@ public:
 private:
   void initOpenGL();
 
-  void createCommandPool();
-
-  void createCommandBuffer();
-
-  void beginCommandBuffer();
-
-  void endCommandBuffer();
-
-  void submitCommandBuffer();
-
-  void transitionImageLayout(VkImage image, VkImageLayout oldLayout,
-                             VkImageLayout newLayout);
-
-  VkShaderModule createShaderModule(Path shaderSpv) const;
-
   void loadPrograms();
 
   void mainloop();
@@ -67,15 +50,6 @@ private:
   std::jthread                    mThread;
 
   std::stop_token mStopToken;
-
-  VkInstance       mInstance;
-  VkPhysicalDevice mPhysicalDevice = VK_NULL_HANDLE;
-  VkDevice         mDevice;
-  VkQueue          mQueue;
-  VkCommandPool    mCommandPool;
-  VkCommandBuffer  mCommandBuffer;
-
-  std::unordered_map<std::string, VkShaderModule> mShaderPrograms;
 
   float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
                               0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
