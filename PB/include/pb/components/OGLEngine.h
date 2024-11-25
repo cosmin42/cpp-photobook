@@ -17,6 +17,22 @@
 DECLARE_STRONG_STRING(OGLRenderId)
 
 namespace PB::Service {
+
+struct VulkanImageWrapper final {
+  void destroy(VkDevice device)
+  {
+    vkDestroySampler(device, sampler, nullptr);
+    vkDestroyImageView(device, view, nullptr);
+    vkDestroyImage(device, image, nullptr);
+    vkFreeMemory(device, memory, nullptr);
+  }
+
+  VkImage        image;
+  VkDeviceMemory memory;
+  VkSampler      sampler;
+  VkImageView    view;
+};
+
 class OGLEngine final {
 public:
   ~OGLEngine() = default;
@@ -34,17 +50,11 @@ public:
 private:
   void initOpenGL();
 
-  void createCommandPool();
-
-  void createCommandBuffer();
-
   void beginCommandBuffer();
 
   void endCommandBuffer();
 
   void submitCommandBuffer();
-
-  std::pair<VkImage, VkSampler> createVkImage(std::shared_ptr<cv::Mat> image);
 
   uint32_t findMemoryType(uint32_t              typeFilter,
                           VkMemoryPropertyFlags properties);
@@ -79,8 +89,14 @@ private:
   VkQueue          mQueue = VK_NULL_HANDLE;
   VkCommandPool    mCommandPool = VK_NULL_HANDLE;
   VkCommandBuffer  mCommandBuffer = VK_NULL_HANDLE;
+  VkPipeline       mPipeline = VK_NULL_HANDLE;
+  VkDescriptorPool mDescriptorPool = VK_NULL_HANDLE;
 
-  std::unordered_map<std::string, VkShaderModule> mShaderPrograms;
+  std::unordered_map<std::string, VkShaderModule>        mShaderPrograms;
+  std::unordered_map<std::string, VkDescriptorSetLayout> mDescriptorSetLayout;
+  std::unordered_map<std::string, VkPipelineLayout>      mPipelineLayout;
+  std::unordered_map<std::string, VkPipeline>            mPipelines;
+  std::unordered_map<std::string, VkDescriptorSet>       mDescriptorSets;
 
   float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
                               0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
@@ -92,8 +108,27 @@ private:
   bool                    mFinishedWork = false;
 
   const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
-      {"lut", Path("shaders") / "lut.glsl"}};
+      {"lut", Path("shaders") / "lut.spv"}};
 
-  const Path VERTEX_SHADER_PATH = Path("shaders") / "vertex.glsl";
+  const Path VERTEX_SHADER_PATH = Path("shaders") / "vertex.spv";
+
+  void buildInstance();
+  void buildPhysicalDevice();
+  void buildLogicalDevice();
+  void buildDescriptorPool();
+  void buildCommandPool();
+  void buildCommandBuffer();
+
+  void buildDescriptorSetLayout(std::string name);
+  void buildPipelineLayout(std::string name);
+  void buildPipeline(std::string name);
+  void buildDescriptorSet(std::string name);
+
+  VkImage        createImageRaw(std::shared_ptr<cv::Mat> image);
+  VkDeviceMemory allocateMemory(VkImage image);
+  VkSampler      createSampler();
+  VkImageView    createImageView(VkImage image);
+
+  VulkanImageWrapper createImage(std::shared_ptr<cv::Mat> image);
 };
 } // namespace PB::Service

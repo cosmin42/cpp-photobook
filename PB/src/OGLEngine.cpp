@@ -39,35 +39,19 @@ bool checkValidationLayerSupport()
   uint32_t layerCount;
   vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
-  std::vector<VkLayerProperties> availableLayers(layerCount);
-  vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-  const char *validationLayers[] = {"VK_LAYER_KHRONOS_validation"};
-
-  for (const char *layerName : validationLayers) {
-    bool layerFound = false;
-
-    for (const auto &layerProperties : availableLayers) {
-      if (strcmp(layerName, layerProperties.layerName) == 0) {
-        layerFound = true;
-        break;
-      }
-    }
-
-    if (!layerFound) {
-      return false;
-    }
+  std::vector<VkLayerProperties> layers(layerCount);
+  vkEnumerateInstanceLayerProperties(&layerCount, layers.data());
+  for (const auto &layer : layers) {
+    spdlog::info("Layer name: {}", layer.layerName);
   }
 
   return true;
 }
 
-
-void OGLEngine::initOpenGL()
+void OGLEngine::buildInstance()
 {
-  if (!checkValidationLayerSupport()) {
-    PBDev::basicAssert(false);
-  }
+  const std::vector<const char *> validationLayers = {
+      "VK_LAYER_NV_optimus"};
 
   VkApplicationInfo appInfo = {};
   appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -85,11 +69,17 @@ void OGLEngine::initOpenGL()
   createInfo.enabledExtensionCount = 1;
   createInfo.ppEnabledExtensionNames = extensions;
 
+  // Enable validation layers
+  createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+  createInfo.ppEnabledLayerNames = validationLayers.data();
 
   if (vkCreateInstance(&createInfo, nullptr, &mInstance) != VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
+}
 
+void OGLEngine::buildPhysicalDevice()
+{
   uint32_t deviceCount = 0;
   vkEnumeratePhysicalDevices(mInstance, &deviceCount, nullptr);
 
@@ -103,6 +93,16 @@ void OGLEngine::initOpenGL()
   // Choose a suitable physical device (e.g., first available)
   mPhysicalDevice = devices[0];
 
+  for (auto &device : devices) {
+    VkPhysicalDeviceProperties deviceProperties;
+    vkGetPhysicalDeviceProperties(device, &deviceProperties);
+    std::string deviceName = deviceProperties.deviceName;
+    spdlog::info("Device name: {}", deviceName);
+  }
+}
+
+void OGLEngine::buildLogicalDevice()
+{
   float queuePriority = 1.0f;
 
   // Define the queue creation info
@@ -130,7 +130,33 @@ void OGLEngine::initOpenGL()
   vkGetDeviceQueue(mDevice, 0, 0, &mQueue);
 }
 
-void OGLEngine::createCommandPool()
+void OGLEngine::buildDescriptorPool()
+{
+  // Define the pool sizes for each descriptor type
+  VkDescriptorPoolSize poolSizes[2]{};
+
+  // Combined image sampler descriptors
+  poolSizes[0].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  poolSizes[0].descriptorCount = 10;
+
+  // Uniform buffer descriptors
+  poolSizes[1].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+  poolSizes[1].descriptorCount = 5;
+
+  // Create the descriptor pool
+  VkDescriptorPoolCreateInfo poolInfo{};
+  poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+  poolInfo.poolSizeCount = 2; // Number of descriptor types
+  poolInfo.pPoolSizes = poolSizes;
+  poolInfo.maxSets = 15; // Maximum number of descriptor sets
+
+  if (vkCreateDescriptorPool(mDevice, &poolInfo, nullptr, &mDescriptorPool) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::buildCommandPool()
 {
   VkCommandPoolCreateInfo poolInfo{};
   poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -143,7 +169,7 @@ void OGLEngine::createCommandPool()
   }
 }
 
-void OGLEngine::createCommandBuffer()
+void OGLEngine::buildCommandBuffer()
 {
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -152,6 +178,89 @@ void OGLEngine::createCommandBuffer()
   allocInfo.commandBufferCount = 1;
 
   if (vkAllocateCommandBuffers(mDevice, &allocInfo, &mCommandBuffer) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::initOpenGL()
+{
+  if (!checkValidationLayerSupport()) {
+    PBDev::basicAssert(false);
+  }
+
+  buildInstance();
+  buildPhysicalDevice();
+  buildLogicalDevice();
+  buildDescriptorPool();
+}
+
+void OGLEngine::buildDescriptorSetLayout(std::string name)
+{
+  VkDescriptorSetLayoutBinding layoutBinding{};
+  layoutBinding.binding = 0;
+  layoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  layoutBinding.descriptorCount = 1;
+  layoutBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+  VkDescriptorSetLayoutCreateInfo layoutInfo{};
+  layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+  layoutInfo.bindingCount = 1;
+  layoutInfo.pBindings = &layoutBinding;
+
+  mDescriptorSetLayout[name] = VK_NULL_HANDLE;
+
+  if (vkCreateDescriptorSetLayout(mDevice, &layoutInfo, nullptr,
+                                  &mDescriptorSetLayout[name]) != VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::buildPipelineLayout(std::string name)
+{
+  // Create pipeline layout
+  VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+  pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+  pipelineLayoutInfo.setLayoutCount = 1;
+  pipelineLayoutInfo.pSetLayouts = &mDescriptorSetLayout[name];
+
+  if (vkCreatePipelineLayout(mDevice, &pipelineLayoutInfo, nullptr,
+                             &mPipelineLayout[name]) != VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::buildPipeline(std::string name)
+{
+  VkComputePipelineCreateInfo pipelineCreateInfo = {};
+  pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+  pipelineCreateInfo.stage.sType =
+      VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+  pipelineCreateInfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+  pipelineCreateInfo.stage.module = mShaderPrograms[name];
+  pipelineCreateInfo.stage.pName = "main"; // Entry point function name
+
+  pipelineCreateInfo.layout = mPipelineLayout[name];
+
+  VkPipeline computePipeline = VK_NULL_HANDLE;
+  auto       result =
+      vkCreateComputePipelines(mDevice, VK_NULL_HANDLE, 1, &pipelineCreateInfo,
+                               nullptr, &computePipeline);
+  if (result != VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+}
+
+void OGLEngine::buildDescriptorSet(std::string name)
+{
+  VkDescriptorSetAllocateInfo allocInfo{};
+  allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+  allocInfo.descriptorPool = mDescriptorPool;
+  allocInfo.descriptorSetCount = 1;
+  allocInfo.pSetLayouts = &mDescriptorSetLayout[name];
+
+  VkDescriptorSet descriptorSet;
+  if (vkAllocateDescriptorSets(mDevice, &allocInfo, &descriptorSet) !=
       VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
@@ -171,7 +280,7 @@ void OGLEngine::beginCommandBuffer()
 void OGLEngine::endCommandBuffer()
 {
   if (vkEndCommandBuffer(mCommandBuffer) != VK_SUCCESS) {
-    throw std::runtime_error("Failed to record command buffer!");
+    PBDev::basicAssert(false);
   }
 }
 
@@ -190,6 +299,9 @@ void OGLEngine::submitCommandBuffer()
 
 VkShaderModule OGLEngine::createShaderModule(Path shaderSpv) const
 {
+  if (!std::filesystem::exists(shaderSpv)) {
+    PBDev::basicAssert(false);
+  }
   std::ifstream file(shaderSpv, std::ios::ate | std::ios::binary);
   if (!file.is_open()) {
     PBDev::basicAssert(false);
@@ -217,21 +329,68 @@ VkShaderModule OGLEngine::createShaderModule(Path shaderSpv) const
 void OGLEngine::transitionImageLayout(VkImage image, VkImageLayout oldLayout,
                                       VkImageLayout newLayout)
 {
+  // Define the image memory barrier
+  VkImageMemoryBarrier barrier = {};
+  barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+  barrier.oldLayout = oldLayout;
+  barrier.newLayout = newLayout;
+  barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+  barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+  barrier.image = image;
+
+  // Define the subresource range of the image
+  barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+  barrier.subresourceRange.baseMipLevel = 0;
+  barrier.subresourceRange.levelCount = 1;
+  barrier.subresourceRange.baseArrayLayer = 0;
+  barrier.subresourceRange.layerCount = 1;
+
+  // Specify the source and destination pipeline stages based on the layouts
+  VkPipelineStageFlags sourceStage;
+  VkPipelineStageFlags destinationStage;
+
+  if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED &&
+      newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL) {
+    barrier.srcAccessMask = 0;
+    barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+
+    sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+    destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+  }
+  else if (oldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL &&
+           newLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
+    barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+    barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+    sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+    destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+  }
+  else {
+    PBDev::basicAssert(false);
+  }
+
+  // Apply the barrier
+  vkCmdPipelineBarrier(mCommandBuffer, sourceStage, destinationStage, 0, 0,
+                       nullptr, 0, nullptr, 1, &barrier);
 }
 
 void OGLEngine::loadPrograms()
 {
   // Load shaders.
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
-    mShaderPrograms[name] = createShaderModule(path);
+    mShaderPrograms[name] =
+        createShaderModule(mPlatformInfo->installationPath / path);
+    buildDescriptorSetLayout(name);
+    buildPipelineLayout(name);
+    buildPipeline(name);
+    buildDescriptorSet(name);
   }
 }
 
 void OGLEngine::mainloop()
 {
-
-  createCommandPool();
-  createCommandBuffer();
+  buildCommandPool();
+  buildCommandBuffer();
   loadPrograms();
 
   while (!mStopToken.stop_requested()) {
@@ -276,11 +435,10 @@ uint32_t OGLEngine::findMemoryType(uint32_t              typeFilter,
     }
   }
 
-  throw std::runtime_error("failed to find suitable memory type!");
+  PBDev::basicAssert(false);
 }
 
-std::pair<VkImage, VkSampler>
-OGLEngine::createVkImage(std::shared_ptr<cv::Mat> image)
+VkImage OGLEngine::createImageRaw(std::shared_ptr<cv::Mat> image)
 {
   VkImageCreateInfo imageCreateInfo = {};
   imageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -303,9 +461,13 @@ OGLEngine::createVkImage(std::shared_ptr<cv::Mat> image)
       VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
+  return vkImage;
+}
 
+VkDeviceMemory OGLEngine::allocateMemory(VkImage image)
+{
   VkMemoryRequirements memRequirements;
-  vkGetImageMemoryRequirements(mDevice, vkImage, &memRequirements);
+  vkGetImageMemoryRequirements(mDevice, image, &memRequirements);
 
   VkMemoryAllocateInfo allocInfo = {};
   allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
@@ -319,9 +481,11 @@ OGLEngine::createVkImage(std::shared_ptr<cv::Mat> image)
       VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
+  return imageMemory;
+}
 
-  vkBindImageMemory(mDevice, vkImage, imageMemory, 0);
-
+VkSampler OGLEngine::createSampler()
+{
   VkSamplerCreateInfo samplerCreateInfo = {};
   samplerCreateInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
   samplerCreateInfo.magFilter = VK_FILTER_LINEAR;
@@ -345,27 +509,77 @@ OGLEngine::createVkImage(std::shared_ptr<cv::Mat> image)
       VK_SUCCESS) {
     PBDev::basicAssert(false);
   }
+  return textureSampler;
+}
 
-  return {vkImage, textureSampler};
+VkImageView OGLEngine::createImageView(VkImage image)
+{
+  VkImageViewCreateInfo viewInfo{};
+  viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+  viewInfo.image = image;                    // The image to create a view for
+  viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D; // 2D texture view
+  viewInfo.format =
+      VK_FORMAT_R8G8B8A8_UNORM; // Match or reinterpret the image format
+  viewInfo.subresourceRange.aspectMask =
+      VK_IMAGE_ASPECT_COLOR_BIT;                // Access the color aspect
+  viewInfo.subresourceRange.baseMipLevel = 0;   // Start at the first mip level
+  viewInfo.subresourceRange.levelCount = 1;     // Access one mip level
+  viewInfo.subresourceRange.baseArrayLayer = 0; // Start at the first layer
+  viewInfo.subresourceRange.layerCount = 1;     // Access one layer
+
+  VkImageView imageView;
+  if (vkCreateImageView(mDevice, &viewInfo, nullptr, &imageView) !=
+      VK_SUCCESS) {
+    PBDev::basicAssert(false);
+  }
+  return imageView;
+}
+
+VulkanImageWrapper OGLEngine::createImage(std::shared_ptr<cv::Mat> image)
+{
+  auto vkImage = createImageRaw(image);
+  auto imageMemory = allocateMemory(vkImage);
+  vkBindImageMemory(mDevice, vkImage, imageMemory, 0);
+  auto sampelr = createSampler();
+  auto imageView = createImageView(vkImage);
+  return {vkImage, imageMemory, sampelr, imageView};
 }
 
 void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
 {
-  // Load the image into VKImage
-  auto [inputImage, inputSampler] = createVkImage(imageProcessingData.inImage);
+  auto [inputImage, inputMemory, inputSampler, imageView] =
+      createImage(imageProcessingData.inImage);
+
   VkImage outputImage = VK_NULL_HANDLE;
+
+  VkDescriptorImageInfo imageInfo{};
+  imageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+  imageInfo.imageView = imageView;
+  imageInfo.sampler = inputSampler;
+
+  VkWriteDescriptorSet descriptorWrite{};
+  descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+  descriptorWrite.dstSet = mDescriptorSets.at("lut");
+  descriptorWrite.dstBinding = 0;
+  descriptorWrite.dstArrayElement = 0;
+  descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+  descriptorWrite.descriptorCount = 1;
+  descriptorWrite.pImageInfo = &imageInfo;
+
+  vkUpdateDescriptorSets(mDevice, 1, &descriptorWrite, 0, nullptr);
 
   beginCommandBuffer();
 
   // Transition input and output images to appropriate layouts
   transitionImageLayout(inputImage, VK_IMAGE_LAYOUT_UNDEFINED,
                         VK_IMAGE_LAYOUT_GENERAL);
+
   transitionImageLayout(outputImage, VK_IMAGE_LAYOUT_UNDEFINED,
                         VK_IMAGE_LAYOUT_GENERAL);
 
   // Record commands to apply the LUT shader (this step would involve
-  // dispatching a compute shader or rendering) Placeholder for shader execution
-  // logic
+  // dispatching a compute shader or rendering) Placeholder for shader
+  // execution logic
 
   endCommandBuffer();
   submitCommandBuffer();

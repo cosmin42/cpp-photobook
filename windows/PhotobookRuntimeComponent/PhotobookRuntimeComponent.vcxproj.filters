@@ -27,7 +27,6 @@
     <ClCompile Include="PaperSettings.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
-    <ClCompile Include="StagedImagesListener.cpp" />
     <ClCompile Include="CollageTemplateInfo.cpp" />
     <ClCompile Include="LutIconInfo.cpp" />
   </ItemGroup>
@@ -41,7 +40,6 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ProjectMetadataEntry.h" />
     <ClInclude Include="VICollectionStatefulIterator.h" />
-    <ClInclude Include="StagedImagesListener.h" />
     <ClInclude Include="CollageTemplateInfo.h" />
     <ClInclude Include="LutIconInfo.h" />
   </ItemGroup>
