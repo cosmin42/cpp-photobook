@@ -103,9 +103,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\PB\include;$(SolutionDir)..\PB\build-$(Platform)\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(SolutionDir)..\PB\third-party\windows\skia\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)..\PB\include;$(SolutionDir)..\PB\build-$(Platform)\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(SolutionDir)..\PB\third-party\windows\skia\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\opencv4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\opencv4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">stdcpp20</LanguageStandard>
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ShowIncludes>
     </ClCompile>
@@ -129,8 +129,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(SolutionDir)..\PB\third-party\windows\skia\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(SolutionDir)..\PB\third-party\windows\skia\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\opencv4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(SolutionDir)..\PB\build-$(Platform)\include;$(SolutionDir)..\PB\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\thread-pool-0.6.2;$(SolutionDir)..\PB\third-party\podofo-build\include;$(VcpkgRoot)\installed\$(Platform)-windows\include\opencv4;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">stdcpp20</LanguageStandard>
       <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ShowIncludes>
