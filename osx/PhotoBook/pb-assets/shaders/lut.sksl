@@ -1,0 +1,60 @@
+uniform vec3 lutTensorSize;
+uniform shader texture1;
+uniform shader lutFlattenedTexture;
+
+half4 main(float2 coord) {
+    vec3 color = texture1.eval(coord).rgb;
+
+    vec3 texCoord = color * lutTensorSize;
+    vec3 texCoordFloor = floor(texCoord);
+    vec3 texCoordFrac = texCoord - texCoordFloor;
+
+    // Convert to texture space (0 to 1)
+    vec3 texCoordNorm = texCoordFloor / lutTensorSize;
+    vec3 texCoordNormStep = 1.0 / lutTensorSize;
+
+    // Compute coordinates of the eight surrounding texels
+    vec3 texCoord000 = texCoordNorm;
+    vec3 texCoord100 = texCoordNorm + vec3(texCoordNormStep.x, 0.0, 0.0);
+    vec3 texCoord010 = texCoordNorm + vec3(0.0, texCoordNormStep.y, 0.0);
+    vec3 texCoord110 = texCoordNorm + vec3(texCoordNormStep.x, texCoordNormStep.y, 0.0);
+
+    vec3 texCoord001 = texCoordNorm + vec3(0.0, 0.0, texCoordNormStep.z);
+    vec3 texCoord101 = texCoordNorm + vec3(texCoordNormStep.x, 0.0, texCoordNormStep.z);
+    vec3 texCoord011 = texCoordNorm + vec3(0.0, texCoordNormStep.y, texCoordNormStep.z);
+    vec3 texCoord111 = texCoordNorm + texCoordNormStep;
+
+    float2 texCoord000flat = float2(texCoord000.x, (texCoord000.z * lutTensorSize.x + texCoord000.y));
+    float2 texCoord100flat = float2(texCoord100.x, (texCoord100.z * lutTensorSize.x + texCoord100.y));
+    float2 texCoord010flat = float2(texCoord010.x, (texCoord010.z * lutTensorSize.x + texCoord010.y));
+    float2 texCoord110flat = float2(texCoord110.x, (texCoord110.z * lutTensorSize.x + texCoord110.y));
+
+    float2 texCoord001flat = float2(texCoord001.x, (texCoord001.z * lutTensorSize.x + texCoord001.y));
+    float2 texCoord101flat = float2(texCoord101.x, (texCoord101.z * lutTensorSize.x + texCoord101.y));
+    float2 texCoord011flat = float2(texCoord011.x, (texCoord011.z * lutTensorSize.x + texCoord011.y));
+    float2 texCoord111flat = float2(texCoord111.x, (texCoord111.z * lutTensorSize.x + texCoord111.y));
+
+    // Sample the eight surrounding texels
+    vec3 c000 = lutFlattenedTexture.eval(texCoord000flat * lutTensorSize.x).rgb;
+    vec3 c100 = lutFlattenedTexture.eval(texCoord100flat * lutTensorSize.x).rgb;
+    vec3 c010 = lutFlattenedTexture.eval(texCoord010flat * lutTensorSize.x).rgb;
+    vec3 c110 = lutFlattenedTexture.eval(texCoord110flat * lutTensorSize.x).rgb;
+
+    vec3 c001 = lutFlattenedTexture.eval(texCoord001flat * lutTensorSize.x).rgb;
+    vec3 c101 = lutFlattenedTexture.eval(texCoord101flat * lutTensorSize.x).rgb;
+    vec3 c011 = lutFlattenedTexture.eval(texCoord011flat * lutTensorSize.x).rgb;
+    vec3 c111 = lutFlattenedTexture.eval(texCoord111flat * lutTensorSize.x).rgb;
+
+    // Perform trilinear interpolation
+    vec3 c00 = mix(c000, c100, texCoordFrac.x);
+    vec3 c10 = mix(c010, c110, texCoordFrac.x);
+    vec3 c01 = mix(c001, c101, texCoordFrac.x);
+    vec3 c11 = mix(c011, c111, texCoordFrac.x);
+
+    vec3 c0 = mix(c00, c10, texCoordFrac.y);
+    vec3 c1 = mix(c01, c11, texCoordFrac.y);
+
+    vec3 c = mix(c0, c1, texCoordFrac.z).rgb;
+    
+    return vec4(c, 1.0);
+}

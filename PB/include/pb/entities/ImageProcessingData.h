@@ -16,8 +16,8 @@ namespace PB {
 enum ImageProcessingType { None, LUT };
 
 struct ImageProcessingData {
-  std::shared_ptr<cv::Mat> inImage = nullptr;
-  std::shared_ptr<cv::Mat> outImage = nullptr;
+  Path inImage;
+  Path outImage;
 
   virtual ~ImageProcessingData() = default;
 

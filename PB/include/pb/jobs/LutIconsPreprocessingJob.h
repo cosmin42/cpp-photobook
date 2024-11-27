@@ -48,10 +48,7 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  void configureOriginalImage(std::shared_ptr<cv::Mat> image)
-  {
-    mOriginalImage = image;
-  }
+  void configureImagePath(Path imagePath) { mOriginalImage = imagePath; }
 
   void configureOGLEngine(std::shared_ptr<OGLEngine> oglEngine)
   {
@@ -72,7 +69,8 @@ public:
     return std::make_optional<IdentifyableFunction>(taskId, [this, lutPath] {
       auto outImagePath = createTransformedImage(lutPath);
       auto lutName = extractNameFromPath(lutPath);
-      mListener->onLutIconsPreprocessingFinished(lutName, lutPath, outImagePath);
+      mListener->onLutIconsPreprocessingFinished(lutName, lutPath,
+                                                 outImagePath);
     });
   }
 
@@ -88,7 +86,7 @@ private:
   std::vector<Path>              mIcons;
   unsigned                       mIndex = 0;
 
-  std::shared_ptr<cv::Mat> mOriginalImage = nullptr;
+  Path mOriginalImage;
 
   Path newImageName()
   {
@@ -100,23 +98,19 @@ private:
 
   Path createTransformedImage(Path lutPath)
   {
-    auto rgbImage = Process::extractRGBChannels(mOriginalImage);
-    auto clone = Process::clone(rgbImage);
     auto lutData = Process::readLutData(lutPath);
-
-    auto outImage = Process::clone(rgbImage);
+    auto outImagePath = newImageName();
 
     LutImageProcessingData lutImageProcessingData;
-    lutImageProcessingData.inImage = clone;
-    lutImageProcessingData.outImage = outImage;
+    lutImageProcessingData.inImage = mOriginalImage;
+    lutImageProcessingData.outImage = outImagePath;
 
     for (auto const &data : lutData) {
-      lutImageProcessingData.lut.push_back(data);
+      lutImageProcessingData.lut.push_back(
+          cv::Vec4f(data[0], data[1], data[2], 1.0));
     }
     mOglEngine->applyLut(lutImageProcessingData);
 
-    auto outImagePath = newImageName();
-    Process::writeImageOnDisk(lutImageProcessingData.outImage, outImagePath);
     return outImagePath;
   }
 };

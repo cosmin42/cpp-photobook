@@ -56,9 +56,8 @@ void LutService::startLutService()
   }
   mTaskCruncher->crunch([this]() {
     auto path = originalImagePath();
-    auto originalImage = ImageReader().loadImage(path);
-    mThreadScheduler->post([this, originalImage]() {
-      mLutIconsPreprocessingJob.configureOriginalImage(originalImage);
+    mThreadScheduler->post([this, path{path}]() {
+      mLutIconsPreprocessingJob.configureImagePath(path);
       detectLuts();
     });
   });
