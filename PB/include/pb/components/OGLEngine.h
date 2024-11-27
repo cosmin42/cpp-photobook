@@ -4,6 +4,12 @@
 #include <TargetConditionals.h>
 #endif
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4267)
+#include <include/effects/SkRuntimeEffect.h>
+#pragma warning(pop)
+
 #include <pb/Platform.h>
 #ifdef __APPLE__
 #include <pb/components/ThreadScheduler.h>
@@ -30,8 +36,6 @@ public:
   void applyLut(LutImageProcessingData const &imageProcessingData);
 
 private:
-  void initOpenGL();
-
   void loadPrograms();
 
   void mainloop();
@@ -51,18 +55,13 @@ private:
 
   std::stop_token mStopToken;
 
-  float mImageVertices[20] = {-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  -1.0f, -1.0f,
-                              0.0f,  0.0f, 0.0f, 1.0f, -1.0f, 0.0f,  1.0f,
-                              0.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f};
-  unsigned int mIndices[6] = {0, 1, 2, 0, 2, 3};
-
   std::mutex              mWorkMutex;
   std::condition_variable mFinishedWorkCondition;
   bool                    mFinishedWork = false;
 
-  const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
-      {"lut", Path("shaders") / "lut.glsl"}};
+  std::unordered_map<std::string, sk_sp<SkRuntimeEffect>> mPrograms;
 
-  const Path VERTEX_SHADER_PATH = Path("shaders") / "vertex.glsl";
+  const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
+      {"lut", Path("shaders") / "lut.sksl"}};
 };
 } // namespace PB::Service
