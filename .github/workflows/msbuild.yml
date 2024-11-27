@@ -39,10 +39,10 @@ jobs:
     - uses: lukka/get-cmake@latest
 
     - name: run-vcpkg
-      uses: lukka/run-vcpkg@v11.1
+      uses: lukka/run-vcpkg@latest
       with:
         # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
-        vcpkgGitCommitId: '943c5ef1c8f6b5e6ced092b242c8299caae2ff01'
+        vcpkgGitCommitId: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'
         # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
         runVcpkgInstall: true
         # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
@@ -59,7 +59,7 @@ jobs:
       run: vcpkg\vcpkg.exe integrate install
 
     - name: Run CMake pb-release
-      uses: lukka/run-cmake@v10
+      uses: lukka/run-cmake@latest
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
@@ -72,7 +72,7 @@ jobs:
         configurePreset: 'pblib-release'
 
     - name: Run CMake pb-release-arm64
-      uses: lukka/run-cmake@v10
+      uses: lukka/run-cmake@latest
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
@@ -86,7 +86,7 @@ jobs:
   
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@latest
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
