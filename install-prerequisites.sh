@@ -12,7 +12,13 @@ else
     ./vcpkg install boost-program-options:arm64-osx boost-uuid:arm64-osx boost-random:arm64-osx brotli:arm64-osx opencv:arm64-osx magic-enum:arm64-osx exiv2:arm64-osx gtest:arm64-osx dp-thread-pool:arm64-osx libharu:arm64-osx sqlite3:arm64-osx nlohmann-json:arm64-osx boost-bimap:arm64-osx spdlog:arm64-osx inja:arm64-osx podofo:arm64-osx harfbuzz:arm64-osx icu:arm64-osx pkgconf:arm64-osx
     ./vcpkg install boost-program-options:arm64-ios boost-uuid:arm64-ios boost-random:arm64-ios brotli:arm64-ios opencv:arm64-ios magic-enum:arm64-ios exiv2:arm64-ios gtest:arm64-ios dp-thread-pool:arm64-ios libharu:arm64-ios sqlite3:arm64-ios nlohmann-json:arm64-ios boost-bimap:arm64-ios spdlog:arm64-ios inja:arm64-ios podofo:arm64-ios
     ./vcpkg integrate install
-
-    #TODO: Add skia installation
     cd ..
+
+    git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+    git clone https://skia.googlesource.com/skia.git
+
+    cd skia
+    python3 tools/git-sync-deps
+
+    
 fi
