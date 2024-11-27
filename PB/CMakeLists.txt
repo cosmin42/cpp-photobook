@@ -363,11 +363,19 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
     if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
         add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
-            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
+            "${CMAKE_CURRENT_SOURCE_DIR}/x64-macos/")
 
         add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
-            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_OSX_ARCHITECTURES}/")
+            "${CMAKE_CURRENT_SOURCE_DIR}/x64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/arm64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/arm64-macos/")
     endif()
 
     if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
