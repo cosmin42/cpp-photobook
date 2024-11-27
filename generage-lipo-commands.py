@@ -35,26 +35,22 @@ def get_lipo_commands(folder1, folder2, dstFolder):
     else:
         raise
 
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="List files with the same names in two folders.")
-    parser.add_argument("folder1", type=str, help="Path to the first folder")
-    parser.add_argument("folder2", type=str, help="Path to the second folder")
-    parser.add_argument("folder3", type=str, help="Destination folder name")
-    
-
-    args = parser.parse_args()
-    command_list = get_lipo_commands(args.folder1, args.folder2, args.folder3)
-
-    print("mkdir pb/build")
-    os.system("mkdir pb/build")
-
+def run_commands(command_list):
     for command_content in command_list:
         print(command_content)
         os.system(command_content)
 
-    main_command = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", args.folder3)
 
-    print(main_command[0])
-    os.system(main_command[0])
+if __name__ == "__main__":
+    print("mkdir pb/build")
+    os.system("mkdir pb/build")
+
+    command_list = get_lipo_commands("vcpkg/installed/arm64-ios/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "pb/build")
+    run_commands(command_list)
+
+    main_command = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", "pb/build")
+    run_commands(command_list)
+
+    command_list = get_lipo_commands("PB/third-party/osx/skia/arm64", "PB/third-party/osx/skia/x86_64", "PB/skia-fat")
+    run_commands(command_list)
     
