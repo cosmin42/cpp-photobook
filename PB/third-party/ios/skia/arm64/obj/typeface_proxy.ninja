@@ -1,0 +1,13 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE
+framework_dirs =
+include_dirs = -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = typeface_proxy
+
+build obj/src/ports/typeface_proxy.SkTypeface_proxy.o: cxx ../../../../../skia/src/ports/SkTypeface_proxy.cpp
+  source_file_part = SkTypeface_proxy.cpp
+  source_name_part = SkTypeface_proxy
+
+build obj/typeface_proxy.stamp: stamp obj/src/ports/typeface_proxy.SkTypeface_proxy.o

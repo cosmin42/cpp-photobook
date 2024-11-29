@@ -1,57 +1,57 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_ENABLE_PARAGRAPH -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_UNICODE_AVAILABLE -DSK_UNICODE_ICU_IMPLEMENTATION -DSK_SHAPER_PRIMITIVE_AVAILABLE -DSK_SHAPER_CORETEXT_AVAILABLE -DSK_SHAPER_HARFBUZZ_AVAILABLE -DSK_SHAPER_UNICODE_AVAILABLE
 framework_dirs =
-include_dirs = -I../../modules/skparagraph/include -I../../modules/skparagraph/utils -I../.. -I../../modules/skshaper/include
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -O3
+include_dirs = -I../../../../../skia/modules/skparagraph/include -I../../../../../skia/modules/skparagraph/utils -I../../../../../skia -I../../../../../skia/modules/skshaper/include
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = libskparagraph
 
-build obj/modules/skparagraph/src/libskparagraph.Decorations.o: cxx ../../modules/skparagraph/src/Decorations.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.Decorations.o: cxx ../../../../../skia/modules/skparagraph/src/Decorations.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Decorations.cpp
   source_name_part = Decorations
-build obj/modules/skparagraph/src/libskparagraph.FontArguments.o: cxx ../../modules/skparagraph/src/FontArguments.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.FontArguments.o: cxx ../../../../../skia/modules/skparagraph/src/FontArguments.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FontArguments.cpp
   source_name_part = FontArguments
-build obj/modules/skparagraph/src/libskparagraph.FontCollection.o: cxx ../../modules/skparagraph/src/FontCollection.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.FontCollection.o: cxx ../../../../../skia/modules/skparagraph/src/FontCollection.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FontCollection.cpp
   source_name_part = FontCollection
-build obj/modules/skparagraph/src/libskparagraph.OneLineShaper.o: cxx ../../modules/skparagraph/src/OneLineShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.OneLineShaper.o: cxx ../../../../../skia/modules/skparagraph/src/OneLineShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = OneLineShaper.cpp
   source_name_part = OneLineShaper
-build obj/modules/skparagraph/src/libskparagraph.ParagraphBuilderImpl.o: cxx ../../modules/skparagraph/src/ParagraphBuilderImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.ParagraphBuilderImpl.o: cxx ../../../../../skia/modules/skparagraph/src/ParagraphBuilderImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ParagraphBuilderImpl.cpp
   source_name_part = ParagraphBuilderImpl
-build obj/modules/skparagraph/src/libskparagraph.ParagraphCache.o: cxx ../../modules/skparagraph/src/ParagraphCache.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.ParagraphCache.o: cxx ../../../../../skia/modules/skparagraph/src/ParagraphCache.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ParagraphCache.cpp
   source_name_part = ParagraphCache
-build obj/modules/skparagraph/src/libskparagraph.ParagraphImpl.o: cxx ../../modules/skparagraph/src/ParagraphImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.ParagraphImpl.o: cxx ../../../../../skia/modules/skparagraph/src/ParagraphImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ParagraphImpl.cpp
   source_name_part = ParagraphImpl
-build obj/modules/skparagraph/src/libskparagraph.ParagraphPainterImpl.o: cxx ../../modules/skparagraph/src/ParagraphPainterImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.ParagraphPainterImpl.o: cxx ../../../../../skia/modules/skparagraph/src/ParagraphPainterImpl.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ParagraphPainterImpl.cpp
   source_name_part = ParagraphPainterImpl
-build obj/modules/skparagraph/src/libskparagraph.ParagraphStyle.o: cxx ../../modules/skparagraph/src/ParagraphStyle.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.ParagraphStyle.o: cxx ../../../../../skia/modules/skparagraph/src/ParagraphStyle.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ParagraphStyle.cpp
   source_name_part = ParagraphStyle
-build obj/modules/skparagraph/src/libskparagraph.Run.o: cxx ../../modules/skparagraph/src/Run.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.Run.o: cxx ../../../../../skia/modules/skparagraph/src/Run.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Run.cpp
   source_name_part = Run
-build obj/modules/skparagraph/src/libskparagraph.TextLine.o: cxx ../../modules/skparagraph/src/TextLine.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.TextLine.o: cxx ../../../../../skia/modules/skparagraph/src/TextLine.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextLine.cpp
   source_name_part = TextLine
-build obj/modules/skparagraph/src/libskparagraph.TextShadow.o: cxx ../../modules/skparagraph/src/TextShadow.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.TextShadow.o: cxx ../../../../../skia/modules/skparagraph/src/TextShadow.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextShadow.cpp
   source_name_part = TextShadow
-build obj/modules/skparagraph/src/libskparagraph.TextStyle.o: cxx ../../modules/skparagraph/src/TextStyle.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.TextStyle.o: cxx ../../../../../skia/modules/skparagraph/src/TextStyle.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextStyle.cpp
   source_name_part = TextStyle
-build obj/modules/skparagraph/src/libskparagraph.TextWrapper.o: cxx ../../modules/skparagraph/src/TextWrapper.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.TextWrapper.o: cxx ../../../../../skia/modules/skparagraph/src/TextWrapper.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextWrapper.cpp
   source_name_part = TextWrapper
-build obj/modules/skparagraph/src/libskparagraph.TypefaceFontProvider.o: cxx ../../modules/skparagraph/src/TypefaceFontProvider.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/src/libskparagraph.TypefaceFontProvider.o: cxx ../../../../../skia/modules/skparagraph/src/TypefaceFontProvider.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TypefaceFontProvider.cpp
   source_name_part = TypefaceFontProvider
-build obj/modules/skparagraph/utils/libskparagraph.TestFontCollection.o: cxx ../../modules/skparagraph/utils/TestFontCollection.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skparagraph/utils/libskparagraph.TestFontCollection.o: cxx ../../../../../skia/modules/skparagraph/utils/TestFontCollection.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TestFontCollection.cpp
   source_name_part = TestFontCollection
 

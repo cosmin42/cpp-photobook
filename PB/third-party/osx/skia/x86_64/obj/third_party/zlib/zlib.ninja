@@ -1,54 +1,54 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DADLER32_SIMD_SSSE3 -DX86_NOT_WINDOWS -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE -DDEFLATE_SLIDE_HASH_SSE2 -DCRC32_SIMD_SSE42_PCLMUL
 framework_dirs =
 include_dirs =
-cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -Wno-incompatible-pointer-types -Wunused-variable -isystem /Users/cosminmihai/skia/third_party/externals/zlib
+cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -Wno-incompatible-pointer-types -Wunused-variable -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/zlib
 cflags_c =
 root_out_dir = .
 target_output_name = libzlib
 
-build obj/third_party/externals/zlib/libzlib.adler32.o: cc ../../third_party/externals/zlib/adler32.c
+build obj/third_party/externals/zlib/libzlib.adler32.o: cc ../../../../../skia/third_party/externals/zlib/adler32.c
   source_file_part = adler32.c
   source_name_part = adler32
-build obj/third_party/externals/zlib/libzlib.compress.o: cc ../../third_party/externals/zlib/compress.c
+build obj/third_party/externals/zlib/libzlib.compress.o: cc ../../../../../skia/third_party/externals/zlib/compress.c
   source_file_part = compress.c
   source_name_part = compress
-build obj/third_party/externals/zlib/libzlib.cpu_features.o: cc ../../third_party/externals/zlib/cpu_features.c
+build obj/third_party/externals/zlib/libzlib.cpu_features.o: cc ../../../../../skia/third_party/externals/zlib/cpu_features.c
   source_file_part = cpu_features.c
   source_name_part = cpu_features
-build obj/third_party/externals/zlib/libzlib.crc32.o: cc ../../third_party/externals/zlib/crc32.c
+build obj/third_party/externals/zlib/libzlib.crc32.o: cc ../../../../../skia/third_party/externals/zlib/crc32.c
   source_file_part = crc32.c
   source_name_part = crc32
-build obj/third_party/externals/zlib/libzlib.deflate.o: cc ../../third_party/externals/zlib/deflate.c
+build obj/third_party/externals/zlib/libzlib.deflate.o: cc ../../../../../skia/third_party/externals/zlib/deflate.c
   source_file_part = deflate.c
   source_name_part = deflate
-build obj/third_party/externals/zlib/libzlib.gzclose.o: cc ../../third_party/externals/zlib/gzclose.c
+build obj/third_party/externals/zlib/libzlib.gzclose.o: cc ../../../../../skia/third_party/externals/zlib/gzclose.c
   source_file_part = gzclose.c
   source_name_part = gzclose
-build obj/third_party/externals/zlib/libzlib.gzlib.o: cc ../../third_party/externals/zlib/gzlib.c
+build obj/third_party/externals/zlib/libzlib.gzlib.o: cc ../../../../../skia/third_party/externals/zlib/gzlib.c
   source_file_part = gzlib.c
   source_name_part = gzlib
-build obj/third_party/externals/zlib/libzlib.gzread.o: cc ../../third_party/externals/zlib/gzread.c
+build obj/third_party/externals/zlib/libzlib.gzread.o: cc ../../../../../skia/third_party/externals/zlib/gzread.c
   source_file_part = gzread.c
   source_name_part = gzread
-build obj/third_party/externals/zlib/libzlib.gzwrite.o: cc ../../third_party/externals/zlib/gzwrite.c
+build obj/third_party/externals/zlib/libzlib.gzwrite.o: cc ../../../../../skia/third_party/externals/zlib/gzwrite.c
   source_file_part = gzwrite.c
   source_name_part = gzwrite
-build obj/third_party/externals/zlib/libzlib.infback.o: cc ../../third_party/externals/zlib/infback.c
+build obj/third_party/externals/zlib/libzlib.infback.o: cc ../../../../../skia/third_party/externals/zlib/infback.c
   source_file_part = infback.c
   source_name_part = infback
-build obj/third_party/externals/zlib/libzlib.inffast.o: cc ../../third_party/externals/zlib/inffast.c
+build obj/third_party/externals/zlib/libzlib.inffast.o: cc ../../../../../skia/third_party/externals/zlib/inffast.c
   source_file_part = inffast.c
   source_name_part = inffast
-build obj/third_party/externals/zlib/libzlib.inftrees.o: cc ../../third_party/externals/zlib/inftrees.c
+build obj/third_party/externals/zlib/libzlib.inftrees.o: cc ../../../../../skia/third_party/externals/zlib/inftrees.c
   source_file_part = inftrees.c
   source_name_part = inftrees
-build obj/third_party/externals/zlib/libzlib.trees.o: cc ../../third_party/externals/zlib/trees.c
+build obj/third_party/externals/zlib/libzlib.trees.o: cc ../../../../../skia/third_party/externals/zlib/trees.c
   source_file_part = trees.c
   source_name_part = trees
-build obj/third_party/externals/zlib/libzlib.uncompr.o: cc ../../third_party/externals/zlib/uncompr.c
+build obj/third_party/externals/zlib/libzlib.uncompr.o: cc ../../../../../skia/third_party/externals/zlib/uncompr.c
   source_file_part = uncompr.c
   source_name_part = uncompr
-build obj/third_party/externals/zlib/libzlib.zutil.o: cc ../../third_party/externals/zlib/zutil.c
+build obj/third_party/externals/zlib/libzlib.zutil.o: cc ../../../../../skia/third_party/externals/zlib/zutil.c
   source_file_part = zutil.c
   source_name_part = zutil
 

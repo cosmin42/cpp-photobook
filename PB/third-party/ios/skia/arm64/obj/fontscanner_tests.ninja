@@ -1,0 +1,13 @@
+defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE
+framework_dirs =
+include_dirs = -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti
+root_out_dir = .
+target_output_name = fontscanner_tests
+
+build obj/tests/fontscanner_tests.FontScanner.o: cxx ../../../../../skia/tests/FontScanner.cpp
+  source_file_part = FontScanner.cpp
+  source_name_part = FontScanner
+
+build obj/fontscanner_tests.stamp: stamp obj/tests/fontscanner_tests.FontScanner.o || ./libskia.a

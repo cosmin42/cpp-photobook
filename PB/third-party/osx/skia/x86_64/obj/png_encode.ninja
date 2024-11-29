@@ -1,12 +1,12 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1
 framework_dirs =
-include_dirs = -I../..
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/libpng -isystem /Users/cosminmihai/skia/third_party/externals/libpng
+include_dirs = -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/libpng -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libpng
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = png_encode
 
-build obj/src/encode/png_encode.SkPngEncoderImpl.o: cxx ../../src/encode/SkPngEncoderImpl.cpp
+build obj/src/encode/png_encode.SkPngEncoderImpl.o: cxx ../../../../../skia/src/encode/SkPngEncoderImpl.cpp
   source_file_part = SkPngEncoderImpl.cpp
   source_name_part = SkPngEncoderImpl
 

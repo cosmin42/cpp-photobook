@@ -1,225 +1,225 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSK_ENABLE_SKOTTIE -DSK_ENABLE_SKOTTIE_SKSLEFFECT -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_SHAPER_PRIMITIVE_AVAILABLE -DSK_SHAPER_CORETEXT_AVAILABLE -DSK_SHAPER_HARFBUZZ_AVAILABLE -DSK_SHAPER_UNICODE_AVAILABLE -DSK_UNICODE_AVAILABLE -DSK_UNICODE_ICU_IMPLEMENTATION
 framework_dirs =
-include_dirs = -I../../modules/skottie/include -I../.. -I../../modules/skresources/include -I../../modules/sksg/include -I../../modules/skshaper/include
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3
+include_dirs = -I../../../../../skia/modules/skottie/include -I../../../../../skia -I../../../../../skia/modules/skresources/include -I../../../../../skia/modules/sksg/include -I../../../../../skia/modules/skshaper/include
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = libskottie
 
-build obj/modules/skottie/src/libskottie.BlendModes.o: cxx ../../modules/skottie/src/BlendModes.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.BlendModes.o: cxx ../../../../../skia/modules/skottie/src/BlendModes.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = BlendModes.cpp
   source_name_part = BlendModes
-build obj/modules/skottie/src/libskottie.Camera.o: cxx ../../modules/skottie/src/Camera.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Camera.o: cxx ../../../../../skia/modules/skottie/src/Camera.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Camera.cpp
   source_name_part = Camera
-build obj/modules/skottie/src/libskottie.Composition.o: cxx ../../modules/skottie/src/Composition.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Composition.o: cxx ../../../../../skia/modules/skottie/src/Composition.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Composition.cpp
   source_name_part = Composition
-build obj/modules/skottie/src/libskottie.Layer.o: cxx ../../modules/skottie/src/Layer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Layer.o: cxx ../../../../../skia/modules/skottie/src/Layer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Layer.cpp
   source_name_part = Layer
-build obj/modules/skottie/src/libskottie.Path.o: cxx ../../modules/skottie/src/Path.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Path.o: cxx ../../../../../skia/modules/skottie/src/Path.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Path.cpp
   source_name_part = Path
-build obj/modules/skottie/src/libskottie.Skottie.o: cxx ../../modules/skottie/src/Skottie.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Skottie.o: cxx ../../../../../skia/modules/skottie/src/Skottie.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Skottie.cpp
   source_name_part = Skottie
-build obj/modules/skottie/src/libskottie.SkottieJson.o: cxx ../../modules/skottie/src/SkottieJson.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.SkottieJson.o: cxx ../../../../../skia/modules/skottie/src/SkottieJson.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkottieJson.cpp
   source_name_part = SkottieJson
-build obj/modules/skottie/src/libskottie.SkottieProperty.o: cxx ../../modules/skottie/src/SkottieProperty.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.SkottieProperty.o: cxx ../../../../../skia/modules/skottie/src/SkottieProperty.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkottieProperty.cpp
   source_name_part = SkottieProperty
-build obj/modules/skottie/src/libskottie.SlotManager.o: cxx ../../modules/skottie/src/SlotManager.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.SlotManager.o: cxx ../../../../../skia/modules/skottie/src/SlotManager.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SlotManager.cpp
   source_name_part = SlotManager
-build obj/modules/skottie/src/libskottie.Transform.o: cxx ../../modules/skottie/src/Transform.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/libskottie.Transform.o: cxx ../../../../../skia/modules/skottie/src/Transform.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Transform.cpp
   source_name_part = Transform
-build obj/modules/skottie/src/animator/libskottie.Animator.o: cxx ../../modules/skottie/src/animator/Animator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.Animator.o: cxx ../../../../../skia/modules/skottie/src/animator/Animator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Animator.cpp
   source_name_part = Animator
-build obj/modules/skottie/src/animator/libskottie.KeyframeAnimator.o: cxx ../../modules/skottie/src/animator/KeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.KeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/KeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = KeyframeAnimator.cpp
   source_name_part = KeyframeAnimator
-build obj/modules/skottie/src/animator/libskottie.ScalarKeyframeAnimator.o: cxx ../../modules/skottie/src/animator/ScalarKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.ScalarKeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/ScalarKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ScalarKeyframeAnimator.cpp
   source_name_part = ScalarKeyframeAnimator
-build obj/modules/skottie/src/animator/libskottie.ShapeKeyframeAnimator.o: cxx ../../modules/skottie/src/animator/ShapeKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.ShapeKeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/ShapeKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ShapeKeyframeAnimator.cpp
   source_name_part = ShapeKeyframeAnimator
-build obj/modules/skottie/src/animator/libskottie.TextKeyframeAnimator.o: cxx ../../modules/skottie/src/animator/TextKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.TextKeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/TextKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextKeyframeAnimator.cpp
   source_name_part = TextKeyframeAnimator
-build obj/modules/skottie/src/animator/libskottie.Vec2KeyframeAnimator.o: cxx ../../modules/skottie/src/animator/Vec2KeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.Vec2KeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/Vec2KeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Vec2KeyframeAnimator.cpp
   source_name_part = Vec2KeyframeAnimator
-build obj/modules/skottie/src/animator/libskottie.VectorKeyframeAnimator.o: cxx ../../modules/skottie/src/animator/VectorKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/animator/libskottie.VectorKeyframeAnimator.o: cxx ../../../../../skia/modules/skottie/src/animator/VectorKeyframeAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = VectorKeyframeAnimator.cpp
   source_name_part = VectorKeyframeAnimator
-build obj/modules/skottie/src/effects/libskottie.BlackAndWhiteEffect.o: cxx ../../modules/skottie/src/effects/BlackAndWhiteEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.BlackAndWhiteEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/BlackAndWhiteEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = BlackAndWhiteEffect.cpp
   source_name_part = BlackAndWhiteEffect
-build obj/modules/skottie/src/effects/libskottie.BrightnessContrastEffect.o: cxx ../../modules/skottie/src/effects/BrightnessContrastEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.BrightnessContrastEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/BrightnessContrastEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = BrightnessContrastEffect.cpp
   source_name_part = BrightnessContrastEffect
-build obj/modules/skottie/src/effects/libskottie.BulgeEffect.o: cxx ../../modules/skottie/src/effects/BulgeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.BulgeEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/BulgeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = BulgeEffect.cpp
   source_name_part = BulgeEffect
-build obj/modules/skottie/src/effects/libskottie.CCTonerEffect.o: cxx ../../modules/skottie/src/effects/CCTonerEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.CCTonerEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/CCTonerEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = CCTonerEffect.cpp
   source_name_part = CCTonerEffect
-build obj/modules/skottie/src/effects/libskottie.CornerPinEffect.o: cxx ../../modules/skottie/src/effects/CornerPinEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.CornerPinEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/CornerPinEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = CornerPinEffect.cpp
   source_name_part = CornerPinEffect
-build obj/modules/skottie/src/effects/libskottie.DirectionalBlur.o: cxx ../../modules/skottie/src/effects/DirectionalBlur.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.DirectionalBlur.o: cxx ../../../../../skia/modules/skottie/src/effects/DirectionalBlur.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = DirectionalBlur.cpp
   source_name_part = DirectionalBlur
-build obj/modules/skottie/src/effects/libskottie.DisplacementMapEffect.o: cxx ../../modules/skottie/src/effects/DisplacementMapEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.DisplacementMapEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/DisplacementMapEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = DisplacementMapEffect.cpp
   source_name_part = DisplacementMapEffect
-build obj/modules/skottie/src/effects/libskottie.DropShadowEffect.o: cxx ../../modules/skottie/src/effects/DropShadowEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.DropShadowEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/DropShadowEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = DropShadowEffect.cpp
   source_name_part = DropShadowEffect
-build obj/modules/skottie/src/effects/libskottie.Effects.o: cxx ../../modules/skottie/src/effects/Effects.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.Effects.o: cxx ../../../../../skia/modules/skottie/src/effects/Effects.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Effects.cpp
   source_name_part = Effects
-build obj/modules/skottie/src/effects/libskottie.FillEffect.o: cxx ../../modules/skottie/src/effects/FillEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.FillEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/FillEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FillEffect.cpp
   source_name_part = FillEffect
-build obj/modules/skottie/src/effects/libskottie.FractalNoiseEffect.o: cxx ../../modules/skottie/src/effects/FractalNoiseEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.FractalNoiseEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/FractalNoiseEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FractalNoiseEffect.cpp
   source_name_part = FractalNoiseEffect
-build obj/modules/skottie/src/effects/libskottie.GaussianBlurEffect.o: cxx ../../modules/skottie/src/effects/GaussianBlurEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.GaussianBlurEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/GaussianBlurEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = GaussianBlurEffect.cpp
   source_name_part = GaussianBlurEffect
-build obj/modules/skottie/src/effects/libskottie.GlowStyles.o: cxx ../../modules/skottie/src/effects/GlowStyles.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.GlowStyles.o: cxx ../../../../../skia/modules/skottie/src/effects/GlowStyles.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = GlowStyles.cpp
   source_name_part = GlowStyles
-build obj/modules/skottie/src/effects/libskottie.GradientEffect.o: cxx ../../modules/skottie/src/effects/GradientEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.GradientEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/GradientEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = GradientEffect.cpp
   source_name_part = GradientEffect
-build obj/modules/skottie/src/effects/libskottie.HueSaturationEffect.o: cxx ../../modules/skottie/src/effects/HueSaturationEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.HueSaturationEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/HueSaturationEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = HueSaturationEffect.cpp
   source_name_part = HueSaturationEffect
-build obj/modules/skottie/src/effects/libskottie.InvertEffect.o: cxx ../../modules/skottie/src/effects/InvertEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.InvertEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/InvertEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = InvertEffect.cpp
   source_name_part = InvertEffect
-build obj/modules/skottie/src/effects/libskottie.LevelsEffect.o: cxx ../../modules/skottie/src/effects/LevelsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.LevelsEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/LevelsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = LevelsEffect.cpp
   source_name_part = LevelsEffect
-build obj/modules/skottie/src/effects/libskottie.LinearWipeEffect.o: cxx ../../modules/skottie/src/effects/LinearWipeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.LinearWipeEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/LinearWipeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = LinearWipeEffect.cpp
   source_name_part = LinearWipeEffect
-build obj/modules/skottie/src/effects/libskottie.MotionBlurEffect.o: cxx ../../modules/skottie/src/effects/MotionBlurEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.MotionBlurEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/MotionBlurEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = MotionBlurEffect.cpp
   source_name_part = MotionBlurEffect
-build obj/modules/skottie/src/effects/libskottie.MotionTileEffect.o: cxx ../../modules/skottie/src/effects/MotionTileEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.MotionTileEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/MotionTileEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = MotionTileEffect.cpp
   source_name_part = MotionTileEffect
-build obj/modules/skottie/src/effects/libskottie.RadialWipeEffect.o: cxx ../../modules/skottie/src/effects/RadialWipeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.RadialWipeEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/RadialWipeEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = RadialWipeEffect.cpp
   source_name_part = RadialWipeEffect
-build obj/modules/skottie/src/effects/libskottie.ShadowStyles.o: cxx ../../modules/skottie/src/effects/ShadowStyles.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.ShadowStyles.o: cxx ../../../../../skia/modules/skottie/src/effects/ShadowStyles.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ShadowStyles.cpp
   source_name_part = ShadowStyles
-build obj/modules/skottie/src/effects/libskottie.SharpenEffect.o: cxx ../../modules/skottie/src/effects/SharpenEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.SharpenEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/SharpenEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SharpenEffect.cpp
   source_name_part = SharpenEffect
-build obj/modules/skottie/src/effects/libskottie.ShiftChannelsEffect.o: cxx ../../modules/skottie/src/effects/ShiftChannelsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.ShiftChannelsEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/ShiftChannelsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ShiftChannelsEffect.cpp
   source_name_part = ShiftChannelsEffect
-build obj/modules/skottie/src/effects/libskottie.SkSLEffect.o: cxx ../../modules/skottie/src/effects/SkSLEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.SkSLEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/SkSLEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkSLEffect.cpp
   source_name_part = SkSLEffect
-build obj/modules/skottie/src/effects/libskottie.SphereEffect.o: cxx ../../modules/skottie/src/effects/SphereEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.SphereEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/SphereEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SphereEffect.cpp
   source_name_part = SphereEffect
-build obj/modules/skottie/src/effects/libskottie.ThresholdEffect.o: cxx ../../modules/skottie/src/effects/ThresholdEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.ThresholdEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/ThresholdEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ThresholdEffect.cpp
   source_name_part = ThresholdEffect
-build obj/modules/skottie/src/effects/libskottie.TintEffect.o: cxx ../../modules/skottie/src/effects/TintEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.TintEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/TintEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TintEffect.cpp
   source_name_part = TintEffect
-build obj/modules/skottie/src/effects/libskottie.TransformEffect.o: cxx ../../modules/skottie/src/effects/TransformEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.TransformEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/TransformEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TransformEffect.cpp
   source_name_part = TransformEffect
-build obj/modules/skottie/src/effects/libskottie.TritoneEffect.o: cxx ../../modules/skottie/src/effects/TritoneEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.TritoneEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/TritoneEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TritoneEffect.cpp
   source_name_part = TritoneEffect
-build obj/modules/skottie/src/effects/libskottie.VenetianBlindsEffect.o: cxx ../../modules/skottie/src/effects/VenetianBlindsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/effects/libskottie.VenetianBlindsEffect.o: cxx ../../../../../skia/modules/skottie/src/effects/VenetianBlindsEffect.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = VenetianBlindsEffect.cpp
   source_name_part = VenetianBlindsEffect
-build obj/modules/skottie/src/layers/libskottie.AudioLayer.o: cxx ../../modules/skottie/src/layers/AudioLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.AudioLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/AudioLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = AudioLayer.cpp
   source_name_part = AudioLayer
-build obj/modules/skottie/src/layers/libskottie.FootageLayer.o: cxx ../../modules/skottie/src/layers/FootageLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.FootageLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/FootageLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FootageLayer.cpp
   source_name_part = FootageLayer
-build obj/modules/skottie/src/layers/libskottie.NullLayer.o: cxx ../../modules/skottie/src/layers/NullLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.NullLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/NullLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = NullLayer.cpp
   source_name_part = NullLayer
-build obj/modules/skottie/src/layers/libskottie.PrecompLayer.o: cxx ../../modules/skottie/src/layers/PrecompLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.PrecompLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/PrecompLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = PrecompLayer.cpp
   source_name_part = PrecompLayer
-build obj/modules/skottie/src/layers/libskottie.SolidLayer.o: cxx ../../modules/skottie/src/layers/SolidLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.SolidLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/SolidLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SolidLayer.cpp
   source_name_part = SolidLayer
-build obj/modules/skottie/src/layers/libskottie.TextLayer.o: cxx ../../modules/skottie/src/layers/TextLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/libskottie.TextLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/TextLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextLayer.cpp
   source_name_part = TextLayer
-build obj/modules/skottie/src/layers/shapelayer/libskottie.Ellipse.o: cxx ../../modules/skottie/src/layers/shapelayer/Ellipse.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.Ellipse.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/Ellipse.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Ellipse.cpp
   source_name_part = Ellipse
-build obj/modules/skottie/src/layers/shapelayer/libskottie.FillStroke.o: cxx ../../modules/skottie/src/layers/shapelayer/FillStroke.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.FillStroke.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/FillStroke.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = FillStroke.cpp
   source_name_part = FillStroke
-build obj/modules/skottie/src/layers/shapelayer/libskottie.Gradient.o: cxx ../../modules/skottie/src/layers/shapelayer/Gradient.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.Gradient.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/Gradient.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Gradient.cpp
   source_name_part = Gradient
-build obj/modules/skottie/src/layers/shapelayer/libskottie.MergePaths.o: cxx ../../modules/skottie/src/layers/shapelayer/MergePaths.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.MergePaths.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/MergePaths.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = MergePaths.cpp
   source_name_part = MergePaths
-build obj/modules/skottie/src/layers/shapelayer/libskottie.OffsetPaths.o: cxx ../../modules/skottie/src/layers/shapelayer/OffsetPaths.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.OffsetPaths.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/OffsetPaths.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = OffsetPaths.cpp
   source_name_part = OffsetPaths
-build obj/modules/skottie/src/layers/shapelayer/libskottie.Polystar.o: cxx ../../modules/skottie/src/layers/shapelayer/Polystar.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.Polystar.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/Polystar.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Polystar.cpp
   source_name_part = Polystar
-build obj/modules/skottie/src/layers/shapelayer/libskottie.PuckerBloat.o: cxx ../../modules/skottie/src/layers/shapelayer/PuckerBloat.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.PuckerBloat.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/PuckerBloat.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = PuckerBloat.cpp
   source_name_part = PuckerBloat
-build obj/modules/skottie/src/layers/shapelayer/libskottie.Rectangle.o: cxx ../../modules/skottie/src/layers/shapelayer/Rectangle.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.Rectangle.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/Rectangle.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Rectangle.cpp
   source_name_part = Rectangle
-build obj/modules/skottie/src/layers/shapelayer/libskottie.Repeater.o: cxx ../../modules/skottie/src/layers/shapelayer/Repeater.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.Repeater.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/Repeater.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Repeater.cpp
   source_name_part = Repeater
-build obj/modules/skottie/src/layers/shapelayer/libskottie.RoundCorners.o: cxx ../../modules/skottie/src/layers/shapelayer/RoundCorners.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.RoundCorners.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/RoundCorners.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = RoundCorners.cpp
   source_name_part = RoundCorners
-build obj/modules/skottie/src/layers/shapelayer/libskottie.ShapeLayer.o: cxx ../../modules/skottie/src/layers/shapelayer/ShapeLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.ShapeLayer.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/ShapeLayer.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = ShapeLayer.cpp
   source_name_part = ShapeLayer
-build obj/modules/skottie/src/layers/shapelayer/libskottie.TrimPaths.o: cxx ../../modules/skottie/src/layers/shapelayer/TrimPaths.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/layers/shapelayer/libskottie.TrimPaths.o: cxx ../../../../../skia/modules/skottie/src/layers/shapelayer/TrimPaths.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TrimPaths.cpp
   source_name_part = TrimPaths
-build obj/modules/skottie/src/text/libskottie.Font.o: cxx ../../modules/skottie/src/text/Font.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.Font.o: cxx ../../../../../skia/modules/skottie/src/text/Font.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = Font.cpp
   source_name_part = Font
-build obj/modules/skottie/src/text/libskottie.RangeSelector.o: cxx ../../modules/skottie/src/text/RangeSelector.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.RangeSelector.o: cxx ../../../../../skia/modules/skottie/src/text/RangeSelector.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = RangeSelector.cpp
   source_name_part = RangeSelector
-build obj/modules/skottie/src/text/libskottie.TextAdapter.o: cxx ../../modules/skottie/src/text/TextAdapter.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.TextAdapter.o: cxx ../../../../../skia/modules/skottie/src/text/TextAdapter.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextAdapter.cpp
   source_name_part = TextAdapter
-build obj/modules/skottie/src/text/libskottie.TextAnimator.o: cxx ../../modules/skottie/src/text/TextAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.TextAnimator.o: cxx ../../../../../skia/modules/skottie/src/text/TextAnimator.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextAnimator.cpp
   source_name_part = TextAnimator
-build obj/modules/skottie/src/text/libskottie.TextShaper.o: cxx ../../modules/skottie/src/text/TextShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.TextShaper.o: cxx ../../../../../skia/modules/skottie/src/text/TextShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextShaper.cpp
   source_name_part = TextShaper
-build obj/modules/skottie/src/text/libskottie.TextValue.o: cxx ../../modules/skottie/src/text/TextValue.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skottie/src/text/libskottie.TextValue.o: cxx ../../../../../skia/modules/skottie/src/text/TextValue.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = TextValue.cpp
   source_name_part = TextValue
 

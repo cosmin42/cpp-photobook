@@ -1,27 +1,27 @@
 defines = -DSKSHAPER_IMPLEMENTATION=1 -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSK_SHAPER_PRIMITIVE_AVAILABLE -DSK_SHAPER_CORETEXT_AVAILABLE -DSK_SHAPER_HARFBUZZ_AVAILABLE -DSK_SHAPER_UNICODE_AVAILABLE -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_UNICODE_AVAILABLE -DSK_UNICODE_ICU_IMPLEMENTATION
 framework_dirs =
-include_dirs = -I../../modules/skshaper/include -I../..
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/harfbuzz -isystem /Users/cosminmihai/skia/third_party/externals/harfbuzz/src
+include_dirs = -I../../../../../skia/modules/skshaper/include -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/harfbuzz -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/harfbuzz/src
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = libskshaper
 
-build obj/modules/skshaper/src/libskshaper.SkShaper.o: cxx ../../modules/skshaper/src/SkShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper.cpp
   source_name_part = SkShaper
-build obj/modules/skshaper/src/libskshaper.SkShaper_factory.o: cxx ../../modules/skshaper/src/SkShaper_factory.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper_factory.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper_factory.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper_factory.cpp
   source_name_part = SkShaper_factory
-build obj/modules/skshaper/src/libskshaper.SkShaper_primitive.o: cxx ../../modules/skshaper/src/SkShaper_primitive.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper_primitive.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper_primitive.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper_primitive.cpp
   source_name_part = SkShaper_primitive
-build obj/modules/skshaper/src/libskshaper.SkShaper_coretext.o: cxx ../../modules/skshaper/src/SkShaper_coretext.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper_coretext.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper_coretext.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper_coretext.cpp
   source_name_part = SkShaper_coretext
-build obj/modules/skshaper/src/libskshaper.SkShaper_skunicode.o: cxx ../../modules/skshaper/src/SkShaper_skunicode.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper_skunicode.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper_skunicode.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper_skunicode.cpp
   source_name_part = SkShaper_skunicode
-build obj/modules/skshaper/src/libskshaper.SkShaper_harfbuzz.o: cxx ../../modules/skshaper/src/SkShaper_harfbuzz.cpp || obj/third_party/icu/make_data_assembly.stamp
+build obj/modules/skshaper/src/libskshaper.SkShaper_harfbuzz.o: cxx ../../../../../skia/modules/skshaper/src/SkShaper_harfbuzz.cpp || obj/third_party/icu/make_data_assembly.stamp
   source_file_part = SkShaper_harfbuzz.cpp
   source_name_part = SkShaper_harfbuzz
 

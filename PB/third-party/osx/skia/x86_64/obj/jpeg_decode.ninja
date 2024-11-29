@@ -1,24 +1,24 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1 -DSK_CODEC_DECODES_JPEG
 framework_dirs =
-include_dirs = -I../..
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/libjpeg-turbo -isystem /Users/cosminmihai/skia/third_party/externals/libjpeg-turbo
+include_dirs = -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/libjpeg-turbo -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libjpeg-turbo
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = jpeg_decode
 
-build obj/src/codec/jpeg_decode.SkJpegCodec.o: cxx ../../src/codec/SkJpegCodec.cpp
+build obj/src/codec/jpeg_decode.SkJpegCodec.o: cxx ../../../../../skia/src/codec/SkJpegCodec.cpp
   source_file_part = SkJpegCodec.cpp
   source_name_part = SkJpegCodec
-build obj/src/codec/jpeg_decode.SkJpegDecoderMgr.o: cxx ../../src/codec/SkJpegDecoderMgr.cpp
+build obj/src/codec/jpeg_decode.SkJpegDecoderMgr.o: cxx ../../../../../skia/src/codec/SkJpegDecoderMgr.cpp
   source_file_part = SkJpegDecoderMgr.cpp
   source_name_part = SkJpegDecoderMgr
-build obj/src/codec/jpeg_decode.SkJpegMetadataDecoderImpl.o: cxx ../../src/codec/SkJpegMetadataDecoderImpl.cpp
+build obj/src/codec/jpeg_decode.SkJpegMetadataDecoderImpl.o: cxx ../../../../../skia/src/codec/SkJpegMetadataDecoderImpl.cpp
   source_file_part = SkJpegMetadataDecoderImpl.cpp
   source_name_part = SkJpegMetadataDecoderImpl
-build obj/src/codec/jpeg_decode.SkJpegSourceMgr.o: cxx ../../src/codec/SkJpegSourceMgr.cpp
+build obj/src/codec/jpeg_decode.SkJpegSourceMgr.o: cxx ../../../../../skia/src/codec/SkJpegSourceMgr.cpp
   source_file_part = SkJpegSourceMgr.cpp
   source_name_part = SkJpegSourceMgr
-build obj/src/codec/jpeg_decode.SkJpegUtility.o: cxx ../../src/codec/SkJpegUtility.cpp
+build obj/src/codec/jpeg_decode.SkJpegUtility.o: cxx ../../../../../skia/src/codec/SkJpegUtility.cpp
   source_file_part = SkJpegUtility.cpp
   source_name_part = SkJpegUtility
 

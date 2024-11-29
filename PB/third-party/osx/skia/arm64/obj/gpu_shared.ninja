@@ -1,114 +1,114 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1
 framework_dirs =
-include_dirs = -I../..
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target arm64-apple-macos11 -O3
+include_dirs = -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = gpu_shared
 
-build obj/src/gpu/gpu_shared.AtlasTypes.o: cxx ../../src/gpu/AtlasTypes.cpp
+build obj/src/gpu/gpu_shared.AtlasTypes.o: cxx ../../../../../skia/src/gpu/AtlasTypes.cpp
   source_file_part = AtlasTypes.cpp
   source_name_part = AtlasTypes
-build obj/src/gpu/gpu_shared.Blend.o: cxx ../../src/gpu/Blend.cpp
+build obj/src/gpu/gpu_shared.Blend.o: cxx ../../../../../skia/src/gpu/Blend.cpp
   source_file_part = Blend.cpp
   source_name_part = Blend
-build obj/src/gpu/gpu_shared.BlendFormula.o: cxx ../../src/gpu/BlendFormula.cpp
+build obj/src/gpu/gpu_shared.BlendFormula.o: cxx ../../../../../skia/src/gpu/BlendFormula.cpp
   source_file_part = BlendFormula.cpp
   source_name_part = BlendFormula
-build obj/src/gpu/gpu_shared.BlurUtils.o: cxx ../../src/gpu/BlurUtils.cpp
+build obj/src/gpu/gpu_shared.BlurUtils.o: cxx ../../../../../skia/src/gpu/BlurUtils.cpp
   source_file_part = BlurUtils.cpp
   source_name_part = BlurUtils
-build obj/src/gpu/gpu_shared.DataUtils.o: cxx ../../src/gpu/DataUtils.cpp
+build obj/src/gpu/gpu_shared.DataUtils.o: cxx ../../../../../skia/src/gpu/DataUtils.cpp
   source_file_part = DataUtils.cpp
   source_name_part = DataUtils
-build obj/src/gpu/gpu_shared.DitherUtils.o: cxx ../../src/gpu/DitherUtils.cpp
+build obj/src/gpu/gpu_shared.DitherUtils.o: cxx ../../../../../skia/src/gpu/DitherUtils.cpp
   source_file_part = DitherUtils.cpp
   source_name_part = DitherUtils
-build obj/src/gpu/gpu_shared.MutableTextureState.o: cxx ../../src/gpu/MutableTextureState.cpp
+build obj/src/gpu/gpu_shared.MutableTextureState.o: cxx ../../../../../skia/src/gpu/MutableTextureState.cpp
   source_file_part = MutableTextureState.cpp
   source_name_part = MutableTextureState
-build obj/src/gpu/gpu_shared.RectanizerPow2.o: cxx ../../src/gpu/RectanizerPow2.cpp
+build obj/src/gpu/gpu_shared.RectanizerPow2.o: cxx ../../../../../skia/src/gpu/RectanizerPow2.cpp
   source_file_part = RectanizerPow2.cpp
   source_name_part = RectanizerPow2
-build obj/src/gpu/gpu_shared.RectanizerSkyline.o: cxx ../../src/gpu/RectanizerSkyline.cpp
+build obj/src/gpu/gpu_shared.RectanizerSkyline.o: cxx ../../../../../skia/src/gpu/RectanizerSkyline.cpp
   source_file_part = RectanizerSkyline.cpp
   source_name_part = RectanizerSkyline
-build obj/src/gpu/gpu_shared.ResourceKey.o: cxx ../../src/gpu/ResourceKey.cpp
+build obj/src/gpu/gpu_shared.ResourceKey.o: cxx ../../../../../skia/src/gpu/ResourceKey.cpp
   source_file_part = ResourceKey.cpp
   source_name_part = ResourceKey
-build obj/src/gpu/gpu_shared.ShaderErrorHandler.o: cxx ../../src/gpu/ShaderErrorHandler.cpp
+build obj/src/gpu/gpu_shared.ShaderErrorHandler.o: cxx ../../../../../skia/src/gpu/ShaderErrorHandler.cpp
   source_file_part = ShaderErrorHandler.cpp
   source_name_part = ShaderErrorHandler
-build obj/src/gpu/gpu_shared.SkBackingFit.o: cxx ../../src/gpu/SkBackingFit.cpp
+build obj/src/gpu/gpu_shared.SkBackingFit.o: cxx ../../../../../skia/src/gpu/SkBackingFit.cpp
   source_file_part = SkBackingFit.cpp
   source_name_part = SkBackingFit
-build obj/src/gpu/gpu_shared.SkSLToBackend.o: cxx ../../src/gpu/SkSLToBackend.cpp
+build obj/src/gpu/gpu_shared.SkSLToBackend.o: cxx ../../../../../skia/src/gpu/SkSLToBackend.cpp
   source_file_part = SkSLToBackend.cpp
   source_name_part = SkSLToBackend
-build obj/src/gpu/gpu_shared.Swizzle.o: cxx ../../src/gpu/Swizzle.cpp
+build obj/src/gpu/gpu_shared.Swizzle.o: cxx ../../../../../skia/src/gpu/Swizzle.cpp
   source_file_part = Swizzle.cpp
   source_name_part = Swizzle
-build obj/src/gpu/gpu_shared.TiledTextureUtils.o: cxx ../../src/gpu/TiledTextureUtils.cpp
+build obj/src/gpu/gpu_shared.TiledTextureUtils.o: cxx ../../../../../skia/src/gpu/TiledTextureUtils.cpp
   source_file_part = TiledTextureUtils.cpp
   source_name_part = TiledTextureUtils
-build obj/src/gpu/tessellate/gpu_shared.FixedCountBufferUtils.o: cxx ../../src/gpu/tessellate/FixedCountBufferUtils.cpp
+build obj/src/gpu/tessellate/gpu_shared.FixedCountBufferUtils.o: cxx ../../../../../skia/src/gpu/tessellate/FixedCountBufferUtils.cpp
   source_file_part = FixedCountBufferUtils.cpp
   source_name_part = FixedCountBufferUtils
-build obj/src/gpu/tessellate/gpu_shared.Tessellation.o: cxx ../../src/gpu/tessellate/Tessellation.cpp
+build obj/src/gpu/tessellate/gpu_shared.Tessellation.o: cxx ../../../../../skia/src/gpu/tessellate/Tessellation.cpp
   source_file_part = Tessellation.cpp
   source_name_part = Tessellation
-build obj/src/text/gpu/gpu_shared.DistanceFieldAdjustTable.o: cxx ../../src/text/gpu/DistanceFieldAdjustTable.cpp
+build obj/src/text/gpu/gpu_shared.DistanceFieldAdjustTable.o: cxx ../../../../../skia/src/text/gpu/DistanceFieldAdjustTable.cpp
   source_file_part = DistanceFieldAdjustTable.cpp
   source_name_part = DistanceFieldAdjustTable
-build obj/src/text/gpu/gpu_shared.GlyphVector.o: cxx ../../src/text/gpu/GlyphVector.cpp
+build obj/src/text/gpu/gpu_shared.GlyphVector.o: cxx ../../../../../skia/src/text/gpu/GlyphVector.cpp
   source_file_part = GlyphVector.cpp
   source_name_part = GlyphVector
-build obj/src/text/gpu/gpu_shared.SDFMaskFilter.o: cxx ../../src/text/gpu/SDFMaskFilter.cpp
+build obj/src/text/gpu/gpu_shared.SDFMaskFilter.o: cxx ../../../../../skia/src/text/gpu/SDFMaskFilter.cpp
   source_file_part = SDFMaskFilter.cpp
   source_name_part = SDFMaskFilter
-build obj/src/text/gpu/gpu_shared.SkChromeRemoteGlyphCache.o: cxx ../../src/text/gpu/SkChromeRemoteGlyphCache.cpp
+build obj/src/text/gpu/gpu_shared.SkChromeRemoteGlyphCache.o: cxx ../../../../../skia/src/text/gpu/SkChromeRemoteGlyphCache.cpp
   source_file_part = SkChromeRemoteGlyphCache.cpp
   source_name_part = SkChromeRemoteGlyphCache
-build obj/src/text/gpu/gpu_shared.Slug.o: cxx ../../src/text/gpu/Slug.cpp
+build obj/src/text/gpu/gpu_shared.Slug.o: cxx ../../../../../skia/src/text/gpu/Slug.cpp
   source_file_part = Slug.cpp
   source_name_part = Slug
-build obj/src/text/gpu/gpu_shared.SlugImpl.o: cxx ../../src/text/gpu/SlugImpl.cpp
+build obj/src/text/gpu/gpu_shared.SlugImpl.o: cxx ../../../../../skia/src/text/gpu/SlugImpl.cpp
   source_file_part = SlugImpl.cpp
   source_name_part = SlugImpl
-build obj/src/text/gpu/gpu_shared.StrikeCache.o: cxx ../../src/text/gpu/StrikeCache.cpp
+build obj/src/text/gpu/gpu_shared.StrikeCache.o: cxx ../../../../../skia/src/text/gpu/StrikeCache.cpp
   source_file_part = StrikeCache.cpp
   source_name_part = StrikeCache
-build obj/src/text/gpu/gpu_shared.SubRunAllocator.o: cxx ../../src/text/gpu/SubRunAllocator.cpp
+build obj/src/text/gpu/gpu_shared.SubRunAllocator.o: cxx ../../../../../skia/src/text/gpu/SubRunAllocator.cpp
   source_file_part = SubRunAllocator.cpp
   source_name_part = SubRunAllocator
-build obj/src/text/gpu/gpu_shared.SubRunContainer.o: cxx ../../src/text/gpu/SubRunContainer.cpp
+build obj/src/text/gpu/gpu_shared.SubRunContainer.o: cxx ../../../../../skia/src/text/gpu/SubRunContainer.cpp
   source_file_part = SubRunContainer.cpp
   source_name_part = SubRunContainer
-build obj/src/text/gpu/gpu_shared.SubRunControl.o: cxx ../../src/text/gpu/SubRunControl.cpp
+build obj/src/text/gpu/gpu_shared.SubRunControl.o: cxx ../../../../../skia/src/text/gpu/SubRunControl.cpp
   source_file_part = SubRunControl.cpp
   source_name_part = SubRunControl
-build obj/src/text/gpu/gpu_shared.TextBlob.o: cxx ../../src/text/gpu/TextBlob.cpp
+build obj/src/text/gpu/gpu_shared.TextBlob.o: cxx ../../../../../skia/src/text/gpu/TextBlob.cpp
   source_file_part = TextBlob.cpp
   source_name_part = TextBlob
-build obj/src/text/gpu/gpu_shared.TextBlobRedrawCoordinator.o: cxx ../../src/text/gpu/TextBlobRedrawCoordinator.cpp
+build obj/src/text/gpu/gpu_shared.TextBlobRedrawCoordinator.o: cxx ../../../../../skia/src/text/gpu/TextBlobRedrawCoordinator.cpp
   source_file_part = TextBlobRedrawCoordinator.cpp
   source_name_part = TextBlobRedrawCoordinator
-build obj/src/text/gpu/gpu_shared.VertexFiller.o: cxx ../../src/text/gpu/VertexFiller.cpp
+build obj/src/text/gpu/gpu_shared.VertexFiller.o: cxx ../../../../../skia/src/text/gpu/VertexFiller.cpp
   source_file_part = VertexFiller.cpp
   source_name_part = VertexFiller
-build obj/src/sksl/codegen/gpu_shared.SkSLPipelineStageCodeGenerator.o: cxx ../../src/sksl/codegen/SkSLPipelineStageCodeGenerator.cpp
+build obj/src/sksl/codegen/gpu_shared.SkSLPipelineStageCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLPipelineStageCodeGenerator.cpp
   source_file_part = SkSLPipelineStageCodeGenerator.cpp
   source_name_part = SkSLPipelineStageCodeGenerator
-build obj/src/sksl/codegen/gpu_shared.SkSLGLSLCodeGenerator.o: cxx ../../src/sksl/codegen/SkSLGLSLCodeGenerator.cpp
+build obj/src/sksl/codegen/gpu_shared.SkSLGLSLCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLGLSLCodeGenerator.cpp
   source_file_part = SkSLGLSLCodeGenerator.cpp
   source_name_part = SkSLGLSLCodeGenerator
-build obj/src/sksl/codegen/gpu_shared.SkSLMetalCodeGenerator.o: cxx ../../src/sksl/codegen/SkSLMetalCodeGenerator.cpp
+build obj/src/sksl/codegen/gpu_shared.SkSLMetalCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLMetalCodeGenerator.cpp
   source_file_part = SkSLMetalCodeGenerator.cpp
   source_name_part = SkSLMetalCodeGenerator
-build obj/src/sksl/codegen/gpu_shared.SkSLSPIRVCodeGenerator.o: cxx ../../src/sksl/codegen/SkSLSPIRVCodeGenerator.cpp
+build obj/src/sksl/codegen/gpu_shared.SkSLSPIRVCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLSPIRVCodeGenerator.cpp
   source_file_part = SkSLSPIRVCodeGenerator.cpp
   source_name_part = SkSLSPIRVCodeGenerator
-build obj/src/sksl/codegen/gpu_shared.SkSLWGSLCodeGenerator.o: cxx ../../src/sksl/codegen/SkSLWGSLCodeGenerator.cpp
+build obj/src/sksl/codegen/gpu_shared.SkSLWGSLCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLWGSLCodeGenerator.cpp
   source_file_part = SkSLWGSLCodeGenerator.cpp
   source_name_part = SkSLWGSLCodeGenerator
 

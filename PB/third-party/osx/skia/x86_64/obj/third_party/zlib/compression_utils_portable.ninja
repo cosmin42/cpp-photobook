@@ -1,12 +1,12 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
 framework_dirs =
 include_dirs =
-cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3 -isystem /Users/cosminmihai/skia/third_party/externals/zlib/google -isystem /Users/cosminmihai/skia/third_party/externals/zlib
+cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/zlib/google -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/zlib
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = libcompression_utils_portable
 
-build obj/third_party/externals/zlib/google/libcompression_utils_portable.compression_utils_portable.o: cxx ../../third_party/externals/zlib/google/compression_utils_portable.cc
+build obj/third_party/externals/zlib/google/libcompression_utils_portable.compression_utils_portable.o: cxx ../../../../../skia/third_party/externals/zlib/google/compression_utils_portable.cc
   source_file_part = compression_utils_portable.cc
   source_name_part = compression_utils_portable
 

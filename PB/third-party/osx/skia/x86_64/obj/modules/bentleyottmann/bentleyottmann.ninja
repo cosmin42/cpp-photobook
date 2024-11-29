@@ -1,36 +1,36 @@
 defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_TYPEFACE_FACTORY_CORETEXT -DSK_FONTMGR_CORETEXT_AVAILABLE -DSK_GL -DSK_SUPPORT_PDF -DSK_CODEC_DECODES_JPEG -DSK_CODEC_DECODES_ICO -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_RAW -DSK_CODEC_DECODES_WEBP -DSK_HAS_WUFFS_LIBRARY -DSK_CODEC_DECODES_GIF -DSK_XML -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE
 framework_dirs =
-include_dirs = -I../../modules/bentleyottmann/include -I../..
-cflags = -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target x86_64-apple-macos10.13 -O3
+include_dirs = -I../../../../../skia/modules/bentleyottmann/include -I../../../../../skia
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
 root_out_dir = .
 target_output_name = libbentleyottmann
 
-build obj/modules/bentleyottmann/src/libbentleyottmann.BentleyOttmann1.o: cxx ../../modules/bentleyottmann/src/BentleyOttmann1.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.BentleyOttmann1.o: cxx ../../../../../skia/modules/bentleyottmann/src/BentleyOttmann1.cpp
   source_file_part = BentleyOttmann1.cpp
   source_name_part = BentleyOttmann1
-build obj/modules/bentleyottmann/src/libbentleyottmann.BruteForceCrossings.o: cxx ../../modules/bentleyottmann/src/BruteForceCrossings.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.BruteForceCrossings.o: cxx ../../../../../skia/modules/bentleyottmann/src/BruteForceCrossings.cpp
   source_file_part = BruteForceCrossings.cpp
   source_name_part = BruteForceCrossings
-build obj/modules/bentleyottmann/src/libbentleyottmann.Contour.o: cxx ../../modules/bentleyottmann/src/Contour.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.Contour.o: cxx ../../../../../skia/modules/bentleyottmann/src/Contour.cpp
   source_file_part = Contour.cpp
   source_name_part = Contour
-build obj/modules/bentleyottmann/src/libbentleyottmann.EventQueue.o: cxx ../../modules/bentleyottmann/src/EventQueue.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.EventQueue.o: cxx ../../../../../skia/modules/bentleyottmann/src/EventQueue.cpp
   source_file_part = EventQueue.cpp
   source_name_part = EventQueue
-build obj/modules/bentleyottmann/src/libbentleyottmann.Int96.o: cxx ../../modules/bentleyottmann/src/Int96.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.Int96.o: cxx ../../../../../skia/modules/bentleyottmann/src/Int96.cpp
   source_file_part = Int96.cpp
   source_name_part = Int96
-build obj/modules/bentleyottmann/src/libbentleyottmann.Myers.o: cxx ../../modules/bentleyottmann/src/Myers.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.Myers.o: cxx ../../../../../skia/modules/bentleyottmann/src/Myers.cpp
   source_file_part = Myers.cpp
   source_name_part = Myers
-build obj/modules/bentleyottmann/src/libbentleyottmann.Point.o: cxx ../../modules/bentleyottmann/src/Point.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.Point.o: cxx ../../../../../skia/modules/bentleyottmann/src/Point.cpp
   source_file_part = Point.cpp
   source_name_part = Point
-build obj/modules/bentleyottmann/src/libbentleyottmann.Segment.o: cxx ../../modules/bentleyottmann/src/Segment.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.Segment.o: cxx ../../../../../skia/modules/bentleyottmann/src/Segment.cpp
   source_file_part = Segment.cpp
   source_name_part = Segment
-build obj/modules/bentleyottmann/src/libbentleyottmann.SweepLine.o: cxx ../../modules/bentleyottmann/src/SweepLine.cpp
+build obj/modules/bentleyottmann/src/libbentleyottmann.SweepLine.o: cxx ../../../../../skia/modules/bentleyottmann/src/SweepLine.cpp
   source_file_part = SweepLine.cpp
   source_name_part = SweepLine
 

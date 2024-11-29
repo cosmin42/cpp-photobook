@@ -1,12 +1,12 @@
 defines = -DWUFFS_IMPLEMENTATION -DWUFFS_CONFIG__MODULES -DWUFFS_CONFIG__MODULE__BASE -DWUFFS_CONFIG__MODULE__GIF -DWUFFS_CONFIG__MODULE__LZW -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
 framework_dirs =
 include_dirs =
-cflags = -w -Wno-attributes -ffp-contract=off -fstrict-aliasing -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk -target arm64-apple-macos11 -O3 -isystem /Users/cosminmihai/skia/third_party/externals/wuffs/release/c
+cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/wuffs/release/c
 cflags_c =
 root_out_dir = .
 target_output_name = libwuffs
 
-build obj/third_party/externals/wuffs/release/c/libwuffs.wuffs-v0.3.o: cc ../../third_party/externals/wuffs/release/c/wuffs-v0.3.c
+build obj/third_party/externals/wuffs/release/c/libwuffs.wuffs-v0.3.o: cc ../../../../../skia/third_party/externals/wuffs/release/c/wuffs-v0.3.c
   source_file_part = wuffs-v0.3.c
   source_name_part = wuffs-v0.3
 

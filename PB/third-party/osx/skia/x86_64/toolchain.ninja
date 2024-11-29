@@ -1,5 +1,5 @@
 rule copy
-  command = python3 "/Users/cosminmihai/skia/gn/cp.py" ${in} ${out}
+  command = python3 "/Users/cosminmihai/cpp-exercise-photobook/skia/gn/cp.py" ${in} ${out}
   description = copy ${in} ${out}
 rule objc
   command =  cc -MD -MF ${out}.d ${defines} ${include_dirs} ${framework_dirs} ${cflags} ${cflags_objc} -c ${in} -o ${out}
@@ -33,7 +33,7 @@ rule stamp
   command = touch ${out}
   description = stamp ${out}
 rule copy_bundle_data
-  command = python3 "/Users/cosminmihai/skia/gn/cp.py" ${in} ${out}
+  command = python3 "/Users/cosminmihai/cpp-exercise-photobook/skia/gn/cp.py" ${in} ${out}
   description = copy_bundle_data ${in} ${out}
 rule compile_xcassets
   command = true
@@ -76,6 +76,7 @@ subninja obj/fontmgr_fuchsia.ninja
 subninja obj/fontmgr_mac_ct.ninja
 subninja obj/fontmgr_win.ninja
 subninja obj/fontmgr_win_gdi.ninja
+subninja obj/fontscanner_tests.ninja
 subninja obj/gpu.ninja
 subninja obj/gpu_shared.ninja
 subninja obj/graphite.ninja
@@ -96,11 +97,15 @@ subninja obj/png_decode.ninja
 subninja obj/png_encode.ninja
 subninja obj/raw.ninja
 build obj/run_sksllex.stamp: stamp
+subninja obj/rust_png_decode.ninja
+subninja obj/rust_png_decode_tests.ninja
 subninja obj/skia.ninja
 subninja obj/skx.ninja
 subninja obj/typeface_fontations.ninja
 subninja obj/typeface_fontations_tests.ninja
 subninja obj/typeface_freetype.ninja
+subninja obj/typeface_freetype_tests.ninja
+subninja obj/typeface_proxy.ninja
 subninja obj/vello.ninja
 subninja obj/webp_decode.ninja
 subninja obj/webp_encode.ninja
@@ -128,15 +133,15 @@ subninja obj/third_party/expat/expat.ninja
 subninja obj/third_party/harfbuzz/harfbuzz.ninja
 subninja obj/third_party/icu/headers.ninja
 subninja obj/third_party/icu/icu.ninja
-build icudtl.dat: copy ../../third_party/externals/icu/common/icudtl.dat
+build icudtl.dat: copy ../../../../../skia/third_party/externals/icu/common/icudtl.dat
 
 build obj/third_party/icu/icudata.stamp: stamp icudtl.dat
 rule __third_party_icu_make_data_assembly___gn_toolchain_gcc_like__rule
-  command = python3 ../../third_party/externals/icu/scripts/make_data_assembly.py ../../third_party/externals/icu/common/icudtl.dat gen/third_party/icu/icudtl_dat.S --mac
+  command = python3 ../../../../../skia/third_party/externals/icu/scripts/make_data_assembly.py ../../../../../skia/third_party/externals/icu/common/icudtl.dat gen/third_party/icu/icudtl_dat.S --mac
   description = ACTION //third_party/icu:make_data_assembly(//gn/toolchain:gcc_like)
   restat = 1
 
-build gen/third_party/icu/icudtl_dat.S: __third_party_icu_make_data_assembly___gn_toolchain_gcc_like__rule | ../../third_party/externals/icu/scripts/make_data_assembly.py ../../third_party/externals/icu/common/icudtl.dat
+build gen/third_party/icu/icudtl_dat.S: __third_party_icu_make_data_assembly___gn_toolchain_gcc_like__rule | ../../../../../skia/third_party/externals/icu/scripts/make_data_assembly.py ../../../../../skia/third_party/externals/icu/common/icudtl.dat
 
 build obj/third_party/icu/make_data_assembly.stamp: stamp gen/third_party/icu/icudtl_dat.S
 subninja obj/third_party/libjpeg-turbo/libjpeg.ninja

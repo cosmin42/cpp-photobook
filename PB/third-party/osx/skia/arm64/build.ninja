@@ -1,7 +1,7 @@
 ninja_required_version = 1.7.2
 
 rule gn
-  command = ../../buildtools/mac/gn --root=../.. -q --regeneration gen .
+  command = ../../../../../skia/bin/gn --root=../../../../../skia -q --regeneration gen .
   pool = console
   description = Regenerating ninja files
 
@@ -45,6 +45,7 @@ build fontmgr_fuchsia: phony obj/fontmgr_fuchsia.stamp
 build fontmgr_mac_ct: phony obj/fontmgr_mac_ct.stamp
 build fontmgr_win: phony obj/fontmgr_win.stamp
 build fontmgr_win_gdi: phony obj/fontmgr_win_gdi.stamp
+build fontscanner_tests: phony obj/fontscanner_tests.stamp
 build gpu: phony obj/gpu.stamp
 build gpu_shared: phony obj/gpu_shared.stamp
 build graphite: phony obj/graphite.stamp
@@ -65,11 +66,15 @@ build png_decode: phony obj/png_decode.stamp
 build png_encode: phony obj/png_encode.stamp
 build raw: phony obj/raw.stamp
 build run_sksllex: phony obj/run_sksllex.stamp
+build rust_png_decode: phony obj/rust_png_decode.stamp
+build rust_png_decode_tests: phony obj/rust_png_decode_tests.stamp
 build skia: phony ./libskia.a
 build skx: phony obj/skx.stamp
 build typeface_fontations: phony obj/typeface_fontations.stamp
 build typeface_fontations_tests: phony obj/typeface_fontations_tests.stamp
 build typeface_freetype: phony obj/typeface_freetype.stamp
+build typeface_freetype_tests: phony obj/typeface_freetype_tests.stamp
+build typeface_proxy: phony obj/typeface_proxy.stamp
 build vello: phony obj/vello.stamp
 build webp_decode: phony obj/webp_decode.stamp
 build webp_encode: phony obj/webp_encode.stamp
@@ -139,6 +144,7 @@ build $:fontmgr_fuchsia: phony obj/fontmgr_fuchsia.stamp
 build $:fontmgr_mac_ct: phony obj/fontmgr_mac_ct.stamp
 build $:fontmgr_win: phony obj/fontmgr_win.stamp
 build $:fontmgr_win_gdi: phony obj/fontmgr_win_gdi.stamp
+build $:fontscanner_tests: phony obj/fontscanner_tests.stamp
 build $:gpu: phony obj/gpu.stamp
 build $:gpu_shared: phony obj/gpu_shared.stamp
 build $:graphite: phony obj/graphite.stamp
@@ -159,11 +165,15 @@ build $:png_decode: phony obj/png_decode.stamp
 build $:png_encode: phony obj/png_encode.stamp
 build $:raw: phony obj/raw.stamp
 build $:run_sksllex: phony obj/run_sksllex.stamp
+build $:rust_png_decode: phony obj/rust_png_decode.stamp
+build $:rust_png_decode_tests: phony obj/rust_png_decode_tests.stamp
 build $:skia: phony ./libskia.a
 build $:skx: phony obj/skx.stamp
 build $:typeface_fontations: phony obj/typeface_fontations.stamp
 build $:typeface_fontations_tests: phony obj/typeface_fontations_tests.stamp
 build $:typeface_freetype: phony obj/typeface_freetype.stamp
+build $:typeface_freetype_tests: phony obj/typeface_freetype_tests.stamp
+build $:typeface_proxy: phony obj/typeface_proxy.stamp
 build $:vello: phony obj/vello.stamp
 build $:webp_decode: phony obj/webp_decode.stamp
 build $:webp_encode: phony obj/webp_encode.stamp
@@ -254,6 +264,7 @@ build all: phony $
     obj/fontmgr_mac_ct.stamp $
     obj/fontmgr_win.stamp $
     obj/fontmgr_win_gdi.stamp $
+    obj/fontscanner_tests.stamp $
     obj/gpu.stamp $
     obj/gpu_shared.stamp $
     obj/graphite.stamp $
@@ -274,11 +285,15 @@ build all: phony $
     obj/png_encode.stamp $
     obj/raw.stamp $
     obj/run_sksllex.stamp $
+    obj/rust_png_decode.stamp $
+    obj/rust_png_decode_tests.stamp $
     ./libskia.a $
     obj/skx.stamp $
     obj/typeface_fontations.stamp $
     obj/typeface_fontations_tests.stamp $
     obj/typeface_freetype.stamp $
+    obj/typeface_freetype_tests.stamp $
+    obj/typeface_proxy.stamp $
     obj/vello.stamp $
     obj/webp_decode.stamp $
     obj/webp_encode.stamp $
