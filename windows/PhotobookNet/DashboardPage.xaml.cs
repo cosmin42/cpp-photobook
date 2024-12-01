@@ -29,9 +29,10 @@ namespace PhotobookNet
         string mOldProjectName;
         string mRightClickedId;
         MenuFlyout mMenuFlyout;
-        readonly ObservableCollection<ProjectItem> mProjectsList;
         string mProjectUUID;
         string mLastClickedProjectName;
+
+        ObservableCollection<ProjectItem> mProjectsList;
 
         private PhotobookWin mPhotobook;
 
@@ -48,11 +49,6 @@ namespace PhotobookNet
 
             mPhotobook.StartPhotobook();
             mPhotobook.RecallMetadata();
-        }
-
-        private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
         }
 
         private void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
@@ -170,6 +166,12 @@ namespace PhotobookNet
             {
                 PhotobookSingletonWrapper.Inst().UpdateTitle();
             }
+        }
+
+        private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
+        {
+            mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
+            OnProjectRenamed();
         }
 
         public void OnProjectRenamed()

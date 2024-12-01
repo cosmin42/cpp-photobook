@@ -174,6 +174,7 @@ void OGLEngine::loadTextureAndRender(
     else {
       PBDev::basicAssert(false);
     }
+    spdlog::info("LUT created: " + imageProcessingData.outImage.string());
   }
 }
 
