@@ -52,7 +52,7 @@ void OGLEngine::loadPrograms()
 {
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
     spdlog::info("Loading shader: {}",
-                 mPlatformInfo->installationPath.string());
+                 (mPlatformInfo->installationPath / path).string());
     std::ifstream file(mPlatformInfo->installationPath / path);
     if (!file.is_open()) {
       spdlog::error("Could not open shader file: {}", path.string());
@@ -89,36 +89,20 @@ void OGLEngine::loadTextureAndRender(
     auto lutImageProcessingData =
         dynamic_cast<LutImageProcessingData const &>(imageProcessingData);
 
-    auto stream = std::make_unique<SkFILEStream>(
-        imageProcessingData.inImage.string().c_str());
-    if (!stream->isValid()) {
-      spdlog::error("Failed to open input image: {}",
-                    imageProcessingData.inImage.string());
-      PBDev::basicAssert(false);
+    std::unique_ptr<SkStreamAsset> stream = SkStream::MakeFromFile(imageProcessingData.inImage.string().c_str());
+
+    if (!stream) {
+        spdlog::error("Failed to open input image: {}", imageProcessingData.inImage.string());
+        PBDev::basicAssert(false);
     }
 
-    auto codec = SkCodec::MakeFromStream(std::move(stream));
-    if (!codec) {
-      PBDev::basicAssert(false);
-    }
-
-    SkImageInfo imageInfo = codec->getInfo();
-    SkBitmap    imageBitmap;
-    imageBitmap.allocPixels(imageInfo);
-
-    if (codec->getPixels(imageInfo, imageBitmap.getPixels(),
-                         imageBitmap.rowBytes()) != SkCodec::kSuccess) {
-      PBDev::basicAssert(false);
-    }
-
-    sk_sp<SkImage> image =
-        SkImages::RasterFromPixmap(imageBitmap.pixmap(), nullptr, nullptr);
+    sk_sp<SkImage> image = SkImages::DeferredFromEncodedData(stream->getData());
     if (!image) {
       PBDev::basicAssert(false);
     }
 
     // Create a surface for drawing
-    sk_sp<SkSurface> surface = SkSurfaces::Raster(imageInfo);
+    sk_sp<SkSurface> surface = SkSurfaces::Raster(image->imageInfo());
     if (!surface) {
       PBDev::basicAssert(false);
     }
@@ -144,7 +128,6 @@ void OGLEngine::loadTextureAndRender(
     SkIRect rect = SkIRect::MakeWH(lutCubeSize, lutCubeSize * lutCubeSize);
 
     SkSurfaceProps props{};
-
     sk_sp<SkSpecialImage> lutSpecialImage =
         SkSpecialImages::MakeFromRaster(rect, lutBitmap, props);
 
@@ -173,7 +156,7 @@ void OGLEngine::loadTextureAndRender(
 
     // Save the output to a file
     SkBitmap outputBitmap;
-    if (!outputBitmap.tryAllocPixels(imageInfo)) {
+    if (!outputBitmap.tryAllocPixels(image->imageInfo())) {
       PBDev::basicAssert(false);
     }
 
