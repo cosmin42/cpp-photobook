@@ -1,8 +1,8 @@
-defines = -DHAVE_OT -DHAVE_CONFIG_OVERRIDE_H -DHB_NO_FALLBACK_SHAPE -DHB_NO_WIN1256 -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+defines = -DHAVE_OT -DHAVE_CONFIG_OVERRIDE_H -DHB_NO_FALLBACK_SHAPE -DHB_NO_WIN1256 -DNDEBUG
 framework_dirs =
 include_dirs =
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/harfbuzz -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/harfbuzz/src
-cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti -frtti
 root_out_dir = .
 target_output_name = libharfbuzz
 

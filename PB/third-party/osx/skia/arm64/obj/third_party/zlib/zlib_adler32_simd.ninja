@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DADLER32_SIMD_NEON
+defines = -DNDEBUG -DZLIB_IMPLEMENTATION -DADLER32_SIMD_NEON
 framework_dirs =
 include_dirs =
 cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3

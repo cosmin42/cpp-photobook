@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DWEBP_SWAP_16BIT_CSP
+defines = -DNDEBUG -DWEBP_SWAP_16BIT_CSP
 framework_dirs =
 include_dirs =
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp

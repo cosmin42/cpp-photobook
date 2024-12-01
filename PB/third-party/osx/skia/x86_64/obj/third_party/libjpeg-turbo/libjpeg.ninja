@@ -1,4 +1,4 @@
-defines = -DTURBO_FOR_WINDOWS -DC_ARITH_CODING_SUPPORTED=1 -DD_ARITH_CODING_SUPPORTED=1 -DUSE_CLZ_INTRINSIC -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+defines = -DTURBO_FOR_WINDOWS -DC_ARITH_CODING_SUPPORTED=1 -DD_ARITH_CODING_SUPPORTED=1 -DUSE_CLZ_INTRINSIC -DNDEBUG
 framework_dirs =
 include_dirs =
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/libjpeg-turbo -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libjpeg-turbo

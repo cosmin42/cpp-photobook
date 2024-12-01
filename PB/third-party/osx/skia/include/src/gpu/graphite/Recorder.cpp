@@ -62,9 +62,7 @@ namespace skgpu::graphite {
  */
 class DefaultImageProvider final : public ImageProvider {
 public:
-    static sk_sp<DefaultImageProvider> Make() {
-        return sk_ref_sp(new DefaultImageProvider);
-    }
+    static sk_sp<DefaultImageProvider> Make() { return sk_sp(new DefaultImageProvider); }
 
     sk_sp<SkImage> findOrCreate(Recorder* recorder,
                                 const SkImage* image,
@@ -116,9 +114,11 @@ Recorder::Recorder(sk_sp<SharedContext> sharedContext,
         fOwnedResourceProvider = nullptr;
         fResourceProvider = context->priv().resourceProvider();
     } else {
-        fOwnedResourceProvider = fSharedContext->makeResourceProvider(this->singleOwner(),
-                                                                    fUniqueID,
-                                                                    options.fGpuBudgetInBytes);
+        fOwnedResourceProvider = fSharedContext->makeResourceProvider(
+                this->singleOwner(),
+                fUniqueID,
+                options.fGpuBudgetInBytes,
+                /* avoidBufferAlloc= */ false);
         fResourceProvider = fOwnedResourceProvider.get();
     }
     fUploadBufferManager = std::make_unique<UploadBufferManager>(fResourceProvider,

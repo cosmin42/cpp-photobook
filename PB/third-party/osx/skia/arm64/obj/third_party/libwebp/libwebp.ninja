@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DWEBP_SWAP_16BIT_CSP
+defines = -DNDEBUG -DWEBP_SWAP_16BIT_CSP
 framework_dirs =
 include_dirs =
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp

@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE
+defines = -DNDEBUG -DZLIB_IMPLEMENTATION -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE
 framework_dirs =
 include_dirs = -I../../../../../skia/third_party/externals/zlib -I../../../../../skia/third_party/externals/zlib/contrib/optimizations
 cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -Wno-incompatible-pointer-types -Wunused-variable

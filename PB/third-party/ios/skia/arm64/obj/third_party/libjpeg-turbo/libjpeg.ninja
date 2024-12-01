@@ -1,4 +1,4 @@
-defines = -DTURBO_FOR_WINDOWS -DC_ARITH_CODING_SUPPORTED=1 -DD_ARITH_CODING_SUPPORTED=1 -DUSE_CLZ_INTRINSIC -DNEON_INTRINSICS -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+defines = -DTURBO_FOR_WINDOWS -DC_ARITH_CODING_SUPPORTED=1 -DD_ARITH_CODING_SUPPORTED=1 -DUSE_CLZ_INTRINSIC -DNEON_INTRINSICS -DNDEBUG
 framework_dirs =
 include_dirs = -I../../../../../skia/third_party/externals/libjpeg-turbo/simd/arm
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/libjpeg-turbo -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libjpeg-turbo

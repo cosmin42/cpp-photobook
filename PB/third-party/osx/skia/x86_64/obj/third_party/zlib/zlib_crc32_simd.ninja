@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DCRC32_SIMD_SSE42_PCLMUL
+defines = -DNDEBUG -DZLIB_IMPLEMENTATION -DCRC32_SIMD_SSE42_PCLMUL
 framework_dirs =
 include_dirs =
 cflags = -msse4.2 -mpclmul -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3

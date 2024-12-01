@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DZLIB_IMPLEMENTATION -DADLER32_SIMD_SSSE3 -DX86_NOT_WINDOWS -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE -DDEFLATE_SLIDE_HASH_SSE2 -DCRC32_SIMD_SSE42_PCLMUL
+defines = -DNDEBUG -DZLIB_IMPLEMENTATION -DADLER32_SIMD_SSSE3 -DX86_NOT_WINDOWS -DINFLATE_CHUNK_SIMD_SSE2 -DINFLATE_CHUNK_READ_64LE -DDEFLATE_SLIDE_HASH_SSE2 -DCRC32_SIMD_SSE42_PCLMUL
 framework_dirs =
 include_dirs =
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target x86_64-apple-macos10.15 -fstrict-aliasing -O3 -Wno-incompatible-pointer-types -Wunused-variable -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/zlib

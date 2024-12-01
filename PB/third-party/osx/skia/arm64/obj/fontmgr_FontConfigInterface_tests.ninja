@@ -1,4 +1,4 @@
-defines = -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\]
+defines = -DNDEBUG
 framework_dirs =
 include_dirs =
 root_out_dir = .

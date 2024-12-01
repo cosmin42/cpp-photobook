@@ -1,9 +1,9 @@
-defines = -DU_COMMON_IMPLEMENTATION -DU_STATIC_IMPLEMENTATION -DU_ENABLE_DYLOAD=0 -DU_I18N_IMPLEMENTATION -DU_DISABLE_RENAMING=1 -DU_USING_ICU_NAMESPACE=0 -D_XOPEN_SOURCE=0 -DNDEBUG -DSK_TRIVIAL_ABI=\[\[clang$:$:trivial_abi\]\] -DSK_USING_THIRD_PARTY_ICU
+defines = -DU_COMMON_IMPLEMENTATION -DU_STATIC_IMPLEMENTATION -DU_ENABLE_DYLOAD=0 -DU_I18N_IMPLEMENTATION -DU_DISABLE_RENAMING=1 -DU_USING_ICU_NAMESPACE=0 -D_XOPEN_SOURCE=0 -DNDEBUG -DSK_USING_THIRD_PARTY_ICU
 framework_dirs =
 include_dirs =
 asmflags = -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11
 cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.sdk -target arm64-apple-macos11 -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/icu/source/common -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/icu/source/i18n -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/icu
-cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti -frtti
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -fno-exceptions -fno-rtti -frtti -frtti
 root_out_dir = .
 target_output_name = libicu
 

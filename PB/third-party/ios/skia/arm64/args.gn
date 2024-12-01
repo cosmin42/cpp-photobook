@@ -1,5 +1,5 @@
 is_official_build = true
-is_trivial_abi = true
+is_trivial_abi = false
 is_debug = false
 target_os = "ios"
 target_cpu = "arm64"
@@ -11,3 +11,4 @@ skia_use_system_libpng = false
 skia_use_system_libwebp = false
 skia_use_system_expat = false
 skia_use_system_icu = false
+extra_cflags_cc = [ "-frtti" ]

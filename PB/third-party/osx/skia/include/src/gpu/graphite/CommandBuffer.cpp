@@ -22,7 +22,7 @@
 
 namespace skgpu::graphite {
 
-CommandBuffer::CommandBuffer() {}
+CommandBuffer::CommandBuffer(Protected isProtected) : fIsProtected(isProtected) {}
 
 CommandBuffer::~CommandBuffer() {
     this->releaseResources();
@@ -63,6 +63,14 @@ void CommandBuffer::callFinishedProcs(bool success) {
     if (!success) {
         for (int i = 0; i < fFinishedProcs.size(); ++i) {
             fFinishedProcs[i]->setFailureResult();
+        }
+    } else {
+        if (auto stats = this->gpuStats()) {
+            for (int i = 0; i < fFinishedProcs.size(); ++i) {
+                if (fFinishedProcs[i]->receivesGpuStats()) {
+                    fFinishedProcs[i]->setStats(*stats);
+                }
+            }
         }
     }
     fFinishedProcs.clear();
