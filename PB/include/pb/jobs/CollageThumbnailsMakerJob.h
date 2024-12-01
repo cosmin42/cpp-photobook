@@ -66,7 +66,7 @@ private:
 
   unsigned mIndex = 0;
 
-  Path collagesResourcePath();
+  Path collagesResourcePath(boost::uuids::uuid projectId);
 
   static CollageTemplateInfo parseTemplatePath(Path path);
 

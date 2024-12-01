@@ -151,7 +151,6 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
 
 void ProjectManagementService::loadProject(boost::uuids::uuid id)
 {
-  PBDev::basicAssert(maybeLoadedProject == nullptr);
   std::string projectName = mProjectsMetadata.left.at(id);
   auto        projectPath = mPlatformInfo->projectPath(projectName);
   auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);

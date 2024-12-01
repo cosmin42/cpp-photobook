@@ -87,8 +87,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mDurableHashService->configureDatabaseService(mDatabaseService);
 
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
-  mProjectManagementService->configureProjectSerializerService(mProjectSerializerService);
-
+  mProjectManagementService->configureProjectSerializerService(
+      mProjectSerializerService);
 
   mProjectSerializerService->configurePlatformInfo(mPlatformInfo);
 
@@ -170,6 +170,15 @@ void Photobook::recallProject(std::string name)
   auto projectId = metadata.right.at(name);
 
   mProjectManagementService->loadProject(projectId);
+
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  mCollageTemplateManager->configureProject(maybeProject);
+  mCollageTemplateManager->configureProjectId(
+      boost::uuids::to_string(maybeProject->first));
+
+  mCollageTemplateManager->generateTemplatesImages();
 }
 
 void Photobook::addImportFolder(Path path)

@@ -596,6 +596,10 @@ namespace PhotobookNet
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
+            var projectName = args.Parameter as string;
+
+            mPhotobook.RecallProject(projectName);
+
             LoadImages();
         }
 

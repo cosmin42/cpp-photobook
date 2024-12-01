@@ -28,10 +28,10 @@ namespace PhotobookNet
     {
         string mOldProjectName;
         string mRightClickedId;
-        MenuFlyout mMenuFlyout;
         string mProjectUUID;
         string mLastClickedProjectName;
 
+        MenuFlyout mMenuFlyout;
         ObservableCollection<ProjectItem> mProjectsList;
 
         private PhotobookWin mPhotobook;
@@ -82,7 +82,7 @@ namespace PhotobookNet
             var paperSettings = GetPaperSettings();
             mPhotobook.NewProject(newProjectName, paperSettings);
             PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
-            Frame.Navigate(typeof(TableContentPage));
+            Frame.Navigate(typeof(TableContentPage), newProjectName);
         }
 
         private void UpdateNewProjectDialog(string selectedPaperType)
