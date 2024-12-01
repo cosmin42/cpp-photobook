@@ -39,7 +39,7 @@ jobs:
     - uses: lukka/get-cmake@latest
 
     - name: run-vcpkg
-      uses: lukka/run-vcpkg@11
+      uses: lukka/run-vcpkg@v11.5
       with:
         # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
         vcpkgGitCommitId: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'
@@ -59,7 +59,7 @@ jobs:
       run: vcpkg\vcpkg.exe integrate install
 
     - name: Run CMake pb-release
-      uses: lukka/run-cmake@10
+      uses: lukka/run-cmake@v10.8
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json

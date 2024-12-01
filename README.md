@@ -1,4 +1,5 @@
-![WindowsAppSDK App](https://github.com/cosmin42/cpp-photobook/actions/workflows/msbuild.yml/badge.svg)
+![Windows App](https://github.com/cosmin42/cpp-photobook/actions/workflows/msbuild.yml/badge.svg)
+![macOS App](https://github.com/cosmin42/cpp-photobook/actions/workflows/objective-c-xcode.yml/badge.svg)
 
 # Photobook cpp exercise
 
