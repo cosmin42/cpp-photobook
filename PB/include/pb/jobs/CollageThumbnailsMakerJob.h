@@ -29,7 +29,7 @@ public:
   ~CollageThumbnailsMakerJob() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
-  void configureProject(std::shared_ptr<Project> project);
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void mapJobs();
@@ -56,7 +56,7 @@ private:
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
   DrawingService                           mDrawingService;
-  std::shared_ptr<Project>                 mProject = nullptr;
+  std::shared_ptr<IdentifyableProject>     mProject = nullptr;
   std::vector<CollageTemplateInfo>         mGeneratedLibraries;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
   std::vector<Path>                        mNumberedImages;
@@ -84,4 +84,4 @@ private:
 
   void createTemplatesThumbnail(unsigned i);
 };
-} // namespace PB
+} // namespace PB::Job

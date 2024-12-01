@@ -13,7 +13,8 @@ void CollageMakerJob::configureListener(CollageMakerListener *listener)
   mListener = listener;
 }
 
-void CollageMakerJob::configureProject(std::shared_ptr<Project> project)
+void CollageMakerJob::configureProject(
+    std::shared_ptr<IdentifyableProject> project)
 {
   mProject = project;
 }
@@ -36,8 +37,8 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
   PBDev::basicAssert(!mProjectId.empty());
 
-  cv::Size imageSize = {mProject->paperSettings.width,
-                        mProject->paperSettings.height};
+  cv::Size imageSize = {mProject->second.paperSettings.width,
+                        mProject->second.paperSettings.height};
 
   auto resourcePath = mPlatformInfo->localStatePath / "th" / mProjectId / "";
   mResourcesProviderId = mResources->addResource(resourcePath);
@@ -103,4 +104,4 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
   }
 }
 
-} // namespace PB
+} // namespace PB::Job

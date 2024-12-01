@@ -23,7 +23,7 @@ public:
   ~CollageMakerJob() = default;
 
   void configureListener(CollageMakerListener *listener);
-  void configureProject(std::shared_ptr<Project> project);
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configureProjectId(std::string projectId);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
@@ -44,7 +44,7 @@ private:
   CollageMakerListener                    *mListener = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
-  std::shared_ptr<Project>                 mProject = nullptr;
+  std::shared_ptr<IdentifyableProject>     mProject = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
   Service::DrawingService                  mDrawingService;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
@@ -61,4 +61,4 @@ private:
 
   unsigned mIndex = 0;
 };
-} // namespace PB
+} // namespace PB::Job

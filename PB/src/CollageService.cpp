@@ -25,7 +25,8 @@ void CollageService::configureCollageMakerListener(
   mCollageMakerJob->configureListener(listener);
 }
 
-void CollageService::configureProject(std::shared_ptr<PB::Project> project)
+void CollageService::configureProject(
+    std::shared_ptr<IdentifyableProject> project)
 {
   mThumbnailsJob->configureProject(project);
   mCollageMakerJob->configureProject(project);

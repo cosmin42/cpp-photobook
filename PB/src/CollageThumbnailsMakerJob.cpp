@@ -22,7 +22,7 @@ void CollageThumbnailsMakerJob::configureListener(
 }
 
 void CollageThumbnailsMakerJob::configureProject(
-    std::shared_ptr<Project> project)
+    std::shared_ptr<IdentifyableProject> project)
 {
   mProject = project;
 }
@@ -120,16 +120,16 @@ void CollageThumbnailsMakerJob::obtainSourceTemplates()
 
 void CollageThumbnailsMakerJob::createNumberedPlaceholders()
 {
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
+  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
+                        mProject->second.paperSettings.height / 2};
 
   mNumberedImages = mAssistant->createNumberedImages(imageSize);
 }
 
 void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
 {
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
+  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
+                        mProject->second.paperSettings.height / 2};
 
   Path path = mSourceTemplates.at(i).path;
 #ifndef _CLANG_UML_
@@ -148,8 +148,8 @@ void CollageThumbnailsMakerJob::registerNewResource()
 
 void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
 {
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
+  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
+                        mProject->second.paperSettings.height / 2};
   Path     path = mProcessedSVGPaths.at(i);
   Path outFilePath = collagesResourcePath() / (path.stem().string() + ".png");
   SkFILEWStream outFile(outFilePath.string().c_str());
@@ -169,8 +169,8 @@ void CollageThumbnailsMakerJob::mapJobs()
 
   std::vector<Path> processedSVGPaths;
 
-  cv::Size imageSize = {mProject->paperSettings.width / 2,
-                        mProject->paperSettings.height / 2};
+  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
+                        mProject->second.paperSettings.height / 2};
 
   PBDev::basicAssert(mNumberedImages.empty());
 

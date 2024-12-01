@@ -31,4 +31,7 @@ private:
   StagedImages mStagedImages;
 };
 
+// TODO: Do a generic Identifyable class
+typedef std::pair<boost::uuids::uuid, Project> IdentifyableProject;
+
 } // namespace PB

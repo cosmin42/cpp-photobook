@@ -12,8 +12,6 @@
 
 namespace PB::Service {
 
-typedef std::pair<boost::uuids::uuid, Project> IdentifyableProject;
-
 class ProjectManagementServiceListener {
 public:
   virtual ~ProjectManagementServiceListener() = default;
