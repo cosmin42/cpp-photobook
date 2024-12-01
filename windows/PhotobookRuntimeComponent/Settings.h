@@ -14,8 +14,7 @@ using namespace PB::Service;
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct Settings : SettingsT<Settings> {
-  Settings(
-      std::shared_ptr<ProjectManagementService> projectManagementService)
+  Settings(std::shared_ptr<ProjectManagementService> projectManagementService)
       : mProjectManagementService(projectManagementService)
   {
   }
@@ -57,15 +56,10 @@ struct Settings : SettingsT<Settings> {
 
   void RemoveById(winrt::hstring projectId)
   {
-    mProjectManagementService->deleteProject(winrt::to_string(projectId));
-  }
-  void RemoveByPath(winrt::hstring path)
-  {
-    auto metadata = mProjectManagementService->metadata();
-
-    auto projectId = metadata.right.at(winrt::to_string(path));
-    mProjectManagementService->deleteProject(
-        boost::uuids::to_string(projectId));
+    auto               projectIdStr = winrt::to_string(projectId);
+    boost::uuids::uuid parsedUuid =
+        boost::uuids::string_generator()(projectIdStr);
+    mProjectManagementService->deleteProject(parsedUuid);
   }
 
   void Clear() { mProjectManagementService->unloadProject(); }
@@ -231,7 +225,6 @@ struct Settings : SettingsT<Settings> {
   }
 
 private:
-  std::shared_ptr<ProjectManagementService> mProjectManagementService =
-      nullptr;
+  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

@@ -5,7 +5,7 @@
 namespace PB::Service {
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 std::vector<std::string> ProjectManagementService::HAPPY_WORDS = {"Joyful",
-                                                                 "Blissful"};
+                                                                  "Blissful"};
 #else
 std::vector<std::string> ProjectManagementService::HAPPY_WORDS = {
     "Joyful",       "Blissful",   "Radiant",       "Cheerful",
@@ -102,7 +102,22 @@ bool ProjectManagementService::hasProjectName(std::string name) const
   return mProjectsMetadata.right.find(name) != mProjectsMetadata.right.end();
 }
 
-void ProjectManagementService::deleteProject(std::string id) {}
+void ProjectManagementService::deleteProject(boost::uuids::uuid id)
+{
+  auto projectName = mProjectsMetadata.left.at(id);
+
+  auto projectPath = mPlatformInfo->projectPath(projectName);
+
+  auto projectData = mPlatformInfo->projectFolderPath() / boost::uuids::to_string(id);
+
+  // TODO: Check return values
+  std::filesystem::remove_all(projectPath);
+  std::filesystem::remove_all(projectData);
+
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid='" + boost::uuids::to_string(id) + "'");
+  mProjectsMetadata.right.erase(projectName);
+}
 
 std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
 ProjectManagementService::projectsList() const
@@ -179,7 +194,7 @@ void ProjectManagementService::saveMetadata()
 }
 
 void ProjectManagementService::renameProject(std::string oldName,
-                                            std::string newName)
+                                             std::string newName)
 {
   PBDev::basicAssert(!oldName.empty());
   PBDev::basicAssert(!newName.empty());
@@ -212,4 +227,4 @@ void ProjectManagementService::renameProject(std::string oldName,
   }
 }
 
-} // namespace PB
+} // namespace PB::Service

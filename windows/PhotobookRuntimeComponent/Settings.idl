@@ -24,7 +24,6 @@ runtimeclass Settings
   // void newProject(String name, std::shared_ptr<Project> project);
 
   void RemoveById(String projectId);
-  void RemoveByPath(String path);
 
   void Clear();
 
