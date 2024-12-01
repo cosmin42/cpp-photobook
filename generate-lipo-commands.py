@@ -45,10 +45,13 @@ if __name__ == "__main__":
     print("mkdir pb/build")
     os.system("mkdir pb/build")
 
+    print("mkdir pb/skia-fat")
+    os.system("mkdir pb/skia-fat")
+
     command_list = get_lipo_commands("vcpkg/installed/arm64-ios/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "pb/build")
     run_commands(command_list)
 
-    main_command = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", "pb/build")
+    command_list = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", "pb/build")
     run_commands(command_list)
 
     command_list = get_lipo_commands("PB/third-party/osx/skia/arm64", "PB/third-party/osx/skia/x86_64", "PB/skia-fat")
