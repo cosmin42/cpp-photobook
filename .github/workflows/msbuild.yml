@@ -72,7 +72,7 @@ jobs:
         configurePreset: 'pblib-release'
 
     - name: Run CMake pb-release-arm64
-      uses: lukka/run-cmake@10
+      uses: lukka/run-cmake@10.8
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
@@ -86,7 +86,7 @@ jobs:
   
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@latest
+      uses: microsoft/setup-msbuild@v2
 
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
