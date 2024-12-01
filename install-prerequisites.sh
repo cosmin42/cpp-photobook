@@ -20,5 +20,59 @@ else
     cd skia
     python3 tools/git-sync-deps
 
-    
+    bin/gn gen \
+        ../PB/third-party/osx/skia/x86_64 \
+        --ide=xcode \
+        --args="is_official_build=true \
+            is_trivial_abi=false \
+            is_debug=false \
+            target_cpu=\"x64\" \
+            skia_enable_svg=true \
+            skia_use_system_zlib=false \
+            skia_use_system_harfbuzz=false \
+            skia_use_system_libjpeg_turbo=false \
+            skia_use_system_libpng=false \
+            skia_use_system_libwebp=false \
+            skia_use_system_expat=false \
+            skia_use_system_icu=false \
+            extra_cflags_cc=[\"-frtti\"]"
+
+    bin/gn gen \
+        ../PB/third-party/osx/skia/arm64 \
+        --ide=xcode \
+        --args="is_official_build=true \
+            is_trivial_abi=false \
+            is_debug=false \
+            target_cpu=\"arm64\" \
+            skia_enable_svg=true \
+            skia_use_system_zlib=false \
+            skia_use_system_harfbuzz=false \
+            skia_use_system_libjpeg_turbo=false \
+            skia_use_system_libpng=false \
+            skia_use_system_libwebp=false \
+            skia_use_system_expat=false \
+            skia_use_system_icu=false \
+            extra_cflags_cc=[\"-frtti\"]"
+
+    bin/gn gen \
+        ../PB/third-party/ios/skia/arm64 \
+        --ide=xcode \
+        --args="is_official_build=true \
+            is_trivial_abi=false \
+            is_debug=false \
+            target_os=\"ios\" \
+            target_cpu=\"arm64\" \
+            skia_enable_svg=true \
+            skia_use_system_zlib=false \
+            skia_use_system_harfbuzz=false \
+            skia_use_system_libjpeg_turbo=false \
+            skia_use_system_libpng=false \
+            skia_use_system_libwebp=false \
+            skia_use_system_expat=false \
+            skia_use_system_icu=false \
+            extra_cflags_cc=[\"-frtti\"]"
+    ninja -C ../PB/third-party/osx/skia/x86_64
+    ninja -C ../PB/third-party/osx/skia/arm64
+    ninja -C ../PB/third-party/ios/skia/arm64
+    cd ..
 fi
