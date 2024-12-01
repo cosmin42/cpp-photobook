@@ -51,7 +51,7 @@ public:
   std::vector<LutIconInfo> listLuts() const;
 
 private:
-  static constexpr const char *IMAGE_NAME = "singapore.jpg";
+  static constexpr const char *IMAGE_NAME = "singapore.png";
   static constexpr const char *FOLDER_NAME = "others";
 
   std::shared_ptr<DurableHashService>         mDurableHashService = nullptr;
