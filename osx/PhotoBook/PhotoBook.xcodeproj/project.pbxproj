@@ -12,8 +12,6 @@
 		73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
 		73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049EB62C162BDB009EA667 /* OpenCL.framework */; platformFilters = (macos, ); };
 		7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
-		732BA2D22CE6A45B00916922 /* libpblib-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA2D12CE6A44A00916922 /* libpblib-macos.a */; platformFilters = (macos, ); };
-		732BA3522CE6A49300916922 /* libsharpyuv-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA2EE2CE6A47E00916922 /* libsharpyuv-macos.a */; platformFilters = (macos, ); };
 		732BA3532CE6A49300916922 /* libopencv_video4d-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA3272CE6A48B00916922 /* libopencv_video4d-macos.a */; platformFilters = (macos, ); };
 		732BA3542CE6A49300916922 /* libabsl_throw_delegate-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA2E52CE6A47D00916922 /* libabsl_throw_delegate-macos.a */; platformFilters = (macos, ); };
 		732BA3552CE6A49300916922 /* libabsl_leak_check-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA31F2CE6A48A00916922 /* libabsl_leak_check-macos.a */; platformFilters = (macos, ); };
@@ -345,6 +343,7 @@
 		732BA5A62CE6B1EE00916922 /* libdng_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5912CE6B1BF00916922 /* libdng_sdk.a */; platformFilter = ios; };
 		732BA5A72CE6B1EE00916922 /* libcompression_utils_portable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */; platformFilter = ios; };
 		732BA5A82CE6B1EF00916922 /* libbentleyottmann.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5802CE6B1BC00916922 /* libbentleyottmann.a */; platformFilter = ios; };
+		734C64DC2CFA5AC000F8F9D6 /* libpblib-Darwin-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */; platformFilters = (macos, ); };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
@@ -363,6 +362,195 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		734C64FE2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1E32C771B4E795FF82CAD210;
+			remoteInfo = sources;
+		};
+		734C65002CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DED43EA140E3319AFAA3F66F;
+			remoteInfo = blob_cache_sim;
+		};
+		734C65022CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24D30A3610B5B95263A53537;
+			remoteInfo = "convert-to-nia";
+		};
+		734C65042CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB9F1FD3A41D7BD02E42A183;
+			remoteInfo = create_test_font;
+		};
+		734C65062CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4249E17159C1C2F1D36DB7DC;
+			remoteInfo = create_test_font_color;
+		};
+		734C65082CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FD9A1BC7F7B0FF72718A38B1;
+			remoteInfo = dm;
+		};
+		734C650A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D63339D7716B33EC1986DC3;
+			remoteInfo = dump_record;
+		};
+		734C650C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 140852434C18CE96884F4335;
+			remoteInfo = editor;
+		};
+		734C650E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4460A06E373E040CFFF6B229;
+			remoteInfo = fiddle_examples;
+		};
+		734C65102CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5223D457AA4D6B0208DF771A;
+			remoteInfo = filterfuzz;
+		};
+		734C65122CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 412390790277079FD2E07B89;
+			remoteInfo = fuzz;
+		};
+		734C65142CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 89234A209CFBE497DD3E636B;
+			remoteInfo = get_images_from_skps;
+		};
+		734C65162CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2DCDD048647D3BE256AA4D4;
+			remoteInfo = image_diff_metric;
+		};
+		734C65182CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 54A37583B28F896BBD025226;
+			remoteInfo = imgcvt;
+		};
+		734C651A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7EEDEF277B4C5612AECA2B88;
+			remoteInfo = nanobench;
+		};
+		734C651C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04888027D3746C06A8E171B4;
+			remoteInfo = skdiff;
+		};
+		734C651E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1DD02F77B7E867A56A070572;
+			remoteInfo = skiaserve;
+		};
+		734C65202CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3949E3F46BBFD04159511812;
+			remoteInfo = skottie_preshape_tool;
+		};
+		734C65222CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C1610470A73C3DC5FAB33F3B;
+			remoteInfo = skottie_tool;
+		};
+		734C65242CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A5FE2AD3F9F21E3808180F7D;
+			remoteInfo = skottie_tool_cpu;
+		};
+		734C65262CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 167D12B1CBD9096910404276;
+			remoteInfo = skottie_tool_gpu;
+		};
+		734C65282CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0958426D916AC659DE88F20E;
+			remoteInfo = skp_parser;
+		};
+		734C652A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4D11A90E070F6BF9B3159DEC;
+			remoteInfo = skpbench;
+		};
+		734C652C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A00553313230122368EF6118;
+			remoteInfo = skpinfo;
+		};
+		734C652E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 705530005E070E00CF81E0E5;
+			remoteInfo = skqp;
+		};
+		734C65302CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 46CE22E6DAA71CD8D682FF82;
+			remoteInfo = svg_tool;
+		};
+		734C65322CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 263B6CCA93A99F21E453384C;
+			remoteInfo = viewer;
+		};
 		73C4ECB02AA0C0E3006C4108 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 73C4EC962AA0C0E0006C4108 /* Project object */;
@@ -795,6 +983,8 @@
 		732BA5912CE6B1BF00916922 /* libdng_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdng_sdk.a; path = "../../PB/third-party/ios/skia/arm64/libdng_sdk.a"; sourceTree = "<group>"; };
 		732BA5922CE6B1BF00916922 /* libpathkit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpathkit.a; path = "../../PB/third-party/ios/skia/arm64/libpathkit.a"; sourceTree = "<group>"; };
 		732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcompression_utils_portable.a; path = "../../PB/third-party/ios/skia/arm64/libcompression_utils_portable.a"; sourceTree = "<group>"; };
+		734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin-macos.a"; path = "../../PB/build/libpblib-Darwin-macos.a"; sourceTree = "<group>"; };
+		734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = all.xcodeproj; path = "/Users/cosminmihai/cpp-exercise-photobook/PB/third-party/osx/skia/x86_64/all.xcodeproj"; sourceTree = "<absolute>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
 		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
 		7391647B2CC4F7E200703394 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = "../../PB/pb-assets/shaders"; sourceTree = "<group>"; };
@@ -879,7 +1069,6 @@
 				732BA3B12CE6A49800916922 /* libwebp-macos.a in Frameworks */,
 				732BA3992CE6A49600916922 /* libabsl_statusor-macos.a in Frameworks */,
 				732BA5302CE6B02C00916922 /* libabsl_statusor.a in Frameworks */,
-				732BA3522CE6A49300916922 /* libsharpyuv-macos.a in Frameworks */,
 				732BA3A32CE6A49600916922 /* libabsl_log_internal_message-macos.a in Frameworks */,
 				732BA5432CE6B03000916922 /* libbrotlidec.a in Frameworks */,
 				732BA3BE2CE6A49900916922 /* libprotobuf-lited-macos.a in Frameworks */,
@@ -971,7 +1160,6 @@
 				732BA5792CE6B03D00916922 /* libwebpmux.a in Frameworks */,
 				732BA52C2CE6B02B00916922 /* libabsl_scoped_set_env.a in Frameworks */,
 				732BA5762CE6B03C00916922 /* libwebp.a in Frameworks */,
-				732BA2D22CE6A45B00916922 /* libpblib-macos.a in Frameworks */,
 				732BA3742CE6A49400916922 /* libabsl_random_internal_pool_urbg-macos.a in Frameworks */,
 				732BA3582CE6A49300916922 /* libboost_container-macos.a in Frameworks */,
 				732BA5A72CE6B1EE00916922 /* libcompression_utils_portable.a in Frameworks */,
@@ -1015,6 +1203,7 @@
 				732BA37D2CE6A49400916922 /* libbrotlidec-macos.a in Frameworks */,
 				732BA52A2CE6B02B00916922 /* libabsl_raw_hash_set.a in Frameworks */,
 				732BA4FF2CE6B02300916922 /* libabsl_flags_marshalling.a in Frameworks */,
+				734C64DC2CFA5AC000F8F9D6 /* libpblib-Darwin-macos.a in Frameworks */,
 				732BA5492CE6B03100916922 /* libexpat.a in Frameworks */,
 				732BA54B2CE6B03200916922 /* libfmtd.a in Frameworks */,
 				732BA3762CE6A49400916922 /* libpodofo-macos.a in Frameworks */,
@@ -1179,6 +1368,7 @@
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */,
 				732BA5802CE6B1BC00916922 /* libbentleyottmann.a */,
 				732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */,
 				732BA5912CE6B1BF00916922 /* libdng_sdk.a */,
@@ -1579,6 +1769,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		734C64E02CFBA4A500F8F9D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				734C64FF2CFBA4A700F8F9D6 /* sources */,
+				734C65012CFBA4A700F8F9D6 /* blob_cache_sim */,
+				734C65032CFBA4A700F8F9D6 /* convert-to-nia */,
+				734C65052CFBA4A700F8F9D6 /* create_test_font */,
+				734C65072CFBA4A700F8F9D6 /* create_test_font_color */,
+				734C65092CFBA4A700F8F9D6 /* dm */,
+				734C650B2CFBA4A700F8F9D6 /* dump_record */,
+				734C650D2CFBA4A700F8F9D6 /* editor */,
+				734C650F2CFBA4A700F8F9D6 /* fiddle_examples */,
+				734C65112CFBA4A700F8F9D6 /* filterfuzz */,
+				734C65132CFBA4A700F8F9D6 /* fuzz */,
+				734C65152CFBA4A700F8F9D6 /* get_images_from_skps */,
+				734C65172CFBA4A700F8F9D6 /* image_diff_metric */,
+				734C65192CFBA4A700F8F9D6 /* imgcvt */,
+				734C651B2CFBA4A700F8F9D6 /* nanobench */,
+				734C651D2CFBA4A700F8F9D6 /* skdiff */,
+				734C651F2CFBA4A700F8F9D6 /* skiaserve */,
+				734C65212CFBA4A700F8F9D6 /* skottie_preshape_tool */,
+				734C65232CFBA4A700F8F9D6 /* skottie_tool */,
+				734C65252CFBA4A700F8F9D6 /* skottie_tool_cpu */,
+				734C65272CFBA4A700F8F9D6 /* skottie_tool_gpu */,
+				734C65292CFBA4A700F8F9D6 /* skp_parser */,
+				734C652B2CFBA4A700F8F9D6 /* skpbench */,
+				734C652D2CFBA4A700F8F9D6 /* skpinfo */,
+				734C652F2CFBA4A700F8F9D6 /* skqp */,
+				734C65312CFBA4A700F8F9D6 /* svg_tool */,
+				734C65332CFBA4A700F8F9D6 /* viewer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		73C4EC952AA0C0E0006C4108 = {
 			isa = PBXGroup;
 			children = (
@@ -1591,6 +1815,7 @@
 				73C4ECBC2AA0C0E3006C4108 /* PhotoBookUITests */,
 				73C4EC9F2AA0C0E1006C4108 /* Products */,
 				73049E222C16271C009EA667 /* Frameworks */,
+				734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1744,6 +1969,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 73C4EC9F2AA0C0E1006C4108 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 734C64E02CFBA4A500F8F9D6 /* Products */;
+					ProjectRef = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				73C4EC9D2AA0C0E1006C4108 /* PhotoBook */,
@@ -1752,6 +1983,198 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		734C64FF2CFBA4A700F8F9D6 /* sources */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = sources;
+			remoteRef = 734C64FE2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65012CFBA4A700F8F9D6 /* blob_cache_sim */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = blob_cache_sim;
+			remoteRef = 734C65002CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65032CFBA4A700F8F9D6 /* convert-to-nia */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "convert-to-nia";
+			remoteRef = 734C65022CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65052CFBA4A700F8F9D6 /* create_test_font */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = create_test_font;
+			remoteRef = 734C65042CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65072CFBA4A700F8F9D6 /* create_test_font_color */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = create_test_font_color;
+			remoteRef = 734C65062CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65092CFBA4A700F8F9D6 /* dm */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = dm;
+			remoteRef = 734C65082CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C650B2CFBA4A700F8F9D6 /* dump_record */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = dump_record;
+			remoteRef = 734C650A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C650D2CFBA4A700F8F9D6 /* editor */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = editor;
+			remoteRef = 734C650C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C650F2CFBA4A700F8F9D6 /* fiddle_examples */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fiddle_examples;
+			remoteRef = 734C650E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65112CFBA4A700F8F9D6 /* filterfuzz */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = filterfuzz;
+			remoteRef = 734C65102CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65132CFBA4A700F8F9D6 /* fuzz */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fuzz;
+			remoteRef = 734C65122CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65152CFBA4A700F8F9D6 /* get_images_from_skps */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = get_images_from_skps;
+			remoteRef = 734C65142CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65172CFBA4A700F8F9D6 /* image_diff_metric */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = image_diff_metric;
+			remoteRef = 734C65162CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65192CFBA4A700F8F9D6 /* imgcvt */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = imgcvt;
+			remoteRef = 734C65182CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C651B2CFBA4A700F8F9D6 /* nanobench */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = nanobench;
+			remoteRef = 734C651A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C651D2CFBA4A700F8F9D6 /* skdiff */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skdiff;
+			remoteRef = 734C651C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C651F2CFBA4A700F8F9D6 /* skiaserve */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skiaserve;
+			remoteRef = 734C651E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65212CFBA4A700F8F9D6 /* skottie_preshape_tool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skottie_preshape_tool;
+			remoteRef = 734C65202CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65232CFBA4A700F8F9D6 /* skottie_tool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skottie_tool;
+			remoteRef = 734C65222CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65252CFBA4A700F8F9D6 /* skottie_tool_cpu */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skottie_tool_cpu;
+			remoteRef = 734C65242CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65272CFBA4A700F8F9D6 /* skottie_tool_gpu */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skottie_tool_gpu;
+			remoteRef = 734C65262CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65292CFBA4A700F8F9D6 /* skp_parser */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skp_parser;
+			remoteRef = 734C65282CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C652B2CFBA4A700F8F9D6 /* skpbench */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skpbench;
+			remoteRef = 734C652A2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C652D2CFBA4A700F8F9D6 /* skpinfo */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skpinfo;
+			remoteRef = 734C652C2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C652F2CFBA4A700F8F9D6 /* skqp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = skqp;
+			remoteRef = 734C652E2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65312CFBA4A700F8F9D6 /* svg_tool */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = svg_tool;
+			remoteRef = 734C65302CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		734C65332CFBA4A700F8F9D6 /* viewer */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = viewer;
+			remoteRef = 734C65322CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		73C4EC9C2AA0C0E1006C4108 /* Resources */ = {
