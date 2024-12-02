@@ -36,15 +36,15 @@ void OGLEngine::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void OGLEngine::start(std::stop_token stopToken)
+void OGLEngine::start()
 {
-  mStopToken = stopToken;
+  mStopToken = mStopSource.get_token();
   mThread = std::jthread([this] { mainloop(); });
 }
 
-void OGLEngine::stop(std::stop_source stopSource)
+void OGLEngine::stop()
 {
-  stopSource.request_stop();
+  mStopSource.request_stop();
   mWorkQueue.enqueue(LutImageProcessingData());
 }
 
@@ -89,11 +89,13 @@ void OGLEngine::loadTextureAndRender(
     auto lutImageProcessingData =
         dynamic_cast<LutImageProcessingData const &>(imageProcessingData);
 
-    std::unique_ptr<SkStreamAsset> stream = SkStream::MakeFromFile(imageProcessingData.inImage.string().c_str());
+    std::unique_ptr<SkStreamAsset> stream =
+        SkStream::MakeFromFile(imageProcessingData.inImage.string().c_str());
 
     if (!stream) {
-        spdlog::error("Failed to open input image: {}", imageProcessingData.inImage.string());
-        PBDev::basicAssert(false);
+      spdlog::error("Failed to open input image: {}",
+                    imageProcessingData.inImage.string());
+      PBDev::basicAssert(false);
     }
 
     sk_sp<SkImage> image = SkImages::DeferredFromEncodedData(stream->getData());
@@ -127,7 +129,7 @@ void OGLEngine::loadTextureAndRender(
 
     SkIRect rect = SkIRect::MakeWH(lutCubeSize, lutCubeSize * lutCubeSize);
 
-    SkSurfaceProps props{};
+    SkSurfaceProps        props{};
     sk_sp<SkSpecialImage> lutSpecialImage =
         SkSpecialImages::MakeFromRaster(rect, lutBitmap, props);
 

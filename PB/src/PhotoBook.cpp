@@ -143,7 +143,7 @@ void Photobook::startPhotobook()
 {
   mDatabaseService->connect();
   mDatabaseService->maybeCreateTables();
-  mOGLEngine->start(OneConfig::BG_CONTROL.at("ogl-engine").get_token());
+  mOGLEngine->start();
   mLutService->startLutService();
 }
 

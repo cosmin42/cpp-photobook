@@ -30,8 +30,8 @@ public:
 #endif
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
-  void start(std::stop_token stopToken);
-  void stop(std::stop_source stopSource);
+  void start();
+  void stop();
 
   void applyLut(LutImageProcessingData const &imageProcessingData);
 
@@ -54,6 +54,7 @@ private:
   std::jthread                    mThread;
 
   std::stop_token mStopToken;
+  std::stop_source mStopSource;
 
   std::mutex              mWorkMutex;
   std::condition_variable mFinishedWorkCondition;

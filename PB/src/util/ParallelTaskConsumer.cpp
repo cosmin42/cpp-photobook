@@ -8,7 +8,7 @@ ParallelTaskConsumer::ParallelTaskConsumer(unsigned threadCount)
 {
 }
 
-void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
+void ParallelTaskConsumer::abort() {}
 
 [[nodiscard]] bool ParallelTaskConsumer::finished()
 {
@@ -25,7 +25,7 @@ void ParallelTaskConsumer::abort() { mSubTasksSources.request_stop(); }
 void ParallelTaskConsumer::enqueue(std::function<void()> f)
 {
   ParallelTaskConsumerId id(PB::RuntimeUUID::newUUID());
-  std::future<void> token = mPool.enqueue(f);
+  std::future<void>      token = mPool.enqueue(f);
   mFutures[id] = std::move(token);
 }
 
