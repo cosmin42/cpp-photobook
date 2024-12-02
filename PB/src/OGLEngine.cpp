@@ -38,14 +38,17 @@ void OGLEngine::configurePlatformInfo(
 
 void OGLEngine::start()
 {
+  mWorking = true;
   mStopToken = mStopSource.get_token();
   mThread = std::jthread([this] { mainloop(); });
 }
 
 void OGLEngine::stop()
 {
-  mStopSource.request_stop();
-  mWorkQueue.enqueue(LutImageProcessingData());
+  if (mWorking) {
+    mStopSource.request_stop();
+    mWorkQueue.enqueue(LutImageProcessingData());
+  }
 }
 
 void OGLEngine::loadPrograms()
@@ -80,6 +83,8 @@ void OGLEngine::mainloop()
     mFinishedWork = true;
     mFinishedWorkCondition.notify_one();
   }
+
+  mWorking = false;
 }
 
 void OGLEngine::loadTextureAndRender(

@@ -33,14 +33,14 @@ public:
   void start();
   void stop();
 
+  bool isWorking() const { return mWorking; }
+
   void applyLut(LutImageProcessingData const &imageProcessingData);
 
 private:
   void loadPrograms();
 
   void mainloop();
-
-  Path vertexShaderPath() const;
 
   void loadTextureAndRender(ImageProcessingData const &imageProcessingData);
 
@@ -59,6 +59,7 @@ private:
   std::mutex              mWorkMutex;
   std::condition_variable mFinishedWorkCondition;
   bool                    mFinishedWork = false;
+  bool                    mWorking = false;
 
   std::unordered_map<std::string, sk_sp<SkRuntimeEffect>> mPrograms;
 
