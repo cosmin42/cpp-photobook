@@ -32,11 +32,14 @@ public:
   void crunch(std::function<void()> f);
 
   void abort();
+  void abort(std::vector<std::string> names);
 
 private:
-  std::stop_source mStopSource;
+  std::unordered_map<std::string, std::stop_source> mStopSources;
   std::unordered_map<std::string, std::unique_ptr<PBDev::ParallelTaskConsumer>>
                                    mPTC;
   std::shared_ptr<ProgressService> mProgressService = nullptr;
+
+  std::unordered_map<std::string, PBDev::ProgressId> mProgressNames;
 };
 } // namespace PB

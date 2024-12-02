@@ -62,6 +62,7 @@ public:
   void              update(PBDev::ProgressId id);
   void              finish(PBDev::ProgressId id);
   void              abortAll();
+  void              abort(PBDev::ProgressId id);
 
 private:
   ProgressServiceListener *mListener = nullptr;

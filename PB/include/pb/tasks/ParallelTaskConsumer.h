@@ -14,7 +14,6 @@ public:
   ParallelTaskConsumer(unsigned threadCount);
   virtual ~ParallelTaskConsumer() = default;
 
-  void abort();
   void enqueue(std::function<void()> f);
 
   void wait();

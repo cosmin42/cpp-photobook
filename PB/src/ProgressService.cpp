@@ -54,6 +54,14 @@ void ProgressService::abortAll()
   });
 }
 
+void ProgressService::abort(PBDev::ProgressId id)
+{
+  mScheduler->post([this, id]() {
+    mProgressData.erase(id);
+    mListener->progressUpdate(aggregateStatus());
+  });
+}
+
 ProgressStatus ProgressService::aggregateStatus() const
 {
   // TODO: Make this function beautiful
@@ -108,4 +116,4 @@ ProgressStatus ProgressService::aggregateStatus() const
   return status;
 }
 
-} // namespace PB
+} // namespace PB::Service

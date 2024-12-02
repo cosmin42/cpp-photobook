@@ -8,8 +8,6 @@ ParallelTaskConsumer::ParallelTaskConsumer(unsigned threadCount)
 {
 }
 
-void ParallelTaskConsumer::abort() {}
-
 [[nodiscard]] bool ParallelTaskConsumer::finished()
 {
   for (auto &future : mFutures) {
