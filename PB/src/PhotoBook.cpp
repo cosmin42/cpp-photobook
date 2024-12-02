@@ -120,7 +120,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   }
 }
 
-Photobook ::~Photobook() { mDatabaseService->disconnect(); }
+Photobook::~Photobook() { mDatabaseService->disconnect(); }
 
 void Photobook::initLogger()
 {
@@ -141,10 +141,14 @@ void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 
 void Photobook::startPhotobook()
 {
-  mDatabaseService->connect();
-  mDatabaseService->maybeCreateTables();
-  mOGLEngine->start();
-  mLutService->startLutService();
+  static bool once = false;
+  if (!once) {
+    mDatabaseService->connect();
+    mDatabaseService->maybeCreateTables();
+    mOGLEngine->start();
+    mLutService->startLutService();
+    once = true;
+  }
 }
 
 void Photobook::unloadProject()
@@ -271,10 +275,32 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   }
 }
 
+void Photobook::stopProjectWork()
+{
+  mTaskCruncher->abort({"image-search-job", "export-logic",
+                        "collage-thumbnails", "upl-to-spl-map",
+                        "thumbnails-job", "default"});
+}
+
+bool Photobook::isProjectWorking() const
+{
+  bool imageSearchFinished = mTaskCruncher->finished("image-search-job");
+  bool exportLogicFinished = mTaskCruncher->finished("export-logic");
+  bool collageThumbnailsFinished =
+      mTaskCruncher->finished("collage-thumbnails");
+  bool uplToSplMapFinished = mTaskCruncher->finished("upl-to-spl-map");
+  bool thumbnailsJobFinished = mTaskCruncher->finished("thumbnails-job");
+  bool defaultFinished = mTaskCruncher->finished("default");
+
+  return !(imageSearchFinished && exportLogicFinished &&
+           collageThumbnailsFinished && uplToSplMapFinished &&
+           thumbnailsJobFinished && defaultFinished);
+}
+
 /*
 void Photobook::onProjectRead(
-    std::vector<std::vector<std::shared_ptr<GenericImagePtr>>> &unstagedImages,
-    std::vector<std::shared_ptr<GenericImagePtr>>              &stagedImages,
+    std::vector<std::vector<std::shared_ptr<GenericImagePtr>>>
+&unstagedImages, std::vector<std::shared_ptr<GenericImagePtr>> &stagedImages,
     std::vector<Path>                                       &roots)
 {
   mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
@@ -358,10 +384,12 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
   PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
   auto coreHash = mDurableHashService->getHash(
-      PBDev::ProjectId(maybeLoadedProjectInfo->first), rowProcessingData.root);
+      PBDev::ProjectId(maybeLoadedProjectInfo->first),
+  rowProcessingData.root);
 
-  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
-                                                  coreHash, "jpg");
+  auto imageHash =
+  mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first, coreHash,
+  "jpg");
 */
   // mImportLogic.processImages(
   //     boost::uuids::to_string(maybeLoadedProjectInfo->first),
@@ -493,8 +521,8 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
         });
       };
 
-  ImportImageTask importImageTask(imagePath, mediumPath, smallPath, onFinished,
-                                  mPlatformInfo->screenSize.first,
+  ImportImageTask importImageTask(imagePath, mediumPath, smallPath,
+  onFinished, mPlatformInfo->screenSize.first,
                                   mPlatformInfo->screenSize.second,
                                   std::stop_source().get_token());
 

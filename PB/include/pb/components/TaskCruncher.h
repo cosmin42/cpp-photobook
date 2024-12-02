@@ -34,6 +34,11 @@ public:
   void abort();
   void abort(std::vector<std::string> names);
 
+  bool finished(const std::string poolName)
+  {
+    return mPTC.at(poolName)->finished();
+  }
+
 private:
   std::unordered_map<std::string, std::stop_source> mStopSources;
   std::unordered_map<std::string, std::unique_ptr<PBDev::ParallelTaskConsumer>>

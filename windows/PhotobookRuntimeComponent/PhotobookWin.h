@@ -44,7 +44,7 @@ public:
   {
     mManagedListener.OnError(winrt::make<PBError>(error));
   }
- 
+
   void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override
   {
     Windows::Foundation::Collections::IVector<uint32_t> managedPhotos =
@@ -218,8 +218,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     std::vector<Path> imagesToMerge;
 
     for (int i = 0; i < (int)images.Size(); ++i) {
-      auto imagePath =
-          stagedPhotos.at((unsigned)images.GetAt(i))->medium();
+      auto imagePath = stagedPhotos.at((unsigned)images.GetAt(i))->medium();
       imagesToMerge.push_back(imagePath);
     }
 
@@ -278,6 +277,9 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
   void mapImagesToSPL(Windows::Foundation::Collections::IMap<
                       winrt::guid, PhotobookRuntimeComponent::VirtualImagePtr>
                           images);
+
+  void StopProjectWork();
+  bool IsProjectWorking();
 
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;

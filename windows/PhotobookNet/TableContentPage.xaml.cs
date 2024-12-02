@@ -276,19 +276,11 @@ namespace PhotobookNet
 
         private void OnBackClicked(object sender, RoutedEventArgs args)
         {
-            var isSaved = mPhotobook.GetSettings().IsSaved(mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
-                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
-                mPhotobook.GetImageViews().ImageMonitor().RowList());
-            if (!isSaved)
-            {
-                mBackFlag = true;
-                PhotobookSingletonWrapper.Inst().Post(async () => { await SaveProjectDialog.ShowAsync(); });
-            }
-            else
-            {
-                mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(DashboardPage));
-            }
+            mPhotobook.StopProjectWork();
+            //TODO: Change this to polling
+            while (mPhotobook.IsProjectWorking()) ;
+            mPhotobook.UnloadProject();
+            Frame.Navigate(typeof(DashboardPage));
         }
 
         private void OnAboutClicked(object sender, RoutedEventArgs args)
