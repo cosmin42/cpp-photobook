@@ -39,7 +39,6 @@ namespace PhotobookNet
         public DashboardPage()
         {
             this.InitializeComponent();
-            PhotobookSingletonWrapper.Inst().SetThisThreadAsMainDispatcher();
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
             mProjectsList = new ObservableCollection<ProjectItem>();
             mPhotobook.ConfigurePhotobookListener(this);

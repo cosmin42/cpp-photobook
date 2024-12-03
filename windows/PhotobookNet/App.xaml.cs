@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -15,6 +16,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using PhotobookRuntimeComponent;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,7 +26,7 @@ namespace PhotobookNet
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, NoirListener
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -33,6 +35,8 @@ namespace PhotobookNet
         public App()
         {
             this.InitializeComponent();
+            PhotobookSingletonWrapper.Inst().SetThisThreadAsMainDispatcher();
+            PhotobookSingletonWrapper.Inst().Photobook().ConfigureNoirListener(this);
         }
 
         /// <summary>
@@ -43,6 +47,16 @@ namespace PhotobookNet
         {
             m_window = new MainWindow();
             m_window.Activate();
+        }
+
+        public void OnNoirLutAdded(LutIconInfo iconInfo)
+        {
+            Debug.WriteLine("OnNoirLutAdded");
+        }
+
+        public void OnNoirError(PBError error)
+        {
+            Debug.WriteLine("OnNoirError");
         }
 
         private Window m_window;
