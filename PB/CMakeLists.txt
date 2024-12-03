@@ -85,6 +85,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/Config.h
     include/pb/Enums.h
     include/pb/ImageMonitor.h
+    include/pb/NoirListener.h
     include/pb/PhotoBook.h
     include/pb/PhotobookListener.h
     include/pb/Platform.h

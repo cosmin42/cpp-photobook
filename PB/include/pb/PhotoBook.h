@@ -6,6 +6,7 @@
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/NoirListener.h>
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
@@ -47,6 +48,7 @@ public:
   void initLogger();
 
   void configure(PhotobookListener *listener);
+  void configureNoirListener(NoirListener *listener);
 
   void startPhotobook();
 
@@ -123,6 +125,7 @@ public:
 
 private:
   PhotobookListener                        *mParent = nullptr;
+  NoirListener                             *mNoirListener = nullptr;
   std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
@@ -131,13 +134,13 @@ private:
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 
-  std::shared_ptr<ImportFoldersService>       mImportLogic = nullptr;
-  bool                                        mMarkProjectForDeletion = false;
-  ExportLogic                                 mExportLogic;
-  std::shared_ptr<ProgressService>            mProgressService = nullptr;
-  std::shared_ptr<ImageToPaperService>        mImageToPaperService = nullptr;
-  std::shared_ptr<CollageService>             mCollageTemplateManager = nullptr;
-  std::shared_ptr<LutService>                 mLutService = nullptr;
-  std::shared_ptr<OGLEngine> mOGLEngine = nullptr;
+  std::shared_ptr<ImportFoldersService> mImportLogic = nullptr;
+  bool                                  mMarkProjectForDeletion = false;
+  ExportLogic                           mExportLogic;
+  std::shared_ptr<ProgressService>      mProgressService = nullptr;
+  std::shared_ptr<ImageToPaperService>  mImageToPaperService = nullptr;
+  std::shared_ptr<CollageService>       mCollageTemplateManager = nullptr;
+  std::shared_ptr<LutService>           mLutService = nullptr;
+  std::shared_ptr<OGLEngine>            mOGLEngine = nullptr;
 };
 } // namespace PB

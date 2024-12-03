@@ -139,6 +139,11 @@ void Photobook::initLogger()
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
 
+void Photobook::configureNoirListener(NoirListener *listener)
+{
+  mNoirListener = listener;
+}
+
 void Photobook::startPhotobook()
 {
   static bool once = false;
@@ -539,7 +544,9 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 
 void Photobook::onLutAdded(LutIconInfo iconInfo)
 {
-  post([this, iconInfo{iconInfo}]() { mParent->onLutAdded(iconInfo); });
+  post([this, iconInfo{iconInfo}]() {
+    mNoirListener->onNoirLutAdded(iconInfo);
+  });
 }
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
