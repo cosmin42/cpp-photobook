@@ -1,0 +1,11 @@
+import "PBError.idl";
+import "LutIconInfo.idl";
+
+namespace PhotobookRuntimeComponent {
+
+interface NoirListener
+{
+  void OnNoirLutAdded(LutIconInfo iconInfo);
+  void OnNoirError(PBError error);
+};
+} // namespace PhotobookRuntimeComponent

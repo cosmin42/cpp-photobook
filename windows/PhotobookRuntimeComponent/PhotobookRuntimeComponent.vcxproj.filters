@@ -27,9 +27,9 @@
     <ClCompile Include="PaperSettings.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp" />
     <ClCompile Include="VICollectionStatefulIterator.cpp" />
-    <ClCompile Include="StagedImagesListener.cpp" />
     <ClCompile Include="CollageTemplateInfo.cpp" />
     <ClCompile Include="LutIconInfo.cpp" />
+    <ClCompile Include="NoirListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -41,9 +41,9 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ProjectMetadataEntry.h" />
     <ClInclude Include="VICollectionStatefulIterator.h" />
-    <ClInclude Include="StagedImagesListener.h" />
     <ClInclude Include="CollageTemplateInfo.h" />
     <ClInclude Include="LutIconInfo.h" />
+    <ClInclude Include="NoirListener.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotobookWin.idl" />
@@ -63,6 +63,7 @@
     <Midl Include="Int32Pair.idl" />
     <Midl Include="CollageTemplateInfo.idl" />
     <Midl Include="LutIconInfo.idl" />
+    <Midl Include="NoirListener.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PhotobookRuntimeComponent.def" />

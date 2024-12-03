@@ -8,6 +8,7 @@
 #include "Int32Pair.g.h"
 #include "LutIconInfo.g.h"
 #include "LutIconInfo.h"
+#include "NoirListener.h"
 #include "PBError.h"
 #include "ProgressInfo.h"
 #include "Settings.h"
@@ -236,6 +237,15 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         dynamic_cast<PB::PhotobookListener *>(mPhotobookListener));
   }
 
+  void
+  ConfigureNoirListener(PhotobookRuntimeComponent::NoirListener const &listener)
+  {
+    PBDev::basicAssert(mNoirListener == nullptr);
+    mNoirListener = new NoirListener(listener);
+    mPhotobook->configureNoirListener(
+        dynamic_cast<PB::NoirListener *>(mNoirListener));
+  }
+
   PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
   {
     return winrt::make<VirtualImagePtr>(
@@ -284,6 +294,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
   PB::PhotobookListener         *mPhotobookListener = nullptr;
+  PB::NoirListener              *mNoirListener = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
 
