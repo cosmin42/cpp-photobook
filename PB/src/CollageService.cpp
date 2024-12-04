@@ -55,7 +55,8 @@ void CollageService::configureTaskCruncher(
 void CollageService::generateTemplatesImages()
 {
   mThumbnailsJob->mapJobs();
-  mTaskCruncher->crunch("collage-thumbnails", *mThumbnailsJob,
+  mThumbnailsMakerStopSource = mTaskCruncher->crunch(
+      "collage-thumbnails", *mThumbnailsJob,
                         PBDev::ProgressJobName{"collages-gen"});
 }
 
@@ -70,7 +71,8 @@ void CollageService::combineImages(unsigned          templateIndex,
   auto templatePaths = mThumbnailsJob->getSourceTemplates();
 
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
-  mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
+  mCollageMakerStopSource = mTaskCruncher->crunch(
+      "collage-thumbnails", *mCollageMakerJob,
                         PBDev::ProgressJobName{"collage-combine"});
 }
 
@@ -79,6 +81,11 @@ bool CollageService::isRunning() const
   auto isThumbnailsJobRunning = !mThumbnailsJob->isFinished();
   auto isCollageMakerJobRunning = !mCollageMakerJob->isFinished();
   return isThumbnailsJobRunning || isCollageMakerJobRunning;
+}
+
+void CollageService::stop() {
+  mThumbnailsMakerStopSource.request_stop();
+  mCollageMakerStopSource.request_stop();
 }
 
 } // namespace PB::Service

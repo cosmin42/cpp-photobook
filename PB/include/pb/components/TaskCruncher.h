@@ -26,15 +26,13 @@ public:
 
   void registerPTC(const std::string poolName, unsigned thrreadsCount);
 
-  void crunch(const std::string poolName, MapReducer &mapper,
-              PBDev::ProgressJobName progressName);
+  [[nodiscard]] std::stop_source crunch(const std::string      poolName,
+                                        MapReducer            &mapper,
+                                        PBDev::ProgressJobName progressName);
 
   void crunch(std::function<void()> f);
 
-  void abort();
-
 private:
-  std::unordered_map<std::string, std::stop_source> mStopSources;
   std::unordered_map<std::string, std::unique_ptr<PBDev::ParallelTaskConsumer>>
                                    mPTC;
   std::shared_ptr<ProgressService> mProgressService = nullptr;

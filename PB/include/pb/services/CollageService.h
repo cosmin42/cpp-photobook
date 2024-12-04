@@ -32,8 +32,11 @@ public:
   std::vector<CollageTemplateInfo> getTemplatesPaths() const;
 
   bool isRunning() const;
+  void stop();
 
 private:
+  std::stop_source                           mThumbnailsMakerStopSource;
+  std::stop_source                           mCollageMakerStopSource;
   std::shared_ptr<CollageThumbnailsMakerJob> mThumbnailsJob = nullptr;
   std::shared_ptr<CollageMakerJob>           mCollageMakerJob = nullptr;
   std::shared_ptr<TaskCruncher>              mTaskCruncher = nullptr;

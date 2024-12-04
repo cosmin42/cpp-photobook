@@ -79,6 +79,12 @@ bool LutService::isRunning() const
   return isDirectoryInspectionRunning || isLutIconsPreprocessingRunning;
 }
 
+void LutService::stop()
+{
+  mDirectoryInspectionService->stop(mLutsInspectionId);
+  mLutCreationStopSource.request_stop();
+}
+
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
@@ -97,8 +103,9 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
 
   mThreadScheduler->post([this, unprocessedPaths{unprocessedPaths}]() {
     mLutIconsPreprocessingJob.configureLuts(unprocessedPaths);
-    mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
-                          PBDev::ProgressJobName("lut-icons"));
+    mLutCreationStopSource =
+        mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
+                              PBDev::ProgressJobName("lut-icons"));
   });
 }
 

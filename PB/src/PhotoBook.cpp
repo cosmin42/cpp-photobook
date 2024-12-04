@@ -158,14 +158,18 @@ void Photobook::startPhotobook()
 
 void Photobook::unloadProject()
 {
-  /*
-  if (mImportLogic.runningImageProcessingJobs().empty()) {
-    mProjectManagementSystem->unloadProject();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
+  if (maybeProject) {
+    mCollageTemplateManager->stop();
+    // TODO: Improve this
+    while (mCollageTemplateManager->isRunning()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    mProjectManagementService->unloadProject();
   }
   else {
-    mMarkProjectForDeletion = true;
+    PBDev::basicAssert(false);
   }
-  */
 }
 
 void Photobook::recallMetadata()

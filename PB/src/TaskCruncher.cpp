@@ -8,45 +8,37 @@ void TaskCruncher::registerPTC(const std::string poolName,
 {
   mPTC.emplace(poolName,
                std::make_unique<PBDev::ParallelTaskConsumer>(threadsCount));
-
-  mStopSources[poolName] = std::stop_source();
 }
 
-void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
-                          PBDev::ProgressJobName progressName)
+std::stop_source TaskCruncher::crunch(const std::string      poolName,
+                                      MapReducer            &mapper,
+                                      PBDev::ProgressJobName progressName)
 {
   PBDev::basicAssert(mPTC.find(poolName) != mPTC.end());
+
+  std::stop_source stopSource;
 
   auto taskCount = mapper.taskCount();
   auto progressId = mProgressService->start(progressName, taskCount);
 
   mProgressNames.emplace(poolName, progressId);
 
-  auto token = mStopSources.at(poolName).get_token();
-  auto task = mapper.getTask(token);
+  auto task = mapper.getTask(stopSource.get_token());
   while (task.has_value()) {
     mPTC.at(poolName)->enqueue(
-        [this, task{task}, &mapper, progressId{progressId}, token{token}]() {
+        [this, task{task}, &mapper, progressId{progressId}]() {
           task->second();
           mProgressService->update(progressId);
           mapper.onTaskFinishedInternal(task->first);
         });
 
-    task = mapper.getTask(mStopSources.at(poolName).get_token());
+    task = mapper.getTask(stopSource.get_token());
   }
+  return stopSource;
 }
 
 void TaskCruncher::crunch(std::function<void()> f)
 {
   mPTC.at("default")->enqueue(f);
-}
-
-void TaskCruncher::abort()
-{
-  for (auto &[name, stopSource] : mStopSources) {
-    stopSource.request_stop();
-    mPTC.at(name)->wait();
-  }
-  mProgressService->abortAll();
 }
 } // namespace PB

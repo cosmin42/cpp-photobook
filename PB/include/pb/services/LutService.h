@@ -44,6 +44,8 @@ public:
 
   bool isRunning() const;
 
+  void stop();
+
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 
@@ -64,6 +66,8 @@ private:
   std::shared_ptr<OGLEngine>    mOglEngine = nullptr;
   PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
   LutServiceListener           *mLutServiceListener = nullptr;
+
+  std::stop_source mLutCreationStopSource;
 
   PBDev::DirectoryInspectionJobId mLutsInspectionId =
       PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
