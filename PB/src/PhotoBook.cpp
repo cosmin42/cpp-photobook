@@ -280,28 +280,6 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   }
 }
 
-void Photobook::stopProjectWork()
-{
-  mTaskCruncher->abort({"image-search-job", "export-logic",
-                        "collage-thumbnails", "upl-to-spl-map",
-                        "thumbnails-job", "default"});
-}
-
-bool Photobook::isProjectWorking() const
-{
-  bool imageSearchFinished = mTaskCruncher->finished("image-search-job");
-  bool exportLogicFinished = mTaskCruncher->finished("export-logic");
-  bool collageThumbnailsFinished =
-      mTaskCruncher->finished("collage-thumbnails");
-  bool uplToSplMapFinished = mTaskCruncher->finished("upl-to-spl-map");
-  bool thumbnailsJobFinished = mTaskCruncher->finished("thumbnails-job");
-  bool defaultFinished = mTaskCruncher->finished("default");
-
-  return !(imageSearchFinished && exportLogicFinished &&
-           collageThumbnailsFinished && uplToSplMapFinished &&
-           thumbnailsJobFinished && defaultFinished);
-}
-
 /*
 void Photobook::onProjectRead(
     std::vector<std::vector<std::shared_ptr<GenericImagePtr>>>

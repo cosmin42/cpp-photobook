@@ -276,9 +276,6 @@ namespace PhotobookNet
 
         private void OnBackClicked(object sender, RoutedEventArgs args)
         {
-            mPhotobook.StopProjectWork();
-            //TODO: Change this to polling
-            while (mPhotobook.IsProjectWorking()) ;
             mPhotobook.UnloadProject();
             Frame.Navigate(typeof(DashboardPage));
         }

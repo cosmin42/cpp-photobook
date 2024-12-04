@@ -49,16 +49,4 @@ void TaskCruncher::abort()
   }
   mProgressService->abortAll();
 }
-
-void TaskCruncher::abort(std::vector<std::string> names)
-{
-  for (auto &name : names) {
-    mStopSources.at(name).request_stop();
-    mPTC.at(name)->wait();
-    if (mProgressNames.find(name) != mProgressNames.end()) {
-      auto progressId = mProgressNames.at(name);
-      mProgressService->abort(progressId);
-    }
-  }
-}
 } // namespace PB

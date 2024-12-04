@@ -65,10 +65,6 @@ public:
   void exportPDFLibharu(std::string name, Path path);
   void exportJPGAlbum(std::string name, Path path);
 
-  void stopProjectWork();
-
-  bool isProjectWorking() const;
-
   std::shared_ptr<CollageService> collageService();
 
   /*

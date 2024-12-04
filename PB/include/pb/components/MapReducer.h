@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <functional>
 #include <optional>
 #include <stop_token>
@@ -22,7 +23,7 @@ public:
 
   void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
 
-  bool isFinished() const { return mTaskCount == taskCount(); }
+  bool isFinished() const { return *mTaskCountPtr == taskCount(); }
 
   virtual std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) = 0;
@@ -31,18 +32,18 @@ public:
 
   virtual unsigned taskCount() const = 0;
 
-  friend class TaskCruncher;
+  void onTaskFinishedInternal(PBDev::MapReducerTaskId id)
+  {
+    (*mTaskCountPtr)++;
+    onTaskFinished(id);
+  }
 
 protected:
   PBDev::MapReducerTaskId mId;
 
 private:
-  std::atomic<unsigned> mTaskCount = 0;
-
-  void onTaskFinishedInternal(PBDev::MapReducerTaskId id)
-  {
-    mTaskCount++;
-    onTaskFinished(id);
-  }
+  // TODO: Check why shared_ptr is needed
+  std::shared_ptr<std::atomic<unsigned>> mTaskCountPtr =
+      std::make_shared<std::atomic<unsigned>>(0);
 };
 } // namespace PB

@@ -54,9 +54,6 @@ runtimeclass PhotobookWin
 
   void mapImagesToSPL(IMap<Guid, VirtualImagePtr> images);
 
-  void StopProjectWork();
-  Boolean IsProjectWorking();
-
   static PaperSettings GetDefaultSettings(PaperType paperType);
   static PaperSettings GetDefaultSerializedSettings(String serializedPaperSize);
 }

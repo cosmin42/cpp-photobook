@@ -288,9 +288,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
                       winrt::guid, PhotobookRuntimeComponent::VirtualImagePtr>
                           images);
 
-  void StopProjectWork();
-  bool IsProjectWorking();
-
 private:
   std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
   PB::PhotobookListener         *mPhotobookListener = nullptr;

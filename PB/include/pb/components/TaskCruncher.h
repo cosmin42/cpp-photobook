@@ -32,12 +32,6 @@ public:
   void crunch(std::function<void()> f);
 
   void abort();
-  void abort(std::vector<std::string> names);
-
-  bool finished(const std::string poolName)
-  {
-    return mPTC.at(poolName)->finished();
-  }
 
 private:
   std::unordered_map<std::string, std::stop_source> mStopSources;

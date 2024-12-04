@@ -102,8 +102,4 @@ void PhotobookWin::mapImagesToSPL(
       PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
-void PhotobookWin::StopProjectWork() { mPhotobook->stopProjectWork(); }
-
-bool PhotobookWin::IsProjectWorking() { return mPhotobook->isProjectWorking(); }
-
 } // namespace winrt::PhotobookRuntimeComponent::implementation
