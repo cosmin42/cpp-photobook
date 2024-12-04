@@ -9,6 +9,7 @@
 #include <memory>
 
 #include <pb/PhotoBook.h>
+#include <pb/entities/LutIconInfo.h>
 
 #include "Photobook.h"
 
@@ -21,6 +22,27 @@
 }
 
 @end
+
+@implementation NoirListenerWrapperCLevel
+- (void)onNoirLutAdded{}
+- (void)onNoirError{}
+@end
+
+class NoirListenerManaged final: public PB::NoirListener
+{
+public:
+    explicit NoirListenerManaged(NoirListenerWrapperCLevel const & managedListener):mManagedListener(managedListener)
+    {
+        NSLog(@"Setting up Noir listener.");
+    }
+    ~NoirListenerManaged() = default;
+    
+    void onNoirLutAdded(PB::LutIconInfo iconInfo) override {}
+    void onNoirError(PBDev::Error) {}
+    
+private:
+    NoirListenerWrapperCLevel const& mManagedListener;
+};
 
 class PhotobookListenerManaged final: public PB::PhotobookListener
 {
@@ -74,6 +96,7 @@ Path nativeLocalFolderPath = [localFolderPath UTF8String];
 std::shared_ptr<PB::Photobook> mPhotobook = nullptr;
 
 PhotobookListenerManaged* mListener = nullptr;
+NoirListenerManaged* mNoirListener = nullptr;
 
 -(id)init {
     NSLog(@"Initializing photobook");
@@ -92,6 +115,12 @@ PhotobookListenerManaged* mListener = nullptr;
     }
     mListener = new PhotobookListenerManaged(photobookListenerWrapperCLevel);
     mPhotobook->configure(mListener);
+}
+
+- (void) setNoirListener:(NoirListenerWrapperCLevel const &)noirListenerWrapperCLevel {
+    // TODO: Add asset listener is null
+    mNoirListener = new NoirListenerManaged(noirListenerWrapperCLevel);
+    mPhotobook->configureNoirListener(mNoirListener);
 }
 
 - (void) startPhotobook {

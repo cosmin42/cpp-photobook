@@ -22,6 +22,12 @@ private var photobookUIListener: PhotobookUIListener? = nil;
     }
 }
 
+@objc extension NoirListenerWrapperCLevel
+{
+    func onNoirLutAdded(){}
+    func onNoirError(){}
+}
+
 
 @main
 struct PhotoBookApp: App, PhotobookUIListener {

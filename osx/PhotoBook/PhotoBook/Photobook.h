@@ -16,10 +16,16 @@
 - (void)onMetadataUpdated;
 @end
 
+@interface NoirListenerWrapperCLevel: NSObject
+- (void)onNoirLutAdded;
+- (void)onNoirError;
+@end
+
 // TODO: Fix inconsistent capita letters naming
 @interface Photobook : NSObject
 - (id)init;
 - (void) setPhotobookListener:PhotobookListenerWrapperCLevel;
+- (void) setNoirListener:NoirListenerWrapperCLevel;
 
 - (void) startPhotobook;
 
