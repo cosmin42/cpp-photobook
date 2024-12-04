@@ -29,7 +29,7 @@ void TaskCruncher::crunch(const std::string poolName, MapReducer &mapper,
         [this, task{task}, &mapper, progressId{progressId}, token{token}]() {
           task->second();
           mProgressService->update(progressId);
-          mapper.onTaskFinished(task->first);
+          mapper.onTaskFinishedInternal(task->first);
         });
 
     task = mapper.getTask(mStopSources.at(poolName).get_token());

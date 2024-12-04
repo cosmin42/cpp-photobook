@@ -22,6 +22,8 @@ public:
 
   void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
 
+  bool isFinished() const { return mTaskCount == taskCount(); }
+
   virtual std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) = 0;
 
@@ -29,7 +31,18 @@ public:
 
   virtual unsigned taskCount() const = 0;
 
+  friend class TaskCruncher;
+
 protected:
   PBDev::MapReducerTaskId mId;
+
+private:
+  std::atomic<unsigned> mTaskCount = 0;
+
+  void onTaskFinishedInternal(PBDev::MapReducerTaskId id)
+  {
+    mTaskCount++;
+    onTaskFinished(id);
+  }
 };
 } // namespace PB
