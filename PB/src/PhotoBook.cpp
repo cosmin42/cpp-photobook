@@ -542,7 +542,7 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
 }
 
-void Photobook::onLutAdded(LutIconInfo iconInfo)
+[[deprecated]] void Photobook::onLutAdded(LutIconInfo iconInfo)
 {
   post([this, iconInfo{iconInfo}]() {
     mNoirListener->onNoirLutAdded(iconInfo);

@@ -36,6 +36,7 @@ public:
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 
+  [[deprecated]]
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;
 };
 

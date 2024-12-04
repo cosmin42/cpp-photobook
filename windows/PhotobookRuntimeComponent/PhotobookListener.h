@@ -18,7 +18,7 @@ public:
   {
   }
 
-  void onLutAdded(PB::LutIconInfo iconInfo) override
+  [[deprecated]] void onLutAdded(PB::LutIconInfo iconInfo) override
   {
     mManagedListener.OnLutAdded(winrt::make<LutIconInfo>(iconInfo));
   }

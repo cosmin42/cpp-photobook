@@ -1235,6 +1235,7 @@ namespace PhotobookNet
         {
         }
 
+        // Deprecated
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
             PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);

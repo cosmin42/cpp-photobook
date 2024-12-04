@@ -404,6 +404,7 @@ namespace PhotobookNet
             // TODO: show progress here too
         }
 
+        // Deprecated
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
             PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);

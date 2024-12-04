@@ -55,6 +55,8 @@ public:
     void onImageMapped(PBDev::ImageToPaperId id,
                        PB::GenericImagePtr       image) override {}
     void onProgressUpdate(PB::ProgressStatus status) override {}
+    
+    [[deprecated]]
     void onLutAdded(PB::LutIconInfo iconInfo) override {}
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
@@ -140,7 +142,9 @@ PhotobookListenerManaged* mListener = nullptr;
 - (void) remove:(NSString*)projectId
 {
     std::string nativeProjectIdStr = [projectId UTF8String];
-    mPhotobook->projectManagementService()->deleteProject(nativeProjectIdStr);
+    boost::uuids::string_generator generator;
+    boost::uuids::uuid projectIduuid = generator(nativeProjectIdStr);
+    mPhotobook->projectManagementService()->deleteProject(projectIduuid);
 }
 
 @end

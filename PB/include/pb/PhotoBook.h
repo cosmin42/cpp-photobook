@@ -109,7 +109,8 @@ public:
 
   void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image) override;
 
-  void onLutAdded(LutIconInfo iconInfo) override;
+
+  [[deprecated]] void onLutAdded(LutIconInfo iconInfo) override;
 
   std::vector<Path> pendingMappingPathList() const;
 
