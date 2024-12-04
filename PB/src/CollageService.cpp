@@ -14,7 +14,8 @@ CollageService::CollageService()
 {
 }
 
-void CollageService::configureThumbnailsListener(CollageThumbnailsMakerListener *listener)
+void CollageService::configureThumbnailsListener(
+    CollageThumbnailsMakerListener *listener)
 {
   mThumbnailsJob->configureListener(listener);
 }
@@ -71,6 +72,13 @@ void CollageService::combineImages(unsigned          templateIndex,
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
                         PBDev::ProgressJobName{"collage-combine"});
+}
+
+bool CollageService::isRunning() const
+{
+  auto isThumbnailsJobRunning = !mThumbnailsJob->isFinished();
+  auto isCollageMakerJobRunning = !mCollageMakerJob->isFinished();
+  return isThumbnailsJobRunning || isCollageMakerJobRunning;
 }
 
 } // namespace PB::Service

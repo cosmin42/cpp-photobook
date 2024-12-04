@@ -42,6 +42,8 @@ public:
   void startLutService();
   void detectLuts();
 
+  bool isRunning() const;
+
   void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                             std::vector<Path> searchResults) override;
 

@@ -71,6 +71,14 @@ void LutService::detectLuts()
       lutAssetsPath());
 }
 
+bool LutService::isRunning() const
+{
+  auto isDirectoryInspectionRunning =
+      mDirectoryInspectionService->isRunning(mLutsInspectionId);
+  auto isLutIconsPreprocessingRunning = !mLutIconsPreprocessingJob.isFinished();
+  return isDirectoryInspectionRunning || isLutIconsPreprocessingRunning;
+}
+
 void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {

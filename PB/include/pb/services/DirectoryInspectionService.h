@@ -45,6 +45,11 @@ public:
                           PBDev::ProgressJobName{"inspect-dir"});
   }
 
+  bool isRunning(PBDev::DirectoryInspectionJobId id) const
+  {
+    return !mJobs.at(id).isFinished();
+  }
+
 private:
   DirectoryInspectionJobListener *mListener = nullptr;
   PBDev::ThreadScheduler         *mThreadScheduler = nullptr;
