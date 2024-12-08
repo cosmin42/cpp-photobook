@@ -265,7 +265,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void NewProject(winrt::hstring                           name,
                   PhotobookRuntimeComponent::PaperSettings paperSettings);
-  void UnloadProject();
 
   PhotobookRuntimeComponent::ImageViews GetImageViews()
   {

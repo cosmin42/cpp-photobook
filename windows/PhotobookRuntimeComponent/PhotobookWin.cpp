@@ -31,7 +31,6 @@ void PhotobookWin::NewProject(
 
   mPhotobook->newProject(winrt::to_string(name), nativePaperSettings);
 }
-void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 
 void PhotobookWin::AddImportFolder(winrt::hstring importPath)
 {

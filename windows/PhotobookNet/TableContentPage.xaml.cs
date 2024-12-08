@@ -276,7 +276,7 @@ namespace PhotobookNet
 
         private void OnBackClicked(object sender, RoutedEventArgs args)
         {
-            mPhotobook.UnloadProject();
+            mPhotobook.GetSettings().Clear();
             Frame.Navigate(typeof(DashboardPage));
         }
 
@@ -329,7 +329,7 @@ namespace PhotobookNet
 
             if (isSaved)
             {
-                mPhotobook.UnloadProject();
+                mPhotobook.GetSettings().Clear();
                 Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             else
@@ -738,7 +738,7 @@ namespace PhotobookNet
         /* Dialogs - Save */
         private void OnContentDialogDiscardClicked(object sender, ContentDialogButtonClickEventArgs args)
         {
-            mPhotobook.UnloadProject();
+            mPhotobook.GetSettings().Clear();
             if (mExitFlag)
             {
                 PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
@@ -780,13 +780,13 @@ namespace PhotobookNet
             if (mNewProjectFlag)
             {
                 mNewProjectFlag = false;
-                mPhotobook.UnloadProject();
+                mPhotobook.GetSettings().Clear();
                 Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             if (mBackFlag)
             {
                 mBackFlag = false;
-                mPhotobook.UnloadProject();
+                mPhotobook.GetSettings().Clear();
                 Frame.Navigate(typeof(DashboardPage));
             }
         }
@@ -811,13 +811,13 @@ namespace PhotobookNet
             if (mNewProjectFlag)
             {
                 mNewProjectFlag = false;
-                mPhotobook.UnloadProject();
+                mPhotobook.GetSettings().Clear();
                 Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             if (mBackFlag)
             {
                 mBackFlag = false;
-                mPhotobook.UnloadProject();
+                mPhotobook.GetSettings().Clear();
                 Frame.Navigate(typeof(DashboardPage));
             }
         }
