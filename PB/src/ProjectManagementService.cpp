@@ -162,9 +162,6 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
 void ProjectManagementService::unloadProject()
 {
   PBDev::basicAssert(maybeLoadedProject != nullptr);
-  PBDev::basicAssert(maybeLoadedProject.use_count() == 1);
-
-  maybeLoadedProject.reset();
   maybeLoadedProject = nullptr;
 }
 

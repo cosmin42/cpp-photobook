@@ -162,9 +162,9 @@ void Photobook::unloadProject()
   if (maybeProject) {
     mCollageTemplateManager->stop();
     // TODO: Improve this
-    while (mCollageTemplateManager->isRunning()) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
+    while (mCollageTemplateManager->isRunning())
+      ;
+
     mProjectManagementService->unloadProject();
   }
   else {

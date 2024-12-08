@@ -23,7 +23,12 @@ public:
 
   void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
 
-  bool isFinished() const { return *mTaskCountPtr == taskCount(); }
+  bool isFinished() const
+  {
+    unsigned currentCount = *mTaskCountPtr;
+    auto     count = taskCount();
+    return currentCount == count;
+  }
 
   virtual std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) = 0;
