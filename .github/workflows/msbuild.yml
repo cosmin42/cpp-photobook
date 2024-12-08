@@ -59,7 +59,7 @@ jobs:
       run: vcpkg\vcpkg.exe integrate install
 
     - name: Run CMake pb-release
-      uses: lukka/run-cmake@v10.8
+      uses: lukka/run-cmake@v10
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
@@ -72,7 +72,7 @@ jobs:
         configurePreset: 'pblib-release'
 
     - name: Run CMake pb-release-arm64
-      uses: lukka/run-cmake@10.8
+      uses: lukka/run-cmake@10
       with:
         # This is the default path to the CMakeLists.txt along side the
         # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
