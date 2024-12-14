@@ -38,7 +38,11 @@ TEST(TestCollageService, TestEmpty)
 
   auto platformInfo = mockPlatformInfo();
 
-  std::shared_ptr<PB::Project> project = std::make_shared<PB::Project>();
+  PB::Project project;
+
+  std::shared_ptr<PB::IdentifyableProject> identifyableProject =
+      std::make_shared<PB::IdentifyableProject>(
+          std::make_pair(boost::uuids::random_generator()(), project));
 
   std::shared_ptr<CollageService> mCollageService =
       std::make_shared<CollageService>();
@@ -47,7 +51,7 @@ TEST(TestCollageService, TestEmpty)
   mCollageService->configureTaskCruncher(taskCruncher);
   mCollageService->configureProjectId(
       boost::uuids::to_string(boost::uuids::random_generator()()));
-  mCollageService->configureProject(project);
+  mCollageService->configureProject(identifyableProject);
 
   mCollageService->configureThumbnailsListener(
       testCollageThumbnailsMakerListener);

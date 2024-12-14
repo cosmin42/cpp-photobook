@@ -8,10 +8,6 @@ TEST(TestParallelTaskConsumer, BasicTest)
   bool                     isFinished = consumer.finished();
   EXPECT_TRUE(isFinished);
 
-  consumer.abort();
-  isFinished = consumer.finished();
-  EXPECT_TRUE(isFinished);
-
   std::shared_ptr<int> objectToBeChaged0 = std::make_shared<int>();
   *objectToBeChaged0 = 0;
 

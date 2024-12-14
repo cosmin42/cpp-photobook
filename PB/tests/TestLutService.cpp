@@ -43,12 +43,10 @@ TEST(TestLutService, TestEmpty)
   mLutService->configureThreadScheduler(threadScheduler);
   mLutService->configureLutServiceListener(testLutServiceListener);
 
-  std::stop_source stopSource;
-
   EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(100));
   EXPECT_CALL(*testLutServiceListener, onLutAdded(_)).Times(AtLeast(100));
 
-  mOGLEngine->start(stopSource.get_token());
+  mOGLEngine->start();
   mLutService->startLutService();
 
   threadScheduler->mainloop();
