@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install autoconf
-        run: brew install autoconf
+        run: brew install autoconf automake autoconf-archive
 
       - name: Install pkg config
         run: brew install pkg-config
