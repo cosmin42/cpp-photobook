@@ -67,7 +67,7 @@ namespace PhotobookNet
             var item = args.ClickedItem as ProjectItem;
             var projectName = item.Name;
             mLastClickedProjectName = projectName;
-            mPhotobook.RecallProject(projectName);
+            mPhotobook.GetSettings().RecallProjectByName(projectName);
         }
 
         private void AddProjectClicked(object sender, RoutedEventArgs args)

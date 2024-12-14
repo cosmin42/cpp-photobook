@@ -15,11 +15,6 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 
 void PhotobookWin::RecallMetadata() { mPhotobook->recallMetadata(); }
 
-void PhotobookWin::RecallProject(winrt::hstring name)
-{
-  mPhotobook->recallProject(winrt::to_string(name));
-}
-
 void PhotobookWin::NewProject(
     winrt::hstring name, PhotobookRuntimeComponent::PaperSettings paperSettings)
 {

@@ -33,7 +33,6 @@ runtimeclass PhotobookWin
   String GenerateProjectName();
 
   void RecallMetadata();
-  void RecallProject(String name);
 
   void NewProject(String name, PaperSettings paperSettings);
   void UnloadProject();

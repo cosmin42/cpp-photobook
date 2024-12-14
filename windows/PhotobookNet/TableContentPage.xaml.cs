@@ -587,7 +587,7 @@ namespace PhotobookNet
         {
             var projectName = args.Parameter as string;
 
-            mPhotobook.RecallProject(projectName);
+            mPhotobook.GetSettings().RecallProjectByName(projectName);
 
             LoadImages();
         }
