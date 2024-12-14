@@ -22,7 +22,6 @@ public:
   void configureCollageMakerListener(CollageMakerListener *listener);
 
   void configureProject(std::shared_ptr<IdentifyableProject> project);
-  void configureProjectId(std::string projectId);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
@@ -33,6 +32,7 @@ public:
 
   bool isRunning() const;
   void stop();
+  void clean();
 
 private:
   std::stop_source                           mThumbnailsMakerStopSource;

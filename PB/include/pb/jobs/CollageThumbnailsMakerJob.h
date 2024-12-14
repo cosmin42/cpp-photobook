@@ -45,8 +45,6 @@ public:
   unsigned taskCount() const override { return (unsigned)mFunctions.size(); }
 
 private:
-  static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =
-      "collages-templates-resources";
   static constexpr const char *COLLAGES_TEMPLATES_NAME = "svg-templates";
 
   CollageThumbnailsMakerListener *mListener = nullptr;
@@ -65,8 +63,6 @@ private:
   std::vector<IdentifyableFunction>        mFunctions;
 
   unsigned mIndex = 0;
-
-  Path collagesResourcePath(boost::uuids::uuid projectId);
 
   static CollageTemplateInfo parseTemplatePath(Path path);
 

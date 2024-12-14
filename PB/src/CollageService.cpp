@@ -29,13 +29,9 @@ void CollageService::configureCollageMakerListener(
 void CollageService::configureProject(
     std::shared_ptr<IdentifyableProject> project)
 {
+  mCollageMakerJob->configureProjectId(project->first);
   mThumbnailsJob->configureProject(project);
   mCollageMakerJob->configureProject(project);
-}
-
-void CollageService::configureProjectId(std::string projectId)
-{
-  mCollageMakerJob->configureProjectId(projectId);
 }
 
 void CollageService::configurePlatformInfo(
@@ -55,9 +51,9 @@ void CollageService::configureTaskCruncher(
 void CollageService::generateTemplatesImages()
 {
   mThumbnailsJob->mapJobs();
-  mThumbnailsMakerStopSource = mTaskCruncher->crunch(
-      "collage-thumbnails", *mThumbnailsJob,
-                        PBDev::ProgressJobName{"collages-gen"});
+  mThumbnailsMakerStopSource =
+      mTaskCruncher->crunch("collage-thumbnails", *mThumbnailsJob,
+                            PBDev::ProgressJobName{"collages-gen"});
 }
 
 std::vector<CollageTemplateInfo> CollageService::getTemplatesPaths() const
@@ -71,9 +67,9 @@ void CollageService::combineImages(unsigned          templateIndex,
   auto templatePaths = mThumbnailsJob->getSourceTemplates();
 
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
-  mCollageMakerStopSource = mTaskCruncher->crunch(
-      "collage-thumbnails", *mCollageMakerJob,
-                        PBDev::ProgressJobName{"collage-combine"});
+  mCollageMakerStopSource =
+      mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
+                            PBDev::ProgressJobName{"collage-combine"});
 }
 
 bool CollageService::isRunning() const
@@ -83,9 +79,18 @@ bool CollageService::isRunning() const
   return isThumbnailsJobRunning || isCollageMakerJobRunning;
 }
 
-void CollageService::stop() {
+void CollageService::stop()
+{
   mThumbnailsMakerStopSource.request_stop();
   mCollageMakerStopSource.request_stop();
+}
+
+void CollageService::clean()
+{
+  mThumbnailsMakerStopSource = std::stop_source();
+  mCollageMakerStopSource = std::stop_source();
+
+  mCollageMakerJob = std::make_shared<CollageMakerJob>();
 }
 
 } // namespace PB::Service

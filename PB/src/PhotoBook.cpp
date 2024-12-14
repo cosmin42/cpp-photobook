@@ -165,6 +165,8 @@ void Photobook::unloadProject()
     while (mCollageTemplateManager->isRunning())
       ;
 
+    mCollageTemplateManager->clean();
+
     mProjectManagementService->unloadProject();
   }
   else {
@@ -177,13 +179,12 @@ void Photobook::recallMetadata()
   mProjectManagementService->recallMetadata();
 }
 
-void Photobook::makeCollages() {
+void Photobook::makeCollages()
+{
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   mCollageTemplateManager->configureProject(maybeProject);
-  mCollageTemplateManager->configureProjectId(
-      boost::uuids::to_string(maybeProject->first));
 
   mCollageTemplateManager->generateTemplatesImages();
 }

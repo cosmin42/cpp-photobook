@@ -13,11 +13,20 @@ struct PlatformInfo {
   Path                          localStatePath;
   std::pair<unsigned, unsigned> screenSize;
 
+  static constexpr const char *COLLAGES_TEMPLATES_RESOURCES_NAME =
+      "collages-templates-resources";
+
   Path projectFolderPath() const { return localStatePath / "projects"; }
 
   Path projectSupportFolder(boost::uuids::uuid projectId) const
   {
     return projectFolderPath() / boost::uuids::to_string(projectId);
+  }
+
+  Path collagesFolder(boost::uuids::uuid projectId) const
+  {
+    return projectSupportFolder(projectId) / COLLAGES_TEMPLATES_RESOURCES_NAME /
+           "";
   }
 
   Path projectPath(std::string name) const
@@ -59,6 +68,9 @@ struct PlatformInfo {
             ".jpg");
   }
 
-  Path processedLutsPath() const { return localStatePath / OneConfig::PROCESSED_LUTS_FOLDER_NAME; }
+  Path processedLutsPath() const
+  {
+    return localStatePath / OneConfig::PROCESSED_LUTS_FOLDER_NAME;
+  }
 };
 } // namespace PB
