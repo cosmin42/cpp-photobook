@@ -177,13 +177,7 @@ void Photobook::recallMetadata()
   mProjectManagementService->recallMetadata();
 }
 
-void Photobook::recallProject(std::string name)
-{
-  auto metadata = mProjectManagementService->metadata();
-  auto projectId = metadata.right.at(name);
-
-  mProjectManagementService->loadProject(projectId);
-
+void Photobook::makeCollages() {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 

@@ -262,6 +262,8 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void RecallMetadata();
 
+  void MakeCollages();
+
   void NewProject(winrt::hstring                           name,
                   PhotobookRuntimeComponent::PaperSettings paperSettings);
   void UnloadProject();

@@ -53,7 +53,8 @@ public:
   void startPhotobook();
 
   void recallMetadata();
-  void recallProject(std::string name);
+
+  void makeCollages();
 
   void newProject(std::string name, PaperSettings paperSettings);
   void unloadProject();

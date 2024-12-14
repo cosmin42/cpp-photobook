@@ -13,6 +13,8 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
+void PhotobookWin::MakeCollages() { mPhotobook->makeCollages(); }
+
 void PhotobookWin::RecallMetadata() { mPhotobook->recallMetadata(); }
 
 void PhotobookWin::NewProject(
