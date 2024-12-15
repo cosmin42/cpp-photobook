@@ -151,6 +151,9 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
   Path     path = mProcessedSVGPaths.at(i);
   Path     outFilePath = mPlatformInfo->collagesFolder(mProject->first) /
                      (path.stem().string() + ".png");
+  if (std::filesystem::exists(outFilePath)) {
+    return;
+  }
   SkFILEWStream outFile(outFilePath.string().c_str());
 
   mDrawingService.renderToStream(mResourcesProviderId, outFile, path,
@@ -171,8 +174,6 @@ void CollageThumbnailsMakerJob::mapJobs()
 
   cv::Size imageSize = {mProject->second.paperSettings.width / 2,
                         mProject->second.paperSettings.height / 2};
-
-  PBDev::basicAssert(mNumberedImages.empty());
 
   mNumberedImages = mAssistant->createNumberedImages(imageSize);
 

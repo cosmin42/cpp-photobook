@@ -45,6 +45,10 @@ Path CollageLibraryAssistant::createTemplateThumbnail(
 
   auto thumbnailPath = mOutputFolder / filename;
 
+  if (std::filesystem::exists(thumbnailPath)) {
+    return thumbnailPath;
+  }
+
   auto maybeString = mThumbnailsSVGInflater.inflate(svgModel, templatePath);
 
   if (maybeString) {
