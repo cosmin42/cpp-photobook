@@ -1,0 +1,44 @@
+name: Xcode - Build and Analyze
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build and analyse default scheme using xcodebuild command
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install autoconf
+        run: brew install autoconf automake autoconf-archive
+
+      - name: Install pkg config
+        run: brew install pkg-config
+
+      - uses: lukka/get-cmake@latest
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v11.5
+        with:
+          # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
+          vcpkgGitCommitId: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'
+          # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
+          runVcpkgInstall: true
+          # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
+          doNotCache: false
+          # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
+          vcpkgJsonGlob: '**/windows/vcpkg.json'
+  
+      - name: vcpkg install iOS arm64
+        run: ./vcpkg/vcpkg install boost-program-options:arm64-ios boost-uuid:arm64-ios boost-random:arm64-ios brotli:arm64-ios opencv:arm64-ios magic-enum:arm64-ios exiv2:arm64-ios gtest:arm64-ios dp-thread-pool:arm64-ios libharu:arm64-ios sqlite3:arm64-ios nlohmann-json:arm64-ios boost-bimap:arm64-ios spdlog:arm64-ios inja:arm64-ios podofo:arm64-ios
+      
+      - name: vcpkg integrate install
+        run: ./vcpkg/vcpkg integrate install
+
+      - name: Build Noir Library
+        run: ./build-pblib-ios.sh
