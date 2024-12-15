@@ -32,7 +32,8 @@ struct ProgressStatus {
     std::string unknownProgress;
     for (auto const &[name, maybePercent] : statusMap) {
       if (maybePercent) {
-        knownProgress = *name + ": " + std::to_string(*maybePercent) + ";";
+        knownProgress =
+            *name + ": " + std::format("{:.2f}%", *maybePercent) + ";";
       }
       else {
         unknownProgress = *name + ";";
