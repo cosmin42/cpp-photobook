@@ -104,6 +104,7 @@ CollageThumbnailsMakerJob::getSourceTemplates() const
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
+  // TODO: Add logging
   std::filesystem::create_directories(
       mPlatformInfo->collagesFolder(mProject->first));
 }

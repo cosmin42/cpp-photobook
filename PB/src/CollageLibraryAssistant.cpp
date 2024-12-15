@@ -67,6 +67,13 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
                                                   unsigned    index,
                                                   std::string name)
 {
+  auto imagePath = mOutputFolder / Path(name);
+  if (std::filesystem::exists(imagePath)) {
+#ifndef _CLANG_UML_
+    spdlog::info("Image already exists: {}", imagePath.string());
+#endif
+    return Path(name);
+  }
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       pageSize.width, pageSize.height, {20, 20, 20})();
 
@@ -78,11 +85,10 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
   image = PB::Process::addText({pageSize.width / 2, pageSize.height / 2},
                                std::to_string(index), fontInfo)(image);
 
-  auto imagePath = mOutputFolder / Path(name);
   bool success = cv::imwrite(imagePath.string(), *image);
   PBDev::basicAssert(success);
 #ifndef _CLANG_UML_
-  spdlog::info("Image created: {}", (mOutputFolder / Path(name)).string());
+  spdlog::info("Image created: {}", imagePath.string());
 #endif
   return Path(name);
 }
