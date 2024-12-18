@@ -1,4 +1,4 @@
-name: Xcode - iOS - Build and Analyze
+name: iOS Build
 
 on:
   push:
