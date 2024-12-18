@@ -90,8 +90,6 @@ static constexpr const char *DATABASE_NAME = "databasev2.db";
 
 static constexpr unsigned MAX_HASH_CONFLICTS = 200;
 
-static std::shared_ptr<spdlog::logger> LOGGER = nullptr;
-
 static constexpr const char *PROCESSED_LUTS_FOLDER_NAME = "processed-luts";
 
 const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
@@ -100,5 +98,38 @@ const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
     {"thumbnails-job", 1},   {"default", 1}};
 
 } // namespace OneConfig
+
+class Noir {
+public:
+  std::shared_ptr<spdlog::logger> getLogger()
+  {
+    if (mLogger == nullptr) {
+      try {
+#ifdef WIN32
+        mLogger = std::make_shared<spdlog::logger>(
+            "msvc_logger", std::make_shared<spdlog::sinks::msvc_sink_mt>());
+        mLogger->set_level(spdlog::level::debug);
+        mLogger->info("Log init succeeded");
+#endif
+      }
+      catch (const spdlog::spdlog_ex &ex) {
+        (void)ex;
+      }
+    }
+    return mLogger;
+  }
+
+  static Noir &inst()
+  {
+    static Noir instance;
+    return instance;
+  }
+
+private:
+  Noir() = default;
+  ~Noir() = default;
+
+  std::shared_ptr<spdlog::logger> mLogger = nullptr;
+};
 
 } // namespace PB
