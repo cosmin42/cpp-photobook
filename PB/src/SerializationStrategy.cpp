@@ -181,7 +181,7 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
   Project projectDetails;
 
   auto paperSettingsOrError = deserialize<PaperSettings>(
-      jsonData, "paper-settings", PaperSettings(), true);
+      jsonData, "paperSettings", PaperSettings(), true);
   if (std::holds_alternative<PBDev::Error>(paperSettingsOrError)) {
     return std::get<PBDev::Error>(paperSettingsOrError);
   }
