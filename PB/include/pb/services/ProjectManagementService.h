@@ -16,7 +16,7 @@ class ProjectManagementServiceListener {
 public:
   virtual ~ProjectManagementServiceListener() = default;
 
-  virtual void onProjectMetadataRecalled() = 0;
+  virtual void onProjectMetadataRecalled(std::string focusedProjectName) = 0;
   virtual void onProjectRecalled() = 0;
 };
 
@@ -39,6 +39,7 @@ public:
 
   void newProject(PaperSettings paperSettings);
   void loadProject(boost::uuids::uuid id);
+  void loadProjectByName(std::string name);
   void unloadProject();
 
   void saveMetadata();
@@ -67,4 +68,4 @@ private:
 
   bool hasProjectName(std::string name) const;
 };
-} // namespace PB
+} // namespace PB::Service

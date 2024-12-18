@@ -82,7 +82,7 @@ void ProjectManagementService::recallMetadata()
       OneConfig::DATABASE_PROJECT_METADATA_TABLE, "",
       (unsigned)OneConfig::DATABASE_PROJECT_METADATA_HEADER.size());
   mProjectsMetadata = DatabaseService::deserializeProjectMetadata(metadata);
-  mListener->onProjectMetadataRecalled();
+  mListener->onProjectMetadataRecalled("");
 }
 
 boost::bimaps::bimap<boost::uuids::uuid, std::string>
@@ -108,7 +108,8 @@ void ProjectManagementService::deleteProject(boost::uuids::uuid id)
 
   auto projectPath = mPlatformInfo->projectPath(projectName);
 
-  auto projectData = mPlatformInfo->projectFolderPath() / boost::uuids::to_string(id);
+  auto projectData =
+      mPlatformInfo->projectFolderPath() / boost::uuids::to_string(id);
 
   // TODO: Check return values
   std::filesystem::remove_all(projectPath);
@@ -143,10 +144,21 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
   project.name = newAlbumName();
   project.paperSettings = paperSettings;
 
+#ifdef WIN32
+  Noir::inst().getLogger()->info("New project {}, {}, {}", project.name,
+                                 boost::uuids::to_string(newProjectId),
+                                 std::string(paperSettings));
+#endif
+
   maybeLoadedProject = std::make_shared<IdentifyableProject>(
       std::make_pair(newProjectId, project));
 
+  saveMetadata();
+  mProjectSerializerService->saveProject(maybeLoadedProject->second);
+
   mProjectsMetadata.insert({newProjectId, project.name});
+
+  mListener->onProjectMetadataRecalled(project.name);
 }
 
 void ProjectManagementService::loadProject(boost::uuids::uuid id)
@@ -157,12 +169,38 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
 
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
+
+#ifdef WIN32
+  Noir::inst().getLogger()->info(
+      "Project loaded by id: {}, {}, {}", projectName,
+      boost::uuids::to_string(id),
+      std::string(maybeLoadedProject->second.paperSettings));
+#endif
+}
+
+void ProjectManagementService::loadProjectByName(std::string name)
+{
+  boost::uuids::uuid id = mProjectsMetadata.right.at(name);
+  auto               projectPath = mPlatformInfo->projectPath(name);
+  auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);
+
+  maybeLoadedProject =
+      std::make_shared<IdentifyableProject>(std::make_pair(id, project));
+
+#ifdef WIN32
+  Noir::inst().getLogger()->info(
+      "Project loaded by name: {}, {}, {}", name, boost::uuids::to_string(id),
+      std::string(maybeLoadedProject->second.paperSettings));
+#endif
 }
 
 void ProjectManagementService::unloadProject()
 {
   PBDev::basicAssert(maybeLoadedProject != nullptr);
   maybeLoadedProject = nullptr;
+#ifdef WIN32
+  Noir::inst().getLogger()->info("Project unloaded");
+#endif
 }
 
 void ProjectManagementService::saveMetadata()
@@ -220,6 +258,10 @@ void ProjectManagementService::renameProject(std::string oldName,
     auto newProjectPath = mPlatformInfo->projectPath(newName);
     auto oldProjectPath = mPlatformInfo->projectPath(oldName);
     std::filesystem::rename(oldProjectPath, newProjectPath);
+#ifdef WIN32
+    Noir::inst().getLogger()->info("Project renamed: {} -> {}", oldName,
+                                   newName);
+#endif
   }
 }
 

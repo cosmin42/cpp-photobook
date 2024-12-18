@@ -124,17 +124,7 @@ Photobook::~Photobook() { mDatabaseService->disconnect(); }
 
 void Photobook::initLogger()
 {
-  try {
-#ifdef WIN32
-    OneConfig::LOGGER = std::make_shared<spdlog::logger>(
-        "msvc_logger", std::make_shared<spdlog::sinks::msvc_sink_mt>());
-    OneConfig::LOGGER->set_level(spdlog::level::debug);
-    OneConfig::LOGGER->info("Log init succeeded");
-#endif
-  }
-  catch (const spdlog::spdlog_ex &ex) {
-    std::cout << "Log init failed: " << ex.what() << std::endl;
-  }
+  std::ignore = Noir::inst().getLogger();
 }
 
 void Photobook::configure(PhotobookListener *listener) { mParent = listener; }
@@ -321,15 +311,9 @@ void Photobook::onPersistenceError(PBDev::Error error)
 
 void Photobook::onProjectRecalled() {}
 
-void Photobook::onProjectMetadataRecalled() { mParent->onMetadataUpdated(); }
-
-void Photobook::newProject(std::string name, PaperSettings paperSettings)
+void Photobook::onProjectMetadataRecalled(std::string focusedProjectName)
 {
-  mProjectManagementService->newProject(paperSettings);
-  auto currentProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(currentProject != nullptr);
-  mProjectManagementService->saveMetadata();
-  mProjectSerializerService->saveProject(currentProject->second);
+  mParent->onMetadataUpdated(focusedProjectName);
 }
 
 std::shared_ptr<CollageService> Photobook::collageService()

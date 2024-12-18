@@ -56,7 +56,6 @@ public:
 
   void makeCollages();
 
-  void newProject(std::string name, PaperSettings paperSettings);
   void unloadProject();
 
   void addImportFolder(Path importPath);
@@ -80,7 +79,7 @@ public:
   */
 
   void onProjectRecalled() override;
-  void onProjectMetadataRecalled() override;
+  void onProjectMetadataRecalled(std::string focusedProjectName) override;
 
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
 

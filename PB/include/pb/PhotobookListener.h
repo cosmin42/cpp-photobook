@@ -13,7 +13,7 @@ public:
 
   virtual void onProjectRead() = 0;
   virtual void onProjectRenamed() = 0;
-  virtual void onMetadataUpdated() = 0;
+  virtual void onMetadataUpdated(std::string focusedProjectName) = 0;
   virtual void onPersistenceError(PBDev::Error) = 0;
 
   virtual void onExportFinished() = 0;
