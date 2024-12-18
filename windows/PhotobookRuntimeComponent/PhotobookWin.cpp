@@ -17,17 +17,6 @@ void PhotobookWin::MakeCollages() { mPhotobook->makeCollages(); }
 
 void PhotobookWin::RecallMetadata() { mPhotobook->recallMetadata(); }
 
-void PhotobookWin::NewProject(
-    winrt::hstring name, PhotobookRuntimeComponent::PaperSettings paperSettings)
-{
-  auto nativePaperSettings =
-      winrt::get_self<
-          winrt::PhotobookRuntimeComponent::implementation::PaperSettings>(
-          paperSettings)
-          ->Unwrap();
-
-  mPhotobook->newProject(winrt::to_string(name), nativePaperSettings);
-}
 void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 
 void PhotobookWin::AddImportFolder(winrt::hstring importPath)

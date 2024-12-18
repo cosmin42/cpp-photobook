@@ -34,7 +34,10 @@ public:
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onProjectRenamed() override { mManagedListener.OnProjectRenamed(); }
-  void onMetadataUpdated() override { mManagedListener.OnMetadataUpdated(); }
+  void onMetadataUpdated(std::string focusedProjectName) override
+  {
+    mManagedListener.OnMetadataUpdated(winrt::to_hstring(focusedProjectName));
+  }
   void onPersistenceError(PBDev::Error error) override
   {
     mManagedListener.OnPersistenceError(winrt::make<PBError>(error));
@@ -264,8 +267,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   void MakeCollages();
 
-  void NewProject(winrt::hstring                           name,
-                  PhotobookRuntimeComponent::PaperSettings paperSettings);
   void UnloadProject();
 
   PhotobookRuntimeComponent::ImageViews GetImageViews()

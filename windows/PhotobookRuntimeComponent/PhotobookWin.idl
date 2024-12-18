@@ -36,7 +36,6 @@ runtimeclass PhotobookWin
 
   void MakeCollages();
 
-  void NewProject(String name, PaperSettings paperSettings);
   void UnloadProject();
 
   void AddImportFolder(String importPath);

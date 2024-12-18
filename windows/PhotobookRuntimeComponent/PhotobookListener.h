@@ -25,7 +25,10 @@ public:
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onProjectRenamed() override { mManagedListener.OnProjectRead(); }
-  void onMetadataUpdated() override { mManagedListener.OnMetadataUpdated(); }
+  void onMetadataUpdated(std::string focusedProjectName) override
+  {
+    mManagedListener.OnMetadataUpdated(winrt::to_hstring(focusedProjectName));
+  }
   void onPersistenceError(PBDev::Error error) override
   {
     mManagedListener.OnPersistenceError(winrt::make<PBError>(error));

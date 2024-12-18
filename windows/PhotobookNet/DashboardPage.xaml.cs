@@ -77,11 +77,8 @@ namespace PhotobookNet
 
         private void OnCreateProjectDialogNext(object sender, ContentDialogButtonClickEventArgs args)
         {
-            var newProjectName = mPhotobook.GenerateProjectName();
             var paperSettings = GetPaperSettings();
-            mPhotobook.NewProject(newProjectName, paperSettings);
-            PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + newProjectName);
-            Frame.Navigate(typeof(TableContentPage), newProjectName);
+            mPhotobook.GetSettings().NewProject(paperSettings);
         }
 
         private void UpdateNewProjectDialog(string selectedPaperType)
@@ -149,7 +146,7 @@ namespace PhotobookNet
                 {
                     var newProjectName = mPhotobook.GenerateProjectName();
                     var paperSettings = GetPaperSettings();
-                    mPhotobook.NewProject(newProjectName, paperSettings);
+                    //mPhotobook.NewProject(newProjectName, paperSettings);
                     PhotobookSingletonWrapper.Inst().UpdateTitle(newProjectName);
                     PhotobookSingletonWrapper.Inst().Post(() =>
                     {
@@ -193,7 +190,7 @@ namespace PhotobookNet
             return intRoot;
         }
 
-        public void OnMetadataUpdated()
+        public void OnMetadataUpdated(string focusProjectName)
         {
             var settings = mPhotobook.GetSettings();
 
@@ -216,6 +213,12 @@ namespace PhotobookNet
                 mProjectsList.Add(new ProjectItem(project.ProjectId(), project.ProjectPath(), project.Name()));
             }
             ProjectsListView.ItemsSource = mProjectsList;
+
+            if (!string.IsNullOrEmpty(focusProjectName))
+            {
+                PhotobookSingletonWrapper.Inst().UpdateTitle("Photobook Noir - " + focusProjectName);
+                Frame.Navigate(typeof(TableContentPage), focusProjectName);
+            }
         }
 
         private Microsoft.UI.Xaml.Controls.MenuFlyoutItem DeleteFlyout()

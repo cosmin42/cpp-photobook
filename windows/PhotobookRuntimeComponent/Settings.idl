@@ -21,7 +21,7 @@ runtimeclass Settings
 
   IVector<String> ProjectsNames();
 
-  // void newProject(String name, std::shared_ptr<Project> project);
+  void NewProject(PaperSettings paperSettings);
 
   void RemoveById(String projectId);
 

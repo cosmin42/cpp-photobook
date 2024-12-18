@@ -51,7 +51,6 @@ namespace PhotobookNet
 
         public void OnNoirLutAdded(LutIconInfo iconInfo)
         {
-            Debug.WriteLine("OnNoirLutAdded");
         }
 
         public void OnNoirError(PBError error)

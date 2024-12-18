@@ -12,7 +12,7 @@ interface PhotobookListener
   void OnProjectRead();
 
   void OnProjectRenamed();
-  void OnMetadataUpdated();
+  void OnMetadataUpdated(String focusedProjectName);
   void OnPersistenceError(PBError error);
 
   void OnExportFinished();

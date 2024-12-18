@@ -28,11 +28,20 @@ struct Settings : SettingsT<Settings> {
     mProjectManagementService->recallMetadata();
   }
 
+  void NewProject(PhotobookRuntimeComponent::PaperSettings paperSettings)
+  {
+    auto nativePaperSettings =
+        winrt::get_self<
+            winrt::PhotobookRuntimeComponent::implementation::PaperSettings>(
+            paperSettings)
+            ->Unwrap();
+
+    mProjectManagementService->newProject(nativePaperSettings);
+  }
+
   void RecallProjectByName(winrt::hstring name)
   {
-    auto metadata = mProjectManagementService->metadata();
-    auto id = metadata.right.at(winrt::to_string(name));
-    mProjectManagementService->loadProject(id);
+    mProjectManagementService->loadProjectByName(winrt::to_string(name));
   }
 
   void RecallMetadata() { mProjectManagementService->recallMetadata(); }
