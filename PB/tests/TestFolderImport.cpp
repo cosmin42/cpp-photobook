@@ -14,12 +14,12 @@ TEST(TestFolderImport, Test0)
   PB::Photobook photobook(".", ".", {1280, 720});
   photobook.configure((PB::PhotobookListener *)&photobookListener);
 
-  EXPECT_CALL(photobookListener, onMetadataUpdated());
+  EXPECT_CALL(photobookListener, onMetadataUpdated(""));
   photobook.recallMetadata();
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 
-  photobook.newProject("random-name", PB::PaperSettings());
+  photobook.projectManagementService()->newProject(PB::PaperSettings());
 
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 

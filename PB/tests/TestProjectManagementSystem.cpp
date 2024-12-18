@@ -18,7 +18,7 @@ TEST(TestProjectManagementSystem, TestRecallEmptyMetadata)
   projectManagementSystem.configureProjectManagementServiceListener(
       (ProjectManagementServiceListener *)&projectManagementSystemListener);
 
-  EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
+  EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled(""));
   projectManagementSystem.recallMetadata();
 
   auto maybeIdentifyableProject =
@@ -44,7 +44,7 @@ TEST(TestProjectManagementSystem, TestNewProject)
   projectManagementSystem.configureProjectManagementServiceListener(
       (ProjectManagementServiceListener *)&projectManagementSystemListener);
 
-  EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled());
+  EXPECT_CALL(projectManagementSystemListener, onProjectMetadataRecalled(""));
   projectManagementSystem.recallMetadata();
 
   auto maybeIdentifyableProject =

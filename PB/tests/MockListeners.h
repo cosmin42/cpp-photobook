@@ -33,7 +33,7 @@ class TestPhotobookListener final : public PB::PhotobookListener {
 public:
   MOCK_METHOD(void, onProjectRead, (), (override));
   MOCK_METHOD(void, onProjectRenamed, (), (override));
-  MOCK_METHOD(void, onMetadataUpdated, (), (override));
+  MOCK_METHOD(void, onMetadataUpdated, (std::string), (override));
   MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
   MOCK_METHOD(void, onExportFinished, (), (override));
   MOCK_METHOD(void, onError, (PBDev::Error), (override));
@@ -64,7 +64,7 @@ class TestProjectManagementServiceListener final
     : public ProjectManagementServiceListener {
 public:
   ~TestProjectManagementServiceListener() = default;
-  MOCK_METHOD(void, onProjectMetadataRecalled, (), (override));
+  MOCK_METHOD(void, onProjectMetadataRecalled, (std::string), (override));
   MOCK_METHOD(void, onProjectRecalled, (), (override));
 };
 

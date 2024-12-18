@@ -49,8 +49,6 @@ TEST(TestCollageService, TestEmpty)
 
   mCollageService->configurePlatformInfo(platformInfo);
   mCollageService->configureTaskCruncher(taskCruncher);
-  mCollageService->configureProjectId(
-      boost::uuids::to_string(boost::uuids::random_generator()()));
   mCollageService->configureProject(identifyableProject);
 
   mCollageService->configureThumbnailsListener(
