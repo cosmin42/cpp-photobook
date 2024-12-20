@@ -15,6 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set VCPKG_DEFAULT_TRIPLET
+        run: echo "VCPKG_DEFAULT_TRIPLET=arm64-ios" >> $GITHUB_ENV
+
       - name: Install autoconf
         run: brew install autoconf automake autoconf-archive
 
@@ -33,12 +36,6 @@ jobs:
           doNotCache: false
           # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
           vcpkgJsonGlob: '**/windows/vcpkg.json'
-  
-      - name: vcpkg install iOS arm64
-        run: ./vcpkg/vcpkg install boost-program-options:arm64-ios boost-uuid:arm64-ios boost-random:arm64-ios brotli:arm64-ios opencv:arm64-ios magic-enum:arm64-ios exiv2:arm64-ios gtest:arm64-ios dp-thread-pool:arm64-ios libharu:arm64-ios sqlite3:arm64-ios nlohmann-json:arm64-ios boost-bimap:arm64-ios spdlog:arm64-ios inja:arm64-ios podofo:arm64-ios
-      
-      - name: vcpkg integrate install
-        run: ./vcpkg/vcpkg integrate install
 
       - name: Build Noir Library
         run: ./build-pblib-ios.sh

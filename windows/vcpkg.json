@@ -2,11 +2,10 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "dependencies": [
     "boost-program-options",
-    "opencv",
     "boost-uuid",
-    "expat",
+    "boost-random",
     "brotli",
-    "inih",
+    "opencv",
     "magic-enum",
     "exiv2",
     "gtest",
@@ -16,6 +15,7 @@
     "nlohmann-json",
     "boost-bimap",
     "spdlog",
-    "inja"
+    "inja",
+    "podofo"
   ]
 }
