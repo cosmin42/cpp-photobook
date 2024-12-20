@@ -82,10 +82,10 @@ std::variant<Json, PBDev::Error> flatSimple(int             depth,
 }
 
 template <>
-std::variant<Json, PBDev::Error> flatSimple(int depth, PaperType genericImage)
+std::variant<Json, PBDev::Error> flatSimple(int depth, PaperType paperType)
 {
   Json json;
-  json = magic_enum::enum_name(genericImage);
+  json = (int)paperType;
   return json;
 }
 
