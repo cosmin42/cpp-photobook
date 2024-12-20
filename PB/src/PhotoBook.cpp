@@ -276,46 +276,6 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
   }
 }
 
-/*
-void Photobook::onProjectRead(
-    std::vector<std::vector<std::shared_ptr<GenericImagePtr>>>
-&unstagedImages, std::vector<std::shared_ptr<GenericImagePtr>> &stagedImages,
-    std::vector<Path>                                       &roots)
-{
-  mImageViews.imageMonitor().replaceImageMonitorData(unstagedImages, roots);
-  mImageViews.stagedImages().configure(stagedImages);
-
-  mImageToPaperService->configureProject(mPersistenceService->currentProject());
-
-  auto collageThumbnailsMakerListener =
-      dynamic_cast<PB::CollageThumbnailsMakerListener *>(this);
-  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
-  auto currentProject = mPersistenceService->currentProject();
-  mCollageTemplateManager->configureProject(currentProject);
-  mCollageTemplateManager->generateTemplatesImages();
-  mCollageTemplateManager->configureProjectId(
-      boost::uuids::to_string(project()->currentProjectUUID()));
-
-  mParent->onProjectRead();
-
-  auto unprocessedImages = mImageViews.imageMonitor().unprocessedImages();
-
-  for (auto &unprocessedImage : unprocessedImages) {
-    auto imageHash = mPersistenceService->hash(unprocessedImage.root);
-    mImportLogic.processImages(
-        boost::uuids::to_string(project()->currentProjectUUID()),
-        unprocessedImage, imageHash.stem().string());
-  }
-}
-
-void Photobook::onMetadataUpdated() { mParent->onMetadataUpdated(); }
-
-void Photobook::onPersistenceError(PBDev::Error error)
-{
-  mParent->onPersistenceError(error);
-}
-*/
-
 void Photobook::onProjectRecalled() {}
 
 void Photobook::onProjectMetadataRecalled(std::string focusedProjectName)
