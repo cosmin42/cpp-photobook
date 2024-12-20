@@ -91,6 +91,7 @@ void CollageService::clean()
   mCollageMakerStopSource = std::stop_source();
 
   mCollageMakerJob = std::make_shared<CollageMakerJob>();
+  mThumbnailsJob = std::make_shared<CollageThumbnailsMakerJob>();
 }
 
 } // namespace PB::Service

@@ -18,7 +18,7 @@ void CollageMakerJob::configureProject(
 {
   mProject = project;
 }
-
+// TODO: Remove this
 void CollageMakerJob::configureProjectId(boost::uuids::uuid projectId)
 {
   mProjectId = projectId;

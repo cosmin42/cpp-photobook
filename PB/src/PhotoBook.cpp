@@ -174,7 +174,14 @@ void Photobook::makeCollages()
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
+  mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
+
   mCollageTemplateManager->configureProject(maybeProject);
+  auto collageThumbnailsMakerListener =
+      dynamic_cast<CollageThumbnailsMakerListener *>(this);
+  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
+  mCollageTemplateManager->configureThumbnailsListener(
+      collageThumbnailsMakerListener);
 
   mCollageTemplateManager->generateTemplatesImages();
 }
