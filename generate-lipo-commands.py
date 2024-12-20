@@ -48,7 +48,7 @@ if __name__ == "__main__":
     print("mkdir pb/skia-fat")
     os.system("mkdir pb/skia-fat")
 
-    command_list = get_lipo_commands("vcpkg/installed/arm64-ios/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "pb/build")
+    command_list = get_lipo_commands("vcpkg/installed/arm64-osx/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "pb/build")
     run_commands(command_list)
 
     command_list = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", "pb/build")
