@@ -213,8 +213,7 @@ struct NewProjectDialog: View {
                     // Close the dialog
                     isVisible = false
                     
-                    let projectName = photobook.generateProjectName()
-                    photobook.newProject(projectName, paperSettings: paperSettings)
+                    photobook.newProject(paperSettings)
                 }
                 .background(Color.PrimaryColor)
                 .foregroundColor(Color.MainFontColor)

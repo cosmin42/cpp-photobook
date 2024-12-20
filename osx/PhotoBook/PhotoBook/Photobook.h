@@ -30,7 +30,7 @@
 - (void) startPhotobook;
 
 - (NSString*) generateProjectName;
-- (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings;
+- (void) NewProject:(PaperSettings*)paperSettings;
 - (void) RecallMetadata;
 - (void) rename:(NSString*)oldName newName:(NSString*)newName;
 - (void) remove:(NSString*)projectId;

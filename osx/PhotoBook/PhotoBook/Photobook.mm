@@ -56,7 +56,7 @@ public:
         [&mManagedListener onProjectRead];
     }
     void onProjectRenamed() override {}
-    void onMetadataUpdated() override {
+    void onMetadataUpdated(std::string targetName) override {
         [&mManagedListener onMetadataUpdated];
     }
     void onPersistenceError(PBDev::Error) override {}
@@ -134,11 +134,10 @@ NoirListenerManaged* mNoirListener = nullptr;
     return [NSString stringWithUTF8String:newProjectName.c_str()];
 }
 
-- (void) NewProject:(NSString*)name paperSettings:(PaperSettings*)paperSettings
+- (void) NewProject:(PaperSettings*)paperSettings
 {
-    auto nativeName = [name UTF8String];
     PB::PaperSettings nativePaperSettings = {(PB::PaperType)paperSettings.paperType, paperSettings.width, paperSettings.height, paperSettings.ppi};
-    mPhotobook->newProject(nativeName, nativePaperSettings);
+    mPhotobook->projectManagementService()->newProject(nativePaperSettings);
 }
 
 - (void) RecallMetadata
