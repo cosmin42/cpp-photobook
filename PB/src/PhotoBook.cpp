@@ -404,8 +404,6 @@ Photobook::projectManagementService() const
   return mProjectManagementService;
 }
 
-// void Photobook::onProjectRenamed() {}
-
 void Photobook::onExportComplete(std::string name) {}
 
 void Photobook::onExportAborted(std::string name) {}

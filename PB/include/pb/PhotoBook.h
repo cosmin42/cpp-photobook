@@ -67,17 +67,6 @@ public:
 
   std::shared_ptr<CollageService> collageService();
 
-  /*
-  void onProjectRead(
-      std::vector<std::vector<std::shared_ptr<VirtualImage>>> &unstagedImages,
-      std::vector<std::shared_ptr<VirtualImage>>              &stagedImages,
-      std::vector<Path>                                       &roots) override;
-
-  void onMetadataUpdated() override;
-
-  void onPersistenceError(PBDev::Error) override;
-  */
-
   void onProjectRecalled() override;
   void onProjectMetadataRecalled(std::string focusedProjectName) override;
 
@@ -88,8 +77,6 @@ public:
   void onImageProcessingJobEnded(Path root);
 
   void post(std::function<void()> f) override;
-
-  // void onProjectRenamed() override;
 
   void onExportComplete(std::string name) override;
   void onExportAborted(std::string name) override;
