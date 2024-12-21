@@ -16,9 +16,9 @@ private var photobookUIListener: PhotobookUIListener? = nil;
         photobookUIListener?.onProjectRead()
     }
     
-    func onMetadataUpdated()
+    func onMetadataUpdated(focusedName: String)
     {
-        photobookUIListener?.onMetadataUpdated()
+        photobookUIListener?.onMetadataUpdated(focusedName:focusedName)
     }
 }
 
@@ -49,7 +49,7 @@ struct PhotoBookApp: App, PhotobookUIListener {
     }
     
     func onProjectRead(){}
-    func onMetadataUpdated(){}
+    func onMetadataUpdated(focusedName: String){}
     
     static func setListener(listener: PhotobookUIListener)
     {

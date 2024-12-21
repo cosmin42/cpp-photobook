@@ -21,6 +21,7 @@ struct DashboardView: View, PhotobookUIListener {
     @State private var paperPpiText: String = ""
     @State private var projectsList: [ProjectMetadataEntry] = []
     @State private var toRenameProjectName: String = ""
+    @State private var navigateToTable = false
     
     let options = ["A3 Portrait",
                    "A3 Landscape",
@@ -125,13 +126,20 @@ struct DashboardView: View, PhotobookUIListener {
             self.photobook.start()
             self.photobook.recallMetadata()
         }
+        // Hidden NavigationLink for programmatic navigation
+        NavigationLink(
+            destination: TableContentView(),
+            isActive: $navigateToTable
+        ) {
+            EmptyView()
+        }
     }
     
     func onProjectRead(){
         
     }
     
-    func onMetadataUpdated(){
+    func onMetadataUpdated(focusedName: String){
         projectsList = photobook.projectsList()
         
         let columnsCount: Int = Int(sqrt(Double(projectsList.count)))

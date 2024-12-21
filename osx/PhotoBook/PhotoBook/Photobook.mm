@@ -17,7 +17,7 @@
 - (void)onProjectRead {
 }
 
-- (void)onMetadataUpdated {
+- (void)onMetadataUpdated:(NSString*)focusedName {
     
 }
 
@@ -57,7 +57,8 @@ public:
     }
     void onProjectRenamed() override {}
     void onMetadataUpdated(std::string targetName) override {
-        [&mManagedListener onMetadataUpdated];
+        NSString* managedFocusedName = [NSString stringWithUTF8String:targetName.c_str()];
+        [&mManagedListener onMetadataUpdated:managedFocusedName];
     }
     void onPersistenceError(PBDev::Error) override {}
     void onExportFinished() override {}

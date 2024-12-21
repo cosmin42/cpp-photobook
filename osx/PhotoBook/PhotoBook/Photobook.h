@@ -13,7 +13,7 @@
 
 @interface PhotobookListenerWrapperCLevel: NSObject
 - (void)onProjectRead;
-- (void)onMetadataUpdated;
+- (void)onMetadataUpdated:(NSString*)focusedName;
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject

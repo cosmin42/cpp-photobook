@@ -8,5 +8,5 @@
 protocol PhotobookUIListener
 {
     func onProjectRead()
-    func onMetadataUpdated()
+    func onMetadataUpdated(focusedName: String)
 }
