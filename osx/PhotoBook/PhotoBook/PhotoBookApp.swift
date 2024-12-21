@@ -33,10 +33,12 @@ private var photobookUIListener: PhotobookUIListener? = nil;
 struct PhotoBookApp: App, PhotobookUIListener {
     @State var photobook: Photobook = Photobook()
     @State var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
+    @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
     init()
     {
         photobookUIListener = self;
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
+        self.photobook.setNoirListener(noirListenerWrapperCLevel)
         
     }
     
