@@ -144,11 +144,9 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
   project.name = newAlbumName();
   project.paperSettings = paperSettings;
 
-#ifdef WIN32
   Noir::inst().getLogger()->info("New project {}, {}, {}", project.name,
                                  boost::uuids::to_string(newProjectId),
                                  std::string(paperSettings));
-#endif
 
   maybeLoadedProject = std::make_shared<IdentifyableProject>(
       std::make_pair(newProjectId, project));
@@ -170,12 +168,10 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
-#ifdef WIN32
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
       boost::uuids::to_string(id),
       std::string(maybeLoadedProject->second.paperSettings));
-#endif
 }
 
 void ProjectManagementService::loadProjectByName(std::string name)
@@ -187,20 +183,16 @@ void ProjectManagementService::loadProjectByName(std::string name)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
-#ifdef WIN32
   Noir::inst().getLogger()->info(
       "Project loaded by name: {}, {}, {}", name, boost::uuids::to_string(id),
       std::string(maybeLoadedProject->second.paperSettings));
-#endif
 }
 
 void ProjectManagementService::unloadProject()
 {
   PBDev::basicAssert(maybeLoadedProject != nullptr);
   maybeLoadedProject = nullptr;
-#ifdef WIN32
   Noir::inst().getLogger()->info("Project unloaded");
-#endif
 }
 
 void ProjectManagementService::saveMetadata()
@@ -258,10 +250,8 @@ void ProjectManagementService::renameProject(std::string oldName,
     auto newProjectPath = mPlatformInfo->projectPath(newName);
     auto oldProjectPath = mPlatformInfo->projectPath(oldName);
     std::filesystem::rename(oldProjectPath, newProjectPath);
-#ifdef WIN32
     Noir::inst().getLogger()->info("Project renamed: {} -> {}", oldName,
                                    newName);
-#endif
   }
 }
 

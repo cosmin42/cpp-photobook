@@ -2,7 +2,11 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
+#ifdef WIN32
 #include <spdlog/sinks/msvc_sink.h>
+#elif __APPLE__
+#include <spdlog/sinks/stdout_sinks.h>
+#endif
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
@@ -108,9 +112,12 @@ public:
 #ifdef WIN32
         mLogger = std::make_shared<spdlog::logger>(
             "msvc_logger", std::make_shared<spdlog::sinks::msvc_sink_mt>());
+#elif __APPLE__
+        mLogger = std::make_shared<spdlog::logger>(
+            "xcode_logger", std::make_shared<spdlog::sinks::stdout_sink_mt>());
+#endif
         mLogger->set_level(spdlog::level::debug);
         mLogger->info("Log init succeeded");
-#endif
       }
       catch (const spdlog::spdlog_ex &ex) {
         (void)ex;
