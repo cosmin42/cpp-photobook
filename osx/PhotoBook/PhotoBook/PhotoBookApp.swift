@@ -16,7 +16,7 @@ private var photobookUIListener: PhotobookUIListener? = nil;
         photobookUIListener?.onProjectRead()
     }
     
-    func onMetadataUpdated(focusedName: String)
+    func onMetadataUpdated(_ focusedName: String)
     {
         photobookUIListener?.onMetadataUpdated(focusedName:focusedName)
     }
@@ -30,7 +30,7 @@ private var photobookUIListener: PhotobookUIListener? = nil;
 
 
 @main
-struct PhotoBookApp: App, PhotobookUIListener {
+struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var photobook: Photobook = Photobook()
     @State var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
@@ -44,12 +44,17 @@ struct PhotoBookApp: App, PhotobookUIListener {
     
     var body: some Scene {
         WindowGroup {
-            DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+            NavigationStack {
+                DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+            }
         }
     }
     
-    func onProjectRead(){}
-    func onMetadataUpdated(focusedName: String){}
+    // TODO: We don't need PhotobookUIListener here
+    func onProjectRead() {}
+    func onMetadataUpdated(focusedName: String) {}
+    func onNoirLutAdded() {}
+    func onNoirError() {}
     
     static func setListener(listener: PhotobookUIListener)
     {

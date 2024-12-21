@@ -126,19 +126,18 @@ struct DashboardView: View, PhotobookUIListener {
             self.photobook.start()
             self.photobook.recallMetadata()
         }
-        // Hidden NavigationLink for programmatic navigation
         NavigationLink(
-            destination: TableContentView(),
+            destination: TableContentView(photobook:self.photobook),
             isActive: $navigateToTable
         ) {
             EmptyView()
         }
     }
-    
+
     func onProjectRead(){
         
     }
-    
+
     func onMetadataUpdated(focusedName: String){
         projectsList = photobook.projectsList()
         
@@ -148,6 +147,12 @@ struct DashboardView: View, PhotobookUIListener {
         
         for _ in 0..<columnsCount {
             columns.append(GridItem(spacing: 10, alignment: .leading))
+        }
+
+        if (!focusedName.isEmpty)
+        {
+            print("Navigate to table.")
+            navigateToTable = true
         }
     }
 }

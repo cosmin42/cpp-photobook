@@ -344,6 +344,7 @@
 		732BA5A72CE6B1EE00916922 /* libcompression_utils_portable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */; platformFilter = ios; };
 		732BA5A82CE6B1EF00916922 /* libbentleyottmann.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5802CE6B1BC00916922 /* libbentleyottmann.a */; platformFilter = ios; };
 		734C64DC2CFA5AC000F8F9D6 /* libpblib-Darwin-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */; platformFilters = (macos, ); };
+		7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */; };
 		73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
@@ -803,6 +804,7 @@
 		732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcompression_utils_portable.a; path = "../../PB/third-party/ios/skia/arm64/libcompression_utils_portable.a"; sourceTree = "<group>"; };
 		734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin-macos.a"; path = "../../PB/build/libpblib-Darwin-macos.a"; sourceTree = "<group>"; };
 		734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = all.xcodeproj; path = "/Users/cosminmihai/cpp-exercise-photobook/PB/third-party/osx/skia/x86_64/all.xcodeproj"; sourceTree = "<absolute>"; };
+		7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirUIListener.swift; sourceTree = "<group>"; };
 		73769A1D2AEEFA6400E9B5C2 /* TableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentView.swift; sourceTree = "<group>"; };
 		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
 		7391647B2CC4F7E200703394 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = "../../PB/pb-assets/shaders"; sourceTree = "<group>"; };
@@ -1624,6 +1626,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */,
 				739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */,
 				73023A3B2CD7B9F3005EA3CF /* PhotobookUIListener.swift */,
 				73023A392CD79C4C005EA3CF /* ProjectMetadataEntry.mm */,
@@ -1827,6 +1830,7 @@
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
 				739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
+				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				73023A3C2CD7B9FD005EA3CF /* PhotobookUIListener.swift in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,

@@ -17,10 +17,6 @@
 - (void)onProjectRead {
 }
 
-- (void)onMetadataUpdated:(NSString*)focusedName {
-    
-}
-
 @end
 
 @implementation NoirListenerWrapperCLevel
