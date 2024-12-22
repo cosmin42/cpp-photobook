@@ -21,6 +21,38 @@ struct TableContentView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
+                HStack(spacing: 16) { // Adjust spacing as needed
+                    Button(action: {
+                        print("Button 1 tapped")
+                    }) {
+                        Text("Button 1")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        print("Button 2 tapped")
+                    }) {
+                        Text("Button 2")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        print("Button 3 tapped")
+                    }) {
+                        Text("Button 3")
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
+                .padding()
                 HStack {
                     TabView {
                         VStack{
