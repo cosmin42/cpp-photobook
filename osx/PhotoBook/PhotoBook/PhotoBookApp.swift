@@ -11,7 +11,6 @@ private var photobookUIListener: PhotobookUIListener? = nil;
 
 @objc extension PhotobookListenerWrapperCLevel
 {
-
     func onProjectRead() {
         photobookUIListener?.onProjectRead()
     }
@@ -28,27 +27,36 @@ private var photobookUIListener: PhotobookUIListener? = nil;
     func onNoirError(){}
 }
 
-
 @main
 struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var photobook: Photobook = Photobook()
     @State var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
+    @State var navigationPath: [String] = []
     init()
     {
         photobookUIListener = self;
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
-        
+        navigationPath = ["Dashboard"]
     }
-    
+
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+            NavigationStack (path: $navigationPath) {
+                DashboardView(navigationPath:$navigationPath, buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+                    .navigationDestination(for: String.self) { value in
+                        if value == "Dashboard" {
+                            DashboardView(navigationPath: $navigationPath, buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+                        }
+                        else if value == "Table" {
+                            TableContentView(navigationPath: $navigationPath, photobook:self.photobook)
+                        }
+                    }
             }
         }
     }
+    
     
     // TODO: We don't need PhotobookUIListener here
     func onProjectRead() {}

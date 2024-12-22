@@ -22,6 +22,7 @@ struct DashboardView: View, PhotobookUIListener {
     @State private var projectsList: [ProjectMetadataEntry] = []
     @State private var toRenameProjectName: String = ""
     @State private var navigateToTable = false
+    @Binding var navigationPath: [String]
     
     let options = ["A3 Portrait",
                    "A3 Landscape",
@@ -38,13 +39,12 @@ struct DashboardView: View, PhotobookUIListener {
         GridItem()
     ]
     
-    init(buttonBackgroundColor:Color, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, buttonBackgroundColor:Color, photobook: Photobook)
     {
         self.buttonBackgroundColor = buttonBackgroundColor
         _photobook = State(initialValue: photobook)
-        
+        _navigationPath = navigationPath
         _paperSetting = State(initialValue: PaperSettings.getDefaultSettings(PaperType.A4_Landscape))
-        
         _paperWidthText = State(initialValue: String(self.paperSetting.width))
         _paperHeightText = State(initialValue: String(self.paperSetting.height))
         _paperPpiText = State(initialValue: String(self.paperSetting.ppi))
@@ -126,12 +126,6 @@ struct DashboardView: View, PhotobookUIListener {
             self.photobook.start()
             self.photobook.recallMetadata()
         }
-        NavigationLink(
-            destination: TableContentView(photobook:self.photobook),
-            isActive: $navigateToTable
-        ) {
-            EmptyView()
-        }
     }
 
     func onProjectRead(){
@@ -151,8 +145,7 @@ struct DashboardView: View, PhotobookUIListener {
 
         if (!focusedName.isEmpty)
         {
-            print("Navigate to table.")
-            navigateToTable = true
+            navigationPath.append("Table")
         }
     }
 }
@@ -302,11 +295,5 @@ struct DeleteProjectDialog: View {
                 }
             }
         }
-    }
-}
-
-struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook: Photobook())
     }
 }

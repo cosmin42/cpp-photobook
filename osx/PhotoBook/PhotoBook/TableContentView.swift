@@ -10,10 +10,12 @@ import SwiftUI
 struct TableContentView: View {
     @State private var navigateToDashboard = false
     @State var photobook: Photobook
+    @Binding var navigationPath: [String]
     
-    init(photobook: Photobook)
+    init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
+        _navigationPath = navigationPath
     }
     
     var body: some View {
@@ -22,6 +24,7 @@ struct TableContentView: View {
                 Button(action: {
                     print("Back button tapped")
                     navigateToDashboard = true
+                    navigationPath.removeLast()
                 }) {
                     Text("Back")
                         .padding()
@@ -29,15 +32,11 @@ struct TableContentView: View {
                         .background(Color.blue)
                         .cornerRadius(8)
                 }
+                .frame(width: 500, height: 600)
             }
-            .padding()
+            .frame(alignment: .topLeading)
         }
-        NavigationLink(
-            destination: DashboardView(buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook),
-            isActive: $navigateToDashboard
-        ) {
-            EmptyView()
-        }
+        .frame(alignment: .topLeading)
     }
 }
 
