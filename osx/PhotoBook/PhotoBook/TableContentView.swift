@@ -19,24 +19,93 @@ struct TableContentView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Button(action: {
-                    print("Back button tapped")
-                    navigateToDashboard = true
-                    navigationPath.removeLast()
-                }) {
-                    Text("Back")
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue)
-                        .cornerRadius(8)
+        GeometryReader { geometry in
+            VStack {
+                HStack {
+                    TabView {
+                        VStack{
+                            // Left-side list
+                            List(0..<20, id: \.self) { item in
+                                Text("Item \(item)")
+                            }
+                            .frame(width: geometry.size.width * 0.3)
+                            
+                            Button("Add Media"){}
+                            Button("Remove"){}
+                        }
+                        .tabItem {
+                            Label("Media", systemImage: "house")
+                        }
+                        
+                        VStack{
+                            // Left-side list
+                            List(0..<20, id: \.self) { item in
+                                Text("Item \(item)")
+                            }
+                            .frame(width: geometry.size.width * 0.3)
+                        }
+                        .tabItem {
+                            Label("Collages", systemImage: "house")
+                        }
+                        
+                        VStack{
+                            // Left-side list
+                            List(0..<20, id: \.self) { item in
+                                Text("Item \(item)")
+                            }
+                            .frame(width: geometry.size.width * 0.3)
+                        }
+                        .tabItem {
+                            Label("LUTs", systemImage: "house")
+                        }
+                    }
+                    
+                    // Right-side canvas
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .overlay(
+                            Text("Canvas Area")
+                                .foregroundColor(.black)
+                                .font(.headline)
+                        )
                 }
-                .frame(width: 500, height: 600)
+                
+                // Bottom horizontal lists
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0..<10, id: \.self) { item in
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.blue)
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Text("Item \(item)")
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(0..<10, id: \.self) { item in
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.green)
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Text("Item \(item)")
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+                .frame(height: geometry.size.height * 0.3)
             }
-            .frame(alignment: .topLeading)
         }
-        .frame(alignment: .topLeading)
     }
 }
 
