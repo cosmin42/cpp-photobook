@@ -92,15 +92,22 @@ struct TableContentView: View {
                         }
                     }
                     
-                    // Right-side canvas
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .overlay(
-                            Text("Canvas Area")
-                                .foregroundColor(.black)
-                                .font(.headline)
-                        )
+                    VStack {
+                        // Right-side canvas
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .overlay(
+                                Text("Canvas Area")
+                                    .foregroundColor(.black)
+                                    .font(.headline)
+                            )
+                        HStack {
+                            Button("<"){}
+                            Text("Image name")
+                            Button(">"){}
+                        }
+                    }
                 }
                 
                 // Bottom horizontal lists
