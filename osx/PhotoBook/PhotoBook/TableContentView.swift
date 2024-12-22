@@ -61,9 +61,6 @@ struct TableContentView: View {
                                 Text("Item \(item)")
                             }
                             .frame(width: geometry.size.width * 0.3)
-                            
-                            Button("Add Media"){}
-                            Button("Remove"){}
                         }
                         .tabItem {
                             Label("Media", systemImage: "house")
