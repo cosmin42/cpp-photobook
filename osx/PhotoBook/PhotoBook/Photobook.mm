@@ -157,6 +157,11 @@ NoirListenerManaged* mNoirListener = nullptr;
     return result;
 }
 
+- (void) unloadProject
+{
+    mPhotobook->unloadProject();
+}
+
 - (void) rename:(NSString*)oldName newName:(NSString*)newName
 {
     std::string nativeOldName = [oldName UTF8String];

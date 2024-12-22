@@ -1627,8 +1627,8 @@
 			isa = PBXGroup;
 			children = (
 				7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */,
-				739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */,
 				73023A3B2CD7B9F3005EA3CF /* PhotobookUIListener.swift */,
+				739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */,
 				73023A392CD79C4C005EA3CF /* ProjectMetadataEntry.mm */,
 				73023A382CD79C3F005EA3CF /* ProjectMetadataEntry.h */,
 				73AA29DF2CD5618800DAB031 /* PaperSettings.h */,

@@ -34,6 +34,7 @@
 - (void) RecallMetadata;
 - (void) rename:(NSString*)oldName newName:(NSString*)newName;
 - (void) remove:(NSString*)projectId;
+- (void) unloadProject;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 @end
 

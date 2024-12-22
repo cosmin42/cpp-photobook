@@ -217,6 +217,10 @@ struct TableContentView: View {
                 .frame(height: geometry.size.height * 0.3)
             }
         }
+        .onDisappear()
+        {
+            self.photobook.unloadProject()
+        }
     }
 }
 
