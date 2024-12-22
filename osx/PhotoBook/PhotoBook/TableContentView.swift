@@ -12,6 +12,8 @@ struct TableContentView: View {
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
     
+    @State var tabViewRatio = 0.5
+    
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -20,50 +22,118 @@ struct TableContentView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(alignment: .leading) {
                 HStack(spacing: 16) { // Adjust spacing as needed
                     Button(action: {
-                        print("Button 1 tapped")
+                        print("Add Media tapped")
                     }) {
-                        Text("Button 1")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Image(systemName: "plus") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
                     }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
                     
                     Button(action: {
-                        print("Button 2 tapped")
+                        print("Remove media tapped")
                     }) {
-                        Text("Button 2")
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Image(systemName: "trash") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
                     }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
                     
                     Button(action: {
-                        print("Button 3 tapped")
+                        print("Save tapped")
                     }) {
-                        Text("Button 3")
-                            .padding()
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Image(systemName: "square.and.arrow.down") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
                     }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    
+                    Button(action: {
+                        print("Preview tapped")
+                    }) {
+                        Image(systemName: "eye") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    
+                    Divider()
+                        .frame(height: 32) // Set the height of the separator
+                        .background(Color.gray) // Set the color of the divider
+                    
+                    Button(action: {
+                        print("Make collage tapped")
+                    }) {
+                        Image(systemName: "square.grid.2x2") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    
+                    Button(action: {
+                        print("Send tapped")
+                    }) {
+                        Image(systemName: "paperplane.fill") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    
+                    Button(action: {
+                        print("Help tapped")
+                    }) {
+                        Image(systemName: "questionmark.circle") // Predefined system icon
+                            .resizable() // Optional: Makes the icon resizable
+                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
+                            .frame(width: 32, height: 32) // Set the size of the icon
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.PrimaryColor)
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
                 }
-                .padding()
+                .frame(alignment: .leading)
+                .background(Color.PrimaryColor)
                 HStack {
                     TabView {
                         VStack{
                             // Left-side list
-                            List(0..<20, id: \.self) { item in
+                            List(0..<50, id: \.self) { item in
                                 Text("Item \(item)")
                             }
-                            .frame(width: geometry.size.width * 0.3)
+                            .frame(width: geometry.size.width * tabViewRatio)
                         }
+                        .frame(alignment:.leading)
                         .tabItem {
                             Label("Media", systemImage: "house")
+                                .frame(alignment:.leading)
                         }
                         
                         VStack{
@@ -71,10 +141,12 @@ struct TableContentView: View {
                             List(0..<20, id: \.self) { item in
                                 Text("Item \(item)")
                             }
-                            .frame(width: geometry.size.width * 0.3)
+                            .frame(width: geometry.size.width * tabViewRatio)
                         }
+                        .frame(alignment:.leading)
                         .tabItem {
                             Label("Collages", systemImage: "house")
+                                .frame(alignment:.leading)
                         }
                         
                         VStack{
@@ -82,12 +154,15 @@ struct TableContentView: View {
                             List(0..<20, id: \.self) { item in
                                 Text("Item \(item)")
                             }
-                            .frame(width: geometry.size.width * 0.3)
+                            .frame(width: geometry.size.width * tabViewRatio)
                         }
+                        .frame(alignment:.leading)
                         .tabItem {
                             Label("LUTs", systemImage: "house")
+                                .frame(alignment:.leading)
                         }
                     }
+                    .frame(alignment:.leading)
                     
                     VStack {
                         // Right-side canvas
