@@ -28,53 +28,53 @@ struct TableContentView: View {
                         print("Add Media tapped")
                     }) {
                         Image(systemName: "plus") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         print("Remove media tapped")
                     }) {
                         Image(systemName: "trash") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         print("Save tapped")
                     }) {
                         Image(systemName: "square.and.arrow.down") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         print("Preview tapped")
                     }) {
                         Image(systemName: "eye") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Divider()
                         .frame(height: 32) // Set the height of the separator
@@ -84,40 +84,40 @@ struct TableContentView: View {
                         print("Make collage tapped")
                     }) {
                         Image(systemName: "square.grid.2x2") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         print("Send tapped")
                     }) {
                         Image(systemName: "paperplane.fill") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
                         print("Help tapped")
                     }) {
                         Image(systemName: "questionmark.circle") // Predefined system icon
-                            .resizable() // Optional: Makes the icon resizable
                             .scaledToFit() // Optional: Ensures it maintains its aspect ratio
                             .frame(width: 32, height: 32) // Set the size of the icon
                             .foregroundColor(Color.MainFontColor)
-                            .background(Color.PrimaryColor)
+                            .background(Color.clear)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
@@ -127,6 +127,7 @@ struct TableContentView: View {
                             // Left-side list
                             List(0..<50, id: \.self) { item in
                                 Text("Item \(item)")
+                                    .listRowBackground(Color.PrimaryColor)
                             }
                             .frame(width: geometry.size.width * tabViewRatio)
                         }
@@ -221,6 +222,8 @@ struct TableContentView: View {
         {
             self.photobook.unloadProject()
         }
+        .foregroundColor(Color.MainFontColor)
+        .background(Color.PrimaryColor)
     }
 }
 
