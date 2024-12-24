@@ -13,6 +13,7 @@ struct TableContentView: View {
     @Binding var navigationPath: [String]
     
     @State var tabViewRatio = 0.5
+    @State var selectedTab: Int = 0
     
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
@@ -122,48 +123,77 @@ struct TableContentView: View {
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
                 HStack {
-                    TabView {
-                        VStack{
-                            // Left-side list
-                            List(0..<50, id: \.self) { item in
-                                Text("Item \(item)")
-                                    .listRowBackground(Color.PrimaryColor)
+                    VStack(alignment:.leading) {
+                        HStack {
+                            Button(action: {
+                                selectedTab = 0 // Change the tab to the second one
+                            }){
+                                Text("Media")
                             }
-                            .frame(width: geometry.size.width * tabViewRatio)
+                            .frame(alignment:.leading)
+                            .buttonStyle(PlainButtonStyle())
+                            Divider()
+                                .background(Color.gray)
+                                .frame(height: 24)
+                            Button(action: {
+                                selectedTab = 1 // Change the tab to the second one
+                            }){
+                                Text("Collages")
+                            }
+                            .frame(alignment:.leading)
+                            .buttonStyle(PlainButtonStyle())
+                            Divider()
+                                .background(Color.gray)
+                                .frame(height: 24)
+                            Button(action: {
+                                selectedTab = 2 // Change the tab to the second one
+                            }){
+                                Text("LUTs")
+                            }
+                            .frame(alignment:.leading)
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding()
+                        .background(Color.PrimaryColor)
+                        TabView(selection: $selectedTab) {
+                            VStack{
+                                // Left-side list
+                                List(0..<50, id: \.self) { item in
+                                    Text("Item \(item)")
+                                        .listRowBackground(Color.PrimaryColor)
+                                }
+                                .frame(width: geometry.size.width * tabViewRatio)
+                                .scrollIndicators(.hidden)
+                            }
+                            .frame(alignment:.leading)
+                            .tag(0)
+                            .scrollIndicators(.hidden)
+                            
+                            VStack{
+                                // Left-side list
+                                List(0..<20, id: \.self) { item in
+                                    Text("Item \(item)")
+                                }
+                                .frame(width: geometry.size.width * tabViewRatio)
+                            }
+                            .frame(alignment:.leading)
+                            .tag(1)
+                            
+                            VStack{
+                                // Left-side list
+                                List(0..<20, id: \.self) { item in
+                                    Text("Item \(item)")
+                                }
+                                .frame(width: geometry.size.width * tabViewRatio)
+                            }
+                            .frame(alignment:.leading)
+                            .tag(2)
                         }
                         .frame(alignment:.leading)
-                        .tabItem {
-                            Label("Media", systemImage: "house")
-                                .frame(alignment:.leading)
-                        }
-                        
-                        VStack{
-                            // Left-side list
-                            List(0..<20, id: \.self) { item in
-                                Text("Item \(item)")
-                            }
-                            .frame(width: geometry.size.width * tabViewRatio)
-                        }
-                        .frame(alignment:.leading)
-                        .tabItem {
-                            Label("Collages", systemImage: "house")
-                                .frame(alignment:.leading)
-                        }
-                        
-                        VStack{
-                            // Left-side list
-                            List(0..<20, id: \.self) { item in
-                                Text("Item \(item)")
-                            }
-                            .frame(width: geometry.size.width * tabViewRatio)
-                        }
-                        .frame(alignment:.leading)
-                        .tabItem {
-                            Label("LUTs", systemImage: "house")
-                                .frame(alignment:.leading)
-                        }
+                        .scrollIndicators(.hidden)
+                        .border(Color.BorderColor, width: 1)
                     }
-                    .frame(alignment:.leading)
+                    .scrollIndicators(.hidden)
                     
                     VStack {
                         // Right-side canvas
@@ -181,6 +211,8 @@ struct TableContentView: View {
                             Button(">"){}
                         }
                     }
+                    .padding()
+                    .border(Color.BorderColor, width: 1)
                 }
                 
                 // Bottom horizontal lists
@@ -216,6 +248,7 @@ struct TableContentView: View {
                     }
                 }
                 .frame(height: geometry.size.height * 0.3)
+                .border(Color.BorderColor, width: 1)
             }
         }
         .onDisappear()
