@@ -172,7 +172,7 @@ struct NewProjectDialog: View {
             Text("New Album")
                 .font(.headline)
             
-            Picker("ALbum Settings", selection: $selectedOption) {
+            Picker("Album Settings", selection: $selectedOption) {
                 ForEach(options, id: \.self) { option in
                     Text(option).tag(option)
                 }
@@ -183,7 +183,7 @@ struct NewProjectDialog: View {
                     paperSettings = PaperSettings.getDefaultSettings(byName: newValue)
                     
                     paperWidthText = String(paperSettings.width)
-                    paperWidthText = String(paperSettings.height)
+                    paperHeightText = String(paperSettings.height)
                     paperPpiText = String(paperSettings.ppi)
                 }
             }

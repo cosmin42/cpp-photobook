@@ -133,7 +133,7 @@ NoirListenerManaged* mNoirListener = nullptr;
 
 - (void) NewProject:(PaperSettings*)paperSettings
 {
-    PB::PaperSettings nativePaperSettings = {(PB::PaperType)paperSettings.paperType, paperSettings.width, paperSettings.height, paperSettings.ppi};
+    PB::PaperSettings nativePaperSettings = {(PB::PaperType)paperSettings.paperType, paperSettings.ppi, paperSettings.width, paperSettings.height};
     mPhotobook->projectManagementService()->newProject(nativePaperSettings);
 }
 
