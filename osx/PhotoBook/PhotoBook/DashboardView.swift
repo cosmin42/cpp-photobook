@@ -52,86 +52,91 @@ struct DashboardView: View, PhotobookUIListener {
     
     //var photobook: Photobook
     var body: some View {
-        HStack {
-            Spacer()
+        GeometryReader { geometry in
             HStack {
-                Spacer()
-                // Button with specific size in the center
-                Button(action: {
-                    print("Button was tapped!")
-                    isDialogVisible = true
-                }) {
-                    Text("+").frame(minWidth: 100, minHeight: 100)
-                        .padding()
-                        .background(buttonBackgroundColor)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                .sheet(isPresented: $isDialogVisible) {
-                    // Dialog content
-                    NewProjectDialog(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
-                }
-                Spacer()
-            }
-            
-            LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(projectsList, id: \.self) { item in
-                    // Each item in the grid
+                HStack {
+                    
+                    // Button with specific size in the center
                     Button(action: {
-                        print("Button was pressed!")
-                    }){
-                        Text("\(item.name)")
-                            .frame(minWidth: 100, minHeight: 100)
+                        print("Button was tapped!")
+                        isDialogVisible = true
+                    }) {
+                        Text("+").frame(minWidth: 100, minHeight: 100)
                             .padding()
                             .background(buttonBackgroundColor)
-                        
+                            .frame(alignment:.leading)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .foregroundColor(.white)
                     .cornerRadius(8)
-                    .contextMenu {
+                    .sheet(isPresented: $isDialogVisible) {
+                        // Dialog content
+                        NewProjectDialog(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
+                    }
+                }
+                .frame(width: geometry.size.width * 0.5)
+                
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(projectsList, id: \.self) { item in
+                        // Each item in the grid
                         Button(action: {
-                            toRenameProjectName = item.name
-                            isRenameDialogVisible = true
+                            print("Button was pressed!")
+                        }){
+                            Text("\(item.name)")
+                                .frame(minWidth: 100, minHeight: 100)
+                                .padding()
+                                .background(buttonBackgroundColor)
                             
-                        }) {
-                            Text("Rename")
-                            Image(systemName: "pencil")
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                        .contextMenu {
+                            Button(action: {
+                                toRenameProjectName = item.name
+                                isRenameDialogVisible = true
+                                
+                            }) {
+                                Text("Rename")
+                                Image(systemName: "pencil")
+                            }
+                            
+                            Button(action: {
+                                print("Pressed delete")
+                            }) {
+                                Text("Delete")
+                                Image(systemName: "trash")
+                            }
                         }
                         
-                        Button(action: {
-                            print("Pressed delete")
-                        }) {
-                            Text("Delete")
-                            Image(systemName: "trash")
-                        }
                     }
-                    
                 }
+                .frame(alignment:.leading)
+                .sheet(isPresented: $isRenameDialogVisible) {
+                    RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
+                }
+                .sheet(isPresented: $isDeleteDialogVisible) {
+                    DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
+                }
+                .frame(width: geometry.size.width * 0.5, height: geometry.size.height)
             }
-            .sheet(isPresented: $isRenameDialogVisible) {
-                RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
-            }
-            .sheet(isPresented: $isDeleteDialogVisible) {
-                DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
-            }
-            .frame(alignment: .center)
             .padding()
-        }
-        .padding()
-        .onAppear()
-        {
-            PhotoBookApp.setListener(listener: self)
-            self.photobook.start()
-            self.photobook.recallMetadata()
+            .onAppear()
+            {
+                PhotoBookApp.setListener(listener: self)
+                self.photobook.start()
+                self.photobook.recallMetadata()
+            }
+            .foregroundColor(Color.MainFontColor)
+            .background(Color.PrimaryColor)
         }
     }
-
+    
+    
     func onProjectRead(){
         
     }
-
+    
     func onMetadataUpdated(focusedName: String){
         projectsList = photobook.projectsList()
         
@@ -142,7 +147,7 @@ struct DashboardView: View, PhotobookUIListener {
         for _ in 0..<columnsCount {
             columns.append(GridItem(spacing: 10, alignment: .leading))
         }
-
+        
         if (!focusedName.isEmpty)
         {
             navigationPath.append("Table")
