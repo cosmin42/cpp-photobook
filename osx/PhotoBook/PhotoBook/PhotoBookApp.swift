@@ -33,6 +33,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var photobookListenerWrapperCLevel = PhotobookListenerWrapperCLevel()
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
     @State var navigationPath: [String] = []
+    @State private var isPropertiesDetailsDialogVisible = false
     init()
     {
         photobookUIListener = self;
@@ -40,7 +41,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
         navigationPath = ["Dashboard"]
     }
-
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack (path: $navigationPath) {
@@ -54,9 +55,22 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                         }
                     }
             }
+            .sheet(isPresented: $isPropertiesDetailsDialogVisible)
+            {
+                PropertiesDetailsDialog(isPropertiesDetailsDialogVisible: $isPropertiesDetailsDialogVisible, photobook: $photobook)
+            }
+        }
+        .commands {
+            CommandGroup(after: .newItem) {
+                if navigationPath.last == "Table" {
+                    Button("Properties") {
+                        isPropertiesDetailsDialogVisible = true;
+                    }
+                    .keyboardShortcut("P", modifiers: [.command, .shift]) // Add a shortcut
+                }
+            }
         }
     }
-    
     
     // TODO: We don't need PhotobookUIListener here
     func onProjectRead() {}
@@ -67,5 +81,16 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     static func setListener(listener: PhotobookUIListener)
     {
         photobookUIListener = listener
+    }
+}
+
+struct PropertiesDetailsDialog: View {
+    @Binding var isPropertiesDetailsDialogVisible: Bool
+    @Binding var photobook: Photobook
+    var body: some View {
+        Text("Lorem ipsum dolor")
+        Button(action:{isPropertiesDetailsDialogVisible = false;}){
+            Text("Close")
+        }
     }
 }
