@@ -69,6 +69,14 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                     .keyboardShortcut("P", modifiers: [.command, .shift]) // Add a shortcut
                 }
             }
+            CommandGroup(replacing: CommandGroupPlacement.help) {
+                Button("App Help") {
+                }
+                Divider()
+                Button("License") {
+                }
+            }
+            
         }
     }
     
