@@ -484,4 +484,29 @@ void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
   UNUSED(searchResults);
 }
 
+std::string Photobook::help(std::string name) const
+{
+  const std::unordered_map<std::string, std::string> files =
+    {
+      {"help", "help.txt"},
+      {"license", "license.txt"}
+    };
+
+    PBDev::basicAssert(files.find(name) != files.end());
+
+    std::ifstream file(files.at(name));
+    if (!file) {
+        PBDev::basicAssert(false);
+    }
+    std::string content;
+    std::string line;
+    while (std::getline(file, line)) {
+        content += line + '\n';
+    }
+
+    file.close();
+
+    return content;
+}
+
 } // namespace PB

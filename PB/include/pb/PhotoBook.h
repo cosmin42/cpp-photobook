@@ -107,6 +107,8 @@ public:
 
   std::shared_ptr<ProjectManagementService> projectManagementService() const;
 
+  std::string help(std::string name) const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   NoirListener                             *mNoirListener = nullptr;

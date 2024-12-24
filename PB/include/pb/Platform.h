@@ -72,5 +72,10 @@ struct PlatformInfo {
   {
     return localStatePath / OneConfig::PROCESSED_LUTS_FOLDER_NAME;
   }
+
+  Path textFiles(std::string textFile) const
+  {
+    return installationPath / textFile;
+  }
 };
 } // namespace PB
