@@ -10,8 +10,6 @@
 #include "PaperSettings.h"
 
 #include <pb/Config.h>
-#include <pb/entities/PaperSettings.h>
-
 
 @implementation PaperSettings
 - (id) initWithCpp:(PB::PaperSettings) paperSettings

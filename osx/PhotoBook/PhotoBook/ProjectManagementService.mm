@@ -31,4 +31,12 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
     projectManagementServiceCpp->renameProject(nativeOldName, nativeNewName);
 }
 
+- (PaperSettings*) paperSettings
+{
+    auto project = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    auto nativePaperSettings = project->second.paperSettings;
+    
+    return [[PaperSettings alloc] initWithCpp: nativePaperSettings];
+}
+
 @end

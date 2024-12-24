@@ -87,10 +87,23 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
 struct PropertiesDetailsDialog: View {
     @Binding var isPropertiesDetailsDialogVisible: Bool
     @Binding var photobook: Photobook
+    @State var details = "Lorem ipsum dolor"
+    
     var body: some View {
-        Text("Lorem ipsum dolor")
+        Text(details)
+            .onAppear()
+        {
+            var paperSettings = self.photobook.projectManagementService().paperSettings()
+            self.details = """
+            Paper Type: \(paperSettings?.paperType)
+            Paper Width: \(paperSettings?.width)
+            Paper Height: \(paperSettings?.height)
+            """
+        }
+        .padding()
         Button(action:{isPropertiesDetailsDialogVisible = false;}){
             Text("Close")
         }
+        .padding()
     }
 }

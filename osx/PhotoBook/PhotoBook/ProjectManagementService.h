@@ -12,12 +12,16 @@
 #include <pb/services/ProjectManagementService.h>
 #endif
 
+#include "PaperSettings.h"
+
 @interface ProjectManagementServiceWrapper : NSObject
 #if __cplusplus
 - (id) initWithCpp:(std::shared_ptr<PB::Service::ProjectManagementService>)projectManagementService;
 #endif
 - (void)removeByName:(NSString*)name;
 - (void)rename:(NSString*)oldName newName:(NSString*)newName;
+
+- (PaperSettings*) paperSettings;
 @end
 
 #endif
