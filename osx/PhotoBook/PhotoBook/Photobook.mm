@@ -177,4 +177,10 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->projectManagementService()->deleteProject(projectIduuid);
 }
 
+- (ProjectManagementServiceWrapper*) projectManagementService
+{
+    auto projectManagementService = mPhotobook->projectManagementService();
+    return [[ProjectManagementServiceWrapper alloc] initWithCpp: projectManagementService];
+}
+
 @end

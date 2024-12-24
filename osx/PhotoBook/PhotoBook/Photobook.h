@@ -10,6 +10,7 @@
 
 #include "PaperSettings.h"
 #include "ProjectMetadataEntry.h"
+#include "ProjectManagementService.h"
 
 @interface PhotobookListenerWrapperCLevel: NSObject
 - (void)onProjectRead;
@@ -36,6 +37,7 @@
 - (void) remove:(NSString*)projectId;
 - (void) unloadProject;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
+- (ProjectManagementServiceWrapper*) projectManagementService;
 @end
 
 #endif /* Photobook_h */

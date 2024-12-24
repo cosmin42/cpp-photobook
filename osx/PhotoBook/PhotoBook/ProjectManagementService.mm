@@ -6,8 +6,6 @@
 //
 #import <Foundation/Foundation.h>
 
-#include <pb/services/ProjectManagementService.h>
-
 #include "ProjectManagementService.h"
 
 @implementation ProjectManagementServiceWrapper
