@@ -76,7 +76,7 @@ struct DashboardView: View, PhotobookUIListener {
                 }
                 .frame(width: geometry.size.width * 0.5)
                 
-                LazyVGrid(columns: columns, spacing: 10) {
+                LazyHGrid(rows: columns, spacing: 10) {
                     ForEach(projectsList, id: \.self) { item in
                         // Each item in the grid
                         Button(action: {
@@ -140,7 +140,7 @@ struct DashboardView: View, PhotobookUIListener {
     func onMetadataUpdated(focusedName: String){
         projectsList = photobook.projectsList()
         
-        let columnsCount: Int = Int(sqrt(Double(projectsList.count)))
+        let columnsCount: Int = Int(sqrt(Double(projectsList.count))) + 1
         
         columns.removeAll()
         
