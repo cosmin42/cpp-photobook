@@ -7,3 +7,4 @@
 #include "PaperSettings.h"
 #include "ProjectMetadataEntry.h"
 #include "Photobook.h"
+#include "ProjectManagementService.h"

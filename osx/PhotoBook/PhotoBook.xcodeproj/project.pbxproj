@@ -360,6 +360,7 @@
 		73C4ECB42AA0C0E3006C4108 /* PhotoBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECB32AA0C0E3006C4108 /* PhotoBookTests.swift */; };
 		73C4ECBE2AA0C0E3006C4108 /* PhotoBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECBD2AA0C0E3006C4108 /* PhotoBookUITests.swift */; };
 		73C4ECC02AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */; };
+		73D02E5C2D18A2C50090476A /* ProjectManagementService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73D02E5B2D18A2C00090476A /* ProjectManagementService.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -825,6 +826,8 @@
 		73C4ECB92AA0C0E3006C4108 /* PhotoBookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoBookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECBD2AA0C0E3006C4108 /* PhotoBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITests.swift; sourceTree = "<group>"; };
 		73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		73D02E5A2D18A2970090476A /* ProjectManagementService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectManagementService.h; sourceTree = "<group>"; };
+		73D02E5B2D18A2C00090476A /* ProjectManagementService.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectManagementService.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1626,6 +1629,8 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73D02E5B2D18A2C00090476A /* ProjectManagementService.mm */,
+				73D02E5A2D18A2970090476A /* ProjectManagementService.h */,
 				7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */,
 				73023A3B2CD7B9F3005EA3CF /* PhotobookUIListener.swift */,
 				739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */,
@@ -1829,6 +1834,7 @@
 				73023A3A2CD79C4E005EA3CF /* ProjectMetadataEntry.mm in Sources */,
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
 				739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */,
+				73D02E5C2D18A2C50090476A /* ProjectManagementService.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
