@@ -162,13 +162,6 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->unloadProject();
 }
 
-- (void) rename:(NSString*)oldName newName:(NSString*)newName
-{
-    std::string nativeOldName = [oldName UTF8String];
-    std::string nativeNewName = [newName UTF8String];
-    mPhotobook->projectManagementService()->renameProject(nativeOldName, nativeNewName);
-}
-
 - (void) remove:(NSString*)projectId
 {
     std::string nativeProjectIdStr = [projectId UTF8String];
