@@ -45,6 +45,7 @@ public:
   void saveMetadata();
   void renameProject(std::string oldName, std::string newName);
   void deleteProject(boost::uuids::uuid id);
+  void deleteProjectByName(std::string name);
 
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
   projectsList() const;

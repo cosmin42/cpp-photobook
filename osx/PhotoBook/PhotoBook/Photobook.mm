@@ -162,14 +162,6 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->unloadProject();
 }
 
-- (void) remove:(NSString*)projectId
-{
-    std::string nativeProjectIdStr = [projectId UTF8String];
-    boost::uuids::string_generator generator;
-    boost::uuids::uuid projectIduuid = generator(nativeProjectIdStr);
-    mPhotobook->projectManagementService()->deleteProject(projectIduuid);
-}
-
 - (ProjectManagementServiceWrapper*) projectManagementService
 {
     auto projectManagementService = mPhotobook->projectManagementService();

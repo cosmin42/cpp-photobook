@@ -120,6 +120,24 @@ void ProjectManagementService::deleteProject(boost::uuids::uuid id)
   mProjectsMetadata.right.erase(projectName);
 }
 
+void ProjectManagementService::deleteProjectByName(std::string name)
+{
+  auto projectId = mProjectsMetadata.right.at(name);
+
+  auto projectData =
+      mPlatformInfo->projectFolderPath() / boost::uuids::to_string(projectId);
+
+  auto projectPath = mPlatformInfo->projectPath(name);
+
+  // TODO: Check return values
+  std::filesystem::remove_all(projectPath);
+  std::filesystem::remove_all(projectData);
+
+  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
+                               "uuid='" + boost::uuids::to_string(projectId) + "'");
+  mProjectsMetadata.right.erase(name);
+}
+
 std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
 ProjectManagementService::projectsList() const
 {

@@ -33,7 +33,6 @@
 - (NSString*) generateProjectName;
 - (void) NewProject:(PaperSettings*)paperSettings;
 - (void) RecallMetadata;
-- (void) remove:(NSString*)projectId;
 - (void) unloadProject;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
