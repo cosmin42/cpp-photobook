@@ -12,6 +12,9 @@
 		73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
 		73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049EB62C162BDB009EA667 /* OpenCL.framework */; platformFilters = (macos, ); };
 		7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
+		732A62282D1CBBDF0012CB8A /* DeleteProjectDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732A62272D1CBBD50012CB8A /* DeleteProjectDialog.swift */; };
+		732A622A2D1CBC1C0012CB8A /* RenameProjectDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732A62292D1CBC120012CB8A /* RenameProjectDialog.swift */; };
+		732A622C2D1CBC550012CB8A /* NewProjectDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732A622B2D1CBC4F0012CB8A /* NewProjectDialog.swift */; };
 		732BA3532CE6A49300916922 /* libopencv_video4d-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA3272CE6A48B00916922 /* libopencv_video4d-macos.a */; platformFilters = (macos, ); };
 		732BA3542CE6A49300916922 /* libabsl_throw_delegate-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA2E52CE6A47D00916922 /* libabsl_throw_delegate-macos.a */; platformFilters = (macos, ); };
 		732BA3552CE6A49300916922 /* libabsl_leak_check-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA31F2CE6A48A00916922 /* libabsl_leak_check-macos.a */; platformFilters = (macos, ); };
@@ -409,6 +412,9 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Photobook.mm; sourceTree = "<group>"; };
+		732A62272D1CBBD50012CB8A /* DeleteProjectDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProjectDialog.swift; sourceTree = "<group>"; };
+		732A62292D1CBC120012CB8A /* RenameProjectDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameProjectDialog.swift; sourceTree = "<group>"; };
+		732A622B2D1CBC4F0012CB8A /* NewProjectDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectDialog.swift; sourceTree = "<group>"; };
 		732BA2D12CE6A44A00916922 /* libpblib-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-macos.a"; path = "../../PB/build/libpblib-macos.a"; sourceTree = "<group>"; };
 		732BA2D32CE6A47C00916922 /* libGLEWd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGLEWd-macos.a"; path = "../../PB/vcpkg-fat/libGLEWd-macos.a"; sourceTree = "<group>"; };
 		732BA2D42CE6A47C00916922 /* libabsl_random_internal_distribution_test_util-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_distribution_test_util-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_distribution_test_util-macos.a"; sourceTree = "<group>"; };
@@ -1629,6 +1635,9 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				732A622B2D1CBC4F0012CB8A /* NewProjectDialog.swift */,
+				732A62292D1CBC120012CB8A /* RenameProjectDialog.swift */,
+				732A62272D1CBBD50012CB8A /* DeleteProjectDialog.swift */,
 				73D02E5B2D18A2C00090476A /* ProjectManagementService.mm */,
 				73D02E5A2D18A2970090476A /* ProjectManagementService.h */,
 				7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */,
@@ -1836,7 +1845,10 @@
 				739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */,
 				73D02E5C2D18A2C50090476A /* ProjectManagementService.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
+				732A622C2D1CBC550012CB8A /* NewProjectDialog.swift in Sources */,
+				732A62282D1CBBDF0012CB8A /* DeleteProjectDialog.swift in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
+				732A622A2D1CBC1C0012CB8A /* RenameProjectDialog.swift in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				73023A3C2CD7B9FD005EA3CF /* PhotobookUIListener.swift in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
