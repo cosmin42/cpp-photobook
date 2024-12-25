@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct DashboardView: View, PhotobookUIListener {
-    var buttonBackgroundColor: Color
     @State var photobook: Photobook
     
-    @State private var isDialogVisible = false
+    @State private var isNewProjectDialogVisible = false
     @State private var isRenameDialogVisible = false
-    @State private var isDeleteDialogVisible = false;
+    @State private var isDeleteDialogVisible = false
+    
     @State private var paperSetting: PaperSettings
     @State private var selectedOption = "A4 Landscape"
     @State private var paperWidthText: String = ""
     @State private var paperHeightText: String = ""
     @State private var paperPpiText: String = ""
+    
     @State private var projectsList: [ProjectMetadataEntry] = []
+    
     @State private var toRenameProjectName: String = ""
     @State private var toDeleteProjectName: String = ""
-    @State private var navigateToTable = false
+    
     @Binding var navigationPath: [String]
     
     let options = ["A3 Portrait",
@@ -34,15 +36,10 @@ struct DashboardView: View, PhotobookUIListener {
                    "Square",
                    "Custom"]
     
-    @State var columns = [
-        GridItem(), // Each column resizes based on available space
-        GridItem(),
-        GridItem()
-    ]
+    @State var columns:[GridItem] = []
     
-    init(navigationPath:Binding<[String]>, buttonBackgroundColor:Color, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
-        self.buttonBackgroundColor = buttonBackgroundColor
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
         _paperSetting = State(initialValue: PaperSettings.getDefaultSettings(PaperType.A4_Landscape))
@@ -60,19 +57,19 @@ struct DashboardView: View, PhotobookUIListener {
                     // Button with specific size in the center
                     Button(action: {
                         print("Button was tapped!")
-                        isDialogVisible = true
+                        isNewProjectDialogVisible = true
                     }) {
                         Text("+").frame(minWidth: 100, minHeight: 100)
                             .padding()
-                            .background(buttonBackgroundColor)
+                            .background(Color.ButtonBackgroundColor)
                             .frame(alignment:.leading)
                     }
                     .buttonStyle(PlainButtonStyle())
                     .foregroundColor(.white)
                     .cornerRadius(8)
-                    .sheet(isPresented: $isDialogVisible) {
+                    .sheet(isPresented: $isNewProjectDialogVisible) {
                         // Dialog content
-                        NewProjectDialog(isVisible: $isDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
+                        NewProjectDialog(isVisible: $isNewProjectDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
                     }
                 }
                 .frame(width: geometry.size.width * 0.5)
@@ -85,7 +82,7 @@ struct DashboardView: View, PhotobookUIListener {
                             }){
                                 Text("\(item.name)")
                                     .frame(width: 100, height: 100)
-                                    .background(buttonBackgroundColor)
+                                    .background(Color.ButtonBackgroundColor)
                             }
                             .frame(width: 100, height: 100, alignment:.center)
                             .buttonStyle(PlainButtonStyle())
@@ -169,7 +166,7 @@ struct NewProjectDialog: View {
     @State var comboChangeFlag2: Bool = false
     
     let options: [String]
-
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("New Album")

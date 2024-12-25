@@ -46,10 +46,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     var body: some Scene {
         WindowGroup {
             NavigationStack (path: $navigationPath) {
-                DashboardView(navigationPath:$navigationPath, buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+                DashboardView(navigationPath:$navigationPath, photobook:self.photobook)
                     .navigationDestination(for: String.self) { value in
                         if value == "Dashboard" {
-                            DashboardView(navigationPath: $navigationPath, buttonBackgroundColor: Color(red:21.6/100, green:26.3/100, blue:27.5/100), photobook:self.photobook)
+                            DashboardView(navigationPath: $navigationPath, photobook:self.photobook)
                         }
                         else if value == "Table" {
                             TableContentView(navigationPath: $navigationPath, photobook:self.photobook)
