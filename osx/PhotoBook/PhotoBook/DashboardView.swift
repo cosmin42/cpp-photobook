@@ -21,6 +21,7 @@ struct DashboardView: View, PhotobookUIListener {
     @State private var paperPpiText: String = ""
     @State private var projectsList: [ProjectMetadataEntry] = []
     @State private var toRenameProjectName: String = ""
+    @State private var toDeleteProjectName: String = ""
     @State private var navigateToTable = false
     @Binding var navigationPath: [String]
     
@@ -95,13 +96,14 @@ struct DashboardView: View, PhotobookUIListener {
                             Button(action: {
                                 toRenameProjectName = item.name
                                 isRenameDialogVisible = true
-                                
                             }) {
                                 Text("Rename")
                                 Image(systemName: "pencil")
                             }
                             
                             Button(action: {
+                                toDeleteProjectName = item.name
+                                isDeleteDialogVisible = true
                                 print("Pressed delete")
                             }) {
                                 Text("Delete")
@@ -116,14 +118,14 @@ struct DashboardView: View, PhotobookUIListener {
                     RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
                 }
                 .sheet(isPresented: $isDeleteDialogVisible) {
-                    DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toRenameProjectName, photobook: $photobook)
+                    DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toDeleteProjectName, photobook: $photobook, projectDeleteText:"")
                 }
                 .frame(width: geometry.size.width * 0.5, height: geometry.size.height)
             }
             .padding()
             .onAppear()
             {
-                PhotoBookApp.setListener(listener: self)
+                PhotoBookApp.pushListener(listener: self)
                 self.photobook.start()
                 self.photobook.recallMetadata()
             }
@@ -248,28 +250,50 @@ struct RenameProjectDialog: View {
     @Binding var isRenameDialogVisible: Bool
     @Binding var projectName: String
     @Binding var photobook: Photobook
+    @State var oldProjectName: String = ""
+    
+    init(isRenameDialogVisible:Binding<Bool>, projectName:Binding<String>, photobook:Binding<Photobook>)
+    {
+        _isRenameDialogVisible = isRenameDialogVisible
+        _projectName = projectName
+        _photobook = photobook
+    }
     var body: some View {
         VStack(spacing: 20) {
             Text("Rename Album")
                 .font(.headline)
+                .padding()
             HStack {
                 Text("Project Name:")
                 TextField("Project placeholder name", text: $projectName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onAppear()
+                {
+                    self.oldProjectName = projectName
+                }
             }
+            .padding()
             
             HStack {
                 Button("Rename")
                 {
+                    if self.projectName != ""
+                    {
+                        self.photobook.projectManagementService().rename(self.oldProjectName, newName: self.projectName)
+                    }
                     isRenameDialogVisible = false
                 }
+                .padding()
                 
                 Button("Cancel")
                 {
                     isRenameDialogVisible = false
                 }
+                .padding()
             }
+            .padding()
         }
+        .padding()
     }
 }
 
@@ -277,19 +301,26 @@ struct DeleteProjectDialog: View {
     @Binding var isDeleteDialogVisible: Bool
     @Binding var projectName: String
     @Binding var photobook: Photobook
+    @State var projectDeleteText: String
     var body: some View {
         VStack(spacing: 20) {
             Text("Rename Album")
                 .font(.headline)
+                .padding()
             HStack {
                 Text("Type DELETE:")
-                TextField("", text: $projectName)
+                TextField("", text: $projectDeleteText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
+            .padding()
             
             HStack {
                 Button("Delete")
                 {
+                    if projectDeleteText == "DELETE"
+                    {
+                        self.photobook.projectManagementService().remove(byName: projectName)
+                    }
                     // TODO: Add delete validation
                     isDeleteDialogVisible = false
                 }
@@ -299,6 +330,8 @@ struct DeleteProjectDialog: View {
                     isDeleteDialogVisible = false
                 }
             }
+            .padding()
         }
+        .padding()
     }
 }

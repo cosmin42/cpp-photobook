@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-private var photobookUIListener: PhotobookUIListener? = nil;
+private var photobookUIListener: [PhotobookUIListener] = [];
 
 @objc extension PhotobookListenerWrapperCLevel
 {
     func onProjectRead() {
-        photobookUIListener?.onProjectRead()
+        photobookUIListener.last?.onProjectRead()
     }
     
     func onMetadataUpdated(_ focusedName: String)
     {
-        photobookUIListener?.onMetadataUpdated(focusedName:focusedName)
+        photobookUIListener.last?.onMetadataUpdated(focusedName:focusedName)
     }
 }
 
@@ -34,9 +34,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
     @State var navigationPath: [String] = []
     @State private var isPropertiesDetailsDialogVisible = false
+    
     init()
     {
-        photobookUIListener = self;
+        photobookUIListener = [self];
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
         navigationPath = ["Dashboard"]
@@ -86,9 +87,14 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onNoirLutAdded() {}
     func onNoirError() {}
     
-    static func setListener(listener: PhotobookUIListener)
+    static func pushListener(listener: PhotobookUIListener)
     {
-        photobookUIListener = listener
+        photobookUIListener.append(listener)
+    }
+    
+    static func popListener()
+    {
+        photobookUIListener.removeLast()
     }
 }
 

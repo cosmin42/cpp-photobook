@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TableContentView: View {
+struct TableContentView: View, PhotobookUIListener {
     @State private var navigateToDashboard = false
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
@@ -253,14 +253,19 @@ struct TableContentView: View {
         }
         .onAppear()
         {
+            PhotoBookApp.pushListener(listener: self)
             self.photobook.makeCollages()
         }
         .onDisappear()
         {
             self.photobook.unloadProject()
+            PhotoBookApp.popListener()
         }
         .foregroundColor(Color.MainFontColor)
         .background(Color.PrimaryColor)
     }
+    
+    func onProjectRead(){}
+    func onMetadataUpdated(focusedName: String){}
 }
 
