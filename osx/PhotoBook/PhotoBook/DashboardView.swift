@@ -53,10 +53,7 @@ struct DashboardView: View, PhotobookUIListener {
         GeometryReader { geometry in
             HStack {
                 HStack {
-                    
-                    // Button with specific size in the center
                     Button(action: {
-                        print("Button was tapped!")
                         isNewProjectDialogVisible = true
                     }) {
                         Text("+").frame(minWidth: 100, minHeight: 100)
@@ -190,9 +187,8 @@ struct NewProjectDialog: View {
                     comboChangeFlag2 = true
                 }
             }
-            .pickerStyle(MenuPickerStyle()) // Combo box style
+            .pickerStyle(MenuPickerStyle())
             
-            // Text input fields
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Paper Width:")
@@ -253,9 +249,7 @@ struct NewProjectDialog: View {
                 .background(Color.PrimaryColor)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
-                // TODO: Work out the colors for the buttons
                 Button("Cancel") {
-                    // Close the dialog
                     isVisible = false
                 }
                 .background(Color.RemoveButtonBackground)
@@ -297,6 +291,7 @@ struct RenameProjectDialog: View {
             HStack {
                 Button("Rename")
                 {
+                    // TODO: Do a better validation
                     if self.projectName != ""
                     {
                         self.photobook.projectManagementService().rename(self.oldProjectName, newName: self.projectName)
@@ -332,6 +327,7 @@ struct DeleteProjectDialog: View {
             HStack {
                 Button("Delete")
                 {
+                    // TODO: Do a better validation
                     if projectDeleteText == "DELETE"
                     {
                         self.photobook.projectManagementService().remove(byName: projectName)

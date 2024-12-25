@@ -24,13 +24,13 @@ struct TableContentView: View, PhotobookUIListener {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
-                HStack(spacing: 16) { // Adjust spacing as needed
+                HStack(spacing: 16) {
                     Button(action: {
                         print("Add Media tapped")
                     }) {
-                        Image(systemName: "plus") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "plus")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -41,9 +41,9 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Remove media tapped")
                     }) {
-                        Image(systemName: "trash") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "trash")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -54,9 +54,9 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Save tapped")
                     }) {
-                        Image(systemName: "square.and.arrow.down") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "square.and.arrow.down")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -67,9 +67,9 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Preview tapped")
                     }) {
-                        Image(systemName: "eye") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "eye")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -78,15 +78,15 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     
                     Divider()
-                        .frame(height: 32) // Set the height of the separator
-                        .background(Color.gray) // Set the color of the divider
+                        .frame(height: 32)
+                        .background(Color.gray)
                     
                     Button(action: {
                         print("Make collage tapped")
                     }) {
-                        Image(systemName: "square.grid.2x2") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "square.grid.2x2")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -97,9 +97,9 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Send tapped")
                     }) {
-                        Image(systemName: "paperplane.fill") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "paperplane.fill")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -110,9 +110,9 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Help tapped")
                     }) {
-                        Image(systemName: "questionmark.circle") // Predefined system icon
-                            .scaledToFit() // Optional: Ensures it maintains its aspect ratio
-                            .frame(width: 32, height: 32) // Set the size of the icon
+                        Image(systemName: "questionmark.circle")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
                     }
@@ -126,7 +126,7 @@ struct TableContentView: View, PhotobookUIListener {
                     VStack(alignment:.leading) {
                         HStack {
                             Button(action: {
-                                selectedTab = 0 // Change the tab to the second one
+                                selectedTab = 0
                             }){
                                 Text("Media")
                             }
@@ -136,7 +136,7 @@ struct TableContentView: View, PhotobookUIListener {
                                 .background(Color.gray)
                                 .frame(height: 24)
                             Button(action: {
-                                selectedTab = 1 // Change the tab to the second one
+                                selectedTab = 1
                             }){
                                 Text("Collages")
                             }
@@ -146,7 +146,7 @@ struct TableContentView: View, PhotobookUIListener {
                                 .background(Color.gray)
                                 .frame(height: 24)
                             Button(action: {
-                                selectedTab = 2 // Change the tab to the second one
+                                selectedTab = 2
                             }){
                                 Text("LUTs")
                             }
@@ -157,7 +157,6 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
                             VStack{
-                                // Left-side list
                                 List(0..<50, id: \.self) { item in
                                     Text("Item \(item)")
                                         .listRowBackground(Color.PrimaryColor)
@@ -170,7 +169,6 @@ struct TableContentView: View, PhotobookUIListener {
                             .scrollIndicators(.hidden)
                             
                             VStack{
-                                // Left-side list
                                 List(0..<20, id: \.self) { item in
                                     Text("Item \(item)")
                                 }
@@ -180,7 +178,6 @@ struct TableContentView: View, PhotobookUIListener {
                             .tag(1)
                             
                             VStack{
-                                // Left-side list
                                 List(0..<20, id: \.self) { item in
                                     Text("Item \(item)")
                                 }
@@ -196,7 +193,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .scrollIndicators(.hidden)
                     
                     VStack {
-                        // Right-side canvas
                         Rectangle()
                             .fill(Color.gray.opacity(0.2))
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -215,7 +211,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .border(Color.BorderColor, width: 1)
                 }
                 
-                // Bottom horizontal lists
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
