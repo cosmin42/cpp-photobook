@@ -34,6 +34,7 @@
 - (void) NewProject:(PaperSettings*)paperSettings;
 - (void) RecallMetadata;
 - (void) unloadProject;
+- (void) makeCollages;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
 @end

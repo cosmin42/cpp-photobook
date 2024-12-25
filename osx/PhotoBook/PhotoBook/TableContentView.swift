@@ -251,6 +251,10 @@ struct TableContentView: View {
                 .border(Color.BorderColor, width: 1)
             }
         }
+        .onAppear()
+        {
+            self.photobook.makeCollages()
+        }
         .onDisappear()
         {
             self.photobook.unloadProject()

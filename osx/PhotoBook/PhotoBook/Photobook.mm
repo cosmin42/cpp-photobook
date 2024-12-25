@@ -162,6 +162,11 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->unloadProject();
 }
 
+- (void) makeCollages
+{
+    mPhotobook->makeCollages();
+}
+
 - (ProjectManagementServiceWrapper*) projectManagementService
 {
     auto projectManagementService = mPhotobook->projectManagementService();
