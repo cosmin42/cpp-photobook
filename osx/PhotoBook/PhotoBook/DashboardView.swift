@@ -167,8 +167,12 @@ struct NewProjectDialog: View {
     @Binding var paperSettings: PaperSettings
     @Binding var photobook: Photobook
     
-    let options: [String]
+    @State var comboChangeFlag0: Bool = false
+    @State var comboChangeFlag1: Bool = false
+    @State var comboChangeFlag2: Bool = false
     
+    let options: [String]
+
     var body: some View {
         VStack(spacing: 20) {
             Text("New Album")
@@ -187,6 +191,9 @@ struct NewProjectDialog: View {
                     paperWidthText = String(paperSettings.width)
                     paperHeightText = String(paperSettings.height)
                     paperPpiText = String(paperSettings.ppi)
+                    comboChangeFlag0 = true
+                    comboChangeFlag1 = true
+                    comboChangeFlag2 = true
                 }
             }
             .pickerStyle(MenuPickerStyle()) // Combo box style
@@ -198,7 +205,14 @@ struct NewProjectDialog: View {
                     TextField(String(paperSettings.width), text: $paperWidthText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onChange(of: paperWidthText) { newValue in
-                            selectedOption = "Custom"
+                            if self.comboChangeFlag0
+                            {
+                                self.comboChangeFlag0 = false
+                            }
+                            else
+                            {
+                                selectedOption = "Custom"
+                            }
                         }
                     Text("px")
                 }
@@ -207,7 +221,14 @@ struct NewProjectDialog: View {
                     TextField(String(paperSettings.height), text: $paperHeightText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onChange(of: paperHeightText) { newValue in
-                            selectedOption = "Custom"
+                            if self.comboChangeFlag1
+                            {
+                                self.comboChangeFlag1 = false
+                            }
+                            else
+                            {
+                                selectedOption = "Custom"
+                            }
                         }
                     Text("px")
                 }
@@ -216,7 +237,14 @@ struct NewProjectDialog: View {
                     TextField(String(paperSettings.ppi), text: $paperPpiText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onChange(of: paperPpiText) { newValue in
-                            selectedOption = "Custom"
+                            if self.comboChangeFlag2
+                            {
+                                self.comboChangeFlag0 = false
+                            }
+                            else
+                            {
+                                selectedOption = "Custom"
+                            }
                         }
                     Text("ppi")
                 }
