@@ -51,7 +51,7 @@ jobs:
         # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
         doNotCache: false
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
-        vcpkgJsonGlob: '**/windows/vcpkg.json'
+        vcpkgJsonGlob: '**/vcpkg.json'
 
     - name: Set environment variable
       run: echo "VCPKG_DEFAULT_TRIPLET=x64-windows" >> $GITHUB_ENV
@@ -66,7 +66,7 @@ jobs:
         # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
         doNotCache: false
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
-        vcpkgJsonGlob: '**/windows/vcpkg.json'
+        vcpkgJsonGlob: '**/vcpkg.json'
 
     - name: Run CMake pb-release
       uses: lukka/run-cmake@v10.8
