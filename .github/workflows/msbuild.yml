@@ -38,6 +38,9 @@ jobs:
 
     - uses: lukka/get-cmake@latest
 
+    - name: Set environment variable
+      run: echo "VCPKG_DEFAULT_TRIPLET=arm64-windows" >> $GITHUB_ENV
+
     - name: run-vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
@@ -50,13 +53,20 @@ jobs:
         # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
         vcpkgJsonGlob: '**/windows/vcpkg.json'
 
-    - name: vcpkg install x64
-      run: vcpkg\vcpkg.exe install boost-program-options:x64-windows opencv:x64-windows boost-uuid:x64-windows expat:x64-windows brotli:x64-windows inih:x64-windows magic-enum:x64-windows exiv2:x64-windows gtest:x64-windows dp-thread-pool:x64-windows libharu:x64-windows sqlite3:x64-windows nlohmann-json:x64-windows boost-bimap:x64-windows spdlog:x64-windows inja:x64-windows
+    - name: Set environment variable
+      run: echo "VCPKG_DEFAULT_TRIPLET=x64-windows" >> $GITHUB_ENV
 
-    - name: vcpkg install ARM64
-      run: vcpkg\vcpkg.exe install boost-program-options:arm64-windows opencv:arm64-windows boost-uuid:arm64-windows expat:arm64-windows brotli:arm64-windows inih:arm64-windows magic-enum:arm64-windows exiv2:arm64-windows gtest:arm64-windows dp-thread-pool:arm64-windows libharu:arm64-windows sqlite3:arm64-windows nlohmann-json:arm64-windows boost-bimap:arm64-windows spdlog:arm64-windows inja:arm64-windows
-    - name: vcpkg integrate install
-      run: vcpkg\vcpkg.exe integrate install
+    - name: run-vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      with:
+        # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
+        vcpkgGitCommitId: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'
+        # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
+        runVcpkgInstall: true
+        # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
+        doNotCache: false
+        # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
+        vcpkgJsonGlob: '**/windows/vcpkg.json'
 
     - name: Run CMake pb-release
       uses: lukka/run-cmake@v10.8
