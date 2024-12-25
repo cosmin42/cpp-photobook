@@ -21,8 +21,11 @@ jobs:
       - name: Install pkg config
         run: brew install pkg-config
 
+      - name: Set environment variable arm64
+        run: echo "VCPKG_DEFAULT_TRIPLET=arm64-osx" >> $GITHUB_ENV
+
       - uses: lukka/get-cmake@latest
-      - name: run-vcpkg
+      - name: run-vcpkg arm64
         uses: lukka/run-vcpkg@v11.5
         with:
           # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
@@ -33,15 +36,22 @@ jobs:
           doNotCache: false
           # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
           vcpkgJsonGlob: '**/windows/vcpkg.json'
+
+      - name: Set environment variable x64
+        run: echo "VCPKG_DEFAULT_TRIPLET=x64-osx" >> $GITHUB_ENV
   
-      - name: vcpkg install macOS x64
-        run: ./vcpkg/vcpkg install boost-program-options:x64-osx boost-uuid:x64-osx boost-random:x64-osx brotli:x64-osx opencv:x64-osx magic-enum:x64-osx exiv2:x64-osx gtest:x64-osx dp-thread-pool:x64-osx libharu:x64-osx sqlite3:x64-osx nlohmann-json:x64-osx boost-bimap:x64-osx spdlog:x64-osx inja:x64-osx podofo:x64-osx harfbuzz:x64-osx icu:x64-osx pkgconf:x64-osx
-  
-      - name: vcpkg install macOS arm64
-        run: ./vcpkg/vcpkg install boost-program-options:arm64-osx boost-uuid:arm64-osx boost-random:arm64-osx brotli:arm64-osx opencv:arm64-osx magic-enum:arm64-osx exiv2:arm64-osx gtest:arm64-osx dp-thread-pool:arm64-osx libharu:arm64-osx sqlite3:arm64-osx nlohmann-json:arm64-osx boost-bimap:arm64-osx spdlog:arm64-osx inja:arm64-osx podofo:arm64-osx harfbuzz:arm64-osx icu:arm64-osx pkgconf:arm64-osx
-      
-      - name: vcpkg integrate install
-        run: ./vcpkg/vcpkg integrate install
+      - uses: lukka/get-cmake@latest
+      - name: run-vcpkg x64
+        uses: lukka/run-vcpkg@v11.5
+        with:
+          # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
+          vcpkgGitCommitId: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'
+          # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
+          runVcpkgInstall: true
+          # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
+          doNotCache: false
+          # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
+          vcpkgJsonGlob: '**/windows/vcpkg.json'
 
       - name: Build Noir Library
         run: ./build-pblib.sh

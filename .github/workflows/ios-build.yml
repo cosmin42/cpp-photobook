@@ -25,7 +25,7 @@ jobs:
         run: echo "VCPKG_DEFAULT_TRIPLET=arm64-ios" >> $GITHUB_ENV
 
       - uses: lukka/get-cmake@latest
-      - name: run-vcpkg
+      - name: run-vcpkg arm64-ios
         uses: lukka/run-vcpkg@v11.5
         with:
           # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
