@@ -76,51 +76,48 @@ struct DashboardView: View, PhotobookUIListener {
                     }
                 }
                 .frame(width: geometry.size.width * 0.5)
-                
-                LazyHGrid(rows: columns, spacing: 10) {
-                    ForEach(projectsList, id: \.self) { item in
-                        // Each item in the grid
-                        Button(action: {
-                            print("Button was pressed!")
-                        }){
-                            Text("\(item.name)")
-                                .frame(minWidth: 100, minHeight: 100)
-                                .padding()
-                                .background(buttonBackgroundColor)
-                            
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .contextMenu {
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: columns, alignment: .center, spacing: 10) {
+                        ForEach(projectsList, id: \.self) { item in
+                            // Each item in the grid
                             Button(action: {
-                                toRenameProjectName = item.name
-                                isRenameDialogVisible = true
-                            }) {
-                                Text("Rename")
-                                Image(systemName: "pencil")
+                                print("Button was pressed!")
+                            }){
+                                Text("\(item.name)")
+                                    .frame(width: 100, height: 100)
+                                    .background(buttonBackgroundColor)
                             }
-                            
-                            Button(action: {
-                                toDeleteProjectName = item.name
-                                isDeleteDialogVisible = true
-                                print("Pressed delete")
-                            }) {
-                                Text("Delete")
-                                Image(systemName: "trash")
+                            .frame(width: 100, height: 100, alignment:.center)
+                            .buttonStyle(PlainButtonStyle())
+                            .foregroundColor(Color.MainFontColor)
+                            .cornerRadius(8)
+                            .contextMenu {
+                                Button(action: {
+                                    toRenameProjectName = item.name
+                                    isRenameDialogVisible = true
+                                }) {
+                                    Text("Rename")
+                                    Image(systemName: "pencil")
+                                }
+                                Button(action: {
+                                    toDeleteProjectName = item.name
+                                    isDeleteDialogVisible = true
+                                    print("Pressed delete")
+                                }) {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
                             }
                         }
-                        
                     }
+                    .sheet(isPresented: $isRenameDialogVisible) {
+                        RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
+                    }
+                    .sheet(isPresented: $isDeleteDialogVisible) {
+                        DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toDeleteProjectName, photobook: $photobook, projectDeleteText:"")
+                    }
+                    .frame(alignment:.leading)
                 }
-                .frame(alignment:.leading)
-                .sheet(isPresented: $isRenameDialogVisible) {
-                    RenameProjectDialog(isRenameDialogVisible: $isRenameDialogVisible, projectName:$toRenameProjectName, photobook: $photobook)
-                }
-                .sheet(isPresented: $isDeleteDialogVisible) {
-                    DeleteProjectDialog(isDeleteDialogVisible: $isDeleteDialogVisible, projectName: $toDeleteProjectName, photobook: $photobook, projectDeleteText:"")
-                }
-                .frame(width: geometry.size.width * 0.5, height: geometry.size.height)
             }
             .padding()
             .onAppear()
@@ -147,7 +144,7 @@ struct DashboardView: View, PhotobookUIListener {
         columns.removeAll()
         
         for _ in 0..<columnsCount {
-            columns.append(GridItem(spacing: 10, alignment: .leading))
+            columns.append(GridItem(.fixed(100)))
         }
         
         if (!focusedName.isEmpty)
