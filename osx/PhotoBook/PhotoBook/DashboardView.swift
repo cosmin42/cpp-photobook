@@ -284,12 +284,11 @@ struct RenameProjectDialog: View {
         _photobook = photobook
     }
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             Text("Rename Album")
                 .font(.headline)
-                .padding()
             HStack {
-                Text("Project Name:")
+                Text("New Name:")
                 TextField("Project placeholder name", text: $projectName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .onAppear()
@@ -297,7 +296,6 @@ struct RenameProjectDialog: View {
                     self.oldProjectName = projectName
                 }
             }
-            .padding()
             
             HStack {
                 Button("Rename")
@@ -308,15 +306,12 @@ struct RenameProjectDialog: View {
                     }
                     isRenameDialogVisible = false
                 }
-                .padding()
                 
                 Button("Cancel")
                 {
                     isRenameDialogVisible = false
                 }
-                .padding()
             }
-            .padding()
         }
         .padding()
     }
@@ -331,13 +326,11 @@ struct DeleteProjectDialog: View {
         VStack(spacing: 20) {
             Text("Rename Album")
                 .font(.headline)
-                .padding()
             HStack {
                 Text("Type DELETE:")
                 TextField("", text: $projectDeleteText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            .padding()
             
             HStack {
                 Button("Delete")
@@ -355,7 +348,6 @@ struct DeleteProjectDialog: View {
                     isDeleteDialogVisible = false
                 }
             }
-            .padding()
         }
         .padding()
     }
