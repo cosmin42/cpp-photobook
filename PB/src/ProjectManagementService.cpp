@@ -118,6 +118,8 @@ void ProjectManagementService::deleteProject(boost::uuids::uuid id)
   mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
                                "uuid='" + boost::uuids::to_string(id) + "'");
   mProjectsMetadata.right.erase(projectName);
+
+  mListener->onProjectMetadataRecalled("");
 }
 
 void ProjectManagementService::deleteProjectByName(std::string name)
@@ -136,6 +138,8 @@ void ProjectManagementService::deleteProjectByName(std::string name)
   mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
                                "uuid='" + boost::uuids::to_string(projectId) + "'");
   mProjectsMetadata.right.erase(name);
+
+  mListener->onProjectMetadataRecalled("");
 }
 
 std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
@@ -270,6 +274,7 @@ void ProjectManagementService::renameProject(std::string oldName,
     std::filesystem::rename(oldProjectPath, newProjectPath);
     Noir::inst().getLogger()->info("Project renamed: {} -> {}", oldName,
                                    newName);
+    mListener->onProjectMetadataRecalled("");
   }
 }
 
