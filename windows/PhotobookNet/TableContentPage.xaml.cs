@@ -152,12 +152,10 @@ namespace PhotobookNet
             {
                 if ((sender as ObservableCollection<VirtualImagePtr>).Count == 0)
                 {
-                    RemoveMediaAppBarButton.IsEnabled = false;
 
                 }
                 else
                 {
-                    RemoveMediaAppBarButton.IsEnabled = true;
                 }
             };
         }
@@ -239,6 +237,8 @@ namespace PhotobookNet
                 doNothing = true;
                 mStagedImageCollection.Add(stagedPictures[i]);
             }
+
+            RemoveMediaAppBarButton.IsEnabled = (rowList.Count > 0);
         }
 
         private void PostponeError(string message)
@@ -1139,6 +1139,8 @@ namespace PhotobookNet
 
             MediaListView.ItemsSource = mNavigationItemsCollection;
             MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
+
+            RemoveMediaAppBarButton.IsEnabled = true;
         }
 
         public void OnMappingAborted(string path)
