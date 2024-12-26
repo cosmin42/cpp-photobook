@@ -65,6 +65,8 @@ public:
                  !stopToken.stop_requested()) {
             auto path = recursiveIterator->path();
             if (isValidPath(path)) {
+              Noir::inst().getLogger()->info("Picture search found {}",
+                                             path.string());
               mSearchResults.push_back(path);
             }
             recursiveIterator++;
