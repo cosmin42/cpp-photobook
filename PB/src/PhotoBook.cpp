@@ -113,6 +113,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mProjectManagementService);
 
   mImageFactory->configurePlatformInfo(mPlatformInfo);
+  mImageFactory->configureProjectManagementService(mProjectManagementService);
+  mImageFactory->configureDurableHashService(mDurableHashService);
 
   mProjectManagementService->configureDatabaseService(mDatabaseService);
 
@@ -288,43 +290,19 @@ std::shared_ptr<CollageService> Photobook::collageService()
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
-  mParent->onMappingFinished(root);
-  /*
-  auto maybeProject = mProjectManagementSystem->maybeLoadedProjectInfo();
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
-  std::vector<std::shared_ptr<GenericImagePtr>> imagesSet;
-
-  std::vector<ProcessingData> keyAndPaths;
+  std::vector<GenericImagePtr> imagesSet;
 
   for (auto i = 0; i < newFiles.size(); ++i) {
-    auto GenericImagePtr = mImageFactory->createImage(newFiles.at(i));
-    imagesSet.push_back(GenericImagePtr);
-    keyAndPaths.push_back({GenericImagePtr->frontend().full,
-                           GenericImagePtr->frontend().full, (unsigned)i});
+    auto image = mImageFactory->createImage(newFiles.at(i));
+    imagesSet.push_back(image);
   }
 
   maybeProject->second.imageMonitor().addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
-
-  RowProcessingData rowProcessingData = {root, keyAndPaths};
-
-  auto maybeLoadedProjectInfo =
-      mProjectManagementSystem->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
-
-  auto coreHash = mDurableHashService->getHash(
-      PBDev::ProjectId(maybeLoadedProjectInfo->first),
-  rowProcessingData.root);
-
-  auto imageHash =
-  mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first, coreHash,
-  "jpg");
-*/
-  // mImportLogic.processImages(
-  //     boost::uuids::to_string(maybeLoadedProjectInfo->first),
-  //     rowProcessingData, imageHash.stem().string());
 }
 
 void Photobook::onImageProcessed(Path key, Path root,

@@ -4,8 +4,7 @@
 
 namespace PB {
 
-void ImageMonitor::addRow(Path                                       path,
-                          std::vector<GenericImagePtr> images)
+void ImageMonitor::addRow(Path path, std::vector<GenericImagePtr> images)
 {
   if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
     return;
@@ -68,10 +67,7 @@ void ImageMonitor::clear()
   log();
 }
 
-void ImageMonitor::completeRow(int index)
-{
-  mPendingRows.erase(index);
-}
+void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
 
 bool ImageMonitor::isPending(Path path) const
 {
@@ -125,8 +121,7 @@ Path ImageMonitor::rowPath(unsigned row) const
   return mRowIndexes.right.at(row);
 }
 
-GenericImagePtr ImageMonitor::image(unsigned row,
-                                                  unsigned index) const
+GenericImagePtr ImageMonitor::image(unsigned row, unsigned index) const
 {
   PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
   PBDev::basicAssert(index < mUnstagedImagesMatrix.at(row).size());
@@ -149,8 +144,7 @@ std::pair<int, int> ImageMonitor::position(Path full) const
   return mPositions.left.at(full);
 }
 
-std::vector<std::vector<GenericImagePtr>> const &
-ImageMonitor::unstaged() const
+std::vector<std::vector<GenericImagePtr>> const &ImageMonitor::unstaged() const
 {
   return mUnstagedImagesMatrix;
 }
@@ -165,8 +159,7 @@ auto ImageMonitor::statefulIterator(unsigned row)
     -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
 {
   if (row >= mUnstagedImagesMatrix.size()) {
-    return PBDev::IteratorWithState<
-        std::vector<GenericImagePtr>>();
+    return PBDev::IteratorWithState<std::vector<GenericImagePtr>>();
   }
   return PBDev::IteratorWithState<std::vector<GenericImagePtr>>(
       mUnstagedImagesMatrix.at(row));
