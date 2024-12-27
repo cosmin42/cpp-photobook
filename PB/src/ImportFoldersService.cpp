@@ -62,7 +62,9 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
                                           GenericImagePtr        image)
 {
   auto root = mRootPaths.at(jobId);
-  mListener->onImageProcessed(root, root, image);
+  mScheduler->post([this, root{root}, image{image}]() {
+    mListener->onImageProcessed(root, root, image);
+  });
 }
 
 } // namespace PB

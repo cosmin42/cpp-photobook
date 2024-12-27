@@ -16,6 +16,7 @@ class ImageMonitor {
 public:
 
   void addRow(Path path, std::vector<GenericImagePtr> images);
+  void replaceImage(Path path, GenericImagePtr image, int index = -1);
   void removeRow(int index);
   void removeRow(Path path);
 

@@ -290,6 +290,7 @@ std::shared_ptr<CollageService> Photobook::collageService()
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
+
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
@@ -308,37 +309,12 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 void Photobook::onImageProcessed(Path key, Path root,
                                  GenericImagePtr imageResources)
 {
-  /*
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-
-  maybeProject->second.imageMonitor().image(key)->setSizePath(
-      imageResources.full, imageResources.medium, imageResources.small);
-  maybeProject->second.imageMonitor().image(key)->setSize(
-      imageResources.width, imageResources.height);
-  maybeProject->second.imageMonitor().image(key)->finishProcessing();
-  */
-  /*
-  auto [progress, progressCap] = mImportLogic.imageProcessingProgress(root);
-  auto [row, index] = maybeProject->second.imageMonitor().position(key);
-
+  maybeProject->second.imageMonitor().replaceImage(root, imageResources, -1);
+  auto [row, index] =
+      maybeProject->second.imageMonitor().position(imageResources->full());
   mParent->onImageUpdated(root, row, index);
-
-  if (progress == progressCap) {
-    auto rowIndex = maybeProject->second.imageMonitor().rowIndex(root);
-    maybeProject->second.imageMonitor().completeRow(rowIndex);
-
-    if (mImportLogic.marked(root)) {
-      maybeProject->second.imageMonitor().removeRow(root);
-      //mImportLogic.removeMarkForDeletion(root);
-    }
-
-    if (mMarkProjectForDeletion) {
-      mMarkProjectForDeletion = false;
-      maybeProject->second.imageMonitor().clear();
-    }
-  }
-  */
 }
 
 void Photobook::onImageProcessingJobEnded(Path root) {}

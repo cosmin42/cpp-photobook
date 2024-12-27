@@ -175,7 +175,7 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
       std::make_pair(newProjectId, project));
 
   GenericImage::configureProjectPath(
-      mPlatformInfo->projectSupportFolder(newProjectId));
+      mPlatformInfo->projectSupportFolder(newProjectId) / "thumbnail-images");
 
   saveMetadata();
   mProjectSerializerService->saveProject(maybeLoadedProject->second);
@@ -194,7 +194,8 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
-  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id));
+  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id) /
+                                     "thumbnail-images");
 
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
@@ -211,7 +212,8 @@ void ProjectManagementService::loadProjectByName(std::string name)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
-  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id));
+  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id) /
+                                     "thumbnail-images");
 
   Noir::inst().getLogger()->info(
       "Project loaded by name: {}, {}, {}", name, boost::uuids::to_string(id),

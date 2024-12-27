@@ -24,6 +24,28 @@ void ImageMonitor::addRow(Path path, std::vector<GenericImagePtr> images)
   log();
 }
 
+void ImageMonitor::replaceImage(Path root, GenericImagePtr image, int index)
+{
+  auto row = mRowIndexes.left.at(root);
+  if (index == -1) {
+    for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
+      if (mUnstagedImagesMatrix.at(row).at(i)->hash().starts_with("placeholder")) {
+        mUnstagedImagesMatrix[row][i] = image;
+        auto it = mPositions.right.find(std::pair<int, int>{row, i});
+        mPositions.right.modify_data(it, boost::bimaps::_data = image->full());
+        return;
+      }
+    }
+    PBDev::basicAssert(false);
+  }
+  else {
+    mUnstagedImagesMatrix[row][index] = image;
+    mPositions.right.modify_data(
+        mPositions.right.find(std::pair<int, int>{row, index}),
+        boost::bimaps::_data = image->full());
+  }
+}
+
 void ImageMonitor::removeRow(int row)
 {
   PBDev::basicAssert(!mPendingRows.contains(row));
