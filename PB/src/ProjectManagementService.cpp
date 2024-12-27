@@ -136,7 +136,8 @@ void ProjectManagementService::deleteProjectByName(std::string name)
   std::filesystem::remove_all(projectData);
 
   mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
-                               "uuid='" + boost::uuids::to_string(projectId) + "'");
+                               "uuid='" + boost::uuids::to_string(projectId) +
+                                   "'");
   mProjectsMetadata.right.erase(name);
 
   mListener->onProjectMetadataRecalled("");
@@ -173,6 +174,9 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
   maybeLoadedProject = std::make_shared<IdentifyableProject>(
       std::make_pair(newProjectId, project));
 
+  GenericImage::configureProjectPath(
+      mPlatformInfo->projectSupportFolder(newProjectId));
+
   saveMetadata();
   mProjectSerializerService->saveProject(maybeLoadedProject->second);
 
@@ -190,6 +194,8 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
+  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id));
+
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
       boost::uuids::to_string(id),
@@ -205,6 +211,8 @@ void ProjectManagementService::loadProjectByName(std::string name)
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
+  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id));
+
   Noir::inst().getLogger()->info(
       "Project loaded by name: {}, {}, {}", name, boost::uuids::to_string(id),
       std::string(maybeLoadedProject->second.paperSettings));
@@ -214,6 +222,7 @@ void ProjectManagementService::unloadProject()
 {
   PBDev::basicAssert(maybeLoadedProject != nullptr);
   maybeLoadedProject = nullptr;
+  GenericImage::configureProjectPath("");
   Noir::inst().getLogger()->info("Project unloaded");
 }
 

@@ -7,17 +7,17 @@ GenericImage::GenericImage(std::string hash) : mHash(std::move(hash)) {}
 
 Path GenericImage::full() const
 {
-  return sProjectPath / (mHash + "-full" + ".jpg");
+  return sProjectPath / (mHash + "" + ".jpg");
 }
 
 Path GenericImage::medium() const
 {
-  return sProjectPath / (mHash + "-medium" + ".jpg");
+  return sProjectPath / (mHash + "-m" + ".jpg");
 }
 
 Path GenericImage::smaLL() const
 {
-  return sProjectPath / (mHash + "-small" + ".jpg");
+  return sProjectPath / (mHash + "-s" + ".jpg");
 }
 
 std::string GenericImage::defaultHash() { return ""; }

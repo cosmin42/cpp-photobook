@@ -30,8 +30,6 @@ static constexpr int MEDIUM_THUMBNAIL_HEIGHT = 530;
 static constexpr int CANVAS_MIN_MAX_WIDTH = 438;
 static constexpr int CANVAS_MIN_MAX_HEIGHT = 310;
 
-static constexpr const char *SMALL_THUMBNAIL_NAME = "thumbnail-small";
-static constexpr const char *MEDIUM_THUMBNAIL_NAME = "thumbnail-medium";
 static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
 
 // Fix separator
