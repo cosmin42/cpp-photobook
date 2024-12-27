@@ -77,5 +77,7 @@ struct PlatformInfo {
   {
     return installationPath / textFile;
   }
+
+  Path waitImage() const { return installationPath / "others" / "wait.jpg"; }
 };
 } // namespace PB
