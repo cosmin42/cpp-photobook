@@ -51,6 +51,7 @@ namespace PhotobookNet
 
         public void OnNoirLutAdded(LutIconInfo iconInfo)
         {
+            PhotobookSingletonWrapper.Inst().lutIconInfos.Add(iconInfo);
         }
 
         public void OnNoirError(PBError error)
