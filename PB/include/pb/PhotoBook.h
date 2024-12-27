@@ -109,6 +109,8 @@ public:
 
   std::string help(std::string name) const;
 
+  std::shared_ptr<LutService> lutService() const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   NoirListener                             *mNoirListener = nullptr;
