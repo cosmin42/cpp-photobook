@@ -5,7 +5,7 @@ cmake -B PB/x64-macos \
     -DSYSTEM_PLATFORM="macOS" \
     -S PB -DCMAKE_BUILD_TYPE=Debug \
     -DVCPKG_TARGET_TRIPLET=x64-osx \
-    -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+    -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake
 
 cmake -B PB/arm64-macos \
     -DCMAKE_OSX_ARCHITECTURES="arm64" \
@@ -13,7 +13,7 @@ cmake -B PB/arm64-macos \
     -S PB \
     -DCMAKE_BUILD_TYPE=Debug \
     -DVCPKG_TARGET_TRIPLET=arm64-osx \
-    -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+    -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake
 
 make -j4 -C pb/x64-macos/ pblib-Darwin
 make -j4 -C pb/arm64-macos/ pblib-Darwin
