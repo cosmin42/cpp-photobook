@@ -47,6 +47,7 @@ void ImportFoldersService::startThumbnailsCreation(
 void ImportFoldersService::onPicturesSearchFinished(
     PBDev::ThumbnailsJobId jobId, Path root, std::vector<Path> searchResults)
 {
+  // Improve this to take into consideration embedded empty folders
   if (searchResults.empty()) {
     mScheduler->post([this, root{root}]() {
       mListener->onImportError(PBDev::Error() << PB::ErrorCode::NoImages);
@@ -76,9 +77,25 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
                                           GenericImagePtr        image)
 {
   auto root = mRootPaths.at(jobId);
-  mScheduler->post([this, root{root}, image{image}]() {
+
+  mScheduler->post([this, root{root}, image{image}, jobId{jobId}]() {
+    if (mThumbnailsJobs.at(jobId).isFinished()) {
+      mThumbnailsJobs.erase(jobId);
+      mRootPaths.erase(jobId);
+      mSearches.erase(jobId);
+    }
     mListener->onImageProcessed(root, root, image);
   });
+}
+
+bool ImportFoldersService::isFinished(Path path)
+{
+  for (auto &[key, value] : mRootPaths) {
+    if (value == path) {
+      return false;
+    }
+  }
+  return true;
 }
 
 } // namespace PB::Service

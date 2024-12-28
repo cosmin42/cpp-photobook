@@ -23,6 +23,7 @@ public:
   void clear();
 
   void completeRow(int index);
+  void completeRowByPath(Path path);
   bool isPending(Path path) const;
   bool isPending(int index) const;
 

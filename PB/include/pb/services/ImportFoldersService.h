@@ -65,6 +65,8 @@ public:
   void imageProcessed(PBDev::ThumbnailsJobId jobId,
                       GenericImagePtr        image) override;
 
+  bool isFinished(Path path);
+
 private:
   ImportFoldersServiceListener             *mListener = nullptr;
   PBDev::ThreadScheduler                   *mScheduler = nullptr;

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
+using System.Reflection;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -478,6 +479,16 @@ namespace PhotobookNet
             System.Diagnostics.Debug.Assert(selection >= 0, "Selection is less than 0");
             var rowPath = mPhotobook.GetImageViews().ImageMonitor().RowPath((uint)selection);
             mPhotobook.RemoveImportFolder(rowPath);
+
+            MediaListView.DeselectRange(new ItemIndexRange(0, (uint)mNavigationItemsCollection.Count));
+            mNavigationItemsCollection.RemoveAt((int)selection);
+            MediaListView.ItemsSource = mNavigationItemsCollection;
+            if (mNavigationItemsCollection.Count > 0)
+            {
+                MediaListView.SelectedIndex = 0;
+            }
+
+            UpdateUnstagedLine();
         }
 
         private void OnCollageSelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -1205,20 +1216,6 @@ namespace PhotobookNet
                     mUnstagedImageCollection.Add(image);
                 }
             }
-        }
-
-        public void OnImportFolderRemoved(uint index)
-        {
-            MediaListView.DeselectRange(new ItemIndexRange(0, (uint)mNavigationItemsCollection.Count));
-            mNavigationItemsCollection.RemoveAt((int)index);
-            MediaListView.ItemsSource = mNavigationItemsCollection;
-            if (mNavigationItemsCollection.Count > 0)
-            {
-                MediaListView.SelectedIndex = 0;
-            }
-
-            UpdateUnstagedLine();
-
         }
 
         public void OnRefresh()

@@ -66,6 +66,10 @@ private:
     case PB::ErrorCode::CannotExport: {
       return "Cannot export.";
     }
+    case PB::ErrorCode::WaitForLoadingCompletion:
+    {
+      return "Wait for the import to complete.";
+    }
     default:
       return "Unknown error";
     }

@@ -12,7 +12,8 @@ enum class ErrorCode {
   JSONParseError,
 
   NoImages,
-  CannotExport
+  CannotExport,
+  WaitForLoadingCompletion
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };

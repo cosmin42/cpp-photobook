@@ -205,17 +205,14 @@ void Photobook::addImportFolder(Path path)
 
 void Photobook::removeImportFolder(Path path)
 {
-  // if (mImportLogic.marked(path)) {
-  //   return;
-  // }
-
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   if (maybeProject->second.imageMonitor().isPending(path)) {
-    // mImportLogic.markForDeletion(path);
+    mParent->onError(PBDev::Error() << PB::ErrorCode::WaitForLoadingCompletion);
   }
   else {
+    Noir::inst().getLogger()->info("Remove imported folder {}", path.string());
     maybeProject->second.imageMonitor().removeRow(path);
   }
 }
@@ -313,6 +310,11 @@ void Photobook::onImageProcessed(Path key, Path root,
   maybeProject->second.imageMonitor().replaceImage(root, imageResources, -1);
   auto [row, index] =
       maybeProject->second.imageMonitor().position(imageResources->full());
+
+  if (mImportLogic->isFinished(root)) {
+    maybeProject->second.imageMonitor().completeRowByPath(root);
+  }
+
   mParent->onImageUpdated(root, row, index);
 }
 

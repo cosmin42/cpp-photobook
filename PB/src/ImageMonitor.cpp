@@ -92,6 +92,12 @@ void ImageMonitor::clear()
 
 void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
 
+void ImageMonitor::completeRowByPath(Path path)
+{
+  auto index = rowIndex(path);
+  completeRow(index);
+}
+
 bool ImageMonitor::isPending(Path path) const
 {
   return isPending(mRowIndexes.left.at(path));
