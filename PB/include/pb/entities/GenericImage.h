@@ -28,6 +28,8 @@ public:
 private:
   static Path sProjectPath;
   std::string mHash;
+
+  std::string imageName() const;
 };
 
 typedef std::shared_ptr<GenericImage>             GenericImagePtr;

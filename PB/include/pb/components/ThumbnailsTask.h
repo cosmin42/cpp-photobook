@@ -13,6 +13,17 @@
 namespace PB {
 class ThumbnailsTask final {
 public:
+  static std::string createThumbnails(
+      std::shared_ptr<cv::Mat>                  originalImage,
+      std::shared_ptr<PlatformInfo>             platformInfo,
+      std::shared_ptr<ProjectManagementService> projectManagementService);
+
+  static std::string
+  createThumbnailsByPath(Path                                 originalImage,
+                         std::shared_ptr<PlatformInfo>        platformInfo,
+                         std::shared_ptr<IdentifyableProject> project,
+                         std::string                          targetHash = "");
+
   explicit ThumbnailsTask(Path originalPath);
   ~ThumbnailsTask() = default;
 
@@ -23,11 +34,11 @@ public:
   std::string createThumbnails();
 
 private:
+  static std::tuple<cv::Size, cv::Size, cv::Size>
+  thumbnailSizes(cv::Size originalSize, cv::Size paperSize);
+
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   Path                                      mOriginalPath;
-
-  std::tuple<cv::Size, cv::Size, cv::Size> thumbnailSizes(cv::Size originalSize,
-                                                          cv::Size paperSize);
 };
 } // namespace PB

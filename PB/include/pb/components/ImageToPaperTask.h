@@ -110,9 +110,8 @@ private:
     auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
     auto hashPath = mPlatformInfo->thumbnailByHash(*mProjectId, hash, ".png");
 
-    auto imageData =
-        ImageReader().read(image->full(), true,
-                           {mPaperSettings.width, mPaperSettings.height});
+    auto imageData = ImageReader().read(
+        image->full(), true, {mPaperSettings.width, mPaperSettings.height});
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
         mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
@@ -121,6 +120,7 @@ private:
 
     PB::Process::overlap(imageData,
                          PB::Process::alignToCenter())(singleColorImage);
+    // TODO: Replace this with the ThumbnailsTask method.
     /*
     auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
         mPlatformInfo->localStatePath, 0, hashPath.stem().string(),

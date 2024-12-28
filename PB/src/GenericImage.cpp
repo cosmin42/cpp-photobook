@@ -11,17 +11,27 @@ Path GenericImage::full() const { return sProjectPath / (mHash + "" + ".jpg"); }
 
 Path GenericImage::medium() const
 {
-  return sProjectPath / (mHash + "-m" + ".jpg");
+  return sProjectPath / (imageName() + "-m" + ".jpg");
 }
 
 Path GenericImage::smaLL() const
 {
-  return sProjectPath / (mHash + "-s" + ".jpg");
+  return sProjectPath / (imageName() + "-s" + ".jpg");
 }
 
 std::string GenericImage::defaultHash()
 {
   return "placeholder" + boost::uuids::to_string(RuntimeUUID::newUUID());
+}
+
+std::string GenericImage::imageName() const
+{
+  if (mHash.starts_with("placeholder")) {
+    return "wait";
+  }
+  else {
+    return mHash;
+  }
 }
 
 } // namespace PB

@@ -48,10 +48,13 @@ struct PlatformInfo {
            (hash + extension);
   }
 
+  // TODO: rename this to something more meaningful
   std::tuple<Path, Path, Path, std::string>
-  newThumbnailPaths(boost::uuids::uuid projectId) const
+  newThumbnailPaths(boost::uuids::uuid projectId, std::string hash = "") const
   {
-    auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
+    if (hash.empty()) {
+      hash = boost::uuids::to_string(boost::uuids::random_generator()());
+    }
     return std::make_tuple(projectSupportFolder(projectId) /
                                "thumbnail-images" / (hash + ".jpg"),
                            projectSupportFolder(projectId) /
@@ -79,5 +82,12 @@ struct PlatformInfo {
   }
 
   Path waitImage() const { return installationPath / "others" / "wait.jpg"; }
+
+  std::tuple<Path, Path, Path> waitThumbnails() const
+  {
+    return std::make_tuple(installationPath / "others" / "wait.jpg",
+                           installationPath / "others" / "wait-m.jpg",
+                           installationPath / "others" / "wait-s.jpg");
+  }
 };
 } // namespace PB

@@ -1,6 +1,7 @@
 #include <pb/services/ProjectManagementService.h>
 
 #include <pb/Config.h>
+#include <pb/components/ThumbnailsTask.h>
 
 namespace PB::Service {
 #ifdef SIMULATE_FEW_HAPPY_WORDS
@@ -182,7 +183,22 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
 
   mProjectsMetadata.insert({newProjectId, project.name});
 
+  preprocessDefaultWaitingImage();
+
   mListener->onProjectMetadataRecalled(project.name);
+}
+
+void ProjectManagementService::preprocessDefaultWaitingImage()
+{
+  PBDev::basicAssert(maybeLoadedProjectInfo() != nullptr);
+  auto waitImagePath = mPlatformInfo->waitImage();
+
+  auto hash = ThumbnailsTask::createThumbnailsByPath(
+      waitImagePath, mPlatformInfo, maybeLoadedProjectInfo(), "wait");
+
+  Noir::inst().getLogger()->info("Wait image processed to {}", std::get<0>(mPlatformInfo->waitThumbnails()).string());
+
+  UNUSED(hash);
 }
 
 void ProjectManagementService::loadProject(boost::uuids::uuid id)

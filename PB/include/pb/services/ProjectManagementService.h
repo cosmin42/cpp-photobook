@@ -68,5 +68,6 @@ private:
   std::shared_ptr<IdentifyableProject> maybeLoadedProject = nullptr;
 
   bool hasProjectName(std::string name) const;
+  void preprocessDefaultWaitingImage();
 };
 } // namespace PB::Service
