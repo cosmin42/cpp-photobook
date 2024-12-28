@@ -12,7 +12,6 @@ This project should be able to generate a pdf photobook based on a folder struct
 
 ## Build and Run
 
-
 ### Windows
 Install the required packages using vcpkg:
 ```install-prerequisites.bat```
@@ -23,17 +22,10 @@ Open the solution file from ```cpp-photobook\windows```
 
 
 ### macOS
-
-g++-13 compiler is needed.
 Install the required packages using vcpkg:
 ```./install-prerequisites.sh```
 
 Run ```build-pblib.sh```
-
-Go to PB/build
-Run ```make -j4```
-
-Run ```./PhotoBook``` from the build folder.
 
 ## Tests
 
@@ -47,4 +39,4 @@ CMake with ```STATIC_CHECK=true```, it will use clang-tidy.
 
 
 ## Troubleshoot
-The known to work vcpkg version: ```2023.08.09``` 
+The known to work vcpkg version: ```2024.11.16```
