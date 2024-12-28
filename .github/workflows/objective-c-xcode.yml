@@ -37,7 +37,7 @@ jobs:
       - name: vcpkg install arm64-macos
         run: ./vcpkg/vcpkg install --triplet arm64-osx
       
-      - name: vcpkg install arm64-macos
+      - name: vcpkg install x64-macos
         run: ./vcpkg/vcpkg install --triplet x64-osx
   
       - name: vcpkg integrate install

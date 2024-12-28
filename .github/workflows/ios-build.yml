@@ -20,10 +20,7 @@ jobs:
 
       - name: Install pkg config
         run: brew install pkg-config
-
-      - name: Set environment variable
-        run: echo "VCPKG_DEFAULT_TRIPLET=arm64-ios" >> $GITHUB_ENV
-
+  
       - uses: lukka/get-cmake@latest
       - name: run-vcpkg arm64-ios
         uses: lukka/run-vcpkg@v11.5
