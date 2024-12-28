@@ -21,6 +21,7 @@ public:
 
   virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
   virtual void onImageProcessed(Path key, Path root, GenericImagePtr image) = 0;
+  virtual void onImportError(PBDev::Error error) = 0;
 };
 
 class ImportFoldersService final : public PicturesSearchJobListener,

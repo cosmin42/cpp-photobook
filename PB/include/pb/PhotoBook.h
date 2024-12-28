@@ -90,6 +90,8 @@ public:
   void onCollageCreated(unsigned index, Path imagePath) override;
   void onCollageMakerError() override;
 
+  void onImportError(PBDev::Error error) override;
+
   void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image) override;
 
 

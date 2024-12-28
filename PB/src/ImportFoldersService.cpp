@@ -47,13 +47,20 @@ void ImportFoldersService::startThumbnailsCreation(
 void ImportFoldersService::onPicturesSearchFinished(
     PBDev::ThumbnailsJobId jobId, Path root, std::vector<Path> searchResults)
 {
-  mScheduler->post(
-      [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
-        mSearches.erase(jobId);
-        mListener->onMappingFinished(root, searchResults);
+  if (searchResults.empty()) {
+    mScheduler->post([this, root{root}]() {
+      mListener->onImportError(PBDev::Error() << PB::ErrorCode::NoImages);
+    });
+  }
+  else {
+    mScheduler->post(
+        [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
+          mSearches.erase(jobId);
+          mListener->onMappingFinished(root, searchResults);
 
-        startThumbnailsCreation(jobId, searchResults);
-      });
+          startThumbnailsCreation(jobId, searchResults);
+        });
+  }
 }
 
 void ImportFoldersService::onPicturesSearchAborted(Path root) {}
@@ -67,4 +74,4 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
   });
 }
 
-} // namespace PB
+} // namespace PB::Service

@@ -290,7 +290,6 @@ std::shared_ptr<CollageService> Photobook::collageService()
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 {
-
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
@@ -419,6 +418,8 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
 }
 
 void Photobook::onCollageMakerError() {}
+
+void Photobook::onImportError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 {
