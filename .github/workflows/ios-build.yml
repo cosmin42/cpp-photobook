@@ -38,10 +38,10 @@ jobs:
           vcpkgJsonGlob: '**/vcpkg.json'
 
       - name: vcpkg install arm64-iOS
-        run: vcpkg\vcpkg.exe install --triplet arm64-ios
+        run: ./vcpkg/vcpkg install --triplet arm64-ios
 
       - name: vcpkg integrate install
-        run: vcpkg\vcpkg.exe integrate install
+        run: ./vcpkg/vcpkg integrate install
 
       - name: Build Noir Library
         run: ./build-pblib-ios.sh
