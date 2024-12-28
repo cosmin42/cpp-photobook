@@ -1,6 +1,6 @@
 #include <pb/components/Serializer.h>
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include <boost/uuid/uuid_io.hpp>
 

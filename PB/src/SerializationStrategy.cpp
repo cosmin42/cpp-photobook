@@ -8,7 +8,7 @@
 #include <pb/project/Project.h>
 
 #include <boost/bimap/bimap.hpp>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 namespace PB::Text {
 
