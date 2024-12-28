@@ -37,5 +37,11 @@ jobs:
           # Specify the glob expression used to discover the vcpkg.json whose content's hash is added to the cache key. On Windows runners using `github.workspace` context to form the expression would not work as expected since it contains backslashes. Use instead `**/path/to/vcpkg.json` to match the desired `vcpkg.json` file.
           vcpkgJsonGlob: '**/vcpkg.json'
 
+      - name: vcpkg install arm64-iOS
+        run: vcpkg\vcpkg.exe install --triplet arm64-ios
+
+      - name: vcpkg integrate install
+        run: vcpkg\vcpkg.exe integrate install
+
       - name: Build Noir Library
         run: ./build-pblib-ios.sh
