@@ -40,5 +40,8 @@ jobs:
       - name: vcpkg integrate install
         run: ./vcpkg/vcpkg integrate install
 
+      - name: Search magic_enum
+        run: find . -iname magic_enum.hpp
+
       - name: Build Noir Library
         run: ./build-pblib-ios.sh
