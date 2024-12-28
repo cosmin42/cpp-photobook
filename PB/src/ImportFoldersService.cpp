@@ -24,8 +24,10 @@ std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
   mSearches.at(jobId).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
 
-  mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
+  auto stopSource = mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
                         PBDev::ProgressJobName{"image-search"});
+
+  UNUSED(stopSource);
 
   return std::nullopt;
 }
@@ -40,8 +42,10 @@ void ImportFoldersService::startThumbnailsCreation(
   mThumbnailsJobs.at(jobId).configureProjectManagementService(
       mProjectManagementService);
 
-  mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
+  auto stopSource = mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
                         PBDev::ProgressJobName{"thumbnails"});
+
+  UNUSED(stopSource);
 }
 
 void ImportFoldersService::onPicturesSearchFinished(

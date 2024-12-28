@@ -51,8 +51,9 @@ public:
     mPendingTasks.emplace(id, task);
     mPendingTaskNames.emplace(id, name);
 
-    mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
+    auto stopSource = mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
                           PBDev::ProgressJobName{"export"});
+    UNUSED(stopSource);
   }
 
   void onExportComplete(PBDev::MapReducerTaskId id) override

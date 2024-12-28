@@ -18,8 +18,9 @@ void ImageToPaperService::map(
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
-  mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
+  auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
                         PBDev::ProgressJobName{"to-paper"});
+  UNUSED(stopSource);
 }
 
 void ImageToPaperService::map(
@@ -38,8 +39,9 @@ void ImageToPaperService::map(
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
-  mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
+  auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
                         PBDev::ProgressJobName{"to-paper"});
+  UNUSED(stopSource);
 }
 
 void ImageToPaperService::removeTask(PBDev::ImageToPaperServiceId id)
