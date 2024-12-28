@@ -83,7 +83,7 @@ Path CollageLibraryAssistant::createNumberedImage(cv::Size    pageSize,
 
   Process::CVFontInfo fontInfo;
   fontInfo.color = {255, 255, 255};
-  fontInfo.pixelSize = Process::pointsFromPixels(4, 300);
+  fontInfo.pixelSize = Process::pointsFromPixels(8, 300);
   fontInfo.thickness = 24;
 
   image = PB::Process::addText({pageSize.width / 2, pageSize.height / 2},

@@ -29,7 +29,8 @@ void ImageMonitor::replaceImage(Path root, GenericImagePtr image, int index)
   auto row = mRowIndexes.left.at(root);
   if (index == -1) {
     for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
-      if (mUnstagedImagesMatrix.at(row).at(i)->hash().starts_with("placeholder")) {
+      if (mUnstagedImagesMatrix.at(row).at(i)->hash().starts_with(
+              "placeholder")) {
         mUnstagedImagesMatrix[row][i] = image;
         auto it = mPositions.right.find(std::pair<int, int>{row, i});
         mPositions.right.modify_data(it, boost::bimaps::_data = image->full());

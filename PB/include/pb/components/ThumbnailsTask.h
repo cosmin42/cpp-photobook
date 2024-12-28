@@ -16,7 +16,8 @@ public:
   static std::string createThumbnails(
       std::shared_ptr<cv::Mat>                  originalImage,
       std::shared_ptr<PlatformInfo>             platformInfo,
-      std::shared_ptr<ProjectManagementService> projectManagementService);
+      std::shared_ptr<ProjectManagementService> projectManagementService,
+      std::string                               targetHash = "");
 
   static std::string
   createThumbnailsByPath(Path                                 originalImage,

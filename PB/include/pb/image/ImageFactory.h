@@ -18,7 +18,7 @@ public:
       std::shared_ptr<DurableHashService> durableHashService);
 
   std::shared_ptr<RegularImageV2> createRegularImage(Path path);
-  std::shared_ptr<TextImageV2>    createTextImage(Path path, Path hashPath);
+  std::shared_ptr<TextImageV2>    createTextImage(Path path, std::string hash);
 
   GenericImagePtr createImage(Path path);
 

@@ -58,7 +58,14 @@ void ImportFoldersService::onPicturesSearchFinished(
           mSearches.erase(jobId);
           mListener->onMappingFinished(root, searchResults);
 
-          startThumbnailsCreation(jobId, searchResults);
+          std::vector<Path> onlyFilesResults(searchResults);
+          auto              it = std::remove_if(
+              onlyFilesResults.begin(), onlyFilesResults.end(),
+              [](Path path) { return std::filesystem::is_directory(path); });
+
+          onlyFilesResults.erase(it, onlyFilesResults.end());
+
+          startThumbnailsCreation(jobId, onlyFilesResults);
         });
   }
 }

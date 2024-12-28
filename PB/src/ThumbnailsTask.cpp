@@ -9,15 +9,20 @@ namespace PB {
 std::string ThumbnailsTask::createThumbnails(
     std::shared_ptr<cv::Mat>                  originalImage,
     std::shared_ptr<PlatformInfo>             platformInfo,
-    std::shared_ptr<ProjectManagementService> projectManagementService)
+    std::shared_ptr<ProjectManagementService> projectManagementService,
+    std::string                               targetHash)
 {
   auto maybleProject = projectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybleProject != nullptr);
 
   auto projectId = maybleProject->first;
 
+  if (targetHash.empty()) {
+    targetHash = "wait";
+  }
+
   auto [large, medium, small, hash] =
-      platformInfo->newThumbnailPaths(projectId, "wait");
+      platformInfo->newThumbnailPaths(projectId, targetHash);
 
   auto width = originalImage->cols;
   auto height = originalImage->rows;

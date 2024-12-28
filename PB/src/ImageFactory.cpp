@@ -1,5 +1,6 @@
 #include <pb/image/ImageFactory.h>
 
+#include <pb/components/ThumbnailsTask.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/image/ImageReader.h>
 
@@ -30,8 +31,8 @@ std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
   return regularImage;
 }
 
-std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path path,
-                                                           Path hashPath)
+std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
+                                                           std::string hash)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
@@ -44,16 +45,17 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path path,
 
   Process::CVFontInfo fontInfo;
   fontInfo.color = {0, 0, 0};
-  fontInfo.pixelSize = Process::pointsFromPixels(24, project.paperSettings.ppi);
+  fontInfo.pixelSize = Process::pointsFromPixels(4, project.paperSettings.ppi);
   fontInfo.thickness = 8;
 
   image = PB::Process::addText(
       {project.paperSettings.width / 2, project.paperSettings.height / 2},
       path.stem().string(), fontInfo)(image);
 
-  Process::writeImageOnDisk(image, hashPath);
+  ThumbnailsTask::createThumbnails(image, mPlatformInfo,
+                                   mProjectManagementService, hash);
 
-  auto textImage = std::make_shared<TextImageV2>("", path.stem().string());
+  auto textImage = std::make_shared<TextImageV2>(hash, path.stem().string());
   return textImage;
 }
 
@@ -70,10 +72,7 @@ GenericImagePtr ImageFactory::createImage(Path path)
   else if (std::filesystem::is_directory(path)) {
     auto coreHash = mDurableHashService->getHash(projectId, path);
 
-    auto hashPath =
-        mPlatformInfo->thumbnailByHash(maybeProject->first, coreHash, ".jpg");
-
-    return createTextImage(path, hashPath);
+    return createTextImage(path, coreHash);
   }
   else {
     PBDev::basicAssert(false);
