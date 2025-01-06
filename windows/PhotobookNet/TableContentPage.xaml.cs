@@ -23,11 +23,15 @@ namespace PhotobookNet
     {
 
         ObservableCollection<string> mNavigationItemsCollection;
+
         ObservableCollection<VirtualImagePtr> mUnstagedImageCollection;
         ObservableCollection<VirtualImagePtr> mStagedImageCollection;
+
         Collection<VirtualImagePtr> mDragAndDropSelectedImages;
+
+        // The app is bound to exit
         bool mExitFlag = false;
-        bool mNewProjectFlag = false;
+
         DragSource mDragSource = DragSource.None;
         bool mLinesExclusiveSelection = false;
         bool mBackFlag = false;
@@ -301,24 +305,6 @@ namespace PhotobookNet
         private void OnSaveAsClicked(object sender, RoutedEventArgs args)
         {
             PhotobookSingletonWrapper.Inst().Post(async () => { await RenameProjectDialog.ShowAsync(); });
-        }
-
-        private void OnNewClicked(object sender, RoutedEventArgs args)
-        {
-            var isSaved = mPhotobook.GetSettings().IsSaved(mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
-                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
-                mPhotobook.GetImageViews().ImageMonitor().RowList());
-
-            if (isSaved)
-            {
-                mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(DashboardPage), "new-project");
-            }
-            else
-            {
-                mNewProjectFlag = true;
-                PhotobookSingletonWrapper.Inst().Post(async () => { await SaveProjectDialog.ShowAsync(); });
-            }
         }
 
         private void Right()
@@ -770,12 +756,6 @@ namespace PhotobookNet
             {
                 PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
             }
-            if (mNewProjectFlag)
-            {
-                mNewProjectFlag = false;
-                mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(DashboardPage), "new-project");
-            }
             if (mBackFlag)
             {
                 mBackFlag = false;
@@ -800,12 +780,6 @@ namespace PhotobookNet
             if (mExitFlag)
             {
                 PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
-            }
-            if (mNewProjectFlag)
-            {
-                mNewProjectFlag = false;
-                mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(DashboardPage), "new-project");
             }
             if (mBackFlag)
             {

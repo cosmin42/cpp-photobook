@@ -69,8 +69,6 @@
                                 </Style>
                             </MenuFlyout.MenuFlyoutPresenterStyle>
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="New"
-                                                Click="OnNewClicked"></MenuFlyoutItem>
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="Save"
                                                 Click="OnSaveClicked">

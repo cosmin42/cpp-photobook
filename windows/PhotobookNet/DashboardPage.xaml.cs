@@ -15,6 +15,7 @@ using Windows.Foundation.Collections;
 using WinRT;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas.Effects;
+using System.Xml.Linq;
 
 namespace PhotobookNet
 {
@@ -144,29 +145,9 @@ namespace PhotobookNet
         {
             mPhotobook.ConfigurePhotobookListener(this);
 
-            if (args.Parameter != null)
-            {
-                string source = args.Parameter.ToString();
-                if (source == "new-project")
-                {
-                    var newProjectName = mPhotobook.GenerateProjectName();
-                    var paperSettings = GetPaperSettings();
-                    //mPhotobook.NewProject(newProjectName, paperSettings);
-                    PhotobookSingletonWrapper.Inst().UpdateTitle(newProjectName);
-                    PhotobookSingletonWrapper.Inst().Post(() =>
-                    {
-                        Frame.Navigate(typeof(TableContentPage));
-                    });
-                }
-                else
-                {
-                    PhotobookSingletonWrapper.Inst().UpdateTitle();
-                }
-            }
-            else
-            {
-                PhotobookSingletonWrapper.Inst().UpdateTitle();
-            }
+            System.Diagnostics.Debug.Assert(args.Parameter == null, "No defined parameters");
+
+            PhotobookSingletonWrapper.Inst().UpdateTitle();
         }
 
         private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
