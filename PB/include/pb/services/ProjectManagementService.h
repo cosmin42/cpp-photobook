@@ -47,6 +47,8 @@ public:
   void deleteProject(boost::uuids::uuid id);
   void deleteProjectByName(std::string name);
 
+  void save();
+
   std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
   projectsList() const;
 

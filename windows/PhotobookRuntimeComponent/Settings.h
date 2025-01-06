@@ -116,49 +116,9 @@ struct Settings : SettingsT<Settings> {
                                              winrt::to_string(newName));
   }
 
-  void Save(winrt::hstring thumbnailsDirectoryName,
-            Windows::Foundation::Collections::IVector<
-                Windows::Foundation::Collections::IVector<
-                    PhotobookRuntimeComponent::VirtualImagePtr>>
-                unstagedImages,
-            Windows::Foundation::Collections::IVector<
-                PhotobookRuntimeComponent::VirtualImagePtr>
-                stagedImages,
-            Windows::Foundation::Collections::IVector<winrt::hstring> root)
+  void Save()
   {
-    std::vector<std::vector<PB::GenericImagePtr>> nativeUnstagedImages;
-    std::vector<PB::GenericImagePtr>              nativesStagedImages;
-    std::vector<Path>                             nativeRoots;
-
-    for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-      std::vector<PB::GenericImagePtr> nativeUnstagedLine;
-      for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
-        auto nativeImagePtr =
-            winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                                VirtualImagePtr>(
-                unstagedImages.GetAt(i).GetAt(j))
-                ->Unwrap();
-        nativeUnstagedLine.push_back(nativeImagePtr);
-      }
-      nativeUnstagedImages.push_back(nativeUnstagedLine);
-    }
-
-    for (int i = 0; i < (int)stagedImages.Size(); ++i) {
-      auto nativeImagePtr =
-          winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                              VirtualImagePtr>(stagedImages.GetAt(i))
-              ->Unwrap();
-      nativesStagedImages.push_back(nativeImagePtr);
-    }
-
-    for (int i = 0; i < (int)root.Size(); ++i) {
-      nativeRoots.push_back(winrt::to_string(root.GetAt(i)));
-    }
-    mProjectManagementService->saveMetadata();
-
-    // mPersistenceService->save(winrt::to_string(thumbnailsDirectoryName),
-    //                           nativeUnstagedImages, nativesStagedImages,
-    //                           nativeRoots);
+    mProjectManagementService->save();
   }
 
   bool HasProjectOpen()
@@ -175,50 +135,6 @@ struct Settings : SettingsT<Settings> {
     auto uuid = maybeLoadedProjectInfo->first;
 
     return winrt::to_hstring(boost::uuids::to_string(uuid));
-  }
-
-  bool IsSaved(Windows::Foundation::Collections::IVector<
-                   Windows::Foundation::Collections::IVector<
-                       PhotobookRuntimeComponent::VirtualImagePtr>>
-                   unstagedImages,
-               Windows::Foundation::Collections::IVector<
-                   PhotobookRuntimeComponent::VirtualImagePtr>
-                   stagedImages,
-               Windows::Foundation::Collections::IVector<winrt::hstring> roots)
-  {
-    std::vector<std::vector<PB::GenericImagePtr>> nativeUnstagedImages;
-    std::vector<PB::GenericImagePtr>              nativesStagedImages;
-    std::vector<Path>                             nativeRoots;
-
-    for (int i = 0; i < (int)unstagedImages.Size(); ++i) {
-      std::vector<PB::GenericImagePtr> nativeUnstagedLine;
-      for (int j = 0; j < (int)unstagedImages.GetAt(i).Size(); ++j) {
-        auto nativeImagePtr =
-            winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                                VirtualImagePtr>(
-                unstagedImages.GetAt(i).GetAt(j))
-                ->Unwrap();
-        nativeUnstagedLine.push_back(nativeImagePtr);
-      }
-      nativeUnstagedImages.push_back(nativeUnstagedLine);
-    }
-
-    for (int i = 0; i < (int)stagedImages.Size(); ++i) {
-      auto nativeImagePtr =
-          winrt::get_self<winrt::PhotobookRuntimeComponent::implementation::
-                              VirtualImagePtr>(stagedImages.GetAt(i))
-              ->Unwrap();
-      nativesStagedImages.push_back(nativeImagePtr);
-    }
-
-    for (int i = 0; i < (int)roots.Size(); ++i) {
-      nativeRoots.push_back(winrt::to_string(roots.GetAt(i)));
-    }
-
-    throw std::runtime_error("Not implemented yet");
-    // return mPersistenceService->isSaved(nativeUnstagedImages,
-    //                                     nativesStagedImages, nativeRoots);
-    return false;
   }
 
   winrt::hstring Hash(winrt::hstring path) { return winrt::hstring(); }

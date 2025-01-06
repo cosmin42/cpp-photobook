@@ -70,25 +70,8 @@ namespace PhotobookNet
 
             PhotobookSingletonWrapper.Inst().SetOnWindowClosed(() =>
             {
-                var isSaved = mPhotobook.GetSettings().IsSaved(mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
-                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
-                mPhotobook.GetImageViews().ImageMonitor().RowList());
-
-                if (isSaved)
-                {
-                    PhotobookSingletonWrapper.Inst().Post(() =>
-                    {
-                        Application.Current.Exit();
-                    });
-                }
-                else
-                {
-                    mExitFlag = true;
-                    PhotobookSingletonWrapper.Inst().Post(async () =>
-                    {
-                        await SaveProjectDialog.ShowAsync();
-                    });
-                }
+                mPhotobook.GetSettings().Save();
+                mExitFlag = true;
             });
 
             UnstagedListView.ItemsSource = mUnstagedImageCollection;
@@ -263,7 +246,7 @@ namespace PhotobookNet
 
         private void OnAboutClicked(object sender, RoutedEventArgs args)
         {
-            GenericMessageTextBlock.Text = "Photobook v1.0\n\nDeveloped by:\n\n- A\n- B\n- C\n- D\n- E\n- F\n- G\n- H\n- I\n- J\n- K\n- L\n- M\n- N\n- O\n- P\n- Q\n- R\n- S\n- T\n- U\n- V\n- W\n- X\n- Y\n- Z";
+            GenericMessageTextBlock.Text = "Photobook v1.0\nDeveloped by: Cosmin MIHAI";
             PhotobookSingletonWrapper.Inst().Post(async () =>
             {
                 await GnericMessage.ShowAsync();
@@ -291,15 +274,7 @@ namespace PhotobookNet
 
         private void OnSaveClicked(object sender, RoutedEventArgs args)
         {
-            mPhotobook.GetSettings().Save(mPhotobook.GetSettings().CurrentProjectUUID(),
-                mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
-                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
-                mPhotobook.GetImageViews().ImageMonitor().RowList());
-        }
-
-        private void OnSaveAsClicked(object sender, RoutedEventArgs args)
-        {
-            PhotobookSingletonWrapper.Inst().Post(async () => { await RenameProjectDialog.ShowAsync(); });
+            mPhotobook.GetSettings().Save();
         }
 
         private void Right()
@@ -422,7 +397,6 @@ namespace PhotobookNet
 
             mPhotobook.MakeCollage(selectedImages, slectedCollageIndex);
         }
-
 
         private async void OnAddMediaClick(object sender, RoutedEventArgs args)
         {
@@ -708,43 +682,10 @@ namespace PhotobookNet
         }
 
         /* Dialogs - Save */
-        private void OnContentDialogDiscardClicked(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            mPhotobook.UnloadProject();
-            if (mExitFlag)
-            {
-                PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
-            }
-            else
-            {
-                Frame.Navigate(typeof(DashboardPage));
-            }
-        }
-
-        private void OnContentDialogCancelClicked(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            // ILB
-        }
-
-        private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, "");
-        }
-
-        private void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            if (mExitFlag)
-            {
-                PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
-            }
-        }
 
         private void saveProject()
         {
-            mPhotobook.GetSettings().Save(mPhotobook.GetSettings().CurrentProjectUUID(),
-                mPhotobook.GetImageViews().ImageMonitor().Unstaged(),
-                mPhotobook.GetImageViews().StagedImages().StagedPhotos(),
-                mPhotobook.GetImageViews().ImageMonitor().RowList());
+            mPhotobook.GetSettings().Save();
             if (mExitFlag)
             {
                 PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
@@ -765,21 +706,6 @@ namespace PhotobookNet
         private void OnSaveProject(object sender, ContentDialogButtonClickEventArgs args)
         {
             saveProject();
-        }
-
-
-        private void OnCancelSavingProject(object sender, ContentDialogButtonClickEventArgs args)
-        {
-            if (mExitFlag)
-            {
-                PhotobookSingletonWrapper.Inst().Post(() => { Microsoft.UI.Xaml.Application.Current.Exit(); });
-            }
-            if (mBackFlag)
-            {
-                mBackFlag = false;
-                mPhotobook.UnloadProject();
-                Frame.Navigate(typeof(DashboardPage));
-            }
         }
 
         /* Dialogs - Export */

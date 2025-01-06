@@ -37,15 +37,11 @@ runtimeclass Settings
 
   void Rename(String newName, String oldName);
 
-  void Save(String                            thumbnailsDirectoryName,
-            IVector<IVector<VirtualImagePtr> > unstagedImages,
-            IVector<VirtualImagePtr> stagedImages, IVector<String> root);
+  void Save();
 
   Boolean HasProjectOpen();
   String  CurrentProjectUUID();
 
-  Boolean IsSaved(IVector<IVector<VirtualImagePtr> > unstagedImages,
-                  IVector<VirtualImagePtr> stagedImages, IVector<String> roots);
   String  Hash(String path);
 
   PaperSettings GetPaperSettings();

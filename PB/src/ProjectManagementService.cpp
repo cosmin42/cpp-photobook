@@ -305,4 +305,9 @@ void ProjectManagementService::renameProject(std::string oldName,
   }
 }
 
+void ProjectManagementService::save()
+{
+  mProjectSerializerService->saveProject(maybeLoadedProject->second);
+}
+
 } // namespace PB::Service

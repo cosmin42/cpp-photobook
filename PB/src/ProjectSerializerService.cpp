@@ -117,7 +117,7 @@ std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
   return std::vector<Path>();
 }
 
-void ProjectSerializerService ::saveProject(Project project)
+void ProjectSerializerService::saveProject(Project project)
 {
   auto projectPath = mPlatformInfo->localStatePath / "projects" /
                      (project.name + OneConfig::BOOK_EXTENSION);
