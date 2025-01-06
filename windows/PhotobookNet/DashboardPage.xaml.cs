@@ -1,9 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -11,11 +8,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using PhotobookRuntimeComponent;
-using Windows.Foundation.Collections;
-using WinRT;
-using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas.Effects;
-using System.Xml.Linq;
 
 namespace PhotobookNet
 {
@@ -37,17 +29,26 @@ namespace PhotobookNet
         private MenuFlyout mMenuFlyout;
 
         // The saved projects list
-        private ObservableCollection<ProjectItem> mProjectsList;
+        private ObservableCollection<ProjectItem> mProjectsList = [];
 
         // Engine reference
         private PhotobookWin mPhotobook;
 
+        static private int SqrtIntF(int size)
+        {
+            float root = (float)Math.Sqrt(size);
+            int intRoot = (int)Math.Ceiling(root);
+            return intRoot;
+        }
+
         public DashboardPage()
         {
             this.InitializeComponent();
+
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
-            mProjectsList = new ObservableCollection<ProjectItem>();
+
             mPhotobook.ConfigurePhotobookListener(this);
+
             mMenuFlyout = new MenuFlyout();
             mMenuFlyout.Items.Add(DeleteFlyout());
             mMenuFlyout.Items.Add(RenameFlyout());
@@ -80,6 +81,8 @@ namespace PhotobookNet
         {
             CreateProjectDialogDisplay();
         }
+
+
 
         private void OnCreateProjectDialogNext(object sender, ContentDialogButtonClickEventArgs args)
         {
@@ -132,7 +135,7 @@ namespace PhotobookNet
 
         public void OnCollageThumbnailsCreated()
         {
-
+            throw new NotImplementedException();
         }
 
         public void OnProjectRead()
@@ -153,13 +156,6 @@ namespace PhotobookNet
         private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
             mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
-        }
-
-        static private int SqrtIntF(int size)
-        {
-            float root = (float)Math.Sqrt(size);
-            int intRoot = (int)Math.Ceiling(root);
-            return intRoot;
         }
 
         public void OnMetadataUpdated(string focusProjectName)
@@ -193,9 +189,9 @@ namespace PhotobookNet
             }
         }
 
-        private Microsoft.UI.Xaml.Controls.MenuFlyoutItem DeleteFlyout()
+        private MenuFlyoutItem DeleteFlyout()
         {
-            Microsoft.UI.Xaml.Controls.MenuFlyoutItem deleteItem = new()
+            MenuFlyoutItem deleteItem = new()
             {
                 Text = "Delete"
             };
@@ -264,9 +260,9 @@ namespace PhotobookNet
             mRightClickedId = string.Empty;
         }
 
-        private Microsoft.UI.Xaml.Controls.MenuFlyoutItem RenameFlyout()
+        private MenuFlyoutItem RenameFlyout()
         {
-            Microsoft.UI.Xaml.Controls.MenuFlyoutItem renameItem = new()
+            MenuFlyoutItem renameItem = new()
             {
                 Text = "Rename"
             };
@@ -333,6 +329,14 @@ namespace PhotobookNet
             });
         }
 
+        public void Post(Functor f)
+        {
+            PhotobookSingletonWrapper.Inst().Post(() =>
+            {
+                f();
+            });
+        }
+
         public void OnPersistenceError(PBError error)
         {
             throw new NotImplementedException();
@@ -382,14 +386,6 @@ namespace PhotobookNet
         public void OnLutAdded(LutIconInfo lutIconInfo)
         {
             PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
-        }
-
-        public void Post(Functor f)
-        {
-            PhotobookSingletonWrapper.Inst().Post(() =>
-            {
-                f();
-            });
         }
 
         public void OnCollageCreated(uint index, VirtualImagePtr newImage)

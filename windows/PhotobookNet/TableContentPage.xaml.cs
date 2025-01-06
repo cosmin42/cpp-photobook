@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
-using System.Reflection;
 
 namespace PhotobookNet
 {
@@ -21,50 +20,46 @@ namespace PhotobookNet
     /// </summary>
     public sealed partial class TableContentPage : Page, PhotobookListener
     {
+        readonly static (int, int) DEFAULT_FRAME_SIZE = (438, 310);
+        private ObservableCollection<string> mNavigationItemsCollection = [];
 
-        ObservableCollection<string> mNavigationItemsCollection;
+        private ObservableCollection<VirtualImagePtr> mUnstagedImageCollection = [];
+        private ObservableCollection<VirtualImagePtr> mStagedImageCollection = [];
 
-        ObservableCollection<VirtualImagePtr> mUnstagedImageCollection;
-        ObservableCollection<VirtualImagePtr> mStagedImageCollection;
+        private ObservableCollection<CollageTemplateInfo> mCollageIconsPaths { get; set; } = [];
 
-        Collection<VirtualImagePtr> mDragAndDropSelectedImages;
+        private Collection<VirtualImagePtr> mDragAndDropSelectedImages = [];
+        private DragSource mDragSource = DragSource.None;
 
         // The app is bound to exit
-        bool mExitFlag = false;
+        private bool mExitFlag = false;
 
-        DragSource mDragSource = DragSource.None;
-        bool mLinesExclusiveSelection = false;
-        bool mBackFlag = false;
-        bool mJustRemove = false;
-        bool doNothing = false;
+        // This flag is used to avoid selecting images from both UPL and SPL
+        private bool mLinesExclusiveSelection = false;
 
-        (int, int) frameSize = (438, 310);
+        private bool mBackFlag = false;
+        private bool mJustRemove = false;
+        private bool doNothing = false;
 
-        IDictionary<Guid, uint> mSPLProcessingImages = new Dictionary<Guid, uint>();
+        (int, int) mFrameSize = (DEFAULT_FRAME_SIZE.Item1, DEFAULT_FRAME_SIZE.Item2);
+
+        private Dictionary<Guid, uint> mSPLProcessingImages = [];
 
         private PhotobookWin mPhotobook;
 
-        private PhotobookRuntimeComponent.PaperSettings PaperSettingsCache;
+        private PaperSettings mPaperSettingsCache;
 
         public TableContentPage()
         {
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
 
-            PaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
+            mPaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
 
-            frameSize = (PaperSettingsCache.Width, PaperSettingsCache.Height);
+            mFrameSize = (mPaperSettingsCache.Width, mPaperSettingsCache.Height);
 
             this.InitializeComponent();
 
-            mCollageIconsPaths = new ObservableCollection<CollageTemplateInfo>();
-
-            mDragAndDropSelectedImages = new Collection<VirtualImagePtr>();
-
             mPhotobook.ConfigurePhotobookListener(this);
-
-            mNavigationItemsCollection = new ObservableCollection<string>();
-            mUnstagedImageCollection = new ObservableCollection<VirtualImagePtr>();
-            mStagedImageCollection = new ObservableCollection<VirtualImagePtr>();
 
             CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
             LutIconsGridView.ItemsSource = PhotobookSingletonWrapper.Inst().lutIconInfos;
@@ -150,16 +145,16 @@ namespace PhotobookNet
         {
             get
             {
-                System.Diagnostics.Debug.Assert(PaperSettingsCache.Ppi > 0, "Width is 0");
-                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, 438, 310);
+                System.Diagnostics.Debug.Assert(mPaperSettingsCache.Ppi > 0, "Width is 0");
+                double ratio = PaperToCanvasRatio(mPaperSettingsCache.Width, mPaperSettingsCache.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(PaperSettingsCache.Width / ratio);
+                    return (int)Math.Floor(mPaperSettingsCache.Width / ratio);
                 }
                 else
                 {
-                    return PaperSettingsCache.Width;
+                    return mPaperSettingsCache.Width;
                 }
             }
             set { }
@@ -169,16 +164,16 @@ namespace PhotobookNet
         {
             get
             {
-                System.Diagnostics.Debug.Assert(PaperSettingsCache.Ppi > 0, "Height is 0");
-                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height, 438, 310);
+                System.Diagnostics.Debug.Assert(mPaperSettingsCache.Ppi > 0, "Height is 0");
+                double ratio = PaperToCanvasRatio(mPaperSettingsCache.Width, mPaperSettingsCache.Height, 438, 310);
 
                 if (ratio > 1)
                 {
-                    return (int)Math.Floor(PaperSettingsCache.Height / ratio);
+                    return (int)Math.Floor(mPaperSettingsCache.Height / ratio);
                 }
                 else
                 {
-                    return PaperSettingsCache.Height;
+                    return mPaperSettingsCache.Height;
                 }
             }
             set { }
@@ -186,10 +181,10 @@ namespace PhotobookNet
 
         private void CanvasGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
+            double ratio = PaperToCanvasRatio(mFrameSize.Item1, mFrameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
 
-            GalleryCanvas.Width = (int)Math.Floor(frameSize.Item1 / ratio);
-            GalleryCanvas.Height = (int)Math.Floor(frameSize.Item2 / ratio);
+            GalleryCanvas.Width = (int)Math.Floor(mFrameSize.Item1 / ratio);
+            GalleryCanvas.Height = (int)Math.Floor(mFrameSize.Item2 / ratio);
         }
 
         private void LoadImages()
@@ -254,9 +249,9 @@ namespace PhotobookNet
             PhotobookSingletonWrapper.Inst().Post(async () => { await PropertiesContentDialog.ShowAsync(); });
             PropertiesContentTextBlock.Loaded += (object sender, RoutedEventArgs args) =>
             {
-                PropertiesContentTextBlock.Text = "Paper size: " + PaperSettingsCache.Width.ToString() + "x" + PaperSettingsCache.Height.ToString() + "px\n" +
-                    "PPI: " + PaperSettingsCache.Ppi.ToString() + "\n" +
-                    "Paper type: " + PaperSettingsCache.Type.ToString() + "\n";
+                PropertiesContentTextBlock.Text = "Paper size: " + mPaperSettingsCache.Width.ToString() + "x" + mPaperSettingsCache.Height.ToString() + "px\n" +
+                    "PPI: " + mPaperSettingsCache.Ppi.ToString() + "\n" +
+                    "Paper type: " + mPaperSettingsCache.Type.ToString() + "\n";
             };
         }
 
@@ -537,10 +532,10 @@ namespace PhotobookNet
 
             //frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
 
-            double ratio = PaperToCanvasRatio(frameSize.Item1, frameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
+            double ratio = PaperToCanvasRatio(mFrameSize.Item1, mFrameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
 
-            GalleryCanvas.Width = (int)Math.Floor(frameSize.Item1 / ratio);
-            GalleryCanvas.Height = (int)Math.Floor(frameSize.Item2 / ratio);
+            GalleryCanvas.Width = (int)Math.Floor(mFrameSize.Item1 / ratio);
+            GalleryCanvas.Height = (int)Math.Floor(mFrameSize.Item2 / ratio);
 
             int portviewWidth = (int)GalleryCanvas.Width;
             int portviewHeight = (int)GalleryCanvas.Height;
@@ -558,8 +553,6 @@ namespace PhotobookNet
         }
 
         /* Book Lines */
-
-        public ObservableCollection<CollageTemplateInfo> mCollageIconsPaths { get; set; }
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
@@ -993,11 +986,11 @@ namespace PhotobookNet
 
             if (width > 0 && height > 0)
             {
-                double ratio = PaperToCanvasRatio(PaperSettingsCache.Width, PaperSettingsCache.Height,
+                double ratio = PaperToCanvasRatio(mPaperSettingsCache.Width, mPaperSettingsCache.Height,
                                       width, height);
 
-                var newWidth = Math.Floor(PaperSettingsCache.Width / ratio);
-                var newHeight = Math.Floor(PaperSettingsCache.Height / ratio);
+                var newWidth = Math.Floor(mPaperSettingsCache.Width / ratio);
+                var newHeight = Math.Floor(mPaperSettingsCache.Height / ratio);
 
                 GalleryCanvas.Width = newWidth;
                 GalleryCanvas.Height = newHeight;
