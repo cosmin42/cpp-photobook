@@ -33,7 +33,6 @@ public:
   }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
-  void onProjectRenamed() override { mManagedListener.OnProjectRenamed(); }
   void onMetadataUpdated(std::string focusedProjectName) override
   {
     mManagedListener.OnMetadataUpdated(winrt::to_hstring(focusedProjectName));

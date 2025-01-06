@@ -26,14 +26,22 @@ namespace PhotobookNet
     /// </summary>
     public sealed partial class DashboardPage : Page, PhotobookListener
     {
-        string mOldProjectName;
-        string mRightClickedId;
-        string mProjectUUID;
-        string mLastClickedProjectName;
+        // Rename Project
+        private string mOldProjectName;
 
-        MenuFlyout mMenuFlyout;
-        ObservableCollection<ProjectItem> mProjectsList;
+        // The ID of the project that was right-clicked
+        private string mRightClickedId;
 
+        // The name of the project that is clicked when opening a project
+        private string mLastClickedProjectName;
+
+        // MenuFlyout for right-clicking on a project
+        private MenuFlyout mMenuFlyout;
+
+        // The saved projects list
+        private ObservableCollection<ProjectItem> mProjectsList;
+
+        // Engine reference
         private PhotobookWin mPhotobook;
 
         public DashboardPage()
@@ -167,20 +175,6 @@ namespace PhotobookNet
         private void OnRenameProjectDialogRename(object sender, ContentDialogButtonClickEventArgs args)
         {
             mPhotobook.GetSettings().Rename(RenameProjectDialogTextBox.Text, mOldProjectName);
-            OnProjectRenamed();
-        }
-
-        public void OnProjectRenamed()
-        {
-            for (int i = 0; i < mProjectsList.Count; i++)
-            {
-                var projectItem = mProjectsList[i];
-                if (projectItem.ItemId == mProjectUUID)
-                {
-                    mProjectsList[i] = new ProjectItem(projectItem.ItemId, projectItem.FullPath, RenameProjectDialogTextBox.Text);
-                    break;
-                }
-            }
         }
 
         static private int SqrtIntF(int size)
@@ -316,7 +310,6 @@ namespace PhotobookNet
                     if (project.ItemId == mRightClickedId)
                     {
                         name = Path.GetFileName(project.FullPath);
-                        mProjectUUID = project.ItemId;
                         break;
                     }
                 }

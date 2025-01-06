@@ -1054,11 +1054,6 @@ namespace PhotobookNet
             // ILE
         }
 
-        public void OnProjectRenamed()
-        {
-            // ILE
-        }
-
         public void OnMetadataUpdated(string focusedProjectName)
         {
             // ILE

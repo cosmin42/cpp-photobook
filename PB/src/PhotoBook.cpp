@@ -164,6 +164,7 @@ void Photobook::unloadProject()
   }
 }
 
+// TODO: eliminate this method
 void Photobook::recallMetadata()
 {
   mProjectManagementService->recallMetadata();
