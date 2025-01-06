@@ -14,27 +14,8 @@ using System.Linq;
 using Microsoft.Graphics.Canvas;
 using System.Reflection;
 
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace PhotobookNet
 {
-    enum DragSource { None, Unstaged, Staged };
-
-    sealed class UISelectionIndex
-    {
-        public UISelectionIndex()
-        {
-            ImportListIndex = null;
-            UnstagedLineIndex = new List<uint>();
-            StagedPhotoIndex = new List<uint>();
-        }
-        public uint? ImportListIndex { set; get; }
-        public List<uint> UnstagedLineIndex { set; get; }
-        public List<uint> StagedPhotoIndex { set; get; }
-    };
-
     /// <summary>
     /// The page that displays the content of the photobook.
     /// </summary>
@@ -895,9 +876,9 @@ namespace PhotobookNet
             return UnstagedListView.Items.Count == 0;
         }
 
-        private UISelectionIndex GetSelectionIndex()
+        private UiSelectionData GetSelectionIndex()
         {
-            UISelectionIndex selectionIndex = new UISelectionIndex();
+            var selectionIndex = new UiSelectionData();
 
             var ranges = UnstagedListView.SelectedRanges;
 
@@ -981,7 +962,7 @@ namespace PhotobookNet
         /* Keyboard */
         private void OnKeyPressed(object sender, KeyRoutedEventArgs arg)
         {
-            UISelectionIndex selectionIndex = GetSelectionIndex();
+            var selectionIndex = GetSelectionIndex();
 
             if (selectionIndex.StagedPhotoIndex.Count == 0 && selectionIndex.UnstagedLineIndex.Count == 0)
             {
