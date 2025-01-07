@@ -56,4 +56,4 @@ private:
 
   ImageToPaperServiceListener *mListener = nullptr;
 };
-} // namespace PB
+} // namespace PB::Service

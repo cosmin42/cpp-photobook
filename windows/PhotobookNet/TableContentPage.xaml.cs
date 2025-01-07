@@ -162,6 +162,10 @@ namespace PhotobookNet
             set { }
         }
 
+        /**
+         * @brief Method called every time the canvas size changes.
+         * @param index
+         */
         private void CanvasGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
             double ratio = PaperToCanvasRatio(mFrameSize.Item1, mFrameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
@@ -663,6 +667,8 @@ namespace PhotobookNet
 
             // WORKAROUND END
 
+            OnStagedImageAdded(mDragAndDropSelectedImages, insertPosition);
+
             mDragAndDropSelectedImages.Clear();
         }
 
@@ -949,7 +955,7 @@ namespace PhotobookNet
             GenericErrorTextBlock.Text = "Code: " + errorString;
             await GenericErrorDialog.ShowAsync();
         }
-        /*
+
         public void OnStagedImageAdded(IList<VirtualImagePtr> photos, int index)
         {
             System.Diagnostics.Debug.Assert(index <= mStagedImageCollection.Count, "Index is greater than the count");
@@ -994,7 +1000,7 @@ namespace PhotobookNet
                 mPhotobook.mapImagesToSPL(imagesToBeProcessed);
             }
         }
-        */
+
         public void OnStagedImageRemoved(IList<uint> removedIndexes)
         {
             // sort removedIndexes in decreasing order
@@ -1095,10 +1101,6 @@ namespace PhotobookNet
         public void OnCleared()
         {
             //ILE
-        }
-
-        public void OnImportFolderAdded()
-        {
         }
 
         // Deprecated

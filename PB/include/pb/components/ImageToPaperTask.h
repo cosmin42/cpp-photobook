@@ -6,9 +6,12 @@
 
 #include <pb/Platform.h>
 #include <pb/components/MapReducer.h>
+#include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/GenericImage.h>
+#include <pb/entities/RegularImageV2.h>
 #include <pb/image/ImageReader.h>
 #include <pb/project/Project.h>
+#include <pb/services/ProjectManagementService.h>
 
 DECLARE_STRONG_UUID(ImageToPaperId)
 
@@ -23,11 +26,13 @@ public:
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
-      PBDev::ProjectId projectId, PaperSettings paperSettings,
+      std::shared_ptr<ProjectManagementService> projectManagementService,
+      PaperSettings                             paperSettings,
       std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
-      : MapReducer(), mPaperSettings(paperSettings), mProjectId(projectId),
+      : MapReducer(), mPaperSettings(paperSettings),
+        mProjectManagementService(projectManagementService),
         mOriginalImages(originalImages)
   {
     for (const auto &[id, image] : originalImages) {
@@ -73,7 +78,8 @@ private:
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
   PaperSettings                      mPaperSettings;
-  PBDev::ProjectId                   mProjectId;
+
+  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
@@ -107,8 +113,12 @@ private:
 
   GenericImagePtr CreatePaperImage(GenericImagePtr image)
   {
+    auto maybeProjectInfo = mProjectManagementService->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProjectInfo != nullptr);
+
     auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
-    auto hashPath = mPlatformInfo->thumbnailByHash(*mProjectId, hash, ".png");
+    auto hashPath =
+        mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, hash, ".png");
 
     auto imageData = ImageReader().read(
         image->full(), true, {mPaperSettings.width, mPaperSettings.height});
@@ -118,28 +128,16 @@ private:
 
     PBDev::basicAssert(imageData != nullptr);
 
-    PB::Process::overlap(imageData,
-                         PB::Process::alignToCenter())(singleColorImage);
-    // TODO: Replace this with the ThumbnailsTask method.
-    /*
-    auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
-        mPlatformInfo->localStatePath, 0, hashPath.stem().string(),
-        boost::uuids::to_string(*mProjectId));
+    auto newImageMat = PB::Process::overlap(
+        imageData, PB::Process::alignToCenter())(singleColorImage);
 
-    Process::writeImageOnDisk(singleColorImage, hashPath);
+    auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
-    Process::imageWriteThumbnail(mPaperSettings.width, mPaperSettings.height,
-                                 singleColorImage, mediumPath, smallPath);
+    auto maybeNewHash = ThumbnailsTask::createThumbnails(
+        newImageMat, mPlatformInfo, mProjectManagementService, newHash);
 
-    ImageResources imageResources = {hashPath, mediumPath, smallPath,
-                                     (unsigned)singleColorImage->cols,
-                                     (unsigned)singleColorImage->rows};
-
-    auto newImage = std::make_shared<RegularImage>(imageResources, hashPath);
-
-    return newImage;
-    */
-    return nullptr;
+    PBDev::basicAssert(maybeNewHash == newHash);
+    return std::make_shared<RegularImageV2>(newHash, image->full());
   }
 };
 } // namespace PB

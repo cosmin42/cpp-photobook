@@ -13,26 +13,25 @@ void ImageToPaperService::map(
   PBDev::basicAssert(maybeProject != nullptr);
 
   auto &&task =
-      ImageToPaperTask(PBDev::ProjectId(maybeProject->first),
+      ImageToPaperTask(mProjectManagementService,
                        maybeProject->second.paperSettings, originalImages);
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
-                        PBDev::ProgressJobName{"to-paper"});
+                                          PBDev::ProgressJobName{"to-paper"});
   UNUSED(stopSource);
 }
 
 void ImageToPaperService::map(
-    PBDev::ImageToPaperServiceId id,
-    std::pair<PBDev::ImageToPaperId, GenericImagePtr>
-        originalImage)
+    PBDev::ImageToPaperServiceId                      id,
+    std::pair<PBDev::ImageToPaperId, GenericImagePtr> originalImage)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
   auto &&task = ImageToPaperTask(
-      PBDev::ProjectId(maybeProject->first), maybeProject->second.paperSettings,
+      mProjectManagementService, maybeProject->second.paperSettings,
       std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                          boost::hash<PBDev::ImageToPaperId>>{originalImage});
 
@@ -40,7 +39,7 @@ void ImageToPaperService::map(
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
   auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
-                        PBDev::ProgressJobName{"to-paper"});
+                                          PBDev::ProgressJobName{"to-paper"});
   UNUSED(stopSource);
 }
 
@@ -49,4 +48,4 @@ void ImageToPaperService::removeTask(PBDev::ImageToPaperServiceId id)
   mTasks.erase(id);
 }
 
-} // namespace PB
+} // namespace PB::Service
