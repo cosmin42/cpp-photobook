@@ -381,6 +381,7 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
+// TODO: This and ImageToPaperTask need to be refactored
 void Photobook::onCollageCreated(unsigned index, Path imagePath)
 {
   auto maybeLoadedProjectInfo =
@@ -392,32 +393,29 @@ void Photobook::onCollageCreated(unsigned index, Path imagePath)
 
   auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
                                                   coreHash, ".jpg");
-  /*
-  auto [smallPath, mediumPath] = ThumbnailsProcessor::assembleOutputPaths(
-      mPlatformInfo->localStatePath, 0, imageHash.stem().string(),
-      boost::uuids::to_string(maybeLoadedProjectInfo->first));
 
+  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
+  auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
+      imagePath, mPlatformInfo, maybeLoadedProjectInfo, newHash);
+
+  PBDev::basicAssert(maybeNewHash == newHash);
   auto newImage = mImageFactory->createRegularImage(imagePath);
 
   std::function<void(unsigned, unsigned)> onFinished =
-      [this, index{index}, newImage{newImage}, imagePath{imagePath},
-       mediumPath{mediumPath},
-       smallPath{smallPath}](unsigned width, unsigned height) {
-        newImage->setSizePath(imagePath, mediumPath, smallPath);
-        newImage->setSize(width, height);
-
+      [this, index{index}, newImage{newImage}](unsigned width,
+                                               unsigned height) {
         post([this, index{index}, newImage{newImage}]() {
           mParent->onCollageCreated(index, newImage);
         });
       };
 
-  ImportImageTask importImageTask(imagePath, mediumPath, smallPath,
-  onFinished, mPlatformInfo->screenSize.first,
-                                  mPlatformInfo->screenSize.second,
-                                  std::stop_source().get_token());
+  ImportImageTask importImageTask(
+      newImage->full(), newImage->medium(), newImage->smaLL(), onFinished,
+      mPlatformInfo->screenSize.first, mPlatformInfo->screenSize.second,
+      std::stop_source().get_token());
 
   importImageTask();
-  */
 }
 
 void Photobook::onCollageMakerError() {}
