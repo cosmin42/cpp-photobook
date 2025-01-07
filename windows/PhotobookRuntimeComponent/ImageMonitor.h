@@ -9,8 +9,6 @@
 
 #include "VirtualImagePtr.g.h"
 #include "VirtualImagePtr.h"
-#include "VICollectionStatefulIterator.g.h"
-#include "VICollectionStatefulIterator.h"
 
 #include <pb/ImageMonitor.h>
 
@@ -187,20 +185,6 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       managedUnstagedImages.Append(managedUnstagedImagesLine);
     }
     return managedUnstagedImages;
-  }
-
-  PhotobookRuntimeComponent::VICollectionStatefulIterator
-  StatefulIteratorByPath(winrt::hstring path)
-  {
-    return winrt::make<VICollectionStatefulIterator>(
-        mImageMonitor.statefulIterator(winrt::to_string(path)));
-  }
-
-  PhotobookRuntimeComponent::VICollectionStatefulIterator
-  StatefulIteratorByRow(unsigned index)
-  {
-    return winrt::make<VICollectionStatefulIterator>(
-        mImageMonitor.statefulIterator(index));
   }
 
 private:

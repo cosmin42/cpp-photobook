@@ -149,7 +149,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
-    include/pb/util/IteratorWithState.h
     include/pb/util/Observable.h
     include/pb/util/Timer.h
     include/pb/util/Traits.h
@@ -255,7 +254,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         tests/MockListeners.h
         tests/MockListeners.cpp
         tests/TestCollageService.cpp
-        tests/TestIteratorWithState.cpp
         tests/TestErrors.cpp
         tests/TestFolderImport.cpp
         tests/TestImageMonitor.cpp

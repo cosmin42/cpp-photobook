@@ -78,10 +78,4 @@ GenericImagePtr StagedImages::picture(unsigned index) const
   return mStagedPhotos.at(index);
 }
 
-auto StagedImages::statefullIterator()
-    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
-{
-  return PBDev::IteratorWithState<std::vector<GenericImagePtr>>(mStagedPhotos);
-}
-
 } // namespace PB

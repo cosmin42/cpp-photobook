@@ -1,5 +1,4 @@
 import "VirtualImagePtr.idl";
-import "VICollectionStatefulIterator.idl";
 import "Int32Pair.idl";
 
 namespace PhotobookRuntimeComponent {
@@ -42,8 +41,5 @@ runtimeclass ImageMonitor
   Int32Pair       Position(String full);
 
   IVector<IVector<VirtualImagePtr> > Unstaged();
-
-  VICollectionStatefulIterator StatefulIteratorByPath(String path);
-  VICollectionStatefulIterator StatefulIteratorByRow(UInt32 index);
 }
 } // namespace PhotobookRuntimeComponent

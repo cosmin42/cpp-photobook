@@ -812,36 +812,28 @@ namespace PhotobookNet
             var selection = GetSelectionIndex();
             if (selection.ImportListIndex != null)
             {
-                var iterator = mPhotobook.GetImageViews().ImageMonitor().StatefulIteratorByRow(selection.ImportListIndex.Value);
-                if (iterator.Valid())
+                var diff = mUnstagedImageCollection.Count - mPhotobook.GetImageViews().ImageMonitor().RowSize(selection.ImportListIndex.Value);
+                if (diff > 0)
                 {
-                    var diff = mUnstagedImageCollection.Count - iterator.Size();
-                    if (diff > 0)
+                    for (var i = 0; i < diff; i++)
                     {
-                        for (var i = 0; i < diff; i++)
-                        {
-                            mUnstagedImageCollection.RemoveAt(mUnstagedImageCollection.Count - 1);
-                        }
-                    }
-                    else if (diff < 0)
-                    {
-                        for (var i = 0; i < -diff; i++)
-                        {
-                            var emptyImage = mPhotobook.EmptyImage();
-                            mUnstagedImageCollection.Add(emptyImage);
-                        }
-                    }
-
-                    for (var i = 0; i < iterator.Size(); i++)
-                    {
-                        VirtualImagePtr virtualImage = iterator.At((uint)i).current();
-
-                        mUnstagedImageCollection[i] = virtualImage;
+                        mUnstagedImageCollection.RemoveAt(mUnstagedImageCollection.Count - 1);
                     }
                 }
-                else
+                else if (diff < 0)
                 {
-                    mUnstagedImageCollection.Clear();
+                    for (var i = 0; i < -diff; i++)
+                    {
+                        var emptyImage = mPhotobook.EmptyImage();
+                        mUnstagedImageCollection.Add(emptyImage);
+                    }
+                }
+
+                for (var i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize(selection.ImportListIndex.Value); i++)
+                {
+                    VirtualImagePtr virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image(selection.ImportListIndex.Value, (uint)i);
+
+                    mUnstagedImageCollection[i] = virtualImage;
                 }
             }
         }

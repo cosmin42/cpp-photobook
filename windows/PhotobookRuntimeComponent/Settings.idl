@@ -29,10 +29,6 @@ runtimeclass Settings
 
   Boolean Contains(String name);
 
-  // std::vector<std::tuple<boost::uuids::uuid, std::string, Path>>
-  // projectsList()
-  //     const;
-
   IVector<ProjectMetadataEntry> ProjectsList();
 
   void Rename(String newName, String oldName);

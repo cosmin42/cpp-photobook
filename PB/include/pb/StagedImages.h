@@ -4,7 +4,6 @@
 #include <vector>
 
 #include <pb/entities/GenericImage.h>
-#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 
@@ -24,9 +23,6 @@ public:
 
   std::vector<GenericImagePtr> const &stagedPhotos() const;
   GenericImagePtr                     picture(unsigned index) const;
-
-  auto statefullIterator()
-      -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>;
 
 private:
   std::vector<GenericImagePtr> mStagedPhotos;

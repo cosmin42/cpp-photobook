@@ -16,7 +16,6 @@
 
 #include <pb/Config.h>
 #include <pb/jobs/PicturesSearchJob.h>
-#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 
@@ -70,23 +69,6 @@ public:
   {
     auto image = cv::imread(path.string(), cv::IMREAD_COLOR);
     return !image.empty();
-  }
-
-  void loadBuffer(PBDev::IteratorWithState<std::vector<Path>> iterator)
-  {
-    if (!iterator.valid()) {
-      return;
-    }
-
-    auto actualBufferSize = std::min(sBufferSize, iterator.size());
-
-    UNUSED(actualBufferSize);
-
-    std::vector<Path> toBeDeleted;
-
-    auto currentPath = iterator.current();
-
-    mBuffer[currentPath] = loadImage(currentPath);
   }
 
   auto isCached(Path const &path) const -> bool

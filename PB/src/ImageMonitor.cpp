@@ -178,22 +178,6 @@ std::vector<std::vector<GenericImagePtr>> const &ImageMonitor::unstaged() const
   return mUnstagedImagesMatrix;
 }
 
-auto ImageMonitor::statefulIterator(Path root)
-    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
-{
-  return statefulIterator(mRowIndexes.left.at(root));
-}
-
-auto ImageMonitor::statefulIterator(unsigned row)
-    -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>
-{
-  if (row >= mUnstagedImagesMatrix.size()) {
-    return PBDev::IteratorWithState<std::vector<GenericImagePtr>>();
-  }
-  return PBDev::IteratorWithState<std::vector<GenericImagePtr>>(
-      mUnstagedImagesMatrix.at(row));
-}
-
 void ImageMonitor::log() const
 {
   /*

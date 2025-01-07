@@ -8,7 +8,6 @@
 #include <pb/Config.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RowProcessingData.h>
-#include <pb/util/IteratorWithState.h>
 
 namespace PB {
 
@@ -40,11 +39,6 @@ public:
   std::pair<int, int> position(Path full) const;
 
   std::vector<std::vector<GenericImagePtr>> const &unstaged() const;
-
-  auto statefulIterator(Path root)
-      -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>;
-  auto statefulIterator(unsigned row)
-      -> PBDev::IteratorWithState<std::vector<GenericImagePtr>>;
 
   void log() const;
 
