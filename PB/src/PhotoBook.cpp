@@ -381,7 +381,7 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
-// TODO: This and ImageToPaperTask need to be refactored
+// TODO: This and ImageToPaperTask need to be refactored, move to CollageMakerJob
 void Photobook::onCollageCreated(unsigned index, Path imagePath)
 {
   auto maybeLoadedProjectInfo =

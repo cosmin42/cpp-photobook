@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include <string>
 
 #include <magic_enum/magic_enum.hpp>
@@ -16,8 +17,8 @@ struct PaperSettings {
   // add to string method
   operator std::string() const
   {
-    return std::to_string(width) + "x" + std::to_string(height) + " " +
-           std::to_string(ppi) + "ppi " + std::string(magic_enum::enum_name(type));
+    return std::format("{}x{} {}ppi {}", width, height, ppi,
+                       std::string(magic_enum::enum_name(type)));
   }
 };
 
