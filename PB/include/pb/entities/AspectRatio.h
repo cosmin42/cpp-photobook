@@ -21,7 +21,7 @@ struct AspectRatio
 
   std::string operator()() const
   {
-    return std::format("{}:{}", widthRatio, heightRatio);
+    return std::format("{}x{}", widthRatio, heightRatio);
   }
 };
 }

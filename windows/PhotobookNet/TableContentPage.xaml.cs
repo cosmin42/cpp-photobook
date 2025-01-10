@@ -53,10 +53,6 @@ namespace PhotobookNet
         {
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
 
-            mPaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
-
-            mFrameSize = (mPaperSettingsCache.Width, mPaperSettingsCache.Height);
-
             this.InitializeComponent();
 
             mPhotobook.ConfigurePhotobookListener(this);
@@ -537,6 +533,11 @@ namespace PhotobookNet
             var projectName = args.Parameter as string;
 
             mPhotobook.GetSettings().RecallProjectByName(projectName);
+
+            mPaperSettingsCache = mPhotobook.GetSettings().GetPaperSettings();
+
+            mFrameSize = (mPaperSettingsCache.Width, mPaperSettingsCache.Height);
+
             mPhotobook.MakeCollages();
 
             LoadImages();

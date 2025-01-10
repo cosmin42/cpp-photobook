@@ -11,8 +11,7 @@ using namespace PB::Service;
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ImageViews : ImageViewsT<ImageViews> {
-  ImageViews(
-      std::shared_ptr<ProjectManagementService> projectManagementService)
+  ImageViews(std::shared_ptr<ProjectManagementService> projectManagementService)
       : mProjectManagementService(projectManagementService)
   {
   }
@@ -38,11 +37,9 @@ struct ImageViews : ImageViewsT<ImageViews> {
     return winrt::make<
         winrt::PhotobookRuntimeComponent::implementation::StagedImages>(
         maybeLoadedProject->second.stagedImages());
-    return nullptr;
   }
 
 private:
-  std::shared_ptr<ProjectManagementService> mProjectManagementService =
-      nullptr;
+  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
