@@ -32,5 +32,8 @@ private:
                      sk_sp<skresources::FileResourceProvider>,
                      boost::hash<PBDev::SkiaResourcesId>>
       mResourceProviders;
+  std::unordered_map<PBDev::SkiaResourcesId, Path,
+                     boost::hash<PBDev::SkiaResourcesId>>
+      mRegisteredPaths;
 };
 } // namespace PB
