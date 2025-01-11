@@ -23,13 +23,6 @@
 
 namespace PB::Service {
 
-#ifdef __APPLE__
-void OGLEngine::configureThreadScheduler(
-    PBDev::ThreadScheduler *threadScheduler)
-{
-  mThreadScheduler = threadScheduler;
-}
-#endif
 void OGLEngine::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {

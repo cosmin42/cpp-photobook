@@ -74,7 +74,7 @@ std::string PdfExportTask::name() const
 {
   return mPdfPath.filename().string() + "podofo";
 }
-// TODO: implement once somehow
+// TODO: implement once somehow, try std::call_once
 std::optional<IdentifyableFunction>
 PdfExportTask::getTask(std::stop_token stopToken)
 {

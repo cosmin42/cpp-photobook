@@ -25,9 +25,6 @@ class OGLEngine final {
 public:
   ~OGLEngine() = default;
 
-#ifdef __APPLE__
-  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
-#endif
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void start();
