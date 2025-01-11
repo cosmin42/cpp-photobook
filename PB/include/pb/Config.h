@@ -99,6 +99,37 @@ const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
     {"upl-to-spl-map", 4},   {"search-files", 1}, {"lut-icons", 1},
     {"thumbnails-job", 1},   {"default", 1}};
 
+#ifdef SIMULATE_FEW_HAPPY_WORDS
+const std::vector<std::string> HAPPY_WORDS = {"Joyful", "Blissful"};
+#else
+const std::vector<std::string> HAPPY_WORDS = {
+    "Joyful",       "Blissful",   "Radiant",       "Cheerful",
+    "Exuberant",    "Jubilant",   "Gleeful",       "Delighted",
+    "Content",      "Ecstatic",   "Merry",         "Jovial",
+    "Upbeat",       "Elated",     "Happy",         "Sunny",
+    "Lighthearted", "Buoyant",    "Festive",       "Vibrant",
+    "Grateful",     "Satisfied",  "Pleased",       "Overjoyed",
+    "Optimistic",   "Pleased",    "Thrilled",      "Euphoric",
+    "Playful",      "Carefree",   "Radiant",       "Wonderful",
+    "Jolly",        "Zestful",    "Bubbly",        "Heartwarming",
+    "Cheery",       "Upbeat",     "Chirpy",        "Sanguine",
+    "Enthusiastic", "Serene",     "Up-lifting",    "Giddy",
+    "Gleaming",     "Bountiful",  "Exultant",      "Merry-making",
+    "Comical",      "Hilarious",  "Dynamic",       "Sweet",
+    "Whimsical",    "Spirited",   "Sprightly",     "Delightful",
+    "Radiant",      "Uplifting",  "Optimistic",    "Tickled",
+    "Chipper",      "Pleasant",   "Buoyant",       "Lively",
+    "Sparkling",    "Tickled",    "Exhilarating",  "Bouncy",
+    "Festal",       "Vivacious",  "Gladsome",      "Pleased",
+    "Elated",       "Blithesome", "Merry-hearted", "Gleamy",
+    "Zippy",        "Snappy",     "Piquant",       "Buoyant",
+    "Enlivened",    "Beaming",    "Radiant",       "Jocund",
+    "Grinning",     "Giggly",     "Sunny",         "Uplifted",
+    "Hopeful",      "Amused",     "Merry-making",  "Overjoyed",
+    "Glad",         "Contented",  "Radiant",       "Effervescent",
+    "Spry",         "Snug",       "Jovial",        "Untroubled"};
+#endif
+
 } // namespace OneConfig
 
 class Noir {

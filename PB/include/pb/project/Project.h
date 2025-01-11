@@ -14,7 +14,6 @@ namespace PB {
 
 class Project final {
 public:
-  static std::string generateAlbumName(std::function<bool(std::string)>);
 
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
   std::string   name;
