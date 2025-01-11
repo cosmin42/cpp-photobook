@@ -15,7 +15,7 @@ TEST(TestFolderImport, Test0)
   photobook.configure((PB::PhotobookListener *)&photobookListener);
 
   EXPECT_CALL(photobookListener, onMetadataUpdated(""));
-  photobook.recallMetadata();
+  photobook.projectManagementService()->recallMetadata();
 
   std::vector<PB::ProjectMetadata> projectsMetadata;
 

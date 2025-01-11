@@ -254,6 +254,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         tests/MockListeners.h
         tests/MockListeners.cpp
         tests/TestCollageService.cpp
+        tests/TestDeserialization.cpp
         tests/TestErrors.cpp
         tests/TestFolderImport.cpp
         tests/TestImageMonitor.cpp
