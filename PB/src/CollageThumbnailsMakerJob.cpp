@@ -104,9 +104,11 @@ CollageThumbnailsMakerJob::getSourceTemplates() const
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
-  // TODO: Add logging
-  std::filesystem::create_directories(
+  bool success = std::filesystem::create_directories(
       mPlatformInfo->collagesFolder(mProject->first));
+  PBDev::basicAssert(success);
+  spdlog::info("[CollageThumbnailsMakerJob] Created placeholders folder for project: {}",
+               boost::uuids::to_string(mProject->first));
 }
 
 void CollageThumbnailsMakerJob::obtainSourceTemplates()
