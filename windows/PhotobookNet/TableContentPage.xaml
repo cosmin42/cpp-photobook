@@ -19,7 +19,7 @@
     <Grid Background="{StaticResource PrimaryColor}"
           KeyDown="OnKeyDown">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="4*" />
             <RowDefinition Height="Auto" />

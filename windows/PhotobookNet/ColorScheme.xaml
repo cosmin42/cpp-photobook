@@ -6,10 +6,11 @@
     <Color x:Key="PrimaryColor">#1A2224</Color>
     <Color x:Key="BorderColor">#09191D</Color>
     <Color x:Key="ButtonBackgroundColor">#374346</Color>
-    <Color x:Key="MainFontColor">#FFFFFF</Color>
-    <Color x:Key="CommandBarMainColor">#D3D3D3</Color>
     <Color x:Key="ButtonPointerOverWhenSelected">#516165</Color>
     <Color x:Key="RemoveButtonBackground">#541C1C</Color>
+    <Color x:Key="AppBarButtonDisabled">#696969</Color>
+    <Color x:Key="MainFontColor">#FFFFFF</Color>
+    <Color x:Key="CommandBarMainColor">#D3D3D3</Color>
     <Color x:Key="DialogTextColor">#808080</Color>
     <SolidColorBrush x:Key="ButtonBackgroundDisabled"
                      Color="#00000000" />
@@ -30,7 +31,13 @@
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
                                         <Setter Target="Content.Foreground"
-                                                Value="#FF0000" />
+                                                Value="{StaticResource AppBarButtonDisabled}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Target="Content.Foreground"
+                                                Value="{StaticResource CommandBarMainColor}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
