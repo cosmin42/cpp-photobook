@@ -96,11 +96,28 @@ template <> std::variant<PaperSettings, PBDev::Error> deserialize(Json jsonData)
   return paperSettings;
 }
 
+template <> std::variant<ImageType, PBDev::Error> deserialize(Json jsonData)
+{
+  auto data = jsonData.get<std::string>();
+
+  auto imageType = magic_enum::enum_cast<ImageType>(data);
+
+  if (!imageType.has_value()) {
+    return PBDev::Error() << ErrorCode::JSONParseError;
+  }
+
+  return imageType.value();
+}
+
 template <>
 std::variant<GenericImagePtr, PBDev::Error> deserialize(Json jsonData)
 {
+  auto imageTypeOrError = deserialize<ImageType>(jsonData.at("type"));
 
-  auto imageType = (ImageType)jsonData.at("type").get<unsigned>();
+  if (std::holds_alternative<PBDev::Error>(imageTypeOrError)) {
+    return std::get<PBDev::Error>(imageTypeOrError);
+  }
+  auto imageType = std::get<ImageType>(imageTypeOrError);
 
   auto hashOrErrror = deserialize<std::string>(jsonData, "hash");
 
@@ -192,6 +209,41 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
     return std::get<PBDev::Error>(nameOrError);
   }
   projectDetails.name = std::get<std::string>(nameOrError);
+
+  auto iamgeMonitorOrError =
+      deserialize<std::vector<std::vector<GenericImagePtr>>>(
+          jsonData, "imageMonitor",
+          std::vector<std::vector<GenericImagePtr>>());
+
+  if (std::holds_alternative<PBDev::Error>(iamgeMonitorOrError)) {
+    return std::get<PBDev::Error>(iamgeMonitorOrError);
+  }
+
+  auto rootsOrError =
+      deserializeSpecial(jsonData, "roots", std::vector<Path>());
+
+  if (std::holds_alternative<PBDev::Error>(rootsOrError)) {
+    return std::get<PBDev::Error>(rootsOrError);
+  }
+
+  auto &imageMonitor =
+      std::get<std::vector<std::vector<GenericImagePtr>>>(iamgeMonitorOrError);
+  auto &roots = std::get<std::vector<Path>>(rootsOrError);
+
+  PBDev::basicAssert(imageMonitor.size() == roots.size());
+
+  for (auto i = 0; i < roots.size(); ++i) {
+    projectDetails.imageMonitor().addRow(roots[i], imageMonitor[i]);
+  }
+
+  auto stagedImagesOrError = deserialize<std::vector<GenericImagePtr>>(
+      jsonData, "stagedImages", std::vector<GenericImagePtr>());
+
+  if (std::holds_alternative<PBDev::Error>(stagedImagesOrError)) {
+    return std::get<PBDev::Error>(stagedImagesOrError);
+  }
+  projectDetails.stagedImages().addPictures(
+      std::get<std::vector<GenericImagePtr>>(stagedImagesOrError));
 
   return projectDetails;
 }

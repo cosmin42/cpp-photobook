@@ -102,11 +102,12 @@ template <>
 std::variant<Json, PBDev::Error> flatSimple(int depth, Project project)
 {
   return flatDictionary<std::string, PaperSettings, GenericImagePtrMatrix,
-                        GenericImagePtrLine>(
+                        GenericImagePtrLine, std::vector<Path>>(
       depth, std::make_tuple("name", project.name),
       std::make_tuple("paperSettings", project.paperSettings),
       std::make_tuple("imageMonitor", project.imageMonitor().unstaged()),
-      std::make_tuple("stagedImages", project.stagedImages().stagedPhotos()));
+      std::make_tuple("stagedImages", project.stagedImages().stagedPhotos()),
+      std::make_tuple("roots", project.imageMonitor().rowList()));
 }
 
 } // namespace PB
