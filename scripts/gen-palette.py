@@ -18,7 +18,6 @@ def load_palette(file_name, palette_name):
     if palette is None:
         print(f"Error: Palette '{palette_name}' not found.")
         return
-
     # Print the colors in the chosen palette
 
     ui_palette = palette.get("ui", {})
@@ -56,7 +55,7 @@ def load_palette(file_name, palette_name):
 # Check command-line arguments
 if len(sys.argv) != 3:
     print("Usage: python gen-palette.py <file_name> <palette_name>")
-    print("Example: python gen-palette.py palette.json ui")
+    print("Example: python gen-palette.py palette.json original-palette")
 else:
     file_name = sys.argv[1]
     palette_name = sys.argv[2]

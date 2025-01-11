@@ -5,7 +5,8 @@
       "BorderColor": "#09191D",
       "ButtonBackgroundColor": "#374346",
       "ButtonPointerOverWhenSelected": "#516165",
-      "RemoveButtonBackground": "#541C1C"
+      "RemoveButtonBackground": "#541C1C",
+      "AppBarButtonDisabled": "#696969"
     },
     "fonts": {
       "MainFontColor": "#FFFFFF",
