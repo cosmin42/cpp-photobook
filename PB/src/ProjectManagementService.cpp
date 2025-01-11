@@ -72,42 +72,31 @@ bool ProjectManagementService::hasProjectName(std::string name) const
   return mProjectsMetadata.right.find(name) != mProjectsMetadata.right.end();
 }
 
-void ProjectManagementService::deleteProject(boost::uuids::uuid id)
+void ProjectManagementService::deleteProject(
+    std::variant<std::string, boost::uuids::uuid> nameOrId)
 {
-  auto projectName = mProjectsMetadata.left.at(id);
+  std::string id;
+  std::string name;
 
-  auto projectPath = mPlatformInfo->projectPath(projectName);
-
-  auto projectData =
-      mPlatformInfo->projectFolderPath() / boost::uuids::to_string(id);
-
-  // TODO: Check return values
-  std::filesystem::remove_all(projectPath);
-  std::filesystem::remove_all(projectData);
-
-  mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
-                               "uuid='" + boost::uuids::to_string(id) + "'");
-  mProjectsMetadata.right.erase(projectName);
-
-  mListener->onProjectMetadataRecalled("");
-}
-
-void ProjectManagementService::deleteProjectByName(std::string name)
-{
-  auto projectId = mProjectsMetadata.right.at(name);
-
-  auto projectData =
-      mPlatformInfo->projectFolderPath() / boost::uuids::to_string(projectId);
+  if (std::holds_alternative<std::string>(nameOrId)) {
+    name = std::get<std::string>(nameOrId);
+    id = boost::uuids::to_string(mProjectsMetadata.right.at(name));
+  }
+  else {
+    id = boost::uuids::to_string(std::get<boost::uuids::uuid>(nameOrId));
+    name = mProjectsMetadata.left.at(std::get<boost::uuids::uuid>(nameOrId));
+  }
 
   auto projectPath = mPlatformInfo->projectPath(name);
 
+  auto projectData = mPlatformInfo->projectFolderPath() / id;
+
   // TODO: Check return values
   std::filesystem::remove_all(projectPath);
   std::filesystem::remove_all(projectData);
 
   mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
-                               "uuid='" + boost::uuids::to_string(projectId) +
-                                   "'");
+                               "uuid='" + id + "'");
   mProjectsMetadata.right.erase(name);
 
   mListener->onProjectMetadataRecalled("");
@@ -165,7 +154,9 @@ void ProjectManagementService::preprocessDefaultWaitingImage()
   auto hash = ThumbnailsTask::createThumbnailsByPath(
       waitImagePath, mPlatformInfo, maybeLoadedProjectInfo(), "wait");
 
-  Noir::inst().getLogger()->info("Wait image processed to {}", std::get<0>(mPlatformInfo->waitThumbnails()).string());
+  Noir::inst().getLogger()->info(
+      "Wait image processed to {}",
+      std::get<0>(mPlatformInfo->waitThumbnails()).string());
 
   UNUSED(hash);
 }

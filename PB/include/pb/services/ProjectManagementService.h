@@ -44,8 +44,7 @@ public:
 
   void saveMetadata();
   void renameProject(std::string oldName, std::string newName);
-  void deleteProject(boost::uuids::uuid id);
-  void deleteProjectByName(std::string name);
+  void deleteProject(std::variant<std::string, boost::uuids::uuid> nameOrId);
 
   void save();
 
