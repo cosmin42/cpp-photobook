@@ -41,7 +41,7 @@ struct Settings : SettingsT<Settings> {
 
   void RecallProjectByName(winrt::hstring name)
   {
-    mProjectManagementService->loadProjectByName(winrt::to_string(name));
+    mProjectManagementService->loadProject(winrt::to_string(name));
   }
 
   void RecallMetadata() { mProjectManagementService->recallMetadata(); }

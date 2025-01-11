@@ -161,10 +161,21 @@ void ProjectManagementService::preprocessDefaultWaitingImage()
   UNUSED(hash);
 }
 
-void ProjectManagementService::loadProject(boost::uuids::uuid id)
+void ProjectManagementService::loadProject(
+    std::variant<std::string, boost::uuids::uuid> nameOrId)
 {
-  std::string projectName = mProjectsMetadata.left.at(id);
-  auto        projectPath = mPlatformInfo->projectPath(projectName);
+  std::string projectName;
+  boost::uuids::uuid id;
+  if (std::holds_alternative<std::string>(nameOrId)) {
+    projectName = std::get<std::string>(nameOrId);
+    id = mProjectsMetadata.right.at(projectName);
+  }
+  else {
+    id = std::get<boost::uuids::uuid>(nameOrId);
+    projectName = mProjectsMetadata.left.at(id);
+  }
+
+  auto projectPath = mPlatformInfo->projectPath(projectName);
   auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);
 
   maybeLoadedProject =
@@ -176,23 +187,6 @@ void ProjectManagementService::loadProject(boost::uuids::uuid id)
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
       boost::uuids::to_string(id),
-      std::string(maybeLoadedProject->second.paperSettings));
-}
-
-void ProjectManagementService::loadProjectByName(std::string name)
-{
-  boost::uuids::uuid id = mProjectsMetadata.right.at(name);
-  auto               projectPath = mPlatformInfo->projectPath(name);
-  auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);
-
-  maybeLoadedProject =
-      std::make_shared<IdentifyableProject>(std::make_pair(id, project));
-
-  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id) /
-                                     "thumbnail-images");
-
-  Noir::inst().getLogger()->info(
-      "Project loaded by name: {}, {}, {}", name, boost::uuids::to_string(id),
       std::string(maybeLoadedProject->second.paperSettings));
 }
 

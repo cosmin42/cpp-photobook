@@ -38,8 +38,7 @@ public:
   std::string newAlbumName();
 
   void newProject(PaperSettings paperSettings);
-  void loadProject(boost::uuids::uuid id);
-  void loadProjectByName(std::string name);
+  void loadProject(std::variant<std::string, boost::uuids::uuid> nameOrId);
   void unloadProject();
 
   void saveMetadata();

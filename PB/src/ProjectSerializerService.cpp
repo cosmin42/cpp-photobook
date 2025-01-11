@@ -126,7 +126,7 @@ void ProjectSerializerService::saveProject(Project project)
 
   PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
 
-  // TODO: Separate tis save to an infrastructure class.
+  // TODO: Separate tis save to an infrastructure class, add DiskOperations class
   saveAsJson(projectPath, std::get<Json>(jsonOrError));
 }
 } // namespace PB

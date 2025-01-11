@@ -8,7 +8,6 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
-// TODO: Is this class even used anymore?
 class NoirListener : public PB::NoirListener {
 public:
   explicit NoirListener(
