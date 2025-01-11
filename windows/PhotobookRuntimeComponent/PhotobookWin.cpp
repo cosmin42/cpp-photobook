@@ -15,8 +15,6 @@ namespace winrt::PhotobookRuntimeComponent::implementation {
 
 void PhotobookWin::MakeCollages() { mPhotobook->makeCollages(); }
 
-void PhotobookWin::RecallMetadata() { mPhotobook->recallMetadata(); }
-
 void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 
 void PhotobookWin::AddImportFolder(winrt::hstring importPath)

@@ -52,8 +52,6 @@ public:
 
   void startPhotobook();
 
-  void recallMetadata();
-
   void makeCollages();
 
   void unloadProject();

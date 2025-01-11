@@ -32,8 +32,6 @@ runtimeclass PhotobookWin
 
   String GenerateProjectName();
 
-  void RecallMetadata();
-
   void MakeCollages();
 
   void UnloadProject();

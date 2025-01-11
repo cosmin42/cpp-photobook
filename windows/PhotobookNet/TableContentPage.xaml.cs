@@ -51,14 +51,15 @@ namespace PhotobookNet
 
         public TableContentPage()
         {
-            mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
-
             this.InitializeComponent();
+
+            mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
 
             mPhotobook.ConfigurePhotobookListener(this);
 
-            CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
             LutIconsGridView.ItemsSource = PhotobookSingletonWrapper.Inst().lutIconInfos;
+
+            CollageTemplatesGridView.ItemsSource = mCollageIconsPaths;
 
             var collageButtonsEnabled = CollageTemplatesGridView.SelectedItems.Count() > 0;
             PreviewAppBarButton.IsEnabled = collageButtonsEnabled;

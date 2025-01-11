@@ -262,8 +262,6 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     return winrt::to_hstring(newProjectName);
   }
 
-  void RecallMetadata();
-
   void MakeCollages();
 
   void UnloadProject();

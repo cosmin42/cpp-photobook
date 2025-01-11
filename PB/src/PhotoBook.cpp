@@ -69,6 +69,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       projectManagementServiceListener);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
+
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
 
   mProgressService->configureScheduler(threadScheduler);
@@ -159,12 +160,6 @@ void Photobook::unloadProject()
   else {
     PBDev::basicAssert(false);
   }
-}
-
-// TODO: eliminate this method
-void Photobook::recallMetadata()
-{
-  mProjectManagementService->recallMetadata();
 }
 
 void Photobook::makeCollages()
@@ -378,7 +373,8 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
-// TODO: This and ImageToPaperTask need to be refactored, move to CollageMakerJob
+// TODO: This and ImageToPaperTask need to be refactored, move to
+// CollageMakerJob
 void Photobook::onCollageCreated(unsigned index, Path imagePath)
 {
   auto maybeLoadedProjectInfo =

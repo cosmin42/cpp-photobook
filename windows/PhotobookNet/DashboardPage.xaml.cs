@@ -54,7 +54,7 @@ namespace PhotobookNet
             mMenuFlyout.Items.Add(RenameFlyout());
 
             mPhotobook.StartPhotobook();
-            mPhotobook.RecallMetadata();
+            mPhotobook.GetSettings().RecallMetadata();
         }
 
         private void OnRenameProjectDialogCancel(object sender, ContentDialogButtonClickEventArgs args)
