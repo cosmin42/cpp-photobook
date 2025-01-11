@@ -18,11 +18,6 @@ void CollageMakerJob::configureProject(
 {
   mProject = project;
 }
-// TODO: Remove this
-void CollageMakerJob::configureProjectId(boost::uuids::uuid projectId)
-{
-  mProjectId = projectId;
-}
 
 void CollageMakerJob::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
@@ -35,10 +30,11 @@ void CollageMakerJob::configurePlatformInfo(
 
 void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
+  PBDev::basicAssert(mProject != nullptr);
   cv::Size imageSize = {mProject->second.paperSettings.width,
                         mProject->second.paperSettings.height};
 
-  auto resourcePath = mPlatformInfo->projectSupportFolder(mProjectId);
+  auto resourcePath = mPlatformInfo->projectSupportFolder(mProject->first);
 
   mResourcesProviderId = mResources->addResource(resourcePath);
 
@@ -53,7 +49,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
         boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
     Path projectThumbnailsRoot =
-        mPlatformInfo->projectSupportFolder(mProjectId);
+        mPlatformInfo->projectSupportFolder(mProject->first);
 
     auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
 

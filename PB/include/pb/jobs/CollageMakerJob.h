@@ -24,7 +24,6 @@ public:
 
   void configureListener(CollageMakerListener *listener);
   void configureProject(std::shared_ptr<IdentifyableProject> project);
-  void configureProjectId(boost::uuids::uuid projectId);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
   void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
@@ -49,7 +48,6 @@ private:
   Service::DrawingService                  mDrawingService;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
   std::vector<IdentifyableFunction>        mFunctions;
-  boost::uuids::uuid                       mProjectId;
 
   std::unordered_map<PBDev::MapReducerTaskId, unsigned,
                      boost::hash<PBDev::MapReducerTaskId>>
