@@ -219,6 +219,10 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
     return std::get<PBDev::Error>(iamgeMonitorOrError);
   }
 
+  // TODO: The roots should be decoupled from the path which is not relevant in
+  // general as the images are copied to the project folder
+  // Then, the root should be packaged along with the line in the image monitor
+  // line.
   auto rootsOrError =
       deserializeSpecial(jsonData, "roots", std::vector<Path>());
 
