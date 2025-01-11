@@ -169,6 +169,8 @@ namespace PhotobookNet
 
             GalleryCanvas.Width = (int)Math.Floor(mFrameSize.Item1 / ratio);
             GalleryCanvas.Height = (int)Math.Floor(mFrameSize.Item2 / ratio);
+
+            ImportsGrid.Height = LutsGrid.Height = CollageGrid.Height = (int)Math.Floor(mFrameSize.Item1 / ratio / 1.6);
         }
 
         private void LoadImages()
@@ -884,12 +886,6 @@ namespace PhotobookNet
         protected override void OnKeyDown(KeyRoutedEventArgs arg)
         { }
 
-        private void OnTableContentSizeChanged(object sender, SizeChangedEventArgs args)
-        {
-            UpdateCanvasSize();
-            GalleryCanvas.Invalidate();
-        }
-
         private double PaperToCanvasRatio(int width, int height,
                                             double boundingBoxWidth,
                                             double boundingBoxHeight)
@@ -903,24 +899,6 @@ namespace PhotobookNet
             double maxRatio = Math.Max(widthRatio, heightRatio);
 
             return maxRatio;
-        }
-
-        private void UpdateCanvasSize()
-        {
-            int width = (int)(CanvasBorder.ActualWidth - CanvasBorder.Padding.Left - CanvasBorder.Padding.Right);
-            int height = (int)(CanvasBorder.ActualHeight - GalleryBottomName.ActualHeight - CanvasBorder.Padding.Top - CanvasBorder.Padding.Bottom);
-
-            if (width > 0 && height > 0)
-            {
-                double ratio = PaperToCanvasRatio(mPaperSettingsCache.Width, mPaperSettingsCache.Height,
-                                      width, height);
-
-                var newWidth = Math.Floor(mPaperSettingsCache.Width / ratio);
-                var newHeight = Math.Floor(mPaperSettingsCache.Height / ratio);
-
-                GalleryCanvas.Width = newWidth;
-                GalleryCanvas.Height = newHeight;
-            }
         }
 
         public void OnProjectRead()

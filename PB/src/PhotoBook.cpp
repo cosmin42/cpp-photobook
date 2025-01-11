@@ -134,6 +134,8 @@ void Photobook::configureNoirListener(NoirListener *listener)
 
 void Photobook::startPhotobook()
 {
+
+  // TODO: Why is this method caled multiple times?
   static bool once = false;
   if (!once) {
     mDatabaseService->connect();

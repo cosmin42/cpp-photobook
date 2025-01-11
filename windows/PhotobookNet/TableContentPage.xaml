@@ -19,9 +19,9 @@
     <Grid Background="{StaticResource PrimaryColor}"
           KeyDown="OnKeyDown">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="5*" />
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -276,7 +276,7 @@
                     <controls:TabView.TabItems>
                         <controls:TabViewItem Header="Imports"
                                               IsClosable="False">
-                            <Grid>
+                            <Grid Name="ImportsGrid">
                                 <ListView Name="MediaListView"
                                           SelectionChanged="OnImportSelectionChanged"
                                           SelectionMode="Single"
@@ -315,7 +315,7 @@
                                     Padding="16,8"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                <Grid>
+                                <Grid Name="CollageGrid">
                                     <controls:GridView x:Name="CollageTemplatesGridView"
                                                        IsItemClickEnabled="True"
                                                        SelectionChanged="OnCollageSelectionChanged"
@@ -361,7 +361,7 @@
                                     Padding="16,8"
                                     Grid.Row="0"
                                     Grid.Column="0">
-                                <Grid MaxHeight="400">
+                                <Grid Name="LutsGrid">
                                     <controls:GridView x:Name="LutIconsGridView"
                                                        IsItemClickEnabled="True"
                                                        SelectionMode="Single">
