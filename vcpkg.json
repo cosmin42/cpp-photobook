@@ -16,6 +16,8 @@
     "boost-bimap",
     "spdlog",
     "inja",
-    "podofo"
+    "podofo",
+    "expat",
+    "inih"
   ]
 }
