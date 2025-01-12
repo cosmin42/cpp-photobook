@@ -21,7 +21,7 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
 - (void) removeByName:(NSString*)name
 {
     std::string nativeName = [name UTF8String];
-    projectManagementServiceCpp->deleteProjectByName(nativeName);
+    projectManagementServiceCpp->deleteProject(nativeName);
 }
 
 - (void)rename:(NSString*)oldName newName:(NSString*)newName

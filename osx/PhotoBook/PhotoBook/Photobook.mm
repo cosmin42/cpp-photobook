@@ -51,7 +51,6 @@ public:
     void onProjectRead() override {
         [&mManagedListener onProjectRead];
     }
-    void onProjectRenamed() override {}
     void onMetadataUpdated(std::string targetName) override {
         NSString* managedFocusedName = [NSString stringWithUTF8String:targetName.c_str()];
         [&mManagedListener onMetadataUpdated:managedFocusedName];
@@ -139,7 +138,7 @@ NoirListenerManaged* mNoirListener = nullptr;
 
 - (void) RecallMetadata
 {
-    mPhotobook->recallMetadata();
+    mPhotobook->projectManagementService()->recallMetadata();
 }
 
 - (NSArray<ProjectMetadataEntry*>*) projectsList
