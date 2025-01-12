@@ -35,7 +35,7 @@ jobs:
           vcpkgJsonGlob: '**/vcpkg.json'
 
       - name: vcpkg install arm64-iOS
-        run: ./vcpkg/vcpkg install --classic boost-program-options:arm64-ios boost-uuid:arm64-ios boost-random:arm64-ios brotli:arm64-ios opencv:arm64-ios magic-enum:arm64-ios exiv2:arm64-ios gtest:arm64-ios dp-thread-pool:arm64-ios libharu:arm64-ios sqlite3:arm64-ios nlohmann-json:arm64-ios boost-bimap:arm64-ios spdlog:arm64-ios inja:arm64-ios podofo:arm64-ios
+        run: ./vcpkg/vcpkg install --triplet=arm64-ios
 
       - name: vcpkg integrate install
         run: ./vcpkg/vcpkg integrate install
