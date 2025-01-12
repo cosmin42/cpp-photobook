@@ -49,9 +49,16 @@ namespace PhotobookNet
 
         private PaperSettings mPaperSettingsCache;
 
+        private CanvasDevice mCanvasDevice;
+        private byte[] mCanvasBuffer;
+        private CanvasBitmap mCanvasBitmap;
+        private bool mCanvasSizeChanged = false;
+
         public TableContentPage()
         {
             this.InitializeComponent();
+
+            mCanvasDevice = CanvasDevice.GetSharedDevice();
 
             mPhotobook = PhotobookSingletonWrapper.Inst().Photobook();
 
@@ -171,6 +178,10 @@ namespace PhotobookNet
             GalleryCanvas.Height = (int)Math.Floor(mFrameSize.Item2 / ratio);
 
             ImportsGrid.Height = LutsGrid.Height = CollageGrid.Height = (int)Math.Floor(mFrameSize.Item1 / ratio / 1.6);
+
+            mCanvasBuffer = new byte[(int)GalleryCanvas.Width * (int)GalleryCanvas.Height * 4];
+
+            mCanvasSizeChanged = true;
         }
 
         private void LoadImages()
@@ -484,7 +495,6 @@ namespace PhotobookNet
 
         private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-
             var selection = GetSelectionIndex();
             var session = args.DrawingSession;
             if (selection.StagedPhotoIndex.Count == 0 && selection.UnstagedLineIndex.Count == 0)
@@ -492,41 +502,40 @@ namespace PhotobookNet
                 session.Clear(Microsoft.UI.Colors.Black);
                 return;
             }
-            // TODO Add managed implementation.
 
             VirtualImagePtr imagePtr = null;
 
-            if (selection.UnstagedLineIndex.Count != 0)
+            if (selection.UnstagedLineIndex.Count > 0)
             {
                 imagePtr = mUnstagedImageCollection[(int)selection.UnstagedLineIndex[0]];
             }
-            else if (selection.StagedPhotoIndex.Count != 0)
+            else if (selection.StagedPhotoIndex.Count > 0)
             {
                 imagePtr = mStagedImageCollection[(int)selection.StagedPhotoIndex[0]];
             }
 
-            System.Diagnostics.Debug.Assert(imagePtr != null);
-
-            //frameSize = (imagePtr.Size().First, imagePtr.Size().Second);
-
-            double ratio = PaperToCanvasRatio(mFrameSize.Item1, mFrameSize.Item2, CanvasGridName.ActualWidth, CanvasGridName.ActualHeight);
-
-            GalleryCanvas.Width = (int)Math.Floor(mFrameSize.Item1 / ratio);
-            GalleryCanvas.Height = (int)Math.Floor(mFrameSize.Item2 / ratio);
+            if (imagePtr == null)
+            {
+                System.Diagnostics.Debug.WriteLine("The image cannot be null at this point.");
+                System.Diagnostics.Debug.Assert(false);
+            }
 
             int portviewWidth = (int)GalleryCanvas.Width;
             int portviewHeight = (int)GalleryCanvas.Height;
 
-            // TODO: make this static as it is always used.
-            byte[] byteArray = new byte[portviewWidth * portviewHeight * 4];
 
-            imagePtr.GalleryProjection(byteArray, portviewWidth, portviewHeight);
+            imagePtr.GalleryProjection(mCanvasBuffer, portviewWidth, portviewHeight);
 
-            CanvasDevice device = CanvasDevice.GetSharedDevice();
+            if (mCanvasSizeChanged)
+            {
+                mCanvasBitmap = CanvasBitmap.CreateFromBytes(mCanvasDevice, mCanvasBuffer, portviewWidth, portviewHeight, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8X8UIntNormalized);
+            }
+            else
+            {
+                mCanvasBitmap.SetPixelBytes(mCanvasBuffer);
+            }
 
-            CanvasBitmap bitmap = Microsoft.Graphics.Canvas.CanvasBitmap.CreateFromBytes(device, byteArray, portviewWidth, portviewHeight, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8X8UIntNormalized);
-
-            session.DrawImage(bitmap);
+            session.DrawImage(mCanvasBitmap);
         }
 
         /* Book Lines */
