@@ -19,6 +19,11 @@ private var photobookUIListener: [PhotobookUIListener] = [];
     {
         photobookUIListener.last?.onMetadataUpdated(focusedName:focusedName)
     }
+    
+    func onMappingFinished(_ root: String)
+    {
+        photobookUIListener.last?.onMappingFinished(root: root)
+    }
 }
 
 @objc extension NoirListenerWrapperCLevel
@@ -84,6 +89,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     // TODO: We don't need PhotobookUIListener here
     func onProjectRead() {}
     func onMetadataUpdated(focusedName: String) {}
+    func onMappingFinished(root: String) {}
     func onNoirLutAdded() {}
     func onNoirError() {}
     

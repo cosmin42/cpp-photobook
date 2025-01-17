@@ -146,4 +146,9 @@ struct DashboardView: View, PhotobookUIListener {
             navigationPath.append("Table")
         }
     }
+    
+    func onMappingFinished(root: String)
+    {
+        
+    }
 }

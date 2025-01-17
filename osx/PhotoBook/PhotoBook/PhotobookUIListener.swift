@@ -9,4 +9,5 @@ protocol PhotobookUIListener
 {
     func onProjectRead()
     func onMetadataUpdated(focusedName: String)
+    func onMappingFinished(root: String)
 }

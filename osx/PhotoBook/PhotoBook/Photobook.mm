@@ -60,7 +60,10 @@ public:
     void onError(PBDev::Error) override {}
     void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override {}
     void onMappingStarted(Path path) override {}
-    void onMappingFinished(Path path) override {}
+    void onMappingFinished(Path path) override {
+        NSString* managedRoot = [NSString stringWithUTF8String:path.string().c_str()];
+        [&mManagedListener onMappingFinished:managedRoot];
+    }
     void onMappingAborted(Path path) override {}
     void onCollageThumbnailsCreated() override {}
     void onImageUpdated(Path root, int row, int index) override {}
@@ -174,7 +177,10 @@ NoirListenerManaged* mNoirListener = nullptr;
 
 - (void) addImportFolder:(NSString*)root
 {
-    std::string nativeRoot = [root UTF8String];
+    NSURL *url = [NSURL URLWithString:root];
+    NSString *filePath = [url path];
+    
+    std::string nativeRoot = [filePath UTF8String];
     mPhotobook->addImportFolder(nativeRoot);
 }
 

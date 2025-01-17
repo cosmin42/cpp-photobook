@@ -268,5 +268,9 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onProjectRead(){}
     func onMetadataUpdated(focusedName: String){}
+    
+    func onMappingFinished(root: String){
+        
+    }
 }
 
