@@ -45,6 +45,16 @@ struct FolderPickerWrapper: View {
 import UIKit
 
 struct FolderPickeriOS: UIViewControllerRepresentable {
+    
+    @Binding var showImportMediaPicker:Bool;
+    @State var photobook:Photobook;
+    
+    init(showImportMediaPicker:Binding<Bool>, photobook: Photobook)
+    {
+        _showImportMediaPicker = showImportMediaPicker
+        self.photobook = photobook
+    }
+    
     func makeCoordinator() -> Coordinator {
         Coordinator()
     }
@@ -62,10 +72,13 @@ struct FolderPickeriOS: UIViewControllerRepresentable {
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             guard let selectedURL = urls.first else { return }
             print("Selected folder URL (iOS): \(selectedURL)")
+            self.photobook.addImportFolder(selectedURL)
+            showImportMediaPicker = false
         }
         
         func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
             print("Folder picker was cancelled (iOS)")
+            showImportMediaPicker = false
         }
     }
 }
