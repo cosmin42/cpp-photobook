@@ -172,4 +172,10 @@ NoirListenerManaged* mNoirListener = nullptr;
     return [[ProjectManagementServiceWrapper alloc] initWithCpp: projectManagementService];
 }
 
+- (void) addImportFolder:(NSString*)root
+{
+    std::string nativeRoot = [root UTF8String];
+    mPhotobook->addImportFolder(nativeRoot);
+}
+
 @end

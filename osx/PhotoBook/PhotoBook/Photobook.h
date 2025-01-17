@@ -37,6 +37,7 @@
 - (void) makeCollages;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
+- (void) addImportFolder:(NSString*)root;
 @end
 
 #endif /* Photobook_h */

@@ -15,6 +15,8 @@ struct TableContentView: View, PhotobookUIListener {
     @State var tabViewRatio = 0.5
     @State var selectedTab: Int = 0
     
+    @State private var showImportMediaPicker = false
+
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -27,12 +29,16 @@ struct TableContentView: View, PhotobookUIListener {
                 HStack(spacing: 16) {
                     Button(action: {
                         print("Add Media tapped")
+                        showImportMediaPicker = true
                     }) {
                         Image(systemName: "plus")
                             .scaledToFit()
                             .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
+                    }
+                    .sheet(isPresented: $showImportMediaPicker) {
+                        ImportMediaPicker(showImportMediaPicker:$showImportMediaPicker, photobook:self.photobook)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
