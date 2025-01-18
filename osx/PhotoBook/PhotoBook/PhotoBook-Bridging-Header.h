@@ -5,6 +5,8 @@
 #import <Foundation/Foundation.h>
 
 #include "PaperSettings.h"
+#include "FrontendImageResources.h"
+#include "FrontendImage.h"
 #include "ProjectMetadataEntry.h"
 #include "Photobook.h"
 #include "ProjectManagementService.h"

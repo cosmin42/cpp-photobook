@@ -358,6 +358,8 @@
 		73AA29E02CD5619100DAB031 /* PaperSettings.h in Resources */ = {isa = PBXBuildFile; fileRef = 73AA29DF2CD5618800DAB031 /* PaperSettings.h */; };
 		73AC4FEA2D3AFD83001E19C8 /* ImportMediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FE92D3AFD79001E19C8 /* ImportMediaPicker.swift */; };
 		73AC4FEC2D3B84C9001E19C8 /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FEB2D3B84BE001E19C8 /* MediaItem.swift */; };
+		73AC4FF32D3BA92B001E19C8 /* FrontendImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FF22D3BA927001E19C8 /* FrontendImage.mm */; };
+		73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FF82D3BAFDC001E19C8 /* FrontendImageResources.mm */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -825,6 +827,10 @@
 		73AA29DF2CD5618800DAB031 /* PaperSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaperSettings.h; sourceTree = "<group>"; };
 		73AC4FE92D3AFD79001E19C8 /* ImportMediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMediaPicker.swift; sourceTree = "<group>"; };
 		73AC4FEB2D3B84BE001E19C8 /* MediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
+		73AC4FF12D3BA909001E19C8 /* FrontendImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrontendImage.h; sourceTree = "<group>"; };
+		73AC4FF22D3BA927001E19C8 /* FrontendImage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FrontendImage.mm; sourceTree = "<group>"; };
+		73AC4FF72D3BAE8F001E19C8 /* FrontendImageResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrontendImageResources.h; sourceTree = "<group>"; };
+		73AC4FF82D3BAFDC001E19C8 /* FrontendImageResources.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FrontendImageResources.mm; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -1639,6 +1645,10 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73AC4FF82D3BAFDC001E19C8 /* FrontendImageResources.mm */,
+				73AC4FF72D3BAE8F001E19C8 /* FrontendImageResources.h */,
+				73AC4FF22D3BA927001E19C8 /* FrontendImage.mm */,
+				73AC4FF12D3BA909001E19C8 /* FrontendImage.h */,
 				73AC4FEB2D3B84BE001E19C8 /* MediaItem.swift */,
 				73AC4FE92D3AFD79001E19C8 /* ImportMediaPicker.swift */,
 				732A622B2D1CBC4F0012CB8A /* NewProjectDialog.swift */,
@@ -1857,8 +1867,10 @@
 				73AC4FEC2D3B84C9001E19C8 /* MediaItem.swift in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
 				732A622A2D1CBC1C0012CB8A /* RenameProjectDialog.swift in Sources */,
+				73AC4FF32D3BA92B001E19C8 /* FrontendImage.mm in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				73023A3C2CD7B9FD005EA3CF /* PhotobookUIListener.swift in Sources */,
+				73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
 				73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */,
 			);
