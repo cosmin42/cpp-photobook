@@ -9,4 +9,8 @@
 
 @implementation UnstagedImagesRepo
 
+- (id) initWithCpp:(PB::ImageMonitor&)imageMonitor
+{
+    return self;
+}
 @end

@@ -39,4 +39,11 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
     return [[PaperSettings alloc] initWithCpp: nativePaperSettings];
 }
 
+- (UnstagedImagesRepo*) unstagedImagesRepo
+{
+    auto project = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    
+    return nil;
+}
+
 @end

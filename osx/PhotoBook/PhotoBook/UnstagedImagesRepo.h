@@ -10,8 +10,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UnstagedImagesRepo : NSObject
+#if __cplusplus
+#include <pb/ImageMonitor.h>
+#endif
 
+@interface UnstagedImagesRepo : NSObject
+#if __cplusplus
+- (id) initWithCpp:(PB::ImageMonitor&)imageMonitor;
+#endif
 @end
 
 #endif /* UnstagedImagesRepo_h */

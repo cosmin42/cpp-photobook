@@ -13,6 +13,7 @@
 #endif
 
 #include "PaperSettings.h"
+#include "UnstagedImagesRepo.h"
 
 @interface ProjectManagementServiceWrapper : NSObject
 #if __cplusplus
@@ -22,6 +23,9 @@
 - (void)rename:(NSString*)oldName newName:(NSString*)newName;
 
 - (PaperSettings*) paperSettings;
+
+- (UnstagedImagesRepo*) unstagedImagesRepo;
+
 @end
 
 #endif
