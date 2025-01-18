@@ -20,7 +20,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var showImportMediaPicker = false
     
     @State private var selectedMediaItem: MediaItem? = nil
-
+    
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -174,10 +174,16 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
                             // Media list
-                            VStack{
+                            VStack
+                            {
                                 List(mediaList, id: \.self, selection: $selectedMediaItem) { item in
-                                    Text("\(item.displayName)")
-                                        .listRowBackground(Color.PrimaryColor)
+                                    HStack
+                                    {
+                                        Text("\(item.displayName)")
+                                            .listRowBackground(Color.PrimaryColor)
+                                            .font(.title)
+                                    }
+                                    .frame(height: 36)
                                 }
                                 .frame(width: geometry.size.width * tabViewRatio)
                                 .scrollIndicators(.hidden)
