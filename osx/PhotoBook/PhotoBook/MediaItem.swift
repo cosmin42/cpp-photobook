@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct MediaItem: Hashable
+struct MediaItem: Hashable, Identifiable
 {
+    let id = UUID()
     var path: String;
     var displayName: String;
 }

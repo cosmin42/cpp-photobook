@@ -18,6 +18,8 @@ struct TableContentView: View, PhotobookUIListener {
     @State var selectedTab: Int = 0
     
     @State private var showImportMediaPicker = false
+    
+    @State private var selectedMediaItem: MediaItem? = nil
 
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
@@ -46,8 +48,14 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     
+                    // Remove media button
                     Button(action: {
                         print("Remove media tapped")
+                        if let index = mediaList.firstIndex(where: {$0.path == selectedMediaItem?.path})
+                        {
+                            mediaList.remove(at: index)
+                            self.photobook.removeImportFolder(selectedMediaItem?.path)
+                        }
                     }) {
                         Image(systemName: "trash")
                             .scaledToFit()
@@ -164,8 +172,9 @@ struct TableContentView: View, PhotobookUIListener {
                         .padding()
                         .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
+                            // Media list
                             VStack{
-                                List(mediaList, id: \.self) { item in
+                                List(mediaList, id: \.self, selection: $selectedMediaItem) { item in
                                     Text("\(item.displayName)")
                                         .listRowBackground(Color.PrimaryColor)
                                 }

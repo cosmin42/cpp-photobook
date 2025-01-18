@@ -39,6 +39,7 @@
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
 - (void) addImportFolder:(NSString*)root;
+- (void) removeImportFolder:(NSString*)root;
 @end
 
 #endif /* Photobook_h */

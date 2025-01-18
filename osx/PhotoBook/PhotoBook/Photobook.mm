@@ -184,4 +184,13 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->addImportFolder(nativeRoot);
 }
 
+- (void) removeImportFolder:(NSString*)root
+{
+    NSURL *url = [NSURL URLWithString:root];
+    NSString *filePath = [url path];
+    
+    std::string nativeRoot = [filePath UTF8String];
+    mPhotobook->removeImportFolder(nativeRoot);
+}
+
 @end
