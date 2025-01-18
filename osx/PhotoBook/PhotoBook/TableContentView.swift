@@ -66,6 +66,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .disabled(mediaList.isEmpty)
                     
                     Button(action: {
                         print("Save tapped")
