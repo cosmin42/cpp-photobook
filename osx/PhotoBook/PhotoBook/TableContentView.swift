@@ -12,6 +12,8 @@ struct TableContentView: View, PhotobookUIListener {
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
     
+    @State private var mediaList: [MediaItem] = []
+    
     @State var tabViewRatio = 0.5
     @State var selectedTab: Int = 0
     
@@ -163,8 +165,8 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
                             VStack{
-                                List(0..<50, id: \.self) { item in
-                                    Text("Item \(item)")
+                                List(mediaList, id: \.self) { item in
+                                    Text("\(item.displayName)")
                                         .listRowBackground(Color.PrimaryColor)
                                 }
                                 .frame(width: geometry.size.width * tabViewRatio)
@@ -270,7 +272,8 @@ struct TableContentView: View, PhotobookUIListener {
     func onMetadataUpdated(focusedName: String){}
     
     func onMappingFinished(root: String){
-        
+        let url = URL(fileURLWithPath: root)
+        self.mediaList.append(MediaItem(path:root, displayName: url.lastPathComponent))
     }
 }
 

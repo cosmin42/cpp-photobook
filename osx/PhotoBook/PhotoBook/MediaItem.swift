@@ -1,0 +1,14 @@
+//
+//  MediaItem.swift
+//  PhotoBook
+//
+//  Created by Cosmin Mihai on 18.01.2025.
+//
+
+import SwiftUI
+
+struct MediaItem: Hashable
+{
+    var path: String;
+    var displayName: String;
+}
