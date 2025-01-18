@@ -14,6 +14,7 @@
 
 #include "PaperSettings.h"
 #include "UnstagedImagesRepo.h"
+#include "StagedImagesView.h"
 
 @interface ProjectManagementServiceWrapper : NSObject
 #if __cplusplus
@@ -25,6 +26,7 @@
 - (PaperSettings*) paperSettings;
 
 - (UnstagedImagesRepo*) unstagedImagesRepo;
+- (StagedImagesView*) stagedImages;
 
 @end
 

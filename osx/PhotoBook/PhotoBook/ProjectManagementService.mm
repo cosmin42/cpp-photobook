@@ -41,9 +41,16 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
 
 - (UnstagedImagesRepo*) unstagedImagesRepo
 {
-    auto project = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
     
-    return nil;
+    return [[UnstagedImagesRepo alloc] initWithCpp:maybeProject->second.imageMonitor()];
+}
+
+- (StagedImagesView*) stagedImages
+{
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    
+    return [[StagedImagesView alloc] initWithCpp:maybeProject->second.stagedImages()];
 }
 
 @end

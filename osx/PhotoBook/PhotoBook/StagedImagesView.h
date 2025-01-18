@@ -10,8 +10,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface StagedImagesView : NSObject
+#if __cplusplus
+#include <pb/StagedImages.h>
+#endif
 
+@interface StagedImagesView : NSObject
+#if __cplusplus
+- (id) initWithCpp:(std::shared_ptr<PB::StagedImages>)stagedImages;
+#endif
 @end
 
 #endif /* StagedImagesView_h */

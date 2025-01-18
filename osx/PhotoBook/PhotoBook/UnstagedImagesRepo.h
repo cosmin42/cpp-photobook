@@ -16,7 +16,7 @@
 
 @interface UnstagedImagesRepo : NSObject
 #if __cplusplus
-- (id) initWithCpp:(PB::ImageMonitor&)imageMonitor;
+- (id) initWithCpp:(std::shared_ptr<PB::ImageMonitor>)imageMonitor;
 #endif
 @end
 
