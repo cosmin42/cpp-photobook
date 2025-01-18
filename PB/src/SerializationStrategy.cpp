@@ -237,7 +237,7 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
   PBDev::basicAssert(imageMonitor.size() == roots.size());
 
   for (auto i = 0; i < roots.size(); ++i) {
-    projectDetails.imageMonitor().addRow(roots[i], imageMonitor[i]);
+    projectDetails.imageMonitor()->addRow(roots[i], imageMonitor[i]);
   }
 
   auto stagedImagesOrError = deserialize<std::vector<GenericImagePtr>>(
@@ -246,7 +246,7 @@ template <> std::variant<Project, PBDev::Error> deserialize(Json jsonData)
   if (std::holds_alternative<PBDev::Error>(stagedImagesOrError)) {
     return std::get<PBDev::Error>(stagedImagesOrError);
   }
-  projectDetails.stagedImages().addPictures(
+  projectDetails.stagedImages()->addPictures(
       std::get<std::vector<GenericImagePtr>>(stagedImagesOrError));
 
   return projectDetails;

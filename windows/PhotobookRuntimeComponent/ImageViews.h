@@ -25,7 +25,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
 
     return winrt::make<
         winrt::PhotobookRuntimeComponent::implementation::ImageMonitor>(
-        maybeLoadedProject->second.imageMonitor());
+        maybeLoadedProject->second->imageMonitor());
   }
 
   PhotobookRuntimeComponent::StagedImages StagedImages()

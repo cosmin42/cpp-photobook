@@ -837,7 +837,6 @@
 		73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UnstagedImagesRepo.mm; sourceTree = "<group>"; };
 		73AC50002D3BB42B001E19C8 /* StagedImagesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StagedImagesView.h; sourceTree = "<group>"; };
 		73AC50012D3BB437001E19C8 /* StagedImagesView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StagedImagesView.mm; sourceTree = "<group>"; };
-		73AC50092D3BB953001E19C8 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -1652,7 +1651,6 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
-				73AC50092D3BB953001E19C8 /* Untitled.swift */,
 				73AC50012D3BB437001E19C8 /* StagedImagesView.mm */,
 				73AC50002D3BB42B001E19C8 /* StagedImagesView.h */,
 				73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */,

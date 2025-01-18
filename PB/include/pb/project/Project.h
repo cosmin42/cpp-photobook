@@ -14,20 +14,20 @@ namespace PB {
 
 class Project final {
 public:
-
   PaperSettings paperSettings = OneConfig::A4_LANDSCAPE_PAPER;
   std::string   name;
 
+  Project():mImageMonitor(std::make_shared<ImageMonitor>()),
+    mStagedImages(std::make_shared<StagedImages>())
+  {}
   ~Project() = default;
 
-  ImageMonitor &imageMonitor() { return mImageMonitor; }
-  StagedImages &stagedImages() { return mStagedImages; }
+  std::shared_ptr<ImageMonitor> imageMonitor() { return mImageMonitor; }
+  std::shared_ptr<StagedImages> stagedImages() { return mStagedImages; }
 
 private:
-  static std::vector<std::string> HAPPY_WORDS;
-
-  ImageMonitor mImageMonitor;
-  StagedImages mStagedImages;
+  std::shared_ptr<ImageMonitor> mImageMonitor = nullptr;
+  std::shared_ptr<StagedImages> mStagedImages = nullptr;
 };
 
 // TODO: Do a generic Identifyable class

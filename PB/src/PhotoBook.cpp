@@ -185,7 +185,7 @@ void Photobook::addImportFolder(Path path)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-  if (maybeProject->second.imageMonitor().containsRow(path, true)) {
+  if (maybeProject->second.imageMonitor()->containsRow(path, true)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
     return;
   }
@@ -203,12 +203,12 @@ void Photobook::removeImportFolder(Path path)
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
 
-  if (maybeProject->second.imageMonitor().isPending(path)) {
+  if (maybeProject->second.imageMonitor()->isPending(path)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::WaitForLoadingCompletion);
   }
   else {
     Noir::inst().getLogger()->info("Remove imported folder {}", path.string());
-    maybeProject->second.imageMonitor().removeRow(path);
+    maybeProject->second.imageMonitor()->removeRow(path);
   }
 }
 
@@ -222,7 +222,7 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
   std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
       pdfName, mPlatformInfo->localStatePath,
       maybeProject->second.paperSettings,
-      maybeProject->second.stagedImages().stagedPhotos());
+      maybeProject->second.stagedImages()->stagedPhotos());
 
   task->setListener(&mExportLogic);
 
@@ -240,7 +240,7 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
       std::make_shared<PdfLibharuExportTask>(
           pdfName, mPlatformInfo->localStatePath,
           maybeProject->second.paperSettings,
-          maybeProject->second.stagedImages().stagedPhotos());
+          maybeProject->second.stagedImages()->stagedPhotos());
 
   task->setListener(&mExportLogic);
   mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
@@ -260,7 +260,7 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
     PBDev::basicAssert(success);
     std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
         newFolder, maybeProject->second.paperSettings,
-        maybeProject->second.stagedImages().stagedPhotos());
+        maybeProject->second.stagedImages()->stagedPhotos());
 
     task->setListener(&mExportLogic);
     mExportLogic.start(task->name(),
@@ -292,7 +292,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
     imagesSet.push_back(image);
   }
 
-  maybeProject->second.imageMonitor().addRow(root, imagesSet);
+  maybeProject->second.imageMonitor()->addRow(root, imagesSet);
 
   mParent->onMappingFinished(root);
 }
@@ -302,12 +302,12 @@ void Photobook::onImageProcessed(Path key, Path root,
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-  maybeProject->second.imageMonitor().replaceImage(root, imageResources, -1);
+  maybeProject->second.imageMonitor()->replaceImage(root, imageResources, -1);
   auto [row, index] =
-      maybeProject->second.imageMonitor().position(imageResources->full());
+      maybeProject->second.imageMonitor()->position(imageResources->full());
 
   if (mImportLogic->isFinished(root)) {
-    maybeProject->second.imageMonitor().completeRowByPath(root);
+    maybeProject->second.imageMonitor()->completeRowByPath(root);
   }
 
   mParent->onImageUpdated(root, row, index);

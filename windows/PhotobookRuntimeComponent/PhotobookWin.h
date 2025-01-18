@@ -216,7 +216,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProject != nullptr);
     // TODO: Fix redundant staged images staged photos.
-    auto stagedPhotos = maybeProject->second.stagedImages().stagedPhotos();
+    auto stagedPhotos = maybeProject->second.stagedImages()->stagedPhotos();
 
     std::vector<Path> imagesToMerge;
 
