@@ -21,6 +21,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var selectedMediaItem: MediaItem? = nil
     
+    @State private var uplList: [FrontendImage] = []
+
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -238,12 +240,12 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(0..<10, id: \.self) { item in
+                            ForEach(self.uplList, id: \.self) { item in
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.blue)
                                     .frame(width: 80, height: 80)
                                     .overlay(
-                                        Text("Item \(item)")
+                                        Text("Item")
                                             .foregroundColor(.white)
                                     )
                             }
@@ -282,6 +284,30 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .foregroundColor(Color.MainFontColor)
         .background(Color.PrimaryColor)
+        .onChange(of: selectedMediaItem) { newValue in
+            if let newValue = newValue {
+                if let rowIndex = mediaList.firstIndex(where: {$0.path == newValue.path})
+                {
+                    var rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
+                    for i in 1..<rowSize {
+                        var image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
+                        if let unwrappedImage = image
+                        {
+                            if i >= self.uplList.count
+                            {
+                                self.uplList.append(unwrappedImage)
+                            }
+                            else
+                            {
+                                self.uplList[Int(i)] = unwrappedImage
+                            }
+                        }
+                    }
+                }
+            } else {
+                self.uplList.removeAll()
+            }
+        }
     }
     
     func onProjectRead(){}
@@ -290,6 +316,7 @@ struct TableContentView: View, PhotobookUIListener {
     func onMappingFinished(root: String){
         let url = URL(fileURLWithPath: root)
         self.mediaList.append(MediaItem(path:root, displayName: url.lastPathComponent))
+        selectedMediaItem = self.mediaList.last
     }
 }
 

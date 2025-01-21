@@ -13,9 +13,9 @@
 
 PB::GenericImagePtr cppImage;
 
-- (id)initWithCpp:(PB::GenericImagePtr)image
+- (id)initWithCpp:(PB::GenericImagePtr)genericImage
 {
-    cppImage = image;
+    cppImage = genericImage;
     return self;
 }
 

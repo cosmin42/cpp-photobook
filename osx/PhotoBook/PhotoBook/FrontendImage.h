@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, VirtualImageType) {
 
 @interface FrontendImage : NSObject
 #if __cplusplus
-- (id)initWithCpp:(PB::GenericImagePtr)paperSettings;
+- (id)initWithCpp:(PB::GenericImagePtr)genericImage;
 #endif
 - (VirtualImageType)imageType;
 - (FrontendImageResources*)resources;

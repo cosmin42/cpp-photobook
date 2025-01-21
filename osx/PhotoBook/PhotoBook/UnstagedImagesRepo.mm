@@ -14,4 +14,15 @@ std::shared_ptr<PB::ImageMonitor> cppImageMonitor = nullptr;
     cppImageMonitor = imageMonitor;
     return self;
 }
+
+- (unsigned) rowSize:(unsigned)rowIndex
+{
+    return cppImageMonitor->rowSize(rowIndex);
+}
+
+- (FrontendImage*) image:(unsigned)row index:(unsigned)index
+{
+    auto genericImage = cppImageMonitor->image(row, index);
+    return [[FrontendImage alloc] initWithCpp:genericImage];
+}
 @end
