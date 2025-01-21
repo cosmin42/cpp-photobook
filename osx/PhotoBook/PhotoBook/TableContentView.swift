@@ -240,27 +240,26 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(self.uplList, id: \.self) { item in
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.blue)
-                                    .frame(width: 80, height: 80)
-                                    .overlay(
-                                        Text("Item")
-                                            .foregroundColor(.white)
-                                    )
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
                             ForEach(0..<10, id: \.self) { item in
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.green)
                                     .frame(width: 80, height: 80)
                                     .overlay(
                                         Text("Item \(item)")
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(self.uplList, id: \.self) { item in
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.blue)
+                                    .frame(width: 80, height: 80)
+                                    .overlay(
+                                        Text("Item")
                                             .foregroundColor(.white)
                                     )
                             }
@@ -288,9 +287,9 @@ struct TableContentView: View, PhotobookUIListener {
             if let newValue = newValue {
                 if let rowIndex = mediaList.firstIndex(where: {$0.path == newValue.path})
                 {
-                    var rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
-                    for i in 1..<rowSize {
-                        var image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
+                    let rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
+                    for i in 0..<rowSize {
+                        let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
                         if let unwrappedImage = image
                         {
                             if i >= self.uplList.count
@@ -302,6 +301,10 @@ struct TableContentView: View, PhotobookUIListener {
                                 self.uplList[Int(i)] = unwrappedImage
                             }
                         }
+                    }
+                    if (rowSize < uplList.count)
+                    {
+                        uplList.removeLast(Int(UInt32(uplList.count) - UInt32(rowSize)))
                     }
                 }
             } else {
