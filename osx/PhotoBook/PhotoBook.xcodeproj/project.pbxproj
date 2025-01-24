@@ -362,6 +362,8 @@
 		73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FF82D3BAFDC001E19C8 /* FrontendImageResources.mm */; };
 		73AC4FFF2D3BB3BC001E19C8 /* UnstagedImagesRepo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */; };
 		73AC50022D3BB43E001E19C8 /* StagedImagesView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50012D3BB437001E19C8 /* StagedImagesView.mm */; };
+		73AC500E2D403D7C001E19C8 /* UnstagedPhotoLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */; };
+		73AC50102D4040FF001E19C8 /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500F2D4040F9001E19C8 /* MediaList.swift */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -837,6 +839,8 @@
 		73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UnstagedImagesRepo.mm; sourceTree = "<group>"; };
 		73AC50002D3BB42B001E19C8 /* StagedImagesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StagedImagesView.h; sourceTree = "<group>"; };
 		73AC50012D3BB437001E19C8 /* StagedImagesView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StagedImagesView.mm; sourceTree = "<group>"; };
+		73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnstagedPhotoLine.swift; sourceTree = "<group>"; };
+		73AC500F2D4040F9001E19C8 /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -1651,6 +1655,8 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73AC500F2D4040F9001E19C8 /* MediaList.swift */,
+				73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */,
 				73AC50012D3BB437001E19C8 /* StagedImagesView.mm */,
 				73AC50002D3BB42B001E19C8 /* StagedImagesView.h */,
 				73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */,
@@ -1873,6 +1879,7 @@
 				73D02E5C2D18A2C50090476A /* ProjectManagementService.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				732A622C2D1CBC550012CB8A /* NewProjectDialog.swift in Sources */,
+				73AC50102D4040FF001E19C8 /* MediaList.swift in Sources */,
 				732A62282D1CBBDF0012CB8A /* DeleteProjectDialog.swift in Sources */,
 				73AC4FEC2D3B84C9001E19C8 /* MediaItem.swift in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
@@ -1884,6 +1891,7 @@
 				73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */,
 				73AC4FFF2D3BB3BC001E19C8 /* UnstagedImagesRepo.mm in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
+				73AC500E2D403D7C001E19C8 /* UnstagedPhotoLine.swift in Sources */,
 				73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,7 @@
 @property NSString* full;
 @property NSString* medium;
 @property NSString* small;
+@property NSImage* smallImage;
 @end
 
 #endif /* FrontendImageResources_h */

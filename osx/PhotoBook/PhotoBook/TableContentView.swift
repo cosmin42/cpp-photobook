@@ -12,21 +12,21 @@ struct TableContentView: View, PhotobookUIListener {
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
     
-    @State private var mediaList: [MediaItem] = []
-    
     @State var tabViewRatio = 0.5
     @State var selectedTab: Int = 0
     
     @State private var showImportMediaPicker = false
     
-    @State private var selectedMediaItem: MediaItem? = nil
+    @State private var uplModel:UnstagedPhotoLineModel = UnstagedPhotoLineModel()
     
-    @State private var uplList: [FrontendImage] = []
-
+    @State private var mediaListModel:MediaListModel
+    
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
+        
+        mediaListModel = MediaListModel(photobook: photobook)
     }
     
     var body: some View {
@@ -53,11 +53,7 @@ struct TableContentView: View, PhotobookUIListener {
                     // Remove media button
                     Button(action: {
                         print("Remove media tapped")
-                        if let index = mediaList.firstIndex(where: {$0.path == selectedMediaItem?.path})
-                        {
-                            mediaList.remove(at: index)
-                            self.photobook.removeImportFolder(selectedMediaItem?.path)
-                        }
+                        mediaListModel.removeSelected()
                     }) {
                         Image(systemName: "trash")
                             .scaledToFit()
@@ -68,7 +64,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(mediaList.isEmpty)
+                    .disabled(mediaListModel.list.isEmpty)
                     
                     Button(action: {
                         print("Save tapped")
@@ -176,23 +172,38 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
                             // Media list
-                            VStack
+                            MediaList(frameSize: geometry.size, model: self.mediaListModel)
+                                .onReceive(mediaListModel.$selectedItem)
                             {
-                                List(mediaList, id: \.self, selection: $selectedMediaItem) { item in
-                                    HStack
+                                newValue in
+                                if let newValue = newValue {
+                                    if let rowIndex = mediaListModel.list.firstIndex(where: {$0.path == newValue.path})
                                     {
-                                        Text("\(item.displayName)")
-                                            .listRowBackground(Color.PrimaryColor)
-                                            .font(.title)
+                                        let rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
+                                        for i in 0..<rowSize {
+                                            let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
+                                            if let unwrappedImage = image
+                                            {
+                                                if i >= self.uplModel.list.count
+                                                {
+                                                    print(unwrappedImage.resources().small)
+                                                    self.uplModel.list.append(unwrappedImage)
+                                                }
+                                                else
+                                                {
+                                                    self.uplModel.list[Int(i)] = unwrappedImage
+                                                }
+                                            }
+                                        }
+                                        if (rowSize < uplModel.list.count)
+                                        {
+                                            uplModel.list.removeLast(Int(UInt32(uplModel.list.count) - UInt32(rowSize)))
+                                        }
                                     }
-                                    .frame(height: 36)
+                                } else {
+                                    self.uplModel.list.removeAll()
                                 }
-                                .frame(width: geometry.size.width * tabViewRatio)
-                                .scrollIndicators(.hidden)
                             }
-                            .frame(alignment:.leading)
-                            .tag(0)
-                            .scrollIndicators(.hidden)
                             
                             VStack{
                                 List(0..<20, id: \.self) { item in
@@ -252,20 +263,9 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .padding(.horizontal)
                     }
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(self.uplList, id: \.self) { item in
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.blue)
-                                    .frame(width: 80, height: 80)
-                                    .overlay(
-                                        Text("Item")
-                                            .foregroundColor(.white)
-                                    )
-                            }
-                        }
-                        .padding(.horizontal)
-                    }
+                    
+                    UnstagedPhotoLine(model: uplModel)
+                    
                 }
                 .frame(height: geometry.size.height * 0.3)
                 .border(Color.BorderColor, width: 1)
@@ -283,34 +283,7 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .foregroundColor(Color.MainFontColor)
         .background(Color.PrimaryColor)
-        .onChange(of: selectedMediaItem) { newValue in
-            if let newValue = newValue {
-                if let rowIndex = mediaList.firstIndex(where: {$0.path == newValue.path})
-                {
-                    let rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
-                    for i in 0..<rowSize {
-                        let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
-                        if let unwrappedImage = image
-                        {
-                            if i >= self.uplList.count
-                            {
-                                self.uplList.append(unwrappedImage)
-                            }
-                            else
-                            {
-                                self.uplList[Int(i)] = unwrappedImage
-                            }
-                        }
-                    }
-                    if (rowSize < uplList.count)
-                    {
-                        uplList.removeLast(Int(UInt32(uplList.count) - UInt32(rowSize)))
-                    }
-                }
-            } else {
-                self.uplList.removeAll()
-            }
-        }
+        
     }
     
     func onProjectRead(){}
@@ -318,8 +291,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onMappingFinished(root: String){
         let url = URL(fileURLWithPath: root)
-        self.mediaList.append(MediaItem(path:root, displayName: url.lastPathComponent))
-        selectedMediaItem = self.mediaList.last
+        self.mediaListModel.list.append(MediaItem(path:root, displayName: url.lastPathComponent))
+        self.mediaListModel.selectedItem = self.mediaListModel.list.last
     }
 }
 
