@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 
 #include "CollageItem.h"
+#include "LutItem.h"
 #include "PaperSettings.h"
 #include "FrontendImageResources.h"
 #include "FrontendImage.h"

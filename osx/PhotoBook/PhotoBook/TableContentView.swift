@@ -23,6 +23,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var collagesGridModel: CollagesGridModel
     
+    @State private var lutGridModel: LutGridModel
+    
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -30,6 +32,7 @@ struct TableContentView: View, PhotobookUIListener {
         
         mediaListModel = MediaListModel(photobook: photobook)
         collagesGridModel = CollagesGridModel(photobook: photobook)
+        lutGridModel = LutGridModel(photobook: photobook)
     }
     
     var body: some View {
@@ -210,14 +213,7 @@ struct TableContentView: View, PhotobookUIListener {
                             
                             CollagesGrid(frameSize: geometry.size, model: self.collagesGridModel)
                             
-                            VStack{
-                                List(0..<20, id: \.self) { item in
-                                    Text("Item \(item)")
-                                }
-                                .frame(width: geometry.size.width * tabViewRatio)
-                            }
-                            .frame(alignment:.leading)
-                            .tag(2)
+                            LutGrid(frameSize: geometry.size, model: self.lutGridModel)
                         }
                         .frame(alignment:.leading)
                         .scrollIndicators(.hidden)
