@@ -29,7 +29,7 @@ struct UnstagedPhotoLine: View
                     {
                         if let nsImage = NSImage(contentsOfFile: fileName) {
                             Image(nsImage: nsImage)
-                                .frame(width: 80, height: 80)
+                                .frame(height: 80)
                         } else {
                             Text("Image not found")
                         }
