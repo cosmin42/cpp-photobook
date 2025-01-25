@@ -18,6 +18,7 @@
 - (void)onMetadataUpdated:(NSString*)focusedName;
 - (void)onMappingFinished:(NSString*)root;
 - (void)onImageUpdated:(NSString*)root row:(unsigned)row index:(unsigned)index;
+- (void)onCollageThumbnailsCreated;
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject

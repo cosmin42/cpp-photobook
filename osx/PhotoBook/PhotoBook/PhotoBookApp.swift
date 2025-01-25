@@ -29,6 +29,11 @@ private var photobookUIListener: [PhotobookUIListener] = [];
     {
         photobookUIListener.last?.onImageUpdated(root: root, row: row, index: index)
     }
+    
+    func onCollageThumbnailsCreated()
+    {
+        photobookUIListener.last?.onCollageThumbnailsCreated()
+    }
 }
 
 @objc extension NoirListenerWrapperCLevel
@@ -96,6 +101,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onMetadataUpdated(focusedName: String) {}
     func onMappingFinished(root: String) {}
     func onImageUpdated(root: String, row:UInt, index:UInt){}
+    func onCollageThumbnailsCreated(){}
     func onNoirLutAdded() {}
     func onNoirError() {}
     

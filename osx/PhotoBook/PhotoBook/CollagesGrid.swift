@@ -23,9 +23,18 @@ struct CollagesGrid: View
     var body: some View {
         ScrollView {
             LazyVGrid(columns: model.columns, spacing: 10) {
-                ForEach(model.images, id: \.self) { imageName in
-                    Text("Item x")
-                        .frame(height:80)
+                ForEach(self.model.images, id: \.self) { item in
+                    if let fileName = item.path
+                    {
+                        if let nsImage = NSImage(contentsOfFile: fileName) {
+                            Image(nsImage: nsImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 80)
+                        } else {
+                            Text("Image not found")
+                        }
+                    }
                 }
             }
             .frame(width: frameSize.width * tabViewRatio)

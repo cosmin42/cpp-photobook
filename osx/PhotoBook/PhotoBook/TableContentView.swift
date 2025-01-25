@@ -305,5 +305,27 @@ struct TableContentView: View, PhotobookUIListener {
             }
         }
     }
+    
+    func onCollageThumbnailsCreated(){
+        let collageList = self.photobook.collageTemplatesThumbnailsList()
+        if let collageList = collageList
+        {
+            for i in 0..<collageList.count
+            {
+                if (self.collagesGridModel.images.count <= i)
+                {
+                    collagesGridModel.images.append(collageList[i])
+                }
+                else
+                {
+                    collagesGridModel.images[i] = collageList[i]
+                }
+            }
+            if (collageList.count < collagesGridModel.images.count)
+            {
+                collagesGridModel.images.removeLast((collagesGridModel.images.count-collageList.count))
+            }
+        }
+    }
 }
 

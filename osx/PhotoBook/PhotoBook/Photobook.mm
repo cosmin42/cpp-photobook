@@ -65,7 +65,9 @@ public:
         [&mManagedListener onMappingFinished:managedRoot];
     }
     void onMappingAborted(Path path) override {}
-    void onCollageThumbnailsCreated() override {}
+    void onCollageThumbnailsCreated() override {
+        [&mManagedListener onCollageThumbnailsCreated];
+    }
     void onImageUpdated(Path root, int row, int index) override {
         NSString* managedRoot = [NSString stringWithUTF8String:root.string().c_str()];
         [&mManagedListener onImageUpdated:managedRoot row:row index:index];
@@ -198,7 +200,7 @@ NoirListenerManaged* mNoirListener = nullptr;
 
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList
 {
-    auto list = [NSMutableArray<CollageItem*> alloc];
+    auto list = [[NSMutableArray<CollageItem*> alloc] init];
     auto nativeList = mPhotobook->collageService()->getTemplatesPaths();
     for(auto& item: nativeList)
     {

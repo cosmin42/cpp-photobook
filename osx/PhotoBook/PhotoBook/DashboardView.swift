@@ -153,4 +153,6 @@ struct DashboardView: View, PhotobookUIListener {
     }
     
     func onImageUpdated(root: String, row:UInt, index:UInt){}
+    
+    func onCollageThumbnailsCreated(){}
 }
