@@ -362,16 +362,8 @@
 		73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FF82D3BAFDC001E19C8 /* FrontendImageResources.mm */; };
 		73AC4FFF2D3BB3BC001E19C8 /* UnstagedImagesRepo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */; };
 		73AC50022D3BB43E001E19C8 /* StagedImagesView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50012D3BB437001E19C8 /* StagedImagesView.mm */; };
-		73AC500E2D403D7C001E19C8 /* UnstagedPhotoLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */; };
 		73AC50102D4040FF001E19C8 /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500F2D4040F9001E19C8 /* MediaList.swift */; };
 		73AC50122D445245001E19C8 /* FrontendImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */; };
-		73AC50142D44FAB9001E19C8 /* CollagesGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50132D44FAB2001E19C8 /* CollagesGrid.swift */; };
-		73AC50162D44FAC3001E19C8 /* CollagesGridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50152D44FABE001E19C8 /* CollagesGridModel.swift */; };
-		73AC501B2D4500A2001E19C8 /* CollageItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC501A2D4500A0001E19C8 /* CollageItem.mm */; };
-		73AC501E2D452AF9001E19C8 /* LutItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC501D2D452AF6001E19C8 /* LutItem.mm */; };
-		73AC50202D452B04001E19C8 /* LutGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC501F2D452B00001E19C8 /* LutGrid.swift */; };
-		73AC50222D452B0D001E19C8 /* LutGridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50212D452B07001E19C8 /* LutGridModel.swift */; };
-		73AC50242D454239001E19C8 /* CanvasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50232D454227001E19C8 /* CanvasModel.swift */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -847,18 +839,8 @@
 		73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UnstagedImagesRepo.mm; sourceTree = "<group>"; };
 		73AC50002D3BB42B001E19C8 /* StagedImagesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StagedImagesView.h; sourceTree = "<group>"; };
 		73AC50012D3BB437001E19C8 /* StagedImagesView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StagedImagesView.mm; sourceTree = "<group>"; };
-		73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnstagedPhotoLine.swift; sourceTree = "<group>"; };
 		73AC500F2D4040F9001E19C8 /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
 		73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontendImageExtension.swift; sourceTree = "<group>"; };
-		73AC50132D44FAB2001E19C8 /* CollagesGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollagesGrid.swift; sourceTree = "<group>"; };
-		73AC50152D44FABE001E19C8 /* CollagesGridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollagesGridModel.swift; sourceTree = "<group>"; };
-		73AC50192D450093001E19C8 /* CollageItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollageItem.h; sourceTree = "<group>"; };
-		73AC501A2D4500A0001E19C8 /* CollageItem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CollageItem.mm; sourceTree = "<group>"; };
-		73AC501C2D452AEB001E19C8 /* LutItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LutItem.h; sourceTree = "<group>"; };
-		73AC501D2D452AF6001E19C8 /* LutItem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LutItem.mm; sourceTree = "<group>"; };
-		73AC501F2D452B00001E19C8 /* LutGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LutGrid.swift; sourceTree = "<group>"; };
-		73AC50212D452B07001E19C8 /* LutGridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LutGridModel.swift; sourceTree = "<group>"; };
-		73AC50232D454227001E19C8 /* CanvasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasModel.swift; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -873,6 +855,29 @@
 		73D02E5A2D18A2970090476A /* ProjectManagementService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectManagementService.h; sourceTree = "<group>"; };
 		73D02E5B2D18A2C00090476A /* ProjectManagementService.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProjectManagementService.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		73AC50252D458306001E19C8 /* Canvas */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		73AC50262D45835A001E19C8 /* Lut */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Lut;
+			sourceTree = "<group>";
+		};
+		73AC50272D458370001E19C8 /* Collages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Collages;
+			sourceTree = "<group>";
+		};
+		73AC50282D4583D3001E19C8 /* UPL */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UPL;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		73C4EC9B2AA0C0E1006C4108 /* Frameworks */ = {
@@ -1673,18 +1678,12 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
-				73AC50232D454227001E19C8 /* CanvasModel.swift */,
-				73AC50212D452B07001E19C8 /* LutGridModel.swift */,
-				73AC501F2D452B00001E19C8 /* LutGrid.swift */,
-				73AC501D2D452AF6001E19C8 /* LutItem.mm */,
-				73AC501C2D452AEB001E19C8 /* LutItem.h */,
-				73AC501A2D4500A0001E19C8 /* CollageItem.mm */,
-				73AC50192D450093001E19C8 /* CollageItem.h */,
-				73AC50152D44FABE001E19C8 /* CollagesGridModel.swift */,
-				73AC50132D44FAB2001E19C8 /* CollagesGrid.swift */,
+				73AC50282D4583D3001E19C8 /* UPL */,
+				73AC50272D458370001E19C8 /* Collages */,
+				73AC50262D45835A001E19C8 /* Lut */,
+				73AC50252D458306001E19C8 /* Canvas */,
 				73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */,
 				73AC500F2D4040F9001E19C8 /* MediaList.swift */,
-				73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */,
 				73AC50012D3BB437001E19C8 /* StagedImagesView.mm */,
 				73AC50002D3BB42B001E19C8 /* StagedImagesView.h */,
 				73AC4FFE2D3BB3B9001E19C8 /* UnstagedImagesRepo.mm */,
@@ -1761,6 +1760,12 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				73AC50252D458306001E19C8 /* Canvas */,
+				73AC50262D45835A001E19C8 /* Lut */,
+				73AC50272D458370001E19C8 /* Collages */,
+				73AC50282D4583D3001E19C8 /* UPL */,
 			);
 			name = PhotoBook;
 			productName = PhotoBook;
@@ -1903,14 +1908,10 @@
 				73AC4FEA2D3AFD83001E19C8 /* ImportMediaPicker.swift in Sources */,
 				73023A3A2CD79C4E005EA3CF /* ProjectMetadataEntry.mm in Sources */,
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
-				73AC50162D44FAC3001E19C8 /* CollagesGridModel.swift in Sources */,
 				739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */,
-				73AC50142D44FAB9001E19C8 /* CollagesGrid.swift in Sources */,
-				73AC501E2D452AF9001E19C8 /* LutItem.mm in Sources */,
 				73D02E5C2D18A2C50090476A /* ProjectManagementService.mm in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				732A622C2D1CBC550012CB8A /* NewProjectDialog.swift in Sources */,
-				73AC50202D452B04001E19C8 /* LutGrid.swift in Sources */,
 				73AC50102D4040FF001E19C8 /* MediaList.swift in Sources */,
 				732A62282D1CBBDF0012CB8A /* DeleteProjectDialog.swift in Sources */,
 				73AC4FEC2D3B84C9001E19C8 /* MediaItem.swift in Sources */,
@@ -1922,13 +1923,9 @@
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,
 				73023A3C2CD7B9FD005EA3CF /* PhotobookUIListener.swift in Sources */,
 				73AC4FF92D3BAFE5001E19C8 /* FrontendImageResources.mm in Sources */,
-				73AC50222D452B0D001E19C8 /* LutGridModel.swift in Sources */,
 				73AC4FFF2D3BB3BC001E19C8 /* UnstagedImagesRepo.mm in Sources */,
 				73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */,
-				73AC500E2D403D7C001E19C8 /* UnstagedPhotoLine.swift in Sources */,
-				73AC501B2D4500A2001E19C8 /* CollageItem.mm in Sources */,
 				73769A1E2AEEFA6400E9B5C2 /* TableContentView.swift in Sources */,
-				73AC50242D454239001E19C8 /* CanvasModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
