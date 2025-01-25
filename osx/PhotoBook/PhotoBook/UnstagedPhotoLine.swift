@@ -15,21 +15,20 @@ class UnstagedPhotoLineModel: ObservableObject
 struct UnstagedPhotoLine: View
 {
     @ObservedObject var model: UnstagedPhotoLineModel
-    
-    init(model: UnstagedPhotoLineModel)
-    {
-        self.model = model
-    }
+    @Binding var canvasImage: FrontendImage?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(self.model.list, id: \.self) { item in
-                    if let fileName = item.resources().small
+                ForEach(self.model.list.indices, id: \.self) { index in
+                    if let fileName = self.model.list[index].resources().small
                     {
                         if let nsImage = NSImage(contentsOfFile: fileName) {
                             Image(nsImage: nsImage)
                                 .frame(height: 80)
+                                .onTapGesture {
+                                    self.canvasImage = model.list[index]
+                                }
                         } else {
                             Text("Image not found")
                         }

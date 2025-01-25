@@ -23,6 +23,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var collagesGridModel: CollagesGridModel
     
+    @StateObject private var canvasModel: CanvasModel = CanvasModel()
+    
     @Binding private var lutGridModel: LutGridModel
     
     init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
@@ -220,16 +222,34 @@ struct TableContentView: View, PhotobookUIListener {
                         .border(Color.BorderColor, width: 1)
                     }
                     .scrollIndicators(.hidden)
+                    .frame(width: geometry.size.width * tabViewRatio)
                     
                     VStack {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.2))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .overlay(
-                                Text("Canvas Area")
-                                    .foregroundColor(.black)
-                                    .font(.headline)
-                            )
+                        if let selectedImage = canvasModel.mainImage
+                        {
+                            if let fileName = selectedImage.resources().full
+                            {
+                                if let nsImage = NSImage(contentsOfFile: fileName) {
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 300)
+                                } else {
+                                    Text("Image not found")
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.2))
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .overlay(
+                                    Text("Canvas Area")
+                                        .foregroundColor(.black)
+                                        .font(.headline)
+                                )
+                        }
                         HStack {
                             Button("<"){}
                             Text("Image name")
@@ -237,6 +257,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     .padding()
+                    .frame(width: geometry.size.width * tabViewRatio)
                     .border(Color.BorderColor, width: 1)
                 }
                 
@@ -256,7 +277,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .padding(.horizontal)
                     }
                     
-                    UnstagedPhotoLine(model: uplModel)
+                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage)
                     
                 }
                 .frame(height: geometry.size.height * 0.3)
