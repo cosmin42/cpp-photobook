@@ -8,6 +8,7 @@
 import SwiftUI
 
 private var photobookUIListener: [PhotobookUIListener] = [];
+private var noirUIListener: [NoirUIListener] = []
 
 @objc extension PhotobookListenerWrapperCLevel
 {
@@ -38,7 +39,9 @@ private var photobookUIListener: [PhotobookUIListener] = [];
 
 @objc extension NoirListenerWrapperCLevel
 {
-    func onNoirLutAdded(){}
+    func onNoirLutAdded(_ item:LutItem){
+        noirUIListener.last?.onNoirLutAdded(item:item)
+    }
     func onNoirError(){}
 }
 
@@ -49,10 +52,12 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
     @State var navigationPath: [String] = []
     @State private var isPropertiesDetailsDialogVisible = false
+    @State private var lutGridModel: LutGridModel = LutGridModel()
     
     init()
     {
-        photobookUIListener = [self];
+        photobookUIListener = [self]
+        noirUIListener = [self]
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
         navigationPath = ["Dashboard"]
@@ -67,7 +72,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                             DashboardView(navigationPath: $navigationPath, photobook:self.photobook)
                         }
                         else if value == "Table" {
-                            TableContentView(navigationPath: $navigationPath, photobook:self.photobook)
+                            TableContentView(navigationPath: $navigationPath, lutGridModel:$lutGridModel, photobook:self.photobook)
                         }
                     }
             }
@@ -102,7 +107,9 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onMappingFinished(root: String) {}
     func onImageUpdated(root: String, row:UInt, index:UInt){}
     func onCollageThumbnailsCreated(){}
-    func onNoirLutAdded() {}
+    func onNoirLutAdded(item:LutItem) {
+        lutGridModel.images.append(item)
+    }
     func onNoirError() {}
     
     static func pushListener(listener: PhotobookUIListener)

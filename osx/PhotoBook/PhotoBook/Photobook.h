@@ -10,6 +10,7 @@
 
 #include "PaperSettings.h"
 #include "CollageItem.h"
+#include "LutItem.h"
 #include "ProjectMetadataEntry.h"
 #include "ProjectManagementService.h"
 
@@ -22,7 +23,7 @@
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject
-- (void)onNoirLutAdded;
+- (void)onNoirLutAdded:(LutItem*)item;
 - (void)onNoirError;
 @end
 

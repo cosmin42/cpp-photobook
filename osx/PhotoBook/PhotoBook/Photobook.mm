@@ -12,6 +12,7 @@
 #include <pb/entities/LutIconInfo.h>
 
 #include "Photobook.h"
+#include "LutItem.h"
 
 @implementation PhotobookListenerWrapperCLevel
 - (void)onProjectRead {
@@ -20,8 +21,6 @@
 @end
 
 @implementation NoirListenerWrapperCLevel
-- (void)onNoirLutAdded{}
-- (void)onNoirError{}
 @end
 
 class NoirListenerManaged final: public PB::NoirListener
@@ -33,7 +32,10 @@ public:
     }
     ~NoirListenerManaged() = default;
     
-    void onNoirLutAdded(PB::LutIconInfo iconInfo) override {}
+    void onNoirLutAdded(PB::LutIconInfo iconInfo) override {
+        auto item = [[LutItem alloc] initWithCpp:iconInfo];
+        [&mManagedListener onNoirLutAdded:item];
+    }
     void onNoirError(PBDev::Error) {}
     
 private:

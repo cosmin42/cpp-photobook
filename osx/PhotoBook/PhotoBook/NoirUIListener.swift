@@ -7,6 +7,6 @@
 
 protocol NoirUIListener
 {
-    func onNoirLutAdded()
+    func onNoirLutAdded(item:LutItem)
     func onNoirError()
 }

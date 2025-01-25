@@ -9,7 +9,6 @@ import SwiftUI
 
 class LutGridModel: ObservableObject
 {
-    @State var photobook: Photobook
     @Published public var images:[LutItem] = []
     
     // TODO: Do a flexible calculation here
@@ -18,9 +17,4 @@ class LutGridModel: ObservableObject
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
-    init(photobook: Photobook)
-    {
-        _photobook = State(initialValue: photobook)
-    }
 }

@@ -23,16 +23,16 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var collagesGridModel: CollagesGridModel
     
-    @State private var lutGridModel: LutGridModel
+    @Binding private var lutGridModel: LutGridModel
     
-    init(navigationPath:Binding<[String]>, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
+        _lutGridModel = lutGridModel
         
         mediaListModel = MediaListModel(photobook: photobook)
         collagesGridModel = CollagesGridModel(photobook: photobook)
-        lutGridModel = LutGridModel(photobook: photobook)
     }
     
     var body: some View {
