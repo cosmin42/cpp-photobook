@@ -196,4 +196,16 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->removeImportFolder(nativeRoot);
 }
 
+- (NSArray<CollageItem*>*) collageTemplatesThumbnailsList
+{
+    auto list = [NSMutableArray<CollageItem*> alloc];
+    auto nativeList = mPhotobook->collageService()->getTemplatesPaths();
+    for(auto& item: nativeList)
+    {
+        CollageItem* managedItem = [[CollageItem alloc] initWithCpp:item];
+        [list addObject:managedItem];
+    }
+    return [list copy];
+}
+
 @end

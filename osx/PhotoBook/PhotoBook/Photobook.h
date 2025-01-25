@@ -9,6 +9,7 @@
 #define Photobook_h
 
 #include "PaperSettings.h"
+#include "CollageItem.h"
 #include "ProjectMetadataEntry.h"
 #include "ProjectManagementService.h"
 
@@ -41,6 +42,7 @@
 - (ProjectManagementServiceWrapper*) projectManagementService;
 - (void) addImportFolder:(NSString*)root;
 - (void) removeImportFolder:(NSString*)root;
+- (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
 @end
 
 #endif /* Photobook_h */
