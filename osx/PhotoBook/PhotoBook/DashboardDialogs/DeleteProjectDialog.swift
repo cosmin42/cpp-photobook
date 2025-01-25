@@ -21,7 +21,6 @@ struct DeleteProjectDialog: View {
                 TextField("", text: $projectDeleteText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            Das
             HStack {
                 Button("Delete")
                 {

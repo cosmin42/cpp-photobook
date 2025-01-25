@@ -43,6 +43,7 @@ struct UnstagedPhotoLine: View
                 }
             }
             .padding(.horizontal)
+            .frame(minHeight:80)
         }
     }
 }

@@ -264,17 +264,10 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(0..<10, id: \.self) { item in
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.green)
-                                    .frame(width: 80, height: 80)
-                                    .overlay(
-                                        Text("Item \(item)")
-                                            .foregroundColor(.white)
-                                    )
-                            }
+    
                         }
                         .padding(.horizontal)
+                        .frame(minHeight:80)
                     }
                     
                     UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage)
