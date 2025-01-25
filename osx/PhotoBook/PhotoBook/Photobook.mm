@@ -66,7 +66,10 @@ public:
     }
     void onMappingAborted(Path path) override {}
     void onCollageThumbnailsCreated() override {}
-    void onImageUpdated(Path root, int row, int index) override {}
+    void onImageUpdated(Path root, int row, int index) override {
+        NSString* managedRoot = [NSString stringWithUTF8String:root.string().c_str()];
+        [&mManagedListener onImageUpdated:managedRoot row:row index:index];
+    }
     void post(std::function<void()> f) override {
         dispatch_async(dispatch_get_main_queue(), ^{
             f();

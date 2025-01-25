@@ -177,6 +177,7 @@ struct TableContentView: View, PhotobookUIListener {
                             {
                                 newValue in
                                 if let newValue = newValue {
+                                    // TODO: replace this with a method
                                     if let rowIndex = mediaListModel.list.firstIndex(where: {$0.path == newValue.path})
                                     {
                                         let rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
@@ -186,7 +187,6 @@ struct TableContentView: View, PhotobookUIListener {
                                             {
                                                 if i >= self.uplModel.list.count
                                                 {
-                                                    print(unwrappedImage.resources().small)
                                                     self.uplModel.list.append(unwrappedImage)
                                                 }
                                                 else
@@ -293,6 +293,21 @@ struct TableContentView: View, PhotobookUIListener {
         let url = URL(fileURLWithPath: root)
         self.mediaListModel.list.append(MediaItem(path:root, displayName: url.lastPathComponent))
         self.mediaListModel.selectedItem = self.mediaListModel.list.last
+    }
+    
+    func onImageUpdated(root: String, row:UInt, index:UInt)
+    {
+        if let selectedRowIndex = mediaListModel.list.firstIndex(where: {$0.path == root})
+        {
+            if (row == selectedRowIndex)
+            {
+                let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index))
+                if let unwrappedImage = image
+                {
+                    self.uplModel.list[Int(index)] = unwrappedImage
+                }
+            }
+        }
     }
 }
 

@@ -364,6 +364,7 @@
 		73AC50022D3BB43E001E19C8 /* StagedImagesView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50012D3BB437001E19C8 /* StagedImagesView.mm */; };
 		73AC500E2D403D7C001E19C8 /* UnstagedPhotoLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */; };
 		73AC50102D4040FF001E19C8 /* MediaList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC500F2D4040F9001E19C8 /* MediaList.swift */; };
+		73AC50122D445245001E19C8 /* FrontendImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */; };
 		73C4ECA22AA0C0E1006C4108 /* PhotoBookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */; };
 		73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
@@ -841,6 +842,7 @@
 		73AC50012D3BB437001E19C8 /* StagedImagesView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StagedImagesView.mm; sourceTree = "<group>"; };
 		73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnstagedPhotoLine.swift; sourceTree = "<group>"; };
 		73AC500F2D4040F9001E19C8 /* MediaList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaList.swift; sourceTree = "<group>"; };
+		73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontendImageExtension.swift; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA12AA0C0E1006C4108 /* PhotoBookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookApp.swift; sourceTree = "<group>"; };
 		73C4ECA32AA0C0E1006C4108 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -1655,6 +1657,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73AC50112D44523F001E19C8 /* FrontendImageExtension.swift */,
 				73AC500F2D4040F9001E19C8 /* MediaList.swift */,
 				73AC500D2D403D75001E19C8 /* UnstagedPhotoLine.swift */,
 				73AC50012D3BB437001E19C8 /* StagedImagesView.mm */,
@@ -1884,6 +1887,7 @@
 				73AC4FEC2D3B84C9001E19C8 /* MediaItem.swift in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
 				732A622A2D1CBC1C0012CB8A /* RenameProjectDialog.swift in Sources */,
+				73AC50122D445245001E19C8 /* FrontendImageExtension.swift in Sources */,
 				73AC50022D3BB43E001E19C8 /* StagedImagesView.mm in Sources */,
 				73AC4FF32D3BA92B001E19C8 /* FrontendImage.mm in Sources */,
 				73C4ECA42AA0C0E1006C4108 /* DashboardView.swift in Sources */,

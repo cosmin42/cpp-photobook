@@ -11,10 +11,9 @@
 #import <Foundation/Foundation.h>
 
 @interface FrontendImageResources : NSObject
-@property NSString* full;
-@property NSString* medium;
-@property NSString* small;
-@property NSImage* smallImage;
+@property (nonatomic, strong) NSString* full;
+@property (nonatomic, strong) NSString* medium;
+@property (nonatomic, strong) NSString* small;
 @end
 
 #endif /* FrontendImageResources_h */

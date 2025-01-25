@@ -8,7 +8,10 @@
 #include "UnstagedImagesRepo.h"
 
 @implementation UnstagedImagesRepo
-std::shared_ptr<PB::ImageMonitor> cppImageMonitor = nullptr;
+{
+    std::shared_ptr<PB::ImageMonitor> cppImageMonitor;
+}
+
 - (id) initWithCpp:(std::shared_ptr<PB::ImageMonitor>)imageMonitor
 {
     cppImageMonitor = imageMonitor;

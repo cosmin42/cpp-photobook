@@ -10,8 +10,9 @@
 #include "FrontendImage.h"
 
 @implementation FrontendImage
-
-PB::GenericImagePtr cppImage;
+{
+    PB::GenericImagePtr cppImage;
+}
 
 - (id)initWithCpp:(PB::GenericImagePtr)genericImage
 {

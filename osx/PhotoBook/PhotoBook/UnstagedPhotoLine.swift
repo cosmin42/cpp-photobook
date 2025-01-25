@@ -39,18 +39,4 @@ struct UnstagedPhotoLine: View
             .padding(.horizontal)
         }
     }
-    
-    func getImagePath(fileName: String) -> String? {
-        let fileManager = FileManager.default
-        do {
-            let documentsURL = try fileManager.url(for: .documentDirectory,
-                                                   in: .userDomainMask,
-                                                   appropriateFor: nil,
-                                                   create: false)
-            return documentsURL.appendingPathComponent(fileName).path
-        } catch {
-            print("Error getting documents directory: \(error)")
-            return nil
-        }
-    }
 }
