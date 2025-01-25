@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 
+#include "CollageItem.h"
 #include "PaperSettings.h"
 #include "FrontendImageResources.h"
 #include "FrontendImage.h"

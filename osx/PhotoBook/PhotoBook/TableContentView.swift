@@ -17,9 +17,11 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var showImportMediaPicker = false
     
-    @State private var uplModel:UnstagedPhotoLineModel = UnstagedPhotoLineModel()
+    @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
     
-    @State private var mediaListModel:MediaListModel
+    @State private var mediaListModel: MediaListModel
+    
+    @State private var collagesGridModel: CollagesGridModel
     
     init(navigationPath:Binding<[String]>, photobook: Photobook)
     {
@@ -27,6 +29,7 @@ struct TableContentView: View, PhotobookUIListener {
         _navigationPath = navigationPath
         
         mediaListModel = MediaListModel(photobook: photobook)
+        collagesGridModel = CollagesGridModel(photobook: photobook)
     }
     
     var body: some View {
@@ -205,14 +208,7 @@ struct TableContentView: View, PhotobookUIListener {
                                 }
                             }
                             
-                            VStack{
-                                List(0..<20, id: \.self) { item in
-                                    Text("Item \(item)")
-                                }
-                                .frame(width: geometry.size.width * tabViewRatio)
-                            }
-                            .frame(alignment:.leading)
-                            .tag(1)
+                            CollagesGrid(frameSize: geometry.size, model: self.collagesGridModel)
                             
                             VStack{
                                 List(0..<20, id: \.self) { item in
