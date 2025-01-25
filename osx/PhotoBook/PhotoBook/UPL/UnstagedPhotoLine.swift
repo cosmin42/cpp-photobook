@@ -16,7 +16,7 @@ struct UnstagedPhotoLine: View
 {
     @ObservedObject var model: UnstagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
-    @State var selectedIndex:Int = -1
+    @State var selectedIndex: Int = -1
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
