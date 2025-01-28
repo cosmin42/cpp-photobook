@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct TableContentView: View, PhotobookUIListener {
     @State private var navigateToDashboard = false
@@ -264,17 +265,44 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-    
+                            
                         }
-                        .padding(.horizontal)
-                        .frame(minHeight:80)
+                        .frame(width:geometry.size.width, height: 80)
+                        .border(Color.BorderColor, width: 1)
+                        .onDrop(of: [.text], isTargeted: nil) { providers in
+                            guard let provider = providers.first else { return false}
+                            if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
+                                provider.loadDataRepresentation(forTypeIdentifier: UTType.plainText.identifier) { data, error in
+                                    if let data = data {
+                                        do {
+                                            let uplIdentifier = try self.decodeData(data)
+                                            var images: [String: FrontendImage] = [:]
+                                            for index in uplIdentifier.indices
+                                            {
+                                                let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(uplIdentifier.row), index:UInt32(index))
+                                                
+                                                let uuid = UUID()
+                                                images[uuid.uuidString] = image
+                                            }
+                                            self.photobook.mapImages(toSPL: images)
+                                            
+                                        } catch {
+                                            print("Failed to decode dropped data: \(error)")
+                                        }
+                                    } else if let error = error {
+                                        print("Error loading data: \(error)")
+                                    }
+                                }
+                            }
+                            print("Item dropped")
+                            return true
+                        }
                     }
                     
                     UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage)
                     
                 }
                 .frame(height: geometry.size.height * 0.3)
-                .border(Color.BorderColor, width: 1)
             }
         }
         .onAppear()
@@ -290,6 +318,11 @@ struct TableContentView: View, PhotobookUIListener {
         .foregroundColor(Color.MainFontColor)
         .background(Color.PrimaryColor)
         
+    }
+    func decodeData(_ data: Data) throws -> UPLIdentifier {
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode(UPLIdentifier.self, from: data)
+        return decoded
     }
     
     func onProjectRead(){}
@@ -336,6 +369,11 @@ struct TableContentView: View, PhotobookUIListener {
                 collagesGridModel.images.removeLast((collagesGridModel.images.count-collageList.count))
             }
         }
+    }
+    
+    func onImageMapped(imageId: String, image: FrontendImage)
+    {
+        
     }
 }
 

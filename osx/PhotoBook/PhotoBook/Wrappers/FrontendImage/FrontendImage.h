@@ -27,6 +27,9 @@ typedef NS_ENUM(NSInteger, VirtualImageType) {
 #endif
 - (VirtualImageType)imageType;
 - (FrontendImageResources*)resources;
+#if __cplusplus
+- (PB::GenericImagePtr)unwrap;
+#endif
 @end
 
 

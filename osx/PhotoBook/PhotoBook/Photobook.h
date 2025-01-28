@@ -11,6 +11,7 @@
 #include "PaperSettings.h"
 #include "CollageItem.h"
 #include "LutItem.h"
+#include "FrontendImage.h"
 #include "ProjectMetadataEntry.h"
 #include "ProjectManagementService.h"
 
@@ -20,6 +21,7 @@
 - (void)onMappingFinished:(NSString*)root;
 - (void)onImageUpdated:(NSString*)root row:(unsigned)row index:(unsigned)index;
 - (void)onCollageThumbnailsCreated;
+- (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject
@@ -45,6 +47,7 @@
 - (void) addImportFolder:(NSString*)root;
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images;
 @end
 
 #endif /* Photobook_h */

@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 #include "FrontendImage.h"
 
@@ -32,6 +33,11 @@
     frontendImage.medium = [NSString stringWithUTF8String:cppImage->medium().c_str()];
     frontendImage.small = [NSString stringWithUTF8String:cppImage->smaLL().c_str()];
     return frontendImage;
+}
+
+- (PB::GenericImagePtr)unwrap
+{
+    return cppImage;
 }
 
 @end

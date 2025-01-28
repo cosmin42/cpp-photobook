@@ -36,6 +36,9 @@ struct UnstagedPhotoLine: View
                                     self.canvasImage = model.list[index]
                                     selectedIndex = index
                                 }
+                                .onDrag {
+                                    NSItemProvider(object: UPLIdentifier(row:0, indices:[UInt(index)]))
+                                }
                         } else {
                             Text("Image not found")
                         }
@@ -44,6 +47,7 @@ struct UnstagedPhotoLine: View
             }
             .padding(.horizontal)
             .frame(minHeight:80)
+            .border(Color.BorderColor, width: 1)
         }
     }
 }
