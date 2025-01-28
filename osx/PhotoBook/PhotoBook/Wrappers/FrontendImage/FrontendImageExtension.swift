@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-@objc extension FrontendImage: Identifiable {
+@objc extension FrontendImage: Identifiable {    
+    
     public var id: UUID {
         return UUID()
     }
