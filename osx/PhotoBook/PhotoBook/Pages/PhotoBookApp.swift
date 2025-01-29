@@ -36,7 +36,7 @@ private var noirUIListener: [NoirUIListener] = []
         photobookUIListener.last?.onCollageThumbnailsCreated()
     }
     
-    func onImageMapped(imageId: String, image: FrontendImage)
+    func onImageMapped(_ imageId: String, image: FrontendImage)
     {
         photobookUIListener.last?.onImageMapped(imageId:imageId, image: image)
     }
