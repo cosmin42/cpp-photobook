@@ -19,6 +19,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var showImportMediaPicker = false
     
     @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
+    @State private var splModel: StagedPhotoLineModel = StagedPhotoLineModel()
     
     @State private var mediaListModel: MediaListModel
     
@@ -265,7 +266,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            
+                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage)
                         }
                         .frame(width:geometry.size.width, height: 80)
                         .border(Color.BorderColor, width: 1)
@@ -384,7 +385,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onImageMapped(imageId: String, image: FrontendImage)
     {
-        
+        self.splModel.list.append(image)
     }
 }
 
