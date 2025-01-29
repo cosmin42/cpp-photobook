@@ -16,6 +16,7 @@ struct UnstagedPhotoLine: View
 {
     @ObservedObject var model: UnstagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
+    @Binding var mediaListModel: MediaListModel
     @State var selectedIndex: Int = -1
     
     var body: some View {
@@ -37,7 +38,7 @@ struct UnstagedPhotoLine: View
                                     selectedIndex = index
                                 }
                                 .onDrag {
-                                    NSItemProvider(object: UPLIdentifier(row:0, indices:[UInt(index)]))
+                                    NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:[UInt(index)]))
                                 }
                         } else {
                             Text("Image not found")

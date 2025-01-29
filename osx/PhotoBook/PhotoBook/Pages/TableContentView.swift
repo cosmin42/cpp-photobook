@@ -279,10 +279,17 @@ struct TableContentView: View, PhotobookUIListener {
                                             var images: [String: FrontendImage] = [:]
                                             for index in uplIdentifier.indices
                                             {
-                                                let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(uplIdentifier.row), index:UInt32(index))
-                                                
-                                                let uuid = UUID()
-                                                images[uuid.uuidString] = image
+                                                if let row = uplIdentifier.row
+                                                {
+                                                    let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index))
+                                                    
+                                                    let uuid = UUID()
+                                                    images[uuid.uuidString] = image
+                                                }
+                                                else
+                                                {
+                                                    assert(false, "Unreachable code")
+                                                }
                                             }
                                             self.photobook.mapImages(toSPL: images)
                                             
@@ -290,7 +297,11 @@ struct TableContentView: View, PhotobookUIListener {
                                             print("Failed to decode dropped data: \(error)")
                                         }
                                     } else if let error = error {
-                                        print("Error loading data: \(error)")
+                                        assert(false, "Unreachable code \(error)")
+                                    }
+                                    else
+                                    {
+                                        assert(false, "Unreachable code")
                                     }
                                 }
                             }
@@ -299,7 +310,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     
-                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage)
+                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel)
                     
                 }
                 .frame(height: geometry.size.height * 0.3)

@@ -10,12 +10,11 @@ import UniformTypeIdentifiers
 
 class UPLIdentifier: NSObject, Identifiable, NSItemProviderWriting, Encodable, Decodable
 {
-    let id = UUID()
-    
-    public var row:UInt = 0;
+    public var id = UUID()
+    public var row:UInt?;
     public var indices:[UInt];
     
-    init(row:UInt, indices:[UInt])
+    init(row:UInt?, indices:[UInt])
     {
         self.row = row
         self.indices = indices
