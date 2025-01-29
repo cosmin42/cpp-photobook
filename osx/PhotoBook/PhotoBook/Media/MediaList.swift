@@ -27,6 +27,15 @@ class MediaListModel: ObservableObject
             self.photobook.removeImportFolder(selectedItem?.path)
         }
     }
+    
+    public func selectedIndex() -> UInt?
+    {
+        if let index = list.firstIndex(where: {$0.path == selectedItem?.path})
+        {
+            return UInt(index)
+        }
+        return nil
+    }
 }
 
 struct MediaList: View
