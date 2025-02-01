@@ -19,8 +19,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var showImportMediaPicker = false
     
     @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
-    @State private var splModel: StagedPhotoLineModel = StagedPhotoLineModel()
-    
+    @State private var splModel: StagedPhotoLineModel
     @State private var mediaListModel: MediaListModel
     
     @State private var collagesGridModel: CollagesGridModel
@@ -37,8 +36,10 @@ struct TableContentView: View, PhotobookUIListener {
         _navigationPath = navigationPath
         _lutGridModel = lutGridModel
         
-        mediaListModel = MediaListModel(photobook: photobook)
-        collagesGridModel = CollagesGridModel(photobook: photobook)
+        self.splModel = StagedPhotoLineModel(stagedImagesView: photobook.projectManagementService().stagedImages())
+        
+        self.mediaListModel = MediaListModel(photobook: photobook)
+        self.collagesGridModel = CollagesGridModel(photobook: photobook)
     }
     
     var body: some View {
@@ -272,7 +273,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .frame(width:geometry.size.width, height: 80)
                         .border(Color.BorderColor, width: 1)
-                        .onDrop(of: [.uplDragType], isTargeted: nil) { providers, location in
+                        .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                             guard let provider = providers.first else { return false}
                             if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
                                 provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
@@ -301,6 +302,28 @@ struct TableContentView: View, PhotobookUIListener {
                                         } catch {
                                             print("Failed to decode dropped data: \(error)")
                                         }
+                                    }
+                                    else if let error = error {
+                                        assert(false, "Unreachable code \(error)")
+                                    }
+                                    else
+                                    {
+                                        assert(false, "Unreachable code")
+                                    }
+                                }
+                            }
+                            else if provider.hasItemConformingToTypeIdentifier(UTType.splDragType.identifier) {
+                                provider.loadDataRepresentation(forTypeIdentifier: UTType.splDragType.identifier) { data, error in
+                                    if let data = data {
+                                        do {
+                                            let splIdentifier = try self.decodeSPLData(data)
+                                            let indicesToMove = splIdentifier.indices.map { Int($0) }
+                                            let maybeDropIndex = self.splModel.findPredecessorIndex(at:location)
+                                            
+                                            self.splModel.move(fromOffsets: IndexSet(indicesToMove), toOffset: maybeDropIndex)
+                                        } catch {
+                                            print("Failed to decode dropped data: \(error)")
+                                        }
                                     } else if let error = error {
                                         assert(false, "Unreachable code \(error)")
                                     }
@@ -310,14 +333,10 @@ struct TableContentView: View, PhotobookUIListener {
                                     }
                                 }
                             }
-                            print("Item dropped")
+                            
                             return true
                         }
                     }
-                    //.onDrop(of: [.splDragType], isTargeted: nil) { providers, location in
-                    //    guard let provider = providers.first else { return false}
-                    //    return true
-                    //}
                     
                     UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel)
                     
@@ -342,6 +361,12 @@ struct TableContentView: View, PhotobookUIListener {
     func decodeData(_ data: Data) throws -> UPLIdentifier {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode(UPLIdentifier.self, from: data)
+        return decoded
+    }
+    
+    func decodeSPLData(_ data: Data) throws -> SPLIdentifier {
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode(SPLIdentifier.self, from: data)
         return decoded
     }
     
@@ -393,13 +418,6 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onImageMapped(imageId: String, image: FrontendImage)
     {
-        if let dropIndex = self.dropIndex
-        {
-            self.splModel.list.insert(image, at: Int(dropIndex))
-        }
-        else
-        {
-            self.splModel.list.append(image)
-        }
+        self.splModel.insert(image: image, position: self.dropIndex)
     }
 }

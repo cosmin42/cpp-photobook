@@ -23,9 +23,49 @@ struct ItemFramesKey: PreferenceKey {
 
 class StagedPhotoLineModel: ObservableObject
 {
-    @Published public var list: [FrontendImage] = []
+    @Published public private(set) var list: [FrontendImage] = []
     @Published var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
+    
+    @State var underlyingRepo: StagedImagesView
+    
+    init(stagedImagesView: StagedImagesView)
+    {
+        self.underlyingRepo = stagedImagesView
+    }
+    
+    public func move(fromOffsets:IndexSet, toOffset:UInt?)
+    {
+        if let toOffset = toOffset
+        {
+            DispatchQueue.main.async {
+                self.list.move(fromOffsets: fromOffsets, toOffset: Int(toOffset))
+                self.itemFrames.move(fromOffsets: fromOffsets, toOffset: Int(toOffset))
+            }
+        }
+        else
+        {
+            for index in fromOffsets.sorted(by: >) {
+                DispatchQueue.main.async {
+                    self.list.move(fromOffsets: [index], toOffset: self.list.count)
+                    self.itemFrames.move(fromOffsets: [index], toOffset: self.itemFrames.count)
+                }
+            }
+        }
+        self.selectedIndices.removeAll()
+    }
+    
+    public func insert(image: FrontendImage, position:UInt?)
+    {
+        if let position = position
+        {
+            self.list.insert(image, at: Int(position))
+        }
+        else
+        {
+            self.list.append(image)
+        }
+    }
     
     public func findPredecessorIndex(at location: CGPoint) -> UInt?
     {
