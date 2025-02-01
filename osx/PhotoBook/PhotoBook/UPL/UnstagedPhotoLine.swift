@@ -10,7 +10,7 @@ import SwiftUI
 class UnstagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
-    @State var selectedIndices: [Int] = []
+    @Published var selectedIndices: [Int] = []
 }
 
 struct UnstagedPhotoLine: View
@@ -33,8 +33,9 @@ struct UnstagedPhotoLine: View
                                 .frame(height: 80)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(model.selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
+                                        .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
                                 )
+                                .padding(4)
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
                                     stagedPhotoLineModel.list.removeAll()
