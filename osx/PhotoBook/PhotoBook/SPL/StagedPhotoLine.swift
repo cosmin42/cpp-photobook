@@ -36,7 +36,7 @@ struct StagedPhotoLine: View
                                 .padding(4)
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
-                                    unstagedPhotoLineModel.list.removeAll()
+                                    unstagedPhotoLineModel.selectedIndices.removeAll()
                                     if model.selectedIndices.contains(index)
                                     {
                                         model.selectedIndices.removeAll { $0 == index }
@@ -45,6 +45,9 @@ struct StagedPhotoLine: View
                                     {
                                         model.selectedIndices.append(index)
                                     }
+                                }
+                                .onDrag {
+                                    NSItemProvider(object: SPLIdentifier(indices:model.selectedIndices.map { UInt($0) }))
                                 }
                         } else {
                             Text("Image not found")
