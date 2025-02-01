@@ -16,7 +16,7 @@ struct StagedPhotoLine: View
 {
     @ObservedObject var model: StagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
-    @State var selectedIndex: Int = -1
+    @State var selectedIndices: [Int] = []
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -30,11 +30,18 @@ struct StagedPhotoLine: View
                                 .frame(height: 80)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(selectedIndex == index ? Color.yellow : Color.clear, lineWidth: 3)
+                                        .stroke(selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
                                 )
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
-                                    selectedIndex = index
+                                    if selectedIndices.contains(index)
+                                    {
+                                        selectedIndices.removeAll { $0 == index }
+                                    }
+                                    else
+                                    {
+                                        selectedIndices.append(index)
+                                    }
                                 }
                         } else {
                             Text("Image not found")
