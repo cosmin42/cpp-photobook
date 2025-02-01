@@ -10,6 +10,7 @@ import SwiftUI
 class UnstagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
+    @State var selectedIndices: [Int] = []
 }
 
 struct UnstagedPhotoLine: View
@@ -17,7 +18,8 @@ struct UnstagedPhotoLine: View
     @ObservedObject var model: UnstagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
     @Binding var mediaListModel: MediaListModel
-    @State var selectedIndices: [Int] = []
+    @Binding var stagedPhotoLineModel: StagedPhotoLineModel
+    
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -31,17 +33,18 @@ struct UnstagedPhotoLine: View
                                 .frame(height: 80)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
+                                        .stroke(model.selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
                                 )
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
-                                    if selectedIndices.contains(index)
+                                    stagedPhotoLineModel.list.removeAll()
+                                    if model.selectedIndices.contains(index)
                                     {
-                                        selectedIndices.removeAll { $0 == index }
+                                        model.selectedIndices.removeAll { $0 == index }
                                     }
                                     else
                                     {
-                                        selectedIndices.append(index)
+                                        model.selectedIndices.append(index)
                                     }
                                 }
                                 .onDrag {

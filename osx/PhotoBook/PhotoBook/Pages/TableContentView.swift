@@ -266,7 +266,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage)
+                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel)
                         }
                         .frame(width:geometry.size.width, height: 80)
                         .border(Color.BorderColor, width: 1)
@@ -311,7 +311,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     
-                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel)
+                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel)
                     
                 }
                 .frame(height: geometry.size.height * 0.3)

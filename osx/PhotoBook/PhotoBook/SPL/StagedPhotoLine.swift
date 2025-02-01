@@ -10,13 +10,14 @@ import SwiftUI
 class StagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
+    @State var selectedIndices: [Int] = []
 }
 
 struct StagedPhotoLine: View
 {
     @ObservedObject var model: StagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
-    @State var selectedIndices: [Int] = []
+    @Binding var unstagedPhotoLineModel: UnstagedPhotoLineModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -30,17 +31,18 @@ struct StagedPhotoLine: View
                                 .frame(height: 80)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
+                                        .stroke(model.selectedIndices.contains(index) ? Color.yellow : Color.clear, lineWidth: 3)
                                 )
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
-                                    if selectedIndices.contains(index)
+                                    unstagedPhotoLineModel.list.removeAll()
+                                    if model.selectedIndices.contains(index)
                                     {
-                                        selectedIndices.removeAll { $0 == index }
+                                        model.selectedIndices.removeAll { $0 == index }
                                     }
                                     else
                                     {
-                                        selectedIndices.append(index)
+                                        model.selectedIndices.append(index)
                                     }
                                 }
                         } else {
