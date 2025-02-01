@@ -29,6 +29,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @Binding private var lutGridModel: LutGridModel
     
+    @State private var dropIndex:UInt?
+    
     init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -270,10 +272,10 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .frame(width:geometry.size.width, height: 80)
                         .border(Color.BorderColor, width: 1)
-                        .onDrop(of: [.text], isTargeted: nil) { providers in
+                        .onDrop(of: [.uplDragType], isTargeted: nil) { providers, location in
                             guard let provider = providers.first else { return false}
-                            if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
-                                provider.loadDataRepresentation(forTypeIdentifier: UTType.plainText.identifier) { data, error in
+                            if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
+                                provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
                                     if let data = data {
                                         do {
                                             let uplIdentifier = try self.decodeData(data)
@@ -294,6 +296,8 @@ struct TableContentView: View, PhotobookUIListener {
                                             }
                                             self.photobook.mapImages(toSPL: images)
                                             
+                                            self.dropIndex = self.splModel.findPredecessorIndex(at:location)
+                                            
                                         } catch {
                                             print("Failed to decode dropped data: \(error)")
                                         }
@@ -310,6 +314,10 @@ struct TableContentView: View, PhotobookUIListener {
                             return true
                         }
                     }
+                    //.onDrop(of: [.splDragType], isTargeted: nil) { providers, location in
+                    //    guard let provider = providers.first else { return false}
+                    //    return true
+                    //}
                     
                     UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel)
                     
@@ -385,7 +393,13 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onImageMapped(imageId: String, image: FrontendImage)
     {
-        self.splModel.list.append(image)
+        if let dropIndex = self.dropIndex
+        {
+            self.splModel.list.insert(image, at: Int(dropIndex))
+        }
+        else
+        {
+            self.splModel.list.append(image)
+        }
     }
 }
-

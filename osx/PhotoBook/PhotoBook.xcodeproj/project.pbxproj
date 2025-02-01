@@ -344,6 +344,7 @@
 		732BA5A82CE6B1EF00916922 /* libbentleyottmann.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732BA5802CE6B1BC00916922 /* libbentleyottmann.a */; platformFilter = ios; };
 		734C64DC2CFA5AC000F8F9D6 /* libpblib-Darwin-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */; platformFilters = (macos, ); };
 		7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */; };
+		737EEE7E2D4E4090003C342E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
 		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
@@ -797,6 +798,7 @@
 		734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin-macos.a"; path = "../../PB/build/libpblib-Darwin-macos.a"; sourceTree = "<group>"; };
 		734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = all.xcodeproj; path = "/Users/cosminmihai/cpp-exercise-photobook/PB/third-party/osx/skia/x86_64/all.xcodeproj"; sourceTree = "<absolute>"; };
 		7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirUIListener.swift; sourceTree = "<group>"; };
+		737EEE7D2D4E4090003C342E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
 		7391647B2CC4F7E200703394 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = "../../PB/pb-assets/shaders"; sourceTree = "<group>"; };
 		7391647C2CC4F7E200703394 /* film-luts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "film-luts"; path = "../../PB/pb-assets/film-luts"; sourceTree = "<group>"; };
@@ -1653,6 +1655,7 @@
 		73C4EC952AA0C0E0006C4108 = {
 			isa = PBXGroup;
 			children = (
+				737EEE7D2D4E4090003C342E /* Info.plist */,
 				7391647C2CC4F7E200703394 /* film-luts */,
 				7391647D2CC4F7E200703394 /* others */,
 				7391647B2CC4F7E200703394 /* shaders */,
@@ -1867,6 +1870,7 @@
 				739164802CC4F7E200703394 /* film-luts in Resources */,
 				739164812CC4F7E200703394 /* others in Resources */,
 				73C4ECAA2AA0C0E3006C4108 /* Preview Assets.xcassets in Resources */,
+				737EEE7E2D4E4090003C342E /* Info.plist in Resources */,
 				73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2110,6 +2114,7 @@
 					"../../vcpkg/installed/x64-osx/include",
 					"../../vcpkg/installed/x64-osx/include/opencv4",
 				);
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -2178,6 +2183,7 @@
 				GCC_VERSION = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

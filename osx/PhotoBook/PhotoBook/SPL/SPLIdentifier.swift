@@ -19,7 +19,18 @@ class SPLIdentifier: NSObject, Identifiable, NSItemProviderWriting, Encodable, D
     }
     
     static var writableTypeIdentifiersForItemProvider: [String] {
-        return [UTType.plainText.identifier]
+        return [UTType.splDragType.identifier]
+    }
+    
+    func serialization() -> NSData?
+    {
+        do {
+            let encoder = JSONEncoder()
+            let dataToReturn = try encoder.encode(self)
+            return dataToReturn as NSData
+        } catch {
+            return nil
+        }
     }
     
     func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping @Sendable (Data?, (any Error)?) -> Void) -> Progress? {

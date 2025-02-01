@@ -21,7 +21,7 @@ class UPLIdentifier: NSObject, Identifiable, NSItemProviderWriting, Encodable, D
     }
     
     static var writableTypeIdentifiersForItemProvider: [String] {
-        return [UTType.plainText.identifier]
+        return [UTType.uplDragType.identifier]
     }
     
     func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping @Sendable (Data?, (any Error)?) -> Void) -> Progress? {

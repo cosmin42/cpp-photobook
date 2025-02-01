@@ -6,11 +6,42 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+
+struct IndexedFrame: Equatable {
+    let index: Int
+    let frame: CGRect
+}
+
+struct ItemFramesKey: PreferenceKey {
+    static var defaultValue: [IndexedFrame] = []
+    
+    static func reduce(value: inout [IndexedFrame], nextValue: () -> [IndexedFrame]) {
+        value.append(contentsOf: nextValue())
+    }
+}
 
 class StagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
     @Published var selectedIndices: [Int] = []
+    @Published public var itemFrames: [CGRect] = []
+    
+    public func findPredecessorIndex(at location: CGPoint) -> UInt?
+    {
+        if itemFrames.isEmpty
+        {
+            return nil;
+        }
+        for i in 0..<itemFrames.count
+        {
+            if location.x < (itemFrames[i].origin.x + (itemFrames[i].width/2))
+            {
+                return UInt(i)
+            }
+        }
+        return nil
+    }
 }
 
 struct StagedPhotoLine: View
@@ -34,6 +65,12 @@ struct StagedPhotoLine: View
                                         .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
                                 )
                                 .padding(4)
+                                .background(GeometryReader { geo in
+                                    Color.clear.preference(
+                                        key: ItemFramesKey.self,
+                                        value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
+                                    )
+                                })
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
                                     unstagedPhotoLineModel.selectedIndices.removeAll()
@@ -58,6 +95,10 @@ struct StagedPhotoLine: View
             .padding(.horizontal)
             .frame(minHeight:80)
             .border(Color.BorderColor, width: 1)
+            .onPreferenceChange(ItemFramesKey.self) { frames in
+                model.itemFrames = frames.sorted(by: { $0.index < $1.index }).map { $0.frame }
+            }
+            
         }
     }
 }
