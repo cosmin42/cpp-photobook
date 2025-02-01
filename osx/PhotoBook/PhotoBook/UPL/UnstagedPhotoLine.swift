@@ -49,7 +49,7 @@ struct UnstagedPhotoLine: View
                                     }
                                 }
                                 .onDrag {
-                                    NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:[UInt(index)]))
+                                    NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))
                                 }
                         } else {
                             Text("Image not found")
