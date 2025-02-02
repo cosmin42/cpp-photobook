@@ -233,41 +233,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * tabViewRatio)
                     
-                    VStack {
-                        if let selectedImage = canvasModel.mainImage
-                        {
-                            if let fileName = selectedImage.resources().full
-                            {
-                                if let nsImage = NSImage(contentsOfFile: fileName) {
-                                    Image(nsImage: nsImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 300)
-                                } else {
-                                    Text("Image not found")
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.2))
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .overlay(
-                                    Text("Canvas Area")
-                                        .foregroundColor(.black)
-                                        .font(.headline)
-                                )
-                        }
-                        HStack {
-                            Button("<"){}
-                            Text("Image name")
-                            Button(">"){}
-                        }
-                    }
-                    .padding()
-                    .frame(width: geometry.size.width * tabViewRatio)
-                    .border(Color.BorderColor, width: 1)
+                    CanvasView(model: canvasModel, frameSize: geometry.size)
                 }
                 
                 VStack {
