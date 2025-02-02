@@ -18,13 +18,14 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var showImportMediaPicker = false
     
-    @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
+    @State private var uplModel: UnstagedPhotoLineModel
     @State private var splModel: StagedPhotoLineModel
     @State private var mediaListModel: MediaListModel
     
     @State private var collagesGridModel: CollagesGridModel
     
     @StateObject private var canvasModel: CanvasModel = CanvasModel()
+    @StateObject private var collagesCommandModel: CollagesCommandModel = CollagesCommandModel()
     
     @Binding private var lutGridModel: LutGridModel
     
@@ -36,10 +37,11 @@ struct TableContentView: View, PhotobookUIListener {
         _navigationPath = navigationPath
         _lutGridModel = lutGridModel
         
+        self.uplModel = UnstagedPhotoLineModel()
         self.splModel = StagedPhotoLineModel(stagedImagesView: photobook.projectManagementService().stagedImages())
         
         self.mediaListModel = MediaListModel(photobook: photobook)
-        self.collagesGridModel = CollagesGridModel(photobook: photobook)
+        _collagesGridModel = State(initialValue: CollagesGridModel(splSelectedIndices: Binding.constant([]), uplSelectedIndices: Binding.constant([])))
     }
     
     var body: some View {
@@ -104,6 +106,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .disabled(collagesCommandModel.previewDisabled)
                     
                     Divider()
                         .frame(height: 32)
@@ -121,6 +124,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .disabled(collagesCommandModel.makeCollageDisabled)
                     
                     Button(action: {
                         print("Send tapped")
@@ -218,7 +222,7 @@ struct TableContentView: View, PhotobookUIListener {
                                 }
                             }
                             
-                            CollagesGrid(frameSize: geometry.size, model: self.collagesGridModel)
+                            CollagesGrid(model: self.collagesGridModel, frameSize: geometry.size, makeCollageDisabled: $collagesCommandModel.makeCollageDisabled, previewDisabled: $collagesCommandModel.previewDisabled)
                             
                             LutGrid(frameSize: geometry.size, model: self.lutGridModel)
                         }
@@ -337,15 +341,27 @@ struct TableContentView: View, PhotobookUIListener {
                             return true
                         }
                     }
+                    .onChange(of: splModel.selectedIndices)
+                    {
+                        _ in
+                        self.collagesCommandModel.previewDisabled = !self.collagesGridModel.collagePossible()
+                        self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
+                    }
                     
                     UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel)
-                    
+                        .onChange(of: uplModel.selectedIndices)
+                    {
+                        _ in
+                        self.collagesCommandModel.previewDisabled = !self.collagesGridModel.collagePossible()
+                        self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
+                    }
                 }
                 .frame(height: geometry.size.height * 0.3)
             }
         }
         .onAppear()
         {
+            self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             PhotoBookApp.pushListener(listener: self)
             self.photobook.makeCollages()
         }

@@ -38,7 +38,7 @@ struct UnstagedPhotoLine: View
                                 .padding(4)
                                 .onTapGesture {
                                     self.canvasImage = model.list[index]
-                                    stagedPhotoLineModel.selectedIndices.removeAll()
+                                    self.stagedPhotoLineModel.selectedIndices.removeAll()
                                     if model.selectedIndices.contains(index)
                                     {
                                         model.selectedIndices.removeAll { $0 == index }

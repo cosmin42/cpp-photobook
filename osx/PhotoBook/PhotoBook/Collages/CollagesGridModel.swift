@@ -8,8 +8,11 @@ import SwiftUI
 
 class CollagesGridModel: ObservableObject
 {
-    @State var photobook: Photobook
+    @Binding var splSelectedIndices: [Int]
+    @Binding var uplSelectedIndices: [Int]
+    
     @Published public var images:[CollageItem] = []
+    @Published public var selectedIndex: Int? = nil
     
     // TODO: Do a flexible calculation here
     @Published public var columns = [
@@ -18,8 +21,24 @@ class CollagesGridModel: ObservableObject
         GridItem(.flexible())
     ]
     
-    init(photobook: Photobook)
+    init(splSelectedIndices:Binding<[Int]>, uplSelectedIndices:Binding<[Int]>)
     {
-        _photobook = State(initialValue: photobook)
+        _splSelectedIndices = splSelectedIndices
+        _uplSelectedIndices = uplSelectedIndices
     }
+
+    public func collagePossible() -> Bool
+    {
+        if let selectedIndex = self.selectedIndex
+        {
+            let selectedLen = max(splSelectedIndices.count, uplSelectedIndices.count)
+            let collageImagesLen = self.images[selectedIndex].imagesCount
+            return (selectedLen == collageImagesLen)
+        }
+        else
+        {
+            return false
+        }
+    }
+
 }
