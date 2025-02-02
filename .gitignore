@@ -35,6 +35,7 @@ osx/PhotoBook/.DS_Store
 # Gradle files
 android/.gradle/
 android/build/
+osx/PhotoBook/Info.plist
 
 # Local configuration file (sdk path, etc)
 android/local.properties
