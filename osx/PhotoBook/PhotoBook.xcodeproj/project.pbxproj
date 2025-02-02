@@ -345,6 +345,13 @@
 		734C64DC2CFA5AC000F8F9D6 /* libpblib-Darwin-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */; platformFilters = (macos, ); };
 		7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */; };
 		737EEE7E2D4E4090003C342E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; };
+		737EEEE32D4FBF95003C342E /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE22D4FBF95003C342E /* Bugsnag */; };
+		737EEEE52D4FBF95003C342E /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE42D4FBF95003C342E /* BugsnagNetworkRequestPlugin */; };
+		737EEEE72D4FC16C003C342E /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE62D4FC16C003C342E /* Bugsnag */; };
+		737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE82D4FC16C003C342E /* BugsnagNetworkRequestPlugin */; };
+		737EEEEC2D4FC4C7003C342E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		737EEEEE2D4FC4C7003C342E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		737EEEF02D4FC4C7003C342E /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
 		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
@@ -917,12 +924,14 @@
 				732BA51B2CE6B02800916922 /* libabsl_low_level_hash.a in Frameworks */,
 				732BA5622CE6B03700916922 /* libopencv_stitching4d.a in Frameworks */,
 				732BA3C02CE6A49900916922 /* libcrypto-macos.a in Frameworks */,
+				737EEEE72D4FC16C003C342E /* Bugsnag in Frameworks */,
 				732BA5662CE6B03800916922 /* libpng16d.a in Frameworks */,
 				732BA3912CE6A49500916922 /* libabsl_symbolize-macos.a in Frameworks */,
 				732BA4392CE6A75F00916922 /* libskia-macos.a in Frameworks */,
 				732BA42A2CE6A75D00916922 /* libskunicode_core-macos.a in Frameworks */,
 				732BA5A62CE6B1EE00916922 /* libdng_sdk.a in Frameworks */,
 				732BA50F2CE6B02600916922 /* libabsl_log_initialize.a in Frameworks */,
+				737EEEF02D4FC4C7003C342E /* (null) in Frameworks */,
 				732BA3772CE6A49400916922 /* libabsl_hashtablez_sampler-macos.a in Frameworks */,
 				732BA3C22CE6A49900916922 /* libabsl_flags_program_name-macos.a in Frameworks */,
 				732BA5172CE6B02700916922 /* libabsl_log_internal_nullguard.a in Frameworks */,
@@ -936,6 +945,7 @@
 				732BA3A12CE6A49600916922 /* libabsl_crc_cpu_detect-macos.a in Frameworks */,
 				732BA5732CE6B03B00916922 /* libutf8_range.a in Frameworks */,
 				732BA3942CE6A49500916922 /* libwebpdemux-macos.a in Frameworks */,
+				737EEEEE2D4FC4C7003C342E /* (null) in Frameworks */,
 				732BA59B2CE6B1EB00916922 /* libsksg.a in Frameworks */,
 				732BA3BF2CE6A49900916922 /* libz-macos.a in Frameworks */,
 				732BA5462CE6B03100916922 /* libcharset.a in Frameworks */,
@@ -948,6 +958,7 @@
 				732BA5432CE6B03000916922 /* libbrotlidec.a in Frameworks */,
 				732BA3BE2CE6A49900916922 /* libprotobuf-lited-macos.a in Frameworks */,
 				732BA5772CE6B03C00916922 /* libwebpdecoder.a in Frameworks */,
+				737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
 				732BA5672CE6B03800916922 /* libpodofo_private.a in Frameworks */,
 				732BA42B2CE6A75D00916922 /* libskunicode_icu-macos.a in Frameworks */,
 				732BA5962CE6B1EA00916922 /* libwebp_sse41.a in Frameworks */,
@@ -1096,6 +1107,7 @@
 				732BA57B2CE6B03D00916922 /* libz.a in Frameworks */,
 				732BA3702CE6A49400916922 /* libicui18n-macos.a in Frameworks */,
 				732BA5A32CE6B1ED00916922 /* libpathkit.a in Frameworks */,
+				737EEEEC2D4FC4C7003C342E /* (null) in Frameworks */,
 				732BA3862CE6A49500916922 /* libabsl_die_if_null-macos.a in Frameworks */,
 				732BA5552CE6B03400916922 /* libjpeg.a in Frameworks */,
 				732BA5972CE6B1EA00916922 /* libsvg.a in Frameworks */,
@@ -1124,6 +1136,7 @@
 				732BA3B52CE6A49800916922 /* libabsl_spinlock_wait-macos.a in Frameworks */,
 				732BA3AA2CE6A49700916922 /* libabsl_vlog_config_internal-macos.a in Frameworks */,
 				732BA4E62CE6B01F00916922 /* libabsl_base.a in Frameworks */,
+				737EEEE52D4FBF95003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
 				732BA3662CE6A49300916922 /* libspdlogd-macos.a in Frameworks */,
 				732BA54C2CE6B03200916922 /* libfontconfig.a in Frameworks */,
 				732BA36F2CE6A49400916922 /* libbrotlicommon-macos.a in Frameworks */,
@@ -1155,6 +1168,7 @@
 				732BA50A2CE6B02500916922 /* libabsl_kernel_timeout_internal.a in Frameworks */,
 				732BA5262CE6B02A00916922 /* libabsl_random_internal_randen.a in Frameworks */,
 				732BA3722CE6A49400916922 /* libabsl_exponential_biased-macos.a in Frameworks */,
+				737EEEE32D4FBF95003C342E /* Bugsnag in Frameworks */,
 				732BA36E2CE6A49400916922 /* libpodofo_private-macos.a in Frameworks */,
 				732BA38F2CE6A49500916922 /* libflatbuffers-macos.a in Frameworks */,
 				732BA3552CE6A49300916922 /* libabsl_leak_check-macos.a in Frameworks */,
@@ -1832,6 +1846,9 @@
 				Base,
 			);
 			mainGroup = 73C4EC952AA0C0E0006C4108;
+			packageReferences = (
+				737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 73C4EC9F2AA0C0E1006C4108 /* Products */;
 			projectDirPath = "";
@@ -2346,6 +2363,40 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bugsnag/bugsnag-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.31.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		737EEEE22D4FBF95003C342E /* Bugsnag */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = Bugsnag;
+		};
+		737EEEE42D4FBF95003C342E /* BugsnagNetworkRequestPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = BugsnagNetworkRequestPlugin;
+		};
+		737EEEE62D4FC16C003C342E /* Bugsnag */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = Bugsnag;
+		};
+		737EEEE82D4FC16C003C342E /* BugsnagNetworkRequestPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = BugsnagNetworkRequestPlugin;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 73C4EC962AA0C0E0006C4108 /* Project object */;
 }

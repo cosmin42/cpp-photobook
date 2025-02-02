@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Bugsnag
 
 private var photobookUIListener: [PhotobookUIListener] = [];
 private var noirUIListener: [NoirUIListener] = []
@@ -66,6 +67,15 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
         self.photobook.setPhotobookListener(photobookListenerWrapperCLevel)
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
         navigationPath = ["Dashboard"]
+        
+        if let apiKey = Bundle.main.object(forInfoDictionaryKey: "BugsnagApiKey") as? String {
+            let config = BugsnagConfiguration.loadConfig()
+            config.appVersion = "0.0.0-alpha"
+            config.apiKey = apiKey
+            Bugsnag.start(with: config).notifyError(NSError(domain:"com.example", code:408, userInfo:nil))
+        } else {
+            print("Bugsnag API Key NOT found in Info.plist")
+        }
     }
     
     var body: some Scene {
