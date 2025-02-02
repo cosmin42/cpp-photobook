@@ -43,11 +43,6 @@ jobs:
       contents: read #This is required for actions/checkout
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: python-app
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
