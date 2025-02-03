@@ -2118,18 +2118,18 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				"HEADER_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
-					../../pb/include,
-					"../../pb/third-party/ios/skia/include",
-					"../../vcpkg/installed/arm64-ios/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/arm64-ios/include",
-					"../../vcpkg/installed/arm64-ios/include/opencv4",
+					"$(SRCROOT)/../../pb/include",
+					"$(SRCROOT)/../../pb/third-party/ios/skia/include",
+					"$(SRCROOT)/../../vcpkg/installed/arm64-ios/include/thread-pool-0.6.2",
+					"$(SRCROOT)/../../vcpkg/installed/arm64-ios/include",
+					"$(SRCROOT)/../../vcpkg/installed/arm64-ios/include/opencv4",
 				);
 				"HEADER_SEARCH_PATHS[sdk=macosx*]" = (
-					../../pb/include,
-					"../../pb/third-party/osx/skia/include",
-					"../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
-					"../../vcpkg/installed/x64-osx/include",
-					"../../vcpkg/installed/x64-osx/include/opencv4",
+					"$(SRCROOT)/../../pb/include",
+					"$(SRCROOT)/../../pb/third-party/osx/skia/include",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include/opencv4",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
@@ -2148,22 +2148,22 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
-					"../../PB/arm64-ios",
-					"../../vcpkg/installed/arm64-ios/debug/lib",
+					"$(SRCROOT)/../../PB/arm64-ios",
+					"$(SRCROOT)/../../vcpkg/installed/arm64-ios/debug/lib",
 					"$(SDKROOT)/usr/lib/i18n",
-					"../../PB/third-party/ios/skia/arm64",
+					"$(SRCROOT)/../../PB/third-party/ios/skia/arm64",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = (
-					../../PB/build,
-					"../../PB/vcpkg-fat",
+					"$(SRCROOT)/../../PB/build",
+					"$(SRCROOT)/../../PB/vcpkg-fat",
 					"$(SDKROOT)/usr/lib/i18n",
-					"../../PB/skia-fat",
+					"$(SRCROOT)/../../PB/skia-fat",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = (
-					../../PB/build,
-					"../../PB/vcpkg-fat",
+					"$(SRCROOT)/../../PB/build",
+					"$(SRCROOT)/../../PB/vcpkg-fat",
 					"$(SDKROOT)/usr/lib/i18n",
-					"../../PB/skia-fat",
+					"$(SRCROOT)/../../PB/skia-fat",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
