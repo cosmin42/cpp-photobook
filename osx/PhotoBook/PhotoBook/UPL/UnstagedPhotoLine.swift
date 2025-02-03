@@ -19,7 +19,7 @@ struct UnstagedPhotoLine: View
     @Binding var canvasImage: FrontendImage?
     @Binding var mediaListModel: MediaListModel
     @Binding var stagedPhotoLineModel: StagedPhotoLineModel
-    
+    @Binding var multipleSelectionEnabled: Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -37,16 +37,42 @@ struct UnstagedPhotoLine: View
                                 )
                                 .padding(4)
                                 .onTapGesture {
-                                    self.canvasImage = model.list[index]
                                     self.stagedPhotoLineModel.selectedIndices.removeAll()
+                                    
                                     if model.selectedIndices.contains(index)
                                     {
-                                        model.selectedIndices.removeAll { $0 == index }
+                                        if multipleSelectionEnabled
+                                        {
+                                            model.selectedIndices.removeAll { $0 == index }
+                                        }
                                     }
                                     else
                                     {
-                                        model.selectedIndices.append(index)
+                                        if multipleSelectionEnabled
+                                        {
+                                            model.selectedIndices.append(index)
+                                        }
+                                        else
+                                        {
+                                            model.selectedIndices.removeAll()
+                                            model.selectedIndices.append(index)
+                                        }
                                     }
+                                    
+                                    if model.selectedIndices.isEmpty
+                                    {
+                                        self.canvasImage = nil
+                                    }
+                                    else if model.selectedIndices.contains(index)
+                                    {
+                                        self.canvasImage = model.list[index]
+                                    }
+                                    else
+                                    {
+                                        self.canvasImage = model.list.randomElement()
+                                    }
+                                    
+                                    
                                 }
                                 .onDrag {
                                     NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))

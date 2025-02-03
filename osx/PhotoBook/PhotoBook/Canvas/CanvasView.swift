@@ -46,9 +46,9 @@ struct CanvasView: View
                     Image(systemName: "arrow.left")
                         .font(.system(size: 24))
                         .foregroundColor(.white)
-                        .background(Color.clear)
+                        .background(Color.PrimaryColor)
                 }
-                .background(Color.PrimaryColor)
+                .buttonStyle(PlainButtonStyle())
                 Text("Image name")
                 Button(action:{
                     
@@ -56,9 +56,9 @@ struct CanvasView: View
                     Image(systemName: "arrow.right")
                         .font(.system(size: 24))
                         .foregroundColor(.white)
-                        .background(Color.clear)
+                        .background(Color.PrimaryColor)
                 }
-                .background(Color.PrimaryColor)
+                .buttonStyle(PlainButtonStyle())
             }
         }
         .padding()

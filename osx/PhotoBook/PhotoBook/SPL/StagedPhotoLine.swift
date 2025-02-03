@@ -89,6 +89,7 @@ struct StagedPhotoLine: View
     @ObservedObject var model: StagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
     @Binding var unstagedPhotoLineModel: UnstagedPhotoLineModel
+    @Binding var multipleSelectionEnabled: Bool
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -111,16 +112,39 @@ struct StagedPhotoLine: View
                                         value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
                                     )
                                 })
-                                .onTapGesture {
-                                    self.canvasImage = model.list[index]
+                                .onTapGesture { 
                                     unstagedPhotoLineModel.selectedIndices.removeAll()
                                     if model.selectedIndices.contains(index)
                                     {
-                                        model.selectedIndices.removeAll { $0 == index }
+                                        if multipleSelectionEnabled
+                                        {
+                                            model.selectedIndices.removeAll { $0 == index }
+                                        }
                                     }
                                     else
                                     {
-                                        model.selectedIndices.append(index)
+                                        if multipleSelectionEnabled
+                                        {
+                                            model.selectedIndices.append(index)
+                                        }
+                                        else
+                                        {
+                                            model.selectedIndices.removeAll()
+                                            model.selectedIndices.append(index)
+                                        }
+                                    }
+                                    
+                                    if model.selectedIndices.isEmpty
+                                    {
+                                        self.canvasImage = nil
+                                    }
+                                    else if model.selectedIndices.contains(index)
+                                    {
+                                        self.canvasImage = model.list[index]
+                                    }
+                                    else
+                                    {
+                                        self.canvasImage = model.list.randomElement()
                                     }
                                 }
                                 .onDrag {

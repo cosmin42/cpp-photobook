@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+import Combine
 
 struct TableContentView: View, PhotobookUIListener {
     @State private var navigateToDashboard = false
@@ -29,7 +30,9 @@ struct TableContentView: View, PhotobookUIListener {
     
     @Binding private var lutGridModel: LutGridModel
     
-    @State private var dropIndex:UInt?
+    @State private var dropIndex: UInt?
+    
+    @State private var multipleSelectionEnabled: Bool = false
     
     init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
@@ -156,37 +159,6 @@ struct TableContentView: View, PhotobookUIListener {
                 .background(Color.PrimaryColor)
                 HStack {
                     VStack(alignment:.leading) {
-                        HStack {
-                            Button(action: {
-                                selectedTab = 0
-                            }){
-                                Text("Media")
-                            }
-                            .frame(alignment:.leading)
-                            .buttonStyle(PlainButtonStyle())
-                            Divider()
-                                .background(Color.gray)
-                                .frame(height: 24)
-                            Button(action: {
-                                selectedTab = 1
-                            }){
-                                Text("Collages")
-                            }
-                            .frame(alignment:.leading)
-                            .buttonStyle(PlainButtonStyle())
-                            Divider()
-                                .background(Color.gray)
-                                .frame(height: 24)
-                            Button(action: {
-                                selectedTab = 2
-                            }){
-                                Text("LUTs")
-                            }
-                            .frame(alignment:.leading)
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        .padding()
-                        .background(Color.PrimaryColor)
                         TabView(selection: $selectedTab) {
                             // Media list
                             MediaList(frameSize: geometry.size, model: self.mediaListModel)
@@ -239,7 +211,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel)
+                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         }
                         .frame(width:geometry.size.width, height: 80)
                         .border(Color.BorderColor, width: 1)
@@ -268,6 +240,8 @@ struct TableContentView: View, PhotobookUIListener {
                                             self.photobook.mapImages(toSPL: images)
                                             
                                             self.dropIndex = self.splModel.findPredecessorIndex(at:location)
+                                            
+                                            self.uplModel.selectedIndices.removeAll()
                                             
                                         } catch {
                                             print("Failed to decode dropped data: \(error)")
@@ -314,7 +288,7 @@ struct TableContentView: View, PhotobookUIListener {
                         self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
                     }
                     
-                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel)
+                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         .onChange(of: uplModel.selectedIndices)
                     {
                         _ in
@@ -327,6 +301,10 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .onAppear()
         {
+            NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
+                self.multipleSelectionEnabled = event.modifierFlags.contains(.control)
+                return event
+            }
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             PhotoBookApp.pushListener(listener: self)
             self.photobook.makeCollages()
