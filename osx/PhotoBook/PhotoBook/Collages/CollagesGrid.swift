@@ -50,5 +50,8 @@ struct CollagesGrid: View
         }
         .frame(alignment:.leading)
         .tag(1)
+        .tabItem {
+            Label("Collages", systemImage: "house.fill")
+        }
     }
 }

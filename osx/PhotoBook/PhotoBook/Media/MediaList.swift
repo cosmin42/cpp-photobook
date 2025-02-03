@@ -68,6 +68,9 @@ struct MediaList: View
         }
         .frame(alignment:.leading)
         .tag(0)
+        .tabItem {
+            Label("Media List", systemImage: "house.fill")
+        }
         .scrollIndicators(.hidden)
     }
 }
