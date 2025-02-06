@@ -48,27 +48,19 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageToPaperService->setImageToPaperServiceListener(
       imageToPaperServiceListener);
 
-  auto collageThumbnailsMakerListener =
-      dynamic_cast<CollageThumbnailsMakerListener *>(this);
-  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
-  mCollageTemplateManager->configureThumbnailsListener(
-      collageThumbnailsMakerListener);
+  mDatabaseService->configurePlatformInfo(mPlatformInfo);
+
+  mDurableHashService->configureDatabaseService(mDatabaseService);
 
   auto lutServiceListener = dynamic_cast<LutServiceListener *>(this);
   PBDev::basicAssert(lutServiceListener != nullptr);
   mLutService->configureLutServiceListener(lutServiceListener);
-
-  auto collageMakerListener = dynamic_cast<CollageMakerListener *>(this);
-  PBDev::basicAssert(collageMakerListener != nullptr);
-  mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
   auto projectManagementServiceListener =
       dynamic_cast<ProjectManagementServiceListener *>(this);
   PBDev::basicAssert(projectManagementServiceListener != nullptr);
   mProjectManagementService->configureProjectManagementServiceListener(
       projectManagementServiceListener);
-
-  mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
 
@@ -79,10 +71,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
   mExportLogic.setExportListener(exportListener);
-
-  mDatabaseService->configurePlatformInfo(mPlatformInfo);
-
-  mDurableHashService->configureDatabaseService(mDatabaseService);
 
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
   mProjectManagementService->configureProjectSerializerService(
@@ -113,6 +101,18 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageFactory->configurePlatformInfo(mPlatformInfo);
   mImageFactory->configureProjectManagementService(mProjectManagementService);
   mImageFactory->configureDurableHashService(mDurableHashService);
+
+  mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
+
+  auto collageThumbnailsMakerListener =
+      dynamic_cast<CollageThumbnailsMakerListener *>(this);
+  PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
+  mCollageTemplateManager->configureThumbnailsListener(
+      collageThumbnailsMakerListener);
+
+  auto collageMakerListener = dynamic_cast<CollageMakerListener *>(this);
+  PBDev::basicAssert(collageMakerListener != nullptr);
+  mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
   mProjectManagementService->configureDatabaseService(mDatabaseService);
 
@@ -375,42 +375,11 @@ void Photobook::onThumbnailsCreated()
 
 void Photobook::onCollageThumbnailsMakerError() {}
 
-// TODO: This and ImageToPaperTask need to be refactored, move to
-// CollageMakerJob
-void Photobook::onCollageCreated(unsigned index, Path imagePath)
+void Photobook::onCollageCreated(GenericImagePtr aggregatedImage)
 {
-  auto maybeLoadedProjectInfo =
-      mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
-
-  auto coreHash = mDurableHashService->getHash(
-      PBDev::ProjectId(maybeLoadedProjectInfo->first), imagePath);
-
-  auto imageHash = mPlatformInfo->thumbnailByHash(maybeLoadedProjectInfo->first,
-                                                  coreHash, ".jpg");
-
-  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
-
-  auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
-      imagePath, mPlatformInfo, maybeLoadedProjectInfo, newHash);
-
-  PBDev::basicAssert(maybeNewHash == newHash);
-  auto newImage = mImageFactory->createRegularImage(imagePath);
-
-  std::function<void(unsigned, unsigned)> onFinished =
-      [this, index{index}, newImage{newImage}](unsigned width,
-                                               unsigned height) {
-        post([this, index{index}, newImage{newImage}]() {
-          mParent->onCollageCreated(index, newImage);
-        });
-      };
-
-  ImportImageTask importImageTask(
-      newImage->full(), newImage->medium(), newImage->smaLL(), onFinished,
-      mPlatformInfo->screenSize.first, mPlatformInfo->screenSize.second,
-      std::stop_source().get_token());
-
-  importImageTask();
+  post([this, aggregatedImage{aggregatedImage}]() {
+    mParent->onCollageCreated(aggregatedImage);
+  });
 }
 
 void Photobook::onCollageMakerError() {}

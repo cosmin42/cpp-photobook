@@ -3,15 +3,17 @@
 #include <pb/components/CollageLibraryAssistant.h>
 #include <pb/components/MapReducer.h>
 #include <pb/components/SkiaResources.h>
+#include <pb/image/ImageFactory.h>
 #include <pb/project/Project.h>
 #include <pb/services/DrawingService.h>
+#include <pb/services/DurableHashService.h>
 
 namespace PB::Job {
 class CollageMakerListener {
 public:
   virtual ~CollageMakerListener() = default;
 
-  virtual void onCollageCreated(unsigned index, Path imagePath) = 0;
+  virtual void onCollageCreated(GenericImagePtr aggregatedImage) = 0;
   virtual void onCollageMakerError() = 0;
 
 private:
@@ -25,6 +27,9 @@ public:
   void configureListener(CollageMakerListener *listener);
   void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configureDurableHashService(
+      std::shared_ptr<DurableHashService> durableHashService);
+  void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
   void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
 
@@ -45,13 +50,11 @@ private:
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
   std::shared_ptr<IdentifyableProject>     mProject = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
+  std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
+  std::shared_ptr<ImageFactory>            mImageFactory = nullptr;
   Service::DrawingService                  mDrawingService;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
   std::vector<IdentifyableFunction>        mFunctions;
-
-  std::unordered_map<PBDev::MapReducerTaskId, unsigned,
-                     boost::hash<PBDev::MapReducerTaskId>>
-      mCollageIndex;
 
   std::unordered_map<PBDev::MapReducerTaskId, Path,
                      boost::hash<PBDev::MapReducerTaskId>>

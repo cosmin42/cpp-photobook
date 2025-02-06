@@ -47,6 +47,18 @@ void CollageService::configureTaskCruncher(
   mTaskCruncher = taskCruncher;
 }
 
+void CollageService::configureDurableHashService(
+    std::shared_ptr<DurableHashService> durableHashService)
+{
+  mCollageMakerJob->configureDurableHashService(durableHashService);
+}
+
+void CollageService::configureImageFactory(
+    std::shared_ptr<ImageFactory> imageFactory)
+{
+  mCollageMakerJob->configureImageFactory(imageFactory);
+}
+
 void CollageService::generateTemplatesImages()
 {
   mThumbnailsJob->mapJobs();
@@ -65,6 +77,20 @@ void CollageService::combineImages(unsigned          templateIndex,
 {
   auto templatePaths = mThumbnailsJob->getSourceTemplates();
 
+  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
+  mCollageMakerStopSource =
+      mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
+                            PBDev::ProgressJobName{"collage-combine"});
+}
+
+void CollageService::combineImages(unsigned                     templateIndex,
+                                   std::vector<GenericImagePtr> images)
+{
+  auto templatePaths = mThumbnailsJob->getSourceTemplates();
+  std::vector<Path> imagesPaths;
+  for (const auto &image : images) {
+    imagesPaths.push_back(image->full());
+  }
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mCollageMakerStopSource =
       mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,

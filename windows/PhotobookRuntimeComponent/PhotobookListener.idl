@@ -29,7 +29,7 @@ interface PhotobookListener
 
   void OnCollageThumbnailsCreated();
 
-  void OnCollageCreated(UInt32 index, VirtualImagePtr newImage);
+  void OnCollageCreated(VirtualImagePtr newImage);
 
   void OnImageMapped(Guid imageId, VirtualImagePtr image);
 

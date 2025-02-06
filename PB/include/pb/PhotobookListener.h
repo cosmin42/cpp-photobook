@@ -28,7 +28,7 @@ public:
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onCollageCreated(unsigned index, GenericImagePtr newImage) = 0;
+  virtual void onCollageCreated(GenericImagePtr newImage) = 0;
 
   virtual void onImageMapped(PBDev::ImageToPaperId id,
                              GenericImagePtr       image) = 0;

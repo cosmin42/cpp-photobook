@@ -85,7 +85,7 @@ public:
   void onThumbnailsCreated() override;
   void onCollageThumbnailsMakerError() override;
 
-  void onCollageCreated(unsigned index, Path imagePath) override;
+  void onCollageCreated(GenericImagePtr aggregatedImage) override;
   void onCollageMakerError() override;
 
   void onImportError(PBDev::Error error) override;

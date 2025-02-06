@@ -90,10 +90,9 @@ public:
     mManagedListener.Post(functor);
   }
 
-  void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override
+  void onCollageCreated(PB::GenericImagePtr newImage) override
   {
-    mManagedListener.OnCollageCreated(index,
-                                      winrt::make<VirtualImagePtr>(newImage));
+    mManagedListener.OnCollageCreated(winrt::make<VirtualImagePtr>(newImage));
   }
 
   void onImageMapped(PBDev::ImageToPaperId id, PB::GenericImagePtr image)

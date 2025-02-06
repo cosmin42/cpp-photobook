@@ -24,9 +24,15 @@ public:
   void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
+  void configureDurableHashService(
+      std::shared_ptr<DurableHashService> durableHashService);
+  void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
   void generateTemplatesImages();
   void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
+
+  void combineImages(unsigned                     templateIndex,
+                     std::vector<GenericImagePtr> images);
 
   std::vector<CollageTemplateInfo> getTemplatesPaths() const;
 
@@ -41,5 +47,6 @@ private:
   std::shared_ptr<CollageMakerJob>           mCollageMakerJob = nullptr;
   std::shared_ptr<TaskCruncher>              mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>              mPlatformInfo = nullptr;
+  std::shared_ptr<DurableHashService>        mDurableHashService = nullptr;
 };
 } // namespace PB

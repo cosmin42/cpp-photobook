@@ -48,7 +48,7 @@ public:
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 
-  MOCK_METHOD(void, onCollageCreated, (unsigned, PB::GenericImagePtr),
+  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr),
               (override));
 
   MOCK_METHOD(void, onImageMapped, (PBDev::ImageToPaperId, PB::GenericImagePtr),
@@ -74,7 +74,7 @@ public:
 
 class TestCollageMakerListener final : public CollageMakerListener {
 public:
-  MOCK_METHOD(void, onCollageCreated, (unsigned, Path), (override));
+  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr), (override));
   MOCK_METHOD(void, onCollageMakerError, (), (override));
 };
 

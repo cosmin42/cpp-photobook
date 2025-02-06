@@ -388,7 +388,7 @@ namespace PhotobookNet
             PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
         }
 
-        public void OnCollageCreated(uint index, VirtualImagePtr newImage)
+        public void OnCollageCreated(VirtualImagePtr newImage)
         {
             throw new NotImplementedException();
         }

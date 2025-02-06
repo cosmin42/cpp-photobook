@@ -1,5 +1,8 @@
 #include <pb/jobs/CollageMakerJob.h>
 
+#include <pb/components/ImportImageTask.h>
+#include <pb/components/ThumbnailsTask.h>
+
 namespace PB::Job {
 
 CollageMakerJob::CollageMakerJob()
@@ -19,6 +22,12 @@ void CollageMakerJob::configureProject(
   mProject = project;
 }
 
+void CollageMakerJob::configureImageFactory(
+    std::shared_ptr<ImageFactory> imageFactory)
+{
+  mImageFactory = imageFactory;
+}
+
 void CollageMakerJob::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
@@ -26,6 +35,12 @@ void CollageMakerJob::configurePlatformInfo(
 
   mAssistant =
       std::make_shared<CollageLibraryAssistant>(mPlatformInfo->localStatePath);
+}
+
+void CollageMakerJob::configureDurableHashService(
+    std::shared_ptr<DurableHashService> durableHashService)
+{
+  mDurableHashService = durableHashService;
 }
 
 void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
@@ -43,41 +58,37 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
     imagesNames.push_back(imagePath.filename());
   }
 
-  for (auto i = 0; i < imagesPaths.size() / 2; ++i) {
+  std::string newImageName =
+      boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
 
-    std::string newImageName =
-        boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
+  Path projectThumbnailsRoot =
+      mPlatformInfo->projectSupportFolder(mProject->first);
 
-    Path projectThumbnailsRoot =
-        mPlatformInfo->projectSupportFolder(mProject->first);
+  auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
 
-    auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
+  mCollagePath[reducerId] = projectThumbnailsRoot / newImageName;
 
-    mCollageIndex[reducerId] = (unsigned)i;
-    mCollagePath[reducerId] = projectThumbnailsRoot / newImageName;
+  mFunctions.push_back(
+      {reducerId,
+       [this, imagesNames{imagesNames}, templatePath{templatePath},
+        imageSize{imageSize}, projectThumbnailsRoot{projectThumbnailsRoot},
+        newImageName{newImageName}]() {
+         Path temporarySvgFilePath =
+             projectThumbnailsRoot / TEMPORARY_SVG_FILE_NAME;
 
-    mFunctions.push_back(
-        {reducerId,
-         [this, imagesNames{imagesNames}, templatePath{templatePath},
-          imageSize{imageSize}, projectThumbnailsRoot{projectThumbnailsRoot},
-          newImageName{newImageName}]() {
-           Path temporarySvgFilePath =
-               projectThumbnailsRoot / TEMPORARY_SVG_FILE_NAME;
+         auto processedPath = mAssistant->createTemplateThumbnail(
+             imagesNames, templatePath, {4, 3}, imageSize,
+             temporarySvgFilePath.string());
 
-           auto processedPath = mAssistant->createTemplateThumbnail(
-               imagesNames, templatePath, {4, 3}, imageSize,
-               temporarySvgFilePath.string());
+         auto outFilePath = projectThumbnailsRoot / newImageName;
 
-           auto outFilePath = projectThumbnailsRoot / newImageName;
+         SkFILEWStream outFile(outFilePath.string().c_str());
 
-           SkFILEWStream outFile(outFilePath.string().c_str());
+         mDrawingService.renderToStream(mResourcesProviderId, outFile,
+                                        processedPath, imageSize);
 
-           mDrawingService.renderToStream(mResourcesProviderId, outFile,
-                                          processedPath, imageSize);
-
-           std::filesystem::remove(temporarySvgFilePath);
-         }});
-  }
+         std::filesystem::remove(temporarySvgFilePath);
+       }});
 }
 
 std::optional<IdentifyableFunction>
@@ -93,9 +104,35 @@ CollageMakerJob::getTask(std::stop_token stopToken)
 
 void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
 {
-  if (mCollageIndex.find(reducerTaskId) != mCollageIndex.end()) {
-    mListener->onCollageCreated(mCollageIndex.at(reducerTaskId),
-                                mCollagePath.at(reducerTaskId));
+  if (mCollagePath.find(reducerTaskId) != mCollagePath.end()) {
+    PBDev::basicAssert(mProject != nullptr);
+
+    auto coreHash = mDurableHashService->getHash(
+        PBDev::ProjectId(mProject->first), mCollagePath.at(reducerTaskId));
+
+    auto imageHash =
+        mPlatformInfo->thumbnailByHash(mProject->first, coreHash, ".jpg");
+
+    auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
+    auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
+        mCollagePath.at(reducerTaskId), mPlatformInfo, mProject, newHash);
+
+    PBDev::basicAssert(maybeNewHash == newHash);
+    auto newImage =
+        mImageFactory->createRegularImage(mCollagePath.at(reducerTaskId));
+
+    std::function<void(unsigned, unsigned)> onFinished =
+        [this, newImage{newImage}](unsigned width, unsigned height) {
+          mListener->onCollageCreated(newImage);
+        };
+
+    ImportImageTask importImageTask(
+        newImage->full(), newImage->medium(), newImage->smaLL(), onFinished,
+        mPlatformInfo->screenSize.first, mPlatformInfo->screenSize.second,
+        std::stop_source().get_token());
+
+    importImageTask();
   }
 }
 
