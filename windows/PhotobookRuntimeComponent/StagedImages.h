@@ -8,7 +8,7 @@
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct StagedImages : StagedImagesT<StagedImages> {
-  StagedImages(PB::StagedImages &stagedImages) : mStagedImages(stagedImages) {}
+  StagedImages(std::shared_ptr<PB::StagedImages> stagedImages) : mStagedImages(stagedImages) {}
   ~StagedImages() = default;
 
   void AddPictures(Windows::Foundation::Collections::IVector<
@@ -23,7 +23,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
               ->Unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
-    mStagedImages.addPictures(nativePictures);
+    mStagedImages->addPictures(nativePictures);
   }
 
   void AddPictures(Windows::Foundation::Collections::IVector<
@@ -39,7 +39,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
               ->Unwrap();
       nativePictures.push_back(nativeImagePtr);
     }
-    mStagedImages.addPictures(nativePictures, position);
+    mStagedImages->addPictures(nativePictures, position);
   }
 
   void AddPicture(PhotobookRuntimeComponent::VirtualImagePtr picture)
@@ -49,7 +49,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
             winrt::PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
             picture)
             ->Unwrap();
-    mStagedImages.addPicture(nativeImagePtr);
+    mStagedImages->addPicture(nativeImagePtr);
   }
 
   void
@@ -59,10 +59,10 @@ struct StagedImages : StagedImagesT<StagedImages> {
     for (auto &&index : indexes) {
       nativeIndexes.push_back(index);
     }
-    mStagedImages.removePicture(nativeIndexes);
+    mStagedImages->removePicture(nativeIndexes);
   }
 
-  void Clear() { mStagedImages.clear(); }
+  void Clear() { mStagedImages->clear(); }
 
   void StashImages(Windows::Foundation::Collections::IVector<unsigned> indexes)
   {
@@ -72,9 +72,9 @@ struct StagedImages : StagedImagesT<StagedImages> {
       nativeIndexes.push_back(indexes.GetAt(i));
     }
 
-    mStagedImages.stashImages(nativeIndexes);
+    mStagedImages->stashImages(nativeIndexes);
   }
-  void PopImages(int position) { mStagedImages.popImages(position); }
+  void PopImages(int position) { mStagedImages->popImages(position); }
 
   Windows::Foundation::Collections::IVector<
       PhotobookRuntimeComponent::VirtualImagePtr>
@@ -82,7 +82,7 @@ struct StagedImages : StagedImagesT<StagedImages> {
   {
     auto stagedPhotos = winrt::single_threaded_vector<
         PhotobookRuntimeComponent::VirtualImagePtr>();
-    for (auto &&photo : mStagedImages.stagedPhotos()) {
+    for (auto &&photo : mStagedImages->stagedPhotos()) {
       stagedPhotos.Append(
           winrt::make<
               PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
@@ -95,10 +95,10 @@ struct StagedImages : StagedImagesT<StagedImages> {
   {
     return winrt::make<
         PhotobookRuntimeComponent::implementation::VirtualImagePtr>(
-        mStagedImages.picture(index));
+        mStagedImages->picture(index));
   }
 
 private:
-  PB::StagedImages &mStagedImages;
+  std::shared_ptr<PB::StagedImages> mStagedImages;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

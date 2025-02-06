@@ -68,7 +68,7 @@ private:
 };
 
 struct ImageMonitor : ImageMonitorT<ImageMonitor> {
-  ImageMonitor(PB::ImageMonitor &monitor) : mImageMonitor(monitor) {}
+  ImageMonitor(std::shared_ptr<PB::ImageMonitor> monitor) : mImageMonitor(monitor) {}
   ~ImageMonitor() = default;
 
   void AddRow(winrt::hstring path,
@@ -87,55 +87,55 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       nativeUnstagedImages.push_back(nativeImagePtr);
     }
     PBDev::Path nativePath = winrt::to_string(path);
-    mImageMonitor.addRow(nativePath, nativeUnstagedImages);
+    mImageMonitor->addRow(nativePath, nativeUnstagedImages);
   }
 
-  void RemoveRowByIndex(int index) { mImageMonitor.removeRow(index); }
+  void RemoveRowByIndex(int index) { mImageMonitor->removeRow(index); }
 
   void RemoveRowByPath(winrt::hstring path)
   {
     PBDev::Path nativePath = winrt::to_string(path);
-    mImageMonitor.removeRow(nativePath);
+    mImageMonitor->removeRow(nativePath);
   }
 
-  void Clear() { mImageMonitor.clear(); }
+  void Clear() { mImageMonitor->clear(); }
 
-  void CompleteRow(int index) { mImageMonitor.completeRow(index); }
+  void CompleteRow(int index) { mImageMonitor->completeRow(index); }
 
   bool IsPendingByPath(winrt::hstring path)
   {
     PBDev::Path nativePath = winrt::to_string(path);
-    return mImageMonitor.isPending(nativePath);
+    return mImageMonitor->isPending(nativePath);
   }
 
-  bool IsPendingByIndex(int index) { return mImageMonitor.isPending(index); }
+  bool IsPendingByIndex(int index) { return mImageMonitor->isPending(index); }
 
-  unsigned ImportListSize() { return mImageMonitor.importListSize(); }
+  unsigned ImportListSize() { return mImageMonitor->importListSize(); }
 
-  unsigned RowSize(unsigned row) { return mImageMonitor.rowSize(row); }
+  unsigned RowSize(unsigned row) { return mImageMonitor->rowSize(row); }
 
   unsigned RowIndex(winrt::hstring path)
   {
     PBDev::Path nativePath = winrt::to_string(path);
-    return mImageMonitor.rowIndex(nativePath);
+    return mImageMonitor->rowIndex(nativePath);
   }
 
   bool ContainsRow(winrt::hstring path, bool subPath)
   {
     PBDev::Path nativePath = winrt::to_string(path);
-    return mImageMonitor.containsRow(nativePath, subPath);
+    return mImageMonitor->containsRow(nativePath, subPath);
   }
 
   winrt::hstring RowPath(unsigned row)
   {
-    return winrt::to_hstring(mImageMonitor.rowPath(row).string());
+    return winrt::to_hstring(mImageMonitor->rowPath(row).string());
   }
 
   Windows::Foundation::Collections::IVector<winrt::hstring> RowList()
   {
     auto managedRowList = winrt::single_threaded_vector<winrt::hstring>();
 
-    auto nativeRowList = mImageMonitor.rowList();
+    auto nativeRowList = mImageMonitor->rowList();
 
     for (auto i = 0; i < (int)nativeRowList.size(); ++i) {
       managedRowList.Append(winrt::to_hstring(nativeRowList.at(i).string()));
@@ -146,20 +146,20 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
 
   PhotobookRuntimeComponent::VirtualImagePtr Image(unsigned row, unsigned index)
   {
-    auto imagePtr = mImageMonitor.image(row, index);
+    auto imagePtr = mImageMonitor->image(row, index);
     return winrt::make<VirtualImagePtr>(imagePtr);
   }
 
   PhotobookRuntimeComponent::VirtualImagePtr Image(winrt::hstring full)
   {
-    auto imagePtr = mImageMonitor.image(winrt::to_string(full));
+    auto imagePtr = mImageMonitor->image(winrt::to_string(full));
     return winrt::make<VirtualImagePtr>(imagePtr);
   }
 
   PhotobookRuntimeComponent::Int32Pair Position(winrt::hstring full)
   {
     auto nativePath = winrt::to_string(full);
-    auto positionPair = mImageMonitor.position(nativePath);
+    auto positionPair = mImageMonitor->position(nativePath);
     return winrt::make<Int32Pair>(positionPair.first, positionPair.second);
   }
 
@@ -172,7 +172,7 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
         winrt::single_threaded_vector<Windows::Foundation::Collections::IVector<
             PhotobookRuntimeComponent::VirtualImagePtr>>();
 
-    auto nativeUnstagedImages = mImageMonitor.unstaged();
+    auto nativeUnstagedImages = mImageMonitor->unstaged();
 
     for (int i = 0; i < (int)nativeUnstagedImages.size(); ++i) {
       auto managedUnstagedImagesLine = winrt::single_threaded_vector<
@@ -188,6 +188,6 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   }
 
 private:
-  PB::ImageMonitor &mImageMonitor;
+  std::shared_ptr<PB::ImageMonitor> mImageMonitor;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation
