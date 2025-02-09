@@ -107,12 +107,6 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
   if (mCollagePath.find(reducerTaskId) != mCollagePath.end()) {
     PBDev::basicAssert(mProject != nullptr);
 
-    auto coreHash = mDurableHashService->getHash(
-        PBDev::ProjectId(mProject->first), mCollagePath.at(reducerTaskId));
-
-    auto imageHash =
-        mPlatformInfo->thumbnailByHash(mProject->first, coreHash, ".jpg");
-
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
     auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
@@ -122,17 +116,9 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
     auto newImage =
         mImageFactory->createRegularImage(mCollagePath.at(reducerTaskId));
 
-    std::function<void(unsigned, unsigned)> onFinished =
-        [this, newImage{newImage}](unsigned width, unsigned height) {
-          mListener->onCollageCreated(newImage);
-        };
+    spdlog::info("Collage created {}", newImage->full().string());
 
-    ImportImageTask importImageTask(
-        newImage->full(), newImage->medium(), newImage->smaLL(), onFinished,
-        mPlatformInfo->screenSize.first, mPlatformInfo->screenSize.second,
-        std::stop_source().get_token());
-
-    importImageTask();
+    mListener->onCollageCreated(newImage);
   }
 }
 

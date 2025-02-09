@@ -31,6 +31,11 @@ std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
   return regularImage;
 }
 
+std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(std::string hash)
+{
+  return std::make_shared<RegularImageV2>(hash, Path());
+}
+
 std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
                                                            std::string hash)
 {
