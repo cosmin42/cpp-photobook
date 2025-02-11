@@ -27,6 +27,7 @@ struct CollagesGrid: View
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(height: 80)
+                                    .cornerRadius(10)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 10)
                                             .stroke(model.selectedIndex == index ? Color.white : Color.clear, lineWidth: 1)

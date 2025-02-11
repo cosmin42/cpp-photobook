@@ -10,6 +10,7 @@ import SwiftUI
 class LutGridModel: ObservableObject
 {
     @Published public var images:[LutItem] = []
+    @Published public var selectedIndex: Int? = nil
     
     // TODO: Do a flexible calculation here
     @Published public var columns = [
