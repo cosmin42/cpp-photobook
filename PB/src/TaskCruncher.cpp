@@ -19,7 +19,11 @@ std::stop_source TaskCruncher::crunch(const std::string      poolName,
   std::stop_source stopSource;
 
   auto taskCount = mapper.taskCount();
-  auto progressId = mProgressService->start(progressName, taskCount);
+
+  PBDev::ProgressId progressId = PBDev::ProgressId(RuntimeUUID::zero());
+  if (mProgressService != nullptr) {
+    progressId = mProgressService->start(progressName, taskCount);
+  }
 
   mProgressNames.emplace(poolName, progressId);
 
@@ -28,7 +32,9 @@ std::stop_source TaskCruncher::crunch(const std::string      poolName,
     mPTC.at(poolName)->enqueue(
         [this, task{task}, &mapper, progressId{progressId}]() {
           task->second();
-          mProgressService->update(progressId);
+          if (mProgressService != nullptr) {
+            mProgressService->update(progressId);
+          }
           mapper.onTaskFinishedInternal(task->first);
         });
 
