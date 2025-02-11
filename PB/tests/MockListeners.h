@@ -151,6 +151,7 @@ private:
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
+std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath, Path locaStatePath);
 
 std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);

@@ -24,6 +24,17 @@ std::shared_ptr<PB::PlatformInfo> mockPlatformInfo()
   return platform;
 }
 
+std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath,
+                                                   Path locaStatePath)
+{
+  std::shared_ptr<PB::PlatformInfo> platform =
+      std::make_shared<PB::PlatformInfo>();
+  platform->installationPath = installationPath;
+  platform->localStatePath = locaStatePath;
+  platform->screenSize = std::make_pair(1920, 1080);
+  return platform;
+}
+
 std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo)
 {
