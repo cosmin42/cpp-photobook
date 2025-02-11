@@ -1,0 +1,10 @@
+<svg width="1754" height="1240" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <mask id="svgmask0">
+    <polygon fill="#ffffff" points="0 0, 877.0 0, 877.0 1240, 0 1240"></polygon>
+  </mask>
+   <mask id="svgmask1">
+    <polygon fill="#ffffff" points="877.0 0, 877.0 1240, 1754 1240,  1754 0"></polygon>
+  </mask>
+  <image xlink:href="placeholder_0.jpg" mask="url(#svgmask0)" width="877.0" height="620.0" x="0" y="310.0"></image>
+  <image xlink:href="placeholder_1.jpg" mask="url(#svgmask1)" width="877.0" height="620.0" x="877.0" y="310.0"></image>
+</svg>

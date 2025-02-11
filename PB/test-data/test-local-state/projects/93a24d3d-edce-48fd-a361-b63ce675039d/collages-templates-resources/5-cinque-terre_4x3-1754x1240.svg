@@ -1,0 +1,22 @@
+<svg width="1754" height="1240" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <mask id="svgmask0">
+    <polygon fill="#ffffff" points="0 620.0, 1169.3333333333333 620.0, 1169.3333333333333 1240, 0 1240"></polygon>
+  </mask>
+  <mask id="svgmask1">
+    <polygon fill="#ffffff" points="1169.3333333333333 826.6666666666666, 1754 826.6666666666666, 1754 1240,  1169.3333333333333 1240"></polygon>
+  </mask>
+  <mask id="svgmask2">
+    <polygon fill="#ffffff" points="1169.3333333333333 413.3333333333333, 1754 413.3333333333333, 1754 826.6666666666666,  1169.3333333333333 826.6666666666666"></polygon>
+  </mask>
+  <mask id="svgmask3">
+    <polygon fill="#ffffff" points="1169.3333333333333 0, 1754 0, 1754 413.3333333333333,  584.6666666666666 826.6666666666666"></polygon>
+  </mask>
+  <mask id="svgmask4">
+    <polygon fill="#ffffff" points="0 0, 1169.3333333333333 0, 1169.3333333333333 620.0,  0 620.0"></polygon>
+  </mask>
+  <image xlink:href="placeholder_0.jpg" mask="url(#svgmask0)" width="877.0" height="620.0" x="0" y="620.0"></image>
+  <image xlink:href="placeholder_1.jpg" mask="url(#svgmask1)" width="584.6666666666666" height="413.3333333333333" x="1169.3333333333333" y="826.6666666666666"></image>
+  <image xlink:href="placeholder_2.jpg" mask="url(#svgmask2)" width="584.6666666666666" height="413.3333333333333" x="1169.3333333333333" y="413.3333333333333"></image>
+  <image xlink:href="placeholder_3.jpg" mask="url(#svgmask3)" width="584.6666666666666" height="413.3333333333333" x="1169.3333333333333" y="0"></image>
+  <image xlink:href="placeholder_4.jpg" mask="url(#svgmask4)" width="877.0" height="620.0" x="0" y="0"></image>
+</svg>
