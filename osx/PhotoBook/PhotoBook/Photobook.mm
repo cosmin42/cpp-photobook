@@ -80,7 +80,10 @@ public:
             f();
         });
     }
-    void onCollageCreated(unsigned index, PB::GenericImagePtr newImage) override {}
+    void onCollageCreated(PB::GenericImagePtr newImage) override {
+        auto managedImage = [[FrontendImage alloc] initWithCpp:newImage];
+        [&mManagedListener onCollageCreated:managedImage];
+    }
     void onImageMapped(PBDev::ImageToPaperId imageId,
                        PB::GenericImagePtr       image) override {
         std::string imageIdStr = boost::uuids::to_string(*imageId);

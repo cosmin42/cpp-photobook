@@ -380,4 +380,9 @@ struct TableContentView: View, PhotobookUIListener {
     {
         self.splModel.insert(image: image, position: self.dropIndex)
     }
+    
+    func onCollageCreated(image: FrontendImage)
+    {
+        
+    }
 }

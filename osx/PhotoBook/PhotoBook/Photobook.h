@@ -22,6 +22,7 @@
 - (void)onImageUpdated:(NSString*)root row:(unsigned)row index:(unsigned)index;
 - (void)onCollageThumbnailsCreated;
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
+- (void)onCollageCreated:(FrontendImage*)image;
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject

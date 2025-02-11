@@ -13,4 +13,5 @@ protocol PhotobookUIListener
     func onImageUpdated(root: String, row:UInt, index:UInt)
     func onCollageThumbnailsCreated()
     func onImageMapped(imageId: String, image: FrontendImage)
+    func onCollageCreated(image: FrontendImage)
 }
