@@ -43,6 +43,7 @@
 - (void) RecallMetadata;
 - (void) unloadProject;
 - (void) makeCollages;
+- (void) createCollage:(unsigned)collageIndex images:(NSArray<FrontendImage*>*)images;
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
 - (void) addImportFolder:(NSString*)root;

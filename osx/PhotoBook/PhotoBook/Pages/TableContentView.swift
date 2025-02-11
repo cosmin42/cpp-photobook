@@ -116,7 +116,39 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.gray)
                     
                     Button(action: {
-                        print("Make collage tapped")
+                        var imagesIndices:[Int] = []
+                        var imagesList: [FrontendImage] = []
+                        if !self.splModel.selectedIndices.isEmpty
+                        {
+                            imagesIndices = self.splModel.selectedIndices
+                            
+                            imagesList = imagesIndices.compactMap { index in
+                                guard index >= 0, index < splModel.list.count else { return nil }
+                                return splModel.list[index]
+                            }
+                        }
+                        else if !self.uplModel.selectedIndices.isEmpty
+                        {
+                            imagesIndices = self.uplModel.selectedIndices
+                            imagesList = imagesIndices.compactMap { index in
+                                guard index >= 0, index < uplModel.list.count else { return nil }
+                                return uplModel.list[index]
+                            }
+                        }
+                        else
+                        {
+                            // TODO: Show error here
+                            return
+                        }
+                        if let selectedCollageIndex = self.collagesGridModel.selectedIndex
+                        {
+                            self.photobook.createCollage(UInt32(selectedCollageIndex), images: imagesList)
+                        }
+                        else
+                        {
+                            // TODO: Show error
+                            return
+                        }
                     }) {
                         Image(systemName: "square.grid.2x2")
                             .scaledToFit()
@@ -383,6 +415,6 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onCollageCreated(image: FrontendImage)
     {
-        
+        self.splModel.insert(image: image, position: UInt(self.splModel.list.count))
     }
 }

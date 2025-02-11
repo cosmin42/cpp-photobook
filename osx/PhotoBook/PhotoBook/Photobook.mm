@@ -186,6 +186,17 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->makeCollages();
 }
 
+- (void) createCollage:(unsigned)collageIndex images:(NSArray<FrontendImage*>*)images
+{
+    std::vector<PB::GenericImagePtr> nativeImages;
+    for (NSUInteger i = 0; i < [images count]; i++)
+    {
+        auto nativeImage = [[images objectAtIndex:i] unwrap];
+        nativeImages.push_back(nativeImage);
+    }
+    mPhotobook->collageService()->combineImages(collageIndex, nativeImages);
+}
+
 - (ProjectManagementServiceWrapper*) projectManagementService
 {
     auto projectManagementService = mPhotobook->projectManagementService();
