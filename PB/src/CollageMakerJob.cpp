@@ -51,15 +51,15 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 
   auto resourcePath = mPlatformInfo->projectSupportFolder(mProject->first);
 
-  mResourcesProviderId = mResources->addResource(resourcePath);
+  mResourcesProviderId = mResources->addResource(resourcePath / "thumbnail-images");
 
   std::vector<Path> imagesNames;
   for (auto const &imagePath : imagesPaths) {
-    imagesNames.push_back(imagePath.filename());
+    imagesNames.push_back(imagePath);
   }
 
   std::string newImageName =
-      boost::uuids::to_string(boost::uuids::random_generator()()) + ".png";
+      boost::uuids::to_string(boost::uuids::random_generator()()) + ".jpeg";
 
   Path projectThumbnailsRoot =
       mPlatformInfo->projectSupportFolder(mProject->first);

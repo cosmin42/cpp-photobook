@@ -89,7 +89,7 @@ void CollageService::combineImages(unsigned                     templateIndex,
   auto templatePaths = mThumbnailsJob->getSourceTemplates();
   std::vector<Path> imagesPaths;
   for (const auto &image : images) {
-    imagesPaths.push_back(image->full());
+    imagesPaths.push_back(Path("thumbnail-images") / image->full());
   }
   mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
   mCollageMakerStopSource =

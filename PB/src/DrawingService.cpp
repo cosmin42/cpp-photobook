@@ -9,7 +9,7 @@
 #include <include/core/SkCanvas.h>
 #include <include/core/SkImageInfo.h>
 #include <include/core/SkSurface.h>
-#include <include/encode/SkPngEncoder.h>
+#include <include/encode/SkJpegEncoder.h>
 #include <modules/skshaper/utils/FactoryHelpers.h>
 #include <modules/svg/include/SkSVGDOM.h>
 #pragma warning(pop)
@@ -69,12 +69,14 @@ void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
 
   image->peekPixels(&pixmap);
 
-  SkPngEncoder::Options options;
+  SkJpegEncoder::Options options;
 
-  SkPngEncoder::Encode(&outputStream, pixmap, options);
+  auto success = SkJpegEncoder::Encode(&outputStream, pixmap, options);
+  PBDev::basicAssert(success);
+
   outputStream.flush();
 }
 
 void DrawingService::renderToBuffer() {}
 
-} // namespace PB
+} // namespace PB::Service

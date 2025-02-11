@@ -104,8 +104,8 @@ CollageThumbnailsMakerJob::getSourceTemplates() const
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
-  bool success = std::filesystem::create_directories(
-      mPlatformInfo->collagesFolder(mProject->first));
+  auto collagesPath = mPlatformInfo->collagesFolder(mProject->first);
+  bool success = std::filesystem::create_directories(collagesPath);
   if (success) {
     spdlog::info("[CollageThumbnailsMakerJob] Created placeholders folder for "
                  "project: {}",
@@ -156,6 +156,8 @@ void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
   Path     outFilePath = mPlatformInfo->collagesFolder(mProject->first) /
                      (path.stem().string() + ".png");
   if (std::filesystem::exists(outFilePath)) {
+    auto collageTemplateInfo = parseTemplatePath(outFilePath);
+    mGeneratedLibraries.push_back(collageTemplateInfo);
     return;
   }
   SkFILEWStream outFile(outFilePath.string().c_str());
