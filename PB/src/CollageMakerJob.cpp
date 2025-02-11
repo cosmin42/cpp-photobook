@@ -55,7 +55,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 
   std::vector<Path> imagesNames;
   for (auto const &imagePath : imagesPaths) {
-    imagesNames.push_back(imagePath);
+    imagesNames.push_back(Path("thumbnail-images") / imagePath.filename());
   }
 
   std::string newImageName =
