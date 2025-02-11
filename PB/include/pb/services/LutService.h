@@ -7,8 +7,11 @@
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
+#include <pb/entities/GenericImage.h>
 
 DECLARE_STRONG_STRING(LutName)
+
+DECLARE_STRONG_UUID(LutId)
 
 namespace PB::Service {
 class LutServiceListener {
@@ -51,6 +54,8 @@ public:
 
   void onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile,
                                        Path icon) override;
+
+  void applyLut(PBDev::LutId lutId, GenericImagePtr image);
 
   std::vector<LutIconInfo> listLuts() const;
 

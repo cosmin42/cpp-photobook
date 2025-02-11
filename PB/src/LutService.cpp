@@ -120,6 +120,12 @@ void LutService::onLutIconsPreprocessingFinished(std::string lutName,
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
+void LutService::applyLut(PBDev::LutId lutId, GenericImagePtr image)
+{
+  UNUSED(lutId);
+  UNUSED(image);
+}
+
 std::vector<LutIconInfo> LutService::listLuts() const { return mLutsPaths; }
 
 Path LutService::lutAssetsPath() const
