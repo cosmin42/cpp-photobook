@@ -113,8 +113,9 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
         mCollagePath.at(reducerTaskId), mPlatformInfo, mProject, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
-    auto newImage =
-        mImageFactory->createRegularImage(mCollagePath.at(reducerTaskId));
+    auto newImage = mImageFactory->createRegularImage(newHash);
+
+    std::filesystem::remove(mCollagePath.at(reducerTaskId));
 
     spdlog::info("Collage created {}", newImage->full().string());
 
