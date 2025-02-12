@@ -73,7 +73,7 @@ jobs:
       - name: Deploy ARM Template
         uses: azure/arm-deploy@v1
         with:
-          resourceGroupName: pbnoir-rg
+          resourceGroupName: pb-noir
           template: WebAppResources.json
 
       - name: 'Deploy to Azure Web App'
