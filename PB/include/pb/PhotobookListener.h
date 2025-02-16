@@ -38,7 +38,7 @@ public:
 
   [[deprecated]] virtual void onLutAdded(LutIconInfo iconInfo) = 0;
 
-  virtual void onLutApplied(PBDev::LutId, GenericImagePtr) = 0;
+  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
 };
 
 } // namespace PB

@@ -131,7 +131,7 @@ void LutService::onLutIconsPreprocessingFinished(std::string lutName,
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
-void LutService::applyLut(PBDev::LutId lutId, unsigned lutIndex,
+void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
                           GenericImagePtr image)
 {
   // generate a new uuid

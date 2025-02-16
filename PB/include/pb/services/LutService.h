@@ -12,13 +12,13 @@
 
 DECLARE_STRONG_STRING(LutName)
 
-DECLARE_STRONG_UUID(LutId)
+DECLARE_STRONG_UUID(LutApplicationId)
 
 namespace PB::Service {
 class LutServiceListener {
 public:
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;
-  virtual void onLutApplied(PBDev::LutId, GenericImagePtr) = 0;
+  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
 };
 
 class LutService final : public DirectoryInspectionJobListener,
@@ -61,7 +61,8 @@ public:
   void onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile,
                                        Path icon) override;
 
-  void applyLut(PBDev::LutId lutId, unsigned lutIndex, GenericImagePtr image);
+  void applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
+                GenericImagePtr image);
 
   std::vector<LutIconInfo> listLuts() const;
 
@@ -80,7 +81,9 @@ private:
 
   std::stop_source mLutCreationStopSource;
 
-  std::unordered_map<PBDev::LutId, std::string> mOutImageHashes;
+  std::unordered_map<PBDev::LutApplicationId, std::string,
+                     boost::hash<PBDev::LutApplicationId>>
+      mOutImageHashes;
 
   PBDev::DirectoryInspectionJobId mLutsInspectionId =
       PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());

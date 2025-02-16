@@ -48,8 +48,7 @@ public:
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 
-  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr),
-              (override));
+  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr), (override));
 
   MOCK_METHOD(void, onImageMapped, (PBDev::ImageToPaperId, PB::GenericImagePtr),
               (override));
@@ -57,8 +56,8 @@ public:
   MOCK_METHOD(void, onProgressUpdate, (PB::ProgressStatus), (override));
 
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
-  MOCK_METHOD(void, onLutApplied, (PBDev::LutId, PB::GenericImagePtr),
-              (override));
+  MOCK_METHOD(void, onLutApplied,
+              (PBDev::LutApplicationId, PB::GenericImagePtr), (override));
 };
 
 class TestProjectManagementServiceListener final
@@ -72,8 +71,8 @@ public:
 class TestLutServiceListener final : public LutServiceListener {
 public:
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
-  MOCK_METHOD(void, onLutApplied, (PBDev::LutId, PB::GenericImagePtr),
-              (override));
+  MOCK_METHOD(void, onLutApplied,
+              (PBDev::LutApplicationId, PB::GenericImagePtr), (override));
 };
 
 class TestCollageMakerListener final : public CollageMakerListener {
@@ -155,7 +154,8 @@ private:
 };
 
 std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
-std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath, Path locaStatePath);
+std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath,
+                                                   Path locaStatePath);
 
 std::shared_ptr<DatabaseService>
 mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);

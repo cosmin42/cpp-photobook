@@ -401,7 +401,8 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   });
 }
 
-void Photobook::onLutApplied(PBDev::LutId lutId, GenericImagePtr image)
+void Photobook::onLutApplied(PBDev::LutApplicationId lutId,
+                             GenericImagePtr         image)
 {
   post([this, lutId, image]() { mParent->onLutApplied(lutId, image); });
 }
