@@ -42,6 +42,8 @@ TEST(TestLutService, TestEmpty)
   mLutService->configureOGLEngine(mOGLEngine);
   mLutService->configureThreadScheduler(threadScheduler);
   mLutService->configureLutServiceListener(testLutServiceListener);
+  mLutService->configureDurableHashService(
+      mockDurableHashService(mockDatabaseService(platformInfo)));
 
   EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(100));
   EXPECT_CALL(*testLutServiceListener, onLutAdded(_)).Times(AtLeast(100));
