@@ -87,12 +87,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mExportLogic.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
-  mLutService->configurePlatformInfo(mPlatformInfo);
-  mLutService->configureTaskCruncher(mTaskCruncher);
-  mLutService->configureThreadScheduler(threadScheduler);
-  mLutService->configureOGLEngine(mOGLEngine);
-  mLutService->configureDurableHashService(mDurableHashService);
-
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
   mImageToPaperService->configureProjectManagementService(
@@ -101,6 +95,13 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImageFactory->configurePlatformInfo(mPlatformInfo);
   mImageFactory->configureProjectManagementService(mProjectManagementService);
   mImageFactory->configureDurableHashService(mDurableHashService);
+
+  mLutService->configurePlatformInfo(mPlatformInfo);
+  mLutService->configureTaskCruncher(mTaskCruncher);
+  mLutService->configureThreadScheduler(threadScheduler);
+  mLutService->configureOGLEngine(mOGLEngine);
+  mLutService->configureDurableHashService(mDurableHashService);
+  mLutService->configureImageFactory(mImageFactory);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
 
@@ -170,6 +171,8 @@ void Photobook::makeCollages()
   PBDev::basicAssert(maybeProject != nullptr);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
+
+  mLutService->configureProject(maybeProject);
 
   mCollageTemplateManager->configureProject(maybeProject);
   auto collageThumbnailsMakerListener =

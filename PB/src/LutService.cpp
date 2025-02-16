@@ -2,6 +2,7 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
+#include <pb/project/Project.h>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
@@ -42,6 +43,17 @@ void LutService::configureThreadScheduler(
 {
   mThreadScheduler = threadScheduler;
   mDirectoryInspectionService->configureThreadScheduler(threadScheduler);
+}
+
+void LutService::configureProject(std::shared_ptr<IdentifyableProject> project)
+{
+  mProject = project;
+}
+
+void LutService::configureImageFactory(
+    std::shared_ptr<ImageFactory> imageFactory)
+{
+  mImageFactory = imageFactory;
 }
 
 void LutService::configureLutServiceListener(LutServiceListener *listener)
@@ -89,7 +101,6 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
                                       std::vector<Path> searchResults)
 {
   UNUSED(id);
-  std::vector<Path> unprocessedPaths;
   for (auto &path : searchResults) {
     if (lutExists(path)) {
       Path iconPath = mDurableHashService->getHash(path.string());
@@ -97,11 +108,11 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
       onLutIconsPreprocessingFinished(lutName, path, iconPath);
     }
     else {
-      unprocessedPaths.push_back(path);
+      mLutsPaths.push_back(path);
     }
   }
 
-  mThreadScheduler->post([this, unprocessedPaths{unprocessedPaths}]() {
+  mThreadScheduler->post([this, unprocessedPaths{mLutsPaths}]() {
     mLutIconsPreprocessingJob.configureLuts(unprocessedPaths);
     mLutCreationStopSource =
         mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
@@ -115,18 +126,42 @@ void LutService::onLutIconsPreprocessingFinished(std::string lutName,
   LutIconInfo lutIconInfo;
   lutIconInfo.path = icon;
   lutIconInfo.name = lutName;
-  mLutsPaths.push_back(lutIconInfo);
+  mLutsIconsInfo.push_back(lutIconInfo);
   mDurableHashService->createLink(cubeFile.string(), icon.string());
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
-void LutService::applyLut(PBDev::LutId lutId, GenericImagePtr image)
+void LutService::applyLut(PBDev::LutId lutId, unsigned lutIndex,
+                          GenericImagePtr image)
 {
-  UNUSED(lutId);
-  UNUSED(image);
+  // generate a new uuid
+  mOutImageHashes[lutId] = boost::uuids::to_string(RuntimeUUID::newUUID());
+
+  LutImageProcessingData imageProcessingData;
+  imageProcessingData.inImage = image->full();
+  imageProcessingData.outImage = mPlatformInfo->thumbnailByHash(
+      mProject->first, mOutImageHashes.at(lutId), ".jpg");
+
+  // TODO: Move this read to a different place. It shouldn't be here.
+  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+
+  for (auto const &data : lutData) {
+    imageProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+  }
+
+  mTaskCruncher->crunch(
+      [this, imageProcessingData, hash{mOutImageHashes[lutId]}, lutId]() {
+        mOglEngine->applyLut(imageProcessingData);
+        auto image = mImageFactory->createImage(imageProcessingData.outImage);
+
+        mThreadScheduler->post([this, lutId, image]() {
+          mLutServiceListener->onLutApplied(lutId, image);
+        });
+      });
 }
 
-std::vector<LutIconInfo> LutService::listLuts() const { return mLutsPaths; }
+std::vector<LutIconInfo> LutService::listLuts() const { return mLutsIconsInfo; }
 
 Path LutService::lutAssetsPath() const
 {

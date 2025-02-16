@@ -5,6 +5,7 @@
 #include <pb/components/ThreadScheduler.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/LutIconInfo.h>
+#include <pb/image/ImageFactory.h>
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
@@ -41,6 +42,10 @@ public:
     mDurableHashService = durableHashService;
   }
 
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
+
+  void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
+
   void configureLutServiceListener(LutServiceListener *listener);
 
   void startLutService();
@@ -56,7 +61,7 @@ public:
   void onLutIconsPreprocessingFinished(std::string lutName, Path cubeFile,
                                        Path icon) override;
 
-  void applyLut(PBDev::LutId lutId, GenericImagePtr image);
+  void applyLut(PBDev::LutId lutId, unsigned lutIndex, GenericImagePtr image);
 
   std::vector<LutIconInfo> listLuts() const;
 
@@ -75,12 +80,19 @@ private:
 
   std::stop_source mLutCreationStopSource;
 
+  std::unordered_map<PBDev::LutId, std::string> mOutImageHashes;
+
   PBDev::DirectoryInspectionJobId mLutsInspectionId =
       PBDev::DirectoryInspectionJobId(RuntimeUUID::newUUID());
 
   LutIconsPreprocessingJob mLutIconsPreprocessingJob;
 
-  std::vector<LutIconInfo> mLutsPaths;
+  std::vector<LutIconInfo> mLutsIconsInfo;
+  std::vector<Path>        mLutsPaths;
+
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+
+  std::shared_ptr<ImageFactory> mImageFactory = nullptr;
 
   Path originalImagePath() const
   {
