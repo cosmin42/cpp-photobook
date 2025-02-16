@@ -95,6 +95,8 @@ public:
 
   [[deprecated]] void onLutAdded(LutIconInfo iconInfo) override;
 
+  void onLutApplied(PBDev::LutId, GenericImagePtr) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;

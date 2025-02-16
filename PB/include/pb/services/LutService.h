@@ -3,11 +3,11 @@
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
 #include <pb/components/ThreadScheduler.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/entities/LutIconInfo.h>
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
-#include <pb/entities/GenericImage.h>
 
 DECLARE_STRONG_STRING(LutName)
 
@@ -17,6 +17,7 @@ namespace PB::Service {
 class LutServiceListener {
 public:
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;
+  virtual void onLutApplied(PBDev::LutId, GenericImagePtr) = 0;
 };
 
 class LutService final : public DirectoryInspectionJobListener,

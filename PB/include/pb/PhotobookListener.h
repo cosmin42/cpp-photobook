@@ -2,6 +2,7 @@
 
 #include <pb/components/ImageToPaperTask.h>
 #include <pb/entities/LutIconInfo.h>
+#include <pb/services/LutService.h>
 #include <pb/services/ProgressService.h>
 #include <pb/util/Error.h>
 #include <pb/util/Traits.h>
@@ -35,8 +36,9 @@ public:
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 
-  [[deprecated]]
-  virtual void onLutAdded(LutIconInfo iconInfo) = 0;
+  [[deprecated]] virtual void onLutAdded(LutIconInfo iconInfo) = 0;
+
+  virtual void onLutApplied(PBDev::LutId, GenericImagePtr) = 0;
 };
 
 } // namespace PB

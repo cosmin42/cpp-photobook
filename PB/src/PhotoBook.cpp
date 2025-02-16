@@ -398,6 +398,11 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   });
 }
 
+void Photobook::onLutApplied(PBDev::LutId lutId, GenericImagePtr image)
+{
+  post([this, lutId, image]() { mParent->onLutApplied(lutId, image); });
+}
+
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
 
 void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
