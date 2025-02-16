@@ -397,5 +397,10 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
+
+        public void OnLutApplied(Guid lutId, VirtualImagePtr image)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

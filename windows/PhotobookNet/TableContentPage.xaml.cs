@@ -1090,6 +1090,11 @@ namespace PhotobookNet
             PhotobookSingletonWrapper.Inst().lutIconInfos.Add(lutIconInfo);
         }
 
+        public void OnLutApplied(Guid imageId, VirtualImagePtr image)
+        {
+
+        }
+
         public void Post(Functor f)
         {
             PhotobookSingletonWrapper.Inst().Post(() =>
