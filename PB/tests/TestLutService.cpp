@@ -16,7 +16,7 @@ TEST(TestLutService, TestEmpty)
   TestLutServiceListener *testLutServiceListener = new TestLutServiceListener();
 
   ThreadSchedulerMock *threadScheduler =
-      new ThreadSchedulerMock(std::chrono::milliseconds(3000));
+      new ThreadSchedulerMock(std::chrono::milliseconds(60000));
 
   std::shared_ptr<ProgressService> progressService =
       std::make_shared<ProgressService>();
@@ -31,7 +31,28 @@ TEST(TestLutService, TestEmpty)
   taskCruncher->registerPTC("thumbnails-job", 1);
   taskCruncher->registerPTC("default", 1);
 
-  auto platformInfo = mockPlatformInfo();
+  auto imageFactory = std::make_shared<ImageFactory>();
+
+  std::filesystem::path localState =
+      std::filesystem::current_path().parent_path() / "test-data" /
+      "test-local-state";
+  std::filesystem::path installPath =
+      std::filesystem::current_path().parent_path() / "test-data" /
+      "test-install-folder";
+
+  auto platformInfo = mockPlatformInfo(installPath, localState);
+
+  PB::Project project;
+
+  // string to boost::uuid
+  boost::uuids::string_generator gen;
+  boost::uuids::uuid projectId = gen("93a24d3d-edce-48fd-a361-b63ce675039d");
+
+  std::shared_ptr<PB::IdentifyableProject> identifyableProject =
+      std::make_shared<PB::IdentifyableProject>(
+          std::make_pair(projectId, project));
+
+  imageFactory->configurePlatformInfo(platformInfo);
 
   std::shared_ptr<OGLEngine> mOGLEngine = std::make_shared<OGLEngine>();
   mOGLEngine->configurePlatformInfo(platformInfo);
@@ -44,9 +65,12 @@ TEST(TestLutService, TestEmpty)
   mLutService->configureLutServiceListener(testLutServiceListener);
   mLutService->configureDurableHashService(
       mockDurableHashService(mockDatabaseService(platformInfo)));
+  mLutService->configureProject(identifyableProject);
+  mLutService->configureImageFactory(imageFactory);
 
-  EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(100));
-  EXPECT_CALL(*testLutServiceListener, onLutAdded(_)).Times(AtLeast(100));
+  EXPECT_CALL(*progressServiceListener, progressUpdate(_)).Times(AtLeast(25));
+  EXPECT_CALL(*testLutServiceListener, onLutAdded(_)).Times(AtLeast(25));
+  EXPECT_CALL(*testLutServiceListener, onLutApplied(_, _)).Times(AtLeast(1));
 
   mOGLEngine->start();
   mLutService->startLutService();
@@ -59,8 +83,16 @@ TEST(TestLutService, TestEmpty)
                                           "processed-luts"),
       std::filesystem::directory_iterator(), [](auto) { return true; });
 
-  EXPECT_EQ(count, 296);
+  EXPECT_EQ(count, 25);
   std::filesystem::remove_all(platformInfo->processedLutsPath());
+
+  GenericImagePtr image0 = imageFactory->createRegularImage(
+      std::string("1a8ce3aa-eca7-48ff-80a7-805a5db42a34"));
+
+  mLutService->applyLut(PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7,
+                        image0);
+
+  threadScheduler->mainloop();
 
   delete threadScheduler;
   delete testLutServiceListener;

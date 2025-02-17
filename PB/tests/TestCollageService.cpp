@@ -84,7 +84,5 @@ TEST(TestCollageService, TestEmpty)
 
   mCollageService->combineImages(0, images);
 
-
-
   threadScheduler->mainloop();
 }

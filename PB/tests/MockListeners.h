@@ -143,6 +143,7 @@ public:
         f();
       }
       else {
+        spdlog::info("ThreadSchedulerMock::mainloop() break");
         break;
       }
     }
