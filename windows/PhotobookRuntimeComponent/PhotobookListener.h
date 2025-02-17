@@ -24,7 +24,7 @@ public:
   }
 
   // TODO: Separate guid conversion from here and from other functions.
-  void onLutApplied(PBDev::LutId lutId, PB::GenericImagePtr image) override
+  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image) override
   {
     auto nativeUuid = lutId.raw();
 

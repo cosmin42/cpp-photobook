@@ -32,7 +32,7 @@ public:
     mManagedListener.OnLutAdded(winrt::make<LutIconInfo>(iconInfo));
   }
 
-  void onLutApplied(PBDev::LutId lutId, PB::GenericImagePtr image) override
+  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image) override
   {
     auto     nativeUuid = lutId.raw();
     uint64_t data1 = nativeUuid.data[0] << 24 | nativeUuid.data[1] << 16 |
