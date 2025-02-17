@@ -6,6 +6,8 @@
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
+#include <pb/components/ThumbnailsTask.h>
+
 namespace PB::Service {
 
 LutService::LutService()
@@ -138,9 +140,11 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
   mOutImageHashes[lutId] = boost::uuids::to_string(RuntimeUUID::newUUID());
 
   LutImageProcessingData imageProcessingData;
-  imageProcessingData.inImage = image->full();
-  imageProcessingData.outImage = mPlatformInfo->thumbnailByHash(
-      mProject->first, mOutImageHashes.at(lutId), ".jpg");
+  imageProcessingData.inImage = mPlatformInfo->thumbnailByHash(
+      mProject->first, image->full().stem().string(), ".jpg");
+  imageProcessingData.outImage =
+      mPlatformInfo->projectSupportFolder(mProject->first) /
+      (mOutImageHashes.at(lutId) + ".jpg");
 
   // TODO: Move this read to a different place. It shouldn't be here.
   auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
@@ -150,15 +154,23 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
         cv::Vec4f(data[0], data[1], data[2], 1.0));
   }
 
-  mTaskCruncher->crunch(
-      [this, imageProcessingData, hash{mOutImageHashes[lutId]}, lutId]() {
-        mOglEngine->applyLut(imageProcessingData);
-        auto image = mImageFactory->createImage(imageProcessingData.outImage);
+  mTaskCruncher->crunch([this, imageProcessingData,
+                         hash{mOutImageHashes[lutId]}, lutId]() {
+    mOglEngine->applyLut(imageProcessingData);
 
-        mThreadScheduler->post([this, lutId, image]() {
-          mLutServiceListener->onLutApplied(lutId, image);
-        });
-      });
+    auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
+    auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
+        imageProcessingData.outImage, mPlatformInfo, mProject, newHash);
+    PBDev::basicAssert(maybeNewHash == newHash);
+    auto newImage = mImageFactory->createRegularImage(newHash);
+
+    std::filesystem::remove(imageProcessingData.outImage);
+
+    spdlog::info("LUT applied {}", newImage->full().string());
+
+    mLutServiceListener->onLutApplied(lutId, newImage);
+  });
 }
 
 std::vector<LutIconInfo> LutService::listLuts() const { return mLutsIconsInfo; }

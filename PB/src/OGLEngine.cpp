@@ -12,7 +12,7 @@
 #include <include/core/SkImageInfo.h>
 #include <include/core/SkStream.h>
 #include <include/core/SkSurface.h>
-#include <include/encode/SkPngEncoder.h>
+#include <include/encode/SkJpegEncoder.h>
 #include <src/core/SkSpecialImage.h>
 #include <src/gpu/graphite/TextureUtils.h>
 #pragma warning(pop)
@@ -47,8 +47,8 @@ void OGLEngine::stop()
 void OGLEngine::loadPrograms()
 {
   for (auto const &[name, path] : FRAGMENT_SHADERS_PATHS) {
-    spdlog::info("Loading shader: {}",
-                 (mPlatformInfo->installationPath / path).string());
+    auto shaderPath = mPlatformInfo->installationPath / path;
+    spdlog::info("Loading shader: {}", shaderPath.string());
     std::ifstream file(mPlatformInfo->installationPath / path);
     if (!file.is_open()) {
       spdlog::error("Could not open shader file: {}", path.string());
@@ -166,8 +166,8 @@ void OGLEngine::loadTextureAndRender(
 
     SkFILEWStream outputFile(imageProcessingData.outImage.string().c_str());
     if (outputFile.isValid()) {
-      SkPngEncoder::Options options;
-      if (!SkPngEncoder::Encode(&outputFile, outputBitmap.pixmap(), options)) {
+      SkJpegEncoder::Options options;
+      if (!SkJpegEncoder::Encode(&outputFile, outputBitmap.pixmap(), options)) {
         PBDev::basicAssert(false);
       }
     }
