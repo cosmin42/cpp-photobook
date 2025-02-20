@@ -51,7 +51,8 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 
   auto resourcePath = mPlatformInfo->projectSupportFolder(mProject->first);
 
-  mResourcesProviderId = mResources->addResource(resourcePath / "thumbnail-images");
+  mResourcesProviderId =
+      mResources->addResource(resourcePath / "thumbnail-images");
 
   std::vector<Path> imagesNames;
   for (auto const &imagePath : imagesPaths) {
@@ -117,7 +118,10 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
 
     std::filesystem::remove(mCollagePath.at(reducerTaskId));
 
-    spdlog::info("Collage created {}", newImage->full().string());
+    auto newImagePath = mPlatformInfo->thumbnailByHash(
+        mProject->first, newImage->hash(), ".jpg");
+
+    spdlog::info("Collage created {}", newImagePath.string());
 
     mListener->onCollageCreated(newImage);
   }

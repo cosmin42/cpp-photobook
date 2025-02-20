@@ -14,6 +14,7 @@ void ImageMonitor::addRow(Path path, std::vector<GenericImagePtr> images)
   mUnstagedImagesMatrix.push_back(std::vector<GenericImagePtr>());
 
   for (auto i = 0; i < images.size(); ++i) {
+    // TODO: Investigate if hash can be used here instead of full
     mPositions.insert({images.at(i)->full(),
                        {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)

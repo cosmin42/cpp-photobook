@@ -17,6 +17,15 @@ public:
   ~PdfLibharuExportTask() = default;
 
   void setListener(ExportLogicListener *listener) { mListener = listener; }
+  void configureProject(std::shared_ptr<IdentifyableProject> project)
+  {
+    mProject = project;
+  }
+
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
+  {
+    mPlatformInfo = platformInfo;
+  }
 
   bool stoppingCondition() const;
   int  stepsCount() const;
@@ -36,14 +45,16 @@ private:
 
   void writeImage(Path inputPath, Path outputPath) const;
 
-  ExportLogicListener         *mListener = nullptr;
-  int                          mIndex = 0;
-  std::vector<GenericImagePtr> mStagedImages;
-  Path                         mPdfPath;
-  Path                         mLocalStatePath;
-  PaperSettings                mPaperSettings;
-  HPDF_Doc                     mPDFFile;
-  bool                         mCrunchedFlag = false;
-  std::stop_token              mStopToken;
+  ExportLogicListener                 *mListener = nullptr;
+  int                                  mIndex = 0;
+  std::vector<GenericImagePtr>         mStagedImages;
+  Path                                 mPdfPath;
+  Path                                 mLocalStatePath;
+  PaperSettings                        mPaperSettings;
+  HPDF_Doc                             mPDFFile;
+  bool                                 mCrunchedFlag = false;
+  std::stop_token                      mStopToken;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
 };
 } // namespace PB

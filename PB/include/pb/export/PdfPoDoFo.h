@@ -17,6 +17,15 @@ public:
   ~PdfExportTask() = default;
 
   void setListener(ExportLogicListener *listener) { mListener = listener; }
+  void configureProject(std::shared_ptr<IdentifyableProject> project)
+  {
+    mProject = project;
+  }
+
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
+  {
+    mPlatformInfo = platformInfo;
+  }
 
   bool stoppingCondition() const;
   int  stepsCount() const;
@@ -45,6 +54,8 @@ private:
   Path                                         mPdfPath;
   bool                                         mCrunchedFlag = false;
   std::stop_token                              mStopToken;
+  std::shared_ptr<IdentifyableProject>         mProject = nullptr;
+  std::shared_ptr<PlatformInfo>                mPlatformInfo = nullptr;
 };
 
 } // namespace PB

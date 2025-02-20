@@ -41,7 +41,8 @@ void PdfLibharuExportTask::taskStep()
   Path tmpImageDestination = mLocalStatePath / TEMPORARY_PHOTO;
 
   auto virtualImage = mStagedImages.at(mIndex);
-
+  auto imagePath = mPlatformInfo->thumbnailByHash(mProject->first,
+                                                  virtualImage->hash(), ".jpg");
   writeImage(virtualImage->full(), tmpImageDestination);
 
   HPDF_Page page = HPDF_AddPage(mPDFFile);

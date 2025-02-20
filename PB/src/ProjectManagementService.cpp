@@ -133,9 +133,6 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
   maybeLoadedProject = std::make_shared<IdentifyableProject>(
       std::make_pair(newProjectId, project));
 
-  GenericImage::configureProjectPath(
-      mPlatformInfo->projectSupportFolder(newProjectId) / "thumbnail-images");
-
   saveMetadata();
   mProjectSerializerService->saveProject(maybeLoadedProject->second);
 
@@ -181,9 +178,6 @@ void ProjectManagementService::loadProject(
   maybeLoadedProject =
       std::make_shared<IdentifyableProject>(std::make_pair(id, project));
 
-  GenericImage::configureProjectPath(mPlatformInfo->projectSupportFolder(id) /
-                                     "thumbnail-images");
-
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
       boost::uuids::to_string(id),
@@ -194,7 +188,6 @@ void ProjectManagementService::unloadProject()
 {
   PBDev::basicAssert(maybeLoadedProject != nullptr);
   maybeLoadedProject = nullptr;
-  GenericImage::configureProjectPath("");
   Noir::inst().getLogger()->info("Project unloaded");
 }
 

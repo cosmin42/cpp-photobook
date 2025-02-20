@@ -140,8 +140,8 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
   mOutImageHashes[lutId] = boost::uuids::to_string(RuntimeUUID::newUUID());
 
   LutImageProcessingData imageProcessingData;
-  imageProcessingData.inImage = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->full().stem().string(), ".jpg");
+  imageProcessingData.inImage =
+      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(), ".jpg");
   imageProcessingData.outImage =
       mPlatformInfo->projectSupportFolder(mProject->first) /
       (mOutImageHashes.at(lutId) + ".jpg");

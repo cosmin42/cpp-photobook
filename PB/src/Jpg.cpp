@@ -7,9 +7,8 @@
 
 namespace PB {
 
-JpgExport::JpgExport(
-    Path root, PaperSettings paperSettings,
-    std::vector<GenericImagePtr> const &stagedImages)
+JpgExport::JpgExport(Path root, PaperSettings paperSettings,
+                     std::vector<GenericImagePtr> const &stagedImages)
     : mRoot(root), mPaperSettings{paperSettings}
 {
   for (auto const &it : stagedImages) {
@@ -26,11 +25,12 @@ int JpgExport::stepsCount() const { return (int)mStagedImages.size(); }
 
 void JpgExport::taskStep()
 {
-  Path imagePath = mRoot / makeName(mIndex);
+  Path tmpImage = mRoot / makeName(mIndex);
 
   auto virtualImage = mStagedImages.at(mIndex);
-  writeImage(virtualImage->full(), imagePath);
-
+  auto imagePath = mPlatformInfo->thumbnailByHash(mProject->first,
+                                                  virtualImage->hash(), ".jpg");
+  writeImage(imagePath, tmpImage);
   mIndex++;
 
   if constexpr (OneConfig::SIMULATE_SLOW_EXPORTER) {

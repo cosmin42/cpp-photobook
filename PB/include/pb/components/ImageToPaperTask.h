@@ -120,8 +120,11 @@ private:
     auto hashPath =
         mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, hash, ".png");
 
+    auto imagePath = mPlatformInfo->thumbnailByHash(maybeProjectInfo->first,
+                                                    image->hash(), ".jpg");
+
     auto imageData = ImageReader().read(
-        image->full(), true, {mPaperSettings.width, mPaperSettings.height});
+        imagePath, true, {mPaperSettings.width, mPaperSettings.height});
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
         mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
@@ -137,6 +140,7 @@ private:
         newImageMat, mPlatformInfo, mProjectManagementService, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
+    // TODO: Full is not original here, improve this
     return std::make_shared<RegularImageV2>(newHash, image->full());
   }
 };

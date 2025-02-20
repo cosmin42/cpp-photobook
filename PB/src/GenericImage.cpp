@@ -3,21 +3,13 @@
 #include <boost/uuid/uuid_io.hpp>
 
 namespace PB {
-Path GenericImage::sProjectPath = Path();
-
 GenericImage::GenericImage(std::string hash) : mHash(std::move(hash)) {}
 
-Path GenericImage::full() const { return sProjectPath / (mHash + "" + ".jpg"); }
+Path GenericImage::full() const { return (mHash + ".jpg"); }
 
-Path GenericImage::medium() const
-{
-  return sProjectPath / (imageName() + "-m" + ".jpg");
-}
+Path GenericImage::medium() const { return (imageName() + "-m" + ".jpg"); }
 
-Path GenericImage::smaLL() const
-{
-  return sProjectPath / (imageName() + "-s" + ".jpg");
-}
+Path GenericImage::smaLL() const { return (imageName() + "-s" + ".jpg"); }
 
 std::string GenericImage::defaultHash()
 {
