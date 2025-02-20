@@ -72,7 +72,39 @@ unsigned pointsFromPixels(double points, unsigned ppi);
 } // namespace PB::Process
 
 namespace PB::Geometry {
-cv::Size scaleToFitBoundingBox(cv::Size size, cv::Size boundingBox);
+enum class OverlapType { Circumscribed, Inscribed };
+enum class ScalePolicy { OnlyUp, OnlyDown, Both };
 
-cv::Size scaleToFillBoundingBox(cv::Size size, cv::Size boundingBox);
+std::tuple<cv::Point2i, cv::Point2i, cv::Size> overlapCenter(cv::Size src,
+                                                             cv::Size dst);
+
+cv::Size2d computeRatio(cv::Size original, cv::Size reference);
+
+bool checkPolicy(double ratio, ScalePolicy scalePolicy);
+
+cv::Size resizeBox(cv::Size original, cv::Size boundingBox,
+                   OverlapType overlapType, ScalePolicy scalePolicy);
+
+std::tuple<cv::Size, cv::Size, cv::Size>
+compute3SizesGeometry(cv::Size originalSize, cv::Size paperSize)
+{
+  auto smallSize = PB::Geometry::resizeBox(
+      originalSize,
+      cv::Size{OneConfig::SMALL_THUMBNAIL_WIDTH,
+               OneConfig::SMALL_THUMBNAIL_HEIGHT},
+      Geometry::OverlapType::Inscribed, Geometry::ScalePolicy::OnlyDown);
+
+  auto mediumSize = PB::Geometry::resizeBox(
+      originalSize,
+      cv::Size{OneConfig::MEDIUM_THUMBNAIL_WIDTH,
+               OneConfig::MEDIUM_THUMBNAIL_HEIGHT},
+      Geometry::OverlapType::Inscribed, Geometry::ScalePolicy::OnlyDown);
+
+  auto largeSize = PB::Geometry::resizeBox(
+      originalSize, cv::Size{paperSize.width, paperSize.height},
+      Geometry::OverlapType::Circumscribed, Geometry::ScalePolicy::OnlyDown);
+
+  return {largeSize, mediumSize, smallSize};
+}
+
 } // namespace PB::Geometry

@@ -28,7 +28,7 @@ std::string ThumbnailsTask::createThumbnails(
   auto height = originalImage->rows;
 
   auto [largeSize, mediumSize, smallSize] =
-      thumbnailSizes(cv::Size{(int)width, (int)height},
+      Geometry::compute3SizesGeometry(cv::Size{(int)width, (int)height},
                      {(int)maybleProject->second.paperSettings.width,
                       (int)maybleProject->second.paperSettings.height});
 
@@ -51,7 +51,6 @@ std::string ThumbnailsTask::createThumbnailsByPath(
     Path originalPath, std::shared_ptr<PlatformInfo> platformInfo,
     std::shared_ptr<IdentifyableProject> project, std::string targetHash)
 {
-
   auto projectId = project->first;
 
   auto [large, medium, small, hash] =
@@ -65,7 +64,7 @@ std::string ThumbnailsTask::createThumbnailsByPath(
   auto height = imageMetadataInspector.height();
 
   auto [largeSize, mediumSize, smallSize] =
-      thumbnailSizes(cv::Size{(int)width, (int)height},
+      Geometry::compute3SizesGeometry(cv::Size{(int)width, (int)height},
                      {(int)project->second.paperSettings.width,
                       (int)project->second.paperSettings.height});
 
@@ -107,31 +106,6 @@ std::string ThumbnailsTask::createThumbnails()
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   return createThumbnailsByPath(mOriginalPath, mPlatformInfo, maybeProject);
-}
-
-std::tuple<cv::Size, cv::Size, cv::Size>
-ThumbnailsTask::thumbnailSizes(cv::Size originalSize, cv::Size paperSize)
-{
-  auto smallSize = PB::Geometry::scaleToFitBoundingBox(
-      originalSize, cv::Size{OneConfig::SMALL_THUMBNAIL_WIDTH,
-                             OneConfig::SMALL_THUMBNAIL_HEIGHT});
-
-  auto mediumSize = PB::Geometry::scaleToFitBoundingBox(
-      originalSize, cv::Size{OneConfig::MEDIUM_THUMBNAIL_WIDTH,
-                             OneConfig::MEDIUM_THUMBNAIL_HEIGHT});
-
-  if (mediumSize.width > originalSize.width) {
-    mediumSize = originalSize;
-  }
-
-  auto largeSize = PB::Geometry::scaleToFillBoundingBox(
-      originalSize, cv::Size{paperSize.width, paperSize.height});
-
-  if (largeSize.width > originalSize.width) {
-    largeSize = originalSize;
-  }
-
-  return {largeSize, mediumSize, smallSize};
 }
 
 } // namespace PB

@@ -35,9 +35,6 @@ public:
   std::string createThumbnails();
 
 private:
-  static std::tuple<cv::Size, cv::Size, cv::Size>
-  thumbnailSizes(cv::Size originalSize, cv::Size paperSize);
-
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   Path                                      mOriginalPath;

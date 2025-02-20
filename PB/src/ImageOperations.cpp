@@ -441,25 +441,73 @@ unsigned pointsFromPixels(double points, unsigned ppi)
 } // namespace PB::Process
 
 namespace PB::Geometry {
-cv::Size scaleToFitBoundingBox(cv::Size size, cv::Size boundingBox)
+
+std::tuple<cv::Point2i, cv::Point2i, cv::Size> overlapCenter(cv::Size src,
+                                                             cv::Size dst)
 {
-  auto [width, height] = size;
-  auto [boundingWidth, boundingHeight] = boundingBox;
+  int offsetW = (dst.width - src.width) / 2;
+  int offsetH = (dst.height - src.height) / 2;
 
-  auto ratio =
-      std::min((float)boundingWidth / width, (float)boundingHeight / height);
+  cv::Point2i srcOrigin = {0, 0};
+  cv::Point2i dstOrigin = {0, 0};
 
-  return {static_cast<int>(width * ratio), static_cast<int>(height * ratio)};
+  dstOrigin.x = std::max<int>(0, offsetW);
+  dstOrigin.y = std::max<int>(0, offsetH);
+
+  srcOrigin.x = std::abs(std::min<int>(0, offsetW));
+  srcOrigin.y = std::abs(std::min<int>(0, offsetH));
+
+  cv::Size sizeCopied;
+
+  sizeCopied.width = std::min<int>(src.width, dst.width);
+  sizeCopied.height = std::min<int>(src.height, dst.height);
+
+  return {srcOrigin, dstOrigin, sizeCopied};
 }
 
-cv::Size scaleToFillBoundingBox(cv::Size size, cv::Size boundingBox)
+cv::Size2d computeRatio(cv::Size original, cv::Size reference)
 {
-  auto [width, height] = size;
-  auto [boundingWidth, boundingHeight] = boundingBox;
+  auto rw = (double)original.width / (double)reference.width;
+  auto rh = (double)original.height / (double)reference.height;
+  return {rw, rh};
+}
 
-  auto ratio =
-      std::max((float)boundingWidth / width, (float)boundingHeight / height);
+bool checkPolicy(double ratio, ScalePolicy scalePolicy)
+{
+  switch (scalePolicy) {
+  case ScalePolicy::OnlyDown:
+    return ratio >= 1.0;
+  case ScalePolicy::OnlyUp:
+    return ratio <= 1.0;
+  case ScalePolicy::Both:
+    return true;
+  }
+  return true;
+}
 
-  return {static_cast<int>(width * ratio), static_cast<int>(height * ratio)};
+cv::Size resizeBox(cv::Size original, cv::Size boundingBox,
+                   OverlapType overlapType, ScalePolicy scalePolicy)
+{
+  auto ratio = computeRatio(original, boundingBox);
+
+  double circumscribedRatio;
+  if (overlapType == OverlapType::Circumscribed) {
+    circumscribedRatio = std::min<double>(ratio.width, ratio.height);
+  }
+  else if (overlapType == OverlapType::Inscribed) {
+    circumscribedRatio = std::max<double>(ratio.width, ratio.height);
+  }
+  else {
+    PBDev::basicAssert(false);
+  }
+
+  if (!checkPolicy(circumscribedRatio, scalePolicy)) {
+    return original;
+  }
+
+  cv::Size result = {
+      static_cast<int>((double)original.width * circumscribedRatio),
+      static_cast<int>((double)original.height * circumscribedRatio)};
+  return result;
 }
 } // namespace PB::Geometry
