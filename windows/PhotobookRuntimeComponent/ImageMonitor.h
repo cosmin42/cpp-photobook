@@ -68,7 +68,10 @@ private:
 };
 
 struct ImageMonitor : ImageMonitorT<ImageMonitor> {
-  ImageMonitor(std::shared_ptr<PB::ImageMonitor> monitor) : mImageMonitor(monitor) {}
+  ImageMonitor(std::shared_ptr<PB::ImageMonitor> monitor)
+      : mImageMonitor(monitor)
+  {
+  }
   ~ImageMonitor() = default;
 
   void AddRow(winrt::hstring path,
@@ -144,16 +147,20 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
     return managedRowList;
   }
 
-  PhotobookRuntimeComponent::VirtualImagePtr Image(unsigned row, unsigned index)
+  PhotobookRuntimeComponent::VirtualImagePtr
+  Image(unsigned row, unsigned index, winrt::hstring thumbnailsLocation)
   {
+    auto nativeThumbnailsLocation = winrt::to_string(thumbnailsLocation);
     auto imagePtr = mImageMonitor->image(row, index);
-    return winrt::make<VirtualImagePtr>(imagePtr);
+    return winrt::make<VirtualImagePtr>(imagePtr, nativeThumbnailsLocation);
   }
 
-  PhotobookRuntimeComponent::VirtualImagePtr Image(winrt::hstring full)
+  PhotobookRuntimeComponent::VirtualImagePtr
+  Image(winrt::hstring full, winrt::hstring thumbnailsLocation)
   {
+    auto nativeThumbnailsLocation = winrt::to_string(thumbnailsLocation);
     auto imagePtr = mImageMonitor->image(winrt::to_string(full));
-    return winrt::make<VirtualImagePtr>(imagePtr);
+    return winrt::make<VirtualImagePtr>(imagePtr, nativeThumbnailsLocation);
   }
 
   PhotobookRuntimeComponent::Int32Pair Position(winrt::hstring full)
@@ -166,8 +173,9 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   Windows::Foundation::Collections::IVector<
       Windows::Foundation::Collections::IVector<
           PhotobookRuntimeComponent::VirtualImagePtr>>
-  Unstaged()
+  Unstaged(winrt::hstring thumbnailsLocation)
   {
+    auto nativeThumbnailsLocation = winrt::to_string(thumbnailsLocation);
     auto managedUnstagedImages =
         winrt::single_threaded_vector<Windows::Foundation::Collections::IVector<
             PhotobookRuntimeComponent::VirtualImagePtr>>();
@@ -178,8 +186,8 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       auto managedUnstagedImagesLine = winrt::single_threaded_vector<
           PhotobookRuntimeComponent::VirtualImagePtr>();
       for (int j = 0; j < (int)nativeUnstagedImages.at(i).size(); ++j) {
-        auto managedImage =
-            winrt::make<VirtualImagePtr>(nativeUnstagedImages.at(i).at(j));
+        auto managedImage = winrt::make<VirtualImagePtr>(
+            nativeUnstagedImages.at(i).at(j), nativeThumbnailsLocation);
         managedUnstagedImagesLine.Append(managedImage);
       }
       managedUnstagedImages.Append(managedUnstagedImagesLine);

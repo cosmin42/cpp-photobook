@@ -13,8 +13,9 @@
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
 
-  explicit VirtualImagePtr(PB::GenericImagePtr genericImage)
-      : mGenericImage(genericImage)
+  explicit VirtualImagePtr(PB::GenericImagePtr genericImage,
+                           std::string         thumbnailsLocation)
+      : mGenericImage(genericImage), mThumbnailsLocation(thumbnailsLocation)
   {
   }
 
@@ -48,5 +49,6 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
 
 private:
   PB::GenericImagePtr mGenericImage = nullptr;
+  std::string         mThumbnailsLocation;
 };
 } // namespace winrt::PhotobookRuntimeComponent::implementation

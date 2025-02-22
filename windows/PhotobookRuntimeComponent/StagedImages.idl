@@ -14,7 +14,7 @@ runtimeclass StagedImages
   void StashImages(IVector<UInt32> indexes);
   void PopImages(Int32 position);
 
-  IVector<VirtualImagePtr> StagedPhotos();
-  VirtualImagePtr          Picture(Int32 index);
+  IVector<VirtualImagePtr> StagedPhotos(String thumbnailsLocation);
+  VirtualImagePtr          Picture(Int32 index, String thumbnailsLocation);
 }
 } // namespace PhotobookRuntimeComponent

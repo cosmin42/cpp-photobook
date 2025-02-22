@@ -36,10 +36,10 @@ runtimeclass ImageMonitor
 
   IVector<String> RowList();
 
-  VirtualImagePtr Image(UInt32 row, UInt32 index);
-  VirtualImagePtr Image(String full);
+  VirtualImagePtr Image(UInt32 row, UInt32 index, String thumbnailsLocation);
+  VirtualImagePtr Image(String full, String thumbnailsLocation);
   Int32Pair       Position(String full);
 
-  IVector<IVector<VirtualImagePtr> > Unstaged();
+  IVector<IVector<VirtualImagePtr> > Unstaged(String thumbnailsLocation);
 }
 } // namespace PhotobookRuntimeComponent

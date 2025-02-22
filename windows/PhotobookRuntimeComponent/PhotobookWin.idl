@@ -26,6 +26,8 @@ runtimeclass PhotobookWin
   void ConfigurePhotobookListener(PhotobookListener listener);
   void ConfigureNoirListener(NoirListener listener);
 
+  String GetThumbnailsPath();
+
   void StartPhotobook();
 
   VirtualImagePtr EmptyImage();

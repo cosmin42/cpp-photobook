@@ -24,7 +24,8 @@ public:
   }
 
   // TODO: Separate guid conversion from here and from other functions.
-  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image) override
+  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image,
+                    Path thumbnailsLocation) override
   {
     auto nativeUuid = lutId.raw();
 
@@ -44,8 +45,9 @@ public:
 
     winrt::guid managedGuid(existingGuid);
 
-    mManagedListener.OnLutApplied(managedGuid,
-                                  winrt::make<VirtualImagePtr>(image));
+    mManagedListener.OnLutApplied(
+        managedGuid,
+        winrt::make<VirtualImagePtr>(image, thumbnailsLocation.string()));
   }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
@@ -86,13 +88,15 @@ public:
     mManagedListener.OnCollageThumbnailsCreated();
   }
 
-  void onCollageCreated(PB::GenericImagePtr newImage) override
+  void onCollageCreated(PB::GenericImagePtr newImage,
+                        Path                thumbnailsLocation) override
   {
-    mManagedListener.OnCollageCreated(winrt::make<VirtualImagePtr>(newImage));
+    mManagedListener.OnCollageCreated(
+        winrt::make<VirtualImagePtr>(newImage, thumbnailsLocation.string()));
   }
 
-  void onImageMapped(PBDev::ImageToPaperId id,
-                     PB::GenericImagePtr   image) override
+  void onImageMapped(PBDev::ImageToPaperId id, PB::GenericImagePtr image,
+                     Path thumbnailsLocation) override
   {
     auto nativeUuid = id.raw();
 
@@ -112,8 +116,9 @@ public:
 
     winrt::guid managedGuid(existingGuid);
 
-    mManagedListener.OnImageMapped(managedGuid,
-                                   winrt::make<VirtualImagePtr>(image));
+    mManagedListener.OnImageMapped(
+        managedGuid,
+        winrt::make<VirtualImagePtr>(image, thumbnailsLocation.string()));
   }
 
 private:

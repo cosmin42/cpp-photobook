@@ -201,14 +201,14 @@ namespace PhotobookNet
 
                 for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize((uint)lastROwIndex); i++)
                 {
-                    var image = mPhotobook.GetImageViews().ImageMonitor().Image((uint)lastROwIndex, (uint)i);
+                    var image = mPhotobook.GetImageViews().ImageMonitor().Image((uint)lastROwIndex, (uint)i, mPhotobook.GetThumbnailsPath());
                     mUnstagedImageCollection.Insert(i, image);
                 }
 
                 MediaListView.SelectedIndex = mNavigationItemsCollection.Count - 1;
             }
 
-            var stagedPictures = mPhotobook.GetImageViews().StagedImages().StagedPhotos();
+            var stagedPictures = mPhotobook.GetImageViews().StagedImages().StagedPhotos(mPhotobook.GetThumbnailsPath());
 
             for (int i = 0; i < stagedPictures.Count; ++i)
             {
@@ -361,11 +361,11 @@ namespace PhotobookNet
 
             if (selection.StagedPhotoIndex.Count != 0)
             {
-                imagePtr = mPhotobook.GetImageViews().StagedImages().Picture((int)selection.StagedPhotoIndex[0]);
+                imagePtr = mPhotobook.GetImageViews().StagedImages().Picture((int)selection.StagedPhotoIndex[0], mPhotobook.GetThumbnailsPath());
             }
             else if (selection.UnstagedLineIndex.Count != 0 && selection.ImportListIndex.HasValue)
             {
-                imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((uint)selection.ImportListIndex.Value, (uint)selection.UnstagedLineIndex[0]);
+                imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image((uint)selection.ImportListIndex.Value, (uint)selection.UnstagedLineIndex[0], mPhotobook.GetThumbnailsPath());
             }
             else
             {
@@ -632,7 +632,7 @@ namespace PhotobookNet
             {
                 var image = item as VirtualImagePtr;
                 var keyPath = image.Frontend.FullPath;
-                var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath);
+                var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath, mPhotobook.GetThumbnailsPath());
                 mDragAndDropSelectedImages.Add(imagePtr);
             }
             if (allowDrag)
@@ -844,7 +844,7 @@ namespace PhotobookNet
 
                 for (var i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize(selection.ImportListIndex.Value); i++)
                 {
-                    VirtualImagePtr virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image(selection.ImportListIndex.Value, (uint)i);
+                    VirtualImagePtr virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image(selection.ImportListIndex.Value, (uint)i, mPhotobook.GetThumbnailsPath());
 
                     mUnstagedImageCollection[i] = virtualImage;
                 }
@@ -1020,7 +1020,7 @@ namespace PhotobookNet
             var importedSelectedIndex = selection.ImportListIndex;
             if (importedSelectedIndex.HasValue && importedSelectedIndex.Value == row)
             {
-                var virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image((uint)row, (uint)index);
+                var virtualImage = mPhotobook.GetImageViews().ImageMonitor().Image((uint)row, (uint)index, mPhotobook.GetThumbnailsPath());
                 mUnstagedImageCollection[(int)index] = virtualImage;
             }
         }
@@ -1037,7 +1037,7 @@ namespace PhotobookNet
 
         public void OnPictureRemoved(IList<int> indices)
         {
-            if (indices.Count == 0 || mPhotobook.GetImageViews().StagedImages().StagedPhotos().Count == 0)
+            if (indices.Count == 0 || mPhotobook.GetImageViews().StagedImages().StagedPhotos(mPhotobook.GetThumbnailsPath()).Count == 0)
             {
                 return;
             }
@@ -1068,7 +1068,7 @@ namespace PhotobookNet
 
                 for (int i = 0; i < mPhotobook.GetImageViews().ImageMonitor().RowSize(index); i++)
                 {
-                    var image = mPhotobook.GetImageViews().ImageMonitor().Image(index, (uint)i);
+                    var image = mPhotobook.GetImageViews().ImageMonitor().Image(index, (uint)i, mPhotobook.GetThumbnailsPath());
                     mUnstagedImageCollection.Add(image);
                 }
             }

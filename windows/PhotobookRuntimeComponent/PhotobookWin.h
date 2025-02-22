@@ -32,7 +32,8 @@ public:
     mManagedListener.OnLutAdded(winrt::make<LutIconInfo>(iconInfo));
   }
 
-  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image) override
+  void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image,
+                    Path thumbnailsPath) override
   {
     auto     nativeUuid = lutId.raw();
     uint64_t data1 = nativeUuid.data[0] << 24 | nativeUuid.data[1] << 16 |
@@ -47,8 +48,9 @@ public:
                                  nativeUuid.data[12], nativeUuid.data[13],
                                  nativeUuid.data[14], nativeUuid.data[15]}};
     winrt::guid managedGuid(existingGuid);
-    mManagedListener.OnLutApplied(managedGuid,
-                                  winrt::make<VirtualImagePtr>(image));
+    mManagedListener.OnLutApplied(
+        managedGuid,
+        winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
@@ -109,12 +111,15 @@ public:
     mManagedListener.Post(functor);
   }
 
-  void onCollageCreated(PB::GenericImagePtr newImage) override
+  void onCollageCreated(PB::GenericImagePtr newImage,
+                        Path                thumbnailsPath) override
   {
-    mManagedListener.OnCollageCreated(winrt::make<VirtualImagePtr>(newImage));
+    mManagedListener.OnCollageCreated(
+        winrt::make<VirtualImagePtr>(newImage, thumbnailsPath.string()));
   }
 
-  void onImageMapped(PBDev::ImageToPaperId id, PB::GenericImagePtr image)
+  void onImageMapped(PBDev::ImageToPaperId id, PB::GenericImagePtr image,
+                     Path thumbnailsPath)
   {
     auto nativeUuid = id.raw();
 
@@ -134,8 +139,9 @@ public:
 
     winrt::guid managedGuid(existingGuid);
 
-    mManagedListener.OnImageMapped(managedGuid,
-                                   winrt::make<VirtualImagePtr>(image));
+    mManagedListener.OnImageMapped(
+        managedGuid,
+        winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
   void onProgressUpdate(PB::ProgressStatus status) override
@@ -201,6 +207,18 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     }
   }
 
+  winrt::hstring GetThumbnailsPath()
+  {
+    auto maybeProject =
+        mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    auto thumbnailsPath =
+        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
+        "thumbnails-images";
+
+    return winrt::to_hstring(thumbnailsPath.string());
+  }
+
   void StartPhotobook() { mPhotobook->startPhotobook(); }
 
   Windows::Foundation::Collections::IVector<
@@ -239,7 +257,9 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     std::vector<Path> imagesToMerge;
 
     for (int i = 0; i < (int)images.Size(); ++i) {
-      auto imagePath = stagedPhotos.at((unsigned)images.GetAt(i))->medium();
+      auto hash = stagedPhotos.at((unsigned)images.GetAt(i))->hash();
+      auto imagePath = mPhotobook->platformInfo()->thumbnailByHash(
+          maybeProject->first, hash, ".jpg");
       imagesToMerge.push_back(imagePath);
     }
 
@@ -268,8 +288,14 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
 
   PhotobookRuntimeComponent::VirtualImagePtr EmptyImage()
   {
+    auto maybeProject =
+        mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    auto thumbnailsPath =
+        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
+        "thumbnails-images";
     return winrt::make<VirtualImagePtr>(
-        mPhotobook->imageFactory()->defaultRegularImage());
+        mPhotobook->imageFactory()->defaultRegularImage(), thumbnailsPath.string());
   }
 
   winrt::hstring GenerateProjectName()
