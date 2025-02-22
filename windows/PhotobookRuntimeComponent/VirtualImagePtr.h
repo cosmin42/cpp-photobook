@@ -42,8 +42,11 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
 
   PhotobookRuntimeComponent::ImageResources Frontend()
   {
+    auto thumbnailsLocationPath = Path(mThumbnailsLocation);
     return winrt::make<ImageResources>(
-        mGenericImage->full(), mGenericImage->medium(), mGenericImage->smaLL());
+        thumbnailsLocationPath / mGenericImage->full(),
+        thumbnailsLocationPath / mGenericImage->medium(),
+        thumbnailsLocationPath / mGenericImage->smaLL());
   }
 
   PB::GenericImagePtr Unwrap() { return mGenericImage; }
