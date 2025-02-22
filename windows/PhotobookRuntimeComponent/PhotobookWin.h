@@ -203,7 +203,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     PBDev::basicAssert(maybeProject != nullptr);
     auto thumbnailsPath =
         mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
-        "thumbnails-images";
+        "thumbnail-images";
 
     return winrt::to_hstring(thumbnailsPath.string());
   }
@@ -282,7 +282,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     PBDev::basicAssert(maybeProject != nullptr);
     auto thumbnailsPath =
         mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
-        "thumbnails-images";
+        "thumbnail-images";
     return winrt::make<VirtualImagePtr>(
         mPhotobook->imageFactory()->defaultRegularImage(),
         thumbnailsPath.string());

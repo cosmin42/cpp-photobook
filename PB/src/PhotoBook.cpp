@@ -384,7 +384,7 @@ void Photobook::onCollageCreated(GenericImagePtr aggregatedImage)
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath =
       platformInfo()->projectSupportFolder(maybeProject->first) /
-      "thumbnails-images";
+      "thumbnail-images";
   post([this, aggregatedImage{aggregatedImage},
         thumbnailsPath{thumbnailsPath}]() {
     mParent->onCollageCreated(aggregatedImage, thumbnailsPath);
@@ -401,7 +401,7 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath =
       platformInfo()->projectSupportFolder(maybeProject->first) /
-      "thumbnails-images";
+      "thumbnail-images";
   post([this, id{id}, image{image}, thumbnailsPath{thumbnailsPath}]() {
     mParent->onImageMapped(id, image, thumbnailsPath);
   });
@@ -421,7 +421,7 @@ void Photobook::onLutApplied(PBDev::LutApplicationId lutId,
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath =
       platformInfo()->projectSupportFolder(maybeProject->first) /
-      "thumbnails-images";
+      "thumbnail-images";
   post([this, lutId, image, thumbnailsPath]() {
     mParent->onLutApplied(lutId, image, thumbnailsPath);
   });
