@@ -26,10 +26,10 @@
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="PaperSettings.cpp" />
     <ClCompile Include="ProjectMetadataEntry.cpp" />
-    <ClCompile Include="VICollectionStatefulIterator.cpp" />
     <ClCompile Include="CollageTemplateInfo.cpp" />
     <ClCompile Include="LutIconInfo.cpp" />
     <ClCompile Include="NoirListener.cpp" />
+    <ClCompile Include="WinConversions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -40,10 +40,10 @@
     <ClInclude Include="VirtualImagePtr.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="ProjectMetadataEntry.h" />
-    <ClInclude Include="VICollectionStatefulIterator.h" />
     <ClInclude Include="CollageTemplateInfo.h" />
     <ClInclude Include="LutIconInfo.h" />
     <ClInclude Include="NoirListener.h" />
+    <ClInclude Include="WinConversions.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="PhotobookWin.idl" />

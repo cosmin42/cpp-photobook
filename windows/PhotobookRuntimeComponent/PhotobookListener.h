@@ -7,6 +7,8 @@
 #include "PBError.h"
 #include "VirtualImagePtr.h"
 
+#include "WinConversions.h"
+
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
 // TODO: Is this class even used anymore?
@@ -27,23 +29,7 @@ public:
   void onLutApplied(PBDev::LutApplicationId lutId, PB::GenericImagePtr image,
                     Path thumbnailsLocation) override
   {
-    auto nativeUuid = lutId.raw();
-
-    uint64_t data1 = nativeUuid.data[0] << 24 | nativeUuid.data[1] << 16 |
-                     nativeUuid.data[2] << 8 | nativeUuid.data[3];
-
-    uint16_t data2 = nativeUuid.data[4] << 8 | nativeUuid.data[5];
-    uint16_t data3 = nativeUuid.data[6] << 8 | nativeUuid.data[7];
-
-    GUID existingGuid = {(unsigned long)data1,
-                         data2,
-                         data3,
-                         {nativeUuid.data[8], nativeUuid.data[9],
-                          nativeUuid.data[10], nativeUuid.data[11],
-                          nativeUuid.data[12], nativeUuid.data[13],
-                          nativeUuid.data[14], nativeUuid.data[15]}};
-
-    winrt::guid managedGuid(existingGuid);
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
 
     mManagedListener.OnLutApplied(
         managedGuid,

@@ -198,6 +198,7 @@
     <ClInclude Include="VirtualImagePtr.h">
       <DependentUpon>VirtualImagePtr.idl</DependentUpon>
     </ClInclude>
+    <ClInclude Include="WinConversions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageMonitor.cpp">
@@ -256,6 +257,7 @@
     <ClCompile Include="VirtualImagePtr.cpp">
       <DependentUpon>VirtualImagePtr.idl</DependentUpon>
     </ClCompile>
+    <ClCompile Include="WinConversions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CollageTemplateInfo.idl" />

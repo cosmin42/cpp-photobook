@@ -11,6 +11,8 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Foundation.h>
 
+#include "WinConversions.h"
+
 namespace winrt::PhotobookRuntimeComponent::implementation {
 
 void PhotobookWin::MakeCollages() { mPhotobook->makeCollages(); }
@@ -53,23 +55,7 @@ void PhotobookWin::mapImagesToSPL(
   for (auto entry : frontEndImages) {
 
     auto frontendGuid = entry.Key();
-    // TODO: Move this conversion to dedicated function
-    boost::uuids::uuid nativeUuid;
-
-    nativeUuid.data[0] = ((frontendGuid.Data1 & 0xFF000000) >> 24);
-    nativeUuid.data[1] = (uint8_t)((frontendGuid.Data1 & 0xFF0000) >> 16);
-    nativeUuid.data[2] = ((frontendGuid.Data1 & 0xFF00) >> 8);
-    nativeUuid.data[3] = (frontendGuid.Data1 & 0xFF);
-
-    nativeUuid.data[4] = ((frontendGuid.Data2 & 0xFF00) >> 8);
-    nativeUuid.data[5] = (frontendGuid.Data2 & 0xFF);
-
-    nativeUuid.data[6] = ((frontendGuid.Data3 & 0xFF00) >> 8);
-    nativeUuid.data[7] = (frontendGuid.Data3 & 0xFF);
-
-    for (int i = 0; i < 8; i++) {
-      nativeUuid.data[8 + i] = frontendGuid.Data4[i];
-    }
+    auto nativeUuid = WinConversions::toNativeUuid(frontendGuid);
 
     PBDev::ImageToPaperId imageId = PBDev::ImageToPaperId(nativeUuid);
 
