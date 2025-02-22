@@ -3,6 +3,10 @@ name: macOS Build
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'osx/**'
+      - 'PB/**'
+      - '.github/**'
   pull_request:
     branches: [ "main" ]
 
