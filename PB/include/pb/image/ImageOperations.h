@@ -32,9 +32,6 @@ bool validExtension(std::optional<Path> path);
 std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
                                 cv::Size newSize, bool keepAspectRatio);
 
-std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat>      image,
-                                         std::vector<cv::Vec3b> const &lutData);
-
 std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image);
 
 std::vector<cv::Vec3f> readLutData(Path lutPath);

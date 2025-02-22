@@ -63,23 +63,6 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
   return image;
 }
 
-// TODO: Remove this function, it's a stupid attempt
-std::shared_ptr<cv::Mat> applyLutInplace(std::shared_ptr<cv::Mat>      image,
-                                         std::vector<cv::Vec3b> const &lutData)
-{
-  cv::Mat result = image->clone();
-
-  auto rgbImage = extractRGBChannels(image);
-
-  cv::LUT(*rgbImage, lutData, *rgbImage);
-
-  auto rgbaImage = completeWithAlphaChannel(rgbImage);
-
-  *image = *rgbaImage;
-
-  return image;
-}
-
 std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image)
 {
   if (!image) {
