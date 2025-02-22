@@ -29,16 +29,18 @@ public:
 
   virtual void post(std::function<void()> f) = 0;
 
-  virtual void onCollageCreated(GenericImagePtr newImage) = 0;
+  virtual void onCollageCreated(GenericImagePtr newImage,
+                                Path            thumbnailsLocation) = 0;
 
-  virtual void onImageMapped(PBDev::ImageToPaperId id,
-                             GenericImagePtr       image) = 0;
+  virtual void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image,
+                             Path thumbnailsLocation) = 0;
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 
   [[deprecated]] virtual void onLutAdded(LutIconInfo iconInfo) = 0;
 
-  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
+  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr,
+                            Path thumbnailsLocation) = 0;
 };
 
 } // namespace PB

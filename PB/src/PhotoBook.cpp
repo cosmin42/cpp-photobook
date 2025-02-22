@@ -380,8 +380,14 @@ void Photobook::onCollageThumbnailsMakerError() {}
 
 void Photobook::onCollageCreated(GenericImagePtr aggregatedImage)
 {
-  post([this, aggregatedImage{aggregatedImage}]() {
-    mParent->onCollageCreated(aggregatedImage);
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      platformInfo()->projectSupportFolder(maybeProject->first) /
+      "thumbnails-images";
+  post([this, aggregatedImage{aggregatedImage},
+        thumbnailsPath{thumbnailsPath}]() {
+    mParent->onCollageCreated(aggregatedImage, thumbnailsPath);
   });
 }
 
@@ -391,7 +397,14 @@ void Photobook::onImportError(PBDev::Error error) { mParent->onError(error); }
 
 void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 {
-  post([this, id{id}, image{image}]() { mParent->onImageMapped(id, image); });
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      platformInfo()->projectSupportFolder(maybeProject->first) /
+      "thumbnails-images";
+  post([this, id{id}, image{image}, thumbnailsPath{thumbnailsPath}]() {
+    mParent->onImageMapped(id, image, thumbnailsPath);
+  });
 }
 
 [[deprecated]] void Photobook::onLutAdded(LutIconInfo iconInfo)
@@ -404,7 +417,14 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 void Photobook::onLutApplied(PBDev::LutApplicationId lutId,
                              GenericImagePtr         image)
 {
-  post([this, lutId, image]() { mParent->onLutApplied(lutId, image); });
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      platformInfo()->projectSupportFolder(maybeProject->first) /
+      "thumbnails-images";
+  post([this, lutId, image, thumbnailsPath]() {
+    mParent->onLutApplied(lutId, image, thumbnailsPath);
+  });
 }
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
