@@ -27,9 +27,10 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
   }
 
   void GalleryProjection(winrt::array_view<uint8_t> buffer, int portviewWidth,
-                         int portviewHeight)
+                         int portviewHeight, winrt::hstring thumbnailsPath)
   {
-    auto mediumThumbnailPath = mGenericImage->medium();
+    auto nativeThumbnailsPath = Path(winrt::to_string(thumbnailsPath));
+    auto mediumThumbnailPath = nativeThumbnailsPath / mGenericImage->medium();
 
     auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(), false,
                                            {portviewWidth, portviewHeight});

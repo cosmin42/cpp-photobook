@@ -10,7 +10,6 @@
 #include <pb/components/RuntimeUUID.h>
 #include <pb/image/ImageOperations.h>
 
-// TODO: Rename FileMapper
 namespace PB::Job {
 class PicturesSearchJobListener {
 public:

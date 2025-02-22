@@ -12,6 +12,6 @@ runtimeclass VirtualImagePtr
   ImageResources Frontend { get; };
 
   void GalleryProjection(ref UInt8[] buffer, Int32 portviewWidth,
-                         Int32 portviewHeight);
+                         Int32 portviewHeight, String thumbnailsPath);
 }
 } // namespace PhotobookRuntimeComponent

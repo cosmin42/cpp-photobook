@@ -524,7 +524,7 @@ namespace PhotobookNet
             int portviewHeight = (int)GalleryCanvas.Height;
 
 
-            imagePtr.GalleryProjection(mCanvasBuffer, portviewWidth, portviewHeight);
+            imagePtr.GalleryProjection(mCanvasBuffer, portviewWidth, portviewHeight, mPhotobook.GetThumbnailsPath());
 
             if (mCanvasSizeChanged)
             {
