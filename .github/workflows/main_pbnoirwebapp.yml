@@ -6,8 +6,10 @@ name: Build and deploy Python app to Azure Web App - PBNoirWebApp
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+    paths:
+      - '.github/**'
+      - 'webapp/**'
   workflow_dispatch:
 
 jobs:
