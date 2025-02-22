@@ -91,9 +91,16 @@ void ProjectManagementService::deleteProject(
 
   auto projectData = mPlatformInfo->projectFolderPath() / id;
 
-  // TODO: Check return values
-  std::filesystem::remove_all(projectPath);
-  std::filesystem::remove_all(projectData);
+  auto removedCount = std::filesystem::remove_all(projectPath);
+  if (removedCount < 1) {
+    spdlog::error("Failed to remove project path: {}", projectPath.string());
+  }
+
+  removedCount = std::filesystem::remove_all(projectData);
+  if (removedCount < 1) {
+    spdlog::error("Failed to remove project data path: {}",
+                  projectData.string());
+  }
 
   mDatabaseService->deleteData(OneConfig::DATABASE_PROJECT_METADATA_TABLE,
                                "uuid='" + id + "'");
@@ -161,7 +168,7 @@ void ProjectManagementService::preprocessDefaultWaitingImage()
 void ProjectManagementService::loadProject(
     std::variant<std::string, boost::uuids::uuid> nameOrId)
 {
-  std::string projectName;
+  std::string        projectName;
   boost::uuids::uuid id;
   if (std::holds_alternative<std::string>(nameOrId)) {
     projectName = std::get<std::string>(nameOrId);
