@@ -48,16 +48,19 @@ public:
 
   MOCK_METHOD(void, post, (std::function<void()>), (override));
 
-  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr), (override));
+  MOCK_METHOD(void, onCollageCreated, (PB::GenericImagePtr, PBDev::Path),
+              (override));
 
-  MOCK_METHOD(void, onImageMapped, (PBDev::ImageToPaperId, PB::GenericImagePtr),
+  MOCK_METHOD(void, onImageMapped,
+              (PBDev::ImageToPaperId, PB::GenericImagePtr, PBDev::Path),
               (override));
 
   MOCK_METHOD(void, onProgressUpdate, (PB::ProgressStatus), (override));
 
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
   MOCK_METHOD(void, onLutApplied,
-              (PBDev::LutApplicationId, PB::GenericImagePtr), (override));
+              (PBDev::LutApplicationId, PB::GenericImagePtr, PBDev::Path),
+              (override));
 };
 
 class TestProjectManagementServiceListener final
