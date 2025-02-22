@@ -473,7 +473,7 @@ cv::Size resizeBox(cv::Size original, cv::Size boundingBox,
 {
   auto ratio = computeRatio(original, boundingBox);
 
-  double circumscribedRatio;
+  double circumscribedRatio = 0.0;
   if (overlapType == OverlapType::Circumscribed) {
     circumscribedRatio = std::min<double>(ratio.width, ratio.height);
   }
@@ -489,8 +489,8 @@ cv::Size resizeBox(cv::Size original, cv::Size boundingBox,
   }
 
   cv::Size result = {
-      static_cast<int>((double)original.width * circumscribedRatio),
-      static_cast<int>((double)original.height * circumscribedRatio)};
+      static_cast<int>((double)original.width / circumscribedRatio),
+      static_cast<int>((double)original.height / circumscribedRatio)};
   return result;
 }
 std::tuple<cv::Size, cv::Size, cv::Size>
