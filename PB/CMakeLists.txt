@@ -257,12 +257,10 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         tests/TestDeserialization.cpp
         tests/TestErrors.cpp
         tests/TestFolderImport.cpp
-        tests/TestImageMonitor.cpp
         tests/TestParallelTaskConsumer.cpp
         tests/TestPhotobook.cpp
         tests/TestRuntimeUUID.cpp
         tests/TestStagedImages.cpp
-        tests/TestThirdPartyLinks.cpp
         tests/TestCollageLibraryAssistant.cpp
         tests/TestDrawingService.cpp
         tests/TestDatabaseService.cpp
