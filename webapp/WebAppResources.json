@@ -6,7 +6,7 @@
         "type": "Microsoft.Storage/storageAccounts",
         "apiVersion": "2021-09-01",
         "location": "[resourceGroup().location]",
-        "name": "[pbnoir-storage]",
+        "name": "PbNoirWebAppStorage",
         "sku": {
           "name": "Standard_LRS"
         },
