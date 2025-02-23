@@ -17,6 +17,12 @@ DECLARE_STRONG_UUID(ImageToPaperId)
 
 namespace PB {
 
+struct ImageToPaperData {
+  PB::GenericImagePtr   image;
+  cv::Scalar            backgroundColor;
+  Geometry::OverlapType overlapType;
+};
+
 class ImageToPaperServiceListener {
 public:
   virtual void onImageMapped(PBDev::ImageToPaperId id,
@@ -28,7 +34,7 @@ public:
   explicit ImageToPaperTask(
       std::shared_ptr<ProjectManagementService> projectManagementService,
       PaperSettings                             paperSettings,
-      std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+      std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
       : MapReducer(), mPaperSettings(paperSettings),
@@ -83,7 +89,7 @@ private:
 
   ImageToPaperServiceListener *mListener = nullptr;
 
-  std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+  std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                      boost::hash<PBDev::ImageToPaperId>>
       mOriginalImages;
 
@@ -99,45 +105,71 @@ private:
   {
     auto imageId = mImageIds.at(index);
 
-    auto originalImage = mOriginalImages.at(imageId);
+    auto originalImage = mOriginalImages.at(imageId).image;
+    auto backgroundColor = mOriginalImages.at(imageId).backgroundColor;
+    auto overlapType = mOriginalImages.at(imageId).overlapType;
 
     auto taskId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
 
     mImageTaskAssociation.emplace(taskId, imageId);
 
-    return {taskId, [this, originalImage{originalImage}, imageId{imageId}]() {
-              auto paperImage = CreatePaperImage(originalImage);
+    return {taskId,
+            [this, originalImage{originalImage}, imageId{imageId},
+             backgroundColor{backgroundColor}, overlapType{overlapType}]() {
+              auto paperImage =
+                  CreatePaperImage(originalImage, backgroundColor, overlapType);
               mResultImages[imageId] = paperImage;
             }};
   }
 
-  GenericImagePtr CreatePaperImage(GenericImagePtr image)
+  GenericImagePtr CreatePaperImage(GenericImagePtr       image,
+                                   cv::Scalar            backgroundColor,
+                                   Geometry::OverlapType overlapType)
   {
     auto maybeProjectInfo = mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProjectInfo != nullptr);
 
-    auto hash = boost::uuids::to_string(boost::uuids::random_generator()());
-    auto hashPath =
-        mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, hash, ".png");
-
     auto imagePath = mPlatformInfo->thumbnailByHash(maybeProjectInfo->first,
                                                     image->hash(), ".jpg");
 
-    auto imageData = ImageReader().read(
-        imagePath, true, {mPaperSettings.width, mPaperSettings.height});
+    auto imageData = ImageReader().loadImage(imagePath);
+    PBDev::basicAssert(imageData != nullptr);
+
+    auto newImageSize =
+        Geometry::resizeBox({imageData->cols, imageData->rows},
+                            {mPaperSettings.width, mPaperSettings.height},
+                            overlapType, Geometry::ScalePolicy::OnlyDown);
+
+    auto maybeNewImage = PB::Process::resize(imageData, newImageSize, false);
+
+    PBDev::basicAssert(maybeNewImage != nullptr);
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
-        mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
+        mPaperSettings.width, mPaperSettings.height, backgroundColor)();
 
     PBDev::basicAssert(imageData != nullptr);
 
-    auto newImageMat = PB::Process::overlap(
-        imageData, PB::Process::alignToCenter())(singleColorImage);
+    auto [srcOrigin, dstOrigin, sizeToCopy] =
+        Geometry::overlapCenter(newImageSize, singleColorImage->size());
+
+    cv::Rect sourceROI(srcOrigin.x, srcOrigin.y, sizeToCopy.width,
+                       sizeToCopy.height);
+
+    cv::Mat croppedSource;
+    try {
+      croppedSource = (*maybeNewImage)(sourceROI);
+    }
+    catch (cv::Exception &e) {
+      PBDev::basicAssert(false);
+    }
+
+    croppedSource.copyTo(
+        singleColorImage->operator()(cv::Rect(dstOrigin, sizeToCopy)));
 
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
     auto maybeNewHash = ThumbnailsTask::createThumbnails(
-        newImageMat, mPlatformInfo, mProjectManagementService, newHash);
+        singleColorImage, mPlatformInfo, mProjectManagementService, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
     // TODO: Full is not original here, improve this

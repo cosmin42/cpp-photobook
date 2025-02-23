@@ -37,12 +37,9 @@ public:
   }
 
   void map(PBDev::ImageToPaperServiceId,
-           std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+           std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                               boost::hash<PBDev::ImageToPaperId>>
                originalImages);
-
-  void map(PBDev::ImageToPaperServiceId,
-           std::pair<PBDev::ImageToPaperId, GenericImagePtr> image);
 
   void removeTask(PBDev::ImageToPaperServiceId id);
 

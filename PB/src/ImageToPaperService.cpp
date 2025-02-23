@@ -4,7 +4,7 @@ namespace PB::Service {
 
 void ImageToPaperService::map(
     PBDev::ImageToPaperServiceId id,
-    std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+    std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                        boost::hash<PBDev::ImageToPaperId>>
         originalImages)
 {
@@ -15,26 +15,6 @@ void ImageToPaperService::map(
   auto &&task =
       ImageToPaperTask(mProjectManagementService,
                        maybeProject->second.paperSettings, originalImages);
-  task.configurePlatformInfo(mPlatformInfo);
-  task.setImageToPaperServiceListener(mListener);
-  mTasks.emplace(id, task);
-  auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
-                                          PBDev::ProgressJobName{"to-paper"});
-  UNUSED(stopSource);
-}
-
-void ImageToPaperService::map(
-    PBDev::ImageToPaperServiceId                      id,
-    std::pair<PBDev::ImageToPaperId, GenericImagePtr> originalImage)
-{
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  auto &&task = ImageToPaperTask(
-      mProjectManagementService, maybeProject->second.paperSettings,
-      std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
-                         boost::hash<PBDev::ImageToPaperId>>{originalImage});
-
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);
