@@ -23,9 +23,9 @@
     return cppImageMonitor->rowSize(rowIndex);
 }
 
-- (FrontendImage*) image:(unsigned)row index:(unsigned)index
+- (FrontendImage*) image:(unsigned)row index:(unsigned)index thumbnailsPath:(NSString*)thumbnailsPath
 {
     auto genericImage = cppImageMonitor->image(row, index);
-    return [[FrontendImage alloc] initWithCpp:genericImage];
+    return [[FrontendImage alloc] initWithCpp:genericImage projectRoot:thumbnailsPath];
 }
 @end

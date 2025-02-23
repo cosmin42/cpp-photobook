@@ -50,6 +50,7 @@
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
 - (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images;
+- (NSString*) getThumbnailsPath;
 @end
 
 #endif /* Photobook_h */

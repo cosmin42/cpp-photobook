@@ -80,22 +80,28 @@ public:
             f();
         });
     }
-    void onCollageCreated(PB::GenericImagePtr newImage) override {
-        auto managedImage = [[FrontendImage alloc] initWithCpp:newImage];
+    void onCollageCreated(PB::GenericImagePtr newImage, Path thumbnailsLocation) override {
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        auto managedImage = [[FrontendImage alloc] initWithCpp:newImage projectRoot:managedThumbnailsLocation];
         [&mManagedListener onCollageCreated:managedImage];
     }
     void onImageMapped(PBDev::ImageToPaperId imageId,
-                       PB::GenericImagePtr       image) override {
+                       PB::GenericImagePtr       image, Path thumbnailsLocation) override {
         std::string imageIdStr = boost::uuids::to_string(*imageId);
         NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
         
-        auto managedImage = [[FrontendImage alloc] initWithCpp:image];
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        
+        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
         [&mManagedListener onImageMapped:managedImageId image:managedImage];
     }
     void onProgressUpdate(PB::ProgressStatus status) override {}
     
     [[deprecated]]
     void onLutAdded(PB::LutIconInfo iconInfo) override {}
+    
+    void onLutApplied(PBDev::LutApplicationId, PB::GenericImagePtr,
+                      Path thumbnailsLocation){}
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
 };
@@ -238,8 +244,8 @@ NoirListenerManaged* mNoirListener = nullptr;
     auto imageToPaperService = mPhotobook->imageToPaperService();
     
     std::unordered_map<PBDev::ImageToPaperId, PB::GenericImagePtr,
-                         boost::hash<PBDev::ImageToPaperId>>
-          backendMap;
+    boost::hash<PBDev::ImageToPaperId>>
+    backendMap;
     
     for (NSString *key in images) {
         std::string uuidStr = [key UTF8String];
@@ -255,8 +261,16 @@ NoirListenerManaged* mNoirListener = nullptr;
         }
     }
     
-    imageToPaperService->map(
-          PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+    imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+}
+
+- (NSString*) getThumbnailsPath
+{
+    auto maybeProject =
+    mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
+    PBDev::basicAssert(maybeProject != nullptr);
+    auto nativeThumbnailsPath = mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) / "thumbnail-images";
+    return [NSString stringWithUTF8String:nativeThumbnailsPath.string().c_str()];
 }
 
 @end

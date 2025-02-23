@@ -13,11 +13,13 @@
 @implementation FrontendImage
 {
     PB::GenericImagePtr cppImage;
+    NSString* projectRoot;
 }
 
-- (id)initWithCpp:(PB::GenericImagePtr)genericImage
+- (id)initWithCpp:(PB::GenericImagePtr)genericImage projectRoot:(NSString*)path
 {
     cppImage = genericImage;
+    projectRoot = path;
     return self;
 }
 
@@ -32,6 +34,10 @@
     frontendImage.full = [NSString stringWithUTF8String:cppImage->full().c_str()];
     frontendImage.medium = [NSString stringWithUTF8String:cppImage->medium().c_str()];
     frontendImage.small = [NSString stringWithUTF8String:cppImage->smaLL().c_str()];
+
+    frontendImage.full = [projectRoot stringByAppendingPathComponent:frontendImage.full];
+    frontendImage.medium = [projectRoot stringByAppendingPathComponent:frontendImage.medium];
+    frontendImage.small = [projectRoot stringByAppendingPathComponent:frontendImage.small];
     return frontendImage;
 }
 

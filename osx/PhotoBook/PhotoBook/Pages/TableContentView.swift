@@ -203,7 +203,7 @@ struct TableContentView: View, PhotobookUIListener {
                                     {
                                         let rowSize:UInt32 = self.photobook.projectManagementService().unstagedImagesRepo().rowSize(UInt32(rowIndex))
                                         for i in 0..<rowSize {
-                                            let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i)
+                                            let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(rowIndex), index:i, thumbnailsPath: self.photobook.getThumbnailsPath())
                                             if let unwrappedImage = image
                                             {
                                                 if i >= self.uplModel.list.count
@@ -259,7 +259,7 @@ struct TableContentView: View, PhotobookUIListener {
                                             {
                                                 if let row = uplIdentifier.row
                                                 {
-                                                    let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index))
+                                                    let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
                                                     
                                                     let uuid = UUID()
                                                     images[uuid.uuidString] = image
@@ -377,7 +377,7 @@ struct TableContentView: View, PhotobookUIListener {
         {
             if (row == selectedRowIndex)
             {
-                let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index))
+                let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
                 if let unwrappedImage = image
                 {
                     self.uplModel.list[Int(index)] = unwrappedImage

@@ -22,7 +22,7 @@
 #endif
 
 - (unsigned) rowSize:(unsigned)rowIndex;
-- (FrontendImage*) image:(unsigned)row index:(unsigned)index;
+- (FrontendImage*) image:(unsigned)row index:(unsigned)index thumbnailsPath:(NSString*)thumbnailsPath;
 @end
 
 #endif /* UnstagedImagesRepo_h */
