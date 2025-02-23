@@ -34,6 +34,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var multipleSelectionEnabled: Bool = false
     
+    @StateObject private var toPaperModel: ToPaperModel = ToPaperModel()
+    
     init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
@@ -269,6 +271,15 @@ struct TableContentView: View, PhotobookUIListener {
                                                     assert(false, "Unreachable code")
                                                 }
                                             }
+
+                                            toPaperModel.images.removeAll()
+
+                                            for (key, value) in images {
+                                                toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
+                                            }
+                                            
+                                            toPaperModel.showDialog.toggle()
+                                            
                                             self.photobook.mapImages(toSPL: images)
                                             
                                             self.dropIndex = self.splModel.findPredecessorIndex(at:location)
@@ -330,6 +341,14 @@ struct TableContentView: View, PhotobookUIListener {
                 }
                 .frame(height: geometry.size.height * 0.3)
             }
+            .onAppear()
+            {
+                toPaperModel.frameSize = geometry.size
+            }
+        }
+        .sheet(isPresented: $toPaperModel.showDialog)
+        {
+            ToPaperDialog(model: toPaperModel)
         }
         .onAppear()
         {
