@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Graphics.Canvas;
+using System.IO;
 
 namespace PhotobookNet
 {
@@ -631,7 +632,7 @@ namespace PhotobookNet
             foreach (var item in args.Items)
             {
                 var image = item as VirtualImagePtr;
-                var keyPath = image.Frontend.FullPath;
+                var keyPath = Path.GetFileName(image.Frontend.FullPath);
                 var imagePtr = mPhotobook.GetImageViews().ImageMonitor().Image(keyPath, mPhotobook.GetThumbnailsPath());
                 mDragAndDropSelectedImages.Add(imagePtr);
             }

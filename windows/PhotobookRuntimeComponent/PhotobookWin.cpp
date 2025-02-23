@@ -48,7 +48,7 @@ void PhotobookWin::mapImagesToSPL(
 {
   auto imageToPaperService = mPhotobook->imageToPaperService();
 
-  std::unordered_map<PBDev::ImageToPaperId, PB::GenericImagePtr,
+  std::unordered_map<PBDev::ImageToPaperId, PB::ImageToPaperData,
                      boost::hash<PBDev::ImageToPaperId>>
       backendMap;
 
@@ -65,7 +65,9 @@ void PhotobookWin::mapImagesToSPL(
             entry.Value())
             ->Unwrap();
 
-    backendMap[imageId] = nativePtr;
+    backendMap[imageId].image = nativePtr;
+    backendMap[imageId].backgroundColor = {255, 255, 255};
+    backendMap[imageId].overlapType = PB::Geometry::OverlapType::Inscribed;
   }
 
   imageToPaperService->map(
