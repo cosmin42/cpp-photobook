@@ -24,7 +24,7 @@ public:
 
 class ExportService final : public ExportLogicListener {
 public:
-  void configureProject(std::shared_ptr<Project> project);
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
@@ -46,7 +46,7 @@ public:
 
 private:
   ExportListener               *mListener;
-  std::shared_ptr<Project>      mProject;
+  std::shared_ptr<IdentifyableProject> mProject;
   std::shared_ptr<PlatformInfo> mPlatformInfo;
 
   std::vector<GenericImagePtr>  mPtrImages;

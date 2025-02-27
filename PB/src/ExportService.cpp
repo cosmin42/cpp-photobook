@@ -1,7 +1,7 @@
 #include <pb/export/ExportService.h>
 
 namespace PB {
-void ExportService::configureProject(std::shared_ptr<Project> project)
+void ExportService::configureProject(std::shared_ptr<IdentifyableProject> project)
 {
   mProject = project;
 }
@@ -27,8 +27,8 @@ void ExportService::exportPDFAlbum(std::string name, Path path)
 {
   auto                           pdfName = path / (name + ".pdf");
   std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
-      pdfName, mPlatformInfo->localStatePath, mProject->paperSettings,
-      mProject->stagedImages()->stagedPhotos());
+      pdfName, mPlatformInfo->localStatePath, mProject->second.paperSettings,
+      mProject->second.stagedImages()->stagedPhotos());
   task->configurePodofoListener(this);
   start(name, task);
 }
@@ -38,8 +38,8 @@ void ExportService::exportPDFLibharu(std::string name, Path path)
   auto pdfName = path / (name + "-libharu" + ".pdf");
   std::shared_ptr<PdfLibharuExportTask> task =
       std::make_shared<PdfLibharuExportTask>(
-          pdfName, mPlatformInfo->localStatePath, mProject->paperSettings,
-          mProject->stagedImages()->stagedPhotos());
+          pdfName, mPlatformInfo->localStatePath, mProject->second.paperSettings,
+          mProject->second.stagedImages()->stagedPhotos());
   task->configureLibharuListener(this);
   start(name, task);
 }
@@ -55,8 +55,8 @@ void ExportService::exportJPGAlbum(std::string name, Path path)
     PBDev::basicAssert(success);
 
     std::shared_ptr<JpgExport> task =
-        std::make_shared<JpgExport>(newFolder, mProject->paperSettings,
-                                    mProject->stagedImages()->stagedPhotos());
+        std::make_shared<JpgExport>(newFolder, mProject->second.paperSettings,
+                                    mProject->second.stagedImages()->stagedPhotos());
     task->configureJpgListener(this);
     start(name, task);
   }

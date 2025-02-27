@@ -86,6 +86,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureScheduler(threadScheduler);
 
   mExportService->configureTaskCruncher(mTaskCruncher);
+  mExportService->configurePlatformInfo(mPlatformInfo);
+
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -176,6 +178,8 @@ void Photobook::makeCollages()
   mLutService->configureProject(maybeProject);
 
   mCollageTemplateManager->configureProject(maybeProject);
+  mExportService->configureProject(maybeProject);
+
   auto collageThumbnailsMakerListener =
       dynamic_cast<CollageThumbnailsMakerListener *>(this);
   PBDev::basicAssert(collageThumbnailsMakerListener != nullptr);
