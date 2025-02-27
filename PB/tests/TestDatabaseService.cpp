@@ -2,8 +2,8 @@
 
 #include <queue>
 
-#include <pb/components/TaskCruncher.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/TaskCruncher.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/ProgressService.h>
 

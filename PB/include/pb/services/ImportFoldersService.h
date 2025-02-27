@@ -3,8 +3,8 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
-#include <pb/components/TaskCruncher.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/TaskCruncher.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/entities/RowProcessingData.h>
 #include <pb/jobs/PicturesSearchJob.h>
 #include <pb/jobs/ThumbnailsJob.h>

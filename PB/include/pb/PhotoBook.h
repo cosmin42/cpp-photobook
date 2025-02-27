@@ -10,7 +10,7 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
-#include <pb/components/TaskCruncher.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>

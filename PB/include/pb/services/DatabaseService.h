@@ -7,8 +7,8 @@
 #include <boost/bimap/bimap.hpp>
 
 #include <pb/Platform.h>
-#include <pb/components/TaskCruncher.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/TaskCruncher.h>
+#include <pb/infra/ThreadScheduler.h>
 
 namespace PB::Service {
 

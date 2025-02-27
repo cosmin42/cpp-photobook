@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pb/components/TaskCruncher.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/DirectoryInspectionJob.h>
 #include <pb/infra/Traits.h>
 

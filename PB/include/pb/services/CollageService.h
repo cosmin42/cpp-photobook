@@ -4,7 +4,7 @@
 
 #include <pb/components/CollageLibraryAssistant.h>
 #include <pb/components/SVGInflater.h>
-#include <pb/components/TaskCruncher.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/CollageMakerJob.h>
 #include <pb/jobs/CollageThumbnailsMakerJob.h>
 #include <pb/components/Project.h>

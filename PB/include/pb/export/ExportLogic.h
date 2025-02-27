@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include <pb/components/RuntimeUUID.h>
-#include <pb/components/TaskCruncher.h>
-#include <pb/entities/GenericImage.h>
 #include <pb/components/Project.h>
+#include <pb/components/RuntimeUUID.h>
+#include <pb/entities/GenericImage.h>
+#include <pb/infra/TaskCruncher.h>
 
 DECLARE_STRONG_UUID(ExportLogicReducersId)
 
@@ -51,8 +51,9 @@ public:
     mPendingTasks.emplace(id, task);
     mPendingTaskNames.emplace(id, name);
 
-    auto stopSource = mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
-                          PBDev::ProgressJobName{"export"});
+    auto stopSource =
+        mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
+                              PBDev::ProgressJobName{"export"});
     UNUSED(stopSource);
   }
 

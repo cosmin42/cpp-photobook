@@ -5,7 +5,7 @@
 
 #include <pb/Config.h>
 #include <pb/Enums.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/infra/Traits.h>
 
 DECLARE_STRONG_UUID(ProgressId)

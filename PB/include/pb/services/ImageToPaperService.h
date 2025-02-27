@@ -2,7 +2,7 @@
 
 #include <pb/Platform.h>
 #include <pb/components/ImageToPaperTask.h>
-#include <pb/components/TaskCruncher.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/services/ProjectManagementService.h>
 

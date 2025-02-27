@@ -4,7 +4,7 @@
 #include <unordered_set>
 
 #include <pb/components/MapReducer.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/infra/Traits.h>
 
 DECLARE_STRONG_UUID(DirectoryInspectionJobId)

@@ -17,7 +17,7 @@
 #include <src/gpu/graphite/TextureUtils.h>
 #pragma warning(pop)
 
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/infra/Traits.h>
 

@@ -2,7 +2,7 @@
 
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/LutIconInfo.h>
 #include <pb/image/ImageFactory.h>

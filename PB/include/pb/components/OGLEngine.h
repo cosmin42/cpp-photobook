@@ -12,7 +12,7 @@
 
 #include <pb/Platform.h>
 #ifdef __APPLE__
-#include <pb/components/ThreadScheduler.h>
+#include <pb/infra/ThreadScheduler.h>
 #endif
 #include <pb/infra/TSQueue.h>
 #include <pb/entities/LutImageProcessingData.h>
