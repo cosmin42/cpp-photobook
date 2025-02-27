@@ -1,4 +1,4 @@
-#include <pb/tasks/ParallelTaskConsumer.h>
+#include <pb/util/ParallelTaskConsumer.h>
 
 #include <pb/components/RuntimeUUID.h>
 

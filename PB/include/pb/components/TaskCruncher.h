@@ -4,7 +4,7 @@
 
 #include <pb/components/MapReducer.h>
 #include <pb/services/ProgressService.h>
-#include <pb/tasks/ParallelTaskConsumer.h>
+#include <pb/util/ParallelTaskConsumer.h>
 
 using namespace PB::Service;
 

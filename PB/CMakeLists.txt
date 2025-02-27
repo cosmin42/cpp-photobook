@@ -144,11 +144,11 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/services/ProgressService.h
     include/pb/services/ProjectManagementService.h
     include/pb/services/ProjectSerializerService.h
-    include/pb/tasks/ParallelTaskConsumer.h
     include/pb/util/Concepts.h
     include/pb/util/Error.h
     include/pb/util/FileInfo.h
     include/pb/util/Observable.h
+    include/pb/util/ParallelTaskConsumer.h
     include/pb/util/Timer.h
     include/pb/util/Traits.h
 
