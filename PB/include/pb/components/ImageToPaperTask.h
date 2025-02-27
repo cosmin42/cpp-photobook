@@ -129,8 +129,8 @@ private:
     auto maybeProjectInfo = mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProjectInfo != nullptr);
 
-    auto imagePath = mPlatformInfo->thumbnailByHash(maybeProjectInfo->first,
-                                                    image->hash(), ".jpg");
+    auto imagePath =
+        mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, image->hash());
 
     auto imageData = ImageReader().loadImage(imagePath);
     PBDev::basicAssert(imageData != nullptr);

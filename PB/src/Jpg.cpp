@@ -29,7 +29,7 @@ void JpgExport::taskStep()
 
   auto virtualImage = mStagedImages.at(mIndex);
   auto imagePath = mPlatformInfo->thumbnailByHash(mProject->first,
-                                                  virtualImage->hash(), ".jpg");
+                                                  virtualImage->hash());
   writeImage(imagePath, tmpImage);
   mIndex++;
 

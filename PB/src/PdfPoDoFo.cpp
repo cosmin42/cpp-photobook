@@ -45,8 +45,8 @@ void PdfExportTask::taskStep()
   Path tmpImageDestination = mLocalStatePath / TEMPORARY_PHOTO;
 
   auto virtualImage = mStagedImages.at(mIndex);
-  auto imagePath = mPlatformInfo->thumbnailByHash(mProject->first,
-                                                  virtualImage->hash(), ".jpg");
+  auto imagePath =
+      mPlatformInfo->thumbnailByHash(mProject->first, virtualImage->hash());
   writeImage(virtualImage->full(), tmpImageDestination);
 
   PoDoFo::PdfPage &pPage = mDocument->GetPages().CreatePage(

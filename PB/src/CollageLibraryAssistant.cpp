@@ -20,7 +20,7 @@ CollageLibraryAssistant::createNumberedImages(cv::Size pageSize)
   std::vector<Path> paths;
   for (auto i = 0; i < OneConfig::NUMBER_OF_COLLAGE_NUMBERED_IMAGES; ++i) {
     auto path = createNumberedImage(
-        pageSize, i, "placeholder_" + std::to_string(i) + ".jpg");
+        pageSize, i, "placeholder_" + std::to_string(i) + OneConfig::JPG_EXTENSION);
     paths.push_back(path);
   }
   return paths;

@@ -118,8 +118,8 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
 
     std::filesystem::remove(mCollagePath.at(reducerTaskId));
 
-    auto newImagePath = mPlatformInfo->thumbnailByHash(
-        mProject->first, newImage->hash(), ".jpg");
+    auto newImagePath =
+        mPlatformInfo->thumbnailByHash(mProject->first, newImage->hash());
 
     spdlog::info("Collage created {}", newImagePath.string());
 

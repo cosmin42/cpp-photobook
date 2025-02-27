@@ -141,10 +141,10 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
 
   LutImageProcessingData imageProcessingData;
   imageProcessingData.inImage =
-      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(), ".jpg");
+      mPlatformInfo->thumbnailByHash(mProject->first, image->hash());
   imageProcessingData.outImage =
       mPlatformInfo->projectSupportFolder(mProject->first) /
-      (mOutImageHashes.at(lutId) + ".jpg");
+      (mOutImageHashes.at(lutId) + OneConfig::JPG_EXTENSION);
 
   // TODO: Move this read to a different place. It shouldn't be here.
   auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));

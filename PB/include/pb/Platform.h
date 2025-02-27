@@ -42,7 +42,7 @@ struct PlatformInfo {
   Path logPath() const { return localStatePath / "log.txt"; }
 
   Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash,
-                       std::string extension) const
+                       std::string extension = OneConfig::JPG_EXTENSION) const
   {
     return projectSupportFolder(projectId) / "thumbnail-images" /
            (hash + extension);

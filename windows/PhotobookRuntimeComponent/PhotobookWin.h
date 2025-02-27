@@ -248,7 +248,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
     for (int i = 0; i < (int)images.Size(); ++i) {
       auto hash = stagedPhotos.at((unsigned)images.GetAt(i))->hash();
       auto imagePath = mPhotobook->platformInfo()->thumbnailByHash(
-          maybeProject->first, hash, ".jpg");
+          maybeProject->first, hash);
       imagesToMerge.push_back(imagePath);
     }
 
