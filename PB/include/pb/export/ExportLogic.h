@@ -6,7 +6,7 @@
 #include <pb/components/RuntimeUUID.h>
 #include <pb/components/TaskCruncher.h>
 #include <pb/entities/GenericImage.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 
 DECLARE_STRONG_UUID(ExportLogicReducersId)
 

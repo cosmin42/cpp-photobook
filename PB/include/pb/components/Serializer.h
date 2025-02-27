@@ -11,7 +11,7 @@
 #include <pb/entities/PaperSettings.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/entities/TextImageV2.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 
 void to_json(Json &json, const boost::uuids::uuid &uuid);
 

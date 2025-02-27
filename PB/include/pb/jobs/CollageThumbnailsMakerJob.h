@@ -6,7 +6,7 @@
 #include <pb/components/MapReducer.h>
 #include <pb/components/SVGInflater.h>
 #include <pb/entities/CollageTemplateInfo.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/services/DrawingService.h>
 
 using namespace PB::Service;

@@ -7,7 +7,7 @@
 #include <pb/components/TaskCruncher.h>
 #include <pb/jobs/CollageMakerJob.h>
 #include <pb/jobs/CollageThumbnailsMakerJob.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/services/DrawingService.h>
 
 using namespace PB::Job;

@@ -10,7 +10,7 @@
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/image/ImageReader.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/services/ProjectManagementService.h>
 
 DECLARE_STRONG_UUID(ImageToPaperId)

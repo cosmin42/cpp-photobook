@@ -17,7 +17,7 @@
 #include <pb/export/Pdf.h>
 #include <pb/image/ImageFactory.h>
 #include <pb/jobs/PicturesSearchJob.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/services/CollageService.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DirectoryInspectionService.h>

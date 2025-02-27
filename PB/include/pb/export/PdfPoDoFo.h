@@ -3,7 +3,7 @@
 #include <pb/components/MapReducer.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/export/ExportLogic.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 
 #include <podofo/podofo.h>
 

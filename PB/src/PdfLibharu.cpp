@@ -2,7 +2,7 @@
 
 #include <pb/image/ImageOperations.h>
 #include <pb/image/ImageReader.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 
 namespace PB {
 

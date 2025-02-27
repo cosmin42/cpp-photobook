@@ -2,7 +2,7 @@
 
 #include <pb/Platform.h>
 #include <pb/entities/GenericImage.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/util/Traits.h>
 
 namespace PB::Service {

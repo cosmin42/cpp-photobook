@@ -96,6 +96,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/ImportImageTask.h
     include/pb/components/MapReducer.h
     include/pb/components/OGLEngine.h
+    include/pb/components/Project.h
     include/pb/components/RuntimeUUID.h
     include/pb/components/SVGInflater.h
     include/pb/components/Serializer.h
@@ -132,7 +133,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/jobs/LutIconsPreprocessingJob.h
     include/pb/jobs/PicturesSearchJob.h
     include/pb/jobs/ThumbnailsJob.h
-    include/pb/project/Project.h
     include/pb/services/CollageService.h
     include/pb/services/DatabaseService.h
     include/pb/services/DirectoryInspectionService.h

@@ -4,7 +4,7 @@
 #include <pb/components/MapReducer.h>
 #include <pb/components/SkiaResources.h>
 #include <pb/image/ImageFactory.h>
-#include <pb/project/Project.h>
+#include <pb/components/Project.h>
 #include <pb/services/DrawingService.h>
 #include <pb/services/DurableHashService.h>
 

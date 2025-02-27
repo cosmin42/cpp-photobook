@@ -2,10 +2,10 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4996)
-#include <pb/project/Project.h>
 #include <spdlog/spdlog.h>
 #pragma warning(pop)
 
+#include <pb/components/Project.h>
 #include <pb/components/ThumbnailsTask.h>
 
 namespace PB::Service {
