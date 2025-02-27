@@ -99,7 +99,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/RuntimeUUID.h
     include/pb/components/SVGInflater.h
     include/pb/components/Serializer.h
-    include/pb/components/SerializationStrategy.h
     include/pb/components/SkiaResources.h
     include/pb/components/TSQueue.h
     include/pb/components/TaskCruncher.h
@@ -196,7 +195,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/RuntimeUUID.cpp
     src/SVGInflater.cpp
     src/Serializer.cpp
-    src/SerializationStrategy.cpp
     src/SkiaResources.cpp
     src/StagedImages.cpp
     src/TaskCruncher.cpp

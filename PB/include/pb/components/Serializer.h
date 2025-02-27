@@ -2,184 +2,89 @@
 
 #include <variant>
 
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#include <spdlog/spdlog.h>
-#pragma warning(pop)
+#include <magic_enum/magic_enum.hpp>
 
-#include <pb/util/Concepts.h>
-#include <pb/util/Traits.h>
+#include <boost/uuid/uuid_io.hpp>
 
-namespace PB {
-// TODO: There is still some work to do here to handle the & const and && cases.
+#include <pb/entities/CollageImage.h>
+#include <pb/entities/GenericImage.h>
+#include <pb/entities/PaperSettings.h>
+#include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
+#include <pb/project/Project.h>
 
-template <SerializationPrimitiveConcept T>
-std::variant<Json, PBDev::Error> flatSimple(int depth, T object)
+void to_json(Json &json, const boost::uuids::uuid &uuid);
+
+void from_json(const Json &json, boost::uuids::uuid &uuid);
+
+void to_json(Json &json, const PB::ImageType &imageType);
+
+void from_json(const Json &json, PB::ImageType &imageType);
+
+void to_json(Json &json, const PB::PaperType &paperType);
+
+void from_json(const Json &json, PB::PaperType &paperType);
+
+void to_json(Json &json, const PB::PaperSettings &paper);
+
+void from_json(const Json &json, PB::PaperSettings &paper);
+
+void to_json(Json &json, const PB::RegularImageV2 &regularImage);
+
+void from_json(const Json &json, PB::RegularImageV2 &regularImage);
+
+void to_json(Json &json, const PB::TextImageV2 &textImage);
+
+void from_json(const Json &json, PB::TextImageV2 &textImage);
+
+void to_json(nlohmann::json &j, const std::shared_ptr<PB::RegularImageV2> &p);
+
+void from_json(const nlohmann::json &j, std::shared_ptr<PB::RegularImageV2> &p);
+
+void to_json(nlohmann::json &j, const std::shared_ptr<PB::TextImageV2> &p);
+
+void from_json(const nlohmann::json &j, std::shared_ptr<PB::TextImageV2> &p);
+
+void to_json(Json &json, const PB::GenericImagePtr &genericImage);
+
+void from_json(const Json &json, PB::GenericImagePtr &genericImage);
+
+void to_json(Json &json, const PB::GenericImagePtrMatrix &matrix);
+
+void from_json(const Json &json, PB::GenericImagePtrMatrix &matrix);
+
+void to_json(Json &json, const PB::GenericImagePtrLine &line);
+
+void from_json(const Json &json, PB::GenericImagePtrLine &line);
+
+void to_json(Json &json, PB::Project &project);
+
+void from_json(const Json &json, PB::CollageImage &collageImage);
+
+void to_json(Json &json, const PB::CollageImage &collageImage);
+
+void to_json(nlohmann::json &j, const std::shared_ptr<PB::CollageImage> &p);
+
+void from_json(const nlohmann::json &j, std::shared_ptr<PB::CollageImage> &p);
+
+void to_json(Json &json, const PB::Project &project);
+
+void from_json(const Json &json, PB::Project &project);
+
+template <typename T, typename U>
+void to_json(Json &json, const boost::bimaps::bimap<T, U> &bimap)
 {
-  UNUSED(depth);
-#ifdef _CLANG_UML_
-  Json json;
-#else
-  Json json = object;
-#endif
-  return json;
-}
-
-template <typename T>
-std::variant<Json, PBDev::Error> flatSimple(int depth, T entry);
-
-template <SerializationPrimitiveConcept T>
-std::variant<Json, PBDev::Error> flatAndTagSimple(int depth, std::string tag,
-                                                  T object)
-{
-  Json json;
-  json[tag] = object;
-#ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
-#endif
-  return json;
-}
-
-template <typename T>
-std::variant<Json, PBDev::Error> flatAndTagSimple(int depth, std::string tag,
-                                                  T object)
-{
-  Json json;
-
-  std::variant<Json, PBDev::Error> jsonOrError = flatSimple(depth, object);
-
-  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
-    return jsonOrError;
-  }
-  json[tag] = std::get<Json>(jsonOrError);
-#ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), json.dump());
-#endif
-  return json;
-}
-
-template <typename T>
-std::variant<Json, PBDev::Error> flatMaybeContainer(int      depth,
-                                                    T const &maybeContainer);
-
-template <typename Head, typename... Tail>
-std::variant<Json, PBDev::Error>
-flatDictionary(int depth, std::tuple<std::string, Head> const &head)
-{
-  Json json;
-  auto &[tag, object] = head;
-
-  std::variant<Json, PBDev::Error> headJsonOrError =
-      flatMaybeContainer<Head>(depth + 1, object);
-
-  json[tag] = std::get<Json>(headJsonOrError);
-
-  return json;
-}
-
-template <typename Head, typename... Tail>
-std::variant<Json, PBDev::Error>
-flatDictionary(int depth, std::tuple<std::string, Head> const &head,
-               std::tuple<std::string, Tail> const &...args)
-{
-  std::variant<Json, PBDev::Error> jsonOrError =
-      flatDictionary<Tail...>(depth + 1, args...);
-
-  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
-    return jsonOrError;
-  }
-#ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
-               std::get<Json>(jsonOrError).dump());
-#endif
-  auto &[tag, object] = head;
-
-  std::variant<Json, PBDev::Error> headJsonOrError =
-      flatMaybeContainer<Head>(depth + 1, object);
-
-  if (std::holds_alternative<PBDev::Error>(headJsonOrError)) {
-    return headJsonOrError;
-  }
-
-  Json taggedJson;
-  taggedJson[tag] = std::get<Json>(headJsonOrError);
-
-#ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '), taggedJson.dump());
-#endif
-  std::get<Json>(jsonOrError).update(taggedJson);
-#ifndef _CLANG_UML_
-  spdlog::info("{}T {}\n", std::string(depth * 2, ' '),
-               std::get<Json>(jsonOrError).dump());
-#endif
-  return jsonOrError;
-}
-
-template <typename... Tail>
-std::variant<Json, PBDev::Error>
-flatAndTagDictionary(int depth, std::string tag,
-                     std::tuple<std::string, Tail> const &...args)
-{
-  std::variant<Json, PBDev::Error> jsonOrError =
-      flatDictionary<Tail...>(depth + 1, args...);
-
-  if (std::holds_alternative<PBDev::Error>(jsonOrError)) {
-    return jsonOrError;
-  }
-
-  Json json;
-  json[tag] = std::get<Json>(jsonOrError);
-  return json;
-}
-
-template <typename T>
-std::variant<Json, PBDev::Error> flatMaybeContainer(int      depth,
-                                                    T const &maybeContainer)
-{
-  if constexpr (ContainerConcept<T>) {
-    Json json;
-    for (auto element : maybeContainer) {
-      using ValueType = typename T::value_type;
-      std::variant<Json, PBDev::Error> elementOrError =
-          flatMaybeContainer<ValueType>(depth + 1, element);
-      if (std::holds_alternative<PBDev::Error>(elementOrError)) {
-        return elementOrError;
-      }
-      json.push_back(std::get<Json>(elementOrError));
-    }
-    return json;
-  }
-  else if constexpr (StdMapsConcept<T>) {
-    Json json;
-    for (auto [key, value] : maybeContainer) {
-      std::variant<Json, PBDev::Error> valueOrError =
-          flatMaybeContainer(depth + 1, value);
-      if (std::holds_alternative<PBDev::Error>(valueOrError)) {
-        return valueOrError;
-      }
-
-      json[key] = std::get<Json>(valueOrError);
-    }
-
-    return json;
-  }
-  else if constexpr (BimapConcept<T>) {
-    Json json;
-    for (auto entry : maybeContainer) {
-      auto                            &value = entry.right;
-      std::variant<Json, PBDev::Error> valueOrError =
-          flatMaybeContainer(depth + 1, value);
-      if (std::holds_alternative<PBDev::Error>(valueOrError)) {
-        return valueOrError;
-      }
-
-      json[entry.left] = std::get<Json>(valueOrError);
-    }
-    return json;
-  }
-  else {
-    return flatSimple<T>(depth, maybeContainer);
+  json = Json::object();
+  for (const auto &pair : bimap) {
+    json[pair.left] = pair.right;
   }
 }
 
-} // namespace PB
+template <typename T, typename U>
+void from_json(const Json &json, boost::bimaps::bimap<T, U> &bimap)
+{
+  bimap.clear();
+  for (const auto &pair : json.items()) {
+    bimap.insert({pair.key(), pair.value()});
+  }
+}

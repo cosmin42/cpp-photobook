@@ -9,6 +9,26 @@ public:
       : GenericImage(hash), mText(text)
   {
   }
+
+  TextImageV2(const TextImageV2 &other)
+      : GenericImage(other), mText(other.mText)
+  {
+  }
+
+  TextImageV2(TextImageV2 &&other) noexcept
+      : GenericImage(std::move(other)), mText(std::move(other.mText))
+  {
+  }
+
+  TextImageV2 &operator=(const TextImageV2 &other)
+  {
+    if (this != &other) {
+      GenericImage::operator=(other);
+      mText = other.mText;
+    }
+    return *this;
+  }
+
   ~TextImageV2() = default;
 
   std::string text() const { return mText; }

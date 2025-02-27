@@ -1,6 +1,5 @@
 #include <pb/services/ProjectSerializerService.h>
 
-#include <pb/components/SerializationStrategy.h>
 #include <pb/components/Serializer.h>
 
 #include <fstream>
@@ -60,12 +59,10 @@ Project ProjectSerializerService::deserializeProjectInfo(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
-  auto projectDetailsOrError =
-      PB::Text::deserialize<Project>(jsonSerialization);
+  Project project;
+  from_json(jsonSerialization, project);
 
-  PBDev::basicAssert(std::holds_alternative<Project>(projectDetailsOrError));
-
-  return std::get<Project>(projectDetailsOrError);
+  return project;
 }
 
 std::vector<std::vector<GenericImagePtr>>
@@ -73,16 +70,11 @@ ProjectSerializerService::deserializeUnstagedImages(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
-  auto unstagedImagesOrError =
-      PB::Text::deserialize<std::vector<std::vector<GenericImagePtr>>>(
-          jsonSerialization.at("unstaged"));
+  std::vector<std::vector<GenericImagePtr>> unstagedImages;
 
-  PBDev::basicAssert(
-      std::holds_alternative<std::vector<std::vector<GenericImagePtr>>>(
-          unstagedImagesOrError));
+  from_json(jsonSerialization.at("unstaged"), unstagedImages);
 
-  return std::get<std::vector<std::vector<GenericImagePtr>>>(
-      unstagedImagesOrError);
+  return unstagedImages;
 }
 
 std::vector<GenericImagePtr>
@@ -90,31 +82,20 @@ ProjectSerializerService::deserializeStagedImages(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
-  auto stagedImagesOrError =
-      PB::Text::deserialize<std::vector<GenericImagePtr>>(
-          jsonSerialization.at("staged"));
+  std::vector<GenericImagePtr> stagedImages;
+  from_json(jsonSerialization.at("staged"), stagedImages);
 
-  PBDev::basicAssert(std::holds_alternative<std::vector<GenericImagePtr>>(
-      stagedImagesOrError));
-
-  return std::get<std::vector<GenericImagePtr>>(stagedImagesOrError);
+  return stagedImages;
 }
 
 std::vector<Path> ProjectSerializerService::deserializeRoots(Path projectPath)
 {
   auto jsonSerialization = loadAsJson(projectPath);
 
-  std::variant<std::vector<Path>, PBDev::Error> importedFoldersOrError;
-#ifndef _CLANG_UML_
-  importedFoldersOrError =
-      PB::Text::deserializeSpecial(jsonSerialization, "row-paths");
+  std::vector<Path> roots;
+  from_json(jsonSerialization.at("row-paths"), roots);
 
-  PBDev::basicAssert(
-      std::holds_alternative<std::vector<Path>>(importedFoldersOrError));
-
-  return std::get<std::vector<Path>>(importedFoldersOrError);
-#endif
-  return std::vector<Path>();
+  return roots;
 }
 
 void ProjectSerializerService::saveProject(Project project)
@@ -122,11 +103,11 @@ void ProjectSerializerService::saveProject(Project project)
   auto projectPath = mPlatformInfo->localStatePath / "projects" /
                      (project.name + OneConfig::BOOK_EXTENSION);
 
-  auto jsonOrError = flatSimple<Project>(0, project);
+  Json json;
+  to_json(json, project);
 
-  PBDev::basicAssert(std::holds_alternative<Json>(jsonOrError));
-
-  // TODO: Separate this save to an infrastructure class, add DiskOperations class
-  saveAsJson(projectPath, std::get<Json>(jsonOrError));
+  // TODO: Separate this save to an infrastructure class, add DiskOperations
+  // class
+  saveAsJson(projectPath, json.dump());
 }
-} // namespace PB
+} // namespace PB::Service
