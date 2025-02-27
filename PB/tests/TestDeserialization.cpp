@@ -2,7 +2,7 @@
 
 #include <queue>
 
-#include <pb/components/SerializationStrategy.h>
+#include <pb/components/Serializer.h>
 
 #include "MockListeners.h"
 
@@ -42,11 +42,8 @@ TEST(TestDeserialization, TestGenericImageDeserialization)
 
   Json json = Json::parse(jsonData);
 
-  auto deserializedOrError = PB::Text::deserialize<Project>(json);
-
-  ASSERT_FALSE(std::holds_alternative<PBDev::Error>(deserializedOrError));
-
-  auto project = std::get<Project>(deserializedOrError);
+  Project project;
+  from_json(json, project);
 
   ASSERT_EQ(project.name, "Gleaming");
   ASSERT_EQ(project.paperSettings.height, 2480);
