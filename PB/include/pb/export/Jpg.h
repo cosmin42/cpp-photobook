@@ -2,7 +2,7 @@
 
 #include <pb/components/MapReducer.h>
 #include <pb/entities/GenericImage.h>
-#include <pb/export/ExportLogic.h>
+#include <pb/export/ExportService.h>
 #include <pb/components/Project.h>
 #include <pb/infra/Traits.h>
 

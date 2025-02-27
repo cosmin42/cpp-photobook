@@ -10,14 +10,14 @@
 #include <pb/PhotobookListener.h>
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
-#include <pb/infra/TaskCruncher.h>
-#include <pb/export/ExportLogic.h>
+#include <pb/components/Project.h>
+#include <pb/export/ExportService.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/PicturesSearchJob.h>
-#include <pb/components/Project.h>
 #include <pb/services/CollageService.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DirectoryInspectionService.h>
@@ -92,7 +92,6 @@ public:
 
   void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image) override;
 
-
   [[deprecated]] void onLutAdded(LutIconInfo iconInfo) override;
 
   void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) override;
@@ -126,7 +125,7 @@ private:
 
   std::shared_ptr<ImportFoldersService> mImportLogic = nullptr;
   bool                                  mMarkProjectForDeletion = false;
-  ExportLogic                           mExportLogic;
+  ExportService                         mExportService;
   std::shared_ptr<ProgressService>      mProgressService = nullptr;
   std::shared_ptr<ImageToPaperService>  mImageToPaperService = nullptr;
   std::shared_ptr<CollageService>       mCollageTemplateManager = nullptr;

@@ -70,7 +70,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
-  mExportLogic.setExportListener(exportListener);
+  mExportService.setExportListener(exportListener);
 
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
   mProjectManagementService->configureProjectSerializerService(
@@ -84,7 +84,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureListener(importFoldersServiceListener);
   mImportLogic->configureScheduler(threadScheduler);
 
-  mExportLogic.setTaskCruncher(mTaskCruncher);
+  mExportService.setTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -227,9 +227,10 @@ void Photobook::exportPDFAlbum(std::string name, Path path)
       maybeProject->second.paperSettings,
       maybeProject->second.stagedImages()->stagedPhotos());
 
-  task->setListener(&mExportLogic);
+  task->setListener(&mExportService);
 
-  mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
+  mExportService.start(task->name(),
+                       std::static_pointer_cast<MapReducer>(task));
 }
 
 void Photobook::exportPDFLibharu(std::string name, Path path)
@@ -245,8 +246,9 @@ void Photobook::exportPDFLibharu(std::string name, Path path)
           maybeProject->second.paperSettings,
           maybeProject->second.stagedImages()->stagedPhotos());
 
-  task->setListener(&mExportLogic);
-  mExportLogic.start(task->name(), std::static_pointer_cast<MapReducer>(task));
+  task->setListener(&mExportService);
+  mExportService.start(task->name(),
+                       std::static_pointer_cast<MapReducer>(task));
 }
 
 void Photobook::exportJPGAlbum(std::string name, Path path)
@@ -265,9 +267,9 @@ void Photobook::exportJPGAlbum(std::string name, Path path)
         newFolder, maybeProject->second.paperSettings,
         maybeProject->second.stagedImages()->stagedPhotos());
 
-    task->setListener(&mExportLogic);
-    mExportLogic.start(task->name(),
-                       std::static_pointer_cast<MapReducer>(task));
+    task->setListener(&mExportService);
+    mExportService.start(task->name(),
+                         std::static_pointer_cast<MapReducer>(task));
   }
 }
 

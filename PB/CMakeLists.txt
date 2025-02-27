@@ -115,7 +115,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/entities/GenericImage.h
     include/pb/entities/RegularImageV2.h
     include/pb/entities/TextImageV2.h
-    include/pb/export/ExportLogic.h
+    include/pb/export/ExportService.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
@@ -163,7 +163,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DrawingService.cpp
     src/DurableHashService.cpp
     src/Enums.cpp
-    src/ExportLogic.cpp
+    src/ExportService.cpp
     src/GenericImage.cpp
     src/Html.cpp
     src/ImageFactory.cpp

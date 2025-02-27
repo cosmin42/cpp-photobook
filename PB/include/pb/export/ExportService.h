@@ -27,8 +27,9 @@ public:
   virtual void onExportUpdate(std::string name) = 0;
 };
 
-class ExportLogic final : public ExportLogicListener {
+class ExportService final : public ExportLogicListener {
 public:
+
   void configure(std::shared_ptr<PB::Project>      project,
                  std::shared_ptr<PB::PlatformInfo> platformInfo)
   {
