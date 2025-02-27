@@ -59,10 +59,6 @@ public:
   void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
 
-  void exportPDFAlbum(std::string name, Path path);
-  void exportPDFLibharu(std::string name, Path path);
-  void exportJPGAlbum(std::string name, Path path);
-
   std::shared_ptr<CollageService> collageService();
 
   void onProjectRecalled() override;
@@ -112,6 +108,8 @@ public:
 
   std::shared_ptr<LutService> lutService() const;
 
+  std::shared_ptr<ExportService> exportService() const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   NoirListener                             *mNoirListener = nullptr;
@@ -125,7 +123,7 @@ private:
 
   std::shared_ptr<ImportFoldersService> mImportLogic = nullptr;
   bool                                  mMarkProjectForDeletion = false;
-  ExportService                         mExportService;
+  std::shared_ptr<ExportService>        mExportService = nullptr;
   std::shared_ptr<ProgressService>      mProgressService = nullptr;
   std::shared_ptr<ImageToPaperService>  mImageToPaperService = nullptr;
   std::shared_ptr<CollageService>       mCollageTemplateManager = nullptr;

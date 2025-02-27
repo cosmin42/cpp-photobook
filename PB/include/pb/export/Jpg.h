@@ -1,9 +1,9 @@
 #pragma once
 
 #include <pb/components/MapReducer.h>
-#include <pb/entities/GenericImage.h>
-#include <pb/export/ExportService.h>
 #include <pb/components/Project.h>
+#include <pb/entities/GenericImage.h>
+#include <pb/export/ExportTaskListener.h>
 #include <pb/infra/Traits.h>
 
 namespace PB {
@@ -15,7 +15,11 @@ public:
                      std::vector<GenericImagePtr> const &stagedImages);
   ~JpgExport() = default;
 
-  void setListener(ExportLogicListener *listener) { mListener = listener; }
+  void configureJpgListener(ExportLogicListener *listener)
+  {
+    mListener = listener;
+  }
+
   void configureProject(std::shared_ptr<IdentifyableProject> project)
   {
     mProject = project;

@@ -6,19 +6,14 @@
 #include <pb/components/Project.h>
 #include <pb/components/RuntimeUUID.h>
 #include <pb/entities/GenericImage.h>
+#include <pb/export/Jpg.h>
+#include <pb/export/PdfLibharu.h>
+#include <pb/export/PdfPoDoFo.h>
 #include <pb/infra/TaskCruncher.h>
 
 DECLARE_STRONG_UUID(ExportLogicReducersId)
 
 namespace PB {
-
-// TODO: Move this to a file that is inherited by the tasks.
-class ExportLogicListener {
-public:
-  virtual void onExportComplete(PBDev::MapReducerTaskId) = 0;
-  virtual void onExportAborted(PBDev::MapReducerTaskId) = 0;
-  virtual void onExportUpdate(PBDev::MapReducerTaskId) = 0;
-};
 
 class ExportListener {
 public:
@@ -29,33 +24,63 @@ public:
 
 class ExportService final : public ExportLogicListener {
 public:
-
-  void configure(std::shared_ptr<PB::Project>      project,
-                 std::shared_ptr<PB::PlatformInfo> platformInfo)
+  void configureProject(std::shared_ptr<Project> project)
   {
     mProject = project;
+  }
+
+  void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
+  {
     mPlatformInfo = platformInfo;
   }
 
-  void setTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
+  void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
   {
     mTaskCruncher = taskCruncher;
   }
 
-  void setExportListener(ExportListener *listener) { mListener = listener; }
-
-  void start(std::string name, std::shared_ptr<MapReducer> task)
+  void configureExportListener(ExportListener *listener)
   {
-    PBDev::MapReducerTaskId id(RuntimeUUID::newUUID());
-    task->assignUuid(id);
+    mListener = listener;
+  }
 
-    mPendingTasks.emplace(id, task);
-    mPendingTaskNames.emplace(id, name);
+  void exportPDFAlbum(std::string name, Path path)
+  {
+    auto                           pdfName = path / (name + ".pdf");
+    std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
+        pdfName, mPlatformInfo->localStatePath, mProject->paperSettings,
+        mProject->stagedImages()->stagedPhotos());
+    task->configurePodofoListener(this);
+    start(name, task);
+  }
 
-    auto stopSource =
-        mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
-                              PBDev::ProgressJobName{"export"});
-    UNUSED(stopSource);
+  void exportPDFLibharu(std::string name, Path path)
+  {
+    auto pdfName = path / (name + "-libharu" + ".pdf");
+    std::shared_ptr<PdfLibharuExportTask> task =
+        std::make_shared<PdfLibharuExportTask>(
+            pdfName, mPlatformInfo->localStatePath, mProject->paperSettings,
+            mProject->stagedImages()->stagedPhotos());
+    task->configureLibharuListener(this);
+    start(name, task);
+  }
+
+  void exportJPGAlbum(std::string name, Path path)
+  {
+    auto newFolder = path / name;
+    if (std::filesystem::exists(newFolder)) {
+      mListener->onExportAborted(name);
+    }
+    else {
+      auto success = std::filesystem::create_directories(newFolder);
+      PBDev::basicAssert(success);
+
+      std::shared_ptr<JpgExport> task =
+          std::make_shared<JpgExport>(newFolder, mProject->paperSettings,
+                                      mProject->stagedImages()->stagedPhotos());
+      task->configureJpgListener(this);
+      start(name, task);
+    }
   }
 
   void onExportComplete(PBDev::MapReducerTaskId id) override
@@ -79,9 +104,9 @@ public:
   }
 
 private:
-  ExportListener                   *mListener;
-  std::shared_ptr<PB::Project>      mProject;
-  std::shared_ptr<PB::PlatformInfo> mPlatformInfo;
+  ExportListener               *mListener;
+  std::shared_ptr<Project>      mProject;
+  std::shared_ptr<PlatformInfo> mPlatformInfo;
 
   std::vector<GenericImagePtr>  mPtrImages;
   std::shared_ptr<TaskCruncher> mTaskCruncher;
@@ -91,5 +116,19 @@ private:
   std::unordered_map<PBDev::MapReducerTaskId, std::string,
                      boost::hash<PBDev::MapReducerTaskId>>
       mPendingTaskNames;
+
+  void start(std::string name, std::shared_ptr<MapReducer> task)
+  {
+    PBDev::MapReducerTaskId id(RuntimeUUID::newUUID());
+    task->assignUuid(id);
+
+    mPendingTasks.emplace(id, task);
+    mPendingTaskNames.emplace(id, name);
+
+    auto stopSource =
+        mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
+                              PBDev::ProgressJobName{"export"});
+    UNUSED(stopSource);
+  }
 };
 } // namespace PB

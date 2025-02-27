@@ -30,15 +30,18 @@ void PhotobookWin::RemoveImportFolder(winrt::hstring path)
 
 void PhotobookWin::ExportPDFAlbum(winrt::hstring name, winrt::hstring path)
 {
-  mPhotobook->exportPDFAlbum(winrt::to_string(name), winrt::to_string(path));
+  mPhotobook->exportService()->exportPDFAlbum(winrt::to_string(name),
+                                              winrt::to_string(path));
 }
 void PhotobookWin::ExportPDFLibharu(winrt::hstring name, winrt::hstring path)
 {
-  mPhotobook->exportPDFLibharu(winrt::to_string(name), winrt::to_string(path));
+  mPhotobook->exportService()->exportPDFLibharu(winrt::to_string(name),
+                                                winrt::to_string(path));
 }
 void PhotobookWin::ExportJPGAlbum(winrt::hstring name, winrt::hstring path)
 {
-  mPhotobook->exportJPGAlbum(winrt::to_string(name), winrt::to_string(path));
+  mPhotobook->exportService()->exportJPGAlbum(winrt::to_string(name),
+                                              winrt::to_string(path));
 }
 
 void PhotobookWin::mapImagesToSPL(

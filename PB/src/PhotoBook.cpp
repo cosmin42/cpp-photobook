@@ -22,6 +22,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mProjectManagementService(std::make_shared<ProjectManagementService>()),
       mImageFactory(std::make_shared<ImageFactory>()),
       mImportLogic(std::make_shared<ImportFoldersService>()),
+      mExportService(std::make_shared<ExportService>()),
       mProgressService(std::make_shared<ProgressService>()),
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(std::make_shared<CollageService>()),
@@ -70,7 +71,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   auto exportListener = dynamic_cast<PB::ExportListener *>(this);
   PBDev::basicAssert(exportListener != nullptr);
-  mExportService.setExportListener(exportListener);
+  mExportService->configureExportListener(exportListener);
 
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
   mProjectManagementService->configureProjectSerializerService(
@@ -84,7 +85,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureListener(importFoldersServiceListener);
   mImportLogic->configureScheduler(threadScheduler);
 
-  mExportService.setTaskCruncher(mTaskCruncher);
+  mExportService->configureTaskCruncher(mTaskCruncher);
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
@@ -215,64 +216,6 @@ void Photobook::removeImportFolder(Path path)
   }
 }
 
-void Photobook::exportPDFAlbum(std::string name, Path path)
-{
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  auto pdfName = path / (name + ".pdf");
-
-  std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
-      pdfName, mPlatformInfo->localStatePath,
-      maybeProject->second.paperSettings,
-      maybeProject->second.stagedImages()->stagedPhotos());
-
-  task->setListener(&mExportService);
-
-  mExportService.start(task->name(),
-                       std::static_pointer_cast<MapReducer>(task));
-}
-
-void Photobook::exportPDFLibharu(std::string name, Path path)
-{
-  auto pdfName = path / (name + "-libharu" + ".pdf");
-
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  std::shared_ptr<PdfLibharuExportTask> task =
-      std::make_shared<PdfLibharuExportTask>(
-          pdfName, mPlatformInfo->localStatePath,
-          maybeProject->second.paperSettings,
-          maybeProject->second.stagedImages()->stagedPhotos());
-
-  task->setListener(&mExportService);
-  mExportService.start(task->name(),
-                       std::static_pointer_cast<MapReducer>(task));
-}
-
-void Photobook::exportJPGAlbum(std::string name, Path path)
-{
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-  auto newFolder = path / name;
-  if (std::filesystem::exists(newFolder)) {
-    mParent->onError(PBDev::Error()
-                     << ErrorCode::CannotExport << newFolder.string());
-  }
-  else {
-    auto success = std::filesystem::create_directories(newFolder);
-    PBDev::basicAssert(success);
-    std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
-        newFolder, maybeProject->second.paperSettings,
-        maybeProject->second.stagedImages()->stagedPhotos());
-
-    task->setListener(&mExportService);
-    mExportService.start(task->name(),
-                         std::static_pointer_cast<MapReducer>(task));
-  }
-}
-
 void Photobook::onProjectRecalled() {}
 
 void Photobook::onProjectMetadataRecalled(std::string focusedProjectName)
@@ -360,6 +303,11 @@ Photobook::projectManagementService() const
 std::shared_ptr<LutService> Photobook::lutService() const
 {
   return mLutService;
+}
+
+std::shared_ptr<ExportService> Photobook::exportService() const
+{
+  return mExportService;
 }
 
 void Photobook::onExportComplete(std::string name) {}

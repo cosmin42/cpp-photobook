@@ -116,6 +116,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/entities/RegularImageV2.h
     include/pb/entities/TextImageV2.h
     include/pb/export/ExportService.h
+    include/pb/export/ExportTaskListener.h
     include/pb/export/Html.h
     include/pb/export/Jpg.h
     include/pb/export/Pdf.h
