@@ -8,7 +8,7 @@
 #include <modules/skresources/include/SkResources.h>
 #pragma warning(pop)
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 DECLARE_STRONG_UUID(SkiaResourcesId)
 

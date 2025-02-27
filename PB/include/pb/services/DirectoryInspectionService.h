@@ -2,7 +2,7 @@
 
 #include <pb/components/TaskCruncher.h>
 #include <pb/jobs/DirectoryInspectionJob.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 DECLARE_STRONG_STRING(ValidatorFunctionName)
 

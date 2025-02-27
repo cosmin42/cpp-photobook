@@ -8,7 +8,7 @@
 
 #include <pb/Platform.h>
 #include <pb/services/ProjectManagementService.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 class ThumbnailsTask final {

@@ -4,8 +4,8 @@
 #include <pb/entities/LutIconInfo.h>
 #include <pb/services/LutService.h>
 #include <pb/services/ProgressService.h>
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Error.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 class PhotobookListener {

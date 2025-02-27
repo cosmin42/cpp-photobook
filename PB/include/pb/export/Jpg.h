@@ -4,7 +4,7 @@
 #include <pb/entities/GenericImage.h>
 #include <pb/export/ExportLogic.h>
 #include <pb/components/Project.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 

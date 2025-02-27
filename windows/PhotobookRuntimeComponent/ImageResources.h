@@ -3,7 +3,7 @@
 #include "ImageResources.g.h"
 
 #include <pb/entities/GenericImage.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace winrt::PhotobookRuntimeComponent::implementation {
 struct ImageResources : ImageResourcesT<ImageResources> {

@@ -3,7 +3,7 @@
 #include <pb/Platform.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/components/Project.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 class ProjectSerializerService final {

@@ -5,7 +5,7 @@
 #include <pb/components/MapReducer.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/export/ExportLogic.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 

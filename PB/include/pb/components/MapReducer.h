@@ -8,7 +8,7 @@
 #include <boost/uuid/nil_generator.hpp>
 #include <boost/uuid/uuid.hpp>
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 DECLARE_STRONG_UUID(MapReducerTaskId)
 

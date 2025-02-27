@@ -8,7 +8,7 @@
 
 #include <pb/components/SVGInflater.h>
 #include <pb/entities/AspectRatio.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 class CollageLibraryAssistant final {

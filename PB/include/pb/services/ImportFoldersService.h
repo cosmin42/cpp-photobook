@@ -9,7 +9,7 @@
 #include <pb/jobs/PicturesSearchJob.h>
 #include <pb/jobs/ThumbnailsJob.h>
 #include <pb/services/ProjectManagementService.h>
-#include <pb/util/Error.h>
+#include <pb/infra/Error.h>
 
 using namespace PB::Job;
 

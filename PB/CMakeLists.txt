@@ -144,13 +144,12 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/services/ProgressService.h
     include/pb/services/ProjectManagementService.h
     include/pb/services/ProjectSerializerService.h
-    include/pb/util/Concepts.h
-    include/pb/util/Error.h
-    include/pb/util/FileInfo.h
-    include/pb/util/Observable.h
-    include/pb/util/ParallelTaskConsumer.h
-    include/pb/util/Timer.h
-    include/pb/util/Traits.h
+    include/pb/infra/Concepts.h
+    include/pb/infra/Error.h
+    include/pb/infra/FileInfo.h
+    include/pb/infra/ParallelTaskConsumer.h
+    include/pb/infra/Timer.h
+    include/pb/infra/Traits.h
 
     src/CollageImage.cpp
     src/CollageLibraryAssistant.cpp
@@ -201,9 +200,9 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/TextImageV2.cpp
     src/ThumbnailsJob.cpp
     src/ThumbnailsTask.cpp
-    src/util/FileInfo.cpp
-    src/util/ParallelTaskConsumer.cpp
-    src/util/Timer.cpp
+    src/infra/FileInfo.cpp
+    src/infra/ParallelTaskConsumer.cpp
+    src/infra/Timer.cpp
     )
 
 target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC

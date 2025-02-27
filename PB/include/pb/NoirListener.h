@@ -1,7 +1,7 @@
 #pragma once
 
 #include <pb/entities/LutIconInfo.h>
-#include <pb/util/Error.h>
+#include <pb/infra/Error.h>
 
 namespace PB {
 class NoirListener {

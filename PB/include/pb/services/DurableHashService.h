@@ -2,7 +2,7 @@
 
 #include <pb/services/DatabaseService.h>
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 class DurableHashService final {

@@ -8,7 +8,7 @@
 #include <pb/components/Project.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/ProjectSerializerService.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 

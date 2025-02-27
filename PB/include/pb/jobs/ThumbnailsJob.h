@@ -9,7 +9,7 @@
 #include <pb/entities/TextImageV2.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/services/ProjectManagementService.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Job {
 

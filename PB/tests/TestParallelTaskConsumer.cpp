@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <pb/util/ParallelTaskConsumer.h>
+#include <pb/infra/ParallelTaskConsumer.h>
 
 TEST(TestParallelTaskConsumer, BasicTest)
 {

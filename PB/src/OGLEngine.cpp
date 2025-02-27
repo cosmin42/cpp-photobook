@@ -19,7 +19,7 @@
 
 #include <pb/components/ThreadScheduler.h>
 #include <pb/entities/LutImageProcessingData.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 

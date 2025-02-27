@@ -6,7 +6,7 @@
 #include <inja/inja.hpp>
 #pragma warning(pop)
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 struct BasicSVGModel {

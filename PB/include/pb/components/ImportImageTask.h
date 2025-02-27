@@ -2,7 +2,7 @@
 
 #include <stop_token>
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 class ImportImageTask final {

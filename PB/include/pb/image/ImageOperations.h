@@ -12,7 +12,7 @@
 
 #include <pb/Enums.h>
 #include <pb/entities/PaperSettings.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Process {
 

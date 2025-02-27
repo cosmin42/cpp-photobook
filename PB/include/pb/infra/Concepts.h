@@ -5,8 +5,8 @@
 
 #include <boost/bimap/bimap.hpp>
 
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Error.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 

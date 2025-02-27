@@ -1,6 +1,6 @@
 #include <pb/services/ImportFoldersService.h>
 
-#include <pb/util/FileInfo.h>
+#include <pb/infra/FileInfo.h>
 
 namespace PB::Service {
 

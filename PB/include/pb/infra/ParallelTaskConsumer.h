@@ -6,7 +6,7 @@
 #include <thread_pool/thread_pool.h>
 
 #include <pb/Config.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PBDev {
 class ParallelTaskConsumer {

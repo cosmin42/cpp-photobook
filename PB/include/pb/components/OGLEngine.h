@@ -16,7 +16,7 @@
 #endif
 #include <pb/components/TSQueue.h>
 #include <pb/entities/LutImageProcessingData.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 DECLARE_STRONG_STRING(OGLRenderId)
 

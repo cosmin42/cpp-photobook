@@ -1,7 +1,7 @@
-#include <pb/util/FileInfo.h>
+#include <pb/infra/FileInfo.h>
 
-#include <pb/util/Error.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Error.h>
+#include <pb/infra/Traits.h>
 
 namespace PBDev {
 

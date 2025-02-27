@@ -12,7 +12,7 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 @implementation ProjectMetadataEntry
 - (id) initWithCpp:(boost::uuids::uuid)projectId projectName:(std::string)name projectPath:(Path)projectPath

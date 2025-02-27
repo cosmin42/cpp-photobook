@@ -16,7 +16,7 @@
 #pragma warning(pop)
 
 #include <pb/components/SkiaResources.h>
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 class DrawingService {

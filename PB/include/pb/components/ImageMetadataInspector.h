@@ -2,7 +2,7 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <pb/util/Traits.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 class ImageMetadataInspector final {
