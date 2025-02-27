@@ -101,7 +101,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/SVGInflater.h
     include/pb/components/Serializer.h
     include/pb/components/SkiaResources.h
-    include/pb/components/TSQueue.h
     include/pb/components/TaskCruncher.h
     include/pb/components/ThreadScheduler.h
     include/pb/components/ThumbnailsTask.h
@@ -150,6 +149,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/infra/ParallelTaskConsumer.h
     include/pb/infra/Timer.h
     include/pb/infra/Traits.h
+    include/pb/infra/TSQueue.h
 
     src/CollageImage.cpp
     src/CollageLibraryAssistant.cpp

@@ -14,7 +14,7 @@
 #ifdef __APPLE__
 #include <pb/components/ThreadScheduler.h>
 #endif
-#include <pb/components/TSQueue.h>
+#include <pb/infra/TSQueue.h>
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/infra/Traits.h>
 

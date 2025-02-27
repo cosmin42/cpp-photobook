@@ -12,7 +12,7 @@
 
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
-#include <pb/components/TSQueue.h>
+#include <pb/infra/TSQueue.h>
 #include <pb/entities/LutIconInfo.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DurableHashService.h>
