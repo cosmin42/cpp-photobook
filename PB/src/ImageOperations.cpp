@@ -198,6 +198,54 @@ std::vector<double> sampleNormalized(unsigned samplePointsCount)
   return samples;
 }
 
+std::shared_ptr<cv::Mat> applySaturation(std::shared_ptr<cv::Mat> image,
+                                         double                   saturation)
+{
+  // Convert input image to HSV color space
+  cv::Mat hsvImage;
+  cv::cvtColor(*image, hsvImage, cv::COLOR_BGR2HSV);
+
+  // Split the channels
+  std::vector<cv::Mat> channels;
+  cv::split(hsvImage, channels);
+
+  // Scale the saturation channel
+  channels[1] = channels[1] * saturation;
+  channels[1] = cv::min(channels[1], 255); // Ensure values stay within range
+
+  // Merge the channels back
+  cv::merge(channels, hsvImage);
+
+  auto outputImage = std::make_shared<cv::Mat>(*image);
+
+  cv::cvtColor(hsvImage, *outputImage, cv::COLOR_HSV2BGR);
+  return outputImage;
+}
+
+std::shared_ptr<cv::Mat> applyContrast(std::shared_ptr<cv::Mat> image,
+                                       double                   alpha)
+{
+  auto outputImage = std::make_shared<cv::Mat>(*image);
+  image->convertTo(*outputImage, -1, alpha, 0);
+  return outputImage;
+}
+
+std::shared_ptr<cv::Mat> applyBrightness(std::shared_ptr<cv::Mat> image,
+                                         double                   brightness)
+{
+  auto outputImage = std::make_shared<cv::Mat>(*image);
+  image->convertTo(*outputImage, -1, 1, brightness);
+  return outputImage;
+}
+
+std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,
+                                       double                   exposure)
+{
+  auto outputImage = std::make_shared<cv::Mat>(*image);
+  image->convertTo(*outputImage, -1, pow(2, exposure), 0);
+  return outputImage;
+}
+
 std::shared_ptr<cv::Mat>
 completeWithAlphaChannel(std::shared_ptr<cv::Mat> image)
 {

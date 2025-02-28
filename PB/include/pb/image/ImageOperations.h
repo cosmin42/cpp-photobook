@@ -40,6 +40,18 @@ std::shared_ptr<cv::Mat> extractRGBChannels(std::shared_ptr<cv::Mat> image);
 
 std::vector<double> sampleNormalized(unsigned samplePointsCount);
 
+std::shared_ptr<cv::Mat> applySaturation(std::shared_ptr<cv::Mat> image,
+                                         double                   saturation);
+
+std::shared_ptr<cv::Mat> applyContrast(std::shared_ptr<cv::Mat> image,
+                                       double                   contrast);
+
+std::shared_ptr<cv::Mat> applyBrightness(std::shared_ptr<cv::Mat> image,
+                                         double                   brightness);
+
+std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,
+                                       double                   exposure);
+
 std::shared_ptr<cv::Mat>
 completeWithAlphaChannel(std::shared_ptr<cv::Mat> image);
 
