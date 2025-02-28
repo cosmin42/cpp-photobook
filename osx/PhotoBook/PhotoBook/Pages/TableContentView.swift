@@ -9,6 +9,15 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Combine
 
+enum SimpleImageProcessingType
+{
+    case None
+    case Saturation
+    case Brightness
+    case Contrast
+    case Exposure
+}
+
 struct TableContentView: View, PhotobookUIListener {
     @State private var navigateToDashboard = false
     @State var photobook: Photobook
@@ -35,6 +44,19 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var multipleSelectionEnabled: Bool = false
     
     @StateObject private var toPaperModel: ToPaperModel = ToPaperModel()
+    
+    @State private var imageAdjustmentValue: Double = 0.5
+    
+    @State private var imageProcessingType: SimpleImageProcessingType = .Saturation
+    
+    //number formatter with decimals
+    private var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }
     
     init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
@@ -188,6 +210,75 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    
+                    Divider()
+                        .frame(height: 32)
+                        .background(Color.gray)
+                    
+                    Button(action: {
+                        imageProcessingType = .Saturation
+                    }) {
+                        Text("🌈")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(4)
+                    .overlay(
+                        Rectangle()
+                            .stroke(imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
+                    )
+                    
+                    Button(action: {
+                        imageProcessingType = .Brightness
+                    }) {
+                        Text("🔆")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(4)
+                    .overlay(
+                        Rectangle()
+                            .stroke(imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
+                    )
+                    
+                    Button(action: {
+                        imageProcessingType = .Contrast
+                    }) {
+                        Text("⚫⚪")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(4)
+                    .overlay(
+                        Rectangle()
+                            .stroke(imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
+                    )
+                    
+                    Button(action: {
+                        imageProcessingType = .Exposure
+                    }) {
+                        Text("📷")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(4)
+                    .overlay(
+                        Rectangle()
+                            .stroke(imageProcessingType == .Exposure ? Color.white : Color.clear, lineWidth: 1)
+                    )
+                    
+                    TextField("", value: $imageAdjustmentValue, formatter: numberFormatter)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                        .frame(width:100)
+
+                    Slider(value: $imageAdjustmentValue, in: 0...1, step: 0.1)
+                        .padding()
+                        .frame(width: 200)
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
