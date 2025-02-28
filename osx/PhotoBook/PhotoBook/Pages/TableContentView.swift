@@ -280,7 +280,7 @@ struct TableContentView: View, PhotobookUIListener {
                                             
                                             toPaperModel.showDialog.toggle()
                                             
-                                            self.photobook.mapImages(toSPL: images)
+                                            self.photobook.mapImages(toSPL: images, backgroundColor: NSColor(Color.white), overlapType: "Fit")
                                             
                                             self.dropIndex = self.splModel.findPredecessorIndex(at:location)
                                             

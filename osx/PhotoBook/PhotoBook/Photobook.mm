@@ -239,11 +239,28 @@ NoirListenerManaged* mNoirListener = nullptr;
     return [list copy];
 }
 
-- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images
+PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
+{
+    if ([overlayType isEqualToString:@"Fit"])
+    {
+        return PB::Geometry::OverlapType::Inscribed;
+    }
+    else if ([overlayType isEqualToString:@"Fill"])
+    {
+        return PB::Geometry::OverlapType::Circumscribed;
+    }
+    else
+    {
+        PBDev::basicAssert(false);
+    }
+    return PB::Geometry::OverlapType::Inscribed;
+}
+
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColor:(NSColor*)backgroundColor overlapType:(NSString*)overlapType
 {
     auto imageToPaperService = mPhotobook->imageToPaperService();
     
-    std::unordered_map<PBDev::ImageToPaperId, PB::GenericImagePtr,
+    std::unordered_map<PBDev::ImageToPaperId, PB::ImageToPaperData,
     boost::hash<PBDev::ImageToPaperId>>
     backendMap;
     
@@ -255,7 +272,7 @@ NoirListenerManaged* mNoirListener = nullptr;
             
             PBDev::ImageToPaperId imageId = PBDev::ImageToPaperId(nativeUuid);
             
-            backendMap[imageId] = [images[key] unwrap];
+            backendMap[imageId] = {[images[key] unwrap], {0, 0, 0}, PB::Geometry::OverlapType::Inscribed};
             
         } catch (const std::exception& e) {
         }

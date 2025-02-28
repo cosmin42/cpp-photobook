@@ -8,6 +8,8 @@
 #ifndef Photobook_h
 #define Photobook_h
 
+#import <AppKit/AppKit.h>
+
 #include "PaperSettings.h"
 #include "CollageItem.h"
 #include "LutItem.h"
@@ -49,7 +51,7 @@
 - (void) addImportFolder:(NSString*)root;
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
-- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images;
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColor:(NSColor*)backgroundColor overlapType:(NSString*)overlapType;
 - (NSString*) getThumbnailsPath;
 @end
 
