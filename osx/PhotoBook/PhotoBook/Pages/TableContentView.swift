@@ -103,18 +103,9 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .disabled(mediaListModel.list.isEmpty)
                     
-                    Button(action: {
-                        print("Save tapped")
-                    }) {
-                        Image(systemName: "square.and.arrow.down")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
+                    Divider()
+                        .frame(height: 32)
+                        .background(Color.gray)
                     
                     Button(action: {
                         print("Preview tapped")
@@ -129,10 +120,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(collagesCommandModel.previewDisabled)
-                    
-                    Divider()
-                        .frame(height: 32)
-                        .background(Color.gray)
                     
                     Button(action: {
                         var imagesIndices:[Int] = []
@@ -180,32 +167,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .disabled(collagesCommandModel.makeCollageDisabled)
                     
-                    Button(action: {
-                        exportDialogVisible = true
-                    }) {
-                        Image(systemName: "paperplane.fill")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Button(action: {
-                        subscribeDialogVisible = true
-                    }) {
-                        Image(systemName: "bell.fill")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    
                     Divider()
                         .frame(height: 32)
                         .background(Color.gray)
@@ -251,6 +212,32 @@ struct TableContentView: View, PhotobookUIListener {
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
                     )
+                    
+                    Divider()
+                        .frame(height: 32)
+                        .background(Color.gray)
+                    
+                    Button(action: {
+                        exportDialogVisible = true
+                    }) {
+                        Text("📦")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: {
+                        subscribeDialogVisible = true
+                    }) {
+                        Image(systemName: "bell.fill")
+                            .scaledToFit()
+                            .frame(width: 32, height: 32)
+                            .foregroundColor(Color.MainFontColor)
+                            .background(Color.clear)
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
 
                     if basicTransformationModel.imageProcessingType != .None
                     {
