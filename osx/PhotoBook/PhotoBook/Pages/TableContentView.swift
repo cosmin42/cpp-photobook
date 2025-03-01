@@ -46,6 +46,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var exportDialogVisible = false
     @State private var subscribeDialogVisible = false
+    @State private var errorDialogVisible = false
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -460,6 +461,10 @@ struct TableContentView: View, PhotobookUIListener {
         .sheet(isPresented: $subscribeDialogVisible)
         {
             SubscribeDialog(isPresented: $subscribeDialogVisible)
+        }
+        .sheet(isPresented: $errorDialogVisible)
+        {
+            ErrorDialog(isPresented: $errorDialogVisible)
         }
         .onAppear()
         {
