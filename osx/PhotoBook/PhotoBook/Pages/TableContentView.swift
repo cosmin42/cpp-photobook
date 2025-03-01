@@ -47,6 +47,7 @@ struct TableContentView: View, PhotobookUIListener {
     @StateObject private var basicTransformationModel: BasicTransformationModel = BasicTransformationModel()
     
     @State private var exportDialogVisible = false
+    @State private var subscribeDialogVisible = false
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -198,9 +199,9 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     
                     Button(action: {
-                        print("Help tapped")
+                        subscribeDialogVisible = true
                     }) {
-                        Image(systemName: "questionmark.circle")
+                        Image(systemName: "bell.fill")
                             .scaledToFit()
                             .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
@@ -461,6 +462,10 @@ struct TableContentView: View, PhotobookUIListener {
         .sheet(isPresented: $exportDialogVisible)
         {
             ExportDialog(isPresented: $exportDialogVisible)
+        }
+        .sheet(isPresented: $subscribeDialogVisible)
+        {
+            SubscribeDialog(isPresented: $subscribeDialogVisible)
         }
         .onAppear()
         {
