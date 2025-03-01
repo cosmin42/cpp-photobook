@@ -48,6 +48,9 @@ struct RenameProjectDialog: View {
                 {
                     isRenameDialogVisible = false
                 }
+                .background(Color.RemoveButtonBackground)
+                .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
             }
         }
         .padding()

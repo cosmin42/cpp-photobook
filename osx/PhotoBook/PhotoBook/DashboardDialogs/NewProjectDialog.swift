@@ -114,7 +114,7 @@ struct NewProjectDialog: View {
                     isVisible = false
                 }
                 .background(Color.RemoveButtonBackground)
-                .foregroundColor(.white)
+                .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
             }
             

@@ -18,12 +18,13 @@ struct AboutDialog: View {
                 .padding()
             
             Text("This app is a simple photo editing app.")
-                .padding()
             
             Button("Close") {
                 self.isPresented = false
             }
-            .padding()
+            .background(Color.RemoveButtonBackground)
+            .foregroundColor(Color.MainFontColor)
+            .cornerRadius(8)
         }
         .padding()
     }

@@ -58,6 +58,9 @@ struct ExportDialog: View {
                 Button("Close") {
                     self.isPresented = false
                 }
+                .background(Color.RemoveButtonBackground)
+                .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
             }
             
         }

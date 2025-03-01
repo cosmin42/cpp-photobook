@@ -18,12 +18,13 @@ struct LicenseDialog: View {
                 .padding()
             
             Text("This app is licensed under the MIT License.")
-                .padding()
             
             Button("Close") {
                 self.isPresented = false
             }
-            .padding()
+            .background(Color.RemoveButtonBackground)
+            .foregroundColor(Color.MainFontColor)
+            .cornerRadius(8)
         }
         .padding()
     }

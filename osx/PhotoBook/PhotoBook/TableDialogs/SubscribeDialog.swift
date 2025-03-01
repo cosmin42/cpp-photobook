@@ -14,7 +14,6 @@ struct SubscribeDialog: View {
     
     var body: some View {
         VStack {
-            
             Text("Subscribe")
                 .font(.title)
             Spacer().padding(1)

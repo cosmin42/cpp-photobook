@@ -17,7 +17,6 @@ struct SplDragType: Identifiable, Codable, Transferable {
     }
 }
 
-
 extension UTType {
     static var splDragType: UTType {
         UTType(exportedAs: "com.mandelbrotcode.photobook.splDragType")

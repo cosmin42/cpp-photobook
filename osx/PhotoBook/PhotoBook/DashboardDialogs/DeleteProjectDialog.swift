@@ -37,6 +37,9 @@ struct DeleteProjectDialog: View {
                 {
                     isDeleteDialogVisible = false
                 }
+                .background(Color.RemoveButtonBackground)
+                .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
             }
         }
         .padding()

@@ -117,7 +117,8 @@ struct ToPaperDialog: View {
                     Text("Cancel")
                 }
                 .background(Color.RemoveButtonBackground)
-                .foregroundColor(.white)
+                .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
             }
         }
         .padding()
