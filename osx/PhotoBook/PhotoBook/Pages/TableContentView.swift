@@ -46,6 +46,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var basicTransformationModel: BasicTransformationModel = BasicTransformationModel()
     
+    @State private var exportDialogVisible = false
+    
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -183,7 +185,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .disabled(collagesCommandModel.makeCollageDisabled)
                     
                     Button(action: {
-                        print("Send tapped")
+                        exportDialogVisible = true
                     }) {
                         Image(systemName: "paperplane.fill")
                             .scaledToFit()
@@ -455,6 +457,10 @@ struct TableContentView: View, PhotobookUIListener {
         .sheet(isPresented: $toPaperModel.showDialog)
         {
             ToPaperDialog(model: toPaperModel)
+        }
+        .sheet(isPresented: $exportDialogVisible)
+        {
+            ExportDialog(isPresented: $exportDialogVisible)
         }
         .onAppear()
         {
