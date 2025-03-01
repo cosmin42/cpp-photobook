@@ -89,5 +89,7 @@ struct PlatformInfo {
                            installationPath / "others" / "wait-m.jpg",
                            installationPath / "others" / "wait-s.jpg");
   }
+
+  Path othersPath() const { return installationPath / "others"; }
 };
 } // namespace PB

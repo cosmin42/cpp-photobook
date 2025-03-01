@@ -392,12 +392,13 @@ void onInspectionFinished(PBDev::DirectoryInspectionJobId id,
 
 std::string Photobook::help(std::string name) const
 {
+  auto othersPath = mPlatformInfo->othersPath();
   const std::unordered_map<std::string, std::string> files = {
-      {"help", "help.txt"}, {"license", "license.txt"}};
+      {"help", "help.txt"}, {"license", "License.txt"}};
 
   PBDev::basicAssert(files.find(name) != files.end());
 
-  std::ifstream file(files.at(name));
+  std::ifstream file(othersPath / files.at(name));
   if (!file) {
     PBDev::basicAssert(false);
   }
