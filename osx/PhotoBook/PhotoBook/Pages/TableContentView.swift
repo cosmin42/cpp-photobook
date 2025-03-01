@@ -27,7 +27,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     @State private var uplModel: UnstagedPhotoLineModel
     @State private var splModel: StagedPhotoLineModel
-    @State private var mediaListModel: MediaListModel
+    @State private var mediaListModel: MediaListModel = MediaListModel()
     
     @State private var collagesGridModel: CollagesGridModel
     
@@ -66,7 +66,6 @@ struct TableContentView: View, PhotobookUIListener {
         self.uplModel = UnstagedPhotoLineModel()
         self.splModel = StagedPhotoLineModel(stagedImagesView: photobook.projectManagementService().stagedImages())
         
-        self.mediaListModel = MediaListModel(photobook: photobook)
         _collagesGridModel = State(initialValue: CollagesGridModel(splSelectedIndices: Binding.constant([]), uplSelectedIndices: Binding.constant([])))
     }
     

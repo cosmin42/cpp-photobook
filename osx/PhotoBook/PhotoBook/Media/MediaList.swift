@@ -12,19 +12,11 @@ class MediaListModel: ObservableObject
     @Published public var list: [MediaItem] = []
     @Published public var selectedItem: MediaItem? = nil
     
-    @State var photobook: Photobook
-    
-    init(photobook: Photobook)
-    {
-        _photobook = State(initialValue: photobook)
-    }
-    
     public func removeSelected()
     {
         if let index = list.firstIndex(where: {$0.path == selectedItem?.path})
         {
             list.remove(at: index)
-            self.photobook.removeImportFolder(selectedItem?.path)
         }
     }
     
