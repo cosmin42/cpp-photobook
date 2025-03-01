@@ -17,6 +17,7 @@ class LutGridModel: ObservableObject
     @Published public var columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
+        GridItem(.flexible()),
         GridItem(.flexible())
     ]
 }

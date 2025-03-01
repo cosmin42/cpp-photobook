@@ -282,16 +282,16 @@ struct TableContentView: View, PhotobookUIListener {
                             .frame(width: 200)
                         
                         Button(action: {
-                            
+                            basicTransformationModel.reset()
                         }) {
-                            Text("Apply")
+                            Text("Clear")
                         }
                         
                     }
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
-                HStack {
+                HStack(alignment: .top) {
                     VStack(alignment:.leading) {
                         TabView(selection: $selectedTab) {
                             // Media list

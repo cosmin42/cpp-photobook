@@ -52,21 +52,37 @@ struct MediaList: View
     }
     
     var body: some View {
-        VStack
+        VStack(alignment:.leading, spacing: 0)
         {
-            List(model.list, id: \.self, selection: $model.selectedItem) { item in
-                HStack
+            ForEach(self.model.list.indices, id: \.self) { index in
+                VStack(alignment:.leading)
                 {
-                    Text("\(item.displayName)")
+                    Text("\(model.list[index].displayName)")
                         .listRowBackground(Color.PrimaryColor)
-                        .font(.title)
+                        .font(.headline)
+                    Text("988987 images")
+                        .font(.subheadline)
                 }
-                .frame(height: 36)
+                .background(Color.PrimaryColor)
+                .padding(8)
+                .frame(width: frameSize.width * tabViewRatio * 0.98,  height: 36, alignment: .leading)
+                .overlay(content: {
+                    if model.selectedItem?.path == model.list[index].path
+                    {
+                        RoundedRectangle(cornerRadius: 0)
+                            .stroke(Color.ButtonPointerOverWhenSelected, lineWidth: 1)
+                    }
+                })
+                .padding(8)
+                .onTapGesture(perform: {
+                    model.selectedItem = model.list[index]
+                })
             }
-            .frame(width: frameSize.width * tabViewRatio)
+            .frame(width: frameSize.width * tabViewRatio, alignment: .topLeading)
             .scrollIndicators(.hidden)
+            .background(Color.PrimaryColor)
         }
-        .frame(alignment:.leading)
+        .frame(maxHeight: .infinity, alignment: .top)
         .tag(0)
         .tabItem {
             Label("Media List", systemImage: "house.fill")

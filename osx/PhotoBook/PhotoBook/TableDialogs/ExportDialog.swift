@@ -54,6 +54,8 @@ struct ExportDialog: View {
                 Button("Export") {
                     self.isPresented = false
                 }
+                .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
                 
                 Button("Close") {
                     self.isPresented = false
