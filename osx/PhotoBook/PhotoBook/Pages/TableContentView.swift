@@ -74,7 +74,7 @@ struct TableContentView: View, PhotobookUIListener {
             VStack(alignment: .leading) {
                 HStack(spacing: 16) {
                     Button(action: {
-                        openFileBrowser()
+                        openImportMediaBrowser()
                     }) {
                         Image(systemName: "plus")
                             .scaledToFit()
@@ -551,7 +551,7 @@ struct TableContentView: View, PhotobookUIListener {
         self.splModel.insert(image: image, position: UInt(self.splModel.list.count))
     }
     
-    private func openFileBrowser() {
+    private func openImportMediaBrowser() {
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
