@@ -277,7 +277,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
         } catch (const std::exception& e) {
         }
     }
-    
+
     imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
@@ -288,6 +288,24 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     PBDev::basicAssert(maybeProject != nullptr);
     auto nativeThumbnailsPath = mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) / "thumbnail-images";
     return [NSString stringWithUTF8String:nativeThumbnailsPath.string().c_str()];
+}
+
+- (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg
+{
+    std::string nativePath = [path UTF8String];
+    std::string nativeName = [name UTF8String];
+    if (exportPdf)
+    {
+        mPhotobook->exportService()->exportPDFLibharu(nativeName, nativePath);
+    }
+    if (exportPdfOptimized)
+    {
+        mPhotobook->exportService()->exportPDFAlbum(nativeName, nativePath);
+    }
+    if (exportJpg)
+    {
+        mPhotobook->exportService()->exportJPGAlbum(nativeName, nativePath);
+    }
 }
 
 @end

@@ -53,6 +53,7 @@
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
 - (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColor:(NSColor*)backgroundColor overlapType:(NSString*)overlapType;
 - (NSString*) getThumbnailsPath;
+- (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg;
 @end
 
 #endif /* Photobook_h */

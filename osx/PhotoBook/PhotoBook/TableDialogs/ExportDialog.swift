@@ -11,7 +11,8 @@ import SwiftUI
 struct ExportDialog: View {
     
     @Binding var isPresented: Bool
-    @State private var exportPath: String = ""
+    @State private var showNotification: Bool = false
+    @ObservedObject var model: ExportModel
     
     var body: some View {
         
@@ -22,28 +23,51 @@ struct ExportDialog: View {
             VStack(alignment: .leading) {
                 
                 HStack {
-                    Toggle("", isOn: .constant(true))
+                    Toggle("", isOn: $model.exportPdf)
                     Text("PDF")
                 }
                 
                 HStack {
-                    Toggle("", isOn: .constant(true))
+                    Toggle("", isOn: $model.exportPdfOptimized)
                     Text("PDF (optimized)")
                 }
                 
                 HStack {
-                    Toggle("", isOn: .constant(true))
+                    Toggle("", isOn: $model.exportJpg)
                     Text("JPG")
                 }
                 Spacer().padding(1)
                 
+                //specify the name
+                TextField("Album name", text: $model.albumName)
+                    .onAppear {
+                        model.albumName = "Album"
+                    }
+                    .frame(width: 200)
+                
+                if showNotification
+                {
+                    if model.albumName.isEmpty {
+                        Text("Please specify the album name")
+                            .foregroundColor(Color.red)
+                    }
+                }
+                
                 HStack
                 {
-                    TextField("Export path", text: $exportPath)
+                    TextField("Export path", text: $model.exportPath)
                         .frame(width: 200)
                     
                     Button("Browse") {
                         openFileBrowser()
+                    }
+                }
+                
+                if showNotification
+                {
+                    if model.exportPath.isEmpty {
+                        Text("Please specify where to export the album")
+                            .foregroundColor(Color.red)
                     }
                 }
             }
@@ -52,7 +76,15 @@ struct ExportDialog: View {
             
             HStack{
                 Button("Export") {
-                    self.isPresented = false
+                    if !model.albumName.isEmpty && !model.exportPath.isEmpty
+                    {
+                        model.onExport(model.albumName, model.exportPath, model.exportPdf, model.exportPdfOptimized, model.exportJpg)
+                        self.isPresented = false
+                    }
+                    else
+                    {
+                        showNotification = true
+                    }
                 }
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
@@ -76,7 +108,7 @@ struct ExportDialog: View {
         panel.canChooseFiles = false
         
         if panel.runModal() == .OK {
-            exportPath = panel.url?.absoluteString ?? ""
+            model.exportPath = panel.url?.absoluteString ?? ""
         }
     }
 }

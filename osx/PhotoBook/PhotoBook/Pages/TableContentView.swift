@@ -48,6 +48,8 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var subscribeDialogVisible = false
     @State private var errorDialogVisible = false
     
+    @StateObject private var exportModel: ExportModel = ExportModel()
+    
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -442,7 +444,7 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .sheet(isPresented: $exportDialogVisible)
         {
-            ExportDialog(isPresented: $exportDialogVisible)
+            ExportDialog(isPresented: $exportDialogVisible, model: exportModel)
         }
         .sheet(isPresented: $subscribeDialogVisible)
         {
@@ -461,6 +463,10 @@ struct TableContentView: View, PhotobookUIListener {
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             PhotoBookApp.pushListener(listener: self)
             self.photobook.makeCollages()
+            exportModel.onExport = {
+                name, path, exportPdf, exportPdfOpt, exportJpg in
+                self.photobook.exportAlbum(path, name: name, exportPdf: exportPdf, exportPdfOptimized: exportPdfOpt, exportJpg: exportJpg)
+            }
         }
         .onDisappear()
         {
