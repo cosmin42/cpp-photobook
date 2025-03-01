@@ -25,8 +25,6 @@ struct TableContentView: View, PhotobookUIListener {
     @State var tabViewRatio = 0.5
     @State var selectedTab: Int = 0
     
-    @State private var showImportMediaPicker = false
-    
     @State private var uplModel: UnstagedPhotoLineModel
     @State private var splModel: StagedPhotoLineModel
     @State private var mediaListModel: MediaListModel
@@ -76,17 +74,13 @@ struct TableContentView: View, PhotobookUIListener {
             VStack(alignment: .leading) {
                 HStack(spacing: 16) {
                     Button(action: {
-                        print("Add Media tapped")
-                        showImportMediaPicker = true
+                        openFileBrowser()
                     }) {
                         Image(systemName: "plus")
                             .scaledToFit()
                             .frame(width: 32, height: 32)
                             .foregroundColor(Color.MainFontColor)
                             .background(Color.clear)
-                    }
-                    .sheet(isPresented: $showImportMediaPicker) {
-                        ImportMediaPicker(showImportMediaPicker:$showImportMediaPicker, photobook:self.photobook)
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -555,5 +549,22 @@ struct TableContentView: View, PhotobookUIListener {
     func onCollageCreated(image: FrontendImage)
     {
         self.splModel.insert(image: image, position: UInt(self.splModel.list.count))
+    }
+    
+    private func openFileBrowser() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        
+        panel.begin { response in
+            if response == .OK, let url = panel.url {
+                print("Selected folder URL (macOS): \(url)")
+                self.photobook.addImportFolder(url.absoluteString)
+            }
+            else if response == .cancel {
+                print("Folder picker was cancelled")
+            }
+        }
     }
 }
