@@ -63,6 +63,8 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State var noirListenerWrapperCLevel = NoirListenerWrapperCLevel()
     @State var navigationPath: [String] = []
     @State private var isPropertiesDetailsDialogVisible = false
+    @State private var showLicenseDialog = false
+    @State private var aboutDialogVisible = false
     @State private var lutGridModel: LutGridModel = LutGridModel()
     
     init()
@@ -100,6 +102,14 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
             {
                 PropertiesDetailsDialog(isPropertiesDetailsDialogVisible: $isPropertiesDetailsDialogVisible, photobook: $photobook)
             }
+            .sheet(isPresented: $showLicenseDialog)
+            {
+                LicenseDialog(isPresented: $showLicenseDialog)
+            }
+            .sheet(isPresented: $aboutDialogVisible)
+            {
+                AboutDialog(isPresented: $aboutDialogVisible)
+            }
         }
         .commands {
             CommandGroup(after: .newItem) {
@@ -107,17 +117,17 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                     Button("Properties") {
                         isPropertiesDetailsDialogVisible = true;
                     }
-                    .keyboardShortcut("P", modifiers: [.command, .shift]) // Add a shortcut
+                    .keyboardShortcut("P", modifiers: [.command, .shift])
                 }
             }
             CommandGroup(replacing: CommandGroupPlacement.help) {
-                Button("App Help") {
+                Button("About") {
+                    aboutDialogVisible = true
                 }
-                Divider()
                 Button("License") {
+                    showLicenseDialog = true
                 }
             }
-            
         }
     }
     
