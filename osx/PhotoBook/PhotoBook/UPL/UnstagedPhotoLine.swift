@@ -11,6 +11,12 @@ class UnstagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
     @Published var selectedIndices: [Int] = []
+    {
+        didSet {
+            onSelectedIndicesChange?(selectedIndices)
+        }
+    }
+    var onSelectedIndicesChange: (([Int]) -> Void)?
 }
 
 struct UnstagedPhotoLine: View

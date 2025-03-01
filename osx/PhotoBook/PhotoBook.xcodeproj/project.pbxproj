@@ -887,6 +887,11 @@
 			path = Pages;
 			sourceTree = "<group>";
 		};
+		73AE020E2D72E602001E2B33 /* BasicTransformations */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = BasicTransformations;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1696,6 +1701,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73AE020E2D72E602001E2B33 /* BasicTransformations */,
 				73AC50302D458966001E19C8 /* Pages */,
 				73AC502B2D4588C2001E19C8 /* TableDialogs */,
 				73AC50292D45887F001E19C8 /* DashboardDialogs */,
@@ -1772,6 +1778,7 @@
 				73AC502C2D4588E0001E19C8 /* SPL */,
 				73AC502D2D45890A001E19C8 /* Wrappers */,
 				73AC50302D458966001E19C8 /* Pages */,
+				73AE020E2D72E602001E2B33 /* BasicTransformations */,
 			);
 			name = PhotoBook;
 			productName = PhotoBook;

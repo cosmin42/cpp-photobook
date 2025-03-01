@@ -9,13 +9,12 @@ import SwiftUI
 import UniformTypeIdentifiers
 import Combine
 
-enum SimpleImageProcessingType
+enum SimpleImageProcessingType: String
 {
-    case None
-    case Saturation
-    case Brightness
-    case Contrast
-    case Exposure
+    case None = "None"
+    case Saturation = "Saturation"
+    case Brightness = "Brightness"
+    case Contrast = "Contrast"
 }
 
 struct TableContentView: View, PhotobookUIListener {
@@ -45,9 +44,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var toPaperModel: ToPaperModel = ToPaperModel()
     
-    @State private var imageAdjustmentValue: Double = 0.5
-    
-    @State private var imageProcessingType: SimpleImageProcessingType = .Saturation
+    @StateObject private var basicTransformationModel: BasicTransformationModel = BasicTransformationModel()
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -216,7 +213,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.gray)
                     
                     Button(action: {
-                        imageProcessingType = .Saturation
+                        basicTransformationModel.imageProcessingType = .Saturation
                     }) {
                         Text("🌈")
                     }
@@ -226,11 +223,11 @@ struct TableContentView: View, PhotobookUIListener {
                     .padding(4)
                     .overlay(
                         Rectangle()
-                            .stroke(imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
+                            .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
                     )
                     
                     Button(action: {
-                        imageProcessingType = .Brightness
+                        basicTransformationModel.imageProcessingType = .Brightness
                     }) {
                         Text("🔆")
                     }
@@ -240,11 +237,11 @@ struct TableContentView: View, PhotobookUIListener {
                     .padding(4)
                     .overlay(
                         Rectangle()
-                            .stroke(imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
+                            .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
                     )
                     
                     Button(action: {
-                        imageProcessingType = .Contrast
+                        basicTransformationModel.imageProcessingType = .Contrast
                     }) {
                         Text("⚫⚪")
                     }
@@ -254,31 +251,46 @@ struct TableContentView: View, PhotobookUIListener {
                     .padding(4)
                     .overlay(
                         Rectangle()
-                            .stroke(imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
+                            .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
                     )
-                    
-                    Button(action: {
-                        imageProcessingType = .Exposure
-                    }) {
-                        Text("📷")
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(4)
-                    .overlay(
-                        Rectangle()
-                            .stroke(imageProcessingType == .Exposure ? Color.white : Color.clear, lineWidth: 1)
-                    )
-                    
-                    TextField("", value: $imageAdjustmentValue, formatter: numberFormatter)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
-                        .frame(width:100)
 
-                    Slider(value: $imageAdjustmentValue, in: 0...1, step: 0.1)
-                        .padding()
-                        .frame(width: 200)
+                    if basicTransformationModel.imageProcessingType != .None
+                    {
+                        var selectedAdjustment: Binding<Double> {
+                            switch basicTransformationModel.imageProcessingType {
+                            case .Brightness: return $basicTransformationModel.brightnessValue
+                            case .Contrast: return $basicTransformationModel.contrastValue
+                            case .Saturation: return $basicTransformationModel.saturationValue
+                            case .None: return $basicTransformationModel.brightnessValue
+                            }
+                        }
+                        
+                        var selectedRange: ClosedRange<Double> {
+                            switch basicTransformationModel.imageProcessingType {
+                            case .Brightness: return basicTransformationModel.brightnessRange
+                            case .Contrast: return basicTransformationModel.contrastRange
+                            case .Saturation: return basicTransformationModel.saturationRange
+                            case .None: return 0...1
+                            }
+                        }
+                        
+                        HStack {
+                            Text("\(basicTransformationModel.imageProcessingType.rawValue):")
+                            TextField("", value: selectedAdjustment, formatter: numberFormatter)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .frame(width:100)
+                        }
+                        
+                        Slider(value:selectedAdjustment, in: selectedRange, step: 0.1)
+                            .frame(width: 200)
+                        
+                        Button(action: {
+                            
+                        }) {
+                            Text("Apply")
+                        }
+                        
+                    }
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
@@ -330,7 +342,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * tabViewRatio)
                     
-                    CanvasView(model: canvasModel, frameSize: geometry.size)
+                    CanvasView(model: canvasModel, basicTransformationModel: basicTransformationModel, frameSize: geometry.size)
                 }
                 
                 VStack {
@@ -435,6 +447,9 @@ struct TableContentView: View, PhotobookUIListener {
             .onAppear()
             {
                 toPaperModel.frameSize = geometry.size
+                self.uplModel.onSelectedIndicesChange = { [self] selectedIndices in
+                    self.basicTransformationModel.reset()
+                }
             }
         }
         .sheet(isPresented: $toPaperModel.showDialog)
@@ -458,6 +473,9 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .foregroundColor(Color.MainFontColor)
         .background(Color.PrimaryColor)
+        .onTapGesture{
+            basicTransformationModel.imageProcessingType = .None
+        }
         
     }
     func decodeData(_ data: Data) throws -> UPLIdentifier {

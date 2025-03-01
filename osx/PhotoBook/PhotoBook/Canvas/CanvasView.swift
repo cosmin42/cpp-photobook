@@ -10,6 +10,7 @@ import SwiftUI
 struct CanvasView: View
 {
     @ObservedObject var model: CanvasModel
+    @ObservedObject var basicTransformationModel: BasicTransformationModel
     @State var frameSize: CGSize
     
     var body: some View {
@@ -22,6 +23,9 @@ struct CanvasView: View
                         Image(nsImage: nsImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
+                            .saturation(basicTransformationModel.saturationValue)
+                            .contrast(basicTransformationModel.contrastValue)
+                            .brightness(basicTransformationModel.brightnessValue)
                     } else {
                         Text("Image not found")
                     }
