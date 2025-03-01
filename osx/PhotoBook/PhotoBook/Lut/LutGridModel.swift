@@ -11,6 +11,7 @@ class LutGridModel: ObservableObject
 {
     @Published public var images:[LutItem] = []
     @Published public var selectedIndex: Int? = nil
+    @Published public var filterText: String = ""
     
     // TODO: Do a flexible calculation here
     @Published public var columns = [

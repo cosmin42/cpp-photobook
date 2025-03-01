@@ -22,9 +22,32 @@ struct LutGrid: View
     
     var body: some View {
         ScrollView {
+            HStack
+            {
+                TextField("Search", text: $model.filterText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(5)
+                    .frame(width: 100, alignment:.leading)
+                
+                Button(action: {
+                    model.filterText.removeAll()
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .padding(5)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .frame(alignment:.leading)
+            }
+            .frame(alignment:.leading)
+            
             LazyVGrid(columns: model.columns, spacing: 10) {
-                ForEach(self.model.images.indices, id: \.self) { index in
-                    if let fileName = self.model.images[index].path
+                let filteredImages = self.model.images.filter{
+                    if model.filterText.isEmpty { return true }
+                    return $0.name.contains(model.filterText)
+                }
+                ForEach(filteredImages.indices, id: \.self) { index in
+                    if let fileName = filteredImages[index].path
                     {
                         if let nsImage = NSImage(contentsOfFile: fileName) {
                             VStack
@@ -42,7 +65,7 @@ struct LutGrid: View
                                     .onTapGesture {
                                         self.model.selectedIndex = index
                                     }
-                                Text(self.model.images[index].name)
+                                Text(filteredImages[index].name)
                             }
                         } else {
                             Text("Image not found")
@@ -57,6 +80,5 @@ struct LutGrid: View
         .tabItem {
             Label("Look Up Tables", systemImage: "house.fill")
         }
-        
     }
 }
