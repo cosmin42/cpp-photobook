@@ -4,18 +4,13 @@
 #include <TargetConditionals.h>
 #endif
 
-#pragma warning(push)
-#pragma warning(disable : 4244)
-#pragma warning(disable : 4267)
-#include <include/effects/SkRuntimeEffect.h>
-#pragma warning(pop)
-
 #include <pb/Platform.h>
 #ifdef __APPLE__
 #include <pb/infra/ThreadScheduler.h>
 #endif
-#include <pb/infra/TSQueue.h>
+#include <pb/components/VulkanManager.h>
 #include <pb/entities/LutImageProcessingData.h>
+#include <pb/infra/TSQueue.h>
 #include <pb/infra/Traits.h>
 
 DECLARE_STRONG_STRING(OGLRenderId)
@@ -26,6 +21,7 @@ public:
   ~OGLEngine() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
   void start();
   void stop();
@@ -33,6 +29,7 @@ public:
   bool isWorking() const { return mWorking; }
 
   void applyLut(LutImageProcessingData const &imageProcessingData);
+  void applyLutInMemory(LutInMemoryData const &imageProcessingData);
 
 private:
   void loadPrograms();
@@ -49,9 +46,8 @@ private:
 
   TSQueue<LutImageProcessingData> mWorkQueue;
   std::jthread                    mThread;
-
-  std::stop_token mStopToken;
-  std::stop_source mStopSource;
+  std::stop_token                 mStopToken;
+  std::stop_source                mStopSource;
 
   std::mutex              mWorkMutex;
   std::condition_variable mFinishedWorkCondition;
@@ -60,7 +56,11 @@ private:
 
   std::unordered_map<std::string, sk_sp<SkRuntimeEffect>> mPrograms;
 
+  std::shared_ptr<SkRuntimeShaderBuilder> mShaderBuilder = nullptr;
+
   const std::unordered_map<std::string, Path> FRAGMENT_SHADERS_PATHS = {
       {"lut", Path("shaders") / "lut.sksl"}};
+
+  std::shared_ptr<VulkanManager> mVulkanManager = nullptr;
 };
 } // namespace PB::Service

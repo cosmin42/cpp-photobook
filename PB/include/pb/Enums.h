@@ -47,5 +47,5 @@ enum class ProgressType { None, Defined, Undefined };
 
 enum class ExportType { None = 0x0, Pdf = 0x1, Jpg = 0x2, Html = 0x4, PdfLibharu = 0x8 };
 
-enum class ImageProcessingType { None, LUT };
+enum class ImageProcessingType { None, LUT, LutInMemory };
 } // namespace PB

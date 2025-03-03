@@ -145,6 +145,7 @@ void Photobook::startPhotobook()
   // TODO: Why is this method caled multiple times?
   static bool once = false;
   if (!once) {
+    mVulkanManager->init();
     mDatabaseService->connect();
     mDatabaseService->maybeCreateTables();
     mOGLEngine->start();

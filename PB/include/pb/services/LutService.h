@@ -2,10 +2,10 @@
 
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
-#include <pb/infra/ThreadScheduler.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/LutIconInfo.h>
 #include <pb/image/ImageFactory.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
@@ -63,6 +63,9 @@ public:
 
   void applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
                 GenericImagePtr image);
+
+  void applyLutInMemory(PBDev::LutApplicationId lutId, unsigned lutIndex,
+                        cv::Mat image);
 
   std::vector<LutIconInfo> listLuts() const;
 

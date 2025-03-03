@@ -173,6 +173,22 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
   });
 }
 
+void LutService::applyLutInMemory(PBDev::LutApplicationId lutId,
+                                  unsigned lutIndex, cv::Mat image)
+{
+  LutInMemoryData imageProcessingData;
+  imageProcessingData.inImage = image;
+  imageProcessingData.outImage = cv::Mat::zeros(image.size(), image.type());
+
+  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+
+  for (auto const &data : lutData) {
+    imageProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+  }
+
+}
+
 std::vector<LutIconInfo> LutService::listLuts() const { return mLutsIconsInfo; }
 
 Path LutService::lutAssetsPath() const

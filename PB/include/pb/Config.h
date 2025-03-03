@@ -96,6 +96,8 @@ static constexpr unsigned MAX_HASH_CONFLICTS = 200;
 
 static constexpr const char *PROCESSED_LUTS_FOLDER_NAME = "processed-luts";
 
+static constexpr bool SHOW_VULKAN_DEBUG_INFO = false;
+
 const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
     {"image-search-job", 1}, {"export-logic", 1}, {"collage-thumbnails", 1},
     {"upl-to-spl-map", 4},   {"search-files", 1}, {"lut-icons", 1},

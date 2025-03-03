@@ -5,6 +5,9 @@
 #pragma warning(push)
 #pragma warning(disable : 4244)
 #pragma warning(disable : 4267)
+#pragma warning(disable : 4100)
+#pragma warning(disable : 4996)
+#pragma warning(disable : 4201)
 #include <include/codec/SkCodec.h>
 #include <include/core/SkBitmap.h>
 #include <include/core/SkCanvas.h>
@@ -13,12 +16,12 @@
 #include <include/core/SkStream.h>
 #include <include/core/SkSurface.h>
 #include <include/encode/SkJpegEncoder.h>
+#include <include/gpu/ganesh/SkSurfaceGanesh.h>
 #include <src/core/SkSpecialImage.h>
-#include <src/gpu/graphite/TextureUtils.h>
 #pragma warning(pop)
 
-#include <pb/infra/ThreadScheduler.h>
 #include <pb/entities/LutImageProcessingData.h>
+#include <pb/infra/ThreadScheduler.h>
 #include <pb/infra/Traits.h>
 
 namespace PB::Service {
@@ -27,6 +30,12 @@ void OGLEngine::configurePlatformInfo(
     std::shared_ptr<PlatformInfo> platformInfo)
 {
   mPlatformInfo = platformInfo;
+}
+
+void OGLEngine::configVulkanManager(
+    std::shared_ptr<VulkanManager> vulkanManager)
+{
+  mVulkanManager = vulkanManager;
 }
 
 void OGLEngine::start()
@@ -63,6 +72,9 @@ void OGLEngine::loadPrograms()
     }
     mPrograms[name] = effect;
   }
+
+  mShaderBuilder =
+      std::make_shared<SkRuntimeShaderBuilder>(mPrograms.at("lut"));
 }
 
 void OGLEngine::mainloop()
@@ -84,15 +96,18 @@ void OGLEngine::loadTextureAndRender(
     ImageProcessingData const &imageProcessingData)
 {
   if (imageProcessingData.type() == ImageProcessingType::LUT) {
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+
     auto lutImageProcessingData =
         dynamic_cast<LutImageProcessingData const &>(imageProcessingData);
 
     std::unique_ptr<SkStreamAsset> stream =
-        SkStream::MakeFromFile(imageProcessingData.inImage.string().c_str());
+        SkStream::MakeFromFile(lutImageProcessingData.inImage.string().c_str());
 
     if (!stream) {
       spdlog::error("Failed to open input image: {}",
-                    imageProcessingData.inImage.string());
+                    lutImageProcessingData.inImage.string());
       PBDev::basicAssert(false);
     }
 
@@ -101,16 +116,27 @@ void OGLEngine::loadTextureAndRender(
       PBDev::basicAssert(false);
     }
 
-    // Create a surface for drawing
-    sk_sp<SkSurface> surface = SkSurfaces::Raster(image->imageInfo());
-    if (!surface) {
-      PBDev::basicAssert(false);
+    auto beforeDrawingTime = std::chrono::high_resolution_clock::now();
+    sk_sp<SkSurface> surface = VK_NULL_HANDLE;
+    auto             gpuContext = mVulkanManager->gpuContext();
+    if (gpuContext) {
+      surface = SkSurfaces::RenderTarget(gpuContext, skgpu::Budgeted::kNo,
+                                         image->imageInfo());
     }
+
+    if (!surface) {
+      surface = SkSurfaces::Raster(image->imageInfo());
+      if (!surface) {
+        PBDev::basicAssert(false);
+      }
+    }
+
+    auto afterDrawingTime = std::chrono::high_resolution_clock::now();
 
     // TODO: Recycle the surface and the canvas
     SkCanvas *canvas = surface->getCanvas();
 
-    float lutCubeSize = std::cbrt(lutImageProcessingData.lut.size());
+    int lutCubeSize = (int)std::cbrt(lutImageProcessingData.lut.size());
 
     SkImageInfo lutImageInfo = SkImageInfo::Make(
         lutCubeSize, lutCubeSize * lutCubeSize,
@@ -125,6 +151,8 @@ void OGLEngine::loadTextureAndRender(
     bool success = lutBitmap.installPixels(
         lutImageInfo, addr, lutCubeSize * 4 * sizeof(float), nullptr, nullptr);
 
+    PBDev::basicAssert(success);
+
     SkIRect rect = SkIRect::MakeWH(lutCubeSize, lutCubeSize * lutCubeSize);
 
     SkSurfaceProps        props{};
@@ -138,21 +166,18 @@ void OGLEngine::loadTextureAndRender(
     auto lutShader =
         lutImage->makeShader(SkSamplingOptions(SkFilterMode::kLinear));
 
-    SkRuntimeEffect::ChildPtr children[] = {imageShader, lutShader};
-
-    SkRuntimeShaderBuilder builder(mPrograms.at("lut"));
-
-    builder.child("texture1") = imageShader;
-    builder.child("lutFlattenedTexture") = lutShader;
-    builder.uniform("lutTensorSize") =
-        SkV3(lutCubeSize, lutCubeSize, lutCubeSize);
+    mShaderBuilder->child("texture1") = imageShader;
+    mShaderBuilder->child("lutFlattenedTexture") = lutShader;
+    mShaderBuilder->uniform("lutTensorSize") =
+        SkV3((float)lutCubeSize, (float)lutCubeSize, (float)lutCubeSize);
 
     // Apply the shader
     SkPaint paint;
-    paint.setShader(builder.makeShader());
+    paint.setShader(mShaderBuilder->makeShader());
 
     // Draw the image with the shader
-    canvas->drawRect(SkRect::MakeWH(image->width(), image->height()), paint);
+    canvas->drawRect(
+        SkRect::MakeWH((float)image->width(), (float)image->height()), paint);
 
     // Save the output to a file
     SkBitmap outputBitmap;
@@ -164,7 +189,7 @@ void OGLEngine::loadTextureAndRender(
       PBDev::basicAssert(false);
     }
 
-    SkFILEWStream outputFile(imageProcessingData.outImage.string().c_str());
+    SkFILEWStream outputFile(lutImageProcessingData.outImage.string().c_str());
     if (outputFile.isValid()) {
       SkJpegEncoder::Options options;
       if (!SkJpegEncoder::Encode(&outputFile, outputBitmap.pixmap(), options)) {
@@ -174,7 +199,12 @@ void OGLEngine::loadTextureAndRender(
     else {
       PBDev::basicAssert(false);
     }
-    spdlog::info("LUT created: " + imageProcessingData.outImage.string());
+
+    const std::chrono::duration<double> drawingTime =
+        afterDrawingTime - beforeDrawingTime;
+
+    Noir::inst().getLogger()->info("LUT created {}: {}", drawingTime.count(),
+                                   lutImageProcessingData.outImage.string());
   }
 }
 
@@ -184,6 +214,12 @@ void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
   mFinishedWork = false;
   mWorkQueue.enqueue(imageProcessingData);
   mFinishedWorkCondition.wait(lock, [this] { return mFinishedWork; });
+}
+
+void OGLEngine::applyLutInMemory(LutInMemoryData const &imageProcessingData)
+{
+  std::unique_lock lock(mWorkMutex);
+  mFinishedWork = false;
 }
 
 } // namespace PB::Service
