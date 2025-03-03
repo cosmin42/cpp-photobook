@@ -1,7 +1,7 @@
 ninja_required_version = 1.7.2
 
 rule gn
-  command = ../../buildtools/win/gn.exe --root=../.. -q --regeneration gen .
+  command = ../../../../../../skia/buildtools/win/gn.exe --root=../../../../../../skia -q --regeneration gen .
   pool = console
   description = Regenerating ninja files
 
@@ -100,6 +100,7 @@ build svg: phony ./svg.lib
 build utils: phony obj/modules/skottie/utils.stamp
 build video_decoder: phony obj/experimental/ffmpeg/video_decoder.stamp
 build video_encoder: phony obj/experimental/ffmpeg/video_encoder.stamp
+build vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
 build zlib: phony ./zlib.lib
 build zlib_adler32_simd: phony obj/third_party/zlib/zlib_adler32_simd.stamp
 build zlib_common_headers: phony obj/third_party/zlib/zlib_common_headers.stamp
@@ -186,6 +187,8 @@ build modules/skunicode$:skunicode_core: phony ./skunicode_core.lib
 build modules/skunicode$:skunicode_icu: phony ./skunicode_icu.lib
 build modules/svg$:svg: phony ./svg.lib
 build modules/svg: phony ./svg.lib
+build src/gpu/vk/vulkanmemoryallocator$:vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
+build src/gpu/vk/vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
 build third_party/expat$:expat: phony ./expat.lib
 build third_party/expat: phony ./expat.lib
 build third_party/harfbuzz$:harfbuzz: phony ./harfbuzz.lib
@@ -284,6 +287,7 @@ build all: phony $
     ./skunicode_core.lib $
     ./skunicode_icu.lib $
     ./svg.lib $
+    obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp $
     ./expat.lib $
     ./harfbuzz.lib $
     obj/third_party/icu/headers.stamp $
