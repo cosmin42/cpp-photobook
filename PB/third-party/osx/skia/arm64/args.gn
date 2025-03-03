@@ -3,6 +3,7 @@ is_trivial_abi = false
 is_debug = false
 target_cpu = "arm64"
 skia_enable_svg = true
+skia_use_vulkan = true
 skia_use_system_zlib = false
 skia_use_system_harfbuzz = false
 skia_use_system_libjpeg_turbo = false

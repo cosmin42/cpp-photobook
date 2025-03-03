@@ -1,7 +1,7 @@
-defines = -DNDEBUG -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1 -DSK_CODEC_DECODES_WEBP
+defines = -DNDEBUG -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_USE_VMA -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1 -DSK_CODEC_DECODES_WEBP
 framework_dirs =
 include_dirs = -I../../../../../skia
-cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3 -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp/src -isystem /Users/cosminmihai/cpp-exercise-photobook/skia/third_party/externals/libwebp
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti -frtti
 root_out_dir = .
 target_output_name = webp_decode

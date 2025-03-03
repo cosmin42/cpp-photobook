@@ -110,6 +110,7 @@ build svg: phony ./libsvg.a
 build utils: phony obj/modules/skottie/utils.stamp
 build video_decoder: phony obj/experimental/ffmpeg/video_decoder.stamp
 build video_encoder: phony obj/experimental/ffmpeg/video_encoder.stamp
+build vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
 build zlib: phony ./libzlib.a
 build zlib_adler32_simd: phony obj/third_party/zlib/zlib_adler32_simd.stamp
 build zlib_arm_crc32: phony obj/third_party/zlib/zlib_arm_crc32.stamp
@@ -205,6 +206,8 @@ build modules/skunicode$:skunicode_core: phony ./libskunicode_core.a
 build modules/skunicode$:skunicode_icu: phony ./libskunicode_icu.a
 build modules/svg$:svg: phony ./libsvg.a
 build modules/svg: phony ./libsvg.a
+build src/gpu/vk/vulkanmemoryallocator$:vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
+build src/gpu/vk/vulkanmemoryallocator: phony obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp
 build third_party/dng_sdk$:dng_sdk: phony ./libdng_sdk.a
 build third_party/dng_sdk: phony ./libdng_sdk.a
 build third_party/expat$:expat: phony ./libexpat.a
@@ -316,6 +319,7 @@ build all: phony $
     ./libskunicode_core.a $
     ./libskunicode_icu.a $
     ./libsvg.a $
+    obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp $
     ./libdng_sdk.a $
     ./libexpat.a $
     ./libharfbuzz.a $

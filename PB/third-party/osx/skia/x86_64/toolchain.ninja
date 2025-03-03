@@ -128,6 +128,7 @@ build obj/modules/skunicode/skunicode.stamp: stamp ./libskunicode_core.a ./libsk
 subninja obj/modules/skunicode/skunicode_core.ninja
 subninja obj/modules/skunicode/skunicode_icu.ninja
 subninja obj/modules/svg/svg.ninja
+subninja obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.ninja
 subninja obj/third_party/dng_sdk/dng_sdk.ninja
 subninja obj/third_party/expat/expat.ninja
 subninja obj/third_party/harfbuzz/harfbuzz.ninja

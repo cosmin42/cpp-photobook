@@ -1,7 +1,7 @@
 defines = -DNDEBUG -DZLIB_IMPLEMENTATION -DADLER32_SIMD_NEON
 framework_dirs =
 include_dirs =
-cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
 cflags_c =
 root_out_dir = .
 target_output_name = zlib_adler32_simd

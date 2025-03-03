@@ -1,8 +1,0 @@
-defines = -DNDEBUG
-framework_dirs =
-include_dirs =
-root_out_dir = .
-target_output_name = skx
-
-
-build obj/skx.stamp: stamp

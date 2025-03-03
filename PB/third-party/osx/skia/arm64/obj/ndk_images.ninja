@@ -1,8 +1,0 @@
-defines = -DNDEBUG -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_USE_PERFETTO -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1
-framework_dirs =
-include_dirs = -I../../../../../skia
-root_out_dir = .
-target_output_name = ndk_images
-
-
-build obj/ndk_images.stamp: stamp

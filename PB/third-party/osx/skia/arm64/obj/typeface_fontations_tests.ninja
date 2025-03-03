@@ -1,8 +1,0 @@
-defines = -DNDEBUG
-framework_dirs =
-include_dirs =
-root_out_dir = .
-target_output_name = typeface_fontations_tests
-
-
-build obj/typeface_fontations_tests.stamp: stamp

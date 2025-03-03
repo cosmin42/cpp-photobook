@@ -1,8 +1,0 @@
-defines = -DNDEBUG
-framework_dirs =
-include_dirs =
-root_out_dir = .
-target_output_name = skcms_TransformSkx
-
-
-build obj/modules/skcms/skcms_TransformSkx.stamp: stamp

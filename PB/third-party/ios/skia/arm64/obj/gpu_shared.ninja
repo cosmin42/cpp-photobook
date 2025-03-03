@@ -1,7 +1,7 @@
-defines = -DNDEBUG -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1
+defines = -DNDEBUG -DSK_CODEC_DECODES_BMP -DSK_CODEC_DECODES_WBMP -DSK_ENABLE_PRECOMPILE -DSK_ASSUME_GL_ES=1 -DSK_GANESH -DSK_DISABLE_TRACING -DSK_ENABLE_API_AVAILABLE -DSK_GAMMA_APPLY_TO_A8 -DSK_USE_VMA -DSK_ENABLE_AVX512_OPTS -DSKIA_IMPLEMENTATION=1 -DSK_USE_INTERNAL_VULKAN_HEADERS -DSK_VULKAN
 framework_dirs =
-include_dirs = -I../../../../../skia
-cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
+include_dirs = -I../../../../../skia -I../../../../../skia/include/third_party/vulkan -I../../../../../skia/src/gpu/vk/vulkanmemoryallocator -I../../../../../skia/third_party/externals/vulkanmemoryallocator/include
+cflags = -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
 cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti -frtti
 root_out_dir = .
 target_output_name = gpu_shared
@@ -111,5 +111,23 @@ build obj/src/sksl/codegen/gpu_shared.SkSLSPIRVCodeGenerator.o: cxx ../../../../
 build obj/src/sksl/codegen/gpu_shared.SkSLWGSLCodeGenerator.o: cxx ../../../../../skia/src/sksl/codegen/SkSLWGSLCodeGenerator.cpp
   source_file_part = SkSLWGSLCodeGenerator.cpp
   source_name_part = SkSLWGSLCodeGenerator
+build obj/src/gpu/vk/gpu_shared.VulkanExtensions.o: cxx ../../../../../skia/src/gpu/vk/VulkanExtensions.cpp
+  source_file_part = VulkanExtensions.cpp
+  source_name_part = VulkanExtensions
+build obj/src/gpu/vk/gpu_shared.VulkanInterface.o: cxx ../../../../../skia/src/gpu/vk/VulkanInterface.cpp
+  source_file_part = VulkanInterface.cpp
+  source_name_part = VulkanInterface
+build obj/src/gpu/vk/gpu_shared.VulkanMemory.o: cxx ../../../../../skia/src/gpu/vk/VulkanMemory.cpp
+  source_file_part = VulkanMemory.cpp
+  source_name_part = VulkanMemory
+build obj/src/gpu/vk/gpu_shared.VulkanMutableTextureState.o: cxx ../../../../../skia/src/gpu/vk/VulkanMutableTextureState.cpp
+  source_file_part = VulkanMutableTextureState.cpp
+  source_name_part = VulkanMutableTextureState
+build obj/src/gpu/vk/gpu_shared.VulkanUtilsPriv.o: cxx ../../../../../skia/src/gpu/vk/VulkanUtilsPriv.cpp
+  source_file_part = VulkanUtilsPriv.cpp
+  source_name_part = VulkanUtilsPriv
+build obj/src/gpu/vk/vulkanmemoryallocator/gpu_shared.VulkanAMDMemoryAllocator.o: cxx ../../../../../skia/src/gpu/vk/vulkanmemoryallocator/VulkanAMDMemoryAllocator.cpp
+  source_file_part = VulkanAMDMemoryAllocator.cpp
+  source_name_part = VulkanAMDMemoryAllocator
 
-build obj/gpu_shared.stamp: stamp obj/src/gpu/gpu_shared.AtlasTypes.o obj/src/gpu/gpu_shared.Blend.o obj/src/gpu/gpu_shared.BlendFormula.o obj/src/gpu/gpu_shared.BlurUtils.o obj/src/gpu/gpu_shared.DataUtils.o obj/src/gpu/gpu_shared.DitherUtils.o obj/src/gpu/gpu_shared.MutableTextureState.o obj/src/gpu/gpu_shared.RectanizerPow2.o obj/src/gpu/gpu_shared.RectanizerSkyline.o obj/src/gpu/gpu_shared.ResourceKey.o obj/src/gpu/gpu_shared.ShaderErrorHandler.o obj/src/gpu/gpu_shared.SkBackingFit.o obj/src/gpu/gpu_shared.SkSLToBackend.o obj/src/gpu/gpu_shared.Swizzle.o obj/src/gpu/gpu_shared.TiledTextureUtils.o obj/src/gpu/tessellate/gpu_shared.FixedCountBufferUtils.o obj/src/gpu/tessellate/gpu_shared.Tessellation.o obj/src/text/gpu/gpu_shared.DistanceFieldAdjustTable.o obj/src/text/gpu/gpu_shared.GlyphVector.o obj/src/text/gpu/gpu_shared.SDFMaskFilter.o obj/src/text/gpu/gpu_shared.SkChromeRemoteGlyphCache.o obj/src/text/gpu/gpu_shared.Slug.o obj/src/text/gpu/gpu_shared.SlugImpl.o obj/src/text/gpu/gpu_shared.StrikeCache.o obj/src/text/gpu/gpu_shared.SubRunAllocator.o obj/src/text/gpu/gpu_shared.SubRunContainer.o obj/src/text/gpu/gpu_shared.SubRunControl.o obj/src/text/gpu/gpu_shared.TextBlob.o obj/src/text/gpu/gpu_shared.TextBlobRedrawCoordinator.o obj/src/text/gpu/gpu_shared.VertexFiller.o obj/src/sksl/codegen/gpu_shared.SkSLPipelineStageCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLGLSLCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLMetalCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLSPIRVCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLWGSLCodeGenerator.o
+build obj/gpu_shared.stamp: stamp obj/src/gpu/gpu_shared.AtlasTypes.o obj/src/gpu/gpu_shared.Blend.o obj/src/gpu/gpu_shared.BlendFormula.o obj/src/gpu/gpu_shared.BlurUtils.o obj/src/gpu/gpu_shared.DataUtils.o obj/src/gpu/gpu_shared.DitherUtils.o obj/src/gpu/gpu_shared.MutableTextureState.o obj/src/gpu/gpu_shared.RectanizerPow2.o obj/src/gpu/gpu_shared.RectanizerSkyline.o obj/src/gpu/gpu_shared.ResourceKey.o obj/src/gpu/gpu_shared.ShaderErrorHandler.o obj/src/gpu/gpu_shared.SkBackingFit.o obj/src/gpu/gpu_shared.SkSLToBackend.o obj/src/gpu/gpu_shared.Swizzle.o obj/src/gpu/gpu_shared.TiledTextureUtils.o obj/src/gpu/tessellate/gpu_shared.FixedCountBufferUtils.o obj/src/gpu/tessellate/gpu_shared.Tessellation.o obj/src/text/gpu/gpu_shared.DistanceFieldAdjustTable.o obj/src/text/gpu/gpu_shared.GlyphVector.o obj/src/text/gpu/gpu_shared.SDFMaskFilter.o obj/src/text/gpu/gpu_shared.SkChromeRemoteGlyphCache.o obj/src/text/gpu/gpu_shared.Slug.o obj/src/text/gpu/gpu_shared.SlugImpl.o obj/src/text/gpu/gpu_shared.StrikeCache.o obj/src/text/gpu/gpu_shared.SubRunAllocator.o obj/src/text/gpu/gpu_shared.SubRunContainer.o obj/src/text/gpu/gpu_shared.SubRunControl.o obj/src/text/gpu/gpu_shared.TextBlob.o obj/src/text/gpu/gpu_shared.TextBlobRedrawCoordinator.o obj/src/text/gpu/gpu_shared.VertexFiller.o obj/src/sksl/codegen/gpu_shared.SkSLPipelineStageCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLGLSLCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLMetalCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLSPIRVCodeGenerator.o obj/src/sksl/codegen/gpu_shared.SkSLWGSLCodeGenerator.o obj/src/gpu/vk/gpu_shared.VulkanExtensions.o obj/src/gpu/vk/gpu_shared.VulkanInterface.o obj/src/gpu/vk/gpu_shared.VulkanMemory.o obj/src/gpu/vk/gpu_shared.VulkanMutableTextureState.o obj/src/gpu/vk/gpu_shared.VulkanUtilsPriv.o obj/src/gpu/vk/vulkanmemoryallocator/gpu_shared.VulkanAMDMemoryAllocator.o || obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp

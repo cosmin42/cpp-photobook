@@ -1,8 +1,0 @@
-defines = -DNDEBUG
-framework_dirs =
-include_dirs =
-root_out_dir = .
-target_output_name = rust_png_decode_tests
-
-
-build obj/rust_png_decode_tests.stamp: stamp

@@ -1,0 +1,13 @@
+defines = -DSK_USE_INTERNAL_VULKAN_HEADERS -DNDEBUG
+framework_dirs =
+include_dirs = -I../../../../../skia/include/third_party/vulkan -I../../../../../skia -I../../../../../skia/src/gpu/vk/vulkanmemoryallocator -I../../../../../skia/third_party/externals/vulkanmemoryallocator/include
+cflags = -w -Wno-attributes -ffp-contract=off -fPIC -fvisibility=hidden -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk -arch arm64 -arch arm64e -fstrict-aliasing -O3
+cflags_cc = -std=c++17 -fvisibility-inlines-hidden -stdlib=libc++ -fno-aligned-allocation -fno-exceptions -fno-rtti -frtti
+root_out_dir = .
+target_output_name = vulkanmemoryallocator
+
+build obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.VulkanMemoryAllocatorWrapper.o: cxx ../../../../../skia/src/gpu/vk/vulkanmemoryallocator/VulkanMemoryAllocatorWrapper.cpp
+  source_file_part = VulkanMemoryAllocatorWrapper.cpp
+  source_name_part = VulkanMemoryAllocatorWrapper
+
+build obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.stamp: stamp obj/src/gpu/vk/vulkanmemoryallocator/vulkanmemoryallocator.VulkanMemoryAllocatorWrapper.o
