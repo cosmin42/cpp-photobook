@@ -8,8 +8,14 @@
 #pragma warning(disable : 4201)
 #include <include/core/SkSurface.h>
 #include <include/effects/SkRuntimeEffect.h>
+#ifdef WIN32
 #include <include/gpu/GrRecordingContext.h>
 #include <include/gpu/vk/GrVkTypes.h>
+#elif __MACH__
+#include <include/gpu/ganesh/GrRecordingContext.h>
+#include <include/gpu/ganesh/vk/GrVkTypes.h>
+#endif
+
 #pragma warning(pop)
 #pragma warning(push)
 
@@ -18,7 +24,7 @@
 #include <include/third_party/vulkan/vulkan/vulkan_win32.h>
 #elif __ANDROID__
 #include <include/third_party/vulkan/vulkan/vulkan_android.h>
-#elif __MACOS__
+#elif __MACH__
 #include <include/third_party/vulkan/vulkan/vulkan_macos.h>
 #elif __IOS__
 #include <include/third_party/vulkan/vulkan/vulkan_ios.h>
@@ -45,7 +51,7 @@ private:
       VK_KHR_WIN32_SURFACE_EXTENSION_NAME // Windows-specific
 #elif __ANDROID__
       VK_KHR_ANDROID_SURFACE_EXTENSION_NAME // Android-specific
-#elif __MACOS__
+#elif __MACH__
       VK_MVK_MACOS_SURFACE_EXTENSION_NAME // macOS-specific (MoltenVK)
 #elif __IOS__
       VK_MVK_IOS_SURFACE_EXTENSION_NAME // iOS-specific (MoltenVK)

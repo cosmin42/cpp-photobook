@@ -3,8 +3,12 @@
 #pragma warning(push)
 #pragma warning(disable : 4244)
 #pragma warning(disable : 4267)
+#ifdef WIN32
 #include <include/gpu/GrDirectContext.h>
-#include <include/gpu/GrRecordingContext.h>
+#elif __MACH__
+#include <include/gpu/ganesh/GrDirectContext.h>
+#endif
+
 #include <include/gpu/ganesh/SkSurfaceGanesh.h>
 #include <include/gpu/ganesh/vk/GrVkDirectContext.h>
 #include <include/gpu/vk/VulkanBackendContext.h>
