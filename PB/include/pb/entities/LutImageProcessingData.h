@@ -13,7 +13,17 @@
 namespace PB {
 struct LutImageProcessingData final : public ImageProcessingData {
   std::vector<cv::Vec4f> lut;
+  Path                   inImage;
+  Path                   outImage;
 
   ImageProcessingType type() const override { return ImageProcessingType::LUT; }
 };
+
+struct LutInMemoryData final : public ImageProcessingData {
+  std::vector<cv::Vec4f> lut;
+  cv::Mat                inImage;
+  cv::Mat                outImage;
+  ImageProcessingType type() const override { return ImageProcessingType::LutInMemory; }
+};
+
 } // namespace PB
