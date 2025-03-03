@@ -92,24 +92,6 @@ void OGLEngine::mainloop()
   mWorking = false;
 }
 
-sk_sp<SkSurface> OGLEngine::getSurface(SkImageInfo imageInfo)
-{
-  sk_sp<SkSurface> surface = VK_NULL_HANDLE;
-  auto             gpuContext = mVulkanManager->gpuContext();
-  if (gpuContext) {
-    surface =
-        SkSurfaces::RenderTarget(gpuContext, skgpu::Budgeted::kNo, imageInfo);
-  }
-
-  if (!surface) {
-    surface = SkSurfaces::Raster(imageInfo);
-    if (!surface) {
-      PBDev::basicAssert(false);
-    }
-  }
-  return surface;
-}
-
 void OGLEngine::loadTextureAndRender(
     ImageProcessingData const &imageProcessingData)
 {
@@ -118,7 +100,7 @@ void OGLEngine::loadTextureAndRender(
     auto &diskData = std::get<LutImageProcessingData>(imageProcessingData);
 
     auto     input = pathToSkImage(diskData.inImage);
-    auto     surface = getSurface(input->imageInfo());
+    auto     surface = mVulkanManager->getSurface(input->imageInfo());
     SkBitmap bitmap;
     processDiskImage(input, diskData.lut, surface, bitmap);
 
@@ -128,7 +110,7 @@ void OGLEngine::loadTextureAndRender(
     auto &inMemoryData = std::get<LutInMemoryData>(imageProcessingData);
 
     auto     input = cvMatToSkImage(inMemoryData.inImage);
-    auto     surface = getSurface(input->imageInfo());
+    auto     surface = mVulkanManager->getSurface(input->imageInfo());
     SkBitmap bitmap;
     processDiskImage(input, inMemoryData.lut, surface, bitmap);
   }

@@ -31,6 +31,7 @@ public:
   void configureListener(CollageThumbnailsMakerListener *listener);
   void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
+  void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
   void mapJobs();
 

@@ -5,6 +5,7 @@
 #pragma warning(disable : 4267)
 #include <include/gpu/GrDirectContext.h>
 #include <include/gpu/GrRecordingContext.h>
+#include <include/gpu/ganesh/SkSurfaceGanesh.h>
 #include <include/gpu/ganesh/vk/GrVkDirectContext.h>
 #include <include/gpu/vk/VulkanBackendContext.h>
 #pragma warning(pop)
@@ -12,6 +13,7 @@
 #include <vulkan/vulkan_core.h>
 
 #include <pb/Config.h>
+#include <pb/infra/Traits.h>
 
 namespace PB {
 VulkanManager::~VulkanManager()
@@ -229,6 +231,24 @@ void VulkanManager::init()
   }
 
   Noir::inst().getLogger()->info("Vulkan Manager initialized");
+}
+
+sk_sp<SkSurface> VulkanManager::getSurface(SkImageInfo imageInfo)
+{
+  sk_sp<SkSurface> surface = VK_NULL_HANDLE;
+  auto             context = gpuContext();
+  if (context) {
+    surface =
+        SkSurfaces::RenderTarget(context, skgpu::Budgeted::kNo, imageInfo);
+  }
+
+  if (!surface) {
+    surface = SkSurfaces::Raster(imageInfo);
+    if (!surface) {
+      PBDev::basicAssert(false);
+    }
+  }
+  return surface;
 }
 
 } // namespace PB

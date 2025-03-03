@@ -8,7 +8,6 @@
 #pragma warning(disable : 4267)
 #include <include/core/SkCanvas.h>
 #include <include/core/SkImageInfo.h>
-#include <include/core/SkSurface.h>
 #include <include/encode/SkJpegEncoder.h>
 #include <modules/skshaper/utils/FactoryHelpers.h>
 #include <modules/svg/include/SkSVGDOM.h>
@@ -20,6 +19,12 @@ DrawingService::DrawingService(std::shared_ptr<SkiaResources> resources)
     : mResources(resources)
 {
   SkGraphics::Init();
+}
+
+void DrawingService::configureVulkanManager(
+    std::shared_ptr<VulkanManager> vulkanManager)
+{
+  mVulkanManager = vulkanManager;
 }
 
 void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
@@ -41,7 +46,7 @@ void DrawingService::renderToStream(PBDev::SkiaResourcesId resourceId,
   SkImageInfo info = SkImageInfo::MakeN32Premul(originalImageSize.width,
                                                 originalImageSize.height);
 
-  auto surface = SkSurfaces::Raster(info);
+  auto surface = mVulkanManager->getSurface(info);
 
   if (!surface) {
     fprintf(stderr, "Failed to create surface\n");

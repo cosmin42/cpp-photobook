@@ -59,6 +59,12 @@ void CollageService::configureImageFactory(
   mCollageMakerJob->configureImageFactory(imageFactory);
 }
 
+void CollageService::configureVulkanManager(
+    std::shared_ptr<VulkanManager> vulkanManager)
+{
+  mThumbnailsJob->configureVulkanManager(vulkanManager);
+}
+
 void CollageService::generateTemplatesImages()
 {
   mThumbnailsJob->mapJobs();

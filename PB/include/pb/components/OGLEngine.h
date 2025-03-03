@@ -73,7 +73,6 @@ private:
 
   std::shared_ptr<VulkanManager> mVulkanManager = nullptr;
 
-  sk_sp<SkSurface> getSurface(SkImageInfo imageInfo);
   void processDiskImage(sk_sp<SkImage> input, std::vector<cv::Vec4f> const &lut,
                         sk_sp<SkSurface> surface, SkBitmap &output);
 

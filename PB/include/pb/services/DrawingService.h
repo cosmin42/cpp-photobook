@@ -16,6 +16,7 @@
 #pragma warning(pop)
 
 #include <pb/components/SkiaResources.h>
+#include <pb/components/VulkanManager.h>
 #include <pb/infra/Traits.h>
 
 namespace PB::Service {
@@ -27,6 +28,8 @@ public:
 
   ~DrawingService() = default;
 
+  void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
+
   void renderToStream(PBDev::SkiaResourcesId resourceId,
                       SkFILEWStream &fileStream, Path svgPath,
                       cv::Size originalImageSize);
@@ -35,5 +38,6 @@ public:
 
 private:
   std::shared_ptr<SkiaResources> mResources = nullptr;
+  std::shared_ptr<VulkanManager> mVulkanManager = nullptr;
 };
-} // namespace PB
+} // namespace PB::Service

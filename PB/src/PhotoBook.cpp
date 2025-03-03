@@ -110,6 +110,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->configureImageFactory(mImageFactory);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
+  mCollageTemplateManager->configureVulkanManager(mVulkanManager);
 
   auto collageThumbnailsMakerListener =
       dynamic_cast<CollageThumbnailsMakerListener *>(this);

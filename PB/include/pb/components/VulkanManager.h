@@ -3,10 +3,15 @@
 #pragma warning(push)
 #pragma warning(disable : 4244)
 #pragma warning(disable : 4267)
+#pragma warning(disable : 4100)
+#pragma warning(disable : 4996)
+#pragma warning(disable : 4201)
+#include <include/core/SkSurface.h>
 #include <include/effects/SkRuntimeEffect.h>
 #include <include/gpu/GrRecordingContext.h>
 #include <include/gpu/vk/GrVkTypes.h>
 #pragma warning(pop)
+#pragma warning(push)
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -30,6 +35,8 @@ public:
   void init();
 
   GrRecordingContext *gpuContext() const { return mGpuContext; }
+
+  sk_sp<SkSurface> getSurface(SkImageInfo imageInfo);
 
 private:
   const char *INSTANCE_EXTENSIONS[2] = {

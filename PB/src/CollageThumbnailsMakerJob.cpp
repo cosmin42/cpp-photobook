@@ -35,6 +35,12 @@ void CollageThumbnailsMakerJob::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
+void CollageThumbnailsMakerJob::configureVulkanManager(
+    std::shared_ptr<VulkanManager> vulkanManager)
+{
+  mDrawingService.configureVulkanManager(vulkanManager);
+}
+
 std::vector<CollageTemplateInfo>
 CollageThumbnailsMakerJob::getTemplatesPaths(Path directoryPath)
 {

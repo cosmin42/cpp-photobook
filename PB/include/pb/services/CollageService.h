@@ -28,6 +28,8 @@ public:
       std::shared_ptr<DurableHashService> durableHashService);
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
+  void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
+
   void generateTemplatesImages();
   void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
 
