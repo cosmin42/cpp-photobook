@@ -16,6 +16,7 @@
 DECLARE_STRONG_STRING(OGLRenderId)
 
 namespace PB::Service {
+
 class OGLEngine final {
 public:
   ~OGLEngine() = default;
@@ -44,7 +45,7 @@ private:
 
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 
-  TSQueue<LutImageProcessingData> mWorkQueue;
+  TSQueue<ImageProcessingData>    mWorkQueue;
   std::jthread                    mThread;
   std::stop_token                 mStopToken;
   std::stop_source                mStopSource;

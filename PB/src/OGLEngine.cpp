@@ -95,19 +95,16 @@ void OGLEngine::mainloop()
 void OGLEngine::loadTextureAndRender(
     ImageProcessingData const &imageProcessingData)
 {
-  if (imageProcessingData.type() == ImageProcessingType::LUT) {
+  if (std::holds_alternative<LutImageProcessingData>(imageProcessingData)) {
 
-    auto t0 = std::chrono::high_resolution_clock::now();
-
-    auto lutImageProcessingData =
-        dynamic_cast<LutImageProcessingData const &>(imageProcessingData);
+    auto &diskData = std::get<LutImageProcessingData>(imageProcessingData);
 
     std::unique_ptr<SkStreamAsset> stream =
-        SkStream::MakeFromFile(lutImageProcessingData.inImage.string().c_str());
+        SkStream::MakeFromFile(diskData.inImage.string().c_str());
 
     if (!stream) {
       spdlog::error("Failed to open input image: {}",
-                    lutImageProcessingData.inImage.string());
+                    diskData.inImage.string());
       PBDev::basicAssert(false);
     }
 
@@ -136,20 +133,20 @@ void OGLEngine::loadTextureAndRender(
     // TODO: Recycle the surface and the canvas
     SkCanvas *canvas = surface->getCanvas();
 
-    int lutCubeSize = (int)std::cbrt(lutImageProcessingData.lut.size());
+    int lutCubeSize = (int)std::cbrt(diskData.lut.size());
 
     SkImageInfo lutImageInfo = SkImageInfo::Make(
         lutCubeSize, lutCubeSize * lutCubeSize,
         SkColorType::kRGBA_F32_SkColorType, SkAlphaType::kUnpremul_SkAlphaType);
 
-    auto addr = lutImageProcessingData.lut.data();
+    auto addr = diskData.lut.data();
 
     SkPixmap pixmap(lutImageInfo, addr, lutCubeSize * 4 * sizeof(float));
 
     SkBitmap lutBitmap;
     lutBitmap.allocPixels(lutImageInfo);
     bool success = lutBitmap.installPixels(
-        lutImageInfo, addr, lutCubeSize * 4 * sizeof(float), nullptr, nullptr);
+        lutImageInfo, (void*)addr, lutCubeSize * 4 * sizeof(float), nullptr, nullptr);
 
     PBDev::basicAssert(success);
 
@@ -189,7 +186,7 @@ void OGLEngine::loadTextureAndRender(
       PBDev::basicAssert(false);
     }
 
-    SkFILEWStream outputFile(lutImageProcessingData.outImage.string().c_str());
+    SkFILEWStream outputFile(diskData.outImage.string().c_str());
     if (outputFile.isValid()) {
       SkJpegEncoder::Options options;
       if (!SkJpegEncoder::Encode(&outputFile, outputBitmap.pixmap(), options)) {
@@ -204,7 +201,7 @@ void OGLEngine::loadTextureAndRender(
         afterDrawingTime - beforeDrawingTime;
 
     Noir::inst().getLogger()->info("LUT created {}: {}", drawingTime.count(),
-                                   lutImageProcessingData.outImage.string());
+                                   diskData.outImage.string());
   }
 }
 
