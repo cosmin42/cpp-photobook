@@ -357,6 +357,12 @@
 		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
 		739164812CC4F7E200703394 /* others in Resources */ = {isa = PBXBuildFile; fileRef = 7391647D2CC4F7E200703394 /* others */; };
 		739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */; };
+		73AE03462D764ADD001E2B33 /* libvulkan.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */; platformFilters = (macos, ); };
+		73AE03472D764ADD001E2B33 /* libvulkan.1.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		73AE03482D764ADD001E2B33 /* libvulkan.1.3.296.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */; platformFilters = (macos, ); };
+		73AE03492D764ADD001E2B33 /* libvulkan.1.3.296.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		73AE034A2D764ADD001E2B33 /* libvulkan.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AE03452D764ADD001E2B33 /* libvulkan.dylib */; platformFilters = (macos, ); };
+		73AE034B2D764ADE001E2B33 /* libvulkan.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 73AE03452D764ADD001E2B33 /* libvulkan.dylib */; platformFilters = (macos, ); settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		73C4ECA62AA0C0E3006C4108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
 		73C4ECAA2AA0C0E3006C4108 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA92AA0C0E3006C4108 /* Preview Assets.xcassets */; };
 		73C4ECB42AA0C0E3006C4108 /* PhotoBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECB32AA0C0E3006C4108 /* PhotoBookTests.swift */; };
@@ -389,14 +395,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		732BA2D02CE6944F00916922 /* Embed Frameworks */ = {
+		73AE034C2D764ADE001E2B33 /* Embed Libraries */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				73AE034B2D764ADE001E2B33 /* libvulkan.dylib in Embed Libraries */,
+				73AE03492D764ADD001E2B33 /* libvulkan.1.3.296.dylib in Embed Libraries */,
+				73AE03472D764ADD001E2B33 /* libvulkan.1.dylib in Embed Libraries */,
 			);
-			name = "Embed Frameworks";
+			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -812,6 +821,12 @@
 		7391647D2CC4F7E200703394 /* others */ = {isa = PBXFileReference; lastKnownFileType = folder; name = others; path = "../../PB/pb-assets/others"; sourceTree = "<group>"; };
 		7391648C2CC575E900703394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		73AE033A2D76360B001E2B33 /* libvulkan.1.3.296-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan.1.3.296-macos.dylib"; path = "../../PB/build/libvulkan.1.3.296-macos.dylib"; sourceTree = "<group>"; };
+		73AE033B2D76360B001E2B33 /* libvulkan.1-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan.1-macos.dylib"; path = "../../PB/build/libvulkan.1-macos.dylib"; sourceTree = "<group>"; };
+		73AE033C2D76360B001E2B33 /* libvulkan-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan-macos.dylib"; path = "../../PB/build/libvulkan-macos.dylib"; sourceTree = "<group>"; };
+		73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.dylib; path = ../../PB/build/libvulkan.1.dylib; sourceTree = "<group>"; };
+		73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.3.296.dylib; path = ../../PB/build/libvulkan.1.3.296.dylib; sourceTree = "<group>"; };
+		73AE03452D764ADD001E2B33 /* libvulkan.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.dylib; path = ../../PB/build/libvulkan.dylib; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73C4ECA72AA0C0E3006C4108 /* PhotoBook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhotoBook.entitlements; sourceTree = "<group>"; };
@@ -1111,6 +1126,7 @@
 				732BA4432CE6A91A00916922 /* libopencv_stitching4d-macos.a in Frameworks */,
 				732BA57B2CE6B03D00916922 /* libz.a in Frameworks */,
 				732BA3702CE6A49400916922 /* libicui18n-macos.a in Frameworks */,
+				73AE03482D764ADD001E2B33 /* libvulkan.1.3.296.dylib in Frameworks */,
 				732BA5A32CE6B1ED00916922 /* libpathkit.a in Frameworks */,
 				737EEEEC2D4FC4C7003C342E /* (null) in Frameworks */,
 				732BA3862CE6A49500916922 /* libabsl_die_if_null-macos.a in Frameworks */,
@@ -1145,6 +1161,7 @@
 				732BA3662CE6A49300916922 /* libspdlogd-macos.a in Frameworks */,
 				732BA54C2CE6B03200916922 /* libfontconfig.a in Frameworks */,
 				732BA36F2CE6A49400916922 /* libbrotlicommon-macos.a in Frameworks */,
+				73AE03462D764ADD001E2B33 /* libvulkan.1.dylib in Frameworks */,
 				732BA5942CE6B1E900916922 /* libzlib.a in Frameworks */,
 				732BA5062CE6B02400916922 /* libabsl_graphcycles_internal.a in Frameworks */,
 				732BA5632CE6B03700916922 /* libopencv_video4d.a in Frameworks */,
@@ -1223,6 +1240,7 @@
 				732BA5252CE6B02A00916922 /* libabsl_random_internal_randen_slow.a in Frameworks */,
 				732BA4FD2CE6B02300916922 /* libabsl_flags_config.a in Frameworks */,
 				732BA4FB2CE6B02200916922 /* libabsl_flags_commandlineflag_internal.a in Frameworks */,
+				73AE034A2D764ADD001E2B33 /* libvulkan.dylib in Frameworks */,
 				732BA4F62CE6B02200916922 /* libabsl_demangle_rust.a in Frameworks */,
 				732BA3792CE6A49400916922 /* libabsl_random_internal_randen_hwaes_impl-macos.a in Frameworks */,
 				732BA4F82CE6B02200916922 /* libabsl_examine_stack.a in Frameworks */,
@@ -1262,6 +1280,12 @@
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73AE03452D764ADD001E2B33 /* libvulkan.dylib */,
+				73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */,
+				73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */,
+				73AE033C2D76360B001E2B33 /* libvulkan-macos.dylib */,
+				73AE033B2D76360B001E2B33 /* libvulkan.1-macos.dylib */,
+				73AE033A2D76360B001E2B33 /* libvulkan.1.3.296-macos.dylib */,
 				734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */,
 				732BA5802CE6B1BC00916922 /* libbentleyottmann.a */,
 				732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */,
@@ -1761,7 +1785,7 @@
 				73C4EC9A2AA0C0E1006C4108 /* Sources */,
 				73C4EC9B2AA0C0E1006C4108 /* Frameworks */,
 				73C4EC9C2AA0C0E1006C4108 /* Resources */,
-				732BA2D02CE6944F00916922 /* Embed Frameworks */,
+				73AE034C2D764ADE001E2B33 /* Embed Libraries */,
 			);
 			buildRules = (
 			);
