@@ -1,6 +1,6 @@
 @echo off
 GOTO:MAIN
-::TODO: Add checks for the commands
+::TODO: Add checks for the commands, remove files that are not libs
 :INSTALLVCPKG
     SETLOCAL enabledelayedexpansion
         git clone https://github.com/microsoft/vcpkg.git
@@ -21,15 +21,15 @@ GOTO:MAIN
         cd skia
         python3 tools/git-sync-deps
 
-        ..\depot_tools\gn gen out\Static-x64-win-debug --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"x64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
-        ..\depot_tools\gn gen out\Static-arm64-win-debug --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"arm64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
-        ..\depot_tools\gn gen out\Static-x64-win-release --args="is_official_build=true is_trivial_abi=true target_cpu=\"x64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
-        ..\depot_tools\gn gen out\Static-arm64-win-release --args="is_official_build=true is_trivial_abi=true target_cpu=\"arm64\" skia_enable_svg=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen ..\PB\third-party\windows\skia\x64\Debug --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"x64\" skia_enable_svg=true skia_use_vulkan=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen ..\PB\third-party\windows\skia\arm64\Debug --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"arm64\" skia_enable_svg=true skia_use_vulkan=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen ..\PB\third-party\windows\skia\x64\Release --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"x64\" skia_enable_svg=true skia_use_vulkan=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
+        ..\depot_tools\gn gen ..\PB\third-party\windows\skia\arm64\Release --args="is_official_build=true is_trivial_abi=true is_debug=false target_cpu=\"arm64\" skia_enable_svg=true skia_use_vulkan=true skia_use_system_zlib=false skia_use_system_harfbuzz=false skia_use_system_libjpeg_turbo=false skia_use_system_libpng=false skia_use_system_libwebp=false skia_use_system_expat=false extra_cflags=[\"/MDd\"] skia_use_system_icu=false"
 
-        ..\ninja.exe -C out\Static-x64-win-debug
-        ..\ninja.exe -C out\Static-arm64-win-debug
-        ..\ninja.exe -C out\Static-x64-win-release
-        ..\ninja.exe -C out\Static-arm64-win-release
+        ..\ninja.exe -C ..\PB\third-party\windows\skia\x64\Debug
+        ..\ninja.exe -C ..\PB\third-party\windows\skia\arm64\Debug
+        ..\ninja.exe -C ..\PB\third-party\windows\skia\x64\Release
+        ..\ninja.exe -C ..\PB\third-party\windows\skia\arm64\Release
         cd ..
     ENDLOCAL
 EXIT /B 0

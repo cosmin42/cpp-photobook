@@ -18,6 +18,7 @@
     "inja",
     "podofo",
     "expat",
-    "inih"
+    "inih",
+    "vulkan"
   ]
 }

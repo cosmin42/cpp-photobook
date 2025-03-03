@@ -14,6 +14,8 @@
 #include <pb/entities/AspectRatio.h>
 #include <pb/entities/PaperSettings.h>
 
+#define SK_VULKAN
+
 namespace PB {
 
 namespace OneConfig {
