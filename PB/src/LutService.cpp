@@ -187,6 +187,11 @@ void LutService::applyLutInMemory(PBDev::LutApplicationId lutId,
         cv::Vec4f(data[0], data[1], data[2], 1.0));
   }
 
+  mTaskCruncher->crunch([this, imageProcessingData, lutId]() {
+    mOglEngine->applyLutInMemory(imageProcessingData);
+    auto imagePtr = std::make_shared<cv::Mat>(imageProcessingData.outImage);
+    mLutServiceListener->onLutAppliedInMemory(lutId, imagePtr);
+  });
 }
 
 std::vector<LutIconInfo> LutService::listLuts() const { return mLutsIconsInfo; }

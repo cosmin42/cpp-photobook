@@ -12,8 +12,8 @@
 
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
-#include <pb/infra/TSQueue.h>
 #include <pb/entities/LutIconInfo.h>
+#include <pb/infra/TSQueue.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DurableHashService.h>
 #include <pb/services/ProgressService.h>
@@ -76,6 +76,8 @@ public:
   MOCK_METHOD(void, onLutAdded, (PB::LutIconInfo), (override));
   MOCK_METHOD(void, onLutApplied,
               (PBDev::LutApplicationId, PB::GenericImagePtr), (override));
+  MOCK_METHOD(void, onLutAppliedInMemory,
+              (PBDev::LutApplicationId, std::shared_ptr<cv::Mat>), (override));
 };
 
 class TestCollageMakerListener final : public CollageMakerListener {

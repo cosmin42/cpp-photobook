@@ -113,6 +113,8 @@ void OGLEngine::loadTextureAndRender(
     auto     surface = mVulkanManager->getSurface(input->imageInfo());
     SkBitmap bitmap;
     processDiskImage(input, inMemoryData.lut, surface, bitmap);
+
+    skBitmapToCvMat(bitmap).copyTo(inMemoryData.outImage);
   }
   else {
     PBDev::basicAssert(false);

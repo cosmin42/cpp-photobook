@@ -78,7 +78,7 @@ private:
 
   sk_sp<SkImage> cvMatToSkImage(cv::Mat const &image);
   sk_sp<SkImage> pathToSkImage(Path path);
-  cv::Mat skBitmapToCvMat(SkBitmap const &bitmap);
+  cv::Mat        skBitmapToCvMat(SkBitmap const &bitmap);
 
   void writeOutputBitmap(Path const &path, SkBitmap &bitmap);
 };

@@ -93,6 +93,9 @@ public:
 
   void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) override;
 
+  void onLutAppliedInMemory(PBDev::LutApplicationId,
+                            std::shared_ptr<cv::Mat>) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;
