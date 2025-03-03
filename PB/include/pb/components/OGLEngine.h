@@ -4,6 +4,15 @@
 #include <TargetConditionals.h>
 #endif
 
+#pragma warning(push)
+#pragma warning(disable : 4244)
+#pragma warning(disable : 4267)
+#pragma warning(disable : 4100)
+#pragma warning(disable : 4996)
+#pragma warning(disable : 4201)
+#include <include/core/SkSurface.h>
+#pragma warning(pop)
+
 #include <pb/Platform.h>
 #ifdef __APPLE__
 #include <pb/infra/ThreadScheduler.h>
@@ -45,10 +54,10 @@ private:
 
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 
-  TSQueue<ImageProcessingData>    mWorkQueue;
-  std::jthread                    mThread;
-  std::stop_token                 mStopToken;
-  std::stop_source                mStopSource;
+  TSQueue<ImageProcessingData> mWorkQueue;
+  std::jthread                 mThread;
+  std::stop_token              mStopToken;
+  std::stop_source             mStopSource;
 
   std::mutex              mWorkMutex;
   std::condition_variable mFinishedWorkCondition;
@@ -63,5 +72,15 @@ private:
       {"lut", Path("shaders") / "lut.sksl"}};
 
   std::shared_ptr<VulkanManager> mVulkanManager = nullptr;
+
+  sk_sp<SkSurface> getSurface(SkImageInfo imageInfo);
+  void processDiskImage(sk_sp<SkImage> input, std::vector<cv::Vec4f> const &lut,
+                        sk_sp<SkSurface> surface, SkBitmap &output);
+
+  sk_sp<SkImage> cvMatToSkImage(cv::Mat const &image);
+  sk_sp<SkImage> pathToSkImage(Path path);
+  cv::Mat skBitmapToCvMat(SkBitmap const &bitmap);
+
+  void writeOutputBitmap(Path const &path, SkBitmap &bitmap);
 };
 } // namespace PB::Service
