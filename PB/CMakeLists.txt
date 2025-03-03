@@ -103,6 +103,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/Serializer.h
     include/pb/components/SkiaResources.h
     include/pb/components/ThumbnailsTask.h
+    include/pb/components/VulkanManager.h
     include/pb/entities/AspectRatio.h
     include/pb/entities/BasicSVGModel.h
     include/pb/entities/CollageTemplateInfo.h
@@ -205,6 +206,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/infra/FileInfo.cpp
     src/infra/ParallelTaskConsumer.cpp
     src/infra/Timer.cpp
+    src/VulkanManager.cpp
     )
 
 target_include_directories(${PBLIB_LIBRARY_NAME} PUBLIC
