@@ -11,6 +11,7 @@
 #include <pb/Platform.h>
 #include <pb/components/OGLEngine.h>
 #include <pb/components/Project.h>
+#include <pb/components/VulkanManager.h>
 #include <pb/export/ExportService.h>
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
@@ -128,6 +129,7 @@ private:
   std::shared_ptr<ImageToPaperService>  mImageToPaperService = nullptr;
   std::shared_ptr<CollageService>       mCollageTemplateManager = nullptr;
   std::shared_ptr<LutService>           mLutService = nullptr;
+  std::shared_ptr<VulkanManager>        mVulkanManager = nullptr;
   std::shared_ptr<OGLEngine>            mOGLEngine = nullptr;
 };
 } // namespace PB

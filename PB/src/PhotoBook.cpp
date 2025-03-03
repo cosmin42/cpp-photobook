@@ -27,7 +27,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mImageToPaperService(std::make_shared<ImageToPaperService>()),
       mCollageTemplateManager(std::make_shared<CollageService>()),
       mLutService(std::make_shared<LutService>()),
+      mVulkanManager(std::make_shared<VulkanManager>()),
       mOGLEngine(std::make_shared<OGLEngine>())
+
 {
 
   initLogger();
@@ -64,6 +66,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       projectManagementServiceListener);
 
   mOGLEngine->configurePlatformInfo(mPlatformInfo);
+  mOGLEngine->configVulkanManager(mVulkanManager);
 
   mProgressService->configureScheduler(threadScheduler);
 
