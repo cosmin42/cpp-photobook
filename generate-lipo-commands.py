@@ -1,10 +1,11 @@
 import os
 import argparse
+import shutil
 
 def list_common_files(folder1, folder2):
     # Get list of files in both folders
-    files1 = set(list(filter(lambda x: x.endswith(".a"), os.listdir(folder1))))
-    files2 = set(list(filter(lambda x: x.endswith(".a"), os.listdir(folder2))))
+    files1 = set(list(filter(lambda x: x.endswith(".a") or x.endswith(".dylib"), os.listdir(folder1))))
+    files2 = set(list(filter(lambda x: x.endswith(".a") or x.endswith(".dylib"), os.listdir(folder2))))
 
     # Find common files
     common_files = files1.intersection(files2)
@@ -26,7 +27,10 @@ def get_lipo_commands(folder1, folder2, dstFolder):
     if common_files:
         command_list = []
         for file in common_files:
-            command_content = ("lipo -create -output " + os.path.join(dstFolder, (file.replace(".a", "") + "-macos.a")) + " ")
+            if file.endswith(".dylib"):
+                command_content = ("lipo -create -output " + os.path.join(dstFolder, file) + " ")
+            else:
+                command_content = ("lipo -create -output " + os.path.join(dstFolder, (file.replace(".a", "") + "-macos.a")) + " ")
             command_content = command_content + (" " + os.path.join(folder1, file) + " ")
             command_content = command_content + (" " + os.path.join(folder2, file))
 
@@ -39,7 +43,6 @@ def run_commands(command_list):
     for command_content in command_list:
         print(command_content)
         os.system(command_content)
-
 
 if __name__ == "__main__":
     print("mkdir pb/build")
@@ -56,4 +59,5 @@ if __name__ == "__main__":
 
     command_list = get_lipo_commands("PB/third-party/osx/skia/arm64", "PB/third-party/osx/skia/x86_64", "PB/skia-fat")
     run_commands(command_list)
+
     
