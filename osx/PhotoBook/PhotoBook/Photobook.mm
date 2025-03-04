@@ -102,6 +102,8 @@ public:
     
     void onLutApplied(PBDev::LutApplicationId, PB::GenericImagePtr,
                       Path thumbnailsLocation){}
+    
+    void onLutAppliedInMemory(PBDev::LutApplicationId, NSImage* image){}
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
 };
@@ -306,6 +308,42 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     {
         mPhotobook->exportService()->exportJPGAlbum(nativeName, nativePath);
     }
+}
+
+cv::Mat NSImageToMat(NSImage *image) {
+    if (!image) return cv::Mat();
+
+    // Convert NSImage to NSBitmapImageRep
+    CGImageRef cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
+    if (!cgImage) return cv::Mat();
+
+    NSUInteger width = CGImageGetWidth(cgImage);
+    NSUInteger height = CGImageGetHeight(cgImage);
+    
+    cv::Mat mat(height, width, CV_8UC4); // OpenCV Mat with 4 channels (RGBA)
+    
+    // Create a CGContext to draw the image
+    CGContextRef context = CGBitmapContextCreate(mat.data, width, height, 8, mat.step[0],
+                                                 CGImageGetColorSpace(cgImage),
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
+    
+    if (!context) return cv::Mat();
+
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
+    CGContextRelease(context);
+    
+    // Convert RGBA to BGR (OpenCV default)
+    cv::Mat matBGR;
+    cv::cvtColor(mat, matBGR, cv::COLOR_RGBA2BGR);
+    
+    return matBGR;
+}
+
+- (void) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex
+{
+    PBDev::LutApplicationId lutId = PBDev::LutApplicationId(PB::RuntimeUUID::newUUID());
+    cv::Mat nativeImage = NSImageToMat(image);
+    mPhotobook->lutService()->applyLutInMemory(lutId, lutIndex, nativeImage);
 }
 
 @end
