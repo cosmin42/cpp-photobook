@@ -159,4 +159,6 @@ struct DashboardView: View, PhotobookUIListener {
     func onImageMapped(imageId: String, image: FrontendImage){}
     
     func onCollageCreated(image: FrontendImage){}
+    
+    func onLutAppliedInMemory(imageId: String, image: NSImage) {}
 }

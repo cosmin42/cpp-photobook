@@ -569,7 +569,17 @@ struct TableContentView: View, PhotobookUIListener {
     {
         self.splModel.insert(image: image, position: UInt(self.splModel.list.count))
     }
-    
+
+    func onLutAppliedInMemory(imageId: String, image: NSImage)
+    {
+        if self.inProgressImagePath == imageId
+        {
+            self.canvasModel.pendingLUT = false
+            self.inProgressImagePath = ""
+            canvasModel.maybeProcessedImage = image
+        }
+    }
+
     private func openImportMediaBrowser() {
         let panel = NSOpenPanel()
         panel.canChooseFiles = false

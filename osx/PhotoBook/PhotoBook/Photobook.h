@@ -25,6 +25,7 @@
 - (void)onCollageThumbnailsCreated;
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onCollageCreated:(FrontendImage*)image;
+- (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
 @end
 
 @interface NoirListenerWrapperCLevel: NSObject

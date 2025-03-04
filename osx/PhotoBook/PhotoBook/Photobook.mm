@@ -101,11 +101,55 @@ public:
     void onLutAdded(PB::LutIconInfo iconInfo) override {}
     
     void onLutApplied(PBDev::LutApplicationId, PB::GenericImagePtr,
-                      Path thumbnailsLocation){}
+                      Path thumbnailsLocation) {}
     
-    void onLutAppliedInMemory(PBDev::LutApplicationId, NSImage* image){}
+    void onLutAppliedInMemory(PBDev::LutApplicationId imageId,
+                              std::shared_ptr<cv::Mat> image) {
+        std::string imageIdStr = boost::uuids::to_string(*imageId);
+        NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+        NSImage* managedImage = MatToNSImage(*image);
+        [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
+    }
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
+    
+    CGImageRef MatToCGImage(const cv::Mat& mat) {
+        cv::Mat tempMat;
+        if (mat.channels() == 1) {
+            cv::cvtColor(mat, tempMat, cv::COLOR_GRAY2RGBA);
+        } else if (mat.channels() == 3) {
+            cv::cvtColor(mat, tempMat, cv::COLOR_BGR2RGBA);
+        } else if (mat.channels() == 4) {
+            tempMat = mat.clone();
+        } else {
+            return nil;
+        }
+
+        size_t width = tempMat.cols;
+        size_t height = tempMat.rows;
+        size_t bytesPerRow = tempMat.step[0];
+
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+        CGContextRef context = CGBitmapContextCreate(tempMat.data, width, height, 8, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
+        CGImageRef imageRef = CGBitmapContextCreateImage(context);
+
+        CGContextRelease(context);
+        CGColorSpaceRelease(colorSpace);
+
+        return imageRef;
+    }
+
+    NSImage* MatToNSImage(const cv::Mat& mat) {
+        CGImageRef imageRef = MatToCGImage(mat);
+        if (!imageRef) return nil;
+
+        NSImage* image = [[NSImage alloc] initWithCGImage:imageRef size:NSMakeSize(mat.cols, mat.rows)];
+        CGImageRelease(imageRef);
+        
+        return image;
+    }
+
+    
 };
 
 
@@ -332,11 +376,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
     CGContextRelease(context);
     
-    // Convert RGBA to BGR (OpenCV default)
-    cv::Mat matBGR;
-    cv::cvtColor(mat, matBGR, cv::COLOR_RGBA2BGR);
-    
-    return matBGR;
+    return mat;
 }
 
 - (void) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex

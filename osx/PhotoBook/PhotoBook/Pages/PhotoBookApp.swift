@@ -46,6 +46,11 @@ private var noirUIListener: [NoirUIListener] = []
     {
         photobookUIListener.last?.onCollageCreated(image: image)
     }
+    
+    func onLutAppliedInMemory(_ imageId: String, image: NSImage)
+    {
+        photobookUIListener.last?.onLutAppliedInMemory(imageId:imageId, image:image)
+    }
 }
 
 @objc extension NoirListenerWrapperCLevel
@@ -142,6 +147,12 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onNoirLutAdded(item:LutItem) {
         lutGridModel.images.append(item)
     }
+    
+    func onLutAppliedInMemory(imageId: String, image: NSImage)
+    {
+        
+    }
+    
     func onNoirError() {}
     
     static func pushListener(listener: PhotobookUIListener)
