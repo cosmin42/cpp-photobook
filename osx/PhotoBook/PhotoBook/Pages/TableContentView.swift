@@ -50,8 +50,6 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var exportModel: ExportModel = ExportModel()
     
-    @State private var inProgressImagePath: String = ""
-    
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -438,6 +436,8 @@ struct TableContentView: View, PhotobookUIListener {
                 self.uplModel.onSelectedIndicesChange = { [self] selectedIndices in
                     self.basicTransformationModel.reset()
                     self.lutGridModel.selectedIndex = nil
+                    self.canvasModel.processedImageInfo = ("", "")
+                    self.canvasModel.maybeProcessedImage = nil
                 }
                 self.lutGridModel.onSelectedIndexChange = { [self] selectedIndex in
                     if let selectedIndex = selectedIndex
@@ -445,14 +445,16 @@ struct TableContentView: View, PhotobookUIListener {
                         if let mainImageFrontend = canvasModel.mainImage
                         {
                             let imagePath = mainImageFrontend.resources().full
-                            if inProgressImagePath != imagePath
+                            if self.canvasModel.processedImageInfo.1 != imagePath
                             {
                                 let image = NSImage(contentsOfFile: mainImageFrontend.resources().full)
                                 if let image = image, let imagePath = imagePath
                                 {
-                                    self.canvasModel.pendingLUT = true
-                                    self.inProgressImagePath = imagePath
-                                    self.photobook.applyLu(inMemory: image, lutIndex: UInt32(selectedIndex))
+                                    let lutId = self.photobook.applyLu(inMemory: image, lutIndex: UInt32(selectedIndex))
+                                    if let lutId = lutId
+                                    {
+                                        self.canvasModel.processedImageInfo = (lutId, imagePath)
+                                    }
                                 }
                             }
                         }
@@ -572,11 +574,11 @@ struct TableContentView: View, PhotobookUIListener {
 
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     {
-        if self.inProgressImagePath == imageId
+        if self.canvasModel.processedImageInfo.0 == imageId
         {
             self.canvasModel.pendingLUT = false
-            self.inProgressImagePath = ""
-            canvasModel.maybeProcessedImage = image
+            self.canvasModel.processedImageInfo = ("", "")
+            self.canvasModel.maybeProcessedImage = image
         }
     }
 

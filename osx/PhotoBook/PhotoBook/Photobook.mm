@@ -379,11 +379,12 @@ cv::Mat NSImageToMat(NSImage *image) {
     return mat;
 }
 
-- (void) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex
+- (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex
 {
     PBDev::LutApplicationId lutId = PBDev::LutApplicationId(PB::RuntimeUUID::newUUID());
     cv::Mat nativeImage = NSImageToMat(image);
     mPhotobook->lutService()->applyLutInMemory(lutId, lutIndex, nativeImage);
+    return [NSString stringWithUTF8String:boost::uuids::to_string(*lutId).c_str()];
 }
 
 @end
