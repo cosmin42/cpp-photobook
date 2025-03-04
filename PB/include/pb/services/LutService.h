@@ -95,6 +95,7 @@ private:
   LutIconsPreprocessingJob mLutIconsPreprocessingJob;
 
   std::vector<LutIconInfo> mLutsIconsInfo;
+  std::vector<Path>        mLutsPathsToBeProcessed;
   std::vector<Path>        mLutsPaths;
 
   std::shared_ptr<IdentifyableProject> mProject = nullptr;

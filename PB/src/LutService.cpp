@@ -109,12 +109,14 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
       auto lutName = Job::LutIconsPreprocessingJob::extractNameFromPath(path);
       onLutIconsPreprocessingFinished(lutName, path, iconPath);
     }
-    else {
-      mLutsPaths.push_back(path);
+    else
+    {
+      mLutsPathsToBeProcessed.push_back(path);
     }
+    mLutsPaths.push_back(path);
   }
 
-  mThreadScheduler->post([this, unprocessedPaths{mLutsPaths}]() {
+  mThreadScheduler->post([this, unprocessedPaths{mLutsPathsToBeProcessed}]() {
     mLutIconsPreprocessingJob.configureLuts(unprocessedPaths);
     mLutCreationStopSource =
         mTaskCruncher->crunch("lut-icons", mLutIconsPreprocessingJob,
