@@ -402,5 +402,10 @@ namespace PhotobookNet
         {
             throw new NotImplementedException();
         }
+
+        public void OnLutAppliedInMemory(Guid lutId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

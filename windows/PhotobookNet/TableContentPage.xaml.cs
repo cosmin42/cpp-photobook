@@ -1126,5 +1126,10 @@ namespace PhotobookNet
             mPhotobook.GetImageViews().StagedImages().RemovePicture(new List<uint> { splIndex });
             mPhotobook.GetImageViews().StagedImages().AddPictures(new List<VirtualImagePtr> { image }, (int)splIndex);
         }
+
+        public void OnLutAppliedInMemory(Guid lutId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

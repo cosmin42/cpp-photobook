@@ -42,6 +42,13 @@ public:
         winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
+  void onLutAppliedInMemory(PBDev::LutApplicationId  lutId,
+                            std::shared_ptr<cv::Mat> image) override
+  {
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
+    mManagedListener.OnLutAppliedInMemory(managedGuid);
+  }
+
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onMetadataUpdated(std::string focusedProjectName) override
   {

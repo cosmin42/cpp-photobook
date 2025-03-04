@@ -107,6 +107,13 @@ public:
         winrt::make<VirtualImagePtr>(image, thumbnailsLocation.string()));
   }
 
+  void onLutAppliedInMemory(PBDev::LutApplicationId  lutId,
+                            std::shared_ptr<cv::Mat> image) override
+  {
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
+    mManagedListener.OnLutAppliedInMemory(managedGuid);
+  }
+
 private:
   // TODO: Check if not & is enough;
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;

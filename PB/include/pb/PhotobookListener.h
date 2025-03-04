@@ -41,6 +41,9 @@ public:
 
   virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr,
                             Path thumbnailsLocation) = 0;
+
+  virtual void onLutAppliedInMemory(PBDev::LutApplicationId,
+                                    std::shared_ptr<cv::Mat>) = 0;
 };
 
 } // namespace PB
