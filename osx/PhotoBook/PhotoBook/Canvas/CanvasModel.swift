@@ -10,4 +10,6 @@ import SwiftUI
 class CanvasModel: ObservableObject
 {
     @Published public var mainImage:FrontendImage? = nil
+    @Published public var maybeProcessedImage:NSImage? = nil
+    @Published public var pendingLUT:Bool = false
 }

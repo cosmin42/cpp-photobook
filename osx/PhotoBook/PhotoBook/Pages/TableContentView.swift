@@ -50,6 +50,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var exportModel: ExportModel = ExportModel()
     
+    @State private var inProgressImagePath: String = ""
+    
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -328,7 +330,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * tabViewRatio)
                     
-                    CanvasView(model: canvasModel, basicTransformationModel: basicTransformationModel, frameSize: geometry.size)
+                    CanvasView(model: canvasModel, basicTransformationModel: basicTransformationModel, lutsModel: lutGridModel, frameSize: geometry.size)
                 }
                 
                 VStack {
@@ -435,6 +437,26 @@ struct TableContentView: View, PhotobookUIListener {
                 toPaperModel.frameSize = geometry.size
                 self.uplModel.onSelectedIndicesChange = { [self] selectedIndices in
                     self.basicTransformationModel.reset()
+                    self.lutGridModel.selectedIndex = nil
+                }
+                self.lutGridModel.onSelectedIndexChange = { [self] selectedIndex in
+                    if let selectedIndex = selectedIndex
+                    {
+                        if let mainImageFrontend = canvasModel.mainImage
+                        {
+                            let imagePath = mainImageFrontend.resources().full
+                            if inProgressImagePath != imagePath
+                            {
+                                let image = NSImage(contentsOfFile: mainImageFrontend.resources().full)
+                                if let image = image, let imagePath = imagePath
+                                {
+                                    self.canvasModel.pendingLUT = true
+                                    self.inProgressImagePath = imagePath
+                                    self.photobook.applyLu(inMemory: image, lutIndex: UInt32(selectedIndex))
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -11,11 +11,33 @@ struct CanvasView: View
 {
     @ObservedObject var model: CanvasModel
     @ObservedObject var basicTransformationModel: BasicTransformationModel
+    @ObservedObject var lutsModel: LutGridModel
     @State var frameSize: CGSize
+    @State var pendingPath: String = ""
     
     var body: some View {
         VStack {
-            if let selectedImage = model.mainImage
+            if model.pendingLUT
+            {
+                Rectangle()
+                    .fill(Color.PrimaryColor)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .scaleEffect(1.0, anchor: .center)
+                    )
+            }
+            else if let processedImage = model.maybeProcessedImage
+            {
+                Image(nsImage: processedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .saturation(basicTransformationModel.saturationValue)
+                    .contrast(basicTransformationModel.contrastValue)
+                    .brightness(basicTransformationModel.brightnessValue)
+            }
+            else if let selectedImage = model.mainImage
             {
                 if let fileName = selectedImage.resources().full
                 {
@@ -26,24 +48,21 @@ struct CanvasView: View
                             .saturation(basicTransformationModel.saturationValue)
                             .contrast(basicTransformationModel.contrastValue)
                             .brightness(basicTransformationModel.brightnessValue)
-                    } else {
-                        Text("Image not found")
                     }
                 }
             }
             else
             {
                 Rectangle()
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Color.PrimaryColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
                         Text("Canvas Area")
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.MainFontColor)
                             .font(.headline)
                     )
             }
             HStack {
-                
                 Button(action:{
                     
                 }){
