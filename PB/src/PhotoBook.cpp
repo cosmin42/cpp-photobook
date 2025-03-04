@@ -389,7 +389,7 @@ void Photobook::onLutApplied(PBDev::LutApplicationId lutId,
 void Photobook::onLutAppliedInMemory(PBDev::LutApplicationId  lutId,
                                      std::shared_ptr<cv::Mat> image)
 {
-  post([this, lutId, image]() {  });
+  post([this, lutId, image]() { mParent->onLutAppliedInMemory(lutId, image); });
 }
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
