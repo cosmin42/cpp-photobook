@@ -9,7 +9,7 @@ protocol PhotobookUIListener
 {
     func onProjectRead()
     func onMetadataUpdated(focusedName: String)
-    func onMappingFinished(root: String)
+    func onMappingFinished(root: String, imagesCount:UInt32)
     func onImageUpdated(root: String, row:UInt, index:UInt)
     func onCollageThumbnailsCreated()
     func onImageMapped(imageId: String, image: FrontendImage)

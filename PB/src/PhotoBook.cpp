@@ -251,7 +251,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   maybeProject->second.imageMonitor()->addRow(root, imagesSet);
 
-  mParent->onMappingFinished(root);
+  mParent->onMappingFinished(root, newFiles.size());
 }
 
 void Photobook::onImageProcessed(Path key, Path root,

@@ -64,9 +64,9 @@ public:
     mManagedListener.OnStagedImageRemoved(managedPhotos);
   }
 
-  void onMappingFinished(Path path) override
+  void onMappingFinished(Path path, unsigned imagesCount) override
   {
-    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()), imagesCount);
   }
 
   void onCollageThumbnailsCreated() override

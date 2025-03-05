@@ -40,7 +40,7 @@ public:
   MOCK_METHOD(void, onStagedImageRemoved, (std::vector<unsigned>), (override));
 
   MOCK_METHOD(void, onMappingStarted, (Path), (override));
-  MOCK_METHOD(void, onMappingFinished, (Path), (override));
+  MOCK_METHOD(void, onMappingFinished, (Path, unsigned), (override));
   MOCK_METHOD(void, onCollageThumbnailsCreated, (), (override));
   MOCK_METHOD(void, onMappingAborted, (Path), (override));
 

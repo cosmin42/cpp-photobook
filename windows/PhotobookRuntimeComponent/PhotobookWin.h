@@ -81,9 +81,9 @@ public:
   {
     mManagedListener.OnMappingStarted(winrt::to_hstring(path.string()));
   }
-  void onMappingFinished(Path path) override
+  void onMappingFinished(Path path, unsigned imagesCount) override
   {
-    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()));
+    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()), imagesCount);
   }
   void onMappingAborted(Path path) override
   {

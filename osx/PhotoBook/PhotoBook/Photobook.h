@@ -20,7 +20,7 @@
 @interface PhotobookListenerWrapperCLevel: NSObject
 - (void)onProjectRead;
 - (void)onMetadataUpdated:(NSString*)focusedName;
-- (void)onMappingFinished:(NSString*)root;
+- (void)onMappingFinished:(NSString*)root imagesCount:(unsigned)imagesCount;
 - (void)onImageUpdated:(NSString*)root row:(unsigned)row index:(unsigned)index;
 - (void)onCollageThumbnailsCreated;
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;

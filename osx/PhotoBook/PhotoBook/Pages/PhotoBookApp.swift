@@ -22,9 +22,9 @@ private var noirUIListener: [NoirUIListener] = []
         photobookUIListener.last?.onMetadataUpdated(focusedName:focusedName)
     }
     
-    func onMappingFinished(_ root: String)
+    func onMappingFinished(_ root: String, imagesCount:UInt32)
     {
-        photobookUIListener.last?.onMappingFinished(root: root)
+        photobookUIListener.last?.onMappingFinished(root: root, imagesCount: imagesCount)
     }
     
     func onImageUpdated(_ root: String, row:UInt, index:UInt)
@@ -142,7 +142,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     // TODO: We don't need PhotobookUIListener here
     func onProjectRead() {}
     func onMetadataUpdated(focusedName: String) {}
-    func onMappingFinished(root: String) {}
+    func onMappingFinished(root: String, imagesCount: UInt32) {}
     func onImageUpdated(root: String, row:UInt, index:UInt){}
     func onCollageThumbnailsCreated(){}
     func onCollageCreated(image: FrontendImage){}

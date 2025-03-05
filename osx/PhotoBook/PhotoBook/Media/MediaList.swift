@@ -52,7 +52,7 @@ struct MediaList: View
                     Text("\(model.list[index].displayName)")
                         .listRowBackground(Color.PrimaryColor)
                         .font(.headline)
-                    Text("988987 images")
+                    Text("\(model.list[index].imagesCount) images")
                         .font(.subheadline)
                 }
                 .background(Color.PrimaryColor)

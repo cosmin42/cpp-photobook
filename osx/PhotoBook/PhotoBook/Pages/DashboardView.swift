@@ -147,7 +147,7 @@ struct DashboardView: View, PhotobookUIListener {
         }
     }
     
-    func onMappingFinished(root: String)
+    func onMappingFinished(root: String, imagesCount:UInt32)
     {
         
     }

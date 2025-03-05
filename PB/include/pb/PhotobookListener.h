@@ -21,7 +21,7 @@ public:
   virtual void onStagedImageRemoved(std::vector<unsigned> removedIndexes) = 0;
 
   virtual void onMappingStarted(Path path) = 0;
-  virtual void onMappingFinished(Path path) = 0;
+  virtual void onMappingFinished(Path path, unsigned imagesCount) = 0;
   virtual void onCollageThumbnailsCreated() = 0;
   virtual void onMappingAborted(Path path) = 0;
 

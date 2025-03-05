@@ -63,9 +63,9 @@ public:
     void onError(PBDev::Error) override {}
     void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override {}
     void onMappingStarted(Path path) override {}
-    void onMappingFinished(Path path) override {
+    void onMappingFinished(Path path, unsigned imagesCount) override {
         NSString* managedRoot = [NSString stringWithUTF8String:path.string().c_str()];
-        [&mManagedListener onMappingFinished:managedRoot];
+        [&mManagedListener onMappingFinished:managedRoot imagesCount:imagesCount];
     }
     void onMappingAborted(Path path) override {}
     void onCollageThumbnailsCreated() override {

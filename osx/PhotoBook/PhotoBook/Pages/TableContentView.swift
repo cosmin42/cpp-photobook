@@ -530,9 +530,10 @@ struct TableContentView: View, PhotobookUIListener {
     func onProjectRead(){}
     func onMetadataUpdated(focusedName: String){}
     
-    func onMappingFinished(root: String){
+    func onMappingFinished(root: String, imagesCount: UInt32)
+    {
         let url = URL(fileURLWithPath: root)
-        self.mediaListModel.list.append(MediaItem(path:root, displayName: url.lastPathComponent))
+        self.mediaListModel.list.append(MediaItem(path:root, displayName: url.lastPathComponent, imagesCount: imagesCount))
         self.mediaListModel.selectedItem = self.mediaListModel.list.last
     }
     

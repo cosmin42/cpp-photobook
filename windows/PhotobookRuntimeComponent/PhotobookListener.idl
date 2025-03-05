@@ -20,7 +20,7 @@ interface PhotobookListener
   void OnStagedImageRemoved(IVector<UInt32> removedIndexes);
 
   void OnMappingStarted(String path);
-  void OnMappingFinished(String path);
+  void OnMappingFinished(String path, UInt32 imagesCount);
   void OnMappingAborted(String path);
 
   void OnImageUpdated(String root, Int32 row, Int32 index);

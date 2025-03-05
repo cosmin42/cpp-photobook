@@ -1001,7 +1001,7 @@ namespace PhotobookNet
             // ILE
         }
 
-        public void OnMappingFinished(string path)
+        public void OnMappingFinished(string path, unsigned imagesCount)
         {
             mNavigationItemsCollection.Add(System.IO.Path.GetFileName(path));
 
