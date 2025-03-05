@@ -87,6 +87,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .help("Add Folder")
                     
                     // Remove media button
                     Button(action: {
@@ -103,6 +104,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(mediaListModel.list.isEmpty)
+                    .help("Remove Group")
                     
                     Divider()
                         .frame(height: 32)
@@ -121,6 +123,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(collagesCommandModel.previewDisabled)
+                    .help("Preview")
                     
                     Button(action: {
                         var imagesIndices:[Int] = []
@@ -167,6 +170,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(collagesCommandModel.makeCollageDisabled)
+                    .help("Make Collage")
                     
                     Divider()
                         .frame(height: 32)
@@ -186,6 +190,7 @@ struct TableContentView: View, PhotobookUIListener {
                             .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
                     )
                     .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .help("Saturation")
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Brightness
@@ -201,6 +206,7 @@ struct TableContentView: View, PhotobookUIListener {
                             .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
                     )
                     .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .help("Brightness")
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Contrast
@@ -216,6 +222,7 @@ struct TableContentView: View, PhotobookUIListener {
                             .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
                     )
                     .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .help("Contrast")
                     
                     Divider()
                         .frame(height: 32)
@@ -230,6 +237,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(splModel.list.isEmpty)
+                    .help("Export")
                     
                     Button(action: {
                         subscribeDialogVisible = true
@@ -243,6 +251,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .help("Subscribe")
 
                     if basicTransformationModel.imageProcessingType != .None
                     {
