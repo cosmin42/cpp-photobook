@@ -63,6 +63,7 @@ void CollageService::configureVulkanManager(
     std::shared_ptr<VulkanManager> vulkanManager)
 {
   mThumbnailsJob->configureVulkanManager(vulkanManager);
+  mCollageMakerJob->configureVulkanManager(vulkanManager);
 }
 
 void CollageService::generateTemplatesImages()

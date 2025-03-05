@@ -43,6 +43,11 @@ void CollageMakerJob::configureDurableHashService(
   mDurableHashService = durableHashService;
 }
 
+void CollageMakerJob::configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager)
+{
+  mDrawingService.configureVulkanManager(vulkanManager);
+}
+
 void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
   PBDev::basicAssert(mProject != nullptr);

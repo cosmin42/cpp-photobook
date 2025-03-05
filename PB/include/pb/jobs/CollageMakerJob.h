@@ -30,6 +30,7 @@ public:
   void configureDurableHashService(
       std::shared_ptr<DurableHashService> durableHashService);
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
+  void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
   void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
 
