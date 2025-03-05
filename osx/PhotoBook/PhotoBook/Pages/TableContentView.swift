@@ -175,7 +175,7 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Saturation
                     }) {
-                        Text("🌈")
+                        Text("𑗘")
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -185,11 +185,12 @@ struct TableContentView: View, PhotobookUIListener {
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
                     )
+                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Brightness
                     }) {
-                        Text("🔆")
+                        Text("☼")
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -199,11 +200,12 @@ struct TableContentView: View, PhotobookUIListener {
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
                     )
+                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Contrast
                     }) {
-                        Text("⚫⚪")
+                        Text("◑")
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -213,6 +215,7 @@ struct TableContentView: View, PhotobookUIListener {
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
                     )
+                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
                     
                     Divider()
                         .frame(height: 32)
@@ -221,11 +224,12 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         exportDialogVisible = true
                     }) {
-                        Text("📦")
+                        Text("📖")
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
+                    .disabled(splModel.list.isEmpty)
                     
                     Button(action: {
                         subscribeDialogVisible = true
@@ -333,86 +337,83 @@ struct TableContentView: View, PhotobookUIListener {
                 
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            StagedPhotoLine(model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
-                        }
-                        .frame(width:geometry.size.width, height: 80)
-                        .border(Color.BorderColor, width: 1)
-                        .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
-                            guard let provider = providers.first else { return false}
-                            if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
-                                provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
-                                    if let data = data {
-                                        do {
-                                            let uplIdentifier = try self.decodeData(data)
-                                            var images: [String: FrontendImage] = [:]
-                                            for index in uplIdentifier.indices
-                                            {
-                                                if let row = uplIdentifier.row
+                        StagedPhotoLine(frameSize: geometry.size, model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                            .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
+                                guard let provider = providers.first else { return false}
+                                if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
+                                    provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
+                                        if let data = data {
+                                            do {
+                                                let uplIdentifier = try self.decodeData(data)
+                                                var images: [String: FrontendImage] = [:]
+                                                for index in uplIdentifier.indices
                                                 {
-                                                    let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
-                                                    
-                                                    let uuid = UUID()
-                                                    images[uuid.uuidString] = image
+                                                    if let row = uplIdentifier.row
+                                                    {
+                                                        let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
+                                                        
+                                                        let uuid = UUID()
+                                                        images[uuid.uuidString] = image
+                                                    }
+                                                    else
+                                                    {
+                                                        assert(false, "Unreachable code")
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    assert(false, "Unreachable code")
+                                                
+                                                toPaperModel.images.removeAll()
+                                                
+                                                for (key, value) in images {
+                                                    toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
                                                 }
+                                                
+                                                toPaperModel.showDialog.toggle()
+                                                
+                                                self.photobook.mapImages(toSPL: images, backgroundColor: NSColor(Color.white), overlapType: "Fit")
+                                                
+                                                self.dropIndex = self.splModel.findPredecessorIndex(at:location)
+                                                
+                                                self.uplModel.selectedIndices.removeAll()
+                                                
+                                            } catch {
+                                                print("Failed to decode dropped data: \(error)")
                                             }
-
-                                            toPaperModel.images.removeAll()
-
-                                            for (key, value) in images {
-                                                toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
-                                            }
-                                            
-                                            toPaperModel.showDialog.toggle()
-                                            
-                                            self.photobook.mapImages(toSPL: images, backgroundColor: NSColor(Color.white), overlapType: "Fit")
-                                            
-                                            self.dropIndex = self.splModel.findPredecessorIndex(at:location)
-                                            
-                                            self.uplModel.selectedIndices.removeAll()
-                                            
-                                        } catch {
-                                            print("Failed to decode dropped data: \(error)")
+                                        }
+                                        else if let error = error {
+                                            assert(false, "Unreachable code \(error)")
+                                        }
+                                        else
+                                        {
+                                            assert(false, "Unreachable code")
                                         }
                                     }
-                                    else if let error = error {
-                                        assert(false, "Unreachable code \(error)")
-                                    }
-                                    else
-                                    {
-                                        assert(false, "Unreachable code")
-                                    }
                                 }
-                            }
-                            else if provider.hasItemConformingToTypeIdentifier(UTType.splDragType.identifier) {
-                                provider.loadDataRepresentation(forTypeIdentifier: UTType.splDragType.identifier) { data, error in
-                                    if let data = data {
-                                        do {
-                                            let splIdentifier = try self.decodeSPLData(data)
-                                            let indicesToMove = splIdentifier.indices.map { Int($0) }
-                                            let maybeDropIndex = self.splModel.findPredecessorIndex(at:location)
-                                            
-                                            self.splModel.move(fromOffsets: IndexSet(indicesToMove), toOffset: maybeDropIndex)
-                                        } catch {
-                                            print("Failed to decode dropped data: \(error)")
+                                else if provider.hasItemConformingToTypeIdentifier(UTType.splDragType.identifier) {
+                                    provider.loadDataRepresentation(forTypeIdentifier: UTType.splDragType.identifier) { data, error in
+                                        if let data = data {
+                                            do {
+                                                let splIdentifier = try self.decodeSPLData(data)
+                                                let indicesToMove = splIdentifier.indices.map { Int($0) }
+                                                let maybeDropIndex = self.splModel.findPredecessorIndex(at:location)
+                                                
+                                                self.splModel.move(fromOffsets: IndexSet(indicesToMove), toOffset: maybeDropIndex)
+                                            } catch {
+                                                print("Failed to decode dropped data: \(error)")
+                                            }
+                                        } else if let error = error {
+                                            assert(false, "Unreachable code \(error)")
                                         }
-                                    } else if let error = error {
-                                        assert(false, "Unreachable code \(error)")
-                                    }
-                                    else
-                                    {
-                                        assert(false, "Unreachable code")
+                                        else
+                                        {
+                                            assert(false, "Unreachable code")
+                                        }
                                     }
                                 }
+                                
+                                return true
                             }
-                            
-                            return true
-                        }
                     }
+                    .frame(width: geometry.size.width)
                     .onChange(of: splModel.selectedIndices)
                     {
                         _ in
@@ -420,7 +421,8 @@ struct TableContentView: View, PhotobookUIListener {
                         self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
                     }
                     
-                    UnstagedPhotoLine(model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                    
+                    UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         .onChange(of: uplModel.selectedIndices)
                     {
                         _ in

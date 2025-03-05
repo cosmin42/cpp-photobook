@@ -21,6 +21,7 @@ class UnstagedPhotoLineModel: ObservableObject
 
 struct UnstagedPhotoLine: View
 {
+    @State var frameSize:CGSize
     @ObservedObject var model: UnstagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
     @Binding var mediaListModel: MediaListModel
@@ -44,6 +45,12 @@ struct UnstagedPhotoLine: View
                                         .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
                                 )
                                 .padding(4)
+                                .background(GeometryReader { geo in
+                                    Color.clear.preference(
+                                        key: ItemFramesKey.self,
+                                        value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
+                                    )
+                                })
                                 .onTapGesture {
                                     self.stagedPhotoLineModel.selectedIndices.removeAll()
                                     
@@ -79,8 +86,6 @@ struct UnstagedPhotoLine: View
                                     {
                                         self.canvasImage = model.list.randomElement()
                                     }
-                                    
-                                    
                                 }
                                 .onDrag {
                                     NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))
@@ -91,9 +96,9 @@ struct UnstagedPhotoLine: View
                     }
                 }
             }
-            .padding(.horizontal)
-            .frame(minHeight:80)
-            .border(Color.BorderColor, width: 1)
         }
+        .padding(2)
+        .frame(width: frameSize.width, height: 82, alignment: .leading)
+        .border(Color.BorderColor, width: 1)
     }
 }

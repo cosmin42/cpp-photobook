@@ -37,7 +37,7 @@ extension Color {
     }
     
     static let PrimaryColor = parseColor(hex: "#1A2224")
-    static let BorderColor = parseColor(hex: "#09191D")
+    static let BorderColor = parseColor(hex: "#504D4D")
     static let ButtonBackgroundColor = parseColor(hex: "#374346")
     static let ButtonPointerOverWhenSelected = parseColor(hex: "#516165")
     static let RemoveButtonBackground = parseColor(hex: "#541C1C")

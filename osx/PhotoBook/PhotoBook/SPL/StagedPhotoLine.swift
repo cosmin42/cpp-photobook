@@ -86,6 +86,7 @@ class StagedPhotoLineModel: ObservableObject
 
 struct StagedPhotoLine: View
 {
+    @State var frameSize:CGSize
     @ObservedObject var model: StagedPhotoLineModel
     @Binding var canvasImage: FrontendImage?
     @Binding var unstagedPhotoLineModel: UnstagedPhotoLineModel
@@ -114,7 +115,7 @@ struct StagedPhotoLine: View
                                         value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
                                     )
                                 })
-                                .onTapGesture { 
+                                .onTapGesture {
                                     unstagedPhotoLineModel.selectedIndices.removeAll()
                                     if model.selectedIndices.contains(index)
                                     {
@@ -158,13 +159,12 @@ struct StagedPhotoLine: View
                     }
                 }
             }
-            .padding(.horizontal)
-            .frame(minHeight:80)
-            .border(Color.BorderColor, width: 1)
             .onPreferenceChange(ItemFramesKey.self) { frames in
                 model.itemFrames = frames.sorted(by: { $0.index < $1.index }).map { $0.frame }
             }
-            
         }
+        .padding(2)
+        .frame(width: frameSize.width, height:82)
+        .border(Color.BorderColor, width: 1)
     }
 }
