@@ -387,4 +387,11 @@ cv::Mat NSImageToMat(NSImage *image) {
     return [NSString stringWithUTF8String:boost::uuids::to_string(*lutId).c_str()];
 }
 
+- (NSString*) getText:(NSString*)key
+{
+    std::string nativeKey = [key UTF8String];
+    auto result = mPhotobook->help(nativeKey);
+    return [NSString stringWithUTF8String:result.c_str()];
+}
+
 @end

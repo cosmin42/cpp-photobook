@@ -71,6 +71,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State private var showLicenseDialog = false
     @State private var aboutDialogVisible = false
     @State private var lutGridModel: LutGridModel = LutGridModel()
+    @State private var licenseModel: LicenseModel = LicenseModel()
     
     init()
     {
@@ -88,6 +89,8 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
         } else {
             print("Bugsnag API Key NOT found in Info.plist")
         }
+        
+        licenseModel.text = self.photobook.getText("license");
     }
     
     var body: some Scene {
@@ -109,7 +112,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
             }
             .sheet(isPresented: $showLicenseDialog)
             {
-                LicenseDialog(isPresented: $showLicenseDialog)
+                LicenseDialog(isPresented: $showLicenseDialog, model: licenseModel)
             }
             .sheet(isPresented: $aboutDialogVisible)
             {

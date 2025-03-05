@@ -10,6 +10,7 @@ import SwiftUI
 
 struct LicenseDialog: View {
     @Binding var isPresented: Bool
+    @ObservedObject var model: LicenseModel
     
     var body: some View {
         VStack {
@@ -17,7 +18,7 @@ struct LicenseDialog: View {
                 .font(.title)
                 .padding()
             
-            Text("This app is licensed under the MIT License.")
+            Text(model.text)
             
             Button("Close") {
                 self.isPresented = false
