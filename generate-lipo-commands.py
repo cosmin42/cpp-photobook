@@ -41,7 +41,7 @@ def get_lipo_commands(folder1, folder2, dstFolder):
 
 def run_commands(command_list):
     for command_content in command_list:
-        print(command_content)
+        print(command_content.split(" ")[-1])
         os.system(command_content)
 
 if __name__ == "__main__":
