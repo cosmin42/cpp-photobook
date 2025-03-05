@@ -355,6 +355,8 @@ struct TableContentView: View, PhotobookUIListener {
                                             do {
                                                 let uplIdentifier = try self.decodeData(data)
                                                 var images: [String: FrontendImage] = [:]
+                                                var colors: [String: NSColor] = [:]
+                                                var overlapTypes: [String: String] = [:]
                                                 for index in uplIdentifier.indices
                                                 {
                                                     if let row = uplIdentifier.row
@@ -370,18 +372,14 @@ struct TableContentView: View, PhotobookUIListener {
                                                     }
                                                 }
                                                 
-                                                toPaperModel.images.removeAll()
-                                                
+                                                self.dropIndex = self.splModel.findPredecessorIndex(at:location)
+
                                                 for (key, value) in images {
                                                     toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
                                                 }
-                                                
+
                                                 toPaperModel.showDialog.toggle()
-                                                
-                                                self.photobook.mapImages(toSPL: images, backgroundColor: NSColor(Color.white), overlapType: "Fit")
-                                                
-                                                self.dropIndex = self.splModel.findPredecessorIndex(at:location)
-                                                
+
                                                 self.uplModel.selectedIndices.removeAll()
                                                 
                                             } catch {
@@ -470,6 +468,16 @@ struct TableContentView: View, PhotobookUIListener {
                             }
                         }
                     }
+                }
+                
+                self.toPaperModel.onOk = { [self] in
+                    var images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
+                    var overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
+                    var colors: [String:NSColor] = toPaperModel.images.mapValues { NSColor($0.backgroundColor) }
+                    
+                    self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
+                    
+                    toPaperModel.images.removeAll()
                 }
             }
         }

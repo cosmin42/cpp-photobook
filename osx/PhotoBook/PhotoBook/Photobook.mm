@@ -124,31 +124,31 @@ private:
         } else {
             return nil;
         }
-
+        
         size_t width = tempMat.cols;
         size_t height = tempMat.rows;
         size_t bytesPerRow = tempMat.step[0];
-
+        
         CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
         CGContextRef context = CGBitmapContextCreate(tempMat.data, width, height, 8, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
         CGImageRef imageRef = CGBitmapContextCreateImage(context);
-
+        
         CGContextRelease(context);
         CGColorSpaceRelease(colorSpace);
-
+        
         return imageRef;
     }
-
+    
     NSImage* MatToNSImage(const cv::Mat& mat) {
         CGImageRef imageRef = MatToCGImage(mat);
         if (!imageRef) return nil;
-
+        
         NSImage* image = [[NSImage alloc] initWithCGImage:imageRef size:NSMakeSize(mat.cols, mat.rows)];
         CGImageRelease(imageRef);
         
         return image;
     }
-
+    
     
 };
 
@@ -302,7 +302,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     return PB::Geometry::OverlapType::Inscribed;
 }
 
-- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColor:(NSColor*)backgroundColor overlapType:(NSString*)overlapType
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
 {
     auto imageToPaperService = mPhotobook->imageToPaperService();
     
@@ -318,12 +318,16 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
             
             PBDev::ImageToPaperId imageId = PBDev::ImageToPaperId(nativeUuid);
             
-            backendMap[imageId] = {[images[key] unwrap], {0, 0, 0}, PB::Geometry::OverlapType::Inscribed};
+            cv::Scalar backgroundColor = {backgroundColors[key].blueComponent * 255, backgroundColors[key].greenComponent * 255, backgroundColors[key].redComponent * 255};
+            
+            PB::Geometry::OverlapType overlapType = overlayTypeFromString(overlapTypes[key]);
+            
+            backendMap[imageId] = {[images[key] unwrap], backgroundColor, overlapType};
             
         } catch (const std::exception& e) {
         }
     }
-
+    
     imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
@@ -356,11 +360,11 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
 
 cv::Mat NSImageToMat(NSImage *image) {
     if (!image) return cv::Mat();
-
+    
     // Convert NSImage to NSBitmapImageRep
     CGImageRef cgImage = [image CGImageForProposedRect:nil context:nil hints:nil];
     if (!cgImage) return cv::Mat();
-
+    
     NSUInteger width = CGImageGetWidth(cgImage);
     NSUInteger height = CGImageGetHeight(cgImage);
     
@@ -372,7 +376,7 @@ cv::Mat NSImageToMat(NSImage *image) {
                                                  kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
     
     if (!context) return cv::Mat();
-
+    
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
     CGContextRelease(context);
     

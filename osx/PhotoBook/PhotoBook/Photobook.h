@@ -52,7 +52,7 @@
 - (void) addImportFolder:(NSString*)root;
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
-- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColor:(NSColor*)backgroundColor overlapType:(NSString*)overlapType;
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
 - (NSString*) getThumbnailsPath;
 - (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg;
 - (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex;

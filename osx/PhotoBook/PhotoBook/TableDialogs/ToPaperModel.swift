@@ -23,4 +23,7 @@ class ToPaperModel: ObservableObject
     @Published public var images:[String: ToPaperData] = [:]
     @Published public var showDialog = false
     @Published public var frameSize: CGSize = CGSize(width: 0, height: 0)
+    
+    // lambda function for ok button callback
+    @Published public var onOk: () -> Void = {}
 }
