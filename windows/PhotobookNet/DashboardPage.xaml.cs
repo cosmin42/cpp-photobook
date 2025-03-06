@@ -362,7 +362,7 @@ namespace PhotobookNet
             throw new NotImplementedException();
         }
 
-        public void OnMappingFinished(string path, unsigned imagesCount)
+        public void OnMappingFinished(string path, uint imagesCount)
         {
             throw new NotImplementedException();
         }
