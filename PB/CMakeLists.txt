@@ -44,7 +44,6 @@ endif()
 find_package(Boost REQUIRED program_options)
 find_package(exiv2 CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
-
 find_package(magic_enum CONFIG REQUIRED)
 find_package(OpenCV CONFIG REQUIRED)
 find_package(thread-pool CONFIG REQUIRED)
@@ -54,16 +53,13 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
 find_package(Vulkan REQUIRED)
+find_package(podofo CONFIG REQUIRED)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
 endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     find_package(podofo CONFIG REQUIRED)
-endif()
-
-if (WIN32)
-    include_directories(third-party/podofo-build/include)
 endif()
 
 if (WIN32)
@@ -240,6 +236,7 @@ else()
         nlohmann_json::nlohmann_json
         spdlog::spdlog
         pantor::inja
+        $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
         Vulkan::Vulkan)
 endif()
 
@@ -259,6 +256,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         tests/TestCollageService.cpp
         tests/TestDeserialization.cpp
         tests/TestErrors.cpp
+        tests/TestExportService.cpp
         tests/TestFolderImport.cpp
         tests/TestParallelTaskConsumer.cpp
         tests/TestPhotobook.cpp
@@ -277,13 +275,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
     target_include_directories(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
         include
         ${CMAKE_CURRENT_BINARY_DIR}/include)
-
-    if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
-        set(PLATFORM_PODOFO $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>)
-    endif()
-    if (WIN32)
-        set(PLATFORM_PODOFO ${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug/podofo.lib)
-    endif()
 
     if (WIN32)
         set(MAYBE_BCRYPT bcrypt)
@@ -326,7 +317,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
             nlohmann_json::nlohmann_json
             spdlog::spdlog
             pantor::inja
-            ${PLATFORM_PODOFO}
+            $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
             ${PLATFORM_SKIA}
             ${PBLIB_LIBRARY_NAME})
     else()
@@ -345,17 +336,12 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
             nlohmann_json::nlohmann_json
             spdlog::spdlog
             pantor::inja
-            ${PLATFORM_PODOFO}
+            $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
             ${PLATFORM_SKIA}
             ${PBLIB_LIBRARY_NAME})
     endif()
 
     if (WIN32)
-        add_custom_command(TARGET ${PBLIB_TESTS_LIBRARY_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/third-party/podofo-build/lib/${CMAKE_GENERATOR_PLATFORM}/Debug"
-            "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/Debug/" VERBATIM)
-
         add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
             "${CMAKE_CURRENT_SOURCE_DIR}/build-${CMAKE_GENERATOR_PLATFORM}/")
