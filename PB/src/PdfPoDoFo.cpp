@@ -62,19 +62,11 @@ void PdfExportTask::taskStep()
 
   mIndex++;
 
-  if (mIndex == stepsCount()) {
-    mDocument.reset();
-  }
-
   if constexpr (OneConfig::SIMULATE_SLOW_EXPORTER) {
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
   }
 }
 
-std::string PdfExportTask::name() const
-{
-  return mPdfPath.filename().string() + "podofo";
-}
 // TODO: implement once somehow, try std::call_once
 std::optional<IdentifyableFunction>
 PdfExportTask::getTask(std::stop_token stopToken)
@@ -86,11 +78,11 @@ PdfExportTask::getTask(std::stop_token stopToken)
   mStopToken = stopToken;
 
   IdentifyableFunction f{
-      RuntimeUUID::newUUID(), [this, stopToken{stopToken}, id{f.first}]() {
+      RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
         // TODO: Find a way to reuse this code in the other exports
         while (!stoppingCondition() && !stopToken.stop_requested()) {
           taskStep();
-          mListener->onExportUpdate(mId);
+          mListener->onExportUpdate(mPdfPath);
         }
       }};
   mCrunchedFlag = true;
@@ -100,10 +92,14 @@ PdfExportTask::getTask(std::stop_token stopToken)
 void PdfExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
-    mListener->onExportAborted(id);
+    mListener->onExportAborted(mPdfPath);
   }
   else {
-    mListener->onExportComplete(id);
+      if (mDocument)
+      {
+      mDocument.reset();
+    }
+    mListener->onExportComplete(mPdfPath);
   }
 }
 

@@ -38,11 +38,6 @@ void JpgExport::taskStep()
   }
 }
 
-std::string JpgExport::name() const
-{
-  return mRoot.parent_path().filename().string();
-}
-
 void JpgExport::writeImage(Path inputPath, Path outputPath) const
 {
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
@@ -85,7 +80,7 @@ JpgExport::getTask(std::stop_token stopToken)
       RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
         while (!stoppingCondition() && !stopToken.stop_requested()) {
           taskStep();
-          mListener->onExportUpdate(mId);
+          mListener->onExportUpdate(mRoot);
         }
       }};
   mCrunchedFlag = true;
@@ -95,10 +90,10 @@ JpgExport::getTask(std::stop_token stopToken)
 void JpgExport::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
-    mListener->onExportAborted(id);
+    mListener->onExportAborted(mRoot);
   }
   else {
-    mListener->onExportComplete(id);
+    mListener->onExportComplete(mRoot);
   }
 }
 

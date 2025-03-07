@@ -1,8 +1,8 @@
 #include <pb/export/PdfLibharu.h>
 
+#include <pb/components/Project.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/image/ImageReader.h>
-#include <pb/components/Project.h>
 
 namespace PB {
 
@@ -77,11 +77,6 @@ void PdfLibharuExportTask::taskStep()
   }
 }
 
-std::string PdfLibharuExportTask::name() const
-{
-  return mPdfPath.filename().string() + "-libharu";
-}
-
 std::optional<IdentifyableFunction>
 PdfLibharuExportTask::getTask(std::stop_token stopToken)
 {
@@ -95,7 +90,7 @@ PdfLibharuExportTask::getTask(std::stop_token stopToken)
       RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
         while (!stoppingCondition() && !stopToken.stop_requested()) {
           taskStep();
-          mListener->onExportUpdate(mId);
+          mListener->onExportUpdate(mPdfPath);
         }
       }};
   mCrunchedFlag = true;
@@ -105,10 +100,10 @@ PdfLibharuExportTask::getTask(std::stop_token stopToken)
 void PdfLibharuExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
 {
   if (mStopToken.stop_requested()) {
-    mListener->onExportAborted(id);
+    mListener->onExportAborted(mPdfPath);
   }
   else {
-    mListener->onExportComplete(id);
+    mListener->onExportComplete(mPdfPath);
   }
 }
 

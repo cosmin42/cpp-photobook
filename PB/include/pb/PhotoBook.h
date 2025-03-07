@@ -73,9 +73,9 @@ public:
 
   void post(std::function<void()> f) override;
 
-  void onExportComplete(std::string name) override;
-  void onExportAborted(std::string name) override;
-  void onExportUpdate(std::string name) override;
+  void onExportComplete(Path) override;
+  void onExportAborted(Path) override;
+  void onExportUpdate(Path) override;
 
   void progressUpdate(PB::ProgressStatus status) override;
 

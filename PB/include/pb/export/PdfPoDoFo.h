@@ -35,8 +35,6 @@ public:
   int  stepsCount() const;
   void taskStep();
 
-  std::string name() const;
-
   virtual std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override;
 

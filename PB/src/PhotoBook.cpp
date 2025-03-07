@@ -319,11 +319,11 @@ std::shared_ptr<ExportService> Photobook::exportService() const
   return mExportService;
 }
 
-void Photobook::onExportComplete(std::string name) {}
+void Photobook::onExportComplete(Path) {}
 
-void Photobook::onExportAborted(std::string name) {}
+void Photobook::onExportAborted(Path) {}
 
-void Photobook::onExportUpdate(std::string name) {}
+void Photobook::onExportUpdate(Path) {}
 
 void Photobook::progressUpdate(PB::ProgressStatus status)
 {

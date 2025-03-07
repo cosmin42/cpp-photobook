@@ -17,9 +17,9 @@ namespace PB {
 
 class ExportListener {
 public:
-  virtual void onExportComplete(std::string name) = 0;
-  virtual void onExportAborted(std::string name) = 0;
-  virtual void onExportUpdate(std::string name) = 0;
+  virtual void onExportComplete(Path) = 0;
+  virtual void onExportAborted(Path) = 0;
+  virtual void onExportUpdate(Path) = 0;
 };
 
 class ExportService final : public ExportLogicListener {
@@ -38,26 +38,21 @@ public:
 
   void exportJPGAlbum(std::string name, Path path);
 
-  void onExportComplete(PBDev::MapReducerTaskId id) override;
+  void onExportComplete(Path) override;
 
-  void onExportAborted(PBDev::MapReducerTaskId id) override;
+  void onExportAborted(Path) override;
 
-  void onExportUpdate(PBDev::MapReducerTaskId id) override;
+  void onExportUpdate(Path) override;
 
 private:
-  ExportListener               *mListener;
-  std::shared_ptr<IdentifyableProject> mProject;
-  std::shared_ptr<PlatformInfo> mPlatformInfo;
+  ExportListener                      *mListener = nullptr;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
 
-  std::vector<GenericImagePtr>  mPtrImages;
-  std::shared_ptr<TaskCruncher> mTaskCruncher;
-  std::unordered_map<PBDev::MapReducerTaskId, std::shared_ptr<MapReducer>,
-                     boost::hash<PBDev::MapReducerTaskId>>
-      mPendingTasks;
-  std::unordered_map<PBDev::MapReducerTaskId, std::string,
-                     boost::hash<PBDev::MapReducerTaskId>>
-      mPendingTaskNames;
+  std::unordered_map<Path, std::shared_ptr<MapReducer>> mPendingTasks;
+  std::set<Path>                                        mPendingPaths; 
 
-  void start(std::string name, std::shared_ptr<MapReducer> task);
+  void start(Path path, std::shared_ptr<MapReducer> task);
 };
 } // namespace PB

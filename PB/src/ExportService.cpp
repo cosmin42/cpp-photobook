@@ -1,7 +1,8 @@
 #include <pb/export/ExportService.h>
 
 namespace PB {
-void ExportService::configureProject(std::shared_ptr<IdentifyableProject> project)
+void ExportService::configureProject(
+    std::shared_ptr<IdentifyableProject> project)
 {
   mProject = project;
 }
@@ -25,9 +26,9 @@ void ExportService::configureExportListener(ExportListener *listener)
 
 void ExportService::exportPDFAlbum(std::string name, Path path)
 {
-  auto                           pdfName = path / (name + ".pdf");
+  auto                           pdfPath = path / (name + ".pdf");
   std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
-      pdfName, mPlatformInfo->localStatePath, mProject->second.paperSettings,
+      pdfPath, mPlatformInfo->localStatePath, mProject->second.paperSettings,
       mProject->second.stagedImages()->stagedPhotos());
   task->configurePodofoListener(this);
   start(name, task);
@@ -38,7 +39,8 @@ void ExportService::exportPDFLibharu(std::string name, Path path)
   auto pdfName = path / (name + "-libharu" + ".pdf");
   std::shared_ptr<PdfLibharuExportTask> task =
       std::make_shared<PdfLibharuExportTask>(
-          pdfName, mPlatformInfo->localStatePath, mProject->second.paperSettings,
+          pdfName, mPlatformInfo->localStatePath,
+          mProject->second.paperSettings,
           mProject->second.stagedImages()->stagedPhotos());
   task->configureLibharuListener(this);
   start(name, task);
@@ -54,44 +56,41 @@ void ExportService::exportJPGAlbum(std::string name, Path path)
     auto success = std::filesystem::create_directories(newFolder);
     PBDev::basicAssert(success);
 
-    std::shared_ptr<JpgExport> task =
-        std::make_shared<JpgExport>(newFolder, mProject->second.paperSettings,
-                                    mProject->second.stagedImages()->stagedPhotos());
+    std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
+        newFolder, mProject->second.paperSettings,
+        mProject->second.stagedImages()->stagedPhotos());
     task->configureJpgListener(this);
     start(name, task);
   }
 }
 
-void ExportService::onExportComplete(PBDev::MapReducerTaskId id)
+void ExportService::onExportComplete(Path path)
 {
-  mListener->onExportComplete(mPendingTaskNames.at(id));
-  mPendingTasks.erase(id);
-  mPendingTaskNames.erase(id);
+  mListener->onExportComplete(path);
+  mPendingTasks.erase(path);
+  mPendingPaths.erase(path);
 }
 
-void ExportService::onExportAborted(PBDev::MapReducerTaskId id)
+void ExportService::onExportAborted(Path path)
 {
-  mListener->onExportAborted(mPendingTaskNames.at(id));
-  mPendingTasks.erase(id);
-  mPendingTaskNames.erase(id);
+  mListener->onExportAborted(path);
+  mPendingTasks.erase(path);
+  mPendingPaths.erase(path);
 }
 
-void ExportService::onExportUpdate(PBDev::MapReducerTaskId id)
+void ExportService::onExportUpdate(Path path)
 {
-  auto name = mPendingTaskNames.at(id);
-  mListener->onExportUpdate(name);
+  mListener->onExportUpdate(path);
 }
 
-void ExportService::start(std::string name, std::shared_ptr<MapReducer> task)
+void ExportService::start(Path path, std::shared_ptr<MapReducer> task)
 {
-  PBDev::MapReducerTaskId id(RuntimeUUID::newUUID());
-  task->assignUuid(id);
+  mPendingTasks[path] = task;
+  mPendingPaths.insert(path);
 
-  mPendingTasks.emplace(id, task);
-  mPendingTaskNames.emplace(id, name);
-
-  auto stopSource = mTaskCruncher->crunch("export-logic", *mPendingTasks.at(id),
-                                          PBDev::ProgressJobName{"export"});
+  auto stopSource =
+      mTaskCruncher->crunch("export-logic", *mPendingTasks.at(path),
+                            PBDev::ProgressJobName{"export"});
   UNUSED(stopSource);
 }
 } // namespace PB
