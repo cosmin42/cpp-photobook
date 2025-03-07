@@ -37,8 +37,7 @@ struct ExportDialog: View {
                     Text("JPG")
                 }
                 Spacer().padding(1)
-                
-                //specify the name
+
                 TextField("Album name", text: $model.albumName)
                     .onAppear {
                         model.albumName = "Album"
@@ -108,7 +107,7 @@ struct ExportDialog: View {
         panel.canChooseFiles = false
         
         if panel.runModal() == .OK {
-            model.exportPath = panel.url?.absoluteString ?? ""
+            model.exportPath = panel.url?.path ?? ""
         }
     }
 }
