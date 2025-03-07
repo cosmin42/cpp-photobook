@@ -161,4 +161,6 @@ struct DashboardView: View, PhotobookUIListener {
     func onCollageCreated(image: FrontendImage){}
     
     func onLutAppliedInMemory(imageId: String, image: NSImage) {}
+    
+    func onError(message: String){}
 }

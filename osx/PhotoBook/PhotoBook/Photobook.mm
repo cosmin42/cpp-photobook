@@ -60,7 +60,10 @@ public:
     }
     void onPersistenceError(PBDev::Error) override {}
     void onExportFinished() override {}
-    void onError(PBDev::Error) override {}
+    void onError(PBDev::Error error) override {
+        NSString* managedError = [NSString stringWithUTF8String:error.description().c_str()];
+        [&mManagedListener onError:managedError];
+    }
     void onStagedImageRemoved(std::vector<unsigned> removedIndexes) override {}
     void onMappingStarted(Path path) override {}
     void onMappingFinished(Path path, unsigned imagesCount) override {
@@ -110,6 +113,7 @@ public:
         NSImage* managedImage = MatToNSImage(*image);
         [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
     }
+    
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
     

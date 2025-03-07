@@ -50,6 +50,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var exportModel: ExportModel = ExportModel()
     @Binding private var toOpenProjectName: String
+    @StateObject private var errorModel: ErrorModel = ErrorModel()
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -515,7 +516,7 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .sheet(isPresented: $errorDialogVisible)
         {
-            ErrorDialog(isPresented: $errorDialogVisible)
+            ErrorDialog(isPresented: $errorDialogVisible, model: errorModel)
         }
         .onAppear()
         {
@@ -620,6 +621,12 @@ struct TableContentView: View, PhotobookUIListener {
             self.canvasModel.processedImageInfo = ("", "")
             self.canvasModel.maybeProcessedImage = image
         }
+    }
+    
+    func onError(message: String)
+    {
+        errorModel.description = message
+        errorDialogVisible = true
     }
 
     private func openImportMediaBrowser() {

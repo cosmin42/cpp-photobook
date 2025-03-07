@@ -51,6 +51,11 @@ private var noirUIListener: [NoirUIListener] = []
     {
         photobookUIListener.last?.onLutAppliedInMemory(imageId:imageId, image:image)
     }
+    
+    func onError(_ message: String)
+    {
+        photobookUIListener.last?.onError(message: message)
+    }
 }
 
 @objc extension NoirListenerWrapperCLevel
@@ -155,6 +160,11 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     {
         
+    }
+    
+    func onError(message: String)
+    {
+        print("Error: \(message)")
     }
     
     func onNoirError() {}

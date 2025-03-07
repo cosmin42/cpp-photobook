@@ -11,21 +11,19 @@ import SwiftUI
 struct ErrorDialog: View {
     
     @Binding var isPresented: Bool
+    @ObservedObject var model: ErrorModel
     
     var body: some View {
         VStack {
-            Text("Error")
-                .font(.title)
-                .padding()
-            
             HStack {
                 Image(systemName: "exclamationmark.triangle")
-                    .resizable()
-                    .frame(width: 50, height: 50)
                     .foregroundColor(Color.red)
-                
-                Text("An error occurred.")
+                Text("Error")
+                    .font(.title)
             }
+
+            Text(model.description)
+                .padding()
             
             Button("Ok") {
                 self.isPresented = false
@@ -34,6 +32,7 @@ struct ErrorDialog: View {
             .foregroundColor(Color.MainFontColor)
             .cornerRadius(8)
         }
+        .frame(width: 300)
         .padding()
     }
 }
