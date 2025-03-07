@@ -18,6 +18,8 @@ enum SimpleImageProcessingType: String
 }
 
 struct TableContentView: View, PhotobookUIListener {
+    @Environment(\.scenePhase) private var scenePhase
+    
     @State private var navigateToDashboard = false
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
@@ -51,6 +53,8 @@ struct TableContentView: View, PhotobookUIListener {
     @StateObject private var exportModel: ExportModel = ExportModel()
     @Binding private var toOpenProjectName: String
     @StateObject private var errorModel: ErrorModel = ErrorModel()
+    
+    @StateObject private var saveAreYouSureModel: AreYouSureModel = AreYouSureModel()
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -518,6 +522,10 @@ struct TableContentView: View, PhotobookUIListener {
         {
             ErrorDialog(isPresented: $errorDialogVisible, model: errorModel)
         }
+        .sheet(isPresented: $saveAreYouSureModel.showDialog)
+        {
+            AreYouSureDialog(model: saveAreYouSureModel)
+        }
         .onAppear()
         {
             NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
@@ -531,6 +539,15 @@ struct TableContentView: View, PhotobookUIListener {
                 name, path, exportPdf, exportPdfOpt, exportJpg in
                 self.photobook.exportAlbum(path, name: name, exportPdf: exportPdf, exportPdfOptimized: exportPdfOpt, exportJpg: exportJpg)
             }
+            
+            self.saveAreYouSureModel.title = "Save Project"
+            self.saveAreYouSureModel.message = "Do you want to save the project?"
+            
+            self.saveAreYouSureModel.onYes = {
+                self.photobook.saveProject()
+            }
+            self.saveAreYouSureModel.onNo = {
+            }
         }
         .onDisappear()
         {
@@ -541,6 +558,19 @@ struct TableContentView: View, PhotobookUIListener {
         .background(Color.PrimaryColor)
         .onTapGesture{
             basicTransformationModel.imageProcessingType = .None
+        }
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .active:
+                print("Active")
+            case .inactive:
+                saveAreYouSureModel.showDialog = true
+            case .background:
+                print("Background")
+            @unknown default:
+                print("Unknown")
+                
+            }
         }
         
     }
