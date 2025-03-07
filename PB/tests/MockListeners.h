@@ -13,6 +13,7 @@
 #include <pb/PhotoBook.h>
 #include <pb/Platform.h>
 #include <pb/entities/LutIconInfo.h>
+#include <pb/export/ExportService.h>
 #include <pb/infra/TSQueue.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DurableHashService.h>
@@ -61,6 +62,8 @@ public:
   MOCK_METHOD(void, onLutApplied,
               (PBDev::LutApplicationId, PB::GenericImagePtr, PBDev::Path),
               (override));
+  MOCK_METHOD(void, onLutAppliedInMemory,
+              (PBDev::LutApplicationId, std::shared_ptr<cv::Mat>), (override));
 };
 
 class TestProjectManagementServiceListener final
@@ -93,81 +96,88 @@ public:
   MOCK_METHOD(void, onCollageThumbnailsMakerError, (), (override));
 };
 
-/*
-class TestPersistenceProjectListener final
-    : public PB::PersistenceProjectListener {
+class TestExportServiceListener final : public PB::ExportListener {
 public:
-  MOCK_METHOD(void, onProjectRead,
-              (std::string, std::shared_ptr<PB::Project>, VirtualImageMatrix &,
-               VirtualImageLine &, RootsVector),
-              (override));
-  MOCK_METHOD(void, onProjectPersistenceError, (PBDev::Error), (override));
-  MOCK_METHOD(void, onJsonRead, (Json), (override));
+  MOCK_METHOD(void, onExportComplete, (Path), (override));
+  MOCK_METHOD(void, onExportAborted, (Path), (override));
+  MOCK_METHOD(void, onExportUpdate, (Path), (override));
 };
 
-typedef boost::bimaps::bimap<boost::uuids::uuid, std::string> BimapWorkaround;
 
-class TestPersistenceMetadataListener final
-    : public PB::PersistenceMetadataListener {
-public:
-  MOCK_METHOD(void, onMetadataRead, (BimapWorkaround), (override));
-  MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
-};
+  /*
+  class TestPersistenceProjectListener final
+      : public PB::PersistenceProjectListener {
+  public:
+    MOCK_METHOD(void, onProjectRead,
+                (std::string, std::shared_ptr<PB::Project>, VirtualImageMatrix
+  &, VirtualImageLine &, RootsVector), (override)); MOCK_METHOD(void,
+  onProjectPersistenceError, (PBDev::Error), (override)); MOCK_METHOD(void,
+  onJsonRead, (Json), (override));
+  };
 
-class TestProjectPersistenceListener final
-    : public PB::PersistenceServiceListener {
-  MOCK_METHOD(void, onMetadataUpdated, (), (override));
-  MOCK_METHOD(void, onProjectRead,
-              (VirtualImageMatrix &, VirtualImageLine &, RootsVector),
-              (override));
-  MOCK_METHOD(void, onProjectRenamed, (), (override));
-  MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
-};
-*/
+  typedef boost::bimaps::bimap<boost::uuids::uuid, std::string> BimapWorkaround;
 
-class ProgressServiceListenerTest final : public ProgressServiceListener {
-public:
-  MOCK_METHOD(void, progressUpdate, (PB::ProgressStatus), (override));
-};
+  class TestPersistenceMetadataListener final
+      : public PB::PersistenceMetadataListener {
+  public:
+    MOCK_METHOD(void, onMetadataRead, (BimapWorkaround), (override));
+    MOCK_METHOD(void, onMetadataPersistenceError, (PBDev::Error), (override));
+  };
 
-class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
-public:
-  explicit ThreadSchedulerMock(std::chrono::milliseconds waitTime)
-      : mWaitTime(waitTime)
-  {
-  }
-  ~ThreadSchedulerMock() = default;
+  class TestProjectPersistenceListener final
+      : public PB::PersistenceServiceListener {
+    MOCK_METHOD(void, onMetadataUpdated, (), (override));
+    MOCK_METHOD(void, onProjectRead,
+                (VirtualImageMatrix &, VirtualImageLine &, RootsVector),
+                (override));
+    MOCK_METHOD(void, onProjectRenamed, (), (override));
+    MOCK_METHOD(void, onPersistenceError, (PBDev::Error), (override));
+  };
+  */
 
-  void post(std::function<void()> f) override { mQueue.enqueue(f); }
+  class ProgressServiceListenerTest final : public ProgressServiceListener {
+  public:
+    MOCK_METHOD(void, progressUpdate, (PB::ProgressStatus), (override));
+  };
 
-  void mainloop()
-  {
-    while (true) {
-      auto f = mQueue.dequeue(mWaitTime);
-      if (f) {
-        f();
-      }
-      else {
-        spdlog::info("ThreadSchedulerMock::mainloop() break");
-        break;
+  class ThreadSchedulerMock final : public PBDev::ThreadScheduler {
+  public:
+    explicit ThreadSchedulerMock(std::chrono::milliseconds waitTime)
+        : mWaitTime(waitTime)
+    {
+    }
+    ~ThreadSchedulerMock() = default;
+
+    void post(std::function<void()> f) override { mQueue.enqueue(f); }
+
+    void mainloop()
+    {
+      while (true) {
+        auto f = mQueue.dequeue(mWaitTime);
+        if (f) {
+          f();
+        }
+        else {
+          spdlog::info("ThreadSchedulerMock::mainloop() break");
+          break;
+        }
       }
     }
-  }
 
-private:
-  PB::TSQueue<std::function<void()>> mQueue;
-  std::chrono::milliseconds          mWaitTime;
-};
+  private:
+    PB::TSQueue<std::function<void()>> mQueue;
+    std::chrono::milliseconds          mWaitTime;
+  };
 
-std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
-std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath,
-                                                   Path locaStatePath);
+  std::shared_ptr<PB::PlatformInfo> mockPlatformInfo();
+  std::shared_ptr<PB::PlatformInfo> mockPlatformInfo(Path installationPath,
+                                                     Path locaStatePath);
 
-std::shared_ptr<DatabaseService>
-mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
+  std::shared_ptr<DatabaseService>
+  mockDatabaseService(std::shared_ptr<PB::PlatformInfo> platformInfo);
 
-std::shared_ptr<ProjectSerializerService>
-mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo);
+  std::shared_ptr<ProjectSerializerService>
+  mockProjectSerializerService(std::shared_ptr<PB::PlatformInfo> platformInfo);
 
-std::shared_ptr<DurableHashService>
-mockDurableHashService(std::shared_ptr<DatabaseService> databaseService);
+  std::shared_ptr<DurableHashService>
+  mockDurableHashService(std::shared_ptr<DatabaseService> databaseService);
