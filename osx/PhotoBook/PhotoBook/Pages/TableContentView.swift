@@ -49,6 +49,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var errorDialogVisible = false
     
     @StateObject private var exportModel: ExportModel = ExportModel()
+    @Binding private var toOpenProjectName: String
     
     //number formatter with decimals
     private var numberFormatter: NumberFormatter {
@@ -59,10 +60,11 @@ struct TableContentView: View, PhotobookUIListener {
         return formatter
     }
     
-    init(navigationPath:Binding<[String]>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, toOpenProjectName:Binding<String>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
+        _toOpenProjectName = toOpenProjectName
         _lutGridModel = lutGridModel
         
         self.uplModel = UnstagedPhotoLineModel()
@@ -105,6 +107,17 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .disabled(mediaListModel.list.isEmpty)
                     .help("Remove Group")
+                    
+                    
+                    Button(action: {
+                        self.photobook.saveProject()
+                    }) {
+                        Text("💾")
+                    }
+                    .frame(alignment: .leading)
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                    .help("Save")
                     
                     Divider()
                         .frame(height: 32)
@@ -355,8 +368,6 @@ struct TableContentView: View, PhotobookUIListener {
                                             do {
                                                 let uplIdentifier = try self.decodeData(data)
                                                 var images: [String: FrontendImage] = [:]
-                                                var colors: [String: NSColor] = [:]
-                                                var overlapTypes: [String: String] = [:]
                                                 for index in uplIdentifier.indices
                                                 {
                                                     if let row = uplIdentifier.row
@@ -471,13 +482,22 @@ struct TableContentView: View, PhotobookUIListener {
                 }
                 
                 self.toPaperModel.onOk = { [self] in
-                    var images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
-                    var overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
-                    var colors: [String:NSColor] = toPaperModel.images.mapValues { NSColor($0.backgroundColor) }
+                    let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
+                    let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
+                    let colors: [String:NSColor] = toPaperModel.images.mapValues { NSColor($0.backgroundColor) }
                     
                     self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
                     
                     toPaperModel.images.removeAll()
+                }
+                
+                if toOpenProjectName.isEmpty
+                {
+                    print("No project has to be opened")
+                }
+                else
+                {
+                    print("Opening project \(toOpenProjectName)")
                 }
             }
         }

@@ -75,7 +75,7 @@ struct DashboardView: View, PhotobookUIListener {
                         ForEach(projectsList, id: \.self) { item in
                             // Each item in the grid
                             Button(action: {
-                                print("Button was pressed!")
+                                photobook.loadProject(item.identifier)
                             }){
                                 Text("\(item.name)")
                                     .frame(width: 100, height: 100)

@@ -57,6 +57,8 @@
 - (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg;
 - (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex;
 - (NSString*) getText:(NSString*)key;
+- (void) loadProject:(NSString*)projectId;
+- (void) saveProject;
 @end
 
 #endif /* Photobook_h */

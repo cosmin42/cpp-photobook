@@ -39,12 +39,13 @@ void to_json(Json &json, const PB::PaperType &paperType)
 
 void from_json(const Json &json, PB::PaperType &paperType)
 {
-  paperType =
-      magic_enum::enum_cast<PB::PaperType>(json.get<std::string>()).value();
+    int paperTypeInt = json.get<int>();
+    paperType = static_cast<PB::PaperType>(paperTypeInt);
 }
 
 void to_json(Json &json, const PB::PaperSettings &paper)
 {
+  to_json(json["type"], paper.type);
   json["type"] = paper.type;
   json["ppi"] = paper.ppi;
   json["width"] = paper.width;
@@ -53,7 +54,8 @@ void to_json(Json &json, const PB::PaperSettings &paper)
 
 void from_json(const Json &json, PB::PaperSettings &paper)
 {
-  paper.type = json["type"].get<PB::PaperType>();
+  PB::Noir::inst().getLogger()->info("PaperSettings from_json {}", json.dump());
+  from_json(json["type"], paper.type);
   paper.ppi = json["ppi"].get<int>();
   paper.width = json["width"].get<int>();
   paper.height = json["height"].get<int>();
@@ -213,7 +215,7 @@ void from_json(const Json &json, PB::GenericImagePtrLine &line)
 void to_json(Json &json, PB::Project &project)
 {
   json["name"] = project.name;
-  json["paperSettings"] = project.paperSettings;
+  to_json(json["paperSettings"], project.paperSettings);
   to_json(json["imageMonitor"], project.imageMonitor()->unstaged());
   to_json(json["stagedImages"], project.stagedImages()->stagedPhotos());
   to_json(json["roots"], project.imageMonitor()->rowList());

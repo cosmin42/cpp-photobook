@@ -398,4 +398,16 @@ cv::Mat NSImageToMat(NSImage *image) {
     return [NSString stringWithUTF8String:result.c_str()];
 }
 
+- (void) loadProject:(NSString*)projectId
+{
+    std::string nativeProjectId = [projectId UTF8String];
+    boost::uuids::uuid nativeUuid = boost::uuids::string_generator()(nativeProjectId);
+    mPhotobook->projectManagementService()->loadProject(nativeUuid);
+}
+
+- (void) saveProject
+{
+    mPhotobook->projectManagementService()->save();
+}
+
 @end

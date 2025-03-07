@@ -10,25 +10,14 @@ void ProjectSerializerService::configurePlatformInfo(
 {
   mPlatformInfo = platformInfo;
 }
-
 Json ProjectSerializerService::loadAsJson(Path projectPath)
 {
-  std::ifstream file(projectPath);
+    std::ifstream stream(projectPath);
+    if (!stream) {
+        PBDev::basicAssert(false);
+    }
 
-  PBDev::basicAssert(file.is_open());
-
-  Json jsonData;
-  try {
-    file >> jsonData;
-    file.close();
-    return jsonData;
-  }
-  catch (Json::exception err) {
-    auto what = err.what();
-    UNUSED(what);
-    PBDev::basicAssert(false);
-  }
-  return Json();
+    return Json::parse(stream);
 }
 
 void ProjectSerializerService::saveAsJson(Path projectPath, Json json)
@@ -37,7 +26,7 @@ void ProjectSerializerService::saveAsJson(Path projectPath, Json json)
 
   PBDev::basicAssert(file.is_open());
 
-  file << json.dump(2);
+  file << json.dump();
   file.close();
 }
 
@@ -108,6 +97,6 @@ void ProjectSerializerService::saveProject(Project project)
 
   // TODO: Separate this save to an infrastructure class, add DiskOperations
   // class
-  saveAsJson(projectPath, json.dump());
+  saveAsJson(projectPath, json);
 }
 } // namespace PB::Service

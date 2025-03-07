@@ -72,6 +72,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State private var aboutDialogVisible = false
     @State private var lutGridModel: LutGridModel = LutGridModel()
     @State private var licenseModel: LicenseModel = LicenseModel()
+    @State private var toOpenProjectName: String = ""
     
     init()
     {
@@ -102,7 +103,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                             DashboardView(navigationPath: $navigationPath, photobook:self.photobook)
                         }
                         else if value == "Table" {
-                            TableContentView(navigationPath: $navigationPath, lutGridModel:$lutGridModel, photobook:self.photobook)
+                            TableContentView(navigationPath: $navigationPath, toOpenProjectName: $toOpenProjectName,  lutGridModel:$lutGridModel, photobook:self.photobook)
                         }
                     }
             }
