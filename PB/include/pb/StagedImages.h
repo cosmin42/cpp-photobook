@@ -7,6 +7,7 @@
 
 namespace PB {
 
+// TODO: Naming in this class i really bad
 class StagedImages final {
 public:
   void configure(std::vector<GenericImagePtr> &stagedImages);

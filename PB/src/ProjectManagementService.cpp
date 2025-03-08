@@ -165,6 +165,7 @@ void ProjectManagementService::preprocessDefaultWaitingImage()
   UNUSED(hash);
 }
 
+// TODO: make this async
 void ProjectManagementService::loadProject(
     std::variant<std::string, boost::uuids::uuid> nameOrId)
 {

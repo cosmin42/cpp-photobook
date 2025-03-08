@@ -26,7 +26,7 @@ void ProjectSerializerService::saveAsJson(Path projectPath, Json json)
 
   PBDev::basicAssert(file.is_open());
 
-  file << json.dump();
+  file << json.dump(2);
   file.close();
 }
 
