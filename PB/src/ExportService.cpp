@@ -31,6 +31,8 @@ void ExportService::exportPDFAlbum(std::string name, Path path)
       pdfPath, mPlatformInfo->localStatePath, mProject->second.paperSettings,
       mProject->second.stagedImages()->stagedPhotos());
   task->configurePodofoListener(this);
+  task->configurePlatformInfo(mPlatformInfo);
+  task->configureProject(mProject);
   start(name, task);
 }
 
@@ -43,6 +45,8 @@ void ExportService::exportPDFLibharu(std::string name, Path path)
           mProject->second.paperSettings,
           mProject->second.stagedImages()->stagedPhotos());
   task->configureLibharuListener(this);
+  task->configurePlatformInfo(mPlatformInfo);
+  task->configureProject(mProject);
   start(name, task);
 }
 
@@ -60,6 +64,8 @@ void ExportService::exportJPGAlbum(std::string name, Path path)
         newFolder, mProject->second.paperSettings,
         mProject->second.stagedImages()->stagedPhotos());
     task->configureJpgListener(this);
+    task->configurePlatformInfo(mPlatformInfo);
+    task->configureProject(mProject);
     start(name, task);
   }
 }

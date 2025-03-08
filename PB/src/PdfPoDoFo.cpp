@@ -47,7 +47,7 @@ void PdfExportTask::taskStep()
   auto virtualImage = mStagedImages.at(mIndex);
   auto imagePath =
       mPlatformInfo->thumbnailByHash(mProject->first, virtualImage->hash());
-  writeImage(virtualImage->full(), tmpImageDestination);
+  writeImage(imagePath, tmpImageDestination);
 
   PoDoFo::PdfPage &pPage = mDocument->GetPages().CreatePage(
       PoDoFo::PdfPage::CreateStandardPageSize(PoDoFo::PdfPageSize::A4, true));
