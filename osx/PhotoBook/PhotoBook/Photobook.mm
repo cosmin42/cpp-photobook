@@ -16,8 +16,6 @@
 #include "LutItem.h"
 
 @implementation PhotobookListenerWrapperCLevel
-- (void)onProjectRead {
-}
 
 @end
 

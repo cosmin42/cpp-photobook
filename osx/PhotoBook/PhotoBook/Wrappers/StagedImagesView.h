@@ -14,10 +14,16 @@
 #include <pb/StagedImages.h>
 #endif
 
+#include "FrontendImage.h"
+
 @interface StagedImagesView : NSObject
 #if __cplusplus
 - (id) initWithCpp:(std::shared_ptr<PB::StagedImages>)stagedImages;
 #endif
+- (void) addImages:(NSArray<FrontendImage*>*)images;
+- (void) addImages:(NSArray<FrontendImage*>*)images atIndex:(unsigned)index;
+- (void) removeImages:(NSArray<NSNumber*>*)indexes;
+- (NSArray<FrontendImage*>*)images:(NSString*)thumbnailsPath;
 @end
 
 #endif /* StagedImagesView_h */

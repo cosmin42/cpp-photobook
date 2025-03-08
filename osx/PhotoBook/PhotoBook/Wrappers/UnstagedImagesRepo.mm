@@ -28,4 +28,21 @@
     auto genericImage = cppImageMonitor->image(row, index);
     return [[FrontendImage alloc] initWithCpp:genericImage projectRoot:thumbnailsPath];
 }
+
+- (NSArray<MediaItem*>*) rowList
+{
+    auto rowList = cppImageMonitor->rowList();
+    NSMutableArray<MediaItem*>* result = [NSMutableArray new];
+    
+    for(auto i = 0; i < rowList.size(); i++)
+    {
+        auto displayName = rowList.at(i).stem();
+        NSString* path = [NSString stringWithUTF8String:rowList.at(i).string().c_str()];
+        NSString* displayNameNative = [NSString stringWithUTF8String:displayName.string().c_str()];
+        UInt32 imagesCount = cppImageMonitor->rowSize(i);
+        MediaItem* mediaItem = [[MediaItem alloc] initWithCpp:path displayName:displayNameNative imagesCount:imagesCount];
+        [result addObject:mediaItem];
+    }
+    return result;
+}
 @end

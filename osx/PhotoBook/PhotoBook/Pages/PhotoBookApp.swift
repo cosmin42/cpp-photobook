@@ -102,10 +102,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     var body: some Scene {
         WindowGroup {
             NavigationStack (path: $navigationPath) {
-                DashboardView(navigationPath:$navigationPath, photobook:self.photobook)
+                DashboardView(navigationPath:$navigationPath, toOpenProjectName: $toOpenProjectName, photobook:self.photobook)
                     .navigationDestination(for: String.self) { value in
                         if value == "Dashboard" {
-                            DashboardView(navigationPath: $navigationPath, photobook:self.photobook)
+                            DashboardView(navigationPath: $navigationPath, toOpenProjectName: $toOpenProjectName, photobook:self.photobook)
                         }
                         else if value == "Table" {
                             TableContentView(navigationPath: $navigationPath, toOpenProjectName: $toOpenProjectName,  lutGridModel:$lutGridModel, photobook:self.photobook)

@@ -20,6 +20,8 @@ enum SimpleImageProcessingType: String
 struct TableContentView: View, PhotobookUIListener {
     @Environment(\.scenePhase) private var scenePhase
     
+    // TODO: Organize the members below
+    // Organize the models and views
     @State private var navigateToDashboard = false
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
@@ -27,8 +29,8 @@ struct TableContentView: View, PhotobookUIListener {
     @State var tabViewRatio = 0.5
     @State var selectedTab: Int = 0
     
-    @State private var uplModel: UnstagedPhotoLineModel
-    @State private var splModel: StagedPhotoLineModel
+    @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
+    @State private var splModel: StagedPhotoLineModel = StagedPhotoLineModel()
     @State private var mediaListModel: MediaListModel = MediaListModel()
     
     @State private var collagesGridModel: CollagesGridModel
@@ -56,7 +58,6 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var saveAreYouSureModel: AreYouSureModel = AreYouSureModel()
     
-    //number formatter with decimals
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -71,10 +72,6 @@ struct TableContentView: View, PhotobookUIListener {
         _navigationPath = navigationPath
         _toOpenProjectName = toOpenProjectName
         _lutGridModel = lutGridModel
-        
-        self.uplModel = UnstagedPhotoLineModel()
-        self.splModel = StagedPhotoLineModel(stagedImagesView: photobook.projectManagementService().stagedImages())
-        
         _collagesGridModel = State(initialValue: CollagesGridModel(splSelectedIndices: Binding.constant([]), uplSelectedIndices: Binding.constant([])))
     }
     
@@ -534,7 +531,6 @@ struct TableContentView: View, PhotobookUIListener {
             }
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             PhotoBookApp.pushListener(listener: self)
-            self.photobook.makeCollages()
             exportModel.onExport = {
                 name, path, exportPdf, exportPdfOpt, exportJpg in
                 self.photobook.exportAlbum(path, name: name, exportPdf: exportPdf, exportPdfOptimized: exportPdfOpt, exportJpg: exportJpg)
@@ -548,6 +544,16 @@ struct TableContentView: View, PhotobookUIListener {
             }
             self.saveAreYouSureModel.onNo = {
             }
+            
+            self.photobook.loadProject(toOpenProjectName)
+            self.photobook.makeCollages()
+            
+            self.mediaListModel.list = self.photobook.projectManagementService().unstagedImagesRepo().rowList()
+            self.mediaListModel.selectedItem = self.mediaListModel.list.first
+            
+            let thumbnailsPath = self.photobook.getThumbnailsPath()
+            
+            self.splModel.list = self.photobook.projectManagementService().stagedImages().images(thumbnailsPath)
         }
         .onDisappear()
         {
@@ -586,13 +592,14 @@ struct TableContentView: View, PhotobookUIListener {
         return decoded
     }
     
-    func onProjectRead(){}
+    func onProjectRead(){
+    }
     func onMetadataUpdated(focusedName: String){}
     
     func onMappingFinished(root: String, imagesCount: UInt32)
     {
         let url = URL(fileURLWithPath: root)
-        self.mediaListModel.list.append(MediaItem(path:root, displayName: url.lastPathComponent, imagesCount: imagesCount))
+        self.mediaListModel.list.append(MediaItem(root, displayName: url.lastPathComponent, imagesCount: imagesCount))
         self.mediaListModel.selectedItem = self.mediaListModel.list.last
     }
     
@@ -636,6 +643,7 @@ struct TableContentView: View, PhotobookUIListener {
     func onImageMapped(imageId: String, image: FrontendImage)
     {
         self.splModel.insert(image: image, position: self.dropIndex)
+        self.photobook.projectManagementService().stagedImages().add([image], at: UInt32(self.dropIndex ?? 0))
     }
     
     func onCollageCreated(image: FrontendImage)

@@ -15,6 +15,7 @@
 #endif
 
 #include "FrontendImage.h"
+#include "MediaItem.h"
 
 @interface UnstagedImagesRepo : NSObject
 #if __cplusplus
@@ -23,6 +24,7 @@
 
 - (unsigned) rowSize:(unsigned)rowIndex;
 - (FrontendImage*) image:(unsigned)row index:(unsigned)index thumbnailsPath:(NSString*)thumbnailsPath;
+- (NSArray<MediaItem*>*) rowList;
 @end
 
 #endif /* UnstagedImagesRepo_h */

@@ -23,17 +23,10 @@ struct ItemFramesKey: PreferenceKey {
 
 class StagedPhotoLineModel: ObservableObject
 {
-    @Published public private(set) var list: [FrontendImage] = []
+    @Published public var list: [FrontendImage] = []
     @Published var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
-    
-    @State var underlyingRepo: StagedImagesView
-    
-    init(stagedImagesView: StagedImagesView)
-    {
-        self.underlyingRepo = stagedImagesView
-    }
-    
+
     public func move(fromOffsets:IndexSet, toOffset:UInt?)
     {
         if let toOffset = toOffset
