@@ -77,7 +77,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State private var aboutDialogVisible = false
     @State private var lutGridModel: LutGridModel = LutGridModel()
     @State private var licenseModel: LicenseModel = LicenseModel()
-    @State private var toOpenProjectName: String = ""
+    @State private var toOpenProjectId: String = ""
     
     init()
     {
@@ -102,13 +102,13 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     var body: some Scene {
         WindowGroup {
             NavigationStack (path: $navigationPath) {
-                DashboardView(navigationPath:$navigationPath, toOpenProjectName: $toOpenProjectName, photobook:self.photobook)
+                DashboardView(navigationPath:$navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
                     .navigationDestination(for: String.self) { value in
                         if value == "Dashboard" {
-                            DashboardView(navigationPath: $navigationPath, toOpenProjectName: $toOpenProjectName, photobook:self.photobook)
+                            DashboardView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
                         }
                         else if value == "Table" {
-                            TableContentView(navigationPath: $navigationPath, toOpenProjectName: $toOpenProjectName,  lutGridModel:$lutGridModel, photobook:self.photobook)
+                            TableContentView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId,  lutGridModel:$lutGridModel, photobook:self.photobook)
                         }
                     }
             }

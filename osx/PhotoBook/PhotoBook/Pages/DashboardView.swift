@@ -38,11 +38,11 @@ struct DashboardView: View, PhotobookUIListener {
     
     @State var columns:[GridItem] = []
     
-    @Binding private var toOpenProjectName: String
+    @Binding private var toOpenProjectId: String
     
-    init(navigationPath:Binding<[String]>, toOpenProjectName:Binding<String>, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, toOpenProjectId:Binding<String>, photobook: Photobook)
     {
-        _toOpenProjectName = toOpenProjectName
+        _toOpenProjectId = toOpenProjectId
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
         _paperSetting = State(initialValue: PaperSettings.getDefaultSettings(PaperType.A4_Landscape))
@@ -78,7 +78,7 @@ struct DashboardView: View, PhotobookUIListener {
                         ForEach(projectsList, id: \.self) { item in
                             // Each item in the grid
                             Button(action: {
-                                toOpenProjectName = item.identifier
+                                toOpenProjectId = item.identifier
                                 navigationPath.append("Table")
                             }){
                                 Text("\(item.name)")

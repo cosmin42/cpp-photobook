@@ -53,7 +53,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var errorDialogVisible = false
     
     @StateObject private var exportModel: ExportModel = ExportModel()
-    @Binding private var toOpenProjectName: String
+    @Binding private var toOpenProjectId: String
     @StateObject private var errorModel: ErrorModel = ErrorModel()
     
     @StateObject private var saveAreYouSureModel: AreYouSureModel = AreYouSureModel()
@@ -66,11 +66,11 @@ struct TableContentView: View, PhotobookUIListener {
         return formatter
     }
     
-    init(navigationPath:Binding<[String]>, toOpenProjectName:Binding<String>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
+    init(navigationPath:Binding<[String]>, toOpenProjectId:Binding<String>, lutGridModel:Binding<LutGridModel>, photobook: Photobook)
     {
         _photobook = State(initialValue: photobook)
         _navigationPath = navigationPath
-        _toOpenProjectName = toOpenProjectName
+        _toOpenProjectId = toOpenProjectId
         _lutGridModel = lutGridModel
         _collagesGridModel = State(initialValue: CollagesGridModel(splSelectedIndices: Binding.constant([]), uplSelectedIndices: Binding.constant([])))
     }
@@ -493,13 +493,13 @@ struct TableContentView: View, PhotobookUIListener {
                     toPaperModel.images.removeAll()
                 }
                 
-                if toOpenProjectName.isEmpty
+                if toOpenProjectId.isEmpty
                 {
                     print("No project has to be opened")
                 }
                 else
                 {
-                    print("Opening project \(toOpenProjectName)")
+                    print("Opening project \(toOpenProjectId)")
                 }
             }
         }
@@ -544,8 +544,10 @@ struct TableContentView: View, PhotobookUIListener {
             }
             self.saveAreYouSureModel.onNo = {
             }
-            
-            self.photobook.loadProject(toOpenProjectName)
+            if !toOpenProjectId.isEmpty
+            {
+                self.photobook.loadProject(toOpenProjectId)
+            }
             self.photobook.makeCollages()
             
             self.mediaListModel.list = self.photobook.projectManagementService().unstagedImagesRepo().rowList()
