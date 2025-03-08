@@ -17,6 +17,7 @@ struct CanvasView: View
     
     var body: some View {
         VStack {
+            Spacer()
             if model.pendingLUT
             {
                 Rectangle()
@@ -62,6 +63,7 @@ struct CanvasView: View
                             .font(.headline)
                     )
             }
+            Spacer()
             HStack {
                 Button(action:{
                     model.onLeftClick()
@@ -89,7 +91,6 @@ struct CanvasView: View
                 .buttonStyle(PlainButtonStyle())
             }
         }
-        .padding()
         .frame(width: frameSize.width * 0.5)
         .border(Color.BorderColor, width: 1)
     }

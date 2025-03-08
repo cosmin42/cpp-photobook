@@ -58,6 +58,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var saveAreYouSureModel: AreYouSureModel = AreYouSureModel()
     
+    @StateObject private var dplModel: DPLModel = DPLModel()
+    
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -79,6 +81,11 @@ struct TableContentView: View, PhotobookUIListener {
         GeometryReader { geometry in
             VStack(alignment: .leading) {
                 HStack(spacing: 16) {
+                    Text("Beta")
+                        .padding(.horizontal)
+                        .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
+                        .foregroundColor(Color.BorderColor)
+                    
                     Button(action: {
                         openImportMediaBrowser()
                     }) {
@@ -199,7 +206,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
@@ -215,7 +221,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
@@ -231,7 +236,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
@@ -306,13 +310,6 @@ struct TableContentView: View, PhotobookUIListener {
                         
                     }
                     Spacer()
-                    
-                    Text("Beta")
-                        .padding(.vertical, 2)
-                        .padding(.horizontal)
-                        .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
-                        .foregroundColor(Color.MainFontColor)
-                        .padding(.horizontal)
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)
@@ -441,7 +438,6 @@ struct TableContentView: View, PhotobookUIListener {
                                 return true
                             }
                     }
-                    .frame(width: geometry.size.width)
                     .onChange(of: splModel.selectedIndices)
                     {
                         _ in
@@ -449,6 +445,7 @@ struct TableContentView: View, PhotobookUIListener {
                         self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
                     }
                     
+                    DraftPhotoLine(frameSize: geometry.size, model: dplModel)
                     
                     UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         .onChange(of: uplModel.selectedIndices)
@@ -458,7 +455,7 @@ struct TableContentView: View, PhotobookUIListener {
                         self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
                     }
                 }
-                .frame(height: geometry.size.height * 0.3)
+                .frame(height: 268)
             }
             .onAppear()
             {
@@ -613,7 +610,6 @@ struct TableContentView: View, PhotobookUIListener {
                         self.canvasModel.mainImage = splModel.list[newIndex]
                     }
                 }
-                        
             }
             
             if !toOpenProjectId.isEmpty

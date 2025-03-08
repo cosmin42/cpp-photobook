@@ -73,8 +73,9 @@ struct MediaList: View
             .frame(width: frameSize.width * tabViewRatio, alignment: .topLeading)
             .scrollIndicators(.hidden)
             .background(Color.PrimaryColor)
+            Spacer()
         }
-        .frame(maxHeight: .infinity, alignment: .top)
+        .frame(alignment: .top)
         .tag(0)
         .tabItem {
             Label("Media List", systemImage: "house.fill")

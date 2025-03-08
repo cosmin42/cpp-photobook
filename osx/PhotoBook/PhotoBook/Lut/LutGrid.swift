@@ -26,9 +26,9 @@ struct LutGrid: View
             {
                 TextField("Search", text: $model.filterText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(5)
-                    .frame(width: 100, alignment:.leading)
-                
+                    .frame(width: 100)
+                    .padding(.leading, 4)
+
                 Button(action: {
                     model.filterText.removeAll()
                 }) {
@@ -38,6 +38,8 @@ struct LutGrid: View
                 }
                 .buttonStyle(PlainButtonStyle())
                 .frame(alignment:.leading)
+                
+                Spacer()
             }
             .frame(alignment:.leading)
             
