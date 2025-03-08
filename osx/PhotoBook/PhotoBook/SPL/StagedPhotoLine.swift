@@ -24,7 +24,7 @@ struct ItemFramesKey: PreferenceKey {
 class StagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
-    @Published var selectedIndices: [Int] = []
+    @Published public var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
 
     public func move(fromOffsets:IndexSet, toOffset:UInt?)

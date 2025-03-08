@@ -64,7 +64,7 @@ struct CanvasView: View
             }
             HStack {
                 Button(action:{
-                    
+                    model.onLeftClick()
                 }){
                     Image(systemName: "arrow.left")
                         .font(.system(size: 24))
@@ -79,7 +79,7 @@ struct CanvasView: View
                     .padding()
                 
                 Button(action:{
-                    
+                    model.onRightClick()
                 }){
                     Image(systemName: "arrow.right")
                         .font(.system(size: 24))

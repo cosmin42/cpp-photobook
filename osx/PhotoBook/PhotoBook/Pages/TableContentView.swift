@@ -552,6 +552,70 @@ struct TableContentView: View, PhotobookUIListener {
             }
             self.saveAreYouSureModel.onNo = {
             }
+            
+            canvasModel.onLeftClick = {
+                if !uplModel.selectedIndices.isEmpty
+                {
+                    if let index = uplModel.selectedIndices.first
+                    {
+                        var newIndex = 0
+                        if index == 0
+                        {
+                            newIndex = uplModel.list.count-1
+                        }
+                        else
+                        {
+                            newIndex = index-1
+                        }
+                        uplModel.selectedIndices.removeAll()
+                        uplModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = uplModel.list[newIndex]
+                    }
+                }
+                else if !splModel.selectedIndices.isEmpty
+                {
+                    if let index = splModel.selectedIndices.first
+                    {
+                        var newIndex = 0
+                        if index == 0
+                        {
+                            newIndex = splModel.list.count-1
+                        }
+                        else
+                        {
+                            newIndex = index-1
+                        }
+                        splModel.selectedIndices.removeAll()
+                        splModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = splModel.list[newIndex]
+                    }
+                }
+            }
+            
+            canvasModel.onRightClick = {
+                if !uplModel.selectedIndices.isEmpty
+                {
+                    if let index = uplModel.selectedIndices.first
+                    {
+                        let newIndex = (index+1)%uplModel.list.count
+                        uplModel.selectedIndices.removeAll()
+                        uplModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = uplModel.list[newIndex]
+                    }
+                }
+                else if !splModel.selectedIndices.isEmpty
+                {
+                    if let index = splModel.selectedIndices.first
+                    {
+                        let newIndex = (index+1)%splModel.list.count
+                        splModel.selectedIndices.removeAll()
+                        splModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = splModel.list[newIndex]
+                    }
+                }
+                        
+            }
+            
             if !toOpenProjectId.isEmpty
             {
                 self.photobook.loadProject(toOpenProjectId)
