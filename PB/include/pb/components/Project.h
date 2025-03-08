@@ -24,10 +24,12 @@ public:
 
   std::shared_ptr<ImageMonitor> imageMonitor() { return mImageMonitor; }
   std::shared_ptr<StagedImages> stagedImages() { return mStagedImages; }
+  std::vector<GenericImagePtr>& draftImages() { return mDraftImges; }
 
 private:
   std::shared_ptr<ImageMonitor> mImageMonitor = nullptr;
   std::shared_ptr<StagedImages> mStagedImages = nullptr;
+  std::vector<GenericImagePtr> mDraftImges;
 };
 
 // TODO: Do a generic Identifyable class
