@@ -68,6 +68,10 @@ public:
   void applyLutInMemory(PBDev::LutApplicationId lutId, unsigned lutIndex,
                         cv::Mat image);
 
+  void applyTransformationOnDisk(PBDev::LutApplicationId lutId,
+                                 unsigned lutIndex, GenericImagePtr image,
+                                 double saturation, double contrast, double brightness);
+
   std::vector<LutIconInfo> listLuts() const;
 
 private:

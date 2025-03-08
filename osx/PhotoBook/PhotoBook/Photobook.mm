@@ -412,4 +412,22 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->projectManagementService()->save();
 }
 
+- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+{
+    std::string uuidStr = [transformationId UTF8String];
+    boost::uuids::uuid nativeUuid;
+    try {
+        
+        boost::uuids::string_generator gen;
+        nativeUuid = gen(uuidStr);
+    }
+    catch (const std::exception& e) {
+        PBDev::basicAssert(false);
+    }
+    PBDev::LutApplicationId transformaionId = PBDev::LutApplicationId(nativeUuid);
+    
+    PB::GenericImagePtr nativeImage = [image unwrap];
+    mPhotobook->lutService()->applyTransformationOnDisk(transformaionId, lutIndex, nativeImage, saturation, contrast, brightness);
+}
+
 @end

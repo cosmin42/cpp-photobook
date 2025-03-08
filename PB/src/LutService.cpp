@@ -218,4 +218,11 @@ bool LutService::lutExists(const Path &path) const
   return ImageReader().isValid(correspondingPath);
 }
 
+void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
+  unsigned lutIndex, GenericImagePtr image,
+  double saturation, double contrast, double brightness)
+{
+
+}
+
 } // namespace PB::Service
