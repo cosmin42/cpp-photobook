@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, VirtualImageType) {
 #if __cplusplus
 - (PB::GenericImagePtr)unwrap;
 #endif
+- (NSString*)maybeOriginalName;
 @end
 
 

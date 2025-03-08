@@ -199,7 +199,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(4)
+                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
@@ -215,7 +215,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(4)
+                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
@@ -231,7 +231,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .padding(4)
+                    .padding(2)
                     .overlay(
                         Rectangle()
                             .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
@@ -305,6 +305,14 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         
                     }
+                    Spacer()
+                    
+                    Text("Beta")
+                        .padding(.vertical, 2)
+                        .padding(.horizontal)
+                        .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
+                        .foregroundColor(Color.MainFontColor)
+                        .padding(.horizontal)
                 }
                 .frame(alignment: .leading)
                 .background(Color.PrimaryColor)

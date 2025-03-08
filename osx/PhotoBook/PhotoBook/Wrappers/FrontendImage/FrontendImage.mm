@@ -8,18 +8,26 @@
 #import <Foundation/Foundation.h>
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
+#include <pb/entities/RegularImageV2.h>
+
 #include "FrontendImage.h"
 
 @implementation FrontendImage
 {
     PB::GenericImagePtr cppImage;
     NSString* projectRoot;
+    NSString* originalImageName;
 }
 
 - (id)initWithCpp:(PB::GenericImagePtr)genericImage projectRoot:(NSString*)path
 {
     cppImage = genericImage;
     projectRoot = path;
+    auto maybeRegularImage = std::dynamic_pointer_cast<PB::RegularImageV2>(genericImage);
+    if (maybeRegularImage)
+    {
+        originalImageName = [NSString stringWithUTF8String:maybeRegularImage->original().filename().string().c_str()];
+    }
     return self;
 }
 
@@ -44,6 +52,11 @@
 - (PB::GenericImagePtr)unwrap
 {
     return cppImage;
+}
+
+- (NSString*)maybeOriginalName
+{
+    return originalImageName;
 }
 
 @end

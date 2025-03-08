@@ -72,7 +72,12 @@ struct CanvasView: View
                         .background(Color.PrimaryColor)
                 }
                 .buttonStyle(PlainButtonStyle())
-                Text("Image name")
+                
+                Text(model.mainImage?.maybeOriginalName() ?? "")
+                    .foregroundColor(Color.MainFontColor)
+                    .font(.headline)
+                    .padding()
+                
                 Button(action:{
                     
                 }){
