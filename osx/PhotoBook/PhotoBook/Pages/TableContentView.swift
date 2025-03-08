@@ -60,6 +60,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var dplModel: DPLModel = DPLModel()
     
+    @StateObject private var photoLinesModel: PhotoLinesModel = PhotoLinesModel()
+    
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -271,7 +273,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Subscribe")
-
+                    
                     if basicTransformationModel.imageProcessingType != .None
                     {
                         var selectedAdjustment: Binding<Double> {
@@ -366,7 +368,7 @@ struct TableContentView: View, PhotobookUIListener {
                 
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        StagedPhotoLine(frameSize: geometry.size, model: splModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                        StagedPhotoLine(frameSize: geometry.size, model: splModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                             .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                                 guard let provider = providers.first else { return false}
                                 if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
@@ -391,13 +393,13 @@ struct TableContentView: View, PhotobookUIListener {
                                                 }
                                                 
                                                 self.dropIndex = self.splModel.findPredecessorIndex(at:location)
-
+                                                
                                                 for (key, value) in images {
                                                     toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
                                                 }
-
+                                                
                                                 toPaperModel.showDialog.toggle()
-
+                                                
                                                 self.uplModel.selectedIndices.removeAll()
                                                 
                                             } catch {
@@ -445,9 +447,10 @@ struct TableContentView: View, PhotobookUIListener {
                         self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
                     }
                     
-                    DraftPhotoLine(frameSize: geometry.size, model: dplModel)
+                    DraftPhotoLine(frameSize: geometry.size, model: dplModel, photoLinesModel: photoLinesModel, multipleSelectionEnabled: $multipleSelectionEnabled, canvasImage: $canvasModel.mainImage)
                     
-                    UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                    
+                    UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         .onChange(of: uplModel.selectedIndices)
                     {
                         _ in
@@ -496,6 +499,20 @@ struct TableContentView: View, PhotobookUIListener {
                     self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
                     
                     toPaperModel.images.removeAll()
+                }
+                
+                self.photoLinesModel.onPhotoLineFocusChanged = { photoLineType in
+                    switch photoLineType {
+                    case .Staged:
+                        self.uplModel.selectedIndices.removeAll()
+                        self.dplModel.selectedIndices.removeAll()
+                    case .Unstaged:
+                        self.dplModel.selectedIndices.removeAll()
+                        self.splModel.selectedIndices.removeAll()
+                    case .Draft:
+                        self.uplModel.selectedIndices.removeAll()
+                        self.splModel.selectedIndices.removeAll()
+                    }
                 }
                 
                 if toOpenProjectId.isEmpty
@@ -718,9 +735,10 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onCollageCreated(image: FrontendImage)
     {
-        self.splModel.insert(image: image, position: UInt(self.splModel.list.count))
+        self.dplModel.list.append(image)
+        self.photobook.projectManagementService().append(_:image)
     }
-
+    
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     {
         if self.canvasModel.processedImageInfo.0 == imageId
@@ -736,7 +754,7 @@ struct TableContentView: View, PhotobookUIListener {
         errorModel.description = message
         errorDialogVisible = true
     }
-
+    
     private func openImportMediaBrowser() {
         let panel = NSOpenPanel()
         panel.canChooseFiles = false

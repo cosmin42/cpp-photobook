@@ -81,6 +81,7 @@ struct StagedPhotoLine: View
 {
     @State var frameSize:CGSize
     @ObservedObject var model: StagedPhotoLineModel
+    @ObservedObject var photoLinesModel: PhotoLinesModel
     @Binding var canvasImage: FrontendImage?
     @Binding var unstagedPhotoLineModel: UnstagedPhotoLineModel
     @Binding var multipleSelectionEnabled: Bool
@@ -109,7 +110,7 @@ struct StagedPhotoLine: View
                                     )
                                 })
                                 .onTapGesture {
-                                    unstagedPhotoLineModel.selectedIndices.removeAll()
+                                    photoLinesModel.onPhotoLineFocusChanged(PhotoLineType.Staged)
                                     if model.selectedIndices.contains(index)
                                     {
                                         if multipleSelectionEnabled

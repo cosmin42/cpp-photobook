@@ -23,6 +23,7 @@ struct UnstagedPhotoLine: View
 {
     @State var frameSize:CGSize
     @ObservedObject var model: UnstagedPhotoLineModel
+    @ObservedObject var photoLinesModel: PhotoLinesModel
     @Binding var canvasImage: FrontendImage?
     @Binding var mediaListModel: MediaListModel
     @Binding var stagedPhotoLineModel: StagedPhotoLineModel
@@ -52,13 +53,21 @@ struct UnstagedPhotoLine: View
                                     )
                                 })
                                 .onTapGesture {
-                                    self.stagedPhotoLineModel.selectedIndices.removeAll()
+                                    photoLinesModel.onPhotoLineFocusChanged(PhotoLineType.Unstaged)
                                     
                                     if model.selectedIndices.contains(index)
                                     {
                                         if multipleSelectionEnabled
                                         {
                                             model.selectedIndices.removeAll { $0 == index }
+                                        }
+                                        else if model.selectedIndices.count == 1
+                                        {
+                                            model.selectedIndices.removeAll()
+                                        }
+                                        else
+                                        {
+                                            model.selectedIndices.removeAll { $0 != index }
                                         }
                                     }
                                     else

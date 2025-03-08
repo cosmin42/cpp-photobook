@@ -53,4 +53,27 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
     return [[StagedImagesView alloc] initWithCpp:maybeProject->second.stagedImages()];
 }
 
+- (NSArray<FrontendImage*>*) draftPhotoLine:(NSString*)thumbnailsPath;
+{
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    auto& nativeImages = maybeProject->second.draftImages();
+    
+    NSMutableArray<FrontendImage*>* result = [NSMutableArray new];
+    
+    for(auto i = 0; i < nativeImages.size(); i++)
+    {
+        auto image = nativeImages.at(i);
+        [result addObject:[[FrontendImage alloc] initWithCpp:image projectRoot:thumbnailsPath]];
+    }
+    return result;
+}
+
+- (void) appendImage:(FrontendImage*)image
+{
+    auto nativeImage = [image unwrap];
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    maybeProject->second.draftImages().push_back(nativeImage);
+}
+
+
 @end

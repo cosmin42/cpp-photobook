@@ -27,6 +27,8 @@
 
 - (UnstagedImagesRepo*) unstagedImagesRepo;
 - (StagedImagesView*) stagedImages;
+- (NSArray<FrontendImage*>*)draftPhotoLine:(NSString*)thumbnailsPath;
+- (void) appendImage:(FrontendImage*)image;
 
 @end
 
