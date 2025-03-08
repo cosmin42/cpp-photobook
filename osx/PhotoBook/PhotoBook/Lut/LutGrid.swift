@@ -24,6 +24,8 @@ struct LutGrid: View
         ScrollView {
             HStack
             {
+                Spacer()
+                    .frame(width: 10)
                 TextField("Search", text: $model.filterText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 100)
@@ -42,6 +44,7 @@ struct LutGrid: View
                 Spacer()
             }
             .frame(alignment:.leading)
+            .padding(4)
             
             LazyVGrid(columns: model.columns, spacing: 10) {
                 let filteredImages = self.model.images.filter{
