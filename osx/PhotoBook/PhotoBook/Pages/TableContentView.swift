@@ -500,6 +500,17 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                 }
+
+                self.lutGridModel.onApply = { [self] lutIndex in
+                    if let mainImage = canvasModel.mainImage
+                    {
+                        let uuidStr = UUID().uuidString
+                        
+                        self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)//("", lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                        
+                    }
+                }
+                
                 self.toPaperModel.onOk = { [self] in
                     let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
                     let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }

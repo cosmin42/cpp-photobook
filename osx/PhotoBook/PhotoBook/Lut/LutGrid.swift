@@ -21,7 +21,7 @@ struct LutGrid: View
     }
     
     var body: some View {
-        ScrollView {
+        VStack {
             HStack
             {
                 Spacer()
@@ -41,44 +41,60 @@ struct LutGrid: View
                 .buttonStyle(PlainButtonStyle())
                 .frame(alignment:.leading)
                 
+                Button(action: {
+                    if let selectedIndex = model.selectedIndex {
+                        model.onApply(selectedIndex)
+                    }
+                }) {
+                    Text("Apply")
+                        .background(Color.clear)
+                }
+                .background(Color.ButtonBackgroundColor)
+                .foregroundColor(.white)
+                .cornerRadius(5)
+                .padding(5)
+                .disabled(model.selectedIndex == nil)
+                
+                
                 Spacer()
             }
             .frame(alignment:.leading)
             .padding(4)
-            
-            LazyVGrid(columns: model.columns, spacing: 10) {
-                let filteredImages = self.model.images.filter{
-                    if model.filterText.isEmpty { return true }
-                    return $0.name.contains(model.filterText)
-                }
-                ForEach(filteredImages.indices, id: \.self) { index in
-                    if let fileName = filteredImages[index].path
-                    {
-                        if let nsImage = NSImage(contentsOfFile: fileName) {
-                            VStack
-                            {
-                                Image(nsImage: nsImage)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 80)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(model.selectedIndex == index ? Color.white : Color.clear, lineWidth: 1)
-                                    )
-                                    .padding(4)
-                                    .onTapGesture {
-                                        self.model.selectedIndex = index
-                                    }
-                                Text(filteredImages[index].name)
+            ScrollView {
+                LazyVGrid(columns: model.columns, spacing: 10) {
+                    let filteredImages = self.model.images.filter{
+                        if model.filterText.isEmpty { return true }
+                        return $0.name.contains(model.filterText)
+                    }
+                    ForEach(filteredImages.indices, id: \.self) { index in
+                        if let fileName = filteredImages[index].path
+                        {
+                            if let nsImage = NSImage(contentsOfFile: fileName) {
+                                VStack
+                                {
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 80)
+                                        .cornerRadius(10)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(model.selectedIndex == index ? Color.white : Color.clear, lineWidth: 1)
+                                        )
+                                        .padding(4)
+                                        .onTapGesture {
+                                            self.model.selectedIndex = index
+                                        }
+                                    Text(filteredImages[index].name)
+                                }
+                            } else {
+                                Text("Image not found")
                             }
-                        } else {
-                            Text("Image not found")
                         }
                     }
                 }
+                .frame(width: frameSize.width * tabViewRatio)
             }
-            .frame(width: frameSize.width * tabViewRatio)
         }
         .frame(alignment:.leading)
         .tag(2)

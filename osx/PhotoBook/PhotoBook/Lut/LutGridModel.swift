@@ -18,6 +18,7 @@ class LutGridModel: ObservableObject
     }
     @Published public var filterText: String = ""
     @Published public var onSelectedIndexChange: (Int?) -> Void = { _ in }
+    @Published public var onApply: (Int) -> Void = { _ in }
     
     // TODO: Do a flexible calculation here
     @Published public var columns = [

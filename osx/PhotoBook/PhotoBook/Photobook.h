@@ -60,7 +60,7 @@
 - (NSString*) getText:(NSString*)key;
 - (void) loadProject:(NSString*)projectId;
 - (void) saveProject;
-- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
+- (void) applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
 @end
 
 #endif /* Photobook_h */
