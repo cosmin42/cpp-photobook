@@ -376,6 +376,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         StagedPhotoLine(frameSize: geometry.size, model: splModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                            
                             .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                                 guard let provider = providers.first else { return false}
                                 if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
@@ -404,8 +405,10 @@ struct TableContentView: View, PhotobookUIListener {
                                                 for (key, value) in images {
                                                     toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
                                                 }
-                                                
-                                                toPaperModel.showDialog.toggle()
+                                                if (toPaperModel.images.count > 0)
+                                                {
+                                                    toPaperModel.showDialog.toggle()
+                                                }
                                                 
                                                 self.uplModel.selectedIndices.removeAll()
                                                 
@@ -497,7 +500,6 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                 }
-                
                 self.toPaperModel.onOk = { [self] in
                     let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
                     let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }

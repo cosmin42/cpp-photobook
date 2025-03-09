@@ -141,7 +141,7 @@ struct StagedPhotoLine: View
                                     }
                                     else
                                     {
-                                        self.canvasImage = model.list.randomElement()
+                                        self.canvasImage = model.list.first
                                     }
                                 }
                                 .onDrag {
