@@ -75,5 +75,25 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
     maybeProject->second.draftImages().push_back(nativeImage);
 }
 
+- (void) removeDraftImages:(NSArray<NSNumber*>*)indexes
+{
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    
+    auto& images = maybeProject->second.draftImages();
+    
+    std::vector<unsigned> nativeIndexes;
+    for (NSNumber* index in indexes)
+    {
+        nativeIndexes.push_back([index unsignedIntValue]);
+    }
+    
+    std::sort(nativeIndexes.begin(), nativeIndexes.end(), std::greater<unsigned>());
+    
+    for(auto i : nativeIndexes)
+    {
+        images.erase(images.begin() + i);
+    }
+}
+
 
 @end

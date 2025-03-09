@@ -572,20 +572,34 @@ struct TableContentView: View, PhotobookUIListener {
                 self.multipleSelectionEnabled = event.modifierFlags.contains(.control)
                 return event
             }
+            NSEvent.addLocalMonitorForEvents(matching: .keyUp) { event in
+                if event.keyCode == 51 || event.keyCode == 117
+                {
+                    if !splModel.selectedIndices.isEmpty || !dplModel.selectedIndices.isEmpty
+                    {
+                        saveAreYouSureModel.message = "Do you want to remove the images?"
+                        saveAreYouSureModel.title = "Remove Images"
+                        saveAreYouSureModel.onYes = {
+                            self.removeImage()
+                        }
+                        saveAreYouSureModel.showDialog = true
+                    }
+                }
+                else if event.keyCode == 123
+                {
+                    canvasModel.onLeftClick()
+                }
+                else if event.keyCode == 124
+                {
+                    canvasModel.onRightClick()
+                }
+                return event
+            }
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             PhotoBookApp.pushListener(listener: self)
             exportModel.onExport = {
                 name, path, exportPdf, exportPdfOpt, exportJpg in
                 self.photobook.exportAlbum(path, name: name, exportPdf: exportPdf, exportPdfOptimized: exportPdfOpt, exportJpg: exportJpg)
-            }
-            
-            self.saveAreYouSureModel.title = "Save Project"
-            self.saveAreYouSureModel.message = "Do you want to save the project?"
-            
-            self.saveAreYouSureModel.onYes = {
-                self.photobook.saveProject()
-            }
-            self.saveAreYouSureModel.onNo = {
             }
             
             canvasModel.onLeftClick = {
@@ -684,7 +698,11 @@ struct TableContentView: View, PhotobookUIListener {
             case .active:
                 print("Active")
             case .inactive:
-                saveAreYouSureModel.showDialog = true
+                self.saveAreYouSureModel.title = "Save Project"
+                self.saveAreYouSureModel.message = "Do you want to save the project?"
+                self.saveAreYouSureModel.onYes = {
+                    self.photobook.saveProject()
+                }
             case .background:
                 print("Background")
             @unknown default:
@@ -808,5 +826,25 @@ struct TableContentView: View, PhotobookUIListener {
     
     private func rightIndex(index: UInt32, size: UInt32) -> Int {
         return Int((index + 1) % size)
+    }
+    
+    private func removeImage()
+    {
+        if !splModel.selectedIndices.isEmpty
+        {
+            let tmpSelectedIndices = splModel.selectedIndices
+            splModel.selectedIndices.removeAll()
+            splModel.list.remove(atOffsets: IndexSet(tmpSelectedIndices))
+            let nsNumberSet: [NSNumber] = tmpSelectedIndices.map({ NSNumber(value:$0) })
+            self.photobook.projectManagementService().stagedImages().removeImages(nsNumberSet)
+        }
+        else if !dplModel.selectedIndices.isEmpty
+        {
+            let tmpSelectedIndices = dplModel.selectedIndices
+            dplModel.selectedIndices.removeAll()
+            dplModel.list.remove(atOffsets: IndexSet(tmpSelectedIndices))
+            let nsNumberSet: [NSNumber] = tmpSelectedIndices.map({ NSNumber(value:$0) })
+            self.photobook.projectManagementService().removeDraftImages(nsNumberSet)
+        }
     }
 }
