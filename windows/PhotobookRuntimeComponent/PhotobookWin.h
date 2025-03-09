@@ -49,6 +49,12 @@ public:
     mManagedListener.OnLutAppliedInMemory(managedGuid);
   }
 
+  void onLutAppliedOnDiskInplace(PBDev::LutApplicationId lutId) override
+  {
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
+    mManagedListener.OnLutAppliedOnDiskInplace(managedGuid);
+  }
+
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onMetadataUpdated(std::string focusedProjectName) override
   {

@@ -39,6 +39,8 @@ interface PhotobookListener
 
   void OnLutAppliedInMemory(Guid lutId);
 
+  void OnLutAppliedOnDiskInplace(Guid lutId);
+
   void Post(Functor f);
 };
 } // namespace PhotobookRuntimeComponent

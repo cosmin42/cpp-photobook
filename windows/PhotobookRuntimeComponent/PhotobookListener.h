@@ -114,6 +114,12 @@ public:
     mManagedListener.OnLutAppliedInMemory(managedGuid);
   }
 
+  void onLutAppliedOnDiskInplace(PBDev::LutApplicationId lutId) override
+  {
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
+    mManagedListener.OnLutAppliedOnDiskInplace(managedGuid);
+  }
+
 private:
   // TODO: Check if not & is enough;
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;

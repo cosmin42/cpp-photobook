@@ -111,6 +111,10 @@ public:
         NSImage* managedImage = MatToNSImage(*image);
         [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
     }
+
+    void OnLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId)
+    {
+    }
     
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
