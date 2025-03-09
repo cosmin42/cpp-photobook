@@ -45,4 +45,9 @@
     }
     return result;
 }
+
+- (void) removeRow:(unsigned)rowIndex
+{
+    cppImageMonitor->removeRow(rowIndex);
+}
 @end

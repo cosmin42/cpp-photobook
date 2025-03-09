@@ -105,7 +105,14 @@ struct TableContentView: View, PhotobookUIListener {
                     // Remove media button
                     Button(action: {
                         print("Remove media tapped")
-                        mediaListModel.removeSelected()
+                        let maybeIndex = mediaListModel.selectedIndex()
+                        if let index = maybeIndex
+                        {
+                            mediaListModel.removeSelected()
+                            uplModel.selectedIndices.removeAll()
+                            uplModel.list.removeAll()
+                            self.photobook.projectManagementService().unstagedImagesRepo().removeRow(UInt32(index))
+                        }
                     }) {
                         Image(systemName: "trash")
                             .scaledToFit()

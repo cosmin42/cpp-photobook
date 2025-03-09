@@ -61,7 +61,7 @@ private:
       return "JSON parse error.";
     }
     case PB::ErrorCode::NoImages: {
-      return "No images.";
+      return "Empty folder.";
     }
     case PB::ErrorCode::CannotExport: {
       return "Cannot export.";

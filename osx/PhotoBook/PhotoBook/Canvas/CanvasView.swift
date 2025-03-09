@@ -58,7 +58,7 @@ struct CanvasView: View
                     .fill(Color.PrimaryColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
-                        Text("Canvas Area")
+                        Text("Canvas")
                             .foregroundColor(Color.MainFontColor)
                             .font(.headline)
                     )

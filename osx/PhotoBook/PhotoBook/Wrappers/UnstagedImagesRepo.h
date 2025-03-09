@@ -25,6 +25,7 @@
 - (unsigned) rowSize:(unsigned)rowIndex;
 - (FrontendImage*) image:(unsigned)row index:(unsigned)index thumbnailsPath:(NSString*)thumbnailsPath;
 - (NSArray<MediaItem*>*) rowList;
+- (void) removeRow:(unsigned)rowIndex;
 @end
 
 #endif /* UnstagedImagesRepo_h */
