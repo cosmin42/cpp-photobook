@@ -40,7 +40,7 @@ struct DraftPhotoLine: View
                                     )
                                 })
                                 .onTapGesture {
-                                    photoLinesModel.onPhotoLineFocusChanged(PhotoLineType.Draft)
+                                    photoLinesModel.updatePhotoLineFocus(PhotoLineType.Draft)
                                     if model.selectedIndices.contains(index)
                                     {
                                         if multipleSelectionEnabled

@@ -53,7 +53,7 @@ struct UnstagedPhotoLine: View
                                     )
                                 })
                                 .onTapGesture {
-                                    photoLinesModel.onPhotoLineFocusChanged(PhotoLineType.Unstaged)
+                                    photoLinesModel.updatePhotoLineFocus(PhotoLineType.Unstaged)
                                     
                                     if model.selectedIndices.contains(index)
                                     {

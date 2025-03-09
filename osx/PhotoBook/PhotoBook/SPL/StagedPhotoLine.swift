@@ -110,7 +110,7 @@ struct StagedPhotoLine: View
                                     )
                                 })
                                 .onTapGesture {
-                                    photoLinesModel.onPhotoLineFocusChanged(PhotoLineType.Staged)
+                                    photoLinesModel.updatePhotoLineFocus(PhotoLineType.Staged)
                                     if model.selectedIndices.contains(index)
                                     {
                                         if multipleSelectionEnabled

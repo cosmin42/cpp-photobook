@@ -506,8 +506,7 @@ struct TableContentView: View, PhotobookUIListener {
                     {
                         let uuidStr = UUID().uuidString
                         
-                        self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)//("", lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
-                        
+                        self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
                     }
                 }
                 
@@ -532,6 +531,8 @@ struct TableContentView: View, PhotobookUIListener {
                     case .Draft:
                         self.uplModel.selectedIndices.removeAll()
                         self.splModel.selectedIndices.removeAll()
+                    case .None:
+                        break
                     }
                 }
                 
@@ -588,67 +589,73 @@ struct TableContentView: View, PhotobookUIListener {
             }
             
             canvasModel.onLeftClick = {
-                if !uplModel.selectedIndices.isEmpty
-                {
-                    if let index = uplModel.selectedIndices.first
+                switch photoLinesModel.currentPhotoLine {
+                case .Unstaged:
+                    let photoLineSize = uplModel.list.count
+                    if let selectedIndex = uplModel.selectedIndices.first
                     {
-                        var newIndex = 0
-                        if index == 0
-                        {
-                            newIndex = uplModel.list.count-1
-                        }
-                        else
-                        {
-                            newIndex = index-1
-                        }
+                        let newIndex = leftIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
                         uplModel.selectedIndices.removeAll()
                         uplModel.selectedIndices.append(newIndex)
                         self.canvasModel.mainImage = uplModel.list[newIndex]
                     }
-                }
-                else if !splModel.selectedIndices.isEmpty
-                {
-                    if let index = splModel.selectedIndices.first
+                case .Staged:
+                    let photoLineSize = splModel.list.count
+                    if let selectedIndex = splModel.selectedIndices.first
                     {
-                        var newIndex = 0
-                        if index == 0
-                        {
-                            newIndex = splModel.list.count-1
-                        }
-                        else
-                        {
-                            newIndex = index-1
-                        }
+                        let newIndex = leftIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
                         splModel.selectedIndices.removeAll()
                         splModel.selectedIndices.append(newIndex)
                         self.canvasModel.mainImage = splModel.list[newIndex]
                     }
+                case .Draft:
+                    let photoLineSize = dplModel.list.count
+                    if let selectedIndex = dplModel.selectedIndices.first
+                    {
+                        let newIndex = leftIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
+                        dplModel.selectedIndices.removeAll()
+                        dplModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = dplModel.list[newIndex]
+                    }
+                case .None:
+                    break
                 }
             }
-            
+
             canvasModel.onRightClick = {
-                if !uplModel.selectedIndices.isEmpty
-                {
-                    if let index = uplModel.selectedIndices.first
+                switch photoLinesModel.currentPhotoLine {
+                case .Unstaged:
+                    let photoLineSize = uplModel.list.count
+                    if let selectedIndex = uplModel.selectedIndices.first
                     {
-                        let newIndex = (index+1)%uplModel.list.count
+                        let newIndex = rightIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
                         uplModel.selectedIndices.removeAll()
                         uplModel.selectedIndices.append(newIndex)
                         self.canvasModel.mainImage = uplModel.list[newIndex]
                     }
-                }
-                else if !splModel.selectedIndices.isEmpty
-                {
-                    if let index = splModel.selectedIndices.first
+                case .Staged:
+                    let photoLineSize = splModel.list.count
+                    if let selectedIndex = splModel.selectedIndices.first
                     {
-                        let newIndex = (index+1)%splModel.list.count
+                        let newIndex = rightIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
                         splModel.selectedIndices.removeAll()
                         splModel.selectedIndices.append(newIndex)
                         self.canvasModel.mainImage = splModel.list[newIndex]
                     }
+                case .Draft:
+                    let photoLineSize = dplModel.list.count
+                    if let selectedIndex = dplModel.selectedIndices.first
+                    {
+                        let newIndex = rightIndex(index: UInt32(selectedIndex), size: UInt32(photoLineSize))
+                        dplModel.selectedIndices.removeAll()
+                        dplModel.selectedIndices.append(newIndex)
+                        self.canvasModel.mainImage = dplModel.list[newIndex]
+                    }
+                case .None:
+                    break
                 }
             }
-            
+
             if !toOpenProjectId.isEmpty
             {
                 self.photobook.loadProject(toOpenProjectId)
@@ -790,5 +797,16 @@ struct TableContentView: View, PhotobookUIListener {
                 print("Folder picker was cancelled")
             }
         }
+    }
+    
+    private func leftIndex(index: UInt32, size: UInt32) -> Int {
+        if index == 0 {
+            return Int(size - 1)
+        }
+        return Int(index - 1)
+    }
+    
+    private func rightIndex(index: UInt32, size: UInt32) -> Int {
+        return Int((index + 1) % size)
     }
 }
