@@ -20,6 +20,7 @@ public:
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;
   virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
   virtual void onLutAppliedInMemory(PBDev::LutApplicationId, std::shared_ptr<cv::Mat>) = 0;
+  virtual void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) = 0;
 };
 
 class LutService final : public DirectoryInspectionJobListener,

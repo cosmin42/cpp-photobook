@@ -109,8 +109,7 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
       auto lutName = Job::LutIconsPreprocessingJob::extractNameFromPath(path);
       onLutIconsPreprocessingFinished(lutName, path, iconPath);
     }
-    else
-    {
+    else {
       mLutsPathsToBeProcessed.push_back(path);
     }
     mLutsPaths.push_back(path);
@@ -219,10 +218,38 @@ bool LutService::lutExists(const Path &path) const
 }
 
 void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
-  unsigned lutIndex, GenericImagePtr image,
-  double saturation, double contrast, double brightness)
+                                           unsigned                lutIndex,
+                                           GenericImagePtr         image,
+                                           double saturation, double contrast,
+                                           double brightness)
 {
+  LutImageProcessingData largeProcessingData;
+  largeProcessingData.inImage = largeProcessingData.outImage =
+      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
+                                     ThumbnailsSize::LARGE);
 
+  LutImageProcessingData mediumProcessingData;
+  mediumProcessingData.inImage = mediumProcessingData.outImage =
+      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
+                                     ThumbnailsSize::MEDIUM);
+
+  LutImageProcessingData smallProcessingData;
+  smallProcessingData.inImage = smallProcessingData.outImage =
+      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
+                                     ThumbnailsSize::SMALL);
+
+  mTaskCruncher->crunch([this, largeProcessingData]() {
+    mOglEngine->applyLut(largeProcessingData);
+  });
+
+  mTaskCruncher->crunch([this, mediumProcessingData]() {
+    mOglEngine->applyLut(mediumProcessingData);
+  });
+
+  mTaskCruncher->crunch([this, smallProcessingData, lutId]() {
+    mOglEngine->applyLut(smallProcessingData);
+    mLutServiceListener->onLutAppliedOnDiskInplace(lutId);
+  });
 }
 
 } // namespace PB::Service

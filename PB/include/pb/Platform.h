@@ -8,6 +8,8 @@
 #include <pb/infra/Traits.h>
 
 namespace PB {
+enum ThumbnailsSize { SMALL, MEDIUM, LARGE };
+
 struct PlatformInfo {
   Path                          installationPath;
   Path                          localStatePath;
@@ -42,8 +44,20 @@ struct PlatformInfo {
   Path logPath() const { return localStatePath / "log.txt"; }
 
   Path thumbnailByHash(boost::uuids::uuid projectId, std::string hash,
+                       ThumbnailsSize size = ThumbnailsSize::LARGE,
                        std::string extension = OneConfig::JPG_EXTENSION) const
   {
+    switch (size) {
+    case ThumbnailsSize::SMALL:
+      return projectSupportFolder(projectId) / "thumbnail-images" /
+             (hash + "-s" + extension);
+    case ThumbnailsSize::MEDIUM:
+      return projectSupportFolder(projectId) / "thumbnail-images" /
+             (hash + "-m" + extension);
+    case ThumbnailsSize::LARGE:
+    default:
+      break;
+    }
     return projectSupportFolder(projectId) / "thumbnail-images" /
            (hash + extension);
   }

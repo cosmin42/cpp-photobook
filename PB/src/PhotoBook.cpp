@@ -392,6 +392,13 @@ void Photobook::onLutAppliedInMemory(PBDev::LutApplicationId  lutId,
   post([this, lutId, image]() { mParent->onLutAppliedInMemory(lutId, image); });
 }
 
+void Photobook::onLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId)
+{
+  post([this, applicationId]() {
+    mParent->onLutAppliedOnDiskInplace(applicationId);
+  });
+}
+
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
 
 void onInspectionFinished(PBDev::DirectoryInspectionJobId id,

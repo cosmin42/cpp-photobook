@@ -44,6 +44,8 @@ public:
 
   virtual void onLutAppliedInMemory(PBDev::LutApplicationId,
                                     std::shared_ptr<cv::Mat>) = 0;
+
+  virtual void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) = 0;
 };
 
 } // namespace PB
