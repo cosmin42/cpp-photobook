@@ -252,4 +252,45 @@ void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
   });
 }
 
+void LutService::applyLutAndEffects(PBDev::LutApplicationId lutId,
+                                    unsigned lutIndex, Path imagePath,
+                                    double saturation, double contrast,
+                                    double brightness)
+{
+  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+
+  LutImageProcessingAndEffectsData largeProcessingData;
+  LutImageProcessingAndEffectsData mediumProcessingData;
+  LutImageProcessingAndEffectsData smallProcessingData;
+
+  for (auto const &data : lutData) {
+    largeProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+    mediumProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+    smallProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+  }
+
+  largeProcessingData.inImage = largeProcessingData.outImage = imagePath;
+  largeProcessingData.saturation = saturation;
+  largeProcessingData.contrast = contrast;
+  largeProcessingData.brightness = brightness;
+
+  mediumProcessingData.inImage = mediumProcessingData.outImage = imagePath;
+  mediumProcessingData.saturation = saturation;
+  mediumProcessingData.contrast = contrast;
+  mediumProcessingData.brightness = brightness;
+
+  smallProcessingData.inImage = smallProcessingData.outImage = imagePath;
+  smallProcessingData.saturation = saturation;
+  smallProcessingData.contrast = contrast;
+  smallProcessingData.brightness = brightness;
+
+  mTaskCruncher->crunch([this, largeProcessingData, lutId]() {
+    mOglEngine->applyLutAndEffects(largeProcessingData);
+    mLutServiceListener->onLutAppliedOnDiskInplace(lutId);
+  });
+}
+
 } // namespace PB::Service

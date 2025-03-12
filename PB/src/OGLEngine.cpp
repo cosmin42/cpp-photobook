@@ -21,6 +21,7 @@
 #pragma warning(pop)
 
 #include <pb/entities/LutImageProcessingData.h>
+#include <pb/image/ImageOperations.h>
 #include <pb/infra/ThreadScheduler.h>
 #include <pb/infra/Traits.h>
 
@@ -115,6 +116,26 @@ void OGLEngine::loadTextureAndRender(
     processDiskImage(input, inMemoryData.lut, surface, bitmap);
 
     skBitmapToCvMat(bitmap).copyTo(inMemoryData.outImage);
+  }
+  else if (std::holds_alternative<LutImageProcessingAndEffectsData>(
+               imageProcessingData)) {
+    auto &inMemoryData =
+        std::get<LutImageProcessingAndEffectsData>(imageProcessingData);
+
+    auto     input = pathToSkImage(inMemoryData.inImage);
+    auto     surface = mVulkanManager->getSurface(input->imageInfo());
+    SkBitmap bitmap;
+    processDiskImage(input, inMemoryData.lut, surface, bitmap);
+
+    std::shared_ptr<cv::Mat> outMat = std::make_shared<cv::Mat>();
+
+    skBitmapToCvMat(bitmap).copyTo(*outMat);
+
+    PB::Process::applySaturationInPlace(outMat, inMemoryData.saturation);
+    PB::Process::applyContrastInPlace(outMat, inMemoryData.contrast);
+    PB::Process::applyBrightnessInPlace(outMat, inMemoryData.brightness);
+
+    PB::Process::writeImageOnDisk(outMat, inMemoryData.outImage);
   }
   else {
     PBDev::basicAssert(false);
@@ -251,6 +272,15 @@ void OGLEngine::applyLut(LutImageProcessingData const &imageProcessingData)
 }
 
 void OGLEngine::applyLutInMemory(LutInMemoryData const &imageProcessingData)
+{
+  std::unique_lock lock(mWorkMutex);
+  mFinishedWork = false;
+  mWorkQueue.enqueue(imageProcessingData);
+  mFinishedWorkCondition.wait(lock, [this] { return mFinishedWork; });
+}
+
+void OGLEngine::applyLutAndEffects(
+    LutImageProcessingAndEffectsData const &imageProcessingData)
 {
   std::unique_lock lock(mWorkMutex);
   mFinishedWork = false;

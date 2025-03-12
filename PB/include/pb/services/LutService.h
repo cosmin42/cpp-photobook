@@ -73,6 +73,10 @@ public:
                                  unsigned lutIndex, GenericImagePtr image,
                                  double saturation, double contrast, double brightness);
 
+  void applyLutAndEffects(PBDev::LutApplicationId lutId, unsigned lutIndex,
+                          Path imagePath, double saturation,
+                          double contrast, double brightness);
+
   std::vector<LutIconInfo> listLuts() const;
 
 private:

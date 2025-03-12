@@ -222,6 +222,26 @@ std::shared_ptr<cv::Mat> applySaturation(std::shared_ptr<cv::Mat> image,
   return outputImage;
 }
 
+void applySaturationInPlace(std::shared_ptr<cv::Mat> image, double saturation)
+{
+  if (std::abs(saturation - 1.0) < std::numeric_limits<double>::epsilon()) {
+    return;
+  }
+
+  // Convert input image to HSV color space
+  cv::Mat hsvImage;
+  cv::cvtColor(*image, hsvImage, cv::COLOR_BGR2HSV);
+  // Split the channels
+  std::vector<cv::Mat> channels;
+  cv::split(hsvImage, channels);
+  // Scale the saturation channel
+  channels[1] = channels[1] * saturation;
+  channels[1] = cv::min(channels[1], 255); // Ensure values stay within range
+  // Merge the channels back
+  cv::merge(channels, hsvImage);
+  cv::cvtColor(hsvImage, *image, cv::COLOR_HSV2BGR);
+}
+
 std::shared_ptr<cv::Mat> applyContrast(std::shared_ptr<cv::Mat> image,
                                        double                   alpha)
 {
@@ -230,12 +250,28 @@ std::shared_ptr<cv::Mat> applyContrast(std::shared_ptr<cv::Mat> image,
   return outputImage;
 }
 
+void applyContrastInPlace(std::shared_ptr<cv::Mat> image, double contrast)
+{
+  if (std::abs(contrast - 1.0) < std::numeric_limits<double>::epsilon()) {
+    return;
+  }
+  image->convertTo(*image, -1, contrast, 0);
+}
+
 std::shared_ptr<cv::Mat> applyBrightness(std::shared_ptr<cv::Mat> image,
                                          double                   brightness)
 {
   auto outputImage = std::make_shared<cv::Mat>(*image);
   image->convertTo(*outputImage, -1, 1, brightness);
   return outputImage;
+}
+
+void applyBrightnessInPlace(std::shared_ptr<cv::Mat> image, double brightness)
+{
+  if (std::abs(brightness) < std::numeric_limits<double>::epsilon()) {
+    return;
+  }
+  image->convertTo(*image, -1, 1, brightness);
 }
 
 std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,

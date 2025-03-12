@@ -40,6 +40,8 @@ public:
 
   void applyLut(LutImageProcessingData const &imageProcessingData);
   void applyLutInMemory(LutInMemoryData const &imageProcessingData);
+  void applyLutAndEffects(
+      LutImageProcessingAndEffectsData const &imageProcessingData);
 
 private:
   void loadPrograms();

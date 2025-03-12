@@ -23,7 +23,17 @@ struct LutInMemoryData final {
   cv::Mat                outImage;
 };
 
-typedef std::variant<LutImageProcessingData, LutInMemoryData>
+struct LutImageProcessingAndEffectsData final {
+  std::vector<cv::Vec4f> lut;
+  Path                   inImage;
+  Path                   outImage;
+  double                 saturation;
+  double                 contrast;
+  double                 brightness;
+};
+
+typedef std::variant<LutImageProcessingData, LutInMemoryData,
+                     LutImageProcessingAndEffectsData>
     ImageProcessingData;
 
 } // namespace PB

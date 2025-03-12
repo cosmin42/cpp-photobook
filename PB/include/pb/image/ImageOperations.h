@@ -43,11 +43,17 @@ std::vector<double> sampleNormalized(unsigned samplePointsCount);
 std::shared_ptr<cv::Mat> applySaturation(std::shared_ptr<cv::Mat> image,
                                          double                   saturation);
 
+void applySaturationInPlace(std::shared_ptr<cv::Mat> image, double saturation);
+
 std::shared_ptr<cv::Mat> applyContrast(std::shared_ptr<cv::Mat> image,
                                        double                   contrast);
 
+void applyContrastInPlace(std::shared_ptr<cv::Mat> image, double contrast);
+
 std::shared_ptr<cv::Mat> applyBrightness(std::shared_ptr<cv::Mat> image,
                                          double                   brightness);
+
+void applyBrightnessInPlace(std::shared_ptr<cv::Mat> image, double brightness);
 
 std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,
                                        double                   exposure);
