@@ -794,6 +794,11 @@ struct TableContentView: View, PhotobookUIListener {
         }
     }
     
+    func onLutAppliedOnDiskInplace(imageId: String)
+    {
+    
+    }
+    
     func onError(message: String)
     {
         errorModel.description = message

@@ -26,6 +26,7 @@
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onCollageCreated:(FrontendImage*)image;
 - (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
+- (void)onLutAppliedOnDiskInplace:(NSString*)imageId;
 - (void)onError:(NSString*)error;
 @end
 

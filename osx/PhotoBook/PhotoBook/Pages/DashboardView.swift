@@ -166,5 +166,7 @@ struct DashboardView: View, PhotobookUIListener {
     
     func onLutAppliedInMemory(imageId: String, image: NSImage) {}
     
+    func onLutAppliedOnDiskInplace(imageId: String) {}
+    
     func onError(message: String){}
 }

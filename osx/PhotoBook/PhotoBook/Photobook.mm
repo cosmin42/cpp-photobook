@@ -105,15 +105,19 @@ public:
                       Path thumbnailsLocation) {}
     
     void onLutAppliedInMemory(PBDev::LutApplicationId imageId,
-                              std::shared_ptr<cv::Mat> image) {
+                              std::shared_ptr<cv::Mat> image) override {
         std::string imageIdStr = boost::uuids::to_string(*imageId);
         NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
         NSImage* managedImage = MatToNSImage(*image);
         [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
     }
 
-    void OnLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId)
+    void onLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId) override
     {
+        std::string imageIdStr = boost::uuids::to_string(*applicationId);
+        NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+        
+        [&mManagedListener onLutAppliedOnDiskInplace: managedImageId];
     }
     
 private:
