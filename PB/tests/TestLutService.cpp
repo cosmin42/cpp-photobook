@@ -18,6 +18,8 @@ TEST(TestLutService, TestEmpty)
   ThreadSchedulerMock *threadScheduler =
       new ThreadSchedulerMock(std::chrono::milliseconds(60000));
 
+  auto vulkanManager = std::make_shared<PB::VulkanManager>();
+
   std::shared_ptr<ProgressService> progressService =
       std::make_shared<ProgressService>();
   progressService->configure(progressServiceListener);
@@ -42,6 +44,8 @@ TEST(TestLutService, TestEmpty)
 
   auto platformInfo = mockPlatformInfo(installPath, localState);
 
+  vulkanManager->init();
+
   PB::Project project;
 
   // string to boost::uuid
@@ -56,6 +60,7 @@ TEST(TestLutService, TestEmpty)
 
   std::shared_ptr<OGLEngine> mOGLEngine = std::make_shared<OGLEngine>();
   mOGLEngine->configurePlatformInfo(platformInfo);
+  mOGLEngine->configVulkanManager(vulkanManager);
 
   std::shared_ptr<LutService> mLutService = std::make_shared<LutService>();
   mLutService->configurePlatformInfo(platformInfo);
@@ -89,10 +94,14 @@ TEST(TestLutService, TestEmpty)
   GenericImagePtr image0 = imageFactory->createRegularImage(
       std::string("1a8ce3aa-eca7-48ff-80a7-805a5db42a34"));
 
-  mLutService->applyLut(PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7,
-                        image0);
+  mLutService->applyTransformationOnDisk(
+      PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7, image0, 1.0, 1.0,
+      0.0);
 
-  threadScheduler->mainloop();
+  // mLutService->applyLut(PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7,
+  //                       image0);
+
+  //  threadScheduler->mainloop();
 
   delete threadScheduler;
   delete testLutServiceListener;
