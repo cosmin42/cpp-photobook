@@ -94,14 +94,10 @@ TEST(TestLutService, TestEmpty)
   GenericImagePtr image0 = imageFactory->createRegularImage(
       std::string("1a8ce3aa-eca7-48ff-80a7-805a5db42a34"));
 
-  mLutService->applyTransformationOnDisk(
-      PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7, image0, 1.0, 1.0,
-      0.0);
+  mLutService->applyLut(PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7,
+                        image0);
 
-  // mLutService->applyLut(PBDev::LutApplicationId(RuntimeUUID::newUUID()), 7,
-  //                       image0);
-
-  //  threadScheduler->mainloop();
+  threadScheduler->mainloop();
 
   delete threadScheduler;
   delete testLutServiceListener;
