@@ -4,12 +4,12 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/components/Project.h>
 #include <pb/entities/CollageImage.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/PaperSettings.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/entities/TextImageV2.h>
-#include <pb/components/Project.h>
 
 void to_json(Json &json, const boost::uuids::uuid &uuid)
 {
@@ -39,8 +39,8 @@ void to_json(Json &json, const PB::PaperType &paperType)
 
 void from_json(const Json &json, PB::PaperType &paperType)
 {
-    int paperTypeInt = json.get<int>();
-    paperType = static_cast<PB::PaperType>(paperTypeInt);
+  int paperTypeInt = json.get<int>();
+  paperType = static_cast<PB::PaperType>(paperTypeInt);
 }
 
 void to_json(Json &json, const PB::PaperSettings &paper)
@@ -218,6 +218,7 @@ void to_json(Json &json, PB::Project &project)
   to_json(json["paperSettings"], project.paperSettings);
   to_json(json["imageMonitor"], project.imageMonitor()->unstaged());
   to_json(json["stagedImages"], project.stagedImages()->stagedPhotos());
+  to_json(json["draftImages"], project.draftImages());
   to_json(json["roots"], project.imageMonitor()->rowList());
 }
 
@@ -232,6 +233,7 @@ void from_json(const Json &json, PB::Project &project)
 
   from_json(json["imageMonitor"], unstaged);
   from_json(json["stagedImages"], staged);
+  from_json(json["draftImages"], project.draftImages());
   from_json(json["roots"], roots);
 
   for (auto i = 0; i < roots.size(); ++i) {

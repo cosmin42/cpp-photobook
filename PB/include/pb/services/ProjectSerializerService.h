@@ -1,8 +1,8 @@
 #pragma once
 
 #include <pb/Platform.h>
-#include <pb/entities/GenericImage.h>
 #include <pb/components/Project.h>
+#include <pb/entities/GenericImage.h>
 #include <pb/infra/Traits.h>
 
 namespace PB::Service {
@@ -32,4 +32,4 @@ private:
 
   void saveAsJson(Path projectPath, Json json);
 };
-} // namespace PB
+} // namespace PB::Service
