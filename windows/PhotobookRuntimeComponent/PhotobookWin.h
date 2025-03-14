@@ -147,7 +147,7 @@ public:
         winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
-  void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image)
+  void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image, Path thumbnailsLocation)
   {
   }
 

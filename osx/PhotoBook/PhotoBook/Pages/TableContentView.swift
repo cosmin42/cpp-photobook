@@ -485,9 +485,9 @@ struct TableContentView: View, PhotobookUIListener {
                                             
                                             self.dplDropIndex = self.dplModel.findPredecessorIndex(at:location)
                                             
-                                            var toDplList: [FrontendImage] = []
-                                            for (_, value) in images {
-                                                toDplList.append(value)
+                                            var toDplList: [String:FrontendImage] = [:]
+                                            for (key, value) in images {
+                                                toDplList[key] = value
                                             }
                                             
                                             self.photobook.copyImages(toDpl: toDplList)

@@ -97,11 +97,13 @@ public:
         [&mManagedListener onImageMapped:managedImageId image:managedImage];
     }
     
-    void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image) override {
+    void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image, Path thumbnailsLocation) override {
         std::string imageIdStr = boost::uuids::to_string(*imageId);
         NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
         
-        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:@""];
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        
+        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
         [&mManagedListener onImageCopied:managedImageId image:managedImage];
     }
 
@@ -351,9 +353,29 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
-- (void) copyImagesToDpl:(NSArray<FrontendImage*>*)images
+- (void) copyImagesToDpl:(NSDictionary<NSString*, FrontendImage*>*)images
 {
+    auto imageToPaperService = mPhotobook->imageToPaperService();
     
+    std::unordered_map<PBDev::ImageToPaperId, PB::GenericImagePtr,
+    boost::hash<PBDev::ImageToPaperId>>
+    backendMap;
+    
+    for (NSString *key in images) {
+        std::string uuidStr = [key UTF8String];
+        try {
+            boost::uuids::string_generator gen;
+            boost::uuids::uuid nativeUuid = gen(uuidStr);
+            
+            PBDev::ImageToPaperId imageId = PBDev::ImageToPaperId(nativeUuid);
+
+            backendMap[imageId] = [images[key] unwrap];
+            
+        } catch (const std::exception& e) {
+        }
+    }
+
+    imageToPaperService->copyImages(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
 - (NSString*) getThumbnailsPath
