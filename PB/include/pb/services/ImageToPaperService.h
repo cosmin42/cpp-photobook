@@ -2,8 +2,9 @@
 
 #include <pb/Platform.h>
 #include <pb/components/ImageToPaperTask.h>
-#include <pb/infra/TaskCruncher.h>
 #include <pb/entities/GenericImage.h>
+#include <pb/image/ImageFactory.h>
+#include <pb/infra/TaskCruncher.h>
 #include <pb/services/ProjectManagementService.h>
 
 DECLARE_STRONG_UUID(ImageToPaperServiceId)
@@ -31,6 +32,11 @@ public:
     mProjectManagementService = projectManagementService;
   }
 
+  void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory)
+  {
+    mImageFactory = imageFactory;
+  }
+
   void setImageToPaperServiceListener(ImageToPaperServiceListener *listener)
   {
     mListener = listener;
@@ -41,12 +47,17 @@ public:
                               boost::hash<PBDev::ImageToPaperId>>
                originalImages);
 
+  void copyImages(PBDev::ImageToPaperServiceId,
+                  std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+                                     boost::hash<PBDev::ImageToPaperId>>);
+
   void removeTask(PBDev::ImageToPaperServiceId id);
 
 private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>
       mTasks;

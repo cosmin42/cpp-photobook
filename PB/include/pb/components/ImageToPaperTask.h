@@ -27,6 +27,8 @@ class ImageToPaperServiceListener {
 public:
   virtual void onImageMapped(PBDev::ImageToPaperId id,
                              GenericImagePtr       image) = 0;
+  virtual void onImageCopied(PBDev::ImageToPaperId id,
+                             GenericImagePtr       image) = 0;
 };
 
 class ImageToPaperTask final : public MapReducer {

@@ -31,7 +31,8 @@ std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
   return regularImage;
 }
 
-std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(std::string hash)
+std::shared_ptr<RegularImageV2>
+ImageFactory::createRegularImage(std::string hash)
 {
   return std::make_shared<RegularImageV2>(hash, Path());
 }
@@ -78,6 +79,50 @@ GenericImagePtr ImageFactory::createImage(Path path)
     auto coreHash = mDurableHashService->getHash(projectId, path);
 
     return createTextImage(path, coreHash);
+  }
+  else {
+    PBDev::basicAssert(false);
+    return nullptr;
+  }
+}
+
+GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
+{
+  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
+  auto largeFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::LARGE);
+  auto mediumFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::MEDIUM);
+  auto smallFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::SMALL);
+
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::LARGE);
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::MEDIUM);
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::SMALL);
+
+  std::filesystem::copy(largeFile, newLargeFile);
+  std::filesystem::copy(mediumFile, newMediumFile);
+  std::filesystem::copy(smallFile, newSmallFile);
+
+  if (image->type() == ImageType::Regular) {
+    auto regularImage = std::dynamic_pointer_cast<RegularImageV2>(image);
+
+    return std::make_shared<RegularImageV2>(newHash, regularImage->original());
+  }
+  else if (image->type() == ImageType::Text) {
+    auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
+
+    return std::make_shared<TextImageV2>(newHash, textImage->text());
   }
   else {
     PBDev::basicAssert(false);

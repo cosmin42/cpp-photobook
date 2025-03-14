@@ -21,6 +21,8 @@ public:
   std::shared_ptr<RegularImageV2> createRegularImage(std::string hash);
   std::shared_ptr<TextImageV2>    createTextImage(Path path, std::string hash);
 
+  GenericImagePtr copyImage(GenericImagePtr image);
+
   GenericImagePtr createImage(Path path);
 
   // TODO: Fix this if taking into account the platform info...

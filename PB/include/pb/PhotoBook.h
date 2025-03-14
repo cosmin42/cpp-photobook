@@ -89,6 +89,9 @@ public:
 
   void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image) override;
 
+  void onImageCopied(PBDev::ImageToPaperId imageId,
+                     GenericImagePtr       image) override;
+
   [[deprecated]] void onLutAdded(LutIconInfo iconInfo) override;
 
   void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) override;

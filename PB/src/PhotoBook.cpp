@@ -93,14 +93,15 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
+  mImageFactory->configurePlatformInfo(mPlatformInfo);
+  mImageFactory->configureProjectManagementService(mProjectManagementService);
+  mImageFactory->configureDurableHashService(mDurableHashService);
+
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
   mImageToPaperService->configureProjectManagementService(
       mProjectManagementService);
-
-  mImageFactory->configurePlatformInfo(mPlatformInfo);
-  mImageFactory->configureProjectManagementService(mProjectManagementService);
-  mImageFactory->configureDurableHashService(mDurableHashService);
+  mImageToPaperService->configureImageFactory(mImageFactory);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
   mLutService->configureTaskCruncher(mTaskCruncher);
@@ -364,6 +365,12 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   post([this, id{id}, image{image}, thumbnailsPath{thumbnailsPath}]() {
     mParent->onImageMapped(id, image, thumbnailsPath);
   });
+}
+
+void Photobook::onImageCopied(PBDev::ImageToPaperId imageId,
+                              GenericImagePtr       image)
+{
+  post([this, imageId, image]() { mParent->onImageCopied(imageId, image); });
 }
 
 [[deprecated]] void Photobook::onLutAdded(LutIconInfo iconInfo)

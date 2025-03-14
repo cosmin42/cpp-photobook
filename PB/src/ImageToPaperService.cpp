@@ -23,6 +23,20 @@ void ImageToPaperService::map(
   UNUSED(stopSource);
 }
 
+void ImageToPaperService::copyImages(
+    PBDev::ImageToPaperServiceId taskId,
+    std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+                       boost::hash<PBDev::ImageToPaperId>>
+        images)
+{
+  for (auto &&[id, image] : images) {
+    mTaskCruncher->crunch([this, id, image]() {
+      auto newImage = mImageFactory->copyImage(image);
+      mListener->onImageCopied(id, newImage);
+    });
+  }
+}
+
 void ImageToPaperService::removeTask(PBDev::ImageToPaperServiceId id)
 {
   mTasks.erase(id);
