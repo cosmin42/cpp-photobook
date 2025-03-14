@@ -96,6 +96,16 @@ public:
         auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
         [&mManagedListener onImageMapped:managedImageId image:managedImage];
     }
+    
+    void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image) override {
+        std::string imageIdStr = boost::uuids::to_string(*imageId);
+        NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+        
+        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:@""];
+        [&mManagedListener onImageCopied:managedImageId image:managedImage];
+    }
+
+    
     void onProgressUpdate(PB::ProgressStatus status) override {}
     
     [[deprecated]]
@@ -339,6 +349,11 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     }
     
     imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+}
+
+- (void) copyImagesToDpl:(NSArray<FrontendImage*>*)images
+{
+    
 }
 
 - (NSString*) getThumbnailsPath

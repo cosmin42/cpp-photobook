@@ -41,6 +41,7 @@ struct TableContentView: View, PhotobookUIListener {
     @Binding private var lutGridModel: LutGridModel
     
     @State private var dropIndex: UInt?
+    @State private var dplDropIndex: UInt?
     
     @State private var multipleSelectionEnabled: Bool = false
     
@@ -61,7 +62,7 @@ struct TableContentView: View, PhotobookUIListener {
     @StateObject private var dplModel: DPLModel = DPLModel()
     
     @StateObject private var photoLinesModel: PhotoLinesModel = PhotoLinesModel()
-    
+        
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -458,6 +459,79 @@ struct TableContentView: View, PhotobookUIListener {
                     }
                     
                     DraftPhotoLine(frameSize: geometry.size, model: dplModel, photoLinesModel: photoLinesModel, multipleSelectionEnabled: $multipleSelectionEnabled, canvasImage: $canvasModel.mainImage)
+                        .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
+  
+                            guard let provider = providers.first else { return false}
+                            if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
+                                provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
+                                    if let data = data {
+                                        do {
+                                            let uplIdentifier = try self.decodeData(data)
+                                            var images: [String: FrontendImage] = [:]
+                                            for index in uplIdentifier.indices
+                                            {
+                                                if let row = uplIdentifier.row
+                                                {
+                                                    let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
+                                                    
+                                                    let uuid = UUID()
+                                                    images[uuid.uuidString] = image
+                                                }
+                                                else
+                                                {
+                                                    assert(false, "Unreachable code")
+                                                }
+                                            }
+                                            
+                                            self.dplDropIndex = self.dplModel.findPredecessorIndex(at:location)
+                                            
+                                            var toDplList: [FrontendImage] = []
+                                            for (_, value) in images {
+                                                toDplList.append(value)
+                                            }
+                                            
+                                            self.photobook.copyImages(toDpl: toDplList)
+                                            
+                                            self.uplModel.selectedIndices.removeAll()
+                                            
+                                        } catch {
+                                            print("Failed to decode dropped data: \(error)")
+                                        }
+                                    }
+                                    else if let error = error {
+                                        assert(false, "Unreachable code \(error)")
+                                    }
+                                    else
+                                    {
+                                        assert(false, "Unreachable code")
+                                    }
+                                }
+                            }
+                            else if provider.hasItemConformingToTypeIdentifier(UTType.splDragType.identifier) {
+                                provider.loadDataRepresentation(forTypeIdentifier: UTType.splDragType.identifier) { data, error in
+                                    if let data = data {
+                                        do {
+                                            let splIdentifier = try self.decodeSPLData(data)
+                                            let indicesToMove = splIdentifier.indices.map { Int($0) }
+                                            let maybeDropIndex = self.splModel.findPredecessorIndex(at:location)
+                                            
+                                            self.splModel.move(fromOffsets: IndexSet(indicesToMove), toOffset: maybeDropIndex)
+                                        } catch {
+                                            print("Failed to decode dropped data: \(error)")
+                                        }
+                                    } else if let error = error {
+                                        assert(false, "Unreachable code \(error)")
+                                    }
+                                    else
+                                    {
+                                        assert(false, "Unreachable code")
+                                    }
+                                }
+                            }
+                            
+                            return true
+                        
+                        }
                     
                     
                     UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
@@ -776,6 +850,12 @@ struct TableContentView: View, PhotobookUIListener {
     {
         self.splModel.insert(image: image, position: self.dropIndex)
         self.photobook.projectManagementService().stagedImages().add([image], at: UInt32(self.dropIndex ?? 0))
+    }
+    
+    func onImageCopied(imageId: String, image: FrontendImage)
+    {
+        self.dplModel.insert(image: image, position: self.dplDropIndex)
+        self.photobook.projectManagementService().insert(image, at: UInt32(self.dplDropIndex ?? 0))
     }
     
     func onCollageCreated(image: FrontendImage)

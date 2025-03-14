@@ -75,6 +75,13 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
     maybeProject->second.draftImages().push_back(nativeImage);
 }
 
+- (void) insertImage:(FrontendImage*)image atIndex:(unsigned)index
+{
+    auto nativeImage = [image unwrap];
+    auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
+    maybeProject->second.draftImages().insert(maybeProject->second.draftImages().begin() + index, nativeImage);
+}
+
 - (void) removeDraftImages:(NSArray<NSNumber*>*)indexes
 {
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();

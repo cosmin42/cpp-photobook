@@ -42,6 +42,11 @@ private var noirUIListener: [NoirUIListener] = []
         photobookUIListener.last?.onImageMapped(imageId:imageId, image: image)
     }
     
+    func onImageCopied(_ imageId: String, image: FrontendImage)
+    {
+        photobookUIListener.last?.onImageCopied(imageId:imageId, image:image)
+    }
+    
     func onCollageCreated(_ image: FrontendImage)
     {
         photobookUIListener.last?.onCollageCreated(image: image)
@@ -158,6 +163,9 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onCollageThumbnailsCreated(){}
     func onCollageCreated(image: FrontendImage){}
     func onImageMapped(imageId: String, image: FrontendImage){}
+    func onImageCopied(imageId: String, image: FrontendImage) {}
+
+    
     func onNoirLutAdded(item:LutItem) {
         lutGridModel.images.append(item)
     }

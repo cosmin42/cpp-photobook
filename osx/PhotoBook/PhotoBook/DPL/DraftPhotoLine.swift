@@ -79,6 +79,9 @@ struct DraftPhotoLine: View
                     }
                 }
             }
+            .onPreferenceChange(ItemFramesKey.self) { frames in
+                model.itemFrames = frames.sorted(by: { $0.index < $1.index }).map { $0.frame }
+            }
         }
         .frame(width: frameSize.width, height:82, alignment: .leading)
         .cornerRadius(10)

@@ -24,6 +24,7 @@
 - (void)onImageUpdated:(NSString*)root row:(unsigned)row index:(unsigned)index;
 - (void)onCollageThumbnailsCreated;
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
+- (void)onImageCopied:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onCollageCreated:(FrontendImage*)image;
 - (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
 - (void)onLutAppliedOnDiskInplace:(NSString*)imageId;
@@ -55,6 +56,7 @@
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
 - (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
+- (void) copyImagesToDpl:(NSArray<FrontendImage*>*)images;
 - (NSString*) getThumbnailsPath;
 - (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg;
 - (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex;

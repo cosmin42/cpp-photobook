@@ -29,6 +29,7 @@
 - (StagedImagesView*) stagedImages;
 - (NSArray<FrontendImage*>*)draftPhotoLine:(NSString*)thumbnailsPath;
 - (void) appendImage:(FrontendImage*)image;
+- (void) insertImage:(FrontendImage*)image atIndex:(unsigned)index;
 - (void) removeDraftImages:(NSArray<NSNumber*>*)indexes;
 
 @end
