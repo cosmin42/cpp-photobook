@@ -89,7 +89,8 @@ public:
   }
   void onMappingFinished(Path path, unsigned imagesCount) override
   {
-    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()), imagesCount);
+    mManagedListener.OnMappingFinished(winrt::to_hstring(path.string()),
+                                       imagesCount);
   }
   void onMappingAborted(Path path) override
   {
@@ -144,6 +145,10 @@ public:
     mManagedListener.OnImageMapped(
         managedGuid,
         winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
+  }
+
+  void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image)
+  {
   }
 
   void onProgressUpdate(PB::ProgressStatus status) override
