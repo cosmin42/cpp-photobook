@@ -35,7 +35,7 @@ public:
   virtual void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image,
                              Path thumbnailsLocation) = 0;
     
-  virtual void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image) = 0;
+  virtual void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image, Path thumbnailsLocation) = 0;
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 

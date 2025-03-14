@@ -370,7 +370,12 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 void Photobook::onImageCopied(PBDev::ImageToPaperId imageId,
                               GenericImagePtr       image)
 {
-  post([this, imageId, image]() { mParent->onImageCopied(imageId, image); });
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      platformInfo()->projectSupportFolder(maybeProject->first) /
+      "thumbnail-images";
+  post([this, imageId, image, thumbnailsPath]() { mParent->onImageCopied(imageId, image, thumbnailsPath); });
 }
 
 [[deprecated]] void Photobook::onLutAdded(LutIconInfo iconInfo)
