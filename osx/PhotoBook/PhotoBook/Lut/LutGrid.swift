@@ -26,7 +26,9 @@ struct LutGrid: View
             {
                 Spacer()
                     .frame(width: 10)
-                TextField("Search", text: $model.filterText)
+                Text("Filter:")
+                    .frame(alignment:.leading)
+                TextField("", text: $model.filterText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 100)
                     .padding(.leading, 4)
@@ -41,6 +43,8 @@ struct LutGrid: View
                 .buttonStyle(PlainButtonStyle())
                 .frame(alignment:.leading)
                 
+                Spacer()
+                
                 Button(action: {
                     if let selectedIndex = model.selectedIndex {
                         model.onApply(selectedIndex)
@@ -54,9 +58,6 @@ struct LutGrid: View
                 .cornerRadius(5)
                 .padding(5)
                 .disabled(model.selectedIndex == nil)
-                
-                
-                Spacer()
             }
             .frame(alignment:.leading)
             .padding(4)
