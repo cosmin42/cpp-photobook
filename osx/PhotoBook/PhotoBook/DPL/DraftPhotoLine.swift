@@ -73,6 +73,9 @@ struct DraftPhotoLine: View
                                         self.canvasImage = model.list.first
                                     }
                                 }
+                                .onDrag {
+                                    NSItemProvider(object: UPLIdentifier(row:nil, indices:model.selectedIndices.map { UInt($0) }))
+                                }
                         } else {
                             Text("Image not found")
                         }

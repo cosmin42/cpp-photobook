@@ -40,7 +40,7 @@ struct TableContentView: View, PhotobookUIListener {
     
     @Binding private var lutGridModel: LutGridModel
     
-    @State private var dropIndex: UInt?
+    @State private var splDropIndex: UInt?
     @State private var dplDropIndex: UInt?
     
     @State private var multipleSelectionEnabled: Bool = false
@@ -397,11 +397,22 @@ struct TableContentView: View, PhotobookUIListener {
                                                     }
                                                     else
                                                     {
-                                                        assert(false, "Unreachable code")
+                                                        if let dpLine = self.photobook.projectManagementService().draftPhotoLine(self.photobook.getThumbnailsPath())
+                                                        {
+                                                            let image = dpLine[Int(index)]
+                                                            let uuid = UUID()
+                                                            images[uuid.uuidString] = image
+                                                        }
                                                     }
                                                 }
-                                                
-                                                self.dropIndex = self.splModel.findPredecessorIndex(at:location)
+                                                if let dropIndex = self.splModel.findPredecessorIndex(at:location)
+                                                {
+                                                    self.splDropIndex = dropIndex
+                                                }
+                                                else
+                                                {
+                                                    self.splDropIndex = UInt(self.splModel.list.count)
+                                                }
                                                 
                                                 for (key, value) in images {
                                                     toPaperModel.images[key] = ToPaperData(image: value, resizeType: "Fit")
@@ -483,7 +494,15 @@ struct TableContentView: View, PhotobookUIListener {
                                                 }
                                             }
                                             
-                                            self.dplDropIndex = self.dplModel.findPredecessorIndex(at:location)
+                                            if let dropIndex = self.dplModel.findPredecessorIndex(at:location)
+                                            {
+                                                self.dplDropIndex = dropIndex
+                                            }
+                                            else
+                                            {
+                                                self.dplDropIndex = UInt(self.dplModel.list.count)
+                                            }
+                                            
                                             
                                             var toDplList: [String:FrontendImage] = [:]
                                             for (key, value) in images {
@@ -848,8 +867,8 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onImageMapped(imageId: String, image: FrontendImage)
     {
-        self.splModel.insert(image: image, position: self.dropIndex)
-        self.photobook.projectManagementService().stagedImages().add([image], at: UInt32(self.dropIndex ?? 0))
+        self.splModel.insert(image: image, position: self.splDropIndex)
+        self.photobook.projectManagementService().stagedImages().add([image], at: UInt32(self.splDropIndex ?? 0))
     }
     
     func onImageCopied(imageId: String, image: FrontendImage)
