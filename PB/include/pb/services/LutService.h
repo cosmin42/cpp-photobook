@@ -21,6 +21,7 @@ public:
   virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
   virtual void onLutAppliedInMemory(PBDev::LutApplicationId, std::shared_ptr<cv::Mat>) = 0;
   virtual void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) = 0;
+  virtual void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) = 0;
 };
 
 class LutService final : public DirectoryInspectionJobListener,
@@ -71,10 +72,10 @@ public:
 
   void applyTransformationOnDisk(PBDev::LutApplicationId lutId,
                                  unsigned lutIndex, GenericImagePtr image,
-                                 double saturation, double contrast, double brightness);
+                                 double saturation, double contrast, double brightness, bool inplace = true);
 
   void applyLutAndEffects(PBDev::LutApplicationId lutId, unsigned lutIndex,
-                          Path imagePath, double saturation,
+                          GenericImagePtr image, double saturation,
                           double contrast, double brightness);
 
   std::vector<LutIconInfo> listLuts() const;

@@ -101,6 +101,8 @@ public:
 
   void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) override;
 
+  void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;

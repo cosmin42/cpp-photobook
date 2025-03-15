@@ -221,39 +221,70 @@ void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
                                            unsigned                lutIndex,
                                            GenericImagePtr         image,
                                            double saturation, double contrast,
-                                           double brightness)
+                                           double brightness, bool inplace)
 {
+  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
   LutImageProcessingData largeProcessingData;
-  largeProcessingData.inImage = largeProcessingData.outImage =
-      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
-                                     ThumbnailsSize::LARGE);
-
   LutImageProcessingData mediumProcessingData;
-  mediumProcessingData.inImage = mediumProcessingData.outImage =
-      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
-                                     ThumbnailsSize::MEDIUM);
-
   LutImageProcessingData smallProcessingData;
-  smallProcessingData.inImage = smallProcessingData.outImage =
-      mPlatformInfo->thumbnailByHash(mProject->first, image->hash(),
-                                     ThumbnailsSize::SMALL);
+
+  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+
+  for (auto const &data : lutData) {
+    largeProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+    mediumProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+    smallProcessingData.lut.push_back(
+        cv::Vec4f(data[0], data[1], data[2], 1.0));
+  }
+
+  largeProcessingData.inImage = mPlatformInfo->thumbnailByHash(
+      mProject->first, image->hash(), ThumbnailsSize::LARGE);
+  mediumProcessingData.inImage = mPlatformInfo->thumbnailByHash(
+      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
+  smallProcessingData.inImage = mPlatformInfo->thumbnailByHash(
+      mProject->first, image->hash(), ThumbnailsSize::SMALL);
+
+  if (inplace) {
+    largeProcessingData.outImage = largeProcessingData.inImage;
+    mediumProcessingData.outImage = mediumProcessingData.inImage;
+    smallProcessingData.outImage = smallProcessingData.inImage;
+  }
+  else {
+    largeProcessingData.outImage = mPlatformInfo->thumbnailByHash(
+        mProject->first, newHash, ThumbnailsSize::LARGE);
+    mediumProcessingData.outImage = mPlatformInfo->thumbnailByHash(
+        mProject->first, newHash, ThumbnailsSize::MEDIUM);
+    smallProcessingData.outImage = mPlatformInfo->thumbnailByHash(
+        mProject->first, newHash, ThumbnailsSize::SMALL);
+  }
 
   mTaskCruncher->crunch([this, largeProcessingData]() {
     mOglEngine->applyLut(largeProcessingData);
+    Noir::inst().getLogger()->info("LUT applied {}",
+                                   largeProcessingData.outImage.string());
   });
 
   mTaskCruncher->crunch([this, mediumProcessingData]() {
     mOglEngine->applyLut(mediumProcessingData);
   });
 
-  mTaskCruncher->crunch([this, smallProcessingData, lutId]() {
+  mTaskCruncher->crunch([this, smallProcessingData, lutId, inplace, newHash]() {
     mOglEngine->applyLut(smallProcessingData);
-    mLutServiceListener->onLutAppliedOnDiskInplace(lutId);
+    if (inplace) {
+      mLutServiceListener->onLutAppliedOnDiskInplace(lutId);
+    }
+    else {
+      GenericImagePtr newImage = std::make_shared<RegularImageV2>(newHash, "");
+      mLutServiceListener->onLutAppliedOnDisk(lutId, newImage);
+    }
   });
 }
 
 void LutService::applyLutAndEffects(PBDev::LutApplicationId lutId,
-                                    unsigned lutIndex, Path imagePath,
+                                    unsigned lutIndex, GenericImagePtr image,
                                     double saturation, double contrast,
                                     double brightness)
 {
@@ -272,17 +303,18 @@ void LutService::applyLutAndEffects(PBDev::LutApplicationId lutId,
         cv::Vec4f(data[0], data[1], data[2], 1.0));
   }
 
-  largeProcessingData.inImage = largeProcessingData.outImage = imagePath;
+  largeProcessingData.inImage = largeProcessingData.outImage = image->full();
   largeProcessingData.saturation = saturation;
   largeProcessingData.contrast = contrast;
   largeProcessingData.brightness = brightness;
 
-  mediumProcessingData.inImage = mediumProcessingData.outImage = imagePath;
+  mediumProcessingData.inImage = mediumProcessingData.outImage =
+      image->medium();
   mediumProcessingData.saturation = saturation;
   mediumProcessingData.contrast = contrast;
   mediumProcessingData.brightness = brightness;
 
-  smallProcessingData.inImage = smallProcessingData.outImage = imagePath;
+  smallProcessingData.inImage = smallProcessingData.outImage = image->smaLL();
   smallProcessingData.saturation = saturation;
   smallProcessingData.contrast = contrast;
   smallProcessingData.brightness = brightness;

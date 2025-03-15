@@ -2,10 +2,10 @@
 
 #include <pb/components/ImageToPaperTask.h>
 #include <pb/entities/LutIconInfo.h>
-#include <pb/services/LutService.h>
-#include <pb/services/ProgressService.h>
 #include <pb/infra/Error.h>
 #include <pb/infra/Traits.h>
+#include <pb/services/LutService.h>
+#include <pb/services/ProgressService.h>
 
 namespace PB {
 class PhotobookListener {
@@ -34,20 +34,24 @@ public:
 
   virtual void onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image,
                              Path thumbnailsLocation) = 0;
-    
-  virtual void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image, Path thumbnailsLocation) = 0;
+
+  virtual void onImageCopied(PBDev::ImageToPaperId imageId,
+                             PB::GenericImagePtr   image,
+                             Path                  thumbnailsLocation) = 0;
 
   virtual void onProgressUpdate(PB::ProgressStatus status) = 0;
 
   [[deprecated]] virtual void onLutAdded(LutIconInfo iconInfo) = 0;
 
-  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr,
-                            Path thumbnailsLocation) = 0;
+  virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr, Path) = 0;
 
   virtual void onLutAppliedInMemory(PBDev::LutApplicationId,
                                     std::shared_ptr<cv::Mat>) = 0;
 
   virtual void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) = 0;
+
+  virtual void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr,
+                                  Path) = 0;
 };
 
 } // namespace PB

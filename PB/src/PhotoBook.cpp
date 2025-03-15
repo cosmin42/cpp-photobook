@@ -375,7 +375,9 @@ void Photobook::onImageCopied(PBDev::ImageToPaperId imageId,
   auto thumbnailsPath =
       platformInfo()->projectSupportFolder(maybeProject->first) /
       "thumbnail-images";
-  post([this, imageId, image, thumbnailsPath]() { mParent->onImageCopied(imageId, image, thumbnailsPath); });
+  post([this, imageId, image, thumbnailsPath]() {
+    mParent->onImageCopied(imageId, image, thumbnailsPath);
+  });
 }
 
 [[deprecated]] void Photobook::onLutAdded(LutIconInfo iconInfo)
@@ -408,6 +410,19 @@ void Photobook::onLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId)
 {
   post([this, applicationId]() {
     mParent->onLutAppliedOnDiskInplace(applicationId);
+  });
+}
+
+void Photobook::onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
+                                   GenericImagePtr         image)
+{
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      mPlatformInfo->projectSupportFolder(maybeProject->first) /
+      "thumbnail-images";
+  post([this, lutId, image, thumbnailsPath]() {
+    mParent->onLutAppliedOnDisk(lutId, image, thumbnailsPath);
   });
 }
 

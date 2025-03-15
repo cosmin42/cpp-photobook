@@ -202,6 +202,9 @@ void OGLEngine::processDiskImage(sk_sp<SkImage>                image,
 
 void OGLEngine::writeOutputBitmap(Path const &path, SkBitmap &bitmap)
 {
+  if (std::filesystem::exists(path)) {
+    std::filesystem::remove(path);
+  }
   SkFILEWStream outputFile(path.string().c_str());
   if (outputFile.isValid()) {
     SkJpegEncoder::Options options;
