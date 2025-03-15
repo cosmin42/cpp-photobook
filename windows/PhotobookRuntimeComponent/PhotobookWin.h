@@ -55,6 +55,16 @@ public:
     mManagedListener.OnLutAppliedOnDiskInplace(managedGuid);
   }
 
+  void onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
+                          PB::GenericImagePtr     image,
+                          Path                    thumbnailsPath) override
+  {
+    auto managedGuid = WinConversions::toManagedGuid(lutId.raw());
+    mManagedListener.OnLutAppliedOnDisk(
+        managedGuid,
+        winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
+  }
+
   void onProjectRead() override { mManagedListener.OnProjectRead(); }
   void onMetadataUpdated(std::string focusedProjectName) override
   {
