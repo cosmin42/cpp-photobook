@@ -317,10 +317,19 @@ struct TableContentView: View, PhotobookUIListener {
                             .frame(width: 200)
                         
                         Button(action: {
-                            basicTransformationModel.reset()
+                            basicTransformationModel.resetOnlyValues()
                         }) {
-                            Text("Clear")
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                                .padding(5)
                         }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Button(action: {
+                        }) {
+                            Text("Apply")
+                        }
+                               
                         
                     }
                     Spacer()

@@ -24,4 +24,11 @@ class BasicTransformationModel: ObservableObject
         self.brightnessValue = 0.0
         self.imageProcessingType = .None
     }
+    
+    func resetOnlyValues()
+    {
+        self.saturationValue = 1.0
+        self.contrastValue = 1.0
+        self.brightnessValue = 0.0
+    }
 }
