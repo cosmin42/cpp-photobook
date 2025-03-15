@@ -423,8 +423,21 @@ void Photobook::onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
   });
 }
 
-void Photobook::onEffectApplied(PBDev::EffectId effectId, GenericImagePtr image)
+void Photobook::onEffectsApplied(PBDev::EffectId effectId, GenericImagePtr image)
 {
+  auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  auto thumbnailsPath =
+      mPlatformInfo->projectSupportFolder(maybeProject->first) /
+      "thumbnail-images";
+  post([this, effectId, image, thumbnailsPath]() {
+    mParent->onEffectsApplied(effectId, image, thumbnailsPath);
+  });
+}
+
+void Photobook::onEffectsAppliedInplace(PBDev::EffectId effectId)
+{
+  post([this, effectId]() { mParent->onEffectsAppliedInplace(effectId); });
 }
 
 void Photobook::onEffectsApplicationError(PBDev::EffectId effectId,

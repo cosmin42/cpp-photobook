@@ -13,8 +13,11 @@ namespace PB::Service
 {
   class EffectsServiceListener {
 public:
-  virtual void onEffectApplied(PBDev::EffectId effectId,
+  virtual void onEffectsApplied(PBDev::EffectId effectId,
                                GenericImagePtr image) = 0;
+
+  virtual void onEffectsAppliedInplace(PBDev::EffectId effectId) = 0;
+  
   virtual void onEffectsApplicationError(PBDev::EffectId effectId,
                                          PB::ErrorCode) = 0;
 };
@@ -34,14 +37,8 @@ public:
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
-  void applySaturation(PBDev::EffectId effectId, GenericImagePtr image,
-                       float saturation, bool inplace);
-
-  void applyBrightness(PBDev::EffectId effectId, GenericImagePtr image,
-                       float brightness, bool inplace);
-
-  void applyContrast(PBDev::EffectId effectId, GenericImagePtr image,
-                     float contrast, bool inplace);
+  void apply(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
+    float brightness, float contrast, bool inplace);
 
 private:
   EffectsServiceListener              *mListener = nullptr;
@@ -50,11 +47,7 @@ private:
   std::shared_ptr<ImageFactory>        mImageFactory = nullptr;
   std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
 
-  void applySaturationInternal(PBDev::EffectId effectId, GenericImagePtr image,
-                               float saturation, bool inplace);
-  void applyBrightnessInternal(PBDev::EffectId effectId, GenericImagePtr image,
-                               float brightness, bool inplace);
-  void applyContrastInternal(PBDev::EffectId effectId, GenericImagePtr image,
-                             float contrast, bool inplace);
+  void applyInternal(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
+                      float brightness, float contrast, bool inplace);
 };
 } // namespace PB

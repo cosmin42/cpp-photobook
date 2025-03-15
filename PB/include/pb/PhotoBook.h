@@ -106,8 +106,11 @@ public:
 
   void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) override;
 
-  void onEffectApplied(PBDev::EffectId effectId,
+  void onEffectsApplied(PBDev::EffectId effectId,
                        GenericImagePtr image) override;
+
+  void onEffectsAppliedInplace(PBDev::EffectId effectId) override;
+  
   void onEffectsApplicationError(PBDev::EffectId effectId,
                                  PB::ErrorCode) override;
 
