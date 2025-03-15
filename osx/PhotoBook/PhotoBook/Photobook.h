@@ -29,6 +29,8 @@
 - (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
 - (void)onLutAppliedOnDiskInplace:(NSString*)imageId;
 - (void)onLutAppliedOnDisk:(NSString*)imageId image:(FrontendImage*)image;
+- (void)onEffectsApplied:(NSString*)imageId image:(FrontendImage*)image;
+- (void)onEffectsAppliedInplace:(NSString*)imageId;
 - (void)onError:(NSString*)error;
 @end
 
@@ -65,6 +67,8 @@
 - (void) loadProject:(NSString*)projectId;
 - (void) saveProject;
 - (void) applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness inplace:(BOOL)inplace;
+- (void) applyEffects:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
+- (void) applyEffectsInPlace:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
 @end
 
 #endif /* Photobook_h */

@@ -129,6 +129,8 @@ public:
 
   std::shared_ptr<ExportService> exportService() const;
 
+  std::shared_ptr<EffectsService> effectsService() const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   NoirListener                             *mNoirListener = nullptr;

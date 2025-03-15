@@ -131,7 +131,7 @@ public:
         winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
-  void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image) {}
+  void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image, Path thumbnailsPath) {}
   void onEffectsAppliedInplace(PBDev::EffectId effectId) {}
 
 private:

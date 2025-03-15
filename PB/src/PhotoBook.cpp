@@ -464,4 +464,9 @@ std::string Photobook::help(std::string name) const
   return content;
 }
 
+std::shared_ptr<EffectsService> Photobook::effectsService() const
+{
+  return mEffectsService;
+}
+
 } // namespace PB

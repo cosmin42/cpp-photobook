@@ -107,7 +107,6 @@ public:
         [&mManagedListener onImageCopied:managedImageId image:managedImage];
     }
 
-    
     void onProgressUpdate(PB::ProgressStatus status) override {}
     
     [[deprecated]]
@@ -141,6 +140,25 @@ public:
         
         auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
         [&mManagedListener onLutAppliedOnDisk: managedImageId image: managedImage];
+    }
+    
+    void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image, Path thumbnailsLocation) override
+    {
+        std::string effectIdStr = boost::uuids::to_string(*effectId);
+        NSString* managedEffectId = [NSString stringWithUTF8String:effectIdStr.c_str()];
+        
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        
+        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
+        [&mManagedListener onEffectsApplied: managedEffectId image: managedImage];
+    }
+    
+    void onEffectsAppliedInplace(PBDev::EffectId effectId) override
+    {
+        std::string effectIdStr = boost::uuids::to_string(*effectId);
+        NSString* managedEffectId = [NSString stringWithUTF8String:effectIdStr.c_str()];
+        
+        [&mManagedListener onEffectsAppliedInplace: managedEffectId];
     }
     
 private:
@@ -294,7 +312,7 @@ NoirListenerManaged* mNoirListener = nullptr;
     NSString *filePath = [url path];
     
     std::string nativeRoot = [filePath UTF8String];
-    mPhotobook->addImportFolder(nativeRoot);
+    mPhotobook->importFoldersService()->addImportFolder(nativeRoot);
 }
 
 - (void) removeImportFolder:(NSString*)root
@@ -484,6 +502,40 @@ cv::Mat NSImageToMat(NSImage *image) {
     
     PB::GenericImagePtr nativeImage = [image unwrap];
     mPhotobook->lutService()->applyTransformationOnDisk(transformaionId, lutIndex, nativeImage, saturation, contrast, brightness, inplace);
+}
+
+- (void) applyEffects:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+{
+    std::string uuidStr = [effectIdStr UTF8String];
+    boost::uuids::uuid nativeUuid;
+    try {
+        
+        boost::uuids::string_generator gen;
+        nativeUuid = gen(uuidStr);
+    }
+    catch (const std::exception& e) {
+        PBDev::basicAssert(false);
+    }
+    PBDev::EffectId effectId = PBDev::EffectId(nativeUuid);
+    
+    PB::GenericImagePtr nativeImage = [image unwrap];
+}
+
+- (void) applyEffectsInPlace:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+{
+    std::string uuidStr = [effectIdStr UTF8String];
+    boost::uuids::uuid nativeUuid;
+    try {
+        
+        boost::uuids::string_generator gen;
+        nativeUuid = gen(uuidStr);
+    }
+    catch (const std::exception& e) {
+        PBDev::basicAssert(false);
+    }
+    PBDev::EffectId effectId = PBDev::EffectId(nativeUuid);
+    
+    PB::GenericImagePtr nativeImage = [image unwrap];
 }
 
 @end

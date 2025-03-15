@@ -18,5 +18,7 @@ protocol PhotobookUIListener
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     func onLutAppliedOnDiskInplace(imageId: String)
     func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
+    func onEffectsApplied(imageId: String, image: FrontendImage)
+    func onEffectsAppliedInplace(imageId: String)
     func onError(message: String)
 }

@@ -55,7 +55,7 @@ public:
                                   Path) = 0;
 
   virtual void onEffectsApplied(PBDev::EffectId effectId,
-                                GenericImagePtr image) = 0;
+                                GenericImagePtr image, Path thumbnailsPath) = 0;
   virtual void onEffectsAppliedInplace(PBDev::EffectId effectId) = 0;
 };
 

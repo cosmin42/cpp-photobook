@@ -956,6 +956,14 @@ struct TableContentView: View, PhotobookUIListener {
         self.photobook.projectManagementService().insert(image, at: UInt32(self.dplDropIndex ?? 0))
     }
     
+    func onEffectsApplied(imageId: String, image: FrontendImage)
+    {
+    }
+    
+    func onEffectsAppliedInplace(imageId: String)
+    {
+    }
+    
     func onError(message: String)
     {
         errorModel.description = message

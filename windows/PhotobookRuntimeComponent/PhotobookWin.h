@@ -167,7 +167,7 @@ public:
     mManagedListener.OnProgressUpdate(winrt::make<ProgressInfo>(status));
   }
 
-  void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image) {}
+  void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image, Path thumbnailsPath) {}
   void onEffectsAppliedInplace(PBDev::EffectId effectId) {}
 
 private:
