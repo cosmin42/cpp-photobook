@@ -130,7 +130,6 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   }
 }
 
-
 GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image) {
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 

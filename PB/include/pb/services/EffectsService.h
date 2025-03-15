@@ -9,8 +9,9 @@
 
 DECLARE_STRONG_UUID(EffectId)
 
-namespace PB {
-class EffectsServiceListener {
+namespace PB::Service
+{
+  class EffectsServiceListener {
 public:
   virtual void onEffectApplied(PBDev::EffectId effectId,
                                GenericImagePtr image) = 0;

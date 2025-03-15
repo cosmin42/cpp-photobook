@@ -4,6 +4,7 @@
 #include <pb/entities/LutIconInfo.h>
 #include <pb/infra/Error.h>
 #include <pb/infra/Traits.h>
+#include <pb/services/EffectsService.h>
 #include <pb/services/LutService.h>
 #include <pb/services/ProgressService.h>
 
@@ -52,6 +53,10 @@ public:
 
   virtual void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr,
                                   Path) = 0;
+
+  virtual void onEffectsApplied(PBDev::EffectId effectId,
+                                GenericImagePtr image) = 0;
+  virtual void onEffectsAppliedInplace(PBDev::EffectId effectId) = 0;
 };
 
 } // namespace PB

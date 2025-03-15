@@ -157,7 +157,8 @@ public:
         winrt::make<VirtualImagePtr>(image, thumbnailsPath.string()));
   }
 
-  void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image, Path thumbnailsLocation)
+  void onImageCopied(PBDev::ImageToPaperId imageId, PB::GenericImagePtr image,
+                     Path thumbnailsLocation)
   {
   }
 
@@ -165,6 +166,9 @@ public:
   {
     mManagedListener.OnProgressUpdate(winrt::make<ProgressInfo>(status));
   }
+
+  void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image) {}
+  void onEffectsAppliedInplace(PBDev::EffectId effectId) {}
 
 private:
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;
