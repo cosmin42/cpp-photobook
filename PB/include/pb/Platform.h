@@ -62,6 +62,17 @@ struct PlatformInfo {
            (hash + extension);
   }
 
+  std::tuple<Path, Path, Path> thumbnailPaths(boost::uuids::uuid projectId,
+                                              std::string        hash) const
+  {
+    return std::make_tuple(projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + ".jpg"),
+                           projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + "-m.jpg"),
+                           projectSupportFolder(projectId) /
+                               "thumbnail-images" / (hash + "-s.jpg"));
+  }
+
   // TODO: rename this to something more meaningful
   std::tuple<Path, Path, Path, std::string>
   newThumbnailPaths(boost::uuids::uuid projectId, std::string hash = "") const

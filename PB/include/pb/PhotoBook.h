@@ -23,6 +23,7 @@
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
+#include <pb/services/EffectsService.h>
 #include <pb/services/ImageToPaperService.h>
 #include <pb/services/ImportFoldersService.h>
 #include <pb/services/LutService.h>
@@ -40,7 +41,8 @@ class Photobook final : public ImportFoldersServiceListener,
                         public ImageToPaperServiceListener,
                         public CollageMakerListener,
                         public LutServiceListener,
-                        public ProjectManagementServiceListener {
+                        public ProjectManagementServiceListener,
+                        public EffectsServiceListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -104,6 +106,11 @@ public:
 
   void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) override;
 
+  void onEffectApplied(PBDev::EffectId effectId,
+                       GenericImagePtr image) override;
+  void onEffectsApplicationError(PBDev::EffectId effectId,
+                                 PB::ErrorCode) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;
@@ -142,5 +149,6 @@ private:
   std::shared_ptr<LutService>           mLutService = nullptr;
   std::shared_ptr<VulkanManager>        mVulkanManager = nullptr;
   std::shared_ptr<OGLEngine>            mOGLEngine = nullptr;
+  std::shared_ptr<EffectsService>       mEffectsService = nullptr;
 };
 } // namespace PB

@@ -23,6 +23,8 @@ public:
 
   GenericImagePtr copyImage(GenericImagePtr image);
 
+  GenericImagePtr weakCopyImage(GenericImagePtr image);
+
   GenericImagePtr createImage(Path path);
 
   // TODO: Fix this if taking into account the platform info...

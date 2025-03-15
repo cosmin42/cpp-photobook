@@ -134,6 +134,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/services/DirectoryInspectionService.h
     include/pb/services/DrawingService.h
     include/pb/services/DurableHashService.h
+    include/pb/services/EffectsService.h
     include/pb/services/ImageToPaperService.h
     include/pb/services/ImportFoldersService.h
     include/pb/services/LutService.h
@@ -161,6 +162,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/DirectoryInspectionService.cpp
     src/DrawingService.cpp
     src/DurableHashService.cpp
+    src/EffectsService.cpp
     src/Enums.cpp
     src/ExportService.cpp
     src/GenericImage.cpp

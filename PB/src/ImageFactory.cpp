@@ -130,4 +130,44 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   }
 }
 
+
+GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image) {
+  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+
+  auto largeFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::LARGE);
+  auto mediumFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::MEDIUM);
+  auto smallFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
+      ThumbnailsSize::SMALL);
+
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::LARGE);
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::MEDIUM);
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(
+      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
+      ThumbnailsSize::SMALL);
+
+  if (image->type() == ImageType::Regular) {
+    auto regularImage = std::dynamic_pointer_cast<RegularImageV2>(image);
+
+    return std::make_shared<RegularImageV2>(newHash, regularImage->original());
+  }
+  else if (image->type() == ImageType::Text) {
+    auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
+
+    return std::make_shared<TextImageV2>(newHash, textImage->text());
+  }
+  else {
+    PBDev::basicAssert(false);
+    return nullptr;
+  }
+}
+
 } // namespace PB

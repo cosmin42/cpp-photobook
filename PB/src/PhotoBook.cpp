@@ -28,8 +28,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mCollageTemplateManager(std::make_shared<CollageService>()),
       mLutService(std::make_shared<LutService>()),
       mVulkanManager(std::make_shared<VulkanManager>()),
-      mOGLEngine(std::make_shared<OGLEngine>())
-
+      mOGLEngine(std::make_shared<OGLEngine>()),
+      mEffectsService(std::make_shared<EffectsService>())
 {
 
   initLogger();
@@ -44,6 +44,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   auto progressServiceListener = dynamic_cast<ProgressServiceListener *>(this);
   PBDev::basicAssert(progressServiceListener != nullptr);
   mProgressService->configure(progressServiceListener);
+
+  auto effectsServiceListener = dynamic_cast<EffectsServiceListener *>(this);
+  PBDev::basicAssert(effectsServiceListener != nullptr);
+  mEffectsService->configureEffectsServiceListener(effectsServiceListener);
 
   auto imageToPaperServiceListener =
       dynamic_cast<PB::ImageToPaperServiceListener *>(this);
@@ -125,6 +129,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mProjectManagementService->configureDatabaseService(mDatabaseService);
 
+  mEffectsService->configurePlatformInfo(mPlatformInfo);
+  mEffectsService->configureImageFactory(mImageFactory);
+  mEffectsService->configureTaskCruncher(mTaskCruncher);
+
   for (auto const &[poolName, poolSize] : OneConfig::TASK_CRUNCHER_POOLS_INFO) {
     mTaskCruncher->registerPTC(poolName, poolSize);
   }
@@ -185,6 +193,7 @@ void Photobook::makeCollages()
 
   mCollageTemplateManager->configureProject(maybeProject);
   mExportService->configureProject(maybeProject);
+  mEffectsService->configureProject(maybeProject);
 
   auto collageThumbnailsMakerListener =
       dynamic_cast<CollageThumbnailsMakerListener *>(this);
@@ -412,6 +421,15 @@ void Photobook::onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
   post([this, lutId, image, thumbnailsPath]() {
     mParent->onLutAppliedOnDisk(lutId, image, thumbnailsPath);
   });
+}
+
+void Photobook::onEffectApplied(PBDev::EffectId effectId, GenericImagePtr image)
+{
+}
+
+void Photobook::onEffectsApplicationError(PBDev::EffectId effectId,
+                                          PB::ErrorCode)
+{
 }
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }
