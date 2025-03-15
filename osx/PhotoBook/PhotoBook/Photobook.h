@@ -28,6 +28,7 @@
 - (void)onCollageCreated:(FrontendImage*)image;
 - (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
 - (void)onLutAppliedOnDiskInplace:(NSString*)imageId;
+- (void)onLutAppliedOnDisk:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onError:(NSString*)error;
 @end
 

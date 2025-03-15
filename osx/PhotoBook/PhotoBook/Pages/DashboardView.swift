@@ -170,5 +170,7 @@ struct DashboardView: View, PhotobookUIListener {
     
     func onLutAppliedOnDiskInplace(imageId: String) {}
     
+    func onLutAppliedOnDisk(imageId: String, image: FrontendImage){}
+    
     func onError(message: String){}
 }

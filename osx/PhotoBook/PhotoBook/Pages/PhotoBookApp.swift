@@ -62,6 +62,11 @@ private var noirUIListener: [NoirUIListener] = []
         photobookUIListener.last?.onLutAppliedOnDiskInplace(imageId:imageId)
     }
     
+    func onLutAppliedOnDisk(_ imageId: String, image: FrontendImage)
+    {
+        photobookUIListener.last?.onLutAppliedOnDisk(imageId:imageId, image:image)
+    }
+    
     func onError(_ message: String)
     {
         photobookUIListener.last?.onError(message: message)
@@ -176,6 +181,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     }
     
     func onLutAppliedOnDiskInplace(imageId: String)
+    {
+    }
+    
+    func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
     {
     }
     

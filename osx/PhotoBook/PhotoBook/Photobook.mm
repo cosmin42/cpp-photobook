@@ -132,6 +132,17 @@ public:
         [&mManagedListener onLutAppliedOnDiskInplace: managedImageId];
     }
     
+    void onLutAppliedOnDisk(PBDev::LutApplicationId applicationId, PB::GenericImagePtr image, Path thumbnailsLocation) override
+    {
+        std::string imageIdStr = boost::uuids::to_string(*applicationId);
+        NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+        
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        
+        auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
+        [&mManagedListener onLutAppliedOnDisk: managedImageId image: managedImage];
+    }
+    
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
     

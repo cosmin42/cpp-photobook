@@ -17,5 +17,6 @@ protocol PhotobookUIListener
     func onCollageCreated(image: FrontendImage)
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     func onLutAppliedOnDiskInplace(imageId: String)
+    func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
     func onError(message: String)
 }
