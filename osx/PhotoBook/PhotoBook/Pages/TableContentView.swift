@@ -221,10 +221,11 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
-                        Rectangle()
-                            .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white : Color.clear, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
                     )
-                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
                     .help("Saturation")
                     
                     Button(action: {
@@ -236,10 +237,11 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
-                        Rectangle()
-                            .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white : Color.clear, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
                     )
-                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
                     .help("Brightness")
                     
                     Button(action: {
@@ -251,10 +253,11 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
-                        Rectangle()
-                            .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white : Color.clear, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
                     )
-                    .disabled(splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty)
+                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
                     .help("Contrast")
                     
                     Divider()
@@ -286,7 +289,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .help("Subscribe")
                     
-                    if basicTransformationModel.imageProcessingType != .None
+                    if basicTransformationModel.imageProcessingType != .None && selectedTab == 0
                     {
                         var selectedAdjustment: Binding<Double> {
                             switch basicTransformationModel.imageProcessingType {
@@ -639,15 +642,6 @@ struct TableContentView: View, PhotobookUIListener {
                             self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:false)
                         }
                     }
-                    
-                    /*
-                    if let mainImage = canvasModel.mainImage
-                    {
-                        let uuidStr = UUID().uuidString
-                        
-                        self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: mainImage, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:true)
-                    }
-                     */
                 }
                 
                 self.toPaperModel.onOk = { [self] in
