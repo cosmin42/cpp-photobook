@@ -21,7 +21,8 @@ void PhotobookWin::UnloadProject() { mPhotobook->unloadProject(); }
 
 void PhotobookWin::AddImportFolder(winrt::hstring importPath)
 {
-  mPhotobook->addImportFolder(winrt::to_string(importPath));
+  mPhotobook->importFoldersService()->addImportFolder(
+      winrt::to_string(importPath));
 }
 void PhotobookWin::RemoveImportFolder(winrt::hstring path)
 {

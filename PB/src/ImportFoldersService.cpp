@@ -4,16 +4,26 @@
 
 namespace PB::Service {
 
-std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
+void ImportFoldersService::addImportFolder(Path path)
 {
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+  if (maybeProject->second.imageMonitor()->containsRow(path, true)) {
+    mListener->onImportError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
+    return;
+  }
+
   auto errorOrPath = PBDev::FileInfo::validInputRootPath(path);
   if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
-    return std::get<PBDev::Error>(errorOrPath);
+    mListener->onImportError(std::get<PBDev::Error>(errorOrPath));
+    return;
   }
 
   for (auto &[key, value] : mRootPaths) {
     if (PBDev::FileInfo::contains(value, path)) {
-      return PBDev::Error() << PB::ErrorCode::FolderAlreadyImported;
+      mListener->onImportError(PBDev::Error()
+                               << PB::ErrorCode::FolderAlreadyImported);
+      return;
     }
   }
 
@@ -28,8 +38,6 @@ std::optional<PBDev::Error> ImportFoldersService::addImportFolder(Path path)
                         PBDev::ProgressJobName{"image-search"});
 
   UNUSED(stopSource);
-
-  return std::nullopt;
 }
 
 void ImportFoldersService::startThumbnailsCreation(

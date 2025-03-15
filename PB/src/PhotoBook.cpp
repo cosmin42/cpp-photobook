@@ -195,23 +195,6 @@ void Photobook::makeCollages()
   mCollageTemplateManager->generateTemplatesImages();
 }
 
-void Photobook::addImportFolder(Path path)
-{
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-  if (maybeProject->second.imageMonitor()->containsRow(path, true)) {
-    mParent->onError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
-    return;
-  }
-
-  auto maybeError = mImportLogic->addImportFolder(path);
-
-  if (maybeError) {
-    mParent->onError(maybeError.value());
-    return;
-  }
-}
-
 void Photobook::removeImportFolder(Path path)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
@@ -236,6 +219,11 @@ void Photobook::onProjectMetadataRecalled(std::string focusedProjectName)
 std::shared_ptr<CollageService> Photobook::collageService()
 {
   return mCollageTemplateManager;
+}
+
+std::shared_ptr<ImportFoldersService> Photobook::importFoldersService()
+{
+  return mImportLogic;
 }
 
 void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)

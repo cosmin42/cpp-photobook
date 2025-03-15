@@ -57,10 +57,11 @@ public:
 
   void unloadProject();
 
-  void addImportFolder(Path importPath);
   void removeImportFolder(Path path);
 
   std::shared_ptr<CollageService> collageService();
+
+  std::shared_ptr<ImportFoldersService> importFoldersService();
 
   void onProjectRecalled() override;
   void onProjectMetadataRecalled(std::string focusedProjectName) override;

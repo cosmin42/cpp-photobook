@@ -23,7 +23,7 @@ TEST(TestFolderImport, Test0)
 
   EXPECT_CALL(photobookListener, post(_)).Times(AtLeast(1));
 
-  photobook.addImportFolder("../test-data/");
+  photobook.importFoldersService()->addImportFolder("../test-data/");
 
   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 }

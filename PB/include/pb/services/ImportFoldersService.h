@@ -55,7 +55,7 @@ public:
     mProjectManagementService = projectManagementService;
   }
 
-  std::optional<PBDev::Error> addImportFolder(Path path);
+  void addImportFolder(Path path);
 
   void onPicturesSearchFinished(PBDev::ThumbnailsJobId jobId, Path root,
                                 std::vector<Path> searchResults) override;
