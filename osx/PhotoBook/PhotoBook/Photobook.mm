@@ -519,9 +519,11 @@ cv::Mat NSImageToMat(NSImage *image) {
     PBDev::EffectId effectId = PBDev::EffectId(nativeUuid);
     
     PB::GenericImagePtr nativeImage = [image unwrap];
+    
+    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, contrast, brightness, false);
 }
 
-- (void) applyEffectsInPlace:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+- (void) applyEffectsInPlace:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
 {
     std::string uuidStr = [effectIdStr UTF8String];
     boost::uuids::uuid nativeUuid;
@@ -536,6 +538,8 @@ cv::Mat NSImageToMat(NSImage *image) {
     PBDev::EffectId effectId = PBDev::EffectId(nativeUuid);
     
     PB::GenericImagePtr nativeImage = [image unwrap];
+    
+    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, contrast, brightness, true);
 }
 
 @end

@@ -329,6 +329,33 @@ struct TableContentView: View, PhotobookUIListener {
                         .buttonStyle(PlainButtonStyle())
                         
                         Button(action: {
+                            if self.photoLinesModel.currentPhotoLine == .Draft
+                            {
+                                for index in dplModel.selectedIndices
+                                {
+                                    let image = dplModel.list[index]
+                                    let uuidStr = UUID().uuidString
+                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                }
+                            }
+                            else if self.photoLinesModel.currentPhotoLine == .Staged
+                            {
+                                for index in splModel.selectedIndices
+                                {
+                                    let image = splModel.list[index]
+                                    let uuidStr = UUID().uuidString
+                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                }
+                            }
+                            else if self.photoLinesModel.currentPhotoLine == .Unstaged
+                            {
+                                for index in uplModel.selectedIndices
+                                {
+                                    let image = uplModel.list[index]
+                                    let uuidStr = UUID().uuidString
+                                    self.photobook.applyEffects(uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                }
+                            }
                         }) {
                             Text("Apply")
                         }
@@ -958,6 +985,9 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onEffectsApplied(imageId: String, image: FrontendImage)
     {
+        print("\(image.resources().full)")
+        dplModel.list.append(image)
+        self.photobook.projectManagementService().append(image)
     }
     
     func onEffectsAppliedInplace(imageId: String)

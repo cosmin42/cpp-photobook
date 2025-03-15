@@ -35,8 +35,8 @@ struct CanvasView: View
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .saturation(basicTransformationModel.saturationValue)
-                    .contrast(basicTransformationModel.contrastValue)
                     .brightness(basicTransformationModel.brightnessValue)
+                    .contrast(basicTransformationModel.contrastValue)
             }
             else if let selectedImage = model.mainImage
             {
