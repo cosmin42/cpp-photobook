@@ -19,8 +19,11 @@ struct DraftPhotoLine: View
     {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                Text("Draft")
-                    .frame(width:40)
+                VStack{
+                    Text("Draft")
+                        .padding(2)
+                    Spacer()
+                }
                 ForEach(self.model.list.indices, id: \.self) { index in
                     if let fileName = self.model.list[index].resources().small
                     {

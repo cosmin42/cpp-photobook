@@ -32,8 +32,12 @@ struct UnstagedPhotoLine: View
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                Text("Disk")
-                    .frame(width:40)
+                
+                VStack{
+                    Text("Disk")
+                        .padding(2)
+                    Spacer()
+                }
                 ForEach(self.model.list.indices, id: \.self) { index in
                     if let fileName = self.model.list[index].resources().small
                     {

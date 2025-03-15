@@ -89,8 +89,11 @@ struct StagedPhotoLine: View
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                Text("Album")
-                    .frame(width:40)
+                VStack{
+                    Text("Album")
+                        .padding(2)
+                    Spacer()
+                }
                 ForEach(self.model.list.indices, id: \.self) { index in
                     if let fileName = self.model.list[index].resources().small
                     {
