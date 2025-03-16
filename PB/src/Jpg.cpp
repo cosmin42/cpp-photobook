@@ -1,9 +1,8 @@
 #include <pb/export/Jpg.h>
 
-#include <pb/image/ImageOperations.h>
-#include <pb/image/ImageReader.h>
-
 #include <string>
+
+#include <pb/infra/FileSupport.h>
 
 namespace PB {
 
@@ -28,8 +27,8 @@ void JpgExport::taskStep()
   Path tmpImage = mRoot / makeName(mIndex);
 
   auto virtualImage = mStagedImages.at(mIndex);
-  auto imagePath = mPlatformInfo->thumbnailByHash(mProject->first,
-                                                  virtualImage->hash());
+  auto imagePath =
+      mPlatformInfo->thumbnailByHash(mProject->first, virtualImage->hash());
   writeImage(imagePath, tmpImage);
   mIndex++;
 
@@ -43,7 +42,10 @@ void JpgExport::writeImage(Path inputPath, Path outputPath) const
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       mPaperSettings.width, mPaperSettings.height, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath, true);
+  auto temporaryImage = infra::loadImageToCvMatToFixedSize(
+      inputPath, {mPaperSettings.width, mPaperSettings.height},
+      Geometry::ScalePolicy::OnlyDown, Geometry::OverlapType::Inscribed);
+
   PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize(temporaryImage, {mPaperSettings.width, mPaperSettings.height},
                   true);

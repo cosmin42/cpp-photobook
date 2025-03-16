@@ -7,7 +7,7 @@
 #include <pb/components/MapReducer.h>
 #include <pb/components/OGLEngine.h>
 #include <pb/entities/LutImageProcessingData.h>
-#include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 using namespace PB::Service;
 
@@ -98,7 +98,7 @@ private:
 
   Path createTransformedImage(Path lutPath)
   {
-    auto lutData = Process::readLutData(lutPath);
+    auto lutData = infra::readLutData(lutPath);
     auto outImagePath = newImageName();
 
     LutImageProcessingData lutImageProcessingData;

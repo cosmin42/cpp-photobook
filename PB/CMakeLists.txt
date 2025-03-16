@@ -119,7 +119,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/export/PdfPoDoFo.h
     include/pb/image/ImageFactory.h
     include/pb/image/ImageOperations.h
-    include/pb/image/ImageReader.h
     include/pb/jobs/CollageMakerJob.h
     include/pb/jobs/CollageThumbnailsMakerJob.h
     include/pb/jobs/DirectoryInspectionJob.h
@@ -170,7 +169,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImageMetadataInspector.cpp
     src/ImageMonitor.cpp
     src/ImageOperations.cpp
-    src/ImageReader.cpp
     src/ImageToPaperService.cpp
     src/ImageToPaperTask.cpp
     src/ImportFoldersService.cpp

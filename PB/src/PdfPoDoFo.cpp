@@ -1,7 +1,6 @@
 #include <pb/export/PdfPoDoFo.h>
 
-#include <pb/image/ImageOperations.h>
-#include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 namespace PB {
 PdfExportTask::PdfExportTask(Path exportPdfPath, Path localStatePath,
@@ -31,7 +30,10 @@ void PdfExportTask::writeImage(Path inputPath, Path outputPath) const
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(imageWidth, imageHeight, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath, true);
+  auto temporaryImage = infra::loadImageToCvMatToFixedSize(
+      inputPath, {imageWidth, imageHeight}, Geometry::ScalePolicy::OnlyDown,
+      Geometry::OverlapType::Inscribed);
+
   PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize(temporaryImage, {imageWidth, imageHeight}, true);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);
@@ -95,8 +97,7 @@ void PdfExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
     mListener->onExportAborted(mPdfPath);
   }
   else {
-      if (mDocument)
-      {
+    if (mDocument) {
       mDocument.reset();
     }
     mListener->onExportComplete(mPdfPath);

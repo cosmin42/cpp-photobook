@@ -1,8 +1,7 @@
 #include <pb/export/PdfLibharu.h>
 
 #include <pb/components/Project.h>
-#include <pb/image/ImageOperations.h>
-#include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 namespace PB {
 
@@ -114,7 +113,10 @@ void PdfLibharuExportTask::writeImage(Path inputPath, Path outputPath) const
   std::shared_ptr<cv::Mat> image =
       PB::Process::singleColorImage(imageWidth, imageHeight, {255, 255, 255})();
 
-  auto temporaryImage = ImageReader().read(inputPath, true);
+  auto temporaryImage = infra::loadImageToCvMatToFixedSize(
+      inputPath, {imageWidth, imageHeight}, Geometry::ScalePolicy::OnlyDown,
+      Geometry::OverlapType::Inscribed);
+
   PBDev::basicAssert(temporaryImage != nullptr);
   Process::resize(temporaryImage, {imageWidth, imageHeight}, true);
   PB::Process::overlap(temporaryImage, PB::Process::alignToCenter())(image);

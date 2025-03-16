@@ -6,7 +6,7 @@
 #include "Int32Pair.h"
 
 #include <pb/image/ImageFactory.h>
-#include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 #include <winrt/Microsoft.Graphics.Canvas.h>
 
@@ -32,8 +32,10 @@ struct VirtualImagePtr : VirtualImagePtrT<VirtualImagePtr> {
     auto nativeThumbnailsPath = Path(winrt::to_string(thumbnailsPath));
     auto mediumThumbnailPath = nativeThumbnailsPath / mGenericImage->medium();
 
-    auto tmpImage = PB::ImageReader().read(mediumThumbnailPath.string(), false,
-                                           {portviewWidth, portviewHeight});
+    auto tmpImage = PB::infra::loadImageToCvMatToFixedSize(
+        mediumThumbnailPath, {portviewWidth, portviewHeight},
+        PB::Geometry::ScalePolicy::OnlyDown,
+        PB::Geometry::OverlapType::Circumscribed);
 
     std::copy_n((uint8_t *)tmpImage->data,
                 (uint32_t)(tmpImage->total() * tmpImage->elemSize()),

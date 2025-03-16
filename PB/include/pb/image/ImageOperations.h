@@ -34,8 +34,6 @@ std::shared_ptr<cv::Mat> resize(std::shared_ptr<cv::Mat> image,
 
 std::shared_ptr<cv::Mat> clone(std::shared_ptr<cv::Mat> image);
 
-std::vector<cv::Vec3f> readLutData(Path lutPath);
-
 std::shared_ptr<cv::Mat> extractRGBChannels(std::shared_ptr<cv::Mat> image);
 
 std::vector<double> sampleNormalized(unsigned samplePointsCount);

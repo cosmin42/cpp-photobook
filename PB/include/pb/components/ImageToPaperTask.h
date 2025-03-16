@@ -10,7 +10,6 @@
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RegularImageV2.h>
-#include <pb/image/ImageReader.h>
 #include <pb/infra/FileSupport.h>
 #include <pb/services/ProjectManagementService.h>
 

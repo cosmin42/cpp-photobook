@@ -2,7 +2,6 @@
 
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/image/ImageOperations.h>
-#include <pb/image/ImageReader.h>
 
 namespace PB {
 

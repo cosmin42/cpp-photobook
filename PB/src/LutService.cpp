@@ -148,7 +148,7 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
       (mOutImageHashes.at(lutId) + OneConfig::JPG_EXTENSION);
 
   // TODO: Move this read to a different place. It shouldn't be here.
-  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+  auto lutData = infra::readLutData(mLutsPaths.at(lutIndex));
 
   for (auto const &data : lutData) {
     imageProcessingData.lut.push_back(
@@ -181,7 +181,7 @@ void LutService::applyLutInMemory(PBDev::LutApplicationId lutId,
   imageProcessingData.inImage = image;
   imageProcessingData.outImage = cv::Mat::zeros(image.size(), image.type());
 
-  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+  auto lutData = infra::readLutData(mLutsPaths.at(lutIndex));
 
   for (auto const &data : lutData) {
     imageProcessingData.lut.push_back(
@@ -214,7 +214,7 @@ bool LutService::lutExists(const Path &path) const
     return false;
   }
 
-  return ImageReader().isValid(correspondingPath);
+  return infra::isValidImage(correspondingPath);
 }
 
 void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
@@ -229,7 +229,7 @@ void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
   LutImageProcessingData mediumProcessingData;
   LutImageProcessingData smallProcessingData;
 
-  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+  auto lutData = infra::readLutData(mLutsPaths.at(lutIndex));
 
   for (auto const &data : lutData) {
     largeProcessingData.lut.push_back(
@@ -288,7 +288,7 @@ void LutService::applyLutAndEffects(PBDev::LutApplicationId lutId,
                                     double saturation, double contrast,
                                     double brightness)
 {
-  auto lutData = Process::readLutData(mLutsPaths.at(lutIndex));
+  auto lutData = infra::readLutData(mLutsPaths.at(lutIndex));
 
   LutImageProcessingAndEffectsData largeProcessingData;
   LutImageProcessingAndEffectsData mediumProcessingData;

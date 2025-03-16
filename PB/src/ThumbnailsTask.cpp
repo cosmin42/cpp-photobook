@@ -1,7 +1,7 @@
 #include <pb/components/ThumbnailsTask.h>
 
 #include <pb/components/ImageMetadataInspector.h>
-#include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 namespace PB {
 
@@ -27,10 +27,10 @@ std::string ThumbnailsTask::createThumbnails(
   auto width = originalImage->cols;
   auto height = originalImage->rows;
 
-  auto [largeSize, mediumSize, smallSize] =
-      Geometry::compute3SizesGeometry(cv::Size{(int)width, (int)height},
-                     {(int)maybleProject->second.paperSettings.width,
-                      (int)maybleProject->second.paperSettings.height});
+  auto [largeSize, mediumSize, smallSize] = Geometry::compute3SizesGeometry(
+      cv::Size{(int)width, (int)height},
+      {(int)maybleProject->second.paperSettings.width,
+       (int)maybleProject->second.paperSettings.height});
 
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);
@@ -63,10 +63,10 @@ std::string ThumbnailsTask::createThumbnailsByPath(
   auto width = imageMetadataInspector.width();
   auto height = imageMetadataInspector.height();
 
-  auto [largeSize, mediumSize, smallSize] =
-      Geometry::compute3SizesGeometry(cv::Size{(int)width, (int)height},
-                     {(int)project->second.paperSettings.width,
-                      (int)project->second.paperSettings.height});
+  auto [largeSize, mediumSize, smallSize] = Geometry::compute3SizesGeometry(
+      cv::Size{(int)width, (int)height},
+      {(int)project->second.paperSettings.width,
+       (int)project->second.paperSettings.height});
 
   auto originalImage = infra::loadImageToCvMat(originalPath);
 
