@@ -8,8 +8,9 @@
 #include <pb/entities/RegularImageV2.h>
 #include <pb/entities/TextImageV2.h>
 #include <pb/image/ImageOperations.h>
-#include <pb/services/ProjectManagementService.h>
+#include <pb/infra/FileSupport.h>
 #include <pb/infra/Traits.h>
+#include <pb/services/ProjectManagementService.h>
 
 namespace PB::Job {
 
@@ -93,8 +94,9 @@ private:
           mPlatformInfo->newTemporaryImage(maybeProject->first);
 
       auto directoryName = path.filename().string();
-      Process::createTextImage(maybeProject->second.paperSettings,
-                               directoryName, temporaryImagePath);
+      auto image = Process::createTextImage(maybeProject->second.paperSettings,
+                                            directoryName);
+      PB::infra::writeImageOnDisk(image, temporaryImagePath);
 
       ThumbnailsTask task(temporaryImagePath);
       task.configurePlatformInfo(mPlatformInfo);
@@ -112,4 +114,4 @@ private:
   }
 };
 
-} // namespace PB
+} // namespace PB::Job

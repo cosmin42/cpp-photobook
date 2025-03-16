@@ -1,5 +1,7 @@
 #include <pb/services/EffectsService.h>
 
+#include <pb/infra/FileSupport.h>
+
 namespace PB {
 
 void EffectsService::configureEffectsServiceListener(
@@ -32,16 +34,20 @@ void EffectsService::configureTaskCruncher(
   mTaskCruncher = taskCruncher;
 }
 
-void EffectsService::apply(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
-  float brightness, float contrast, bool inplace)
+void EffectsService::apply(PBDev::EffectId effectId, GenericImagePtr image,
+                           float saturation, float brightness, float contrast,
+                           bool inplace)
 {
-  mTaskCruncher->crunch([this, effectId, image, saturation, brightness, contrast, inplace]() {
+  mTaskCruncher->crunch([this, effectId, image, saturation, brightness,
+                         contrast, inplace]() {
     applyInternal(effectId, image, saturation, brightness, contrast, inplace);
   });
 }
 
-void EffectsService::applyInternal(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
-                          float brightness, float contrast, bool inplace)
+void EffectsService::applyInternal(PBDev::EffectId effectId,
+                                   GenericImagePtr image, float saturation,
+                                   float brightness, float contrast,
+                                   bool inplace)
 {
   auto projectId = mProject->first;
   auto [largePath, mediumPath, smallPath] =
@@ -64,9 +70,9 @@ void EffectsService::applyInternal(PBDev::EffectId effectId, GenericImagePtr ima
   Process::applyContrastInPlace(smallImage, contrast);
 
   if (inplace) {
-    Process::writeImageOnDisk(largeImage, largePath);
-    Process::writeImageOnDisk(mediumImage, mediumPath);
-    Process::writeImageOnDisk(smallImage, smallPath);
+    infra::writeImageOnDisk(largeImage, largePath);
+    infra::writeImageOnDisk(mediumImage, mediumPath);
+    infra::writeImageOnDisk(smallImage, smallPath);
 
     mListener->onEffectsAppliedInplace(effectId);
   }
@@ -74,11 +80,11 @@ void EffectsService::applyInternal(PBDev::EffectId effectId, GenericImagePtr ima
     auto newImage = mImageFactory->weakCopyImage(image);
 
     auto [newLargePath, newMediumPath, newSmallPath, hash] =
-      mPlatformInfo->newThumbnailPaths(projectId, newImage->hash());
+        mPlatformInfo->newThumbnailPaths(projectId, newImage->hash());
 
-    Process::writeImageOnDisk(largeImage, newLargePath);
-    Process::writeImageOnDisk(mediumImage, newMediumPath);
-    Process::writeImageOnDisk(smallImage, newSmallPath);
+    infra::writeImageOnDisk(largeImage, newLargePath);
+    infra::writeImageOnDisk(mediumImage, newMediumPath);
+    infra::writeImageOnDisk(smallImage, newSmallPath);
 
     mListener->onEffectsApplied(effectId, newImage);
   }

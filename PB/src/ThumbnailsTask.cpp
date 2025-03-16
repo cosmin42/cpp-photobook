@@ -40,9 +40,9 @@ std::string ThumbnailsTask::createThumbnails(
   cv::resize(*mediumImage, *mediumImage, mediumSize);
   cv::resize(*largeImage, *largeImage, largeSize);
 
-  PB::Process::writeImageOnDisk(smallImage, small);
-  PB::Process::writeImageOnDisk(mediumImage, medium);
-  PB::Process::writeImageOnDisk(largeImage, large);
+  PB::infra::writeImageOnDisk(smallImage, small);
+  PB::infra::writeImageOnDisk(mediumImage, medium);
+  PB::infra::writeImageOnDisk(largeImage, large);
 
   return hash;
 }
@@ -78,9 +78,9 @@ std::string ThumbnailsTask::createThumbnailsByPath(
   cv::resize(*mediumImage, *mediumImage, mediumSize);
   cv::resize(*largeImage, *largeImage, largeSize);
 
-  PB::Process::writeImageOnDisk(smallImage, small);
-  PB::Process::writeImageOnDisk(mediumImage, medium);
-  PB::Process::writeImageOnDisk(largeImage, large);
+  PB::infra::writeImageOnDisk(smallImage, small);
+  PB::infra::writeImageOnDisk(mediumImage, medium);
+  PB::infra::writeImageOnDisk(largeImage, large);
 
   return hash;
 }

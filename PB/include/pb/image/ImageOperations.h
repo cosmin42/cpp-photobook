@@ -59,8 +59,8 @@ std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,
 std::shared_ptr<cv::Mat>
 completeWithAlphaChannel(std::shared_ptr<cv::Mat> image);
 
-void createTextImage(PaperSettings paperSettings, std::string const &text,
-                     Path path);
+std::shared_ptr<cv::Mat> createTextImage(PaperSettings      paperSettings,
+                                         std::string const &text);
 
 // TODO: Refactor all the studpid functions like resize
 auto overlap(std::shared_ptr<cv::Mat> source, OffsetFunction offsetFunction)
@@ -74,8 +74,6 @@ auto addText(cv::Size offset, std::string const &text, CVFontInfo fontInfo)
 
 void readImageWriteThumbnail(int width, int height, Path full, Path medium,
                              Path small, ThumbnailType thumbnailType);
-
-void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full);
 
 void imageWriteThumbnail(int width, int height, std::shared_ptr<cv::Mat> image,
                          Path medium, Path small);

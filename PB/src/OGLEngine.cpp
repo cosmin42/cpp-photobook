@@ -22,6 +22,7 @@
 
 #include <pb/entities/LutImageProcessingData.h>
 #include <pb/image/ImageOperations.h>
+#include <pb/infra/FileSupport.h>
 #include <pb/infra/ThreadScheduler.h>
 #include <pb/infra/Traits.h>
 
@@ -135,7 +136,7 @@ void OGLEngine::loadTextureAndRender(
     PB::Process::applyContrastInPlace(outMat, inMemoryData.contrast);
     PB::Process::applyBrightnessInPlace(outMat, inMemoryData.brightness);
 
-    PB::Process::writeImageOnDisk(outMat, inMemoryData.outImage);
+    PB::infra::writeImageOnDisk(outMat, inMemoryData.outImage);
   }
   else {
     PBDev::basicAssert(false);

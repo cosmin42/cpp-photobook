@@ -2,6 +2,11 @@
 
 #include <fstream>
 
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#include <spdlog/spdlog.h>
+#pragma warning(pop)
+
 namespace PB::infra {
 std::shared_ptr<cv::Mat> loadImageToCvMat(Path const path)
 {
@@ -119,6 +124,15 @@ std::vector<cv::Vec3f> readLutData(Path lutPath)
   }
   file.close();
   return lut;
+}
+
+void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full)
+{
+  bool success = cv::imwrite(full.string(), *image);
+  PBDev::basicAssert(success);
+#ifndef _CLANG_UML_
+  spdlog::info("Image written to {}", full.string());
+#endif
 }
 
 bool isValidImage(Path const path)

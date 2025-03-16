@@ -222,8 +222,8 @@ completeWithAlphaChannel(std::shared_ptr<cv::Mat> image)
   return cloneImage;
 }
 
-void createTextImage(PaperSettings paperSettings, std::string const &text,
-                     Path path)
+std::shared_ptr<cv::Mat> createTextImage(PaperSettings      paperSettings,
+                                         std::string const &text)
 {
   auto blankImage = Process::singleColorImage(
       paperSettings.width, paperSettings.height, {255, 255, 255})();
@@ -236,8 +236,7 @@ void createTextImage(PaperSettings paperSettings, std::string const &text,
   auto image =
       PB::Process::addText({paperSettings.width / 2, paperSettings.height / 2},
                            text, fontInfo)(blankImage);
-
-  Process::writeImageOnDisk(image, path);
+  return image;
 }
 
 std::shared_ptr<cv::Mat>
@@ -374,15 +373,6 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
     bool success = cv::imwrite(small.string(), *smallImagePointer);
     PBDev::basicAssert(success);
   }
-}
-
-void writeImageOnDisk(std::shared_ptr<cv::Mat> image, Path full)
-{
-  bool success = cv::imwrite(full.string(), *image);
-  PBDev::basicAssert(success);
-#ifndef _CLANG_UML_
-  spdlog::info("Image written to {}", full.string());
-#endif
 }
 
 void imageWriteThumbnail(int screenWidth, int screenHeight,

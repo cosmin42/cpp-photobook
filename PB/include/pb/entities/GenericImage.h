@@ -21,7 +21,6 @@ public:
   virtual ImageType type() const = 0;
 
 private:
-  static Path sProjectPath;
   std::string mHash;
 
   std::string imageName() const;
