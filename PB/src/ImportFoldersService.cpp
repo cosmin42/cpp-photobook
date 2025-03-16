@@ -1,6 +1,6 @@
 #include <pb/services/ImportFoldersService.h>
 
-#include <pb/infra/FileInfo.h>
+#include <pb/infra/FileSupport.h>
 
 namespace PB::Service {
 
@@ -9,18 +9,19 @@ void ImportFoldersService::addImportFolder(Path path)
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   if (maybeProject->second.imageMonitor()->containsRow(path, true)) {
-    mListener->onImportError(PBDev::Error() << PB::ErrorCode::FolderAlreadyImported);
+    mListener->onImportError(PBDev::Error()
+                             << PB::ErrorCode::FolderAlreadyImported);
     return;
   }
 
-  auto errorOrPath = PBDev::FileInfo::validInputRootPath(path);
-  if (std::holds_alternative<PBDev::Error>(errorOrPath)) {
-    mListener->onImportError(std::get<PBDev::Error>(errorOrPath));
+  auto isValid = infra::isValidMediaFolder(path);
+  if (!isValid) {
+    mListener->onImportError(PBDev::Error() << PB::ErrorCode::NotADirectory);
     return;
   }
 
   for (auto &[key, value] : mRootPaths) {
-    if (PBDev::FileInfo::contains(value, path)) {
+    if (value == path) {
       mListener->onImportError(PBDev::Error()
                                << PB::ErrorCode::FolderAlreadyImported);
       return;
@@ -34,8 +35,9 @@ void ImportFoldersService::addImportFolder(Path path)
   mSearches.at(jobId).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
 
-  auto stopSource = mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
-                        PBDev::ProgressJobName{"image-search"});
+  auto stopSource =
+      mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
+                            PBDev::ProgressJobName{"image-search"});
 
   UNUSED(stopSource);
 }
@@ -50,8 +52,9 @@ void ImportFoldersService::startThumbnailsCreation(
   mThumbnailsJobs.at(jobId).configureProjectManagementService(
       mProjectManagementService);
 
-  auto stopSource = mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
-                        PBDev::ProgressJobName{"thumbnails"});
+  auto stopSource =
+      mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
+                            PBDev::ProgressJobName{"thumbnails"});
 
   UNUSED(stopSource);
 }

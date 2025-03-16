@@ -141,4 +141,9 @@ loadImageToCvMatToFixedSize(Path const path, cv::Size size,
   return Process::resize(image, newSize, false);
 }
 
+bool isValidMediaFolder(Path const path)
+{
+  return std::filesystem::exists(path) && std::filesystem::is_directory(path);
+}
+
 } // namespace PB::infra

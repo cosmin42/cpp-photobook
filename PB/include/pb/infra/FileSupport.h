@@ -22,6 +22,8 @@ std::shared_ptr<cv::Mat> loadImageToCvMat(Path const path);
 
 std::vector<cv::Vec3f> readLutData(Path lutPath);
 
+bool isValidMediaFolder(Path const path);
+
 bool isValidImage(Path const path);
 
 std::shared_ptr<cv::Mat>

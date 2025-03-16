@@ -139,7 +139,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/services/ProjectSerializerService.h
     include/pb/infra/Concepts.h
     include/pb/infra/Error.h
-    include/pb/infra/FileInfo.h
     include/pb/infra/FileSupport.h
     include/pb/infra/ParallelTaskConsumer.h
     include/pb/infra/TaskCruncher.h
@@ -198,7 +197,6 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/TextImageV2.cpp
     src/ThumbnailsJob.cpp
     src/ThumbnailsTask.cpp
-    src/infra/FileInfo.cpp
     src/infra/ParallelTaskConsumer.cpp
     src/infra/Timer.cpp
     src/VulkanManager.cpp
