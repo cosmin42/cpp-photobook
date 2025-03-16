@@ -219,9 +219,7 @@ bool LutService::lutExists(const Path &path) const
 
 void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
                                            unsigned                lutIndex,
-                                           GenericImagePtr         image,
-                                           double saturation, double contrast,
-                                           double brightness, bool inplace)
+                                           GenericImagePtr image, bool inplace)
 {
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 

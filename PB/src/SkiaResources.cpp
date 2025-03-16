@@ -7,8 +7,8 @@ namespace PB {
 // TODO: Improve design for this class
 PBDev::SkiaResourcesId SkiaResources::addResource(Path path)
 {
-  for (auto const &[id, path] : mRegisteredPaths) {
-    if (path == path) {
+  for (auto const &[id, registeredPath] : mRegisteredPaths) {
+    if (path == registeredPath) {
       return id;
     }
   }

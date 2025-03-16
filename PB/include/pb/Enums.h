@@ -13,7 +13,8 @@ enum class ErrorCode {
 
   NoImages,
   CannotExport,
-  WaitForLoadingCompletion
+  WaitForLoadingCompletion,
+  CannotApplyEffect
 };
 
 enum class LogLevel { None, Debug, Info, Warning, Error };

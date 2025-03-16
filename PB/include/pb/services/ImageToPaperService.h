@@ -46,8 +46,7 @@ public:
                                   boost::hash<PBDev::ImageToPaperId>>
                              originalImages);
 
-  void copyImages(PBDev::ImageToPaperServiceId,
-                  std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+  void copyImages(std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                                      boost::hash<PBDev::ImageToPaperId>>);
 
   void removeTask(PBDev::ImageToPaperServiceId id);

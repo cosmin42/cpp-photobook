@@ -98,6 +98,7 @@ PdfLibharuExportTask::getTask(std::stop_token stopToken)
 
 void PdfLibharuExportTask::onTaskFinished(PBDev::MapReducerTaskId id)
 {
+  UNUSED(id);
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(mPdfPath);
   }

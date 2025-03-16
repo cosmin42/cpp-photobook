@@ -91,6 +91,7 @@ JpgExport::getTask(std::stop_token stopToken)
 
 void JpgExport::onTaskFinished(PBDev::MapReducerTaskId id)
 {
+  UNUSED(id);
   if (mStopToken.stop_requested()) {
     mListener->onExportAborted(mRoot);
   }

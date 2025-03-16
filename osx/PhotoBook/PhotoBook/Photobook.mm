@@ -404,7 +404,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
         }
     }
 
-    imageToPaperService->copyImages(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+    imageToPaperService->copyImages(backendMap);
 }
 
 - (NSString*) getThumbnailsPath
@@ -486,7 +486,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->projectManagementService()->save();
 }
 
-- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness inplace:(BOOL)inplace
+- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image, inplace:(BOOL)inplace
 {
     std::string uuidStr = [transformationId UTF8String];
     boost::uuids::uuid nativeUuid;
@@ -501,7 +501,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     PBDev::LutApplicationId transformaionId = PBDev::LutApplicationId(nativeUuid);
     
     PB::GenericImagePtr nativeImage = [image unwrap];
-    mPhotobook->lutService()->applyTransformationOnDisk(transformaionId, lutIndex, nativeImage, saturation, contrast, brightness, inplace);
+    mPhotobook->lutService()->applyTransformationOnDisk(transformaionId, lutIndex, nativeImage, inplace);
 }
 
 - (void) applyEffects:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation brightness:(double)brightness contrast:(double)contrast

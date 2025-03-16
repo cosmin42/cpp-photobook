@@ -38,8 +38,7 @@ public:
       std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
-      : MapReducer(), mProject(project),
-        mOriginalImages(originalImages)
+      : MapReducer(), mProject(project), mOriginalImages(originalImages)
   {
     for (const auto &[id, image] : originalImages) {
       mImageIds.push_back(id);
@@ -159,7 +158,8 @@ private:
       croppedSource = (*maybeNewImage)(sourceROI);
     }
     catch (cv::Exception &e) {
-      PBDev::basicAssert(false);
+      UNUSED(e);
+      PB_UNREACHABLE;
     }
 
     croppedSource.copyTo(

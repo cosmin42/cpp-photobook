@@ -142,3 +142,22 @@ typedef PBDev::Json Json;
   do {                                                                         \
     (void)x;                                                                   \
   } while (0);
+
+template <typename T> struct Identifiable {
+  boost::uuids::uuid id;
+  T                  value;
+};
+
+template <typename T> using IdentifiablePtr = std::shared_ptr<Identifiable<T>>;
+
+template <typename T> IdentifiablePtr<T> makeIdentifiable(T value)
+{
+  return std::make_shared<Identifiable<T>>(
+      Identifiable<T>{boost::uuids::random_generator()(), value});
+}
+
+template <typename T>
+IdentifiablePtr<T> makeIdentifiable(boost::uuids::uuid id, T value)
+{
+  return std::make_shared<Identifiable<T>>(Identifiable<T>{id, value});
+}

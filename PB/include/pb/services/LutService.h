@@ -19,7 +19,8 @@ class LutServiceListener {
 public:
   virtual void onLutAdded(LutIconInfo iconInfo) = 0;
   virtual void onLutApplied(PBDev::LutApplicationId, GenericImagePtr) = 0;
-  virtual void onLutAppliedInMemory(PBDev::LutApplicationId, std::shared_ptr<cv::Mat>) = 0;
+  virtual void onLutAppliedInMemory(PBDev::LutApplicationId,
+                                    std::shared_ptr<cv::Mat>) = 0;
   virtual void onLutAppliedOnDiskInplace(PBDev::LutApplicationId) = 0;
   virtual void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) = 0;
 };
@@ -72,7 +73,7 @@ public:
 
   void applyTransformationOnDisk(PBDev::LutApplicationId lutId,
                                  unsigned lutIndex, GenericImagePtr image,
-                                 double saturation, double contrast, double brightness, bool inplace = true);
+                                 bool inplace = true);
 
   void applyLutAndEffects(PBDev::LutApplicationId lutId, unsigned lutIndex,
                           GenericImagePtr image, double saturation,

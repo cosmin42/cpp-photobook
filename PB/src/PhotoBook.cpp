@@ -248,7 +248,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 
   maybeProject->second.imageMonitor()->addRow(root, imagesSet);
 
-  mParent->onMappingFinished(root, newFiles.size());
+  mParent->onMappingFinished(root, (unsigned)newFiles.size());
 }
 
 void Photobook::onImageProcessed(Path key, Path root,
@@ -443,6 +443,9 @@ void Photobook::onEffectsAppliedInplace(PBDev::EffectId effectId)
 void Photobook::onEffectsApplicationError(PBDev::EffectId effectId,
                                           PB::ErrorCode)
 {
+  post([this, effectId]() {
+    mParent->onError(PBDev::Error() << PB::ErrorCode::CannotApplyEffect);
+  });
 }
 
 void onFoundFile(PBDev::DirectoryInspectionJobId id, Path file) { UNUSED(id); }

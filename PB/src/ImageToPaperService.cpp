@@ -18,9 +18,7 @@ void ImageToPaperService::toPaper(
   UNUSED(stopSource);
 }
 
-void ImageToPaperService::copyImages(
-    PBDev::ImageToPaperServiceId taskId,
-    std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
+void ImageToPaperService::copyImages(std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
                        boost::hash<PBDev::ImageToPaperId>>
         images)
 {
