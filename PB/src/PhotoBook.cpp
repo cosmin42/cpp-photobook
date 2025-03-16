@@ -458,7 +458,7 @@ std::string Photobook::help(std::string name) const
 {
   auto othersPath = mPlatformInfo->othersPath();
   const std::unordered_map<std::string, std::string> files = {
-      {"help", "help.txt"}, {"license", "License.txt"}};
+      {"help", "help.txt"}, {"license", "License.txt"}, {"ppolicy", "PrivacyPolicy.txt"}};
 
   PBDev::basicAssert(files.find(name) != files.end());
 

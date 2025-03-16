@@ -1,0 +1,70 @@
+Effective Date: 1st of March 2025
+
+Photobook Noir ("we", "us", or "our") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile and desktop application ("App"), in accordance with the General Data Protection Regulation (GDPR) and the California Consumer Privacy Act (CCPA).
+
+1. Information We Collect
+
+We collect only the minimum necessary user-related information to provide and maintain your account and essential App features.
+What We Collect:
+
+* Account Information:
+    - Email address (for login and account management)
+    - Username or display name
+    - Encrypted password (we do not store plaintext passwords)
+
+* Device Information:
+    - Device type and operating system version (used for app compatibility)
+
+Important: We do NOT collect or upload your photos or media in any way.
+
+2. How We Use Your Information
+
+We use your information to:
+    - Create and manage your account
+    - Provide access to App features
+    - Respond to support requests
+    - Comply with legal obligations (if applicable)
+
+We do not sell or share your data for marketing or advertising purposes.
+
+3. Legal Basis for Processing (GDPR)
+
+Under GDPR, we rely on the following legal bases:
+    - Performance of a contract: To deliver App services.
+    - Consent: For optional features (e.g., cloud backup, newsletters).
+    - Legitimate interest: To enhance and secure the App experience.
+
+4. CCPA Disclosures (for California Residents)
+
+Under the CCPA, California residents have specific rights regarding their personal information.
+Your CCPA Rights:
+    - Right to Know: Request disclosure of the categories and specific pieces of personal information we have collected about you.
+    - Right to Delete: Request deletion of your personal information, subject to exceptions.
+    - Right to Opt-Out: We do not sell your data, so there is no need to opt-out of data sales.
+    - Right to Non-Discrimination: You will not receive discriminatory treatment for exercising your privacy rights.
+
+To exercise any of these rights, please contact us at ionut.cosmin.mihai@gmail.com.
+
+5. Data Security
+The data is stored in Microsoft Azure Cloud. We take reasonable technical and organizational measures to protect your data from unauthorized access, alteration, or destruction. All user data, including login credentials, is securely stored and encrypted.
+
+6. Data Retention
+We retain your personal information only as long as necessary to provide our services or comply with legal requirements. You can request data deletion at any time.
+
+7. Third-Party Services
+Photobook Noir may integrate optional services like cloud backup. These are governed by their own privacy policies. We recommend reviewing them before enabling such features.
+
+8. International Data Transfers
+For users in the European Economic Area (EEA), data will not be transferred outside EU by any means.
+
+9. Children’s Privacy
+
+Photobook Noir is not intended for children under 13, and we do not knowingly collect personal information from children.
+
+10. Changes to This Policy
+We may update this Privacy Policy from time to time. Changes will be posted in the App or on our website. Continued use of the App means you accept any changes.
+
+11. Contact Us
+If you have questions or want to exercise your data rights under GDPR or CCPA, contact us at:
+Email: ionut.cosmin.mihai@gmail.com
+Website: www.photobook-noir.com
