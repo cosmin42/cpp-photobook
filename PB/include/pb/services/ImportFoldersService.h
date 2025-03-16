@@ -49,10 +49,7 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  void configureProject(std::shared_ptr<IdentifyableProject> project)
-  {
-    mProject = project;
-  }
+  void configureProject(IdentifiableProject project) { mProject = project; }
 
   void addImportFolder(Path path);
 
@@ -67,11 +64,11 @@ public:
   bool isFinished(Path path);
 
 private:
-  ImportFoldersServiceListener        *mListener = nullptr;
-  PBDev::ThreadScheduler              *mScheduler = nullptr;
-  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  ImportFoldersServiceListener *mListener = nullptr;
+  PBDev::ThreadScheduler       *mScheduler = nullptr;
+  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  IdentifiableProject           mProject = nullptr;
 
   std::unordered_map<PBDev::ThumbnailsJobId, Path,
                      boost::hash<PBDev::ThumbnailsJobId>>

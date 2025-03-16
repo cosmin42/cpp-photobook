@@ -59,7 +59,8 @@ TEST(TestCollageService, TestEmpty)
 
   mCollageService->configureThumbnailsListener(
       testCollageThumbnailsMakerListener.get());
-  mCollageService->configureCollageMakerListener(testCollageMakerListener.get());
+  mCollageService->configureCollageMakerListener(
+      testCollageMakerListener.get());
 
   mCollageService->generateTemplatesImages();
 
@@ -79,8 +80,7 @@ TEST(TestCollageService, TestEmpty)
 
   std::vector<GenericImagePtr> images = {image0, image1};
 
-  EXPECT_CALL(*testCollageMakerListener, onCollageCreated(_))
-      .Times(1);
+  EXPECT_CALL(*testCollageMakerListener, onCollageCreated(_)).Times(1);
 
   mCollageService->combineImages(0, images);
 

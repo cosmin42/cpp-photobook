@@ -33,6 +33,6 @@ private:
 };
 
 // TODO: Do a generic Identifyable class
-typedef std::pair<boost::uuids::uuid, Project> IdentifyableProject;
+typedef IdentifiablePtr<Project> IdentifiableProject;
 
 } // namespace PB

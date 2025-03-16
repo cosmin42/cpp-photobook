@@ -34,7 +34,7 @@ public:
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
-      std::shared_ptr<IdentifyableProject> project,
+      IdentifiableProject project,
       std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
@@ -83,7 +83,7 @@ private:
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
 
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  IdentifiableProject mProject = nullptr;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
@@ -126,12 +126,12 @@ private:
   {
 
     auto imagePath =
-        mPlatformInfo->thumbnailByHash(mProject->first, image->hash());
+        mPlatformInfo->thumbnailByHash(mProject->id, image->hash());
 
     auto imageData = infra::loadImageToCvMat(imagePath);
     PBDev::basicAssert(imageData != nullptr);
 
-    auto paperSettings = mProject->second.paperSettings;
+    auto paperSettings = mProject->value.paperSettings;
 
     auto newImageSize =
         Geometry::resizeBox({imageData->cols, imageData->rows},

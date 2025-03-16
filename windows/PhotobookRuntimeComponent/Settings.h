@@ -52,7 +52,7 @@ struct Settings : SettingsT<Settings> {
         mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
-    auto uuid = maybeLoadedProjectInfo->first;
+    auto uuid = maybeLoadedProjectInfo->id;
 
     return winrt::to_hstring(boost::uuids::to_string(uuid));
   }
@@ -132,7 +132,7 @@ struct Settings : SettingsT<Settings> {
         mProjectManagementService->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
-    auto uuid = maybeLoadedProjectInfo->first;
+    auto uuid = maybeLoadedProjectInfo->id;
 
     return winrt::to_hstring(boost::uuids::to_string(uuid));
   }
@@ -146,7 +146,7 @@ struct Settings : SettingsT<Settings> {
     PBDev::basicAssert(maybeLoadedProjectInfo != nullptr);
 
     return winrt::make<PaperSettings>(
-        maybeLoadedProjectInfo->second.paperSettings);
+        maybeLoadedProjectInfo->value.paperSettings);
   }
 
 private:

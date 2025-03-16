@@ -234,7 +234,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProject != nullptr);
     auto thumbnailsPath =
-        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
+        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->id) /
         "thumbnail-images";
 
     return winrt::to_hstring(thumbnailsPath.string());
@@ -273,14 +273,13 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProject != nullptr);
     // TODO: Fix redundant staged images staged photos.
-    auto stagedPhotos = maybeProject->second.stagedImages()->stagedPhotos();
+    auto stagedPhotos = maybeProject->value.stagedImages()->stagedPhotos();
 
     std::vector<Path> imagesToMerge;
 
     for (int i = 0; i < (int)images.Size(); ++i) {
       auto hash = stagedPhotos.at((unsigned)images.GetAt(i))->hash();
-      auto imagePath = mPhotobook->platformInfo()->thumbnailByHash(
-          maybeProject->first, hash);
+      auto imagePath = mPhotobook->platformInfo()->thumbnailByHash(maybeProject->id, hash);
       imagesToMerge.push_back(imagePath);
     }
 
@@ -313,7 +312,7 @@ struct PhotobookWin : PhotobookWinT<PhotobookWin> {
         mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProject != nullptr);
     auto thumbnailsPath =
-        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) /
+        mPhotobook->platformInfo()->projectSupportFolder(maybeProject->id) /
         "thumbnail-images";
     return winrt::make<VirtualImagePtr>(
         mPhotobook->imageFactory()->defaultRegularImage(),

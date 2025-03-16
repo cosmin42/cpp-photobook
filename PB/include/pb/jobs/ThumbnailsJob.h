@@ -38,10 +38,7 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  void configureProject(std::shared_ptr<IdentifyableProject> project)
-  {
-    mProject = project;
-  }
+  void configureProject(IdentifiableProject project) { mProject = project; }
 
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
@@ -67,12 +64,12 @@ public:
   unsigned taskCount() const override { return (unsigned)mPaths.size(); }
 
 private:
-  ThumbnailsJobListener                    *mListener = nullptr;
-  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<IdentifyableProject>      mProject = nullptr;
-  PBDev::ThumbnailsJobId                    mJobId;
-  unsigned                                  mIndex = 0;
-  std::vector<Path>                         mPaths;
+  ThumbnailsJobListener        *mListener = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  IdentifiableProject           mProject = nullptr;
+  PBDev::ThumbnailsJobId        mJobId;
+  unsigned                      mIndex = 0;
+  std::vector<Path>             mPaths;
 
   GenericImagePtr process(Path path)
   {
@@ -85,11 +82,10 @@ private:
       return std::make_shared<RegularImageV2>(hash, path);
     }
     else if (std::filesystem::is_directory(path)) {
-      auto temporaryImagePath =
-          mPlatformInfo->newTemporaryImage(mProject->first);
+      auto temporaryImagePath = mPlatformInfo->newTemporaryImage(mProject->id);
 
       auto directoryName = path.filename().string();
-      auto image = Process::createTextImage(mProject->second.paperSettings,
+      auto image = Process::createTextImage(mProject->value.paperSettings,
                                             directoryName);
       PB::infra::writeImageOnDisk(image, temporaryImagePath);
 

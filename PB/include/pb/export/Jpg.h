@@ -20,10 +20,7 @@ public:
     mListener = listener;
   }
 
-  void configureProject(std::shared_ptr<IdentifyableProject> project)
-  {
-    mProject = project;
-  }
+  void configureProject(IdentifiableProject project) { mProject = project; }
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo)
   {
@@ -51,14 +48,14 @@ private:
   std::string makeName(unsigned counter);
   void        writeImage(Path inputPath, Path outputPath) const;
 
-  ExportLogicListener                 *mListener = nullptr;
-  unsigned                             mIndex = 0;
-  Path                                 mRoot;
-  PaperSettings                        mPaperSettings;
-  std::vector<GenericImagePtr>         mStagedImages;
-  bool                                 mCrunchedFlag = false;
-  std::stop_token                      mStopToken;
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
-  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  ExportLogicListener          *mListener = nullptr;
+  unsigned                      mIndex = 0;
+  Path                          mRoot;
+  PaperSettings                 mPaperSettings;
+  std::vector<GenericImagePtr>  mStagedImages;
+  bool                          mCrunchedFlag = false;
+  std::stop_token               mStopToken;
+  IdentifiableProject           mProject = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
 };
 } // namespace PB

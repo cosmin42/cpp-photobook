@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 
 #include <boost/functional/hash.hpp>
+#include <boost/uuid/random_generator.hpp>
 
 #include <pb/components/RuntimeUUID.h>
 

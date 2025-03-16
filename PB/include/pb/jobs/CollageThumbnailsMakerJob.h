@@ -29,7 +29,7 @@ public:
   ~CollageThumbnailsMakerJob() = default;
 
   void configureListener(CollageThumbnailsMakerListener *listener);
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
@@ -55,7 +55,7 @@ private:
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
   DrawingService                           mDrawingService;
-  std::shared_ptr<IdentifyableProject>     mProject = nullptr;
+  IdentifiableProject                      mProject = nullptr;
   std::vector<CollageTemplateInfo>         mGeneratedLibraries;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
   std::vector<Path>                        mNumberedImages;

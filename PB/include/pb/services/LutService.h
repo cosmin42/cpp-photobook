@@ -46,7 +46,7 @@ public:
     mDurableHashService = durableHashService;
   }
 
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
 
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
@@ -109,7 +109,7 @@ private:
   std::vector<Path>        mLutsPathsToBeProcessed;
   std::vector<Path>        mLutsPaths;
 
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  IdentifiableProject mProject = nullptr;
 
   std::shared_ptr<ImageFactory> mImageFactory = nullptr;
 

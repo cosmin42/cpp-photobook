@@ -14,28 +14,25 @@ namespace PB {
 class ThumbnailsTask final {
 public:
   static std::string
-  createThumbnails(std::shared_ptr<cv::Mat>             originalImage,
-                   std::shared_ptr<PlatformInfo>        platformInfo,
-                   std::shared_ptr<IdentifyableProject> project,
-                   std::string                          targetHash = "");
+  createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
+                   std::shared_ptr<PlatformInfo> platformInfo,
+                   IdentifiableProject project, std::string targetHash = "");
 
-  static std::string
-  createThumbnailsByPath(Path                                 originalImage,
-                         std::shared_ptr<PlatformInfo>        platformInfo,
-                         std::shared_ptr<IdentifyableProject> project,
-                         std::string                          targetHash = "");
+  static std::string createThumbnailsByPath(
+      Path originalImage, std::shared_ptr<PlatformInfo> platformInfo,
+      IdentifiableProject project, std::string targetHash = "");
 
   explicit ThumbnailsTask(Path originalPath);
   ~ThumbnailsTask() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
 
   std::string createThumbnails();
 
 private:
-  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
-  Path                                 mOriginalPath;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  IdentifiableProject           mProject = nullptr;
+  Path                          mOriginalPath;
 };
 } // namespace PB

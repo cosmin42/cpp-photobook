@@ -3,11 +3,11 @@
 #include <vector>
 
 #include <pb/components/CollageLibraryAssistant.h>
+#include <pb/components/Project.h>
 #include <pb/components/SVGInflater.h>
 #include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/CollageMakerJob.h>
 #include <pb/jobs/CollageThumbnailsMakerJob.h>
-#include <pb/components/Project.h>
 #include <pb/services/DrawingService.h>
 
 using namespace PB::Job;
@@ -21,7 +21,7 @@ public:
   void configureThumbnailsListener(CollageThumbnailsMakerListener *listener);
   void configureCollageMakerListener(CollageMakerListener *listener);
 
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
   void configureDurableHashService(
@@ -51,4 +51,4 @@ private:
   std::shared_ptr<PlatformInfo>              mPlatformInfo = nullptr;
   std::shared_ptr<DurableHashService>        mDurableHashService = nullptr;
 };
-} // namespace PB
+} // namespace PB::Service

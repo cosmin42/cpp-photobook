@@ -47,7 +47,7 @@ void LutService::configureThreadScheduler(
   mDirectoryInspectionService->configureThreadScheduler(threadScheduler);
 }
 
-void LutService::configureProject(std::shared_ptr<IdentifyableProject> project)
+void LutService::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }
@@ -142,9 +142,9 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
 
   LutImageProcessingData imageProcessingData;
   imageProcessingData.inImage =
-      mPlatformInfo->thumbnailByHash(mProject->first, image->hash());
+      mPlatformInfo->thumbnailByHash(mProject->id, image->hash());
   imageProcessingData.outImage =
-      mPlatformInfo->projectSupportFolder(mProject->first) /
+      mPlatformInfo->projectSupportFolder(mProject->id) /
       (mOutImageHashes.at(lutId) + OneConfig::JPG_EXTENSION);
 
   // TODO: Move this read to a different place. It shouldn't be here.
@@ -239,11 +239,11 @@ void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
   }
 
   largeProcessingData.inImage = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::LARGE);
+      mProject->id, image->hash(), ThumbnailsSize::LARGE);
   mediumProcessingData.inImage = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
+      mProject->id, image->hash(), ThumbnailsSize::MEDIUM);
   smallProcessingData.inImage = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::SMALL);
+      mProject->id, image->hash(), ThumbnailsSize::SMALL);
 
   if (inplace) {
     largeProcessingData.outImage = largeProcessingData.inImage;
@@ -252,11 +252,11 @@ void LutService::applyTransformationOnDisk(PBDev::LutApplicationId lutId,
   }
   else {
     largeProcessingData.outImage = mPlatformInfo->thumbnailByHash(
-        mProject->first, newHash, ThumbnailsSize::LARGE);
+        mProject->id, newHash, ThumbnailsSize::LARGE);
     mediumProcessingData.outImage = mPlatformInfo->thumbnailByHash(
-        mProject->first, newHash, ThumbnailsSize::MEDIUM);
+        mProject->id, newHash, ThumbnailsSize::MEDIUM);
     smallProcessingData.outImage = mPlatformInfo->thumbnailByHash(
-        mProject->first, newHash, ThumbnailsSize::SMALL);
+        mProject->id, newHash, ThumbnailsSize::SMALL);
   }
 
   mTaskCruncher->crunch([this, largeProcessingData]() {

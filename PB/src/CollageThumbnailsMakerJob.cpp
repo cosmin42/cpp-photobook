@@ -21,12 +21,11 @@ void CollageThumbnailsMakerJob::configureListener(
   mListener = listener;
 }
 
-void CollageThumbnailsMakerJob::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void CollageThumbnailsMakerJob::configureProject(IdentifiableProject project)
 {
   mProject = project;
   mAssistant = std::make_shared<CollageLibraryAssistant>(
-      mPlatformInfo->collagesFolder(mProject->first));
+      mPlatformInfo->collagesFolder(mProject->id));
 }
 
 void CollageThumbnailsMakerJob::configurePlatformInfo(
@@ -110,12 +109,12 @@ CollageThumbnailsMakerJob::getSourceTemplates() const
 
 void CollageThumbnailsMakerJob::createPlaceholdersFolder()
 {
-  auto collagesPath = mPlatformInfo->collagesFolder(mProject->first);
+  auto collagesPath = mPlatformInfo->collagesFolder(mProject->id);
   bool success = std::filesystem::create_directories(collagesPath);
   if (success) {
     spdlog::info("[CollageThumbnailsMakerJob] Created placeholders folder for "
                  "project: {}",
-                 boost::uuids::to_string(mProject->first));
+                 boost::uuids::to_string(mProject->id));
   }
 }
 
@@ -127,16 +126,16 @@ void CollageThumbnailsMakerJob::obtainSourceTemplates()
 
 void CollageThumbnailsMakerJob::createNumberedPlaceholders()
 {
-  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
-                        mProject->second.paperSettings.height / 2};
+  cv::Size imageSize = {mProject->value.paperSettings.width / 2,
+                        mProject->value.paperSettings.height / 2};
 
   mNumberedImages = mAssistant->createNumberedImages(imageSize);
 }
 
 void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
 {
-  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
-                        mProject->second.paperSettings.height / 2};
+  cv::Size imageSize = {mProject->value.paperSettings.width / 2,
+                        mProject->value.paperSettings.height / 2};
 
   Path path = mSourceTemplates.at(i).path;
 #ifndef _CLANG_UML_
@@ -151,15 +150,15 @@ void CollageThumbnailsMakerJob::createCustomSVGTemplate(unsigned i)
 void CollageThumbnailsMakerJob::registerNewResource()
 {
   mResourcesProviderId =
-      mResources->addResource(mPlatformInfo->collagesFolder(mProject->first));
+      mResources->addResource(mPlatformInfo->collagesFolder(mProject->id));
 }
 
 void CollageThumbnailsMakerJob::createTemplatesThumbnail(unsigned i)
 {
-  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
-                        mProject->second.paperSettings.height / 2};
+  cv::Size imageSize = {mProject->value.paperSettings.width / 2,
+                        mProject->value.paperSettings.height / 2};
   Path     path = mProcessedSVGPaths.at(i);
-  Path     outFilePath = mPlatformInfo->collagesFolder(mProject->first) /
+  Path     outFilePath = mPlatformInfo->collagesFolder(mProject->id) /
                      (path.stem().string() + ".png");
   if (std::filesystem::exists(outFilePath)) {
     auto collageTemplateInfo = parseTemplatePath(outFilePath);
@@ -180,12 +179,12 @@ void CollageThumbnailsMakerJob::mapJobs()
                                          COLLAGES_TEMPLATES_NAME);
 
   std::filesystem::create_directories(
-      mPlatformInfo->collagesFolder(mProject->first));
+      mPlatformInfo->collagesFolder(mProject->id));
 
   std::vector<Path> processedSVGPaths;
 
-  cv::Size imageSize = {mProject->second.paperSettings.width / 2,
-                        mProject->second.paperSettings.height / 2};
+  cv::Size imageSize = {mProject->value.paperSettings.width / 2,
+                        mProject->value.paperSettings.height / 2};
 
   mNumberedImages = mAssistant->createNumberedImages(imageSize);
 
@@ -201,7 +200,7 @@ void CollageThumbnailsMakerJob::mapJobs()
   }
 
   mResourcesProviderId =
-      mResources->addResource(mPlatformInfo->collagesFolder(mProject->first));
+      mResources->addResource(mPlatformInfo->collagesFolder(mProject->id));
 
   mFunctions.push_back(
       {PBDev::MapReducerTaskId(RuntimeUUID::newUUID()), [this]() {

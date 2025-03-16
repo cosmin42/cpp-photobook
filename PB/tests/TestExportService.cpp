@@ -45,9 +45,8 @@ TEST(TestExportService, Test0)
   boost::uuids::string_generator gen;
   boost::uuids::uuid projectId = gen("93a24d3d-edce-48fd-a361-b63ce675039d");
 
-  std::shared_ptr<PB::IdentifyableProject> identifyableProject =
-      std::make_shared<PB::IdentifyableProject>(
-          std::make_pair(projectId, project));
+  IdentifiableProject identifyableProject =
+      makeIdentifiable(projectId, project);
 
   std::shared_ptr<ExportService> mExportService =
       std::make_shared<ExportService>();

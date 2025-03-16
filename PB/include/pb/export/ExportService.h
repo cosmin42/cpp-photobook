@@ -24,7 +24,7 @@ public:
 
 class ExportService final : public ExportLogicListener {
 public:
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
 
@@ -45,13 +45,13 @@ public:
   void onExportUpdate(Path) override;
 
 private:
-  ExportListener                      *mListener = nullptr;
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
-  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
-  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
+  ExportListener               *mListener = nullptr;
+  IdentifiableProject           mProject = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
 
   std::unordered_map<Path, std::shared_ptr<MapReducer>> mPendingTasks;
-  std::set<Path>                                        mPendingPaths; 
+  std::set<Path>                                        mPendingPaths;
 
   void start(Path path, std::shared_ptr<MapReducer> task);
 };

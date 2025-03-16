@@ -16,8 +16,7 @@ void CollageMakerJob::configureListener(CollageMakerListener *listener)
   mListener = listener;
 }
 
-void CollageMakerJob::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void CollageMakerJob::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }
@@ -43,7 +42,8 @@ void CollageMakerJob::configureDurableHashService(
   mDurableHashService = durableHashService;
 }
 
-void CollageMakerJob::configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager)
+void CollageMakerJob::configureVulkanManager(
+    std::shared_ptr<VulkanManager> vulkanManager)
 {
   mDrawingService.configureVulkanManager(vulkanManager);
 }
@@ -51,10 +51,10 @@ void CollageMakerJob::configureVulkanManager(std::shared_ptr<VulkanManager> vulk
 void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
 {
   PBDev::basicAssert(mProject != nullptr);
-  cv::Size imageSize = {mProject->second.paperSettings.width,
-                        mProject->second.paperSettings.height};
+  cv::Size imageSize = {mProject->value.paperSettings.width,
+                        mProject->value.paperSettings.height};
 
-  auto resourcePath = mPlatformInfo->projectSupportFolder(mProject->first);
+  auto resourcePath = mPlatformInfo->projectSupportFolder(mProject->id);
 
   mResourcesProviderId =
       mResources->addResource(resourcePath / "thumbnail-images");
@@ -68,7 +68,7 @@ void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
       boost::uuids::to_string(boost::uuids::random_generator()()) + ".jpeg";
 
   Path projectThumbnailsRoot =
-      mPlatformInfo->projectSupportFolder(mProject->first);
+      mPlatformInfo->projectSupportFolder(mProject->id);
 
   auto reducerId = PBDev::MapReducerTaskId(RuntimeUUID::newUUID());
 
@@ -124,7 +124,7 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
     std::filesystem::remove(mCollagePath.at(reducerTaskId));
 
     auto newImagePath =
-        mPlatformInfo->thumbnailByHash(mProject->first, newImage->hash());
+        mPlatformInfo->thumbnailByHash(mProject->id, newImage->hash());
 
     spdlog::info("Collage created {}", newImagePath.string());
 

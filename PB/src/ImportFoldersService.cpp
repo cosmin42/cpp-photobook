@@ -6,7 +6,7 @@ namespace PB::Service {
 
 void ImportFoldersService::addImportFolder(Path path)
 {
-  if (mProject->second.imageMonitor()->containsRow(path, true)) {
+  if (mProject->value.imageMonitor()->containsRow(path, true)) {
     mListener->onImportError(PBDev::Error()
                              << PB::ErrorCode::FolderAlreadyImported);
     return;

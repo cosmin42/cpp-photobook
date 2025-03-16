@@ -2,9 +2,9 @@
 
 #include <pb/components/CollageLibraryAssistant.h>
 #include <pb/components/MapReducer.h>
+#include <pb/components/Project.h>
 #include <pb/components/SkiaResources.h>
 #include <pb/image/ImageFactory.h>
-#include <pb/components/Project.h>
 #include <pb/services/DrawingService.h>
 #include <pb/services/DurableHashService.h>
 
@@ -25,7 +25,7 @@ public:
   ~CollageMakerJob() = default;
 
   void configureListener(CollageMakerListener *listener);
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureDurableHashService(
       std::shared_ptr<DurableHashService> durableHashService);
@@ -49,7 +49,7 @@ private:
   CollageMakerListener                    *mListener = nullptr;
   std::shared_ptr<PlatformInfo>            mPlatformInfo = nullptr;
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
-  std::shared_ptr<IdentifyableProject>     mProject = nullptr;
+  IdentifiableProject                      mProject = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
   std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
   std::shared_ptr<ImageFactory>            mImageFactory = nullptr;

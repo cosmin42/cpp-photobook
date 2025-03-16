@@ -11,8 +11,7 @@ void ImageFactory::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ImageFactory::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void ImageFactory::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }
@@ -39,7 +38,7 @@ ImageFactory::createRegularImage(std::string hash)
 std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
                                                            std::string hash)
 {
-  auto project = mProject->second;
+  auto project = mProject->value;
 
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       project.paperSettings.width, project.paperSettings.height,
@@ -62,7 +61,7 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
 
 GenericImagePtr ImageFactory::createImage(Path path)
 {
-  PBDev::ProjectId projectId(mProject->first);
+  PBDev::ProjectId projectId(mProject->id);
 
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);
@@ -82,18 +81,18 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
 {
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
-  auto largeFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::LARGE);
-  auto mediumFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
-  auto smallFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::SMALL);
+  auto largeFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                  ThumbnailsSize::LARGE);
+  auto mediumFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                   ThumbnailsSize::MEDIUM);
+  auto smallFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                  ThumbnailsSize::SMALL);
 
-  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                      ThumbnailsSize::LARGE);
-  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                       ThumbnailsSize::MEDIUM);
-  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                      ThumbnailsSize::SMALL);
 
   std::filesystem::copy(largeFile, newLargeFile);
@@ -120,18 +119,18 @@ GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image)
 {
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
-  auto largeFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::LARGE);
-  auto mediumFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
-  auto smallFile = mPlatformInfo->thumbnailByHash(
-      mProject->first, image->hash(), ThumbnailsSize::SMALL);
+  auto largeFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                  ThumbnailsSize::LARGE);
+  auto mediumFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                   ThumbnailsSize::MEDIUM);
+  auto smallFile = mPlatformInfo->thumbnailByHash(mProject->id, image->hash(),
+                                                  ThumbnailsSize::SMALL);
 
-  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                      ThumbnailsSize::LARGE);
-  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                       ThumbnailsSize::MEDIUM);
-  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->id, newHash,
                                                      ThumbnailsSize::SMALL);
 
   if (image->type() == ImageType::Regular) {

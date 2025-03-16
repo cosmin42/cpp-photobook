@@ -61,8 +61,7 @@ ProjectManagementService::metadata() const
   return mProjectsMetadata;
 }
 
-std::shared_ptr<IdentifyableProject>
-ProjectManagementService::maybeLoadedProjectInfo() const
+IdentifiableProject ProjectManagementService::maybeLoadedProjectInfo() const
 {
   return maybeLoadedProject;
 }
@@ -137,11 +136,10 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
                                  boost::uuids::to_string(newProjectId),
                                  std::string(paperSettings));
 
-  maybeLoadedProject = std::make_shared<IdentifyableProject>(
-      std::make_pair(newProjectId, project));
+  maybeLoadedProject = makeIdentifiable(newProjectId, project);
 
   saveMetadata();
-  mProjectSerializerService->saveProject(maybeLoadedProject->second);
+  mProjectSerializerService->saveProject(maybeLoadedProject->value);
 
   mProjectsMetadata.insert({newProjectId, project.name});
 
@@ -183,13 +181,12 @@ void ProjectManagementService::loadProject(
   auto projectPath = mPlatformInfo->projectPath(projectName);
   auto project = mProjectSerializerService->deserializeProjectInfo(projectPath);
 
-  maybeLoadedProject =
-      std::make_shared<IdentifyableProject>(std::make_pair(id, project));
+  maybeLoadedProject = makeIdentifiable(id, project);
 
   Noir::inst().getLogger()->info(
       "Project loaded by id: {}, {}, {}", projectName,
       boost::uuids::to_string(id),
-      std::string(maybeLoadedProject->second.paperSettings));
+      std::string(maybeLoadedProject->value.paperSettings));
 }
 
 void ProjectManagementService::unloadProject()
@@ -201,8 +198,8 @@ void ProjectManagementService::unloadProject()
 
 void ProjectManagementService::saveMetadata()
 {
-  auto projectId = maybeLoadedProject->first;
-  auto project = maybeLoadedProject->second;
+  auto projectId = maybeLoadedProject->id;
+  auto project = maybeLoadedProject->value;
 
   auto result = mDatabaseService->selectData(
       OneConfig::DATABASE_PROJECT_METADATA_TABLE,
@@ -244,10 +241,10 @@ void ProjectManagementService::renameProject(std::string oldName,
         {boost::uuids::to_string(uuid).c_str(), newName.c_str()});
 
     if (maybeLoadedProject != nullptr) {
-      if (maybeLoadedProject->second.name == oldName) {
-        auto project = maybeLoadedProject->second;
+      if (maybeLoadedProject->value.name == oldName) {
+        auto project = maybeLoadedProject->value;
         project.name = newName;
-        maybeLoadedProject->second = project;
+        maybeLoadedProject->value = project;
       }
     }
 
@@ -262,7 +259,7 @@ void ProjectManagementService::renameProject(std::string oldName,
 
 void ProjectManagementService::save()
 {
-  mProjectSerializerService->saveProject(maybeLoadedProject->second);
+  mProjectSerializerService->saveProject(maybeLoadedProject->value);
 }
 
 } // namespace PB::Service

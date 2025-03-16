@@ -1,8 +1,7 @@
 #include <pb/export/ExportService.h>
 
 namespace PB {
-void ExportService::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void ExportService::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }
@@ -28,8 +27,8 @@ void ExportService::exportPDFAlbum(std::string name, Path path)
 {
   auto                           pdfPath = path / (name + ".pdf");
   std::shared_ptr<PdfExportTask> task = std::make_shared<PdfExportTask>(
-      pdfPath, mPlatformInfo->localStatePath, mProject->second.paperSettings,
-      mProject->second.stagedImages()->stagedPhotos());
+      pdfPath, mPlatformInfo->localStatePath, mProject->value.paperSettings,
+      mProject->value.stagedImages()->stagedPhotos());
   task->configurePodofoListener(this);
   task->configurePlatformInfo(mPlatformInfo);
   task->configureProject(mProject);
@@ -41,9 +40,8 @@ void ExportService::exportPDFLibharu(std::string name, Path path)
   auto pdfName = path / (name + "-libharu" + ".pdf");
   std::shared_ptr<PdfLibharuExportTask> task =
       std::make_shared<PdfLibharuExportTask>(
-          pdfName, mPlatformInfo->localStatePath,
-          mProject->second.paperSettings,
-          mProject->second.stagedImages()->stagedPhotos());
+          pdfName, mPlatformInfo->localStatePath, mProject->value.paperSettings,
+          mProject->value.stagedImages()->stagedPhotos());
   task->configureLibharuListener(this);
   task->configurePlatformInfo(mPlatformInfo);
   task->configureProject(mProject);
@@ -61,8 +59,8 @@ void ExportService::exportJPGAlbum(std::string name, Path path)
     PBDev::basicAssert(success);
 
     std::shared_ptr<JpgExport> task = std::make_shared<JpgExport>(
-        newFolder, mProject->second.paperSettings,
-        mProject->second.stagedImages()->stagedPhotos());
+        newFolder, mProject->value.paperSettings,
+        mProject->value.stagedImages()->stagedPhotos());
     task->configureJpgListener(this);
     task->configurePlatformInfo(mPlatformInfo);
     task->configureProject(mProject);

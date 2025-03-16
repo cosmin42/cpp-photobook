@@ -3,12 +3,12 @@
 #include <boost/bimap/bimap.hpp>
 #include <boost/uuid/uuid.hpp>
 
+#include <pb/components/Project.h>
 #include <pb/entities/PaperSettings.h>
 #include <pb/entities/ProjectMetadata.h>
-#include <pb/components/Project.h>
+#include <pb/infra/Traits.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/ProjectSerializerService.h>
-#include <pb/infra/Traits.h>
 
 namespace PB::Service {
 
@@ -52,7 +52,7 @@ public:
 
   boost::bimaps::bimap<boost::uuids::uuid, std::string> metadata() const;
 
-  std::shared_ptr<IdentifyableProject> maybeLoadedProjectInfo() const;
+  IdentifiableProject maybeLoadedProjectInfo() const;
 
 private:
   static std::vector<std::string> HAPPY_WORDS;
@@ -65,7 +65,7 @@ private:
 
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mProjectsMetadata;
 
-  std::shared_ptr<IdentifyableProject> maybeLoadedProject = nullptr;
+  IdentifiableProject maybeLoadedProject = nullptr;
 
   bool hasProjectName(std::string name) const;
   void preprocessDefaultWaitingImage();

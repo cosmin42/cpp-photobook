@@ -9,15 +9,14 @@
 
 DECLARE_STRONG_UUID(EffectId)
 
-namespace PB::Service
-{
-  class EffectsServiceListener {
+namespace PB::Service {
+class EffectsServiceListener {
 public:
   virtual void onEffectsApplied(PBDev::EffectId effectId,
-                               GenericImagePtr image) = 0;
+                                GenericImagePtr image) = 0;
 
   virtual void onEffectsAppliedInplace(PBDev::EffectId effectId) = 0;
-  
+
   virtual void onEffectsApplicationError(PBDev::EffectId effectId,
                                          PB::ErrorCode) = 0;
 };
@@ -33,21 +32,22 @@ public:
 
   void configureEffectsServiceListener(EffectsServiceListener *listener);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureProject(std::shared_ptr<IdentifyableProject> project);
+  void configureProject(IdentifiableProject project);
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
 
   void apply(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
-    float brightness, float contrast, bool inplace);
+             float brightness, float contrast, bool inplace);
 
 private:
-  EffectsServiceListener              *mListener = nullptr;
-  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
-  std::shared_ptr<IdentifyableProject> mProject = nullptr;
-  std::shared_ptr<ImageFactory>        mImageFactory = nullptr;
-  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
+  EffectsServiceListener       *mListener = nullptr;
+  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  IdentifiableProject           mProject = nullptr;
+  std::shared_ptr<ImageFactory> mImageFactory = nullptr;
+  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
 
-  void applyInternal(PBDev::EffectId effectId, GenericImagePtr image, float saturation,
-                      float brightness, float contrast, bool inplace);
+  void applyInternal(PBDev::EffectId effectId, GenericImagePtr image,
+                     float saturation, float brightness, float contrast,
+                     bool inplace);
 };
-} // namespace PB
+} // namespace PB::Service

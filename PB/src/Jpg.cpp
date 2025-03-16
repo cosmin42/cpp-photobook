@@ -28,7 +28,7 @@ void JpgExport::taskStep()
 
   auto virtualImage = mStagedImages.at(mIndex);
   auto imagePath =
-      mPlatformInfo->thumbnailByHash(mProject->first, virtualImage->hash());
+      mPlatformInfo->thumbnailByHash(mProject->id, virtualImage->hash());
   writeImage(imagePath, tmpImage);
   mIndex++;
 

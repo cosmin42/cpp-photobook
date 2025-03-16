@@ -26,8 +26,7 @@ void CollageService::configureCollageMakerListener(
   mCollageMakerJob->configureListener(listener);
 }
 
-void CollageService::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void CollageService::configureProject(IdentifiableProject project)
 {
   mThumbnailsJob->configureProject(project);
   mCollageMakerJob->configureProject(project);
@@ -93,7 +92,7 @@ void CollageService::combineImages(unsigned          templateIndex,
 void CollageService::combineImages(unsigned                     templateIndex,
                                    std::vector<GenericImagePtr> images)
 {
-  auto templatePaths = mThumbnailsJob->getSourceTemplates();
+  auto              templatePaths = mThumbnailsJob->getSourceTemplates();
   std::vector<Path> imagesPaths;
   for (const auto &image : images) {
     imagesPaths.push_back(Path("thumbnail-images") / image->full());

@@ -9,11 +9,11 @@ namespace PB {
 std::string
 ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
                                  std::shared_ptr<PlatformInfo> platformInfo,
-                                 std::shared_ptr<IdentifyableProject> project,
-                                 std::string targetHash)
+                                 IdentifiableProject           project,
+                                 std::string                   targetHash)
 {
 
-  auto projectId = project->first;
+  auto projectId = project->id;
 
   if (targetHash.empty()) {
     targetHash = "wait";
@@ -27,8 +27,8 @@ ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
 
   auto [largeSize, mediumSize, smallSize] = Geometry::compute3SizesGeometry(
       cv::Size{(int)width, (int)height},
-      {(int)project->second.paperSettings.width,
-       (int)project->second.paperSettings.height});
+      {(int)project->value.paperSettings.width,
+       (int)project->value.paperSettings.height});
 
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);
@@ -47,9 +47,9 @@ ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
 
 std::string ThumbnailsTask::createThumbnailsByPath(
     Path originalPath, std::shared_ptr<PlatformInfo> platformInfo,
-    std::shared_ptr<IdentifyableProject> project, std::string targetHash)
+    IdentifiableProject project, std::string targetHash)
 {
-  auto projectId = project->first;
+  auto projectId = project->id;
 
   auto [large, medium, small, hash] =
       platformInfo->newThumbnailPaths(projectId, targetHash);
@@ -63,8 +63,8 @@ std::string ThumbnailsTask::createThumbnailsByPath(
 
   auto [largeSize, mediumSize, smallSize] = Geometry::compute3SizesGeometry(
       cv::Size{(int)width, (int)height},
-      {(int)project->second.paperSettings.width,
-       (int)project->second.paperSettings.height});
+      {(int)project->value.paperSettings.width,
+       (int)project->value.paperSettings.height});
 
   auto originalImage = infra::loadImageToCvMat(originalPath);
 
@@ -93,8 +93,7 @@ void ThumbnailsTask::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ThumbnailsTask::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void ThumbnailsTask::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }

@@ -16,8 +16,7 @@ void EffectsService::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void EffectsService::configureProject(
-    std::shared_ptr<IdentifyableProject> project)
+void EffectsService::configureProject(IdentifiableProject project)
 {
   mProject = project;
 }
@@ -49,7 +48,7 @@ void EffectsService::applyInternal(PBDev::EffectId effectId,
                                    float brightness, float contrast,
                                    bool inplace)
 {
-  auto projectId = mProject->first;
+  auto projectId = mProject->id;
   auto [largePath, mediumPath, smallPath] =
       mPlatformInfo->thumbnailPaths(projectId, image->hash());
 

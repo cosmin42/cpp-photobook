@@ -25,7 +25,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
 
     return winrt::make<
         winrt::PhotobookRuntimeComponent::implementation::ImageMonitor>(
-        maybeLoadedProject->second.imageMonitor());
+        maybeLoadedProject->value.imageMonitor());
   }
 
   PhotobookRuntimeComponent::StagedImages StagedImages()
@@ -36,7 +36,7 @@ struct ImageViews : ImageViewsT<ImageViews> {
 
     return winrt::make<
         winrt::PhotobookRuntimeComponent::implementation::StagedImages>(
-        maybeLoadedProject->second.stagedImages());
+        maybeLoadedProject->value.stagedImages());
   }
 
 private:
