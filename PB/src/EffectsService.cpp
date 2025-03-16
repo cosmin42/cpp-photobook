@@ -51,31 +51,26 @@ void EffectsService::applyInternal(PBDev::EffectId effectId, GenericImagePtr ima
   auto mediumImage = std::make_shared<cv::Mat>(cv::imread(mediumPath.string()));
   auto smallImage = std::make_shared<cv::Mat>(cv::imread(smallPath.string()));
 
-  if (inplace) {
-    Process::applySaturationInPlace(largeImage, contrast);
-    Process::applyBrightnessInPlace(largeImage, brightness);
-    Process::applyContrastInPlace(largeImage, contrast);
+  Process::applySaturationInPlace(largeImage, saturation);
+  Process::applyBrightnessInPlace(largeImage, brightness);
+  Process::applyContrastInPlace(largeImage, contrast);
 
-    Process::applySaturationInPlace(mediumImage, contrast);
-    Process::applyBrightnessInPlace(mediumImage, brightness);
-    Process::applyContrastInPlace(mediumImage, contrast);
+  Process::applySaturationInPlace(mediumImage, saturation);
+  Process::applyBrightnessInPlace(mediumImage, brightness);
+  Process::applyContrastInPlace(mediumImage, contrast);
+
+  Process::applySaturationInPlace(smallImage, saturation);
+  Process::applyBrightnessInPlace(smallImage, brightness);
+  Process::applyContrastInPlace(smallImage, contrast);
+
+  if (inplace) {
+    Process::writeImageOnDisk(largeImage, largePath);
+    Process::writeImageOnDisk(mediumImage, mediumPath);
+    Process::writeImageOnDisk(smallImage, smallPath);
 
     mListener->onEffectsAppliedInplace(effectId);
   }
   else {
-    
-    largeImage = Process::applySaturation(largeImage, contrast);
-    largeImage = Process::applyBrightness(largeImage, brightness);
-    largeImage = Process::applyContrast(largeImage, contrast);
-
-    mediumImage = Process::applySaturation(mediumImage, contrast);
-    mediumImage = Process::applyBrightness(mediumImage, brightness);
-    mediumImage = Process::applyContrast(mediumImage, contrast);
-
-    smallImage = Process::applySaturation(smallImage, contrast);
-    smallImage = Process::applyBrightness(smallImage, brightness);
-    smallImage = Process::applyContrast(smallImage, contrast);
-
     auto newImage = mImageFactory->weakCopyImage(image);
 
     auto [newLargePath, newMediumPath, newSmallPath, hash] =

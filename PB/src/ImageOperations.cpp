@@ -224,7 +224,7 @@ std::shared_ptr<cv::Mat> applySaturation(std::shared_ptr<cv::Mat> image,
 
 void applySaturationInPlace(std::shared_ptr<cv::Mat> image, double saturation)
 {
-  if (std::abs(saturation - 1.0) < std::numeric_limits<double>::epsilon()) {
+  if (std::abs(saturation - 1.0) <= std::numeric_limits<double>::epsilon()) {
     return;
   }
 
@@ -268,10 +268,10 @@ std::shared_ptr<cv::Mat> applyBrightness(std::shared_ptr<cv::Mat> image,
 
 void applyBrightnessInPlace(std::shared_ptr<cv::Mat> image, double brightness)
 {
-  if (std::abs(brightness) < std::numeric_limits<double>::epsilon()) {
+  if (std::abs(brightness - 0.0) <= std::numeric_limits<double>::epsilon()) {
     return;
   }
-  image->convertTo(*image, -1, 1, brightness);
+  image->convertTo(*image, -1, 1, (brightness*255));
 }
 
 std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,

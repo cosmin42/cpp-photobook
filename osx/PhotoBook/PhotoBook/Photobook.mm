@@ -520,7 +520,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     
     PB::GenericImagePtr nativeImage = [image unwrap];
     
-    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, contrast, brightness, false);
+    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, brightness, contrast, false);
 }
 
 - (void) applyEffectsInPlace:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
