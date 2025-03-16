@@ -15,7 +15,6 @@ else()
     set(CMAKE_CXX_FLAGS "-std=c++20")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexperimental-library")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 endif()
 
 if (STATIC_CHECK)
@@ -73,8 +72,6 @@ endif()
 if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/third-party/ios/skia/include)
 endif()
-
-include(third-party/windows/pdfium/PDFiumConfig.cmake)
 
 include_directories(${CMAKE_BINARY_DIR})
 
@@ -365,6 +362,22 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
             "${CMAKE_CURRENT_SOURCE_DIR}/arm64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Release/x64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Release/x64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/pb-assets"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Release/arm64-macos/")
+
+        add_custom_command(TARGET ${PBLIB_LIBRARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/include"
+            "${CMAKE_CURRENT_SOURCE_DIR}/Release/arm64-macos/")
     endif()
 
     if(${CMAKE_SYSTEM_NAME} STREQUAL "iOS")
