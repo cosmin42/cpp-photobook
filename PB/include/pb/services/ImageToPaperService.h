@@ -44,8 +44,7 @@ public:
   void toPaper(PBDev::ImageToPaperServiceId,
                std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                                   boost::hash<PBDev::ImageToPaperId>>
-                             originalImages,
-               PaperSettings paperSettings);
+                             originalImages);
 
   void copyImages(PBDev::ImageToPaperServiceId,
                   std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,

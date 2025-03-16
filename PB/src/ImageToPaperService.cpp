@@ -6,12 +6,10 @@ void ImageToPaperService::toPaper(
     PBDev::ImageToPaperServiceId id,
     std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                        boost::hash<PBDev::ImageToPaperId>>
-                  originalImages,
-    PaperSettings paperSettings)
+        originalImages)
 {
 
-  auto &&task = ImageToPaperTask(mProject, paperSettings,
-                                 originalImages);
+  auto &&task = ImageToPaperTask(mProject, originalImages);
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);

@@ -78,8 +78,7 @@ void PhotobookWin::mapImagesToSPL(
       mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
 
   imageToPaperService->toPaper(
-      PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap,
-      maybeProject->second.paperSettings);
+      PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation

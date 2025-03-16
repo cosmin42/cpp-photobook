@@ -34,7 +34,7 @@ public:
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
-      std::shared_ptr<IdentifyableProject> project, PaperSettings paperSettings,
+      std::shared_ptr<IdentifyableProject> project,
       std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
