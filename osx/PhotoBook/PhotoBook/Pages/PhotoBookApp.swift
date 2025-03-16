@@ -74,7 +74,7 @@ private var noirUIListener: [NoirUIListener] = []
     
     func onEffectsAppliedInplace(_ imageId: String)
     {
-        photobookUIListener.last?.onEffectsApplied(imageId:imageId, image:FrontendImage())
+        photobookUIListener.last?.onEffectsAppliedInplace(imageId: imageId)
     }
     
     func onError(_ message: String)

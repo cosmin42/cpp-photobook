@@ -63,6 +63,11 @@ struct TableContentView: View, PhotobookUIListener {
     
     @StateObject private var photoLinesModel: PhotoLinesModel = PhotoLinesModel()
     
+    @State private var lutFromUpl:Set<String> = []
+    @State private var lutFromDpl:[String:UInt32] = [:]
+    @State private var lutFromSpl:[String:UInt32] = [:]
+    
+    
     @State private var effectsFromUpl:Set<String> = []
     @State private var effectsFromDpl:[String:UInt32] = [:]
     @State private var effectsFromSpl:[String:UInt32] = [:]
@@ -335,7 +340,9 @@ struct TableContentView: View, PhotobookUIListener {
                                 {
                                     let image = dplModel.list[index]
                                     let uuidStr = UUID().uuidString
-                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                    print("Applying effects to \(uuidStr)")
+                                    self.effectsFromDpl[uuidStr] = UInt32(index)
+                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
                                 }
                             }
                             else if self.photoLinesModel.currentPhotoLine == .Staged
@@ -344,7 +351,8 @@ struct TableContentView: View, PhotobookUIListener {
                                 {
                                     let image = splModel.list[index]
                                     let uuidStr = UUID().uuidString
-                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                    self.effectsFromSpl[uuidStr] = UInt32(index)
+                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
                                 }
                             }
                             else if self.photoLinesModel.currentPhotoLine == .Unstaged
@@ -353,14 +361,13 @@ struct TableContentView: View, PhotobookUIListener {
                                 {
                                     let image = uplModel.list[index]
                                     let uuidStr = UUID().uuidString
-                                    self.photobook.applyEffects(uuidStr, image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue)
+                                    self.effectsFromUpl.insert(uuidStr)
+                                    self.photobook.applyEffects(uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
                                 }
                             }
                         }) {
                             Text("Apply")
                         }
-                               
-                        
                     }
                     Spacer()
                 }
@@ -645,7 +652,7 @@ struct TableContentView: View, PhotobookUIListener {
                         {
                             let image = dplModel.list[index]
                             let uuidStr = UUID().uuidString
-                            effectsFromDpl[uuidStr] = UInt32(lutIndex)
+                            lutFromDpl[uuidStr] = UInt32(lutIndex)
                             self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:true)
                         }
                     }
@@ -655,7 +662,7 @@ struct TableContentView: View, PhotobookUIListener {
                         {
                             let image = splModel.list[index]
                             let uuidStr = UUID().uuidString
-                            self.effectsFromSpl[uuidStr] = UInt32(lutIndex)
+                            self.lutFromSpl[uuidStr] = UInt32(lutIndex)
                             self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:true)
                         }
                     }
@@ -665,7 +672,7 @@ struct TableContentView: View, PhotobookUIListener {
                         {
                             let image = uplModel.list[index]
                             let uuidStr = UUID().uuidString
-                            self.effectsFromUpl.insert(uuidStr)
+                            self.lutFromUpl.insert(uuidStr)
                             self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:false)
                         }
                     }
@@ -963,6 +970,38 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onLutAppliedOnDiskInplace(imageId: String)
     {
+        if self.lutFromDpl.keys.contains(imageId)
+        {
+            self.dplModel.list[Int(lutFromDpl[imageId]!)] = self.photobook.projectManagementService().draftPhotoLine(self.photobook.getThumbnailsPath())![Int(lutFromDpl[imageId]!)]
+            lutFromDpl.removeValue(forKey: imageId)
+        }
+        else if self.lutFromSpl.keys.contains(imageId)
+        {
+            self.splModel.list[Int(lutFromSpl[imageId]!)] = self.photobook.projectManagementService().stagedImages().images(self.photobook.getThumbnailsPath())[Int(lutFromSpl[imageId]!)]
+            lutFromSpl.removeValue(forKey: imageId)
+        }
+        
+    }
+    
+    func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
+    {
+        lutFromUpl.remove(imageId)
+        dplModel.insert(image: image, position: self.dplDropIndex)
+        self.photobook.projectManagementService().insert(image, at: UInt32(self.dplDropIndex ?? 0))
+    }
+    
+    func onEffectsApplied(imageId: String, image: FrontendImage)
+    {
+        print("\(image.resources().full)")
+        self.effectsFromUpl.remove(imageId)
+        self.dplModel.list.append(image)
+        self.photobook.projectManagementService().append(image)
+    }
+    
+    func onEffectsAppliedInplace(imageId: String)
+    {
+        let imageId = imageId.uppercased()
+        
         if self.effectsFromDpl.keys.contains(imageId)
         {
             self.dplModel.list[Int(effectsFromDpl[imageId]!)] = self.photobook.projectManagementService().draftPhotoLine(self.photobook.getThumbnailsPath())![Int(effectsFromDpl[imageId]!)]
@@ -973,25 +1012,6 @@ struct TableContentView: View, PhotobookUIListener {
             self.splModel.list[Int(effectsFromSpl[imageId]!)] = self.photobook.projectManagementService().stagedImages().images(self.photobook.getThumbnailsPath())[Int(effectsFromSpl[imageId]!)]
             effectsFromSpl.removeValue(forKey: imageId)
         }
-        
-    }
-    
-    func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
-    {
-        effectsFromUpl.remove(imageId)
-        dplModel.insert(image: image, position: self.dplDropIndex)
-        self.photobook.projectManagementService().insert(image, at: UInt32(self.dplDropIndex ?? 0))
-    }
-    
-    func onEffectsApplied(imageId: String, image: FrontendImage)
-    {
-        print("\(image.resources().full)")
-        dplModel.list.append(image)
-        self.photobook.projectManagementService().append(image)
-    }
-    
-    func onEffectsAppliedInplace(imageId: String)
-    {
     }
     
     func onError(message: String)

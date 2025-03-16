@@ -67,8 +67,8 @@
 - (void) loadProject:(NSString*)projectId;
 - (void) saveProject;
 - (void) applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness inplace:(BOOL)inplace;
-- (void) applyEffects:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
-- (void) applyEffectsInPlace:(NSString*)effectId image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness;
+- (void) applyEffects:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation brightness:(double)brightness contrast:(double)contrast;
+- (void) applyEffectsInPlace:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation brightness:(double)brightness contrast:(double)contrast;
 @end
 
 #endif /* Photobook_h */

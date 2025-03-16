@@ -504,7 +504,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->lutService()->applyTransformationOnDisk(transformaionId, lutIndex, nativeImage, saturation, contrast, brightness, inplace);
 }
 
-- (void) applyEffects:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+- (void) applyEffects:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation brightness:(double)brightness contrast:(double)contrast
 {
     std::string uuidStr = [effectIdStr UTF8String];
     boost::uuids::uuid nativeUuid;
@@ -523,7 +523,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, brightness, contrast, false);
 }
 
-- (void) applyEffectsInPlace:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation contrast:(double)contrast brightness:(double)brightness
+- (void) applyEffectsInPlace:(NSString*)effectIdStr image:(FrontendImage*)image saturation:(double)saturation brightness:(double)brightness contrast:(double)contrast
 {
     std::string uuidStr = [effectIdStr UTF8String];
     boost::uuids::uuid nativeUuid;
@@ -539,7 +539,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     
     PB::GenericImagePtr nativeImage = [image unwrap];
     
-    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, contrast, brightness, true);
+    mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, brightness, contrast, true);
 }
 
 @end
