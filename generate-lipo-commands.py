@@ -37,6 +37,8 @@ def get_lipo_commands(folder1, folder2, dstFolder):
             command_list.append(command_content)
         return command_list
     else:
+        print(folder1)
+        print(folder2)
         raise
 
 def run_commands(command_list):
@@ -45,19 +47,28 @@ def run_commands(command_list):
         os.system(command_content)
 
 if __name__ == "__main__":
-    print("mkdir pb/build")
-    os.system("mkdir pb/build")
+    print("mkdir osx/PhotoBook/macos")
+    os.system("mkdir osx/PhotoBook/macos")
 
-    print("mkdir pb/skia-fat")
-    os.system("mkdir pb/skia-fat")
+    print("mkdir osx/PhotoBook/macos-debug")
+    os.system("mkdir osx/PhotoBook/macos-debug")
 
-    command_list = get_lipo_commands("vcpkg/installed/arm64-osx/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "pb/build")
+    print("mkdir osx/PhotoBook/macos-release")
+    os.system("mkdir osx/PhotoBook/macos-release")
+
+    command_list = get_lipo_commands("vcpkg/installed/arm64-osx/debug/lib", "vcpkg/installed/x64-osx/debug/lib", "osx/PhotoBook/macos-debug")
     run_commands(command_list)
 
-    command_list = get_lipo_commands("pb/x64-macos", "pb/arm64-macos", "pb/build")
+    command_list = get_lipo_commands("vcpkg/installed/arm64-osx/lib", "vcpkg/installed/x64-osx/lib", "osx/PhotoBook/macos-release")
     run_commands(command_list)
 
-    command_list = get_lipo_commands("PB/third-party/osx/skia/arm64", "PB/third-party/osx/skia/x86_64", "PB/skia-fat")
+    command_list = get_lipo_commands("pb/Debug/x64-macos", "pb/Debug/arm64-macos", "osx/PhotoBook/macos-debug")
+    run_commands(command_list)
+
+    command_list = get_lipo_commands("pb/Release/x64-macos", "pb/Release/arm64-macos", "osx/PhotoBook/macos-release")
+    run_commands(command_list)
+
+    command_list = get_lipo_commands("PB/third-party/osx/skia/arm64", "PB/third-party/osx/skia/x86_64", "osx/PhotoBook/macos")
     run_commands(command_list)
 
     

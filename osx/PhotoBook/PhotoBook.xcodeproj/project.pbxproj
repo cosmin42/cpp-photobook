@@ -28,6 +28,23 @@
 		73C4ECBE2AA0C0E3006C4108 /* PhotoBookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECBD2AA0C0E3006C4108 /* PhotoBookUITests.swift */; };
 		73C4ECC02AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */; };
 		73F364092D7CB41000108765 /* PhotoLinesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F364082D7CB40B00108765 /* PhotoLinesModel.swift */; };
+		73F93E592D87055000C388A1 /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
+		73F93E5A2D87055000C388A1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */; };
+		73F93E5B2D87055000C388A1 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
+		73F93E5C2D87055000C388A1 /* NoirUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */; };
+		73F93E5D2D87055000C388A1 /* PhotoLinesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F364082D7CB40B00108765 /* PhotoLinesModel.swift */; };
+		73F93E5E2D87055000C388A1 /* PhotobookUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73023A3B2CD7B9F3005EA3CF /* PhotobookUIListener.swift */; };
+		73F93E662D87055000C388A1 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
+		73F93E672D87055000C388A1 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
+		73F93E682D87055000C388A1 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
+		73F93E692D87055000C388A1 /* others in Resources */ = {isa = PBXBuildFile; fileRef = 7391647D2CC4F7E200703394 /* others */; };
+		73F93E6A2D87055000C388A1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA92AA0C0E3006C4108 /* Preview Assets.xcassets */; };
+		73F93E6B2D87055000C388A1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; };
+		73F93E6C2D87055000C388A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
+		73F947702D870B5300C388A1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F9476F2D870B4000C388A1 /* libiconv.tbd */; };
+		73F948E62D870EB100C388A1 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 73F948E52D870EB100C388A1 /* Bugsnag */; };
+		73F948E82D870EB100C388A1 /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 73F948E72D870EB100C388A1 /* BugsnagNetworkRequestPlugin */; };
+		73F949362D8710FE00C388A1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F9476F2D870B4000C388A1 /* libiconv.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +71,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		73F948EC2D870F1C00C388A1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73F949382D8711D300C388A1 /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		73023A3B2CD7B9F3005EA3CF /* PhotobookUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotobookUIListener.swift; sourceTree = "<group>"; };
 		7302B2E42C15F06B003777D1 /* PhotoBook-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = "PhotoBook-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -61,401 +101,6 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Photobook.mm; sourceTree = "<group>"; };
-		732BA2D12CE6A44A00916922 /* libpblib-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-macos.a"; path = "../../PB/build/libpblib-macos.a"; sourceTree = "<group>"; };
-		732BA2D32CE6A47C00916922 /* libGLEWd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libGLEWd-macos.a"; path = "../../PB/vcpkg-fat/libGLEWd-macos.a"; sourceTree = "<group>"; };
-		732BA2D42CE6A47C00916922 /* libabsl_random_internal_distribution_test_util-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_distribution_test_util-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_distribution_test_util-macos.a"; sourceTree = "<group>"; };
-		732BA2D52CE6A47C00916922 /* libabsl_utf8_for_code_point-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_utf8_for_code_point-macos.a"; path = "../../PB/vcpkg-fat/libabsl_utf8_for_code_point-macos.a"; sourceTree = "<group>"; };
-		732BA2D62CE6A47C00916922 /* libabsl_failure_signal_handler-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_failure_signal_handler-macos.a"; path = "../../PB/vcpkg-fat/libabsl_failure_signal_handler-macos.a"; sourceTree = "<group>"; };
-		732BA2D72CE6A47C00916922 /* libfreetyped-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libfreetyped-macos.a"; path = "../../PB/vcpkg-fat/libfreetyped-macos.a"; sourceTree = "<group>"; };
-		732BA2D82CE6A47C00916922 /* libabsl_stacktrace-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_stacktrace-macos.a"; path = "../../PB/vcpkg-fat/libabsl_stacktrace-macos.a"; sourceTree = "<group>"; };
-		732BA2D92CE6A47C00916922 /* libabsl_log_entry-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_entry-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_entry-macos.a"; sourceTree = "<group>"; };
-		732BA2DA2CE6A47C00916922 /* libabsl_log_flags-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_flags-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_flags-macos.a"; sourceTree = "<group>"; };
-		732BA2DB2CE6A47C00916922 /* libintl-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libintl-macos.a"; path = "../../PB/vcpkg-fat/libintl-macos.a"; sourceTree = "<group>"; };
-		732BA2DC2CE6A47C00916922 /* libabsl_die_if_null-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_die_if_null-macos.a"; path = "../../PB/vcpkg-fat/libabsl_die_if_null-macos.a"; sourceTree = "<group>"; };
-		732BA2DD2CE6A47C00916922 /* libabsl_examine_stack-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_examine_stack-macos.a"; path = "../../PB/vcpkg-fat/libabsl_examine_stack-macos.a"; sourceTree = "<group>"; };
-		732BA2DE2CE6A47C00916922 /* libabsl_low_level_hash-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_low_level_hash-macos.a"; path = "../../PB/vcpkg-fat/libabsl_low_level_hash-macos.a"; sourceTree = "<group>"; };
-		732BA2DF2CE6A47C00916922 /* libabsl_hash-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_hash-macos.a"; path = "../../PB/vcpkg-fat/libabsl_hash-macos.a"; sourceTree = "<group>"; };
-		732BA2E02CE6A47D00916922 /* libspdlogd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libspdlogd-macos.a"; path = "../../PB/vcpkg-fat/libspdlogd-macos.a"; sourceTree = "<group>"; };
-		732BA2E12CE6A47D00916922 /* libabsl_flags_usage_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_usage_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_usage_internal-macos.a"; sourceTree = "<group>"; };
-		732BA2E22CE6A47D00916922 /* libabsl_kernel_timeout_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_kernel_timeout_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_kernel_timeout_internal-macos.a"; sourceTree = "<group>"; };
-		732BA2E32CE6A47D00916922 /* libopencv_photo4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_photo4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_photo4d-macos.a"; sourceTree = "<group>"; };
-		732BA2E42CE6A47D00916922 /* libgmock-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgmock-macos.a"; path = "../../PB/vcpkg-fat/libgmock-macos.a"; sourceTree = "<group>"; };
-		732BA2E52CE6A47D00916922 /* libabsl_throw_delegate-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_throw_delegate-macos.a"; path = "../../PB/vcpkg-fat/libabsl_throw_delegate-macos.a"; sourceTree = "<group>"; };
-		732BA2E62CE6A47D00916922 /* libabsl_random_internal_randen_hwaes_impl-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen_hwaes_impl-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen_hwaes_impl-macos.a"; sourceTree = "<group>"; };
-		732BA2E72CE6A47D00916922 /* libabsl_random_seed_sequences-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_seed_sequences-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_seed_sequences-macos.a"; sourceTree = "<group>"; };
-		732BA2E82CE6A47D00916922 /* libabsl_flags_usage-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_usage-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_usage-macos.a"; sourceTree = "<group>"; };
-		732BA2E92CE6A47D00916922 /* libabsl_crc_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_crc_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_crc_internal-macos.a"; sourceTree = "<group>"; };
-		732BA2EA2CE6A47E00916922 /* libopencv_calib3d4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_calib3d4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_calib3d4d-macos.a"; sourceTree = "<group>"; };
-		732BA2EB2CE6A47E00916922 /* libabsl_flags_reflection-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_reflection-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_reflection-macos.a"; sourceTree = "<group>"; };
-		732BA2EC2CE6A47E00916922 /* libabsl_statusor-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_statusor-macos.a"; path = "../../PB/vcpkg-fat/libabsl_statusor-macos.a"; sourceTree = "<group>"; };
-		732BA2ED2CE6A47E00916922 /* libpodofo-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpodofo-macos.a"; path = "../../PB/vcpkg-fat/libpodofo-macos.a"; sourceTree = "<group>"; };
-		732BA2EE2CE6A47E00916922 /* libsharpyuv-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsharpyuv-macos.a"; path = "../../PB/vcpkg-fat/libsharpyuv-macos.a"; sourceTree = "<group>"; };
-		732BA2EF2CE6A47E00916922 /* libboost_random-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_random-macos.a"; path = "../../PB/vcpkg-fat/libboost_random-macos.a"; sourceTree = "<group>"; };
-		732BA2F02CE6A47E00916922 /* libabsl_civil_time-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_civil_time-macos.a"; path = "../../PB/vcpkg-fat/libabsl_civil_time-macos.a"; sourceTree = "<group>"; };
-		732BA2F12CE6A47E00916922 /* libabsl_malloc_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_malloc_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_malloc_internal-macos.a"; sourceTree = "<group>"; };
-		732BA2F22CE6A47E00916922 /* libhpdf-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libhpdf-macos.a"; path = "../../PB/vcpkg-fat/libhpdf-macos.a"; sourceTree = "<group>"; };
-		732BA2F32CE6A47F00916922 /* libabsl_crc_cpu_detect-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_crc_cpu_detect-macos.a"; path = "../../PB/vcpkg-fat/libabsl_crc_cpu_detect-macos.a"; sourceTree = "<group>"; };
-		732BA2F42CE6A47F00916922 /* libabsl_cordz_sample_token-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cordz_sample_token-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cordz_sample_token-macos.a"; sourceTree = "<group>"; };
-		732BA2F52CE6A47F00916922 /* libopencv_objdetect4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_objdetect4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_objdetect4d-macos.a"; sourceTree = "<group>"; };
-		732BA2F62CE6A47F00916922 /* libturbojpeg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libturbojpeg-macos.a"; path = "../../PB/vcpkg-fat/libturbojpeg-macos.a"; sourceTree = "<group>"; };
-		732BA2F72CE6A47F00916922 /* libabsl_raw_hash_set-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_raw_hash_set-macos.a"; path = "../../PB/vcpkg-fat/libabsl_raw_hash_set-macos.a"; sourceTree = "<group>"; };
-		732BA2F82CE6A47F00916922 /* libicuio-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libicuio-macos.a"; path = "../../PB/vcpkg-fat/libicuio-macos.a"; sourceTree = "<group>"; };
-		732BA2F92CE6A48000916922 /* libpodofo_private-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpodofo_private-macos.a"; path = "../../PB/vcpkg-fat/libpodofo_private-macos.a"; sourceTree = "<group>"; };
-		732BA2FA2CE6A48000916922 /* libtiffd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtiffd-macos.a"; path = "../../PB/vcpkg-fat/libtiffd-macos.a"; sourceTree = "<group>"; };
-		732BA2FB2CE6A48000916922 /* libabsl_log_internal_check_op-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_check_op-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_check_op-macos.a"; sourceTree = "<group>"; };
-		732BA2FC2CE6A48000916922 /* libabsl_cordz_info-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cordz_info-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cordz_info-macos.a"; sourceTree = "<group>"; };
-		732BA2FD2CE6A48000916922 /* libabsl_strerror-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_strerror-macos.a"; path = "../../PB/vcpkg-fat/libabsl_strerror-macos.a"; sourceTree = "<group>"; };
-		732BA2FE2CE6A48000916922 /* libinih-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libinih-macos.a"; path = "../../PB/vcpkg-fat/libinih-macos.a"; sourceTree = "<group>"; };
-		732BA2FF2CE6A48100916922 /* libabsl_log_internal_fnmatch-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_fnmatch-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_fnmatch-macos.a"; sourceTree = "<group>"; };
-		732BA3002CE6A48100916922 /* libabsl_log_internal_log_sink_set-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_log_sink_set-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_log_sink_set-macos.a"; sourceTree = "<group>"; };
-		732BA3012CE6A48100916922 /* libabsl_strings_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_strings_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_strings_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3022CE6A48100916922 /* libabsl_flags_commandlineflag_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_commandlineflag_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_commandlineflag_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3032CE6A48100916922 /* libboost_program_options-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_program_options-macos.a"; path = "../../PB/vcpkg-fat/libboost_program_options-macos.a"; sourceTree = "<group>"; };
-		732BA3042CE6A48200916922 /* libflatbuffers-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libflatbuffers-macos.a"; path = "../../PB/vcpkg-fat/libflatbuffers-macos.a"; sourceTree = "<group>"; };
-		732BA3052CE6A48200916922 /* libabsl_time_zone-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_time_zone-macos.a"; path = "../../PB/vcpkg-fat/libabsl_time_zone-macos.a"; sourceTree = "<group>"; };
-		732BA3062CE6A48200916922 /* libopencv_videoio4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_videoio4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_videoio4d-macos.a"; sourceTree = "<group>"; };
-		732BA3072CE6A48200916922 /* libglfw3-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libglfw3-macos.a"; path = "../../PB/vcpkg-fat/libglfw3-macos.a"; sourceTree = "<group>"; };
-		732BA3082CE6A48300916922 /* libabsl_random_internal_platform-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_platform-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_platform-macos.a"; sourceTree = "<group>"; };
-		732BA3092CE6A48300916922 /* libabsl_log_globals-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_globals-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_globals-macos.a"; sourceTree = "<group>"; };
-		732BA30A2CE6A48300916922 /* libabsl_cord_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cord_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cord_internal-macos.a"; sourceTree = "<group>"; };
-		732BA30B2CE6A48400916922 /* libabsl_bad_any_cast_impl-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_bad_any_cast_impl-macos.a"; path = "../../PB/vcpkg-fat/libabsl_bad_any_cast_impl-macos.a"; sourceTree = "<group>"; };
-		732BA30C2CE6A48400916922 /* libabsl_graphcycles_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_graphcycles_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_graphcycles_internal-macos.a"; sourceTree = "<group>"; };
-		732BA30D2CE6A48400916922 /* libcrypto-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcrypto-macos.a"; path = "../../PB/vcpkg-fat/libcrypto-macos.a"; sourceTree = "<group>"; };
-		732BA30E2CE6A48400916922 /* libopencv_dnn4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_dnn4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_dnn4d-macos.a"; sourceTree = "<group>"; };
-		732BA30F2CE6A48700916922 /* libquirc-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libquirc-macos.a"; path = "../../PB/vcpkg-fat/libquirc-macos.a"; sourceTree = "<group>"; };
-		732BA3102CE6A48700916922 /* libabsl_symbolize-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_symbolize-macos.a"; path = "../../PB/vcpkg-fat/libabsl_symbolize-macos.a"; sourceTree = "<group>"; };
-		732BA3112CE6A48700916922 /* libabsl_periodic_sampler-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_periodic_sampler-macos.a"; path = "../../PB/vcpkg-fat/libabsl_periodic_sampler-macos.a"; sourceTree = "<group>"; };
-		732BA3122CE6A48700916922 /* libabsl_crc32c-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_crc32c-macos.a"; path = "../../PB/vcpkg-fat/libabsl_crc32c-macos.a"; sourceTree = "<group>"; };
-		732BA3132CE6A48800916922 /* libabsl_log_internal_message-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_message-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_message-macos.a"; sourceTree = "<group>"; };
-		732BA3142CE6A48800916922 /* libutf8_validity-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libutf8_validity-macos.a"; path = "../../PB/vcpkg-fat/libutf8_validity-macos.a"; sourceTree = "<group>"; };
-		732BA3152CE6A48800916922 /* libabsl_log_severity-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_severity-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_severity-macos.a"; sourceTree = "<group>"; };
-		732BA3162CE6A48800916922 /* libutf8_range-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libutf8_range-macos.a"; path = "../../PB/vcpkg-fat/libutf8_range-macos.a"; sourceTree = "<group>"; };
-		732BA3172CE6A48800916922 /* libabsl_random_distributions-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_distributions-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_distributions-macos.a"; sourceTree = "<group>"; };
-		732BA3182CE6A48800916922 /* libabsl_demangle_rust-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_demangle_rust-macos.a"; path = "../../PB/vcpkg-fat/libabsl_demangle_rust-macos.a"; sourceTree = "<group>"; };
-		732BA3192CE6A48900916922 /* libabsl_flags_program_name-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_program_name-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_program_name-macos.a"; sourceTree = "<group>"; };
-		732BA31A2CE6A48900916922 /* libabsl_random_internal_pool_urbg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_pool_urbg-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_pool_urbg-macos.a"; sourceTree = "<group>"; };
-		732BA31B2CE6A48900916922 /* libabsl_log_internal_nullguard-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_nullguard-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_nullguard-macos.a"; sourceTree = "<group>"; };
-		732BA31C2CE6A48900916922 /* libabsl_flags_private_handle_accessor-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_private_handle_accessor-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_private_handle_accessor-macos.a"; sourceTree = "<group>"; };
-		732BA31D2CE6A48900916922 /* libabsl_vlog_config_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_vlog_config_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_vlog_config_internal-macos.a"; sourceTree = "<group>"; };
-		732BA31E2CE6A48900916922 /* libabsl_str_format_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_str_format_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_str_format_internal-macos.a"; sourceTree = "<group>"; };
-		732BA31F2CE6A48A00916922 /* libabsl_leak_check-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_leak_check-macos.a"; path = "../../PB/vcpkg-fat/libabsl_leak_check-macos.a"; sourceTree = "<group>"; };
-		732BA3202CE6A48A00916922 /* libopencv_ml4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_ml4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_ml4d-macos.a"; sourceTree = "<group>"; };
-		732BA3212CE6A48A00916922 /* libprotobufd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libprotobufd-macos.a"; path = "../../PB/vcpkg-fat/libprotobufd-macos.a"; sourceTree = "<group>"; };
-		732BA3222CE6A48A00916922 /* libabsl_flags_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3232CE6A48A00916922 /* libabsl_cord-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cord-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cord-macos.a"; sourceTree = "<group>"; };
-		732BA3242CE6A48B00916922 /* libabsl_bad_optional_access-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_bad_optional_access-macos.a"; path = "../../PB/vcpkg-fat/libabsl_bad_optional_access-macos.a"; sourceTree = "<group>"; };
-		732BA3252CE6A48B00916922 /* libINIReader-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libINIReader-macos.a"; path = "../../PB/vcpkg-fat/libINIReader-macos.a"; sourceTree = "<group>"; };
-		732BA3262CE6A48B00916922 /* libboost_container-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_container-macos.a"; path = "../../PB/vcpkg-fat/libboost_container-macos.a"; sourceTree = "<group>"; };
-		732BA3272CE6A48B00916922 /* libopencv_video4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_video4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_video4d-macos.a"; sourceTree = "<group>"; };
-		732BA3282CE6A48B00916922 /* libopencv_core4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_core4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_core4d-macos.a"; sourceTree = "<group>"; };
-		732BA3292CE6A48B00916922 /* libgtest-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgtest-macos.a"; path = "../../PB/vcpkg-fat/libgtest-macos.a"; sourceTree = "<group>"; };
-		732BA32A2CE6A48C00916922 /* libabsl_string_view-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_string_view-macos.a"; path = "../../PB/vcpkg-fat/libabsl_string_view-macos.a"; sourceTree = "<group>"; };
-		732BA32B2CE6A48C00916922 /* libabsl_city-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_city-macos.a"; path = "../../PB/vcpkg-fat/libabsl_city-macos.a"; sourceTree = "<group>"; };
-		732BA32C2CE6A48C00916922 /* libbrotlidec-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbrotlidec-macos.a"; path = "../../PB/vcpkg-fat/libbrotlidec-macos.a"; sourceTree = "<group>"; };
-		732BA32D2CE6A48C00916922 /* libabsl_hashtablez_sampler-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_hashtablez_sampler-macos.a"; path = "../../PB/vcpkg-fat/libabsl_hashtablez_sampler-macos.a"; sourceTree = "<group>"; };
-		732BA32E2CE6A48C00916922 /* libjpeg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpeg-macos.a"; path = "../../PB/vcpkg-fat/libjpeg-macos.a"; sourceTree = "<group>"; };
-		732BA32F2CE6A48C00916922 /* libabsl_raw_logging_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_raw_logging_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_raw_logging_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3302CE6A48D00916922 /* libabsl_log_internal_globals-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_globals-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_globals-macos.a"; sourceTree = "<group>"; };
-		732BA3312CE6A48D00916922 /* libprotocd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libprotocd-macos.a"; path = "../../PB/vcpkg-fat/libprotocd-macos.a"; sourceTree = "<group>"; };
-		732BA3322CE6A48D00916922 /* libwebp-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebp-macos.a"; path = "../../PB/vcpkg-fat/libwebp-macos.a"; sourceTree = "<group>"; };
-		732BA3332CE6A48D00916922 /* libprotobuf-lited-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libprotobuf-lited-macos.a"; path = "../../PB/vcpkg-fat/libprotobuf-lited-macos.a"; sourceTree = "<group>"; };
-		732BA3342CE6A48D00916922 /* libharfbuzz-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libharfbuzz-macos.a"; path = "../../PB/vcpkg-fat/libharfbuzz-macos.a"; sourceTree = "<group>"; };
-		732BA3352CE6A48E00916922 /* libbrotlicommon-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbrotlicommon-macos.a"; path = "../../PB/vcpkg-fat/libbrotlicommon-macos.a"; sourceTree = "<group>"; };
-		732BA3362CE6A48E00916922 /* libabsl_flags_config-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_config-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_config-macos.a"; sourceTree = "<group>"; };
-		732BA3372CE6A48E00916922 /* libabsl_scoped_set_env-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_scoped_set_env-macos.a"; path = "../../PB/vcpkg-fat/libabsl_scoped_set_env-macos.a"; sourceTree = "<group>"; };
-		732BA3382CE6A48E00916922 /* libicuuc-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libicuuc-macos.a"; path = "../../PB/vcpkg-fat/libicuuc-macos.a"; sourceTree = "<group>"; };
-		732BA3392CE6A48E00916922 /* libicudata-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libicudata-macos.a"; path = "../../PB/vcpkg-fat/libicudata-macos.a"; sourceTree = "<group>"; };
-		732BA33A2CE6A48E00916922 /* libabsl_bad_variant_access-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_bad_variant_access-macos.a"; path = "../../PB/vcpkg-fat/libabsl_bad_variant_access-macos.a"; sourceTree = "<group>"; };
-		732BA33B2CE6A48F00916922 /* libabsl_random_internal_randen_slow-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen_slow-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen_slow-macos.a"; sourceTree = "<group>"; };
-		732BA33C2CE6A48F00916922 /* libopencv_imgcodecs4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_imgcodecs4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_imgcodecs4d-macos.a"; sourceTree = "<group>"; };
-		732BA33D2CE6A48F00916922 /* libabsl_demangle_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_demangle_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_demangle_internal-macos.a"; sourceTree = "<group>"; };
-		732BA33E2CE6A48F00916922 /* libz-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libz-macos.a"; path = "../../PB/vcpkg-fat/libz-macos.a"; sourceTree = "<group>"; };
-		732BA33F2CE6A48F00916922 /* libabsl_exponential_biased-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_exponential_biased-macos.a"; path = "../../PB/vcpkg-fat/libabsl_exponential_biased-macos.a"; sourceTree = "<group>"; };
-		732BA3402CE6A48F00916922 /* libabsl_flags_parse-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_parse-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_parse-macos.a"; sourceTree = "<group>"; };
-		732BA3412CE6A49000916922 /* libfmtd-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libfmtd-macos.a"; path = "../../PB/vcpkg-fat/libfmtd-macos.a"; sourceTree = "<group>"; };
-		732BA3422CE6A49000916922 /* libabsl_log_internal_format-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_format-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_format-macos.a"; sourceTree = "<group>"; };
-		732BA3432CE6A49000916922 /* libabsl_status-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_status-macos.a"; path = "../../PB/vcpkg-fat/libabsl_status-macos.a"; sourceTree = "<group>"; };
-		732BA3442CE6A49000916922 /* libabsl_flags_marshalling-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_marshalling-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_marshalling-macos.a"; sourceTree = "<group>"; };
-		732BA3452CE6A49000916922 /* libabsl_flags_commandlineflag-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_flags_commandlineflag-macos.a"; path = "../../PB/vcpkg-fat/libabsl_flags_commandlineflag-macos.a"; sourceTree = "<group>"; };
-		732BA3462CE6A49100916922 /* libboost_system-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_system-macos.a"; path = "../../PB/vcpkg-fat/libboost_system-macos.a"; sourceTree = "<group>"; };
-		732BA3472CE6A49100916922 /* liblzma-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "liblzma-macos.a"; path = "../../PB/vcpkg-fat/liblzma-macos.a"; sourceTree = "<group>"; };
-		732BA3482CE6A49100916922 /* libabsl_time-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_time-macos.a"; path = "../../PB/vcpkg-fat/libabsl_time-macos.a"; sourceTree = "<group>"; };
-		732BA3492CE6A49100916922 /* libicui18n-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libicui18n-macos.a"; path = "../../PB/vcpkg-fat/libicui18n-macos.a"; sourceTree = "<group>"; };
-		732BA34A2CE6A49100916922 /* libabsl_decode_rust_punycode-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_decode_rust_punycode-macos.a"; path = "../../PB/vcpkg-fat/libabsl_decode_rust_punycode-macos.a"; sourceTree = "<group>"; };
-		732BA34B2CE6A49100916922 /* libabsl_synchronization-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_synchronization-macos.a"; path = "../../PB/vcpkg-fat/libabsl_synchronization-macos.a"; sourceTree = "<group>"; };
-		732BA34C2CE6A49200916922 /* libabsl_crc_cord_state-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_crc_cord_state-macos.a"; path = "../../PB/vcpkg-fat/libabsl_crc_cord_state-macos.a"; sourceTree = "<group>"; };
-		732BA34D2CE6A49200916922 /* libwebpmux-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebpmux-macos.a"; path = "../../PB/vcpkg-fat/libwebpmux-macos.a"; sourceTree = "<group>"; };
-		732BA34E2CE6A49200916922 /* libabsl_spinlock_wait-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_spinlock_wait-macos.a"; path = "../../PB/vcpkg-fat/libabsl_spinlock_wait-macos.a"; sourceTree = "<group>"; };
-		732BA34F2CE6A49200916922 /* libopencv_highgui4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_highgui4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_highgui4d-macos.a"; sourceTree = "<group>"; };
-		732BA3502CE6A49200916922 /* libwebpdemux-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebpdemux-macos.a"; path = "../../PB/vcpkg-fat/libwebpdemux-macos.a"; sourceTree = "<group>"; };
-		732BA3512CE6A49300916922 /* libabsl_cordz_functions-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cordz_functions-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cordz_functions-macos.a"; sourceTree = "<group>"; };
-		732BA3D12CE6A49B00916922 /* libabsl_log_internal_proto-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_proto-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_proto-macos.a"; sourceTree = "<group>"; };
-		732BA3D22CE6A49C00916922 /* libabsl_random_internal_seed_material-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_seed_material-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_seed_material-macos.a"; sourceTree = "<group>"; };
-		732BA3D32CE6A49C00916922 /* libabsl_log_initialize-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_initialize-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_initialize-macos.a"; sourceTree = "<group>"; };
-		732BA3D42CE6A49C00916922 /* libexiv2-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libexiv2-macos.a"; path = "../../PB/vcpkg-fat/libexiv2-macos.a"; sourceTree = "<group>"; };
-		732BA3D52CE6A49C00916922 /* libpng-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpng-macos.a"; path = "../../PB/vcpkg-fat/libpng-macos.a"; sourceTree = "<group>"; };
-		732BA3D62CE6A49C00916922 /* libexiv2-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libexiv2-macos.a"; path = "../../PB/vcpkg-fat/libexiv2-macos.a"; sourceTree = "<group>"; };
-		732BA3D72CE6A49C00916922 /* libexpat-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libexpat-macos.a"; path = "../../PB/vcpkg-fat/libexpat-macos.a"; sourceTree = "<group>"; };
-		732BA3D82CE6A49C00916922 /* libopencv_flann4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_flann4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_flann4d-macos.a"; sourceTree = "<group>"; };
-		732BA3D92CE6A49C00916922 /* libharfbuzz-subset-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libharfbuzz-subset-macos.a"; path = "../../PB/vcpkg-fat/libharfbuzz-subset-macos.a"; sourceTree = "<group>"; };
-		732BA3DA2CE6A49D00916922 /* libabsl_poison-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_poison-macos.a"; path = "../../PB/vcpkg-fat/libabsl_poison-macos.a"; sourceTree = "<group>"; };
-		732BA3DB2CE6A49D00916922 /* libabsl_cordz_handle-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cordz_handle-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cordz_handle-macos.a"; sourceTree = "<group>"; };
-		732BA3DC2CE6A49D00916922 /* libopencv_stitching4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_stitching4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_stitching4d-macos.a"; sourceTree = "<group>"; };
-		732BA3DD2CE6A49D00916922 /* libabsl_log_internal_conditions-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_conditions-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_conditions-macos.a"; sourceTree = "<group>"; };
-		732BA3DE2CE6A49D00916922 /* libpkgconf-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpkgconf-macos.a"; path = "../../PB/vcpkg-fat/libpkgconf-macos.a"; sourceTree = "<group>"; };
-		732BA3DF2CE6A49D00916922 /* libabsl_base-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_base-macos.a"; path = "../../PB/vcpkg-fat/libabsl_base-macos.a"; sourceTree = "<group>"; };
-		732BA3E02CE6A49D00916922 /* libharfbuzz-subset-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libharfbuzz-subset-macos.a"; path = "../../PB/vcpkg-fat/libharfbuzz-subset-macos.a"; sourceTree = "<group>"; };
-		732BA3E12CE6A49E00916922 /* libopencv_features2d4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_features2d4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_features2d4d-macos.a"; sourceTree = "<group>"; };
-		732BA3E22CE6A49E00916922 /* libabsl_int128-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_int128-macos.a"; path = "../../PB/vcpkg-fat/libabsl_int128-macos.a"; sourceTree = "<group>"; };
-		732BA3E32CE6A49E00916922 /* libopencv_flann4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_flann4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_flann4d-macos.a"; sourceTree = "<group>"; };
-		732BA3E42CE6A49E00916922 /* libbz2d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbz2d-macos.a"; path = "../../PB/vcpkg-fat/libbz2d-macos.a"; sourceTree = "<group>"; };
-		732BA3E52CE6A49E00916922 /* libxml2-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libxml2-macos.a"; path = "../../PB/vcpkg-fat/libxml2-macos.a"; sourceTree = "<group>"; };
-		732BA3E62CE6A49E00916922 /* libabsl_random_internal_randen-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen-macos.a"; sourceTree = "<group>"; };
-		732BA3E72CE6A49F00916922 /* libpng-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpng-macos.a"; path = "../../PB/vcpkg-fat/libpng-macos.a"; sourceTree = "<group>"; };
-		732BA3E82CE6A49F00916922 /* libabsl_log_sink-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_sink-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_sink-macos.a"; sourceTree = "<group>"; };
-		732BA3E92CE6A49F00916922 /* libwebpdecoder-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebpdecoder-macos.a"; path = "../../PB/vcpkg-fat/libwebpdecoder-macos.a"; sourceTree = "<group>"; };
-		732BA3EA2CE6A49F00916922 /* libabsl_poison-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_poison-macos.a"; path = "../../PB/vcpkg-fat/libabsl_poison-macos.a"; sourceTree = "<group>"; };
-		732BA3EB2CE6A49F00916922 /* libabsl_random_internal_seed_material-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_seed_material-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_seed_material-macos.a"; sourceTree = "<group>"; };
-		732BA3EC2CE6A49F00916922 /* libabsl_strings-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_strings-macos.a"; path = "../../PB/vcpkg-fat/libabsl_strings-macos.a"; sourceTree = "<group>"; };
-		732BA3ED2CE6A4A000916922 /* libabsl_random_internal_randen_hwaes-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen_hwaes-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen_hwaes-macos.a"; sourceTree = "<group>"; };
-		732BA3EE2CE6A4A000916922 /* libfontconfig-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libfontconfig-macos.a"; path = "../../PB/vcpkg-fat/libfontconfig-macos.a"; sourceTree = "<group>"; };
-		732BA3EF2CE6A4A000916922 /* libxml2-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libxml2-macos.a"; path = "../../PB/vcpkg-fat/libxml2-macos.a"; sourceTree = "<group>"; };
-		732BA3F02CE6A4A000916922 /* libbrotlienc-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbrotlienc-macos.a"; path = "../../PB/vcpkg-fat/libbrotlienc-macos.a"; sourceTree = "<group>"; };
-		732BA3F12CE6A4A000916922 /* libabsl_cordz_handle-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_cordz_handle-macos.a"; path = "../../PB/vcpkg-fat/libabsl_cordz_handle-macos.a"; sourceTree = "<group>"; };
-		732BA3F22CE6A4A000916922 /* libsqlite3-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsqlite3-macos.a"; path = "../../PB/vcpkg-fat/libsqlite3-macos.a"; sourceTree = "<group>"; };
-		732BA3F32CE6A4A100916922 /* libabsl_log_internal_conditions-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_conditions-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_conditions-macos.a"; sourceTree = "<group>"; };
-		732BA3F42CE6A4A100916922 /* libboost_regex-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_regex-macos.a"; path = "../../PB/vcpkg-fat/libboost_regex-macos.a"; sourceTree = "<group>"; };
-		732BA3F52CE6A4A100916922 /* libabsl_strings-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_strings-macos.a"; path = "../../PB/vcpkg-fat/libabsl_strings-macos.a"; sourceTree = "<group>"; };
-		732BA3F62CE6A4A100916922 /* libsqlite3-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsqlite3-macos.a"; path = "../../PB/vcpkg-fat/libsqlite3-macos.a"; sourceTree = "<group>"; };
-		732BA3F72CE6A4A100916922 /* libopencv_stitching4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_stitching4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_stitching4d-macos.a"; sourceTree = "<group>"; };
-		732BA3F82CE6A4A100916922 /* libboost_regex-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost_regex-macos.a"; path = "../../PB/vcpkg-fat/libboost_regex-macos.a"; sourceTree = "<group>"; };
-		732BA3F92CE6A4A200916922 /* libabsl_random_internal_randen_hwaes-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen_hwaes-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen_hwaes-macos.a"; sourceTree = "<group>"; };
-		732BA3FA2CE6A4A200916922 /* libbrotlienc-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbrotlienc-macos.a"; path = "../../PB/vcpkg-fat/libbrotlienc-macos.a"; sourceTree = "<group>"; };
-		732BA3FB2CE6A4A200916922 /* libabsl_base-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_base-macos.a"; path = "../../PB/vcpkg-fat/libabsl_base-macos.a"; sourceTree = "<group>"; };
-		732BA3FC2CE6A4A200916922 /* libabsl_debugging_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_debugging_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_debugging_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3FD2CE6A4A200916922 /* libabsl_random_internal_randen-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_internal_randen-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_internal_randen-macos.a"; sourceTree = "<group>"; };
-		732BA3FE2CE6A4A200916922 /* libabsl_debugging_internal-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_debugging_internal-macos.a"; path = "../../PB/vcpkg-fat/libabsl_debugging_internal-macos.a"; sourceTree = "<group>"; };
-		732BA3FF2CE6A4A300916922 /* libopencv_imgproc4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_imgproc4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_imgproc4d-macos.a"; sourceTree = "<group>"; };
-		732BA4002CE6A4A300916922 /* libabsl_log_internal_proto-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_internal_proto-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_internal_proto-macos.a"; sourceTree = "<group>"; };
-		732BA4012CE6A4A300916922 /* libpng16d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpng16d-macos.a"; path = "../../PB/vcpkg-fat/libpng16d-macos.a"; sourceTree = "<group>"; };
-		732BA4022CE6A4A300916922 /* libabsl_random_seed_gen_exception-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_seed_gen_exception-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_seed_gen_exception-macos.a"; sourceTree = "<group>"; };
-		732BA4032CE6A4A300916922 /* libssl-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssl-macos.a"; path = "../../PB/vcpkg-fat/libssl-macos.a"; sourceTree = "<group>"; };
-		732BA4042CE6A4A300916922 /* libexpat-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libexpat-macos.a"; path = "../../PB/vcpkg-fat/libexpat-macos.a"; sourceTree = "<group>"; };
-		732BA4052CE6A4A400916922 /* libabsl_int128-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_int128-macos.a"; path = "../../PB/vcpkg-fat/libabsl_int128-macos.a"; sourceTree = "<group>"; };
-		732BA4062CE6A4A400916922 /* libabsl_log_initialize-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_initialize-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_initialize-macos.a"; sourceTree = "<group>"; };
-		732BA4072CE6A4A400916922 /* libssl-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libssl-macos.a"; path = "../../PB/vcpkg-fat/libssl-macos.a"; sourceTree = "<group>"; };
-		732BA4082CE6A4A400916922 /* libabsl_random_seed_gen_exception-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_random_seed_gen_exception-macos.a"; path = "../../PB/vcpkg-fat/libabsl_random_seed_gen_exception-macos.a"; sourceTree = "<group>"; };
-		732BA4092CE6A4A400916922 /* libbz2d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbz2d-macos.a"; path = "../../PB/vcpkg-fat/libbz2d-macos.a"; sourceTree = "<group>"; };
-		732BA40A2CE6A4A400916922 /* libopencv_features2d4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_features2d4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_features2d4d-macos.a"; sourceTree = "<group>"; };
-		732BA40B2CE6A4A500916922 /* libopencv_imgproc4d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libopencv_imgproc4d-macos.a"; path = "../../PB/vcpkg-fat/libopencv_imgproc4d-macos.a"; sourceTree = "<group>"; };
-		732BA40C2CE6A4A500916922 /* libwebpdecoder-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebpdecoder-macos.a"; path = "../../PB/vcpkg-fat/libwebpdecoder-macos.a"; sourceTree = "<group>"; };
-		732BA40D2CE6A4A500916922 /* libpng16d-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpng16d-macos.a"; path = "../../PB/vcpkg-fat/libpng16d-macos.a"; sourceTree = "<group>"; };
-		732BA40E2CE6A4A500916922 /* libabsl_log_sink-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libabsl_log_sink-macos.a"; path = "../../PB/vcpkg-fat/libabsl_log_sink-macos.a"; sourceTree = "<group>"; };
-		732BA40F2CE6A4A600916922 /* libpkgconf-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpkgconf-macos.a"; path = "../../PB/vcpkg-fat/libpkgconf-macos.a"; sourceTree = "<group>"; };
-		732BA4102CE6A4A600916922 /* libfontconfig-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libfontconfig-macos.a"; path = "../../PB/vcpkg-fat/libfontconfig-macos.a"; sourceTree = "<group>"; };
-		732BA4112CE6A74200916922 /* libskcms-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskcms-macos.a"; path = "../../PB/skia-fat/libskcms-macos.a"; sourceTree = "<group>"; };
-		732BA4122CE6A74200916922 /* libwuffs-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwuffs-macos.a"; path = "../../PB/skia-fat/libwuffs-macos.a"; sourceTree = "<group>"; };
-		732BA4132CE6A74200916922 /* libzlib-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libzlib-macos.a"; path = "../../PB/skia-fat/libzlib-macos.a"; sourceTree = "<group>"; };
-		732BA4142CE6A74200916922 /* libwebp_sse41-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebp_sse41-macos.a"; path = "../../PB/skia-fat/libwebp_sse41-macos.a"; sourceTree = "<group>"; };
-		732BA4152CE6A74300916922 /* libpathkit-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpathkit-macos.a"; path = "../../PB/skia-fat/libpathkit-macos.a"; sourceTree = "<group>"; };
-		732BA4162CE6A74300916922 /* libdng_sdk-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libdng_sdk-macos.a"; path = "../../PB/skia-fat/libdng_sdk-macos.a"; sourceTree = "<group>"; };
-		732BA4172CE6A74300916922 /* libharfbuzz-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libharfbuzz-macos.a"; path = "../../PB/skia-fat/libharfbuzz-macos.a"; sourceTree = "<group>"; };
-		732BA4182CE6A74300916922 /* libskottie-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskottie-macos.a"; path = "../../PB/skia-fat/libskottie-macos.a"; sourceTree = "<group>"; };
-		732BA4192CE6A74300916922 /* libskunicode_icu-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskunicode_icu-macos.a"; path = "../../PB/skia-fat/libskunicode_icu-macos.a"; sourceTree = "<group>"; };
-		732BA41A2CE6A74400916922 /* libskia-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskia-macos.a"; path = "../../PB/skia-fat/libskia-macos.a"; sourceTree = "<group>"; };
-		732BA41B2CE6A74400916922 /* libsvg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsvg-macos.a"; path = "../../PB/skia-fat/libsvg-macos.a"; sourceTree = "<group>"; };
-		732BA41C2CE6A74400916922 /* libskunicode_core-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskunicode_core-macos.a"; path = "../../PB/skia-fat/libskunicode_core-macos.a"; sourceTree = "<group>"; };
-		732BA41D2CE6A74400916922 /* libpiex-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpiex-macos.a"; path = "../../PB/skia-fat/libpiex-macos.a"; sourceTree = "<group>"; };
-		732BA41E2CE6A74500916922 /* libicu-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libicu-macos.a"; path = "../../PB/skia-fat/libicu-macos.a"; sourceTree = "<group>"; };
-		732BA41F2CE6A74500916922 /* libexpat-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libexpat-macos.a"; path = "../../PB/skia-fat/libexpat-macos.a"; sourceTree = "<group>"; };
-		732BA4202CE6A74500916922 /* libjpeg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libjpeg-macos.a"; path = "../../PB/skia-fat/libjpeg-macos.a"; sourceTree = "<group>"; };
-		732BA4212CE6A74500916922 /* libpng-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpng-macos.a"; path = "../../PB/skia-fat/libpng-macos.a"; sourceTree = "<group>"; };
-		732BA4222CE6A74600916922 /* libskparagraph-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskparagraph-macos.a"; path = "../../PB/skia-fat/libskparagraph-macos.a"; sourceTree = "<group>"; };
-		732BA4232CE6A74600916922 /* libskshaper-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskshaper-macos.a"; path = "../../PB/skia-fat/libskshaper-macos.a"; sourceTree = "<group>"; };
-		732BA4242CE6A74600916922 /* libcompression_utils_portable-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcompression_utils_portable-macos.a"; path = "../../PB/skia-fat/libcompression_utils_portable-macos.a"; sourceTree = "<group>"; };
-		732BA4252CE6A74600916922 /* libsksg-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsksg-macos.a"; path = "../../PB/skia-fat/libsksg-macos.a"; sourceTree = "<group>"; };
-		732BA4262CE6A74700916922 /* libbentleyottmann-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libbentleyottmann-macos.a"; path = "../../PB/skia-fat/libbentleyottmann-macos.a"; sourceTree = "<group>"; };
-		732BA4272CE6A74700916922 /* libskresources-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libskresources-macos.a"; path = "../../PB/skia-fat/libskresources-macos.a"; sourceTree = "<group>"; };
-		732BA4282CE6A74700916922 /* libwebp-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libwebp-macos.a"; path = "../../PB/skia-fat/libwebp-macos.a"; sourceTree = "<group>"; };
-		732BA4452CE6A97E00916922 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
-		732BA4492CE6AF6300916922 /* libpblib-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-iOS.a"; path = "../../PB/arm64-ios/libpblib-iOS.a"; sourceTree = "<group>"; };
-		732BA44B2CE6AFC400916922 /* libabsl_malloc_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_malloc_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_malloc_internal.a"; sourceTree = "<group>"; };
-		732BA44C2CE6AFC400916922 /* libabsl_flags_reflection.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_reflection.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_reflection.a"; sourceTree = "<group>"; };
-		732BA44D2CE6AFC400916922 /* libabsl_strings_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strings_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strings_internal.a"; sourceTree = "<group>"; };
-		732BA44E2CE6AFC400916922 /* libabsl_random_internal_seed_material.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_seed_material.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_seed_material.a"; sourceTree = "<group>"; };
-		732BA44F2CE6AFC500916922 /* libabsl_random_internal_randen_hwaes_impl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_hwaes_impl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_hwaes_impl.a"; sourceTree = "<group>"; };
-		732BA4502CE6AFC500916922 /* libabsl_log_internal_nullguard.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_nullguard.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_nullguard.a"; sourceTree = "<group>"; };
-		732BA4512CE6AFC500916922 /* libflatbuffers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflatbuffers.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libflatbuffers.a"; sourceTree = "<group>"; };
-		732BA4522CE6AFC500916922 /* libabsl_cordz_sample_token.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_sample_token.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_sample_token.a"; sourceTree = "<group>"; };
-		732BA4532CE6AFC500916922 /* libINIReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libINIReader.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libINIReader.a"; sourceTree = "<group>"; };
-		732BA4542CE6AFC500916922 /* libabsl_log_internal_conditions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_conditions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_conditions.a"; sourceTree = "<group>"; };
-		732BA4552CE6AFC500916922 /* libtiffd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtiffd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libtiffd.a"; sourceTree = "<group>"; };
-		732BA4562CE6AFC500916922 /* libwebpmux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpmux.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpmux.a"; sourceTree = "<group>"; };
-		732BA4572CE6AFC500916922 /* libabsl_decode_rust_punycode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_decode_rust_punycode.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_decode_rust_punycode.a"; sourceTree = "<group>"; };
-		732BA4582CE6AFC500916922 /* libabsl_random_distributions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_distributions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_distributions.a"; sourceTree = "<group>"; };
-		732BA4592CE6AFC600916922 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libturbojpeg.a"; sourceTree = "<group>"; };
-		732BA45A2CE6AFC600916922 /* libopencv_highgui4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_highgui4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_highgui4d.a"; sourceTree = "<group>"; };
-		732BA45B2CE6AFC600916922 /* libopencv_stitching4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_stitching4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_stitching4d.a"; sourceTree = "<group>"; };
-		732BA45C2CE6AFC600916922 /* libabsl_log_globals.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_globals.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_globals.a"; sourceTree = "<group>"; };
-		732BA45D2CE6AFC600916922 /* libabsl_log_flags.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_flags.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_flags.a"; sourceTree = "<group>"; };
-		732BA45E2CE6AFC600916922 /* libabsl_log_internal_fnmatch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_fnmatch.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_fnmatch.a"; sourceTree = "<group>"; };
-		732BA45F2CE6AFC600916922 /* libabsl_examine_stack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_examine_stack.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_examine_stack.a"; sourceTree = "<group>"; };
-		732BA4602CE6AFC600916922 /* libabsl_poison.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_poison.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_poison.a"; sourceTree = "<group>"; };
-		732BA4612CE6AFC600916922 /* libabsl_time_zone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_time_zone.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_time_zone.a"; sourceTree = "<group>"; };
-		732BA4622CE6AFC700916922 /* libabsl_stacktrace.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_stacktrace.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_stacktrace.a"; sourceTree = "<group>"; };
-		732BA4632CE6AFC700916922 /* libabsl_debugging_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_debugging_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_debugging_internal.a"; sourceTree = "<group>"; };
-		732BA4642CE6AFC700916922 /* libabsl_strerror.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strerror.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strerror.a"; sourceTree = "<group>"; };
-		732BA4652CE6AFC700916922 /* libabsl_flags_marshalling.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_marshalling.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_marshalling.a"; sourceTree = "<group>"; };
-		732BA4662CE6AFC700916922 /* libabsl_failure_signal_handler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_failure_signal_handler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_failure_signal_handler.a"; sourceTree = "<group>"; };
-		732BA4672CE6AFC800916922 /* libbrotlienc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlienc.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlienc.a"; sourceTree = "<group>"; };
-		732BA4682CE6AFC800916922 /* libopencv_ml4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_ml4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_ml4d.a"; sourceTree = "<group>"; };
-		732BA4692CE6AFC800916922 /* libquirc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libquirc.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libquirc.a"; sourceTree = "<group>"; };
-		732BA46A2CE6AFC800916922 /* libbrotlicommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlicommon.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlicommon.a"; sourceTree = "<group>"; };
-		732BA46B2CE6AFC900916922 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_regex.a"; sourceTree = "<group>"; };
-		732BA46C2CE6AFC900916922 /* libabsl_cordz_handle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_handle.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_handle.a"; sourceTree = "<group>"; };
-		732BA46D2CE6AFC900916922 /* libabsl_bad_variant_access.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_variant_access.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_variant_access.a"; sourceTree = "<group>"; };
-		732BA46E2CE6AFCA00916922 /* libhpdf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhpdf.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libhpdf.a"; sourceTree = "<group>"; };
-		732BA46F2CE6AFCA00916922 /* libintl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libintl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libintl.a"; sourceTree = "<group>"; };
-		732BA4702CE6AFCA00916922 /* libexiv2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexiv2.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libexiv2.a"; sourceTree = "<group>"; };
-		732BA4712CE6AFCA00916922 /* libsharpyuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsharpyuv.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libsharpyuv.a"; sourceTree = "<group>"; };
-		732BA4722CE6AFCB00916922 /* libabsl_periodic_sampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_periodic_sampler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_periodic_sampler.a"; sourceTree = "<group>"; };
-		732BA4732CE6AFCB00916922 /* libabsl_hash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_hash.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_hash.a"; sourceTree = "<group>"; };
-		732BA4742CE6AFCB00916922 /* libfreetyped.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetyped.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfreetyped.a"; sourceTree = "<group>"; };
-		732BA4752CE6AFCB00916922 /* libopencv_dnn4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_dnn4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_dnn4d.a"; sourceTree = "<group>"; };
-		732BA4762CE6AFCC00916922 /* libprotobuf-lited.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libprotobuf-lited.a"; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotobuf-lited.a"; sourceTree = "<group>"; };
-		732BA4772CE6AFCC00916922 /* libabsl_random_internal_randen_slow.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_slow.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_slow.a"; sourceTree = "<group>"; };
-		732BA4782CE6AFCC00916922 /* libabsl_crc_cpu_detect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_cpu_detect.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_cpu_detect.a"; sourceTree = "<group>"; };
-		732BA4792CE6AFCC00916922 /* libabsl_random_internal_pool_urbg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_pool_urbg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_pool_urbg.a"; sourceTree = "<group>"; };
-		732BA47A2CE6AFCD00916922 /* libabsl_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_time.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_time.a"; sourceTree = "<group>"; };
-		732BA47B2CE6AFCD00916922 /* libabsl_log_internal_message.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_message.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_message.a"; sourceTree = "<group>"; };
-		732BA47C2CE6AFCD00916922 /* libabsl_demangle_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_demangle_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_demangle_internal.a"; sourceTree = "<group>"; };
-		732BA47D2CE6AFCD00916922 /* libcharset.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcharset.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libcharset.a"; sourceTree = "<group>"; };
-		732BA47E2CE6AFCE00916922 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libcrypto.a"; sourceTree = "<group>"; };
-		732BA47F2CE6AFCE00916922 /* libabsl_log_internal_format.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_format.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_format.a"; sourceTree = "<group>"; };
-		732BA4802CE6AFCE00916922 /* libboost_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_container.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_container.a"; sourceTree = "<group>"; };
-		732BA4812CE6AFCE00916922 /* libprotocd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotocd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotocd.a"; sourceTree = "<group>"; };
-		732BA4822CE6AFCF00916922 /* libfmtd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmtd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfmtd.a"; sourceTree = "<group>"; };
-		732BA4832CE6AFCF00916922 /* libabsl_symbolize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_symbolize.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_symbolize.a"; sourceTree = "<group>"; };
-		732BA4842CE6AFCF00916922 /* libopencv_videoio4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_videoio4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_videoio4d.a"; sourceTree = "<group>"; };
-		732BA4852CE6AFD000916922 /* libspdlogd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspdlogd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libspdlogd.a"; sourceTree = "<group>"; };
-		732BA4862CE6AFD000916922 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_system.a"; sourceTree = "<group>"; };
-		732BA4872CE6AFD000916922 /* libabsl_cord.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cord.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cord.a"; sourceTree = "<group>"; };
-		732BA4882CE6AFD000916922 /* libopencv_core4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_core4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_core4d.a"; sourceTree = "<group>"; };
-		732BA4892CE6AFD100916922 /* libabsl_cordz_info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_info.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_info.a"; sourceTree = "<group>"; };
-		732BA48A2CE6AFD100916922 /* libopencv_photo4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_photo4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_photo4d.a"; sourceTree = "<group>"; };
-		732BA48B2CE6AFD100916922 /* libabsl_strings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strings.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strings.a"; sourceTree = "<group>"; };
-		732BA48C2CE6AFD200916922 /* libabsl_base.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_base.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_base.a"; sourceTree = "<group>"; };
-		732BA48D2CE6AFD200916922 /* libabsl_raw_hash_set.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_raw_hash_set.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_raw_hash_set.a"; sourceTree = "<group>"; };
-		732BA48E2CE6AFD200916922 /* libabsl_city.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_city.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_city.a"; sourceTree = "<group>"; };
-		732BA48F2CE6AFD200916922 /* libopencv_features2d4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_features2d4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_features2d4d.a"; sourceTree = "<group>"; };
-		732BA4902CE6AFD300916922 /* libabsl_flags_usage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_usage.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_usage.a"; sourceTree = "<group>"; };
-		732BA4912CE6AFD300916922 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebp.a"; sourceTree = "<group>"; };
-		732BA4922CE6AFD300916922 /* libopencv_calib3d4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_calib3d4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_calib3d4d.a"; sourceTree = "<group>"; };
-		732BA4932CE6AFD300916922 /* libabsl_flags_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_internal.a"; sourceTree = "<group>"; };
-		732BA4942CE6AFD400916922 /* libabsl_civil_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_civil_time.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_civil_time.a"; sourceTree = "<group>"; };
-		732BA4952CE6AFD400916922 /* libabsl_kernel_timeout_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_kernel_timeout_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_kernel_timeout_internal.a"; sourceTree = "<group>"; };
-		732BA4962CE6AFD400916922 /* libopencv_imgproc4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgproc4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_imgproc4d.a"; sourceTree = "<group>"; };
-		732BA4972CE6AFD500916922 /* libutf8_validity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libutf8_validity.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libutf8_validity.a"; sourceTree = "<group>"; };
-		732BA4982CE6AFD500916922 /* libuuid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuuid.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libuuid.a"; sourceTree = "<group>"; };
-		732BA4992CE6AFD500916922 /* libabsl_crc_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_internal.a"; sourceTree = "<group>"; };
-		732BA49A2CE6AFD500916922 /* libabsl_random_seed_sequences.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_seed_sequences.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_seed_sequences.a"; sourceTree = "<group>"; };
-		732BA49B2CE6AFD600916922 /* libabsl_random_internal_randen_hwaes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_hwaes.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_hwaes.a"; sourceTree = "<group>"; };
-		732BA49C2CE6AFD600916922 /* libabsl_str_format_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_str_format_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_str_format_internal.a"; sourceTree = "<group>"; };
-		732BA49D2CE6AFD600916922 /* libabsl_flags_private_handle_accessor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_private_handle_accessor.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_private_handle_accessor.a"; sourceTree = "<group>"; };
-		732BA49E2CE6AFD600916922 /* libabsl_random_internal_platform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_platform.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_platform.a"; sourceTree = "<group>"; };
-		732BA49F2CE6AFD700916922 /* libabsl_log_internal_check_op.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_check_op.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_check_op.a"; sourceTree = "<group>"; };
-		732BA4A02CE6AFD700916922 /* libfontconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfontconfig.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfontconfig.a"; sourceTree = "<group>"; };
-		732BA4A12CE6AFD700916922 /* libabsl_exponential_biased.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_exponential_biased.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_exponential_biased.a"; sourceTree = "<group>"; };
-		732BA4A22CE6AFD800916922 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_program_options.a"; sourceTree = "<group>"; };
-		732BA4A32CE6AFD800916922 /* libabsl_flags_parse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_parse.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_parse.a"; sourceTree = "<group>"; };
-		732BA4A42CE6AFD800916922 /* libabsl_graphcycles_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_graphcycles_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_graphcycles_internal.a"; sourceTree = "<group>"; };
-		732BA4A52CE6AFD900916922 /* libabsl_log_entry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_entry.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_entry.a"; sourceTree = "<group>"; };
-		732BA4A62CE6AFD900916922 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libexpat.a"; sourceTree = "<group>"; };
-		732BA4A72CE6AFD900916922 /* libabsl_string_view.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_string_view.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_string_view.a"; sourceTree = "<group>"; };
-		732BA4A82CE6AFD900916922 /* libopencv_video4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_video4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_video4d.a"; sourceTree = "<group>"; };
-		732BA4A92CE6AFDA00916922 /* libabsl_int128.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_int128.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_int128.a"; sourceTree = "<group>"; };
-		732BA4AA2CE6AFDA00916922 /* libabsl_flags_usage_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_usage_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_usage_internal.a"; sourceTree = "<group>"; };
-		732BA4AB2CE6AFDA00916922 /* libabsl_hashtablez_sampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_hashtablez_sampler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_hashtablez_sampler.a"; sourceTree = "<group>"; };
-		732BA4AC2CE6AFDB00916922 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libsqlite3.a"; sourceTree = "<group>"; };
-		732BA4AD2CE6AFDB00916922 /* libwebpdecoder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdecoder.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpdecoder.a"; sourceTree = "<group>"; };
-		732BA4AE2CE6AFDB00916922 /* libutf8_range.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libutf8_range.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libutf8_range.a"; sourceTree = "<group>"; };
-		732BA4AF2CE6AFDB00916922 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libgtest.a"; sourceTree = "<group>"; };
-		732BA4B02CE6AFDC00916922 /* libabsl_utf8_for_code_point.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_utf8_for_code_point.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_utf8_for_code_point.a"; sourceTree = "<group>"; };
-		732BA4B12CE6AFDC00916922 /* libabsl_log_internal_globals.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_globals.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_globals.a"; sourceTree = "<group>"; };
-		732BA4B22CE6AFDC00916922 /* libabsl_flags_commandlineflag_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_commandlineflag_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_commandlineflag_internal.a"; sourceTree = "<group>"; };
-		732BA4B32CE6AFDC00916922 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libz.a"; sourceTree = "<group>"; };
-		732BA4B42CE6AFDD00916922 /* libbrotlidec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlidec.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlidec.a"; sourceTree = "<group>"; };
-		732BA4B52CE6AFDD00916922 /* libinih.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libinih.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libinih.a"; sourceTree = "<group>"; };
-		732BA4B62CE6AFDD00916922 /* libopencv_objdetect4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_objdetect4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_objdetect4d.a"; sourceTree = "<group>"; };
-		732BA4B72CE6AFDE00916922 /* libabsl_random_internal_distribution_test_util.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_distribution_test_util.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_distribution_test_util.a"; sourceTree = "<group>"; };
-		732BA4B82CE6AFDE00916922 /* libabsl_cord_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cord_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cord_internal.a"; sourceTree = "<group>"; };
-		732BA4B92CE6AFDE00916922 /* libabsl_log_internal_log_sink_set.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_log_sink_set.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_log_sink_set.a"; sourceTree = "<group>"; };
-		732BA4BA2CE6AFDF00916922 /* libabsl_spinlock_wait.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_spinlock_wait.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_spinlock_wait.a"; sourceTree = "<group>"; };
-		732BA4BB2CE6AFDF00916922 /* libabsl_status.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_status.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_status.a"; sourceTree = "<group>"; };
-		732BA4BC2CE6AFDF00916922 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libiconv.a"; sourceTree = "<group>"; };
-		732BA4BD2CE6AFE000916922 /* libabsl_vlog_config_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_vlog_config_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_vlog_config_internal.a"; sourceTree = "<group>"; };
-		732BA4BE2CE6AFE000916922 /* libabsl_log_sink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_sink.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_sink.a"; sourceTree = "<group>"; };
-		732BA4BF2CE6AFE000916922 /* libxml2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxml2.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libxml2.a"; sourceTree = "<group>"; };
-		732BA4C02CE6AFE100916922 /* libabsl_random_internal_randen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen.a"; sourceTree = "<group>"; };
-		732BA4C12CE6AFE100916922 /* libabsl_statusor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_statusor.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_statusor.a"; sourceTree = "<group>"; };
-		732BA4C22CE6AFE100916922 /* libabsl_leak_check.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_leak_check.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_leak_check.a"; sourceTree = "<group>"; };
-		732BA4C32CE6AFE200916922 /* libabsl_bad_optional_access.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_optional_access.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_optional_access.a"; sourceTree = "<group>"; };
-		732BA4C42CE6AFE200916922 /* libabsl_die_if_null.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_die_if_null.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_die_if_null.a"; sourceTree = "<group>"; };
-		732BA4C52CE6AFE200916922 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libjpeg.a"; sourceTree = "<group>"; };
-		732BA4C62CE6AFE300916922 /* libabsl_flags_config.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_config.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_config.a"; sourceTree = "<group>"; };
-		732BA4C72CE6AFE300916922 /* libabsl_throw_delegate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_throw_delegate.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_throw_delegate.a"; sourceTree = "<group>"; };
-		732BA4C82CE6AFE300916922 /* libabsl_crc_cord_state.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_cord_state.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_cord_state.a"; sourceTree = "<group>"; };
-		732BA4C92CE6AFE400916922 /* liblzma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzma.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/liblzma.a"; sourceTree = "<group>"; };
-		732BA4CA2CE6AFE400916922 /* libabsl_demangle_rust.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_demangle_rust.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_demangle_rust.a"; sourceTree = "<group>"; };
-		732BA4CB2CE6AFE400916922 /* libabsl_low_level_hash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_low_level_hash.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_low_level_hash.a"; sourceTree = "<group>"; };
-		732BA4CC2CE6AFE500916922 /* libopencv_flann4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_flann4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_flann4d.a"; sourceTree = "<group>"; };
-		732BA4CD2CE6AFE500916922 /* libprotobufd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobufd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotobufd.a"; sourceTree = "<group>"; };
-		732BA4CE2CE6AFE500916922 /* libabsl_log_initialize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_initialize.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_initialize.a"; sourceTree = "<group>"; };
-		732BA4CF2CE6AFE500916922 /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libgmock.a"; sourceTree = "<group>"; };
-		732BA4D02CE6AFE600916922 /* libabsl_cordz_functions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_functions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_functions.a"; sourceTree = "<group>"; };
-		732BA4D12CE6AFE600916922 /* libabsl_flags_program_name.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_program_name.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_program_name.a"; sourceTree = "<group>"; };
-		732BA4D22CE6AFE600916922 /* libabsl_raw_logging_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_raw_logging_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_raw_logging_internal.a"; sourceTree = "<group>"; };
-		732BA4D32CE6AFE700916922 /* libboost_random.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_random.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_random.a"; sourceTree = "<group>"; };
-		732BA4D42CE6AFE700916922 /* libabsl_crc32c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc32c.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc32c.a"; sourceTree = "<group>"; };
-		732BA4D52CE6AFE700916922 /* libpng16d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpng16d.a"; sourceTree = "<group>"; };
-		732BA4D62CE6AFE800916922 /* libpodofo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpodofo.a"; sourceTree = "<group>"; };
-		732BA4D72CE6AFE800916922 /* libwebpdemux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdemux.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpdemux.a"; sourceTree = "<group>"; };
-		732BA4D82CE6AFE800916922 /* libabsl_scoped_set_env.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_scoped_set_env.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_scoped_set_env.a"; sourceTree = "<group>"; };
-		732BA4D92CE6AFE900916922 /* libabsl_synchronization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_synchronization.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_synchronization.a"; sourceTree = "<group>"; };
-		732BA4DA2CE6AFE900916922 /* libabsl_random_seed_gen_exception.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_seed_gen_exception.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_seed_gen_exception.a"; sourceTree = "<group>"; };
-		732BA4DB2CE6AFEA00916922 /* libabsl_flags_commandlineflag.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_commandlineflag.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_commandlineflag.a"; sourceTree = "<group>"; };
-		732BA4DC2CE6AFEA00916922 /* libabsl_bad_any_cast_impl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_any_cast_impl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_any_cast_impl.a"; sourceTree = "<group>"; };
-		732BA4DD2CE6AFEA00916922 /* libabsl_log_severity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_severity.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_severity.a"; sourceTree = "<group>"; };
-		732BA4DE2CE6AFEB00916922 /* libbz2d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbz2d.a"; sourceTree = "<group>"; };
-		732BA4DF2CE6AFEB00916922 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libssl.a"; sourceTree = "<group>"; };
-		732BA4E02CE6AFEC00916922 /* libopencv_imgcodecs4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgcodecs4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_imgcodecs4d.a"; sourceTree = "<group>"; };
-		732BA4E12CE6AFEC00916922 /* libpodofo_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo_private.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpodofo_private.a"; sourceTree = "<group>"; };
-		732BA4E22CE6AFEC00916922 /* libabsl_log_internal_proto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_proto.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_proto.a"; sourceTree = "<group>"; };
-		732BA57C2CE6B1BB00916922 /* libwuffs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwuffs.a; path = "../../PB/third-party/ios/skia/arm64/libwuffs.a"; sourceTree = "<group>"; };
-		732BA57D2CE6B1BC00916922 /* libskia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskia.a; path = "../../PB/third-party/ios/skia/arm64/libskia.a"; sourceTree = "<group>"; };
-		732BA57E2CE6B1BC00916922 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "../../PB/third-party/ios/skia/arm64/libjpeg.a"; sourceTree = "<group>"; };
-		732BA57F2CE6B1BC00916922 /* libpiex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpiex.a; path = "../../PB/third-party/ios/skia/arm64/libpiex.a"; sourceTree = "<group>"; };
-		732BA5802CE6B1BC00916922 /* libbentleyottmann.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbentleyottmann.a; path = "../../PB/third-party/ios/skia/arm64/libbentleyottmann.a"; sourceTree = "<group>"; };
-		732BA5812CE6B1BC00916922 /* libskottie.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskottie.a; path = "../../PB/third-party/ios/skia/arm64/libskottie.a"; sourceTree = "<group>"; };
-		732BA5822CE6B1BC00916922 /* libsksg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsksg.a; path = "../../PB/third-party/ios/skia/arm64/libsksg.a"; sourceTree = "<group>"; };
-		732BA5832CE6B1BC00916922 /* libskshaper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskshaper.a; path = "../../PB/third-party/ios/skia/arm64/libskshaper.a"; sourceTree = "<group>"; };
-		732BA5842CE6B1BD00916922 /* libharfbuzz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libharfbuzz.a; path = "../../PB/third-party/ios/skia/arm64/libharfbuzz.a"; sourceTree = "<group>"; };
-		732BA5852CE6B1BD00916922 /* libskcms.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskcms.a; path = "../../PB/third-party/ios/skia/arm64/libskcms.a"; sourceTree = "<group>"; };
-		732BA5862CE6B1BD00916922 /* libskunicode_icu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_icu.a; path = "../../PB/third-party/ios/skia/arm64/libskunicode_icu.a"; sourceTree = "<group>"; };
-		732BA5872CE6B1BD00916922 /* libicu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicu.a; path = "../../PB/third-party/ios/skia/arm64/libicu.a"; sourceTree = "<group>"; };
-		732BA5882CE6B1BD00916922 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = "../../PB/third-party/ios/skia/arm64/libwebp.a"; sourceTree = "<group>"; };
-		732BA5892CE6B1BD00916922 /* libskparagraph.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskparagraph.a; path = "../../PB/third-party/ios/skia/arm64/libskparagraph.a"; sourceTree = "<group>"; };
-		732BA58A2CE6B1BD00916922 /* libskresources.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskresources.a; path = "../../PB/third-party/ios/skia/arm64/libskresources.a"; sourceTree = "<group>"; };
-		732BA58B2CE6B1BE00916922 /* libwebp_sse41.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp_sse41.a; path = "../../PB/third-party/ios/skia/arm64/libwebp_sse41.a"; sourceTree = "<group>"; };
-		732BA58C2CE6B1BE00916922 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = "../../PB/third-party/ios/skia/arm64/libzlib.a"; sourceTree = "<group>"; };
-		732BA58D2CE6B1BE00916922 /* libsvg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsvg.a; path = "../../PB/third-party/ios/skia/arm64/libsvg.a"; sourceTree = "<group>"; };
-		732BA58E2CE6B1BE00916922 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = "../../PB/third-party/ios/skia/arm64/libpng.a"; sourceTree = "<group>"; };
-		732BA58F2CE6B1BE00916922 /* libskunicode_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_core.a; path = "../../PB/third-party/ios/skia/arm64/libskunicode_core.a"; sourceTree = "<group>"; };
-		732BA5902CE6B1BE00916922 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = "../../PB/third-party/ios/skia/arm64/libexpat.a"; sourceTree = "<group>"; };
-		732BA5912CE6B1BF00916922 /* libdng_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdng_sdk.a; path = "../../PB/third-party/ios/skia/arm64/libdng_sdk.a"; sourceTree = "<group>"; };
-		732BA5922CE6B1BF00916922 /* libpathkit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpathkit.a; path = "../../PB/third-party/ios/skia/arm64/libpathkit.a"; sourceTree = "<group>"; };
-		732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcompression_utils_portable.a; path = "../../PB/third-party/ios/skia/arm64/libcompression_utils_portable.a"; sourceTree = "<group>"; };
-		734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-Darwin-macos.a"; path = "../../PB/build/libpblib-Darwin-macos.a"; sourceTree = "<group>"; };
 		734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = all.xcodeproj; path = "/Users/cosminmihai/cpp-exercise-photobook/PB/third-party/osx/skia/x86_64/all.xcodeproj"; sourceTree = "<absolute>"; };
 		7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirUIListener.swift; sourceTree = "<group>"; };
 		737EEE7D2D4E4090003C342E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -465,12 +110,6 @@
 		7391647D2CC4F7E200703394 /* others */ = {isa = PBXFileReference; lastKnownFileType = folder; name = others; path = "../../PB/pb-assets/others"; sourceTree = "<group>"; };
 		7391648C2CC575E900703394 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		73AE033A2D76360B001E2B33 /* libvulkan.1.3.296-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan.1.3.296-macos.dylib"; path = "../../PB/build/libvulkan.1.3.296-macos.dylib"; sourceTree = "<group>"; };
-		73AE033B2D76360B001E2B33 /* libvulkan.1-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan.1-macos.dylib"; path = "../../PB/build/libvulkan.1-macos.dylib"; sourceTree = "<group>"; };
-		73AE033C2D76360B001E2B33 /* libvulkan-macos.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libvulkan-macos.dylib"; path = "../../PB/build/libvulkan-macos.dylib"; sourceTree = "<group>"; };
-		73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.dylib; path = ../../PB/build/libvulkan.1.dylib; sourceTree = "<group>"; };
-		73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.3.296.dylib; path = ../../PB/build/libvulkan.1.3.296.dylib; sourceTree = "<group>"; };
-		73AE03452D764ADD001E2B33 /* libvulkan.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.dylib; path = ../../PB/build/libvulkan.dylib; sourceTree = "<group>"; };
 		73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73C4ECA72AA0C0E3006C4108 /* PhotoBook.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PhotoBook.entitlements; sourceTree = "<group>"; };
@@ -481,14 +120,376 @@
 		73C4ECBD2AA0C0E3006C4108 /* PhotoBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITests.swift; sourceTree = "<group>"; };
 		73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		73F364082D7CB40B00108765 /* PhotoLinesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLinesModel.swift; sourceTree = "<group>"; };
+		73F93E702D87055000C388A1 /* PhotoBook-Release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PhotoBook-Release.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		73F93E7D2D87055100C388A1 /* PhotoBook copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PhotoBook copy-Info.plist"; path = "/Users/cosminmihai/cpp-exercise-photobook/osx/PhotoBook/PhotoBook copy-Info.plist"; sourceTree = "<absolute>"; };
+		73F9476F2D870B4000C388A1 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
+		73F948E92D870F1C00C388A1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		73AC502F2D45895A001E19C8 /* Exceptions for "Wrappers" folder in "Copy Bundle Resources" phase from "PhotoBook" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 73C4EC9C2AA0C0E1006C4108 /* Resources */;
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		73F941DC2D87093400C388A1 /* Exceptions for "macos-debug" folder in "PhotoBook-Release" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				PaperSettings.h,
+				"libabsl_bad_any_cast_impl-macos.a",
+				"libabsl_bad_optional_access-macos.a",
+				"libabsl_bad_variant_access-macos.a",
+				"libabsl_base-macos.a",
+				"libabsl_city-macos.a",
+				"libabsl_civil_time-macos.a",
+				"libabsl_cord_internal-macos.a",
+				"libabsl_cord-macos.a",
+				"libabsl_cordz_functions-macos.a",
+				"libabsl_cordz_handle-macos.a",
+				"libabsl_cordz_info-macos.a",
+				"libabsl_cordz_sample_token-macos.a",
+				"libabsl_crc_cord_state-macos.a",
+				"libabsl_crc_cpu_detect-macos.a",
+				"libabsl_crc_internal-macos.a",
+				"libabsl_crc32c-macos.a",
+				"libabsl_debugging_internal-macos.a",
+				"libabsl_decode_rust_punycode-macos.a",
+				"libabsl_demangle_internal-macos.a",
+				"libabsl_demangle_rust-macos.a",
+				"libabsl_die_if_null-macos.a",
+				"libabsl_examine_stack-macos.a",
+				"libabsl_exponential_biased-macos.a",
+				"libabsl_failure_signal_handler-macos.a",
+				"libabsl_flags_commandlineflag_internal-macos.a",
+				"libabsl_flags_commandlineflag-macos.a",
+				"libabsl_flags_config-macos.a",
+				"libabsl_flags_internal-macos.a",
+				"libabsl_flags_marshalling-macos.a",
+				"libabsl_flags_parse-macos.a",
+				"libabsl_flags_private_handle_accessor-macos.a",
+				"libabsl_flags_program_name-macos.a",
+				"libabsl_flags_reflection-macos.a",
+				"libabsl_flags_usage_internal-macos.a",
+				"libabsl_flags_usage-macos.a",
+				"libabsl_graphcycles_internal-macos.a",
+				"libabsl_hash-macos.a",
+				"libabsl_hashtablez_sampler-macos.a",
+				"libabsl_int128-macos.a",
+				"libabsl_kernel_timeout_internal-macos.a",
+				"libabsl_leak_check-macos.a",
+				"libabsl_log_entry-macos.a",
+				"libabsl_log_flags-macos.a",
+				"libabsl_log_globals-macos.a",
+				"libabsl_log_initialize-macos.a",
+				"libabsl_log_internal_check_op-macos.a",
+				"libabsl_log_internal_conditions-macos.a",
+				"libabsl_log_internal_fnmatch-macos.a",
+				"libabsl_log_internal_format-macos.a",
+				"libabsl_log_internal_globals-macos.a",
+				"libabsl_log_internal_log_sink_set-macos.a",
+				"libabsl_log_internal_message-macos.a",
+				"libabsl_log_internal_nullguard-macos.a",
+				"libabsl_log_internal_proto-macos.a",
+				"libabsl_log_severity-macos.a",
+				"libabsl_log_sink-macos.a",
+				"libabsl_low_level_hash-macos.a",
+				"libabsl_malloc_internal-macos.a",
+				"libabsl_periodic_sampler-macos.a",
+				"libabsl_poison-macos.a",
+				"libabsl_random_distributions-macos.a",
+				"libabsl_random_internal_distribution_test_util-macos.a",
+				"libabsl_random_internal_platform-macos.a",
+				"libabsl_random_internal_pool_urbg-macos.a",
+				"libabsl_random_internal_randen_hwaes_impl-macos.a",
+				"libabsl_random_internal_randen_hwaes-macos.a",
+				"libabsl_random_internal_randen_slow-macos.a",
+				"libabsl_random_internal_randen-macos.a",
+				"libabsl_random_internal_seed_material-macos.a",
+				"libabsl_random_seed_gen_exception-macos.a",
+				"libabsl_random_seed_sequences-macos.a",
+				"libabsl_raw_hash_set-macos.a",
+				"libabsl_raw_logging_internal-macos.a",
+				"libabsl_scoped_set_env-macos.a",
+				"libabsl_spinlock_wait-macos.a",
+				"libabsl_stacktrace-macos.a",
+				"libabsl_status-macos.a",
+				"libabsl_statusor-macos.a",
+				"libabsl_str_format_internal-macos.a",
+				"libabsl_strerror-macos.a",
+				"libabsl_string_view-macos.a",
+				"libabsl_strings_internal-macos.a",
+				"libabsl_strings-macos.a",
+				"libabsl_symbolize-macos.a",
+				"libabsl_synchronization-macos.a",
+				"libabsl_throw_delegate-macos.a",
+				"libabsl_time_zone-macos.a",
+				"libabsl_time-macos.a",
+				"libabsl_utf8_for_code_point-macos.a",
+				"libabsl_vlog_config_internal-macos.a",
+				"libboost_container-macos.a",
+				"libboost_program_options-macos.a",
+				"libboost_random-macos.a",
+				"libboost_regex-macos.a",
+				"libboost_system-macos.a",
+				"libbrotlicommon-macos.a",
+				"libbrotlidec-macos.a",
+				"libbrotlienc-macos.a",
+				"libbz2d-macos.a",
+				"libcrypto-macos.a",
+				"libexiv2-macos.a",
+				"libexpat-macos.a",
+				"libflatbuffers-macos.a",
+				"libfmtd-macos.a",
+				"libfontconfig-macos.a",
+				"libfreetyped-macos.a",
+				"libgmock-macos.a",
+				"libgtest-macos.a",
+				"libharfbuzz-macos.a",
+				"libharfbuzz-subset-macos.a",
+				"libhpdf-macos.a",
+				"libicudata-macos.a",
+				"libicui18n-macos.a",
+				"libicuio-macos.a",
+				"libicuuc-macos.a",
+				"libinih-macos.a",
+				"libINIReader-macos.a",
+				"libintl-macos.a",
+				"libjpeg-macos.a",
+				"liblzma-macos.a",
+				"libopencv_calib3d4d-macos.a",
+				"libopencv_core4d-macos.a",
+				"libopencv_dnn4d-macos.a",
+				"libopencv_features2d4d-macos.a",
+				"libopencv_flann4d-macos.a",
+				"libopencv_highgui4d-macos.a",
+				"libopencv_imgcodecs4d-macos.a",
+				"libopencv_imgproc4d-macos.a",
+				"libopencv_ml4d-macos.a",
+				"libopencv_objdetect4d-macos.a",
+				"libopencv_photo4d-macos.a",
+				"libopencv_stitching4d-macos.a",
+				"libopencv_video4d-macos.a",
+				"libopencv_videoio4d-macos.a",
+				"libpblib-Darwin-macos.a",
+				"libpkgconf-macos.a",
+				"libpng-macos.a",
+				"libpng16d-macos.a",
+				"libpodofo_private-macos.a",
+				"libpodofo-macos.a",
+				"libprotobuf-lited-macos.a",
+				"libprotobufd-macos.a",
+				"libprotocd-macos.a",
+				"libquirc-macos.a",
+				"libsharpyuv-macos.a",
+				"libspdlogd-macos.a",
+				"libsqlite3-macos.a",
+				"libssl-macos.a",
+				"libtiffd-macos.a",
+				"libturbojpeg-macos.a",
+				"libutf8_range-macos.a",
+				"libutf8_validity-macos.a",
+				libvulkan.1.3.296.dylib,
+				libvulkan.1.dylib,
+				libvulkan.dylib,
+				"libwebp-macos.a",
+				"libwebpdecoder-macos.a",
+				"libwebpdemux-macos.a",
+				"libwebpmux-macos.a",
+				"libxml2-macos.a",
+				"libz-macos.a",
+			);
+			target = 73F93E572D87055000C388A1 /* PhotoBook-Release */;
+		};
+		73F948B42D870B9100C388A1 /* Exceptions for "macos-release" folder in "PhotoBook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"libabsl_bad_any_cast_impl-macos.a",
+				"libabsl_bad_optional_access-macos.a",
+				"libabsl_bad_variant_access-macos.a",
+				"libabsl_base-macos.a",
+				"libabsl_city-macos.a",
+				"libabsl_civil_time-macos.a",
+				"libabsl_cord_internal-macos.a",
+				"libabsl_cord-macos.a",
+				"libabsl_cordz_functions-macos.a",
+				"libabsl_cordz_handle-macos.a",
+				"libabsl_cordz_info-macos.a",
+				"libabsl_cordz_sample_token-macos.a",
+				"libabsl_crc_cord_state-macos.a",
+				"libabsl_crc_cpu_detect-macos.a",
+				"libabsl_crc_internal-macos.a",
+				"libabsl_crc32c-macos.a",
+				"libabsl_debugging_internal-macos.a",
+				"libabsl_decode_rust_punycode-macos.a",
+				"libabsl_demangle_internal-macos.a",
+				"libabsl_demangle_rust-macos.a",
+				"libabsl_die_if_null-macos.a",
+				"libabsl_examine_stack-macos.a",
+				"libabsl_exponential_biased-macos.a",
+				"libabsl_failure_signal_handler-macos.a",
+				"libabsl_flags_commandlineflag_internal-macos.a",
+				"libabsl_flags_commandlineflag-macos.a",
+				"libabsl_flags_config-macos.a",
+				"libabsl_flags_internal-macos.a",
+				"libabsl_flags_marshalling-macos.a",
+				"libabsl_flags_parse-macos.a",
+				"libabsl_flags_private_handle_accessor-macos.a",
+				"libabsl_flags_program_name-macos.a",
+				"libabsl_flags_reflection-macos.a",
+				"libabsl_flags_usage_internal-macos.a",
+				"libabsl_flags_usage-macos.a",
+				"libabsl_graphcycles_internal-macos.a",
+				"libabsl_hash-macos.a",
+				"libabsl_hashtablez_sampler-macos.a",
+				"libabsl_int128-macos.a",
+				"libabsl_kernel_timeout_internal-macos.a",
+				"libabsl_leak_check-macos.a",
+				"libabsl_log_entry-macos.a",
+				"libabsl_log_flags-macos.a",
+				"libabsl_log_globals-macos.a",
+				"libabsl_log_initialize-macos.a",
+				"libabsl_log_internal_check_op-macos.a",
+				"libabsl_log_internal_conditions-macos.a",
+				"libabsl_log_internal_fnmatch-macos.a",
+				"libabsl_log_internal_format-macos.a",
+				"libabsl_log_internal_globals-macos.a",
+				"libabsl_log_internal_log_sink_set-macos.a",
+				"libabsl_log_internal_message-macos.a",
+				"libabsl_log_internal_nullguard-macos.a",
+				"libabsl_log_internal_proto-macos.a",
+				"libabsl_log_severity-macos.a",
+				"libabsl_log_sink-macos.a",
+				"libabsl_low_level_hash-macos.a",
+				"libabsl_malloc_internal-macos.a",
+				"libabsl_periodic_sampler-macos.a",
+				"libabsl_poison-macos.a",
+				"libabsl_random_distributions-macos.a",
+				"libabsl_random_internal_distribution_test_util-macos.a",
+				"libabsl_random_internal_platform-macos.a",
+				"libabsl_random_internal_pool_urbg-macos.a",
+				"libabsl_random_internal_randen_hwaes_impl-macos.a",
+				"libabsl_random_internal_randen_hwaes-macos.a",
+				"libabsl_random_internal_randen_slow-macos.a",
+				"libabsl_random_internal_randen-macos.a",
+				"libabsl_random_internal_seed_material-macos.a",
+				"libabsl_random_seed_gen_exception-macos.a",
+				"libabsl_random_seed_sequences-macos.a",
+				"libabsl_raw_hash_set-macos.a",
+				"libabsl_raw_logging_internal-macos.a",
+				"libabsl_scoped_set_env-macos.a",
+				"libabsl_spinlock_wait-macos.a",
+				"libabsl_stacktrace-macos.a",
+				"libabsl_status-macos.a",
+				"libabsl_statusor-macos.a",
+				"libabsl_str_format_internal-macos.a",
+				"libabsl_strerror-macos.a",
+				"libabsl_string_view-macos.a",
+				"libabsl_strings_internal-macos.a",
+				"libabsl_strings-macos.a",
+				"libabsl_symbolize-macos.a",
+				"libabsl_synchronization-macos.a",
+				"libabsl_throw_delegate-macos.a",
+				"libabsl_time_zone-macos.a",
+				"libabsl_time-macos.a",
+				"libabsl_utf8_for_code_point-macos.a",
+				"libabsl_vlog_config_internal-macos.a",
+				"libboost_container-macos.a",
+				"libboost_program_options-macos.a",
+				"libboost_random-macos.a",
+				"libboost_regex-macos.a",
+				"libboost_system-macos.a",
+				"libbrotlicommon-macos.a",
+				"libbrotlidec-macos.a",
+				"libbrotlienc-macos.a",
+				"libbz2-macos.a",
+				"libcrypto-macos.a",
+				"libexiv2-macos.a",
+				"libexpat-macos.a",
+				"libflatbuffers-macos.a",
+				"libfmt-macos.a",
+				"libfontconfig-macos.a",
+				"libfreetype-macos.a",
+				"libgmock-macos.a",
+				"libgtest-macos.a",
+				"libharfbuzz-macos.a",
+				"libharfbuzz-subset-macos.a",
+				"libhpdf-macos.a",
+				"libicudata-macos.a",
+				"libicui18n-macos.a",
+				"libicuio-macos.a",
+				"libicuuc-macos.a",
+				"libinih-macos.a",
+				"libINIReader-macos.a",
+				"libintl-macos.a",
+				"libjpeg-macos.a",
+				"liblzma-macos.a",
+				"libopencv_calib3d4-macos.a",
+				"libopencv_core4-macos.a",
+				"libopencv_dnn4-macos.a",
+				"libopencv_features2d4-macos.a",
+				"libopencv_flann4-macos.a",
+				"libopencv_highgui4-macos.a",
+				"libopencv_imgcodecs4-macos.a",
+				"libopencv_imgproc4-macos.a",
+				"libopencv_ml4-macos.a",
+				"libopencv_objdetect4-macos.a",
+				"libopencv_photo4-macos.a",
+				"libopencv_stitching4-macos.a",
+				"libopencv_video4-macos.a",
+				"libopencv_videoio4-macos.a",
+				"libpblib-Darwin-macos.a",
+				"libpkgconf-macos.a",
+				"libpng-macos.a",
+				"libpng16-macos.a",
+				"libpodofo_private-macos.a",
+				"libpodofo-macos.a",
+				"libprotobuf-lite-macos.a",
+				"libprotobuf-macos.a",
+				"libprotoc-macos.a",
+				"libquirc-macos.a",
+				"libsharpyuv-macos.a",
+				"libspdlog-macos.a",
+				"libsqlite3-macos.a",
+				"libssl-macos.a",
+				"libtiff-macos.a",
+				"libturbojpeg-macos.a",
+				"libutf8_range-macos.a",
+				"libutf8_validity-macos.a",
+				libvulkan.1.3.296.dylib,
+				libvulkan.1.dylib,
+				libvulkan.dylib,
+				"libwebp-macos.a",
+				"libwebpdecoder-macos.a",
+				"libwebpdemux-macos.a",
+				"libwebpmux-macos.a",
+				"libxml2-macos.a",
+				"libz-macos.a",
+			);
+			target = 73C4EC9D2AA0C0E1006C4108 /* PhotoBook */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		73F949392D8711D300C388A1 /* Exceptions for "macos-debug" folder in "Embed Libraries" phase from "PhotoBook" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				libvulkan.1.3.296.dylib = (CodeSignOnCopy, );
+				libvulkan.1.dylib = (CodeSignOnCopy, );
+				libvulkan.dylib = (CodeSignOnCopy, );
+			};
+			buildPhase = 73F949382D8711D300C388A1 /* Embed Libraries */;
+			membershipExceptions = (
+				libvulkan.1.3.296.dylib,
+				libvulkan.1.dylib,
+				libvulkan.dylib,
+			);
+		};
+		73F96BF32D871D6700C388A1 /* Exceptions for "macos-release" folder in "Embed Frameworks" phase from "PhotoBook-Release" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				libvulkan.1.3.296.dylib = (CodeSignOnCopy, );
+				libvulkan.1.dylib = (CodeSignOnCopy, );
+				libvulkan.dylib = (CodeSignOnCopy, );
+			};
+			buildPhase = 73F948EC2D870F1C00C388A1 /* Embed Frameworks */;
+			membershipExceptions = (
+				libvulkan.1.3.296.dylib,
+				libvulkan.1.dylib,
+				libvulkan.dylib,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -536,9 +537,6 @@
 		};
 		73AC502D2D45890A001E19C8 /* Wrappers */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				73AC502F2D45895A001E19C8 /* Exceptions for "Wrappers" folder in "Copy Bundle Resources" phase from "PhotoBook" target */,
-			);
 			path = Wrappers;
 			sourceTree = "<group>";
 		};
@@ -557,6 +555,29 @@
 			path = DPL;
 			sourceTree = "<group>";
 		};
+		73F93E7E2D87069900C388A1 /* macos-debug */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				73F949392D8711D300C388A1 /* Exceptions for "macos-debug" folder in "Embed Libraries" phase from "PhotoBook" target */,
+				73F941DC2D87093400C388A1 /* Exceptions for "macos-debug" folder in "PhotoBook-Release" target */,
+			);
+			path = "macos-debug";
+			sourceTree = "<group>";
+		};
+		73F93FC32D87079C00C388A1 /* macos */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = macos;
+			sourceTree = "<group>";
+		};
+		73F947712D870B7B00C388A1 /* macos-release */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				73F948B42D870B9100C388A1 /* Exceptions for "macos-release" folder in "PhotoBook" target */,
+				73F96BF32D871D6700C388A1 /* Exceptions for "macos-release" folder in "Embed Frameworks" phase from "PhotoBook-Release" target */,
+			);
+			path = "macos-release";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -568,6 +589,7 @@
 				737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
 				73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */,
 				737EEEE52D4FBF95003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
+				73F947702D870B5300C388A1 /* libiconv.tbd in Frameworks */,
 				737EEEE32D4FBF95003C342E /* Bugsnag in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -586,413 +608,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73F93E5F2D87055000C388A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73F948E62D870EB100C388A1 /* Bugsnag in Frameworks */,
+				73F949362D8710FE00C388A1 /* libiconv.tbd in Frameworks */,
+				73F948E82D870EB100C388A1 /* BugsnagNetworkRequestPlugin in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73AE03452D764ADD001E2B33 /* libvulkan.dylib */,
-				73AE03432D764ADC001E2B33 /* libvulkan.1.dylib */,
-				73AE03442D764ADD001E2B33 /* libvulkan.1.3.296.dylib */,
-				73AE033C2D76360B001E2B33 /* libvulkan-macos.dylib */,
-				73AE033B2D76360B001E2B33 /* libvulkan.1-macos.dylib */,
-				73AE033A2D76360B001E2B33 /* libvulkan.1.3.296-macos.dylib */,
-				734C64DB2CFA5A8800F8F9D6 /* libpblib-Darwin-macos.a */,
-				732BA5802CE6B1BC00916922 /* libbentleyottmann.a */,
-				732BA5932CE6B1BF00916922 /* libcompression_utils_portable.a */,
-				732BA5912CE6B1BF00916922 /* libdng_sdk.a */,
-				732BA5902CE6B1BE00916922 /* libexpat.a */,
-				732BA5842CE6B1BD00916922 /* libharfbuzz.a */,
-				732BA5872CE6B1BD00916922 /* libicu.a */,
-				732BA57E2CE6B1BC00916922 /* libjpeg.a */,
-				732BA5922CE6B1BF00916922 /* libpathkit.a */,
-				732BA57F2CE6B1BC00916922 /* libpiex.a */,
-				732BA58E2CE6B1BE00916922 /* libpng.a */,
-				732BA5852CE6B1BD00916922 /* libskcms.a */,
-				732BA57D2CE6B1BC00916922 /* libskia.a */,
-				732BA5812CE6B1BC00916922 /* libskottie.a */,
-				732BA5892CE6B1BD00916922 /* libskparagraph.a */,
-				732BA58A2CE6B1BD00916922 /* libskresources.a */,
-				732BA5822CE6B1BC00916922 /* libsksg.a */,
-				732BA5832CE6B1BC00916922 /* libskshaper.a */,
-				732BA58F2CE6B1BE00916922 /* libskunicode_core.a */,
-				732BA5862CE6B1BD00916922 /* libskunicode_icu.a */,
-				732BA58D2CE6B1BE00916922 /* libsvg.a */,
-				732BA5882CE6B1BD00916922 /* libwebp.a */,
-				732BA58B2CE6B1BE00916922 /* libwebp_sse41.a */,
-				732BA57C2CE6B1BB00916922 /* libwuffs.a */,
-				732BA58C2CE6B1BE00916922 /* libzlib.a */,
-				732BA4DC2CE6AFEA00916922 /* libabsl_bad_any_cast_impl.a */,
-				732BA4C32CE6AFE200916922 /* libabsl_bad_optional_access.a */,
-				732BA46D2CE6AFC900916922 /* libabsl_bad_variant_access.a */,
-				732BA48C2CE6AFD200916922 /* libabsl_base.a */,
-				732BA48E2CE6AFD200916922 /* libabsl_city.a */,
-				732BA4942CE6AFD400916922 /* libabsl_civil_time.a */,
-				732BA4872CE6AFD000916922 /* libabsl_cord.a */,
-				732BA4B82CE6AFDE00916922 /* libabsl_cord_internal.a */,
-				732BA4D02CE6AFE600916922 /* libabsl_cordz_functions.a */,
-				732BA46C2CE6AFC900916922 /* libabsl_cordz_handle.a */,
-				732BA4892CE6AFD100916922 /* libabsl_cordz_info.a */,
-				732BA4522CE6AFC500916922 /* libabsl_cordz_sample_token.a */,
-				732BA4C82CE6AFE300916922 /* libabsl_crc_cord_state.a */,
-				732BA4782CE6AFCC00916922 /* libabsl_crc_cpu_detect.a */,
-				732BA4992CE6AFD500916922 /* libabsl_crc_internal.a */,
-				732BA4D42CE6AFE700916922 /* libabsl_crc32c.a */,
-				732BA4632CE6AFC700916922 /* libabsl_debugging_internal.a */,
-				732BA4572CE6AFC500916922 /* libabsl_decode_rust_punycode.a */,
-				732BA47C2CE6AFCD00916922 /* libabsl_demangle_internal.a */,
-				732BA4CA2CE6AFE400916922 /* libabsl_demangle_rust.a */,
-				732BA4C42CE6AFE200916922 /* libabsl_die_if_null.a */,
-				732BA45F2CE6AFC600916922 /* libabsl_examine_stack.a */,
-				732BA4A12CE6AFD700916922 /* libabsl_exponential_biased.a */,
-				732BA4662CE6AFC700916922 /* libabsl_failure_signal_handler.a */,
-				732BA4DB2CE6AFEA00916922 /* libabsl_flags_commandlineflag.a */,
-				732BA4B22CE6AFDC00916922 /* libabsl_flags_commandlineflag_internal.a */,
-				732BA4C62CE6AFE300916922 /* libabsl_flags_config.a */,
-				732BA4932CE6AFD300916922 /* libabsl_flags_internal.a */,
-				732BA4652CE6AFC700916922 /* libabsl_flags_marshalling.a */,
-				732BA4A32CE6AFD800916922 /* libabsl_flags_parse.a */,
-				732BA49D2CE6AFD600916922 /* libabsl_flags_private_handle_accessor.a */,
-				732BA4D12CE6AFE600916922 /* libabsl_flags_program_name.a */,
-				732BA44C2CE6AFC400916922 /* libabsl_flags_reflection.a */,
-				732BA4902CE6AFD300916922 /* libabsl_flags_usage.a */,
-				732BA4AA2CE6AFDA00916922 /* libabsl_flags_usage_internal.a */,
-				732BA4A42CE6AFD800916922 /* libabsl_graphcycles_internal.a */,
-				732BA4732CE6AFCB00916922 /* libabsl_hash.a */,
-				732BA4AB2CE6AFDA00916922 /* libabsl_hashtablez_sampler.a */,
-				732BA4A92CE6AFDA00916922 /* libabsl_int128.a */,
-				732BA4952CE6AFD400916922 /* libabsl_kernel_timeout_internal.a */,
-				732BA4C22CE6AFE100916922 /* libabsl_leak_check.a */,
-				732BA4A52CE6AFD900916922 /* libabsl_log_entry.a */,
-				732BA45D2CE6AFC600916922 /* libabsl_log_flags.a */,
-				732BA45C2CE6AFC600916922 /* libabsl_log_globals.a */,
-				732BA4CE2CE6AFE500916922 /* libabsl_log_initialize.a */,
-				732BA49F2CE6AFD700916922 /* libabsl_log_internal_check_op.a */,
-				732BA4542CE6AFC500916922 /* libabsl_log_internal_conditions.a */,
-				732BA45E2CE6AFC600916922 /* libabsl_log_internal_fnmatch.a */,
-				732BA47F2CE6AFCE00916922 /* libabsl_log_internal_format.a */,
-				732BA4B12CE6AFDC00916922 /* libabsl_log_internal_globals.a */,
-				732BA4B92CE6AFDE00916922 /* libabsl_log_internal_log_sink_set.a */,
-				732BA47B2CE6AFCD00916922 /* libabsl_log_internal_message.a */,
-				732BA4502CE6AFC500916922 /* libabsl_log_internal_nullguard.a */,
-				732BA4E22CE6AFEC00916922 /* libabsl_log_internal_proto.a */,
-				732BA4DD2CE6AFEA00916922 /* libabsl_log_severity.a */,
-				732BA4BE2CE6AFE000916922 /* libabsl_log_sink.a */,
-				732BA4CB2CE6AFE400916922 /* libabsl_low_level_hash.a */,
-				732BA44B2CE6AFC400916922 /* libabsl_malloc_internal.a */,
-				732BA4722CE6AFCB00916922 /* libabsl_periodic_sampler.a */,
-				732BA4602CE6AFC600916922 /* libabsl_poison.a */,
-				732BA4582CE6AFC500916922 /* libabsl_random_distributions.a */,
-				732BA4B72CE6AFDE00916922 /* libabsl_random_internal_distribution_test_util.a */,
-				732BA49E2CE6AFD600916922 /* libabsl_random_internal_platform.a */,
-				732BA4792CE6AFCC00916922 /* libabsl_random_internal_pool_urbg.a */,
-				732BA4C02CE6AFE100916922 /* libabsl_random_internal_randen.a */,
-				732BA49B2CE6AFD600916922 /* libabsl_random_internal_randen_hwaes.a */,
-				732BA44F2CE6AFC500916922 /* libabsl_random_internal_randen_hwaes_impl.a */,
-				732BA4772CE6AFCC00916922 /* libabsl_random_internal_randen_slow.a */,
-				732BA44E2CE6AFC400916922 /* libabsl_random_internal_seed_material.a */,
-				732BA4DA2CE6AFE900916922 /* libabsl_random_seed_gen_exception.a */,
-				732BA49A2CE6AFD500916922 /* libabsl_random_seed_sequences.a */,
-				732BA48D2CE6AFD200916922 /* libabsl_raw_hash_set.a */,
-				732BA4D22CE6AFE600916922 /* libabsl_raw_logging_internal.a */,
-				732BA4D82CE6AFE800916922 /* libabsl_scoped_set_env.a */,
-				732BA4BA2CE6AFDF00916922 /* libabsl_spinlock_wait.a */,
-				732BA4622CE6AFC700916922 /* libabsl_stacktrace.a */,
-				732BA4BB2CE6AFDF00916922 /* libabsl_status.a */,
-				732BA4C12CE6AFE100916922 /* libabsl_statusor.a */,
-				732BA49C2CE6AFD600916922 /* libabsl_str_format_internal.a */,
-				732BA4642CE6AFC700916922 /* libabsl_strerror.a */,
-				732BA4A72CE6AFD900916922 /* libabsl_string_view.a */,
-				732BA48B2CE6AFD100916922 /* libabsl_strings.a */,
-				732BA44D2CE6AFC400916922 /* libabsl_strings_internal.a */,
-				732BA4832CE6AFCF00916922 /* libabsl_symbolize.a */,
-				732BA4D92CE6AFE900916922 /* libabsl_synchronization.a */,
-				732BA4C72CE6AFE300916922 /* libabsl_throw_delegate.a */,
-				732BA47A2CE6AFCD00916922 /* libabsl_time.a */,
-				732BA4612CE6AFC600916922 /* libabsl_time_zone.a */,
-				732BA4B02CE6AFDC00916922 /* libabsl_utf8_for_code_point.a */,
-				732BA4BD2CE6AFE000916922 /* libabsl_vlog_config_internal.a */,
-				732BA4802CE6AFCE00916922 /* libboost_container.a */,
-				732BA4A22CE6AFD800916922 /* libboost_program_options.a */,
-				732BA4D32CE6AFE700916922 /* libboost_random.a */,
-				732BA46B2CE6AFC900916922 /* libboost_regex.a */,
-				732BA4862CE6AFD000916922 /* libboost_system.a */,
-				732BA46A2CE6AFC800916922 /* libbrotlicommon.a */,
-				732BA4B42CE6AFDD00916922 /* libbrotlidec.a */,
-				732BA4672CE6AFC800916922 /* libbrotlienc.a */,
-				732BA4DE2CE6AFEB00916922 /* libbz2d.a */,
-				732BA47D2CE6AFCD00916922 /* libcharset.a */,
-				732BA47E2CE6AFCE00916922 /* libcrypto.a */,
-				732BA4702CE6AFCA00916922 /* libexiv2.a */,
-				732BA4A62CE6AFD900916922 /* libexpat.a */,
-				732BA4512CE6AFC500916922 /* libflatbuffers.a */,
-				732BA4822CE6AFCF00916922 /* libfmtd.a */,
-				732BA4A02CE6AFD700916922 /* libfontconfig.a */,
-				732BA4742CE6AFCB00916922 /* libfreetyped.a */,
-				732BA4CF2CE6AFE500916922 /* libgmock.a */,
-				732BA4AF2CE6AFDB00916922 /* libgtest.a */,
-				732BA46E2CE6AFCA00916922 /* libhpdf.a */,
-				732BA4BC2CE6AFDF00916922 /* libiconv.a */,
-				732BA4B52CE6AFDD00916922 /* libinih.a */,
-				732BA4532CE6AFC500916922 /* libINIReader.a */,
-				732BA46F2CE6AFCA00916922 /* libintl.a */,
-				732BA4C52CE6AFE200916922 /* libjpeg.a */,
-				732BA4C92CE6AFE400916922 /* liblzma.a */,
-				732BA4922CE6AFD300916922 /* libopencv_calib3d4d.a */,
-				732BA4882CE6AFD000916922 /* libopencv_core4d.a */,
-				732BA4752CE6AFCB00916922 /* libopencv_dnn4d.a */,
-				732BA48F2CE6AFD200916922 /* libopencv_features2d4d.a */,
-				732BA4CC2CE6AFE500916922 /* libopencv_flann4d.a */,
-				732BA45A2CE6AFC600916922 /* libopencv_highgui4d.a */,
-				732BA4E02CE6AFEC00916922 /* libopencv_imgcodecs4d.a */,
-				732BA4962CE6AFD400916922 /* libopencv_imgproc4d.a */,
-				732BA4682CE6AFC800916922 /* libopencv_ml4d.a */,
-				732BA4B62CE6AFDD00916922 /* libopencv_objdetect4d.a */,
-				732BA48A2CE6AFD100916922 /* libopencv_photo4d.a */,
-				732BA45B2CE6AFC600916922 /* libopencv_stitching4d.a */,
-				732BA4A82CE6AFD900916922 /* libopencv_video4d.a */,
-				732BA4842CE6AFCF00916922 /* libopencv_videoio4d.a */,
-				732BA4D52CE6AFE700916922 /* libpng16d.a */,
-				732BA4D62CE6AFE800916922 /* libpodofo.a */,
-				732BA4E12CE6AFEC00916922 /* libpodofo_private.a */,
-				732BA4762CE6AFCC00916922 /* libprotobuf-lited.a */,
-				732BA4CD2CE6AFE500916922 /* libprotobufd.a */,
-				732BA4812CE6AFCE00916922 /* libprotocd.a */,
-				732BA4692CE6AFC800916922 /* libquirc.a */,
-				732BA4712CE6AFCA00916922 /* libsharpyuv.a */,
-				732BA4852CE6AFD000916922 /* libspdlogd.a */,
-				732BA4AC2CE6AFDB00916922 /* libsqlite3.a */,
-				732BA4DF2CE6AFEB00916922 /* libssl.a */,
-				732BA4552CE6AFC500916922 /* libtiffd.a */,
-				732BA4592CE6AFC600916922 /* libturbojpeg.a */,
-				732BA4AE2CE6AFDB00916922 /* libutf8_range.a */,
-				732BA4972CE6AFD500916922 /* libutf8_validity.a */,
-				732BA4982CE6AFD500916922 /* libuuid.a */,
-				732BA4912CE6AFD300916922 /* libwebp.a */,
-				732BA4AD2CE6AFDB00916922 /* libwebpdecoder.a */,
-				732BA4D72CE6AFE800916922 /* libwebpdemux.a */,
-				732BA4562CE6AFC500916922 /* libwebpmux.a */,
-				732BA4BF2CE6AFE000916922 /* libxml2.a */,
-				732BA4B32CE6AFDC00916922 /* libz.a */,
-				732BA4492CE6AF6300916922 /* libpblib-iOS.a */,
-				732BA4452CE6A97E00916922 /* libiconv.tbd */,
-				732BA4262CE6A74700916922 /* libbentleyottmann-macos.a */,
-				732BA4242CE6A74600916922 /* libcompression_utils_portable-macos.a */,
-				732BA4162CE6A74300916922 /* libdng_sdk-macos.a */,
-				732BA41F2CE6A74500916922 /* libexpat-macos.a */,
-				732BA4172CE6A74300916922 /* libharfbuzz-macos.a */,
-				732BA41E2CE6A74500916922 /* libicu-macos.a */,
-				732BA4202CE6A74500916922 /* libjpeg-macos.a */,
-				732BA4152CE6A74300916922 /* libpathkit-macos.a */,
-				732BA41D2CE6A74400916922 /* libpiex-macos.a */,
-				732BA4212CE6A74500916922 /* libpng-macos.a */,
-				732BA4112CE6A74200916922 /* libskcms-macos.a */,
-				732BA41A2CE6A74400916922 /* libskia-macos.a */,
-				732BA4182CE6A74300916922 /* libskottie-macos.a */,
-				732BA4222CE6A74600916922 /* libskparagraph-macos.a */,
-				732BA4272CE6A74700916922 /* libskresources-macos.a */,
-				732BA4252CE6A74600916922 /* libsksg-macos.a */,
-				732BA4232CE6A74600916922 /* libskshaper-macos.a */,
-				732BA41C2CE6A74400916922 /* libskunicode_core-macos.a */,
-				732BA4192CE6A74300916922 /* libskunicode_icu-macos.a */,
-				732BA41B2CE6A74400916922 /* libsvg-macos.a */,
-				732BA4142CE6A74200916922 /* libwebp_sse41-macos.a */,
-				732BA4282CE6A74700916922 /* libwebp-macos.a */,
-				732BA4122CE6A74200916922 /* libwuffs-macos.a */,
-				732BA4132CE6A74200916922 /* libzlib-macos.a */,
-				732BA3FB2CE6A4A200916922 /* libabsl_base-macos.a */,
-				732BA3DB2CE6A49D00916922 /* libabsl_cordz_handle-macos.a */,
-				732BA3FE2CE6A4A200916922 /* libabsl_debugging_internal-macos.a */,
-				732BA3E22CE6A49E00916922 /* libabsl_int128-macos.a */,
-				732BA4062CE6A4A400916922 /* libabsl_log_initialize-macos.a */,
-				732BA3DD2CE6A49D00916922 /* libabsl_log_internal_conditions-macos.a */,
-				732BA4002CE6A4A300916922 /* libabsl_log_internal_proto-macos.a */,
-				732BA3E82CE6A49F00916922 /* libabsl_log_sink-macos.a */,
-				732BA3DA2CE6A49D00916922 /* libabsl_poison-macos.a */,
-				732BA3ED2CE6A4A000916922 /* libabsl_random_internal_randen_hwaes-macos.a */,
-				732BA3E62CE6A49E00916922 /* libabsl_random_internal_randen-macos.a */,
-				732BA3FD2CE6A4A200916922 /* libabsl_random_internal_randen-macos.a */,
-				732BA3EB2CE6A49F00916922 /* libabsl_random_internal_seed_material-macos.a */,
-				732BA4022CE6A4A300916922 /* libabsl_random_seed_gen_exception-macos.a */,
-				732BA3F52CE6A4A100916922 /* libabsl_strings-macos.a */,
-				732BA3F42CE6A4A100916922 /* libboost_regex-macos.a */,
-				732BA3FA2CE6A4A200916922 /* libbrotlienc-macos.a */,
-				732BA3E42CE6A49E00916922 /* libbz2d-macos.a */,
-				732BA3D42CE6A49C00916922 /* libexiv2-macos.a */,
-				732BA4042CE6A4A300916922 /* libexpat-macos.a */,
-				732BA4102CE6A4A600916922 /* libfontconfig-macos.a */,
-				732BA3E02CE6A49D00916922 /* libharfbuzz-subset-macos.a */,
-				732BA40A2CE6A4A400916922 /* libopencv_features2d4d-macos.a */,
-				732BA3D82CE6A49C00916922 /* libopencv_flann4d-macos.a */,
-				732BA40B2CE6A4A500916922 /* libopencv_imgproc4d-macos.a */,
-				732BA3F72CE6A4A100916922 /* libopencv_stitching4d-macos.a */,
-				732BA40F2CE6A4A600916922 /* libpkgconf-macos.a */,
-				732BA3D52CE6A49C00916922 /* libpng-macos.a */,
-				732BA40D2CE6A4A500916922 /* libpng16d-macos.a */,
-				732BA3F22CE6A4A000916922 /* libsqlite3-macos.a */,
-				732BA4072CE6A4A400916922 /* libssl-macos.a */,
-				732BA3E92CE6A49F00916922 /* libwebpdecoder-macos.a */,
-				732BA3EF2CE6A4A000916922 /* libxml2-macos.a */,
-				732BA30B2CE6A48400916922 /* libabsl_bad_any_cast_impl-macos.a */,
-				732BA3242CE6A48B00916922 /* libabsl_bad_optional_access-macos.a */,
-				732BA33A2CE6A48E00916922 /* libabsl_bad_variant_access-macos.a */,
-				732BA3DF2CE6A49D00916922 /* libabsl_base-macos.a */,
-				732BA32B2CE6A48C00916922 /* libabsl_city-macos.a */,
-				732BA2F02CE6A47E00916922 /* libabsl_civil_time-macos.a */,
-				732BA30A2CE6A48300916922 /* libabsl_cord_internal-macos.a */,
-				732BA3232CE6A48A00916922 /* libabsl_cord-macos.a */,
-				732BA3512CE6A49300916922 /* libabsl_cordz_functions-macos.a */,
-				732BA3F12CE6A4A000916922 /* libabsl_cordz_handle-macos.a */,
-				732BA2FC2CE6A48000916922 /* libabsl_cordz_info-macos.a */,
-				732BA2F42CE6A47F00916922 /* libabsl_cordz_sample_token-macos.a */,
-				732BA34C2CE6A49200916922 /* libabsl_crc_cord_state-macos.a */,
-				732BA2F32CE6A47F00916922 /* libabsl_crc_cpu_detect-macos.a */,
-				732BA2E92CE6A47D00916922 /* libabsl_crc_internal-macos.a */,
-				732BA3122CE6A48700916922 /* libabsl_crc32c-macos.a */,
-				732BA3FC2CE6A4A200916922 /* libabsl_debugging_internal-macos.a */,
-				732BA34A2CE6A49100916922 /* libabsl_decode_rust_punycode-macos.a */,
-				732BA33D2CE6A48F00916922 /* libabsl_demangle_internal-macos.a */,
-				732BA3182CE6A48800916922 /* libabsl_demangle_rust-macos.a */,
-				732BA2DC2CE6A47C00916922 /* libabsl_die_if_null-macos.a */,
-				732BA2DD2CE6A47C00916922 /* libabsl_examine_stack-macos.a */,
-				732BA33F2CE6A48F00916922 /* libabsl_exponential_biased-macos.a */,
-				732BA2D62CE6A47C00916922 /* libabsl_failure_signal_handler-macos.a */,
-				732BA3022CE6A48100916922 /* libabsl_flags_commandlineflag_internal-macos.a */,
-				732BA3452CE6A49000916922 /* libabsl_flags_commandlineflag-macos.a */,
-				732BA3362CE6A48E00916922 /* libabsl_flags_config-macos.a */,
-				732BA3222CE6A48A00916922 /* libabsl_flags_internal-macos.a */,
-				732BA3442CE6A49000916922 /* libabsl_flags_marshalling-macos.a */,
-				732BA3402CE6A48F00916922 /* libabsl_flags_parse-macos.a */,
-				732BA31C2CE6A48900916922 /* libabsl_flags_private_handle_accessor-macos.a */,
-				732BA3192CE6A48900916922 /* libabsl_flags_program_name-macos.a */,
-				732BA2EB2CE6A47E00916922 /* libabsl_flags_reflection-macos.a */,
-				732BA2E12CE6A47D00916922 /* libabsl_flags_usage_internal-macos.a */,
-				732BA2E82CE6A47D00916922 /* libabsl_flags_usage-macos.a */,
-				732BA30C2CE6A48400916922 /* libabsl_graphcycles_internal-macos.a */,
-				732BA2DF2CE6A47C00916922 /* libabsl_hash-macos.a */,
-				732BA32D2CE6A48C00916922 /* libabsl_hashtablez_sampler-macos.a */,
-				732BA4052CE6A4A400916922 /* libabsl_int128-macos.a */,
-				732BA2E22CE6A47D00916922 /* libabsl_kernel_timeout_internal-macos.a */,
-				732BA31F2CE6A48A00916922 /* libabsl_leak_check-macos.a */,
-				732BA2D92CE6A47C00916922 /* libabsl_log_entry-macos.a */,
-				732BA2DA2CE6A47C00916922 /* libabsl_log_flags-macos.a */,
-				732BA3092CE6A48300916922 /* libabsl_log_globals-macos.a */,
-				732BA3D32CE6A49C00916922 /* libabsl_log_initialize-macos.a */,
-				732BA2FB2CE6A48000916922 /* libabsl_log_internal_check_op-macos.a */,
-				732BA3F32CE6A4A100916922 /* libabsl_log_internal_conditions-macos.a */,
-				732BA2FF2CE6A48100916922 /* libabsl_log_internal_fnmatch-macos.a */,
-				732BA3422CE6A49000916922 /* libabsl_log_internal_format-macos.a */,
-				732BA3302CE6A48D00916922 /* libabsl_log_internal_globals-macos.a */,
-				732BA3002CE6A48100916922 /* libabsl_log_internal_log_sink_set-macos.a */,
-				732BA3132CE6A48800916922 /* libabsl_log_internal_message-macos.a */,
-				732BA31B2CE6A48900916922 /* libabsl_log_internal_nullguard-macos.a */,
-				732BA3D12CE6A49B00916922 /* libabsl_log_internal_proto-macos.a */,
-				732BA3152CE6A48800916922 /* libabsl_log_severity-macos.a */,
-				732BA40E2CE6A4A500916922 /* libabsl_log_sink-macos.a */,
-				732BA2DE2CE6A47C00916922 /* libabsl_low_level_hash-macos.a */,
-				732BA2F12CE6A47E00916922 /* libabsl_malloc_internal-macos.a */,
-				732BA3112CE6A48700916922 /* libabsl_periodic_sampler-macos.a */,
-				732BA3EA2CE6A49F00916922 /* libabsl_poison-macos.a */,
-				732BA3172CE6A48800916922 /* libabsl_random_distributions-macos.a */,
-				732BA2D42CE6A47C00916922 /* libabsl_random_internal_distribution_test_util-macos.a */,
-				732BA3082CE6A48300916922 /* libabsl_random_internal_platform-macos.a */,
-				732BA31A2CE6A48900916922 /* libabsl_random_internal_pool_urbg-macos.a */,
-				732BA2E62CE6A47D00916922 /* libabsl_random_internal_randen_hwaes_impl-macos.a */,
-				732BA3F92CE6A4A200916922 /* libabsl_random_internal_randen_hwaes-macos.a */,
-				732BA33B2CE6A48F00916922 /* libabsl_random_internal_randen_slow-macos.a */,
-				732BA3D22CE6A49C00916922 /* libabsl_random_internal_seed_material-macos.a */,
-				732BA4082CE6A4A400916922 /* libabsl_random_seed_gen_exception-macos.a */,
-				732BA2E72CE6A47D00916922 /* libabsl_random_seed_sequences-macos.a */,
-				732BA2F72CE6A47F00916922 /* libabsl_raw_hash_set-macos.a */,
-				732BA32F2CE6A48C00916922 /* libabsl_raw_logging_internal-macos.a */,
-				732BA3372CE6A48E00916922 /* libabsl_scoped_set_env-macos.a */,
-				732BA34E2CE6A49200916922 /* libabsl_spinlock_wait-macos.a */,
-				732BA2D82CE6A47C00916922 /* libabsl_stacktrace-macos.a */,
-				732BA3432CE6A49000916922 /* libabsl_status-macos.a */,
-				732BA2EC2CE6A47E00916922 /* libabsl_statusor-macos.a */,
-				732BA31E2CE6A48900916922 /* libabsl_str_format_internal-macos.a */,
-				732BA2FD2CE6A48000916922 /* libabsl_strerror-macos.a */,
-				732BA32A2CE6A48C00916922 /* libabsl_string_view-macos.a */,
-				732BA3012CE6A48100916922 /* libabsl_strings_internal-macos.a */,
-				732BA3EC2CE6A49F00916922 /* libabsl_strings-macos.a */,
-				732BA3102CE6A48700916922 /* libabsl_symbolize-macos.a */,
-				732BA34B2CE6A49100916922 /* libabsl_synchronization-macos.a */,
-				732BA2E52CE6A47D00916922 /* libabsl_throw_delegate-macos.a */,
-				732BA3052CE6A48200916922 /* libabsl_time_zone-macos.a */,
-				732BA3482CE6A49100916922 /* libabsl_time-macos.a */,
-				732BA2D52CE6A47C00916922 /* libabsl_utf8_for_code_point-macos.a */,
-				732BA31D2CE6A48900916922 /* libabsl_vlog_config_internal-macos.a */,
-				732BA3262CE6A48B00916922 /* libboost_container-macos.a */,
-				732BA3032CE6A48100916922 /* libboost_program_options-macos.a */,
-				732BA2EF2CE6A47E00916922 /* libboost_random-macos.a */,
-				732BA3F82CE6A4A100916922 /* libboost_regex-macos.a */,
-				732BA3462CE6A49100916922 /* libboost_system-macos.a */,
-				732BA3352CE6A48E00916922 /* libbrotlicommon-macos.a */,
-				732BA32C2CE6A48C00916922 /* libbrotlidec-macos.a */,
-				732BA3F02CE6A4A000916922 /* libbrotlienc-macos.a */,
-				732BA4092CE6A4A400916922 /* libbz2d-macos.a */,
-				732BA30D2CE6A48400916922 /* libcrypto-macos.a */,
-				732BA3D62CE6A49C00916922 /* libexiv2-macos.a */,
-				732BA3D72CE6A49C00916922 /* libexpat-macos.a */,
-				732BA3042CE6A48200916922 /* libflatbuffers-macos.a */,
-				732BA3412CE6A49000916922 /* libfmtd-macos.a */,
-				732BA3EE2CE6A4A000916922 /* libfontconfig-macos.a */,
-				732BA2D72CE6A47C00916922 /* libfreetyped-macos.a */,
-				732BA2D32CE6A47C00916922 /* libGLEWd-macos.a */,
-				732BA3072CE6A48200916922 /* libglfw3-macos.a */,
-				732BA2E42CE6A47D00916922 /* libgmock-macos.a */,
-				732BA3292CE6A48B00916922 /* libgtest-macos.a */,
-				732BA3342CE6A48D00916922 /* libharfbuzz-macos.a */,
-				732BA3D92CE6A49C00916922 /* libharfbuzz-subset-macos.a */,
-				732BA2F22CE6A47E00916922 /* libhpdf-macos.a */,
-				732BA3392CE6A48E00916922 /* libicudata-macos.a */,
-				732BA3492CE6A49100916922 /* libicui18n-macos.a */,
-				732BA2F82CE6A47F00916922 /* libicuio-macos.a */,
-				732BA3382CE6A48E00916922 /* libicuuc-macos.a */,
-				732BA2FE2CE6A48000916922 /* libinih-macos.a */,
-				732BA3252CE6A48B00916922 /* libINIReader-macos.a */,
-				732BA2DB2CE6A47C00916922 /* libintl-macos.a */,
-				732BA32E2CE6A48C00916922 /* libjpeg-macos.a */,
-				732BA3472CE6A49100916922 /* liblzma-macos.a */,
-				732BA2EA2CE6A47E00916922 /* libopencv_calib3d4d-macos.a */,
-				732BA3282CE6A48B00916922 /* libopencv_core4d-macos.a */,
-				732BA30E2CE6A48400916922 /* libopencv_dnn4d-macos.a */,
-				732BA3E12CE6A49E00916922 /* libopencv_features2d4d-macos.a */,
-				732BA3E32CE6A49E00916922 /* libopencv_flann4d-macos.a */,
-				732BA34F2CE6A49200916922 /* libopencv_highgui4d-macos.a */,
-				732BA33C2CE6A48F00916922 /* libopencv_imgcodecs4d-macos.a */,
-				732BA3FF2CE6A4A300916922 /* libopencv_imgproc4d-macos.a */,
-				732BA3202CE6A48A00916922 /* libopencv_ml4d-macos.a */,
-				732BA2F52CE6A47F00916922 /* libopencv_objdetect4d-macos.a */,
-				732BA2E32CE6A47D00916922 /* libopencv_photo4d-macos.a */,
-				732BA3DC2CE6A49D00916922 /* libopencv_stitching4d-macos.a */,
-				732BA3272CE6A48B00916922 /* libopencv_video4d-macos.a */,
-				732BA3062CE6A48200916922 /* libopencv_videoio4d-macos.a */,
-				732BA3DE2CE6A49D00916922 /* libpkgconf-macos.a */,
-				732BA3E72CE6A49F00916922 /* libpng-macos.a */,
-				732BA4012CE6A4A300916922 /* libpng16d-macos.a */,
-				732BA2F92CE6A48000916922 /* libpodofo_private-macos.a */,
-				732BA2ED2CE6A47E00916922 /* libpodofo-macos.a */,
-				732BA3332CE6A48D00916922 /* libprotobuf-lited-macos.a */,
-				732BA3212CE6A48A00916922 /* libprotobufd-macos.a */,
-				732BA3312CE6A48D00916922 /* libprotocd-macos.a */,
-				732BA30F2CE6A48700916922 /* libquirc-macos.a */,
-				732BA2EE2CE6A47E00916922 /* libsharpyuv-macos.a */,
-				732BA2E02CE6A47D00916922 /* libspdlogd-macos.a */,
-				732BA3F62CE6A4A100916922 /* libsqlite3-macos.a */,
-				732BA4032CE6A4A300916922 /* libssl-macos.a */,
-				732BA2FA2CE6A48000916922 /* libtiffd-macos.a */,
-				732BA2F62CE6A47F00916922 /* libturbojpeg-macos.a */,
-				732BA3162CE6A48800916922 /* libutf8_range-macos.a */,
-				732BA3142CE6A48800916922 /* libutf8_validity-macos.a */,
-				732BA3322CE6A48D00916922 /* libwebp-macos.a */,
-				732BA40C2CE6A4A500916922 /* libwebpdecoder-macos.a */,
-				732BA3502CE6A49200916922 /* libwebpdemux-macos.a */,
-				732BA34D2CE6A49200916922 /* libwebpmux-macos.a */,
-				732BA3E52CE6A49E00916922 /* libxml2-macos.a */,
-				732BA33E2CE6A48F00916922 /* libz-macos.a */,
-				732BA2D12CE6A44A00916922 /* libpblib-macos.a */,
+				73F948E92D870F1C00C388A1 /* XCTest.framework */,
+				73F947712D870B7B00C388A1 /* macos-release */,
+				73F9476F2D870B4000C388A1 /* libiconv.tbd */,
+				73F93FC32D87079C00C388A1 /* macos */,
+				73F93E7E2D87069900C388A1 /* macos-debug */,
 				7391648C2CC575E900703394 /* Foundation.framework */,
 				73049EB62C162BDB009EA667 /* OpenCL.framework */,
 			);
@@ -1021,6 +657,7 @@
 				73C4EC9F2AA0C0E1006C4108 /* Products */,
 				73049E222C16271C009EA667 /* Frameworks */,
 				734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */,
+				73F93E7D2D87055100C388A1 /* PhotoBook copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1030,6 +667,7 @@
 				73C4EC9E2AA0C0E1006C4108 /* PhotoBook.app */,
 				73C4ECAF2AA0C0E3006C4108 /* PhotoBookTests.xctest */,
 				73C4ECB92AA0C0E3006C4108 /* PhotoBookUITests.xctest */,
+				73F93E702D87055000C388A1 /* PhotoBook-Release.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1099,6 +737,7 @@
 				73C4EC9A2AA0C0E1006C4108 /* Sources */,
 				73C4EC9B2AA0C0E1006C4108 /* Frameworks */,
 				73C4EC9C2AA0C0E1006C4108 /* Resources */,
+				73F949382D8711D300C388A1 /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -1117,6 +756,9 @@
 				73AC50302D458966001E19C8 /* Pages */,
 				73AE020E2D72E602001E2B33 /* BasicTransformations */,
 				73F363912D7C977600108765 /* DPL */,
+				73F93E7E2D87069900C388A1 /* macos-debug */,
+				73F93FC32D87079C00C388A1 /* macos */,
+				73F947712D870B7B00C388A1 /* macos-release */,
 			);
 			name = PhotoBook;
 			productName = PhotoBook;
@@ -1158,6 +800,41 @@
 			productName = PhotoBookUITests;
 			productReference = 73C4ECB92AA0C0E3006C4108 /* PhotoBookUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		73F93E572D87055000C388A1 /* PhotoBook-Release */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73F93E6D2D87055000C388A1 /* Build configuration list for PBXNativeTarget "PhotoBook-Release" */;
+			buildPhases = (
+				73F93E582D87055000C388A1 /* Sources */,
+				73F93E5F2D87055000C388A1 /* Frameworks */,
+				73F93E652D87055000C388A1 /* Resources */,
+				73F948EC2D870F1C00C388A1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				73AC50252D458306001E19C8 /* Canvas */,
+				73AC50262D45835A001E19C8 /* Lut */,
+				73AC50272D458370001E19C8 /* Collages */,
+				73AC50282D4583D3001E19C8 /* UPL */,
+				73AC50292D45887F001E19C8 /* DashboardDialogs */,
+				73AC502A2D4588AA001E19C8 /* Media */,
+				73AC502B2D4588C2001E19C8 /* TableDialogs */,
+				73AC502C2D4588E0001E19C8 /* SPL */,
+				73AC502D2D45890A001E19C8 /* Wrappers */,
+				73AC50302D458966001E19C8 /* Pages */,
+				73AE020E2D72E602001E2B33 /* BasicTransformations */,
+				73F363912D7C977600108765 /* DPL */,
+				73F93E7E2D87069900C388A1 /* macos-debug */,
+				73F93FC32D87079C00C388A1 /* macos */,
+				73F947712D870B7B00C388A1 /* macos-release */,
+			);
+			name = "PhotoBook-Release";
+			productName = PhotoBook;
+			productReference = 73F93E702D87055000C388A1 /* PhotoBook-Release.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -1208,6 +885,7 @@
 				73C4EC9D2AA0C0E1006C4108 /* PhotoBook */,
 				73C4ECAE2AA0C0E3006C4108 /* PhotoBookTests */,
 				73C4ECB82AA0C0E3006C4108 /* PhotoBookUITests */,
+				73F93E572D87055000C388A1 /* PhotoBook-Release */,
 			);
 		};
 /* End PBXProject section */
@@ -1251,6 +929,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73F93E652D87055000C388A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73F93E662D87055000C388A1 /* svg-templates in Resources */,
+				73F93E672D87055000C388A1 /* shaders in Resources */,
+				73F93E682D87055000C388A1 /* film-luts in Resources */,
+				73F93E692D87055000C388A1 /* others in Resources */,
+				73F93E6A2D87055000C388A1 /* Preview Assets.xcassets in Resources */,
+				73F93E6B2D87055000C388A1 /* Info.plist in Resources */,
+				73F93E6C2D87055000C388A1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1281,6 +973,19 @@
 			files = (
 				73C4ECC02AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift in Sources */,
 				73C4ECBE2AA0C0E3006C4108 /* PhotoBookUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73F93E582D87055000C388A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73F93E592D87055000C388A1 /* Photobook.mm in Sources */,
+				73F93E5A2D87055000C388A1 /* ColorExtension.swift in Sources */,
+				73F93E5B2D87055000C388A1 /* PhotoBook-Bridging-Header.m in Sources */,
+				73F93E5C2D87055000C388A1 /* NoirUIListener.swift in Sources */,
+				73F93E5D2D87055000C388A1 /* PhotoLinesModel.swift in Sources */,
+				73F93E5E2D87055000C388A1 /* PhotobookUIListener.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1494,22 +1199,15 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
-					"$(SRCROOT)/../../PB/arm64-ios",
-					"$(SRCROOT)/../../vcpkg/installed/arm64-ios/debug/lib",
+					"$(PROJECT_DIR)/macos",
 					"$(SDKROOT)/usr/lib/i18n",
-					"$(SRCROOT)/../../PB/third-party/ios/skia/arm64",
+					"$(PROJECT_DIR)/macos-debug",
 				);
-				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = (
-					"$(SRCROOT)/../../PB/build",
-					"$(SRCROOT)/../../PB/vcpkg-fat",
-					"$(SDKROOT)/usr/lib/i18n",
-					"$(SRCROOT)/../../PB/skia-fat",
-				);
+				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = "";
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = (
-					"$(SRCROOT)/../../PB/build",
-					"$(SRCROOT)/../../PB/vcpkg-fat",
+					"$(PROJECT_DIR)/macos",
 					"$(SDKROOT)/usr/lib/i18n",
-					"$(SRCROOT)/../../PB/skia-fat",
+					"$(PROJECT_DIR)/macos-debug",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
@@ -1669,6 +1367,141 @@
 			};
 			name = Release;
 		};
+		73F93E6E2D87055000C388A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CC = "";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = PhotoBook/PhotoBook.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				CXX = "";
+				DEVELOPMENT_ASSET_PATHS = "\"PhotoBook/Preview Content\"";
+				DEVELOPMENT_TEAM = T672CQXP54;
+				ENABLE_PREVIEWS = YES;
+				GCC_VERSION = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
+				"HEADER_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = "";
+				"HEADER_SEARCH_PATHS[sdk=macosx*]" = "";
+				INFOPLIST_FILE = "PhotoBook copy-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/macos",
+					"$(PROJECT_DIR)/macos-release",
+					"$(PROJECT_DIR)/macos-debug",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = "";
+				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = "";
+				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = "";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fexperimental-library",
+					"-Wno-module-import-in-extern-c",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PhotoBook/PhotoBook-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		73F93E6F2D87055000C388A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = PhotoBook/PhotoBook.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PhotoBook/Preview Content\"";
+				DEVELOPMENT_TEAM = T672CQXP54;
+				ENABLE_PREVIEWS = YES;
+				GCC_VERSION = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../../pb/include",
+					"$(SRCROOT)/../../pb/third-party/osx/skia/include",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include/thread-pool-0.6.2",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include",
+					"$(SRCROOT)/../../vcpkg/installed/x64-osx/include/opencv4",
+				);
+				INFOPLIST_FILE = "PhotoBook copy-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/macos",
+					"$(PROJECT_DIR)/macos-release",
+					"$(PROJECT_DIR)/macos-debug",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = (
+					"$(PROJECT_DIR)/macos-release",
+					"$(PROJECT_DIR)/macos",
+					"$(SDKROOT)/usr/lib/i18n",
+				);
+				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = (
+					"$(PROJECT_DIR)/macos-release",
+					"$(PROJECT_DIR)/macos",
+					"$(SDKROOT)/usr/lib/i18n",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-fexperimental-library",
+					"-Wno-module-import-in-extern-c",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mandelbrotsc.PhotoBook;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "PhotoBook/PhotoBook-Bridging-Header.h";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1708,6 +1541,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		73F93E6D2D87055000C388A1 /* Build configuration list for PBXNativeTarget "PhotoBook-Release" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73F93E6E2D87055000C388A1 /* Debug */,
+				73F93E6F2D87055000C388A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -1738,6 +1580,16 @@
 			productName = Bugsnag;
 		};
 		737EEEE82D4FC16C003C342E /* BugsnagNetworkRequestPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = BugsnagNetworkRequestPlugin;
+		};
+		73F948E52D870EB100C388A1 /* Bugsnag */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
+			productName = Bugsnag;
+		};
+		73F948E72D870EB100C388A1 /* BugsnagNetworkRequestPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 737EEEE12D4FBF95003C342E /* XCRemoteSwiftPackageReference "bugsnag-cocoa" */;
 			productName = BugsnagNetworkRequestPlugin;

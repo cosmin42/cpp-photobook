@@ -1,6 +1,6 @@
-build/*
 PB/build/*
 PB/Release/*
+PB/Debug/*
 PB/include/Config.h
 .vscode/*
 .commit-check.yml
@@ -74,8 +74,9 @@ compile_commands.json
 out/
 PB/x64*
 PB/arm64*
-PB/skia-fat/*
-PB/vcpkg-fat/*
+osx/PhotoBook/macos/*
+osx/PhotoBook/macos-debug/*
+osx/PhotoBook/macos-release/*
 build-x64*
 build-ARM64*
 windows/PhotobookRuntimeComponent/*_g.h

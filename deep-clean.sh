@@ -1,8 +1,7 @@
 #!/bin/bash
 
-rm -rf PB/arm64-macos
-rm -rf PB/arm64-ios
-rm -rf PB/x64-macos
-rm -rf pb/build
+rm -rf osx/PhotoBook/macos-debug
+rm -rf osx/PhotoBook/macos-release
+rm -rf osx/PhotoBook/macos
 rm -rf pb/Release
-rm -rf pb/skia-fat
+rm -rf pb/Debug
