@@ -29,20 +29,12 @@ public:
 
   ~DirectoryInspectionJob() = default;
 
-  void configureListener(DirectoryInspectionJobListener *listener)
-  {
-    mListener = listener;
-  }
+  void configureListener(DirectoryInspectionJobListener *listener);
 
-  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler)
-  {
-    mThreadScheduler = threadScheduler;
-  }
+  void configureThreadScheduler(PBDev::ThreadScheduler *threadScheduler);
 
-  void setValidator(std::function<bool(Path)> validator)
-  {
-    mValidator = validator;
-  }
+  // TODO: Improve this validator, it doesn't seem right
+  void setValidator(std::function<bool(Path)> validator);
 
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override;
@@ -61,4 +53,4 @@ private:
   std::vector<Path>                             mPaths;
   bool                                          mCrunchedFlag = false;
 };
-} // namespace PB
+} // namespace PB::Job

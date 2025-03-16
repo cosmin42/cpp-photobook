@@ -8,6 +8,7 @@
 #pragma warning(pop)
 
 #include <pb/image/ImageReader.h>
+#include <pb/infra/FileSupport.h>
 
 namespace PB::Process {
 bool validExtension(std::optional<Path> path)
@@ -271,7 +272,7 @@ void applyBrightnessInPlace(std::shared_ptr<cv::Mat> image, double brightness)
   if (std::abs(brightness - 0.0) <= std::numeric_limits<double>::epsilon()) {
     return;
   }
-  image->convertTo(*image, -1, 1, (brightness*255));
+  image->convertTo(*image, -1, 1, (brightness * 255));
 }
 
 std::shared_ptr<cv::Mat> applyExposure(std::shared_ptr<cv::Mat> image,
@@ -436,7 +437,7 @@ void readImageWriteThumbnail(int screenWidth, int screenHeight, Path inputPath,
     return;
   }
 
-  auto inputImage = ImageReader().loadImage(inputPath);
+  auto inputImage = infra::loadImageToCvMat(inputPath);
 
   int mediumThumbnailWidth =
       std::max<int>(OneConfig::MEDIUM_THUMBNAIL_WIDTH, screenWidth / 2);

@@ -10,6 +10,24 @@
 #include <pb/Config.h>
 
 namespace PB::Job {
+
+void DirectoryInspectionJob::configureListener(
+    DirectoryInspectionJobListener *listener)
+{
+  mListener = listener;
+}
+
+void DirectoryInspectionJob::configureThreadScheduler(
+    PBDev::ThreadScheduler *threadScheduler)
+{
+  mThreadScheduler = threadScheduler;
+}
+
+void DirectoryInspectionJob::setValidator(std::function<bool(Path)> validator)
+{
+  mValidator = validator;
+}
+
 std::optional<IdentifyableFunction>
 DirectoryInspectionJob::getTask(std::stop_token stopToken)
 {
@@ -40,4 +58,4 @@ void DirectoryInspectionJob::onTaskFinished(PBDev::MapReducerTaskId taskId)
   mListener->onInspectionFinished(mJobId, mPaths);
 }
 
-} // namespace PB
+} // namespace PB::Job

@@ -53,6 +53,8 @@ std::optional<ValueType> mapGet(M<KeyType, ValueType> const &map,
 void basicAssert(int shouldBetrue, const std::source_location location =
                                        std::source_location::current());
 
+#define PB_UNREACHABLE PBDev::basicAssert(false)
+
 template <typename Tag> class StrongUuid final {
 public:
   explicit StrongUuid(const boost::uuids::uuid &uuid) : mUuid(uuid) {}

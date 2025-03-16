@@ -141,6 +141,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/infra/Concepts.h
     include/pb/infra/Error.h
     include/pb/infra/FileInfo.h
+    include/pb/infra/FileSupport.h
     include/pb/infra/ParallelTaskConsumer.h
     include/pb/infra/TaskCruncher.h
     include/pb/infra/ThreadScheduler.h
@@ -162,6 +163,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/EffectsService.cpp
     src/Enums.cpp
     src/ExportService.cpp
+    src/FileSupport.cpp
     src/GenericImage.cpp
     src/Html.cpp
     src/ImageFactory.cpp

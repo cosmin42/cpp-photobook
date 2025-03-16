@@ -68,7 +68,7 @@ std::string ThumbnailsTask::createThumbnailsByPath(
                      {(int)project->second.paperSettings.width,
                       (int)project->second.paperSettings.height});
 
-  auto originalImage = ImageReader().loadImage(originalPath);
+  auto originalImage = infra::loadImageToCvMat(originalPath);
 
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);

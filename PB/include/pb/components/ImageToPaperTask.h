@@ -6,11 +6,12 @@
 
 #include <pb/Platform.h>
 #include <pb/components/MapReducer.h>
+#include <pb/components/Project.h>
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/image/ImageReader.h>
-#include <pb/components/Project.h>
+#include <pb/infra/FileSupport.h>
 #include <pb/services/ProjectManagementService.h>
 
 DECLARE_STRONG_UUID(ImageToPaperId)
@@ -134,7 +135,7 @@ private:
     auto imagePath =
         mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, image->hash());
 
-    auto imageData = ImageReader().loadImage(imagePath);
+    auto imageData = infra::loadImageToCvMat(imagePath);
     PBDev::basicAssert(imageData != nullptr);
 
     auto newImageSize =

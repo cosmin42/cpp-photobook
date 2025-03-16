@@ -1,5 +1,6 @@
 #include <pb/Config.h>
 
+#include <exception>
 #include <source_location>
 
 #pragma warning(push)
@@ -18,10 +19,10 @@ void basicAssert(int shouldBetrue, const std::source_location location)
     spdlog::info("{}\n", message);
 #endif
   }
-#if defined(_DEBUG) || defined(__APPLE__)
+#if defined(_DEBUG)
   assert(shouldBetrue);
 #else
-  (void)shouldBetrue;
+  std::terminate();
 #endif
 }
 } // namespace PBDev
