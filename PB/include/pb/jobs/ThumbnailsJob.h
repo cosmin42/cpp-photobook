@@ -38,10 +38,9 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  void configureProjectManagementService(
-      std::shared_ptr<ProjectManagementService> projectManagementSystem)
+  void configureProject(std::shared_ptr<IdentifyableProject> project)
   {
-    mProjectManagementService = projectManagementSystem;
+    mProject = project;
   }
 
   std::optional<IdentifyableFunction>
@@ -70,7 +69,7 @@ public:
 private:
   ThumbnailsJobListener                    *mListener = nullptr;
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  std::shared_ptr<IdentifyableProject>      mProject = nullptr;
   PBDev::ThumbnailsJobId                    mJobId;
   unsigned                                  mIndex = 0;
   std::vector<Path>                         mPaths;
@@ -80,27 +79,23 @@ private:
     if (std::filesystem::is_regular_file(path)) {
       ThumbnailsTask task(path);
       task.configurePlatformInfo(mPlatformInfo);
-      task.configureProjectManagementService(mProjectManagementService);
+      task.configureProject(mProject);
       auto hash = task.createThumbnails();
 
       return std::make_shared<RegularImageV2>(hash, path);
     }
     else if (std::filesystem::is_directory(path)) {
-
-      auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-      PBDev::basicAssert(maybeProject != nullptr);
-
       auto temporaryImagePath =
-          mPlatformInfo->newTemporaryImage(maybeProject->first);
+          mPlatformInfo->newTemporaryImage(mProject->first);
 
       auto directoryName = path.filename().string();
-      auto image = Process::createTextImage(maybeProject->second.paperSettings,
+      auto image = Process::createTextImage(mProject->second.paperSettings,
                                             directoryName);
       PB::infra::writeImageOnDisk(image, temporaryImagePath);
 
       ThumbnailsTask task(temporaryImagePath);
       task.configurePlatformInfo(mPlatformInfo);
-      task.configureProjectManagementService(mProjectManagementService);
+      task.configureProject(mProject);
       auto hash = task.createThumbnails();
 
       std::filesystem::remove(temporaryImagePath);

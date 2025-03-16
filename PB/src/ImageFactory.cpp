@@ -11,10 +11,10 @@ void ImageFactory::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ImageFactory::configureProjectManagementService(
-    std::shared_ptr<ProjectManagementService> projectManagementService)
+void ImageFactory::configureProject(
+    std::shared_ptr<IdentifyableProject> project)
 {
-  mProjectManagementService = projectManagementService;
+  mProject = project;
 }
 
 void ImageFactory::configureDurableHashService(
@@ -39,10 +39,7 @@ ImageFactory::createRegularImage(std::string hash)
 std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
                                                            std::string hash)
 {
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  auto project = maybeProject->second;
+  auto project = mProject->second;
 
   std::shared_ptr<cv::Mat> image = PB::Process::singleColorImage(
       project.paperSettings.width, project.paperSettings.height,
@@ -57,8 +54,7 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
       {project.paperSettings.width / 2, project.paperSettings.height / 2},
       path.stem().string(), fontInfo)(image);
 
-  ThumbnailsTask::createThumbnails(image, mPlatformInfo,
-                                   mProjectManagementService, hash);
+  ThumbnailsTask::createThumbnails(image, mPlatformInfo, mProject, hash);
 
   auto textImage = std::make_shared<TextImageV2>(hash, path.stem().string());
   return textImage;
@@ -66,10 +62,7 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
 
 GenericImagePtr ImageFactory::createImage(Path path)
 {
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  PBDev::ProjectId projectId(maybeProject->first);
+  PBDev::ProjectId projectId(mProject->first);
 
   if (std::filesystem::is_regular_file(path)) {
     return createRegularImage(path);
@@ -90,24 +83,18 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
   auto largeFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::LARGE);
+      mProject->first, image->hash(), ThumbnailsSize::LARGE);
   auto mediumFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::MEDIUM);
+      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
   auto smallFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::SMALL);
+      mProject->first, image->hash(), ThumbnailsSize::SMALL);
 
-  auto newLargeFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::LARGE);
-  auto newMediumFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::MEDIUM);
-  auto newSmallFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::SMALL);
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                     ThumbnailsSize::LARGE);
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                      ThumbnailsSize::MEDIUM);
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                     ThumbnailsSize::SMALL);
 
   std::filesystem::copy(largeFile, newLargeFile);
   std::filesystem::copy(mediumFile, newMediumFile);
@@ -129,28 +116,23 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   }
 }
 
-GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image) {
+GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image)
+{
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
   auto largeFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::LARGE);
+      mProject->first, image->hash(), ThumbnailsSize::LARGE);
   auto mediumFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::MEDIUM);
+      mProject->first, image->hash(), ThumbnailsSize::MEDIUM);
   auto smallFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, image->hash(),
-      ThumbnailsSize::SMALL);
+      mProject->first, image->hash(), ThumbnailsSize::SMALL);
 
-  auto newLargeFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::LARGE);
-  auto newMediumFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::MEDIUM);
-  auto newSmallFile = mPlatformInfo->thumbnailByHash(
-      mProjectManagementService->maybeLoadedProjectInfo()->first, newHash,
-      ThumbnailsSize::SMALL);
+  auto newLargeFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                     ThumbnailsSize::LARGE);
+  auto newMediumFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                      ThumbnailsSize::MEDIUM);
+  auto newSmallFile = mPlatformInfo->thumbnailByHash(mProject->first, newHash,
+                                                     ThumbnailsSize::SMALL);
 
   if (image->type() == ImageType::Regular) {
     auto regularImage = std::dynamic_pointer_cast<RegularImageV2>(image);

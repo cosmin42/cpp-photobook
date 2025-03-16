@@ -74,8 +74,12 @@ void PhotobookWin::mapImagesToSPL(
     backendMap[imageId].overlapType = PB::Geometry::OverlapType::Inscribed;
   }
 
-  imageToPaperService->map(
-      PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+  auto maybeProject =
+      mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
+
+  imageToPaperService->toPaper(
+      PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap,
+      maybeProject->second.paperSettings);
 }
 
 } // namespace winrt::PhotobookRuntimeComponent::implementation

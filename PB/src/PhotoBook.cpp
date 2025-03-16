@@ -88,7 +88,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
-  mImportLogic->configureProjectManagementService(mProjectManagementService);
   mImportLogic->configureListener(importFoldersServiceListener);
   mImportLogic->configureScheduler(threadScheduler);
 
@@ -98,13 +97,10 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
 
   mImageFactory->configurePlatformInfo(mPlatformInfo);
-  mImageFactory->configureProjectManagementService(mProjectManagementService);
   mImageFactory->configureDurableHashService(mDurableHashService);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
-  mImageToPaperService->configureProjectManagementService(
-      mProjectManagementService);
   mImageToPaperService->configureImageFactory(mImageFactory);
 
   mLutService->configurePlatformInfo(mPlatformInfo);
@@ -194,6 +190,9 @@ void Photobook::makeCollages()
   mCollageTemplateManager->configureProject(maybeProject);
   mExportService->configureProject(maybeProject);
   mEffectsService->configureProject(maybeProject);
+  mImageFactory->configureProject(maybeProject);
+  mImageToPaperService->configureProject(maybeProject);
+  mImportLogic->configureProject(maybeProject);
 
   auto collageThumbnailsMakerListener =
       dynamic_cast<CollageThumbnailsMakerListener *>(this);
@@ -423,7 +422,8 @@ void Photobook::onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
   });
 }
 
-void Photobook::onEffectsApplied(PBDev::EffectId effectId, GenericImagePtr image)
+void Photobook::onEffectsApplied(PBDev::EffectId effectId,
+                                 GenericImagePtr image)
 {
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
@@ -458,7 +458,9 @@ std::string Photobook::help(std::string name) const
 {
   auto othersPath = mPlatformInfo->othersPath();
   const std::unordered_map<std::string, std::string> files = {
-      {"help", "help.txt"}, {"license", "License.txt"}, {"ppolicy", "PrivacyPolicy.txt"}};
+      {"help", "help.txt"},
+      {"license", "License.txt"},
+      {"ppolicy", "PrivacyPolicy.txt"}};
 
   PBDev::basicAssert(files.find(name) != files.end());
 

@@ -6,9 +6,7 @@ namespace PB::Service {
 
 void ImportFoldersService::addImportFolder(Path path)
 {
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-  if (maybeProject->second.imageMonitor()->containsRow(path, true)) {
+  if (mProject->second.imageMonitor()->containsRow(path, true)) {
     mListener->onImportError(PBDev::Error()
                              << PB::ErrorCode::FolderAlreadyImported);
     return;
@@ -49,8 +47,8 @@ void ImportFoldersService::startThumbnailsCreation(
 
   mThumbnailsJobs.at(jobId).configureListener(this);
   mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
-  mThumbnailsJobs.at(jobId).configureProjectManagementService(
-      mProjectManagementService);
+  mThumbnailsJobs.at(jobId).configureProject(
+      mProject);
 
   auto stopSource =
       mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),

@@ -26,10 +26,9 @@ public:
     mTaskCruncher = taskCruncher;
   }
 
-  void configureProjectManagementService(
-      std::shared_ptr<ProjectManagementService> projectManagementService)
+  void configureProject(std::shared_ptr<IdentifyableProject> project)
   {
-    mProjectManagementService = projectManagementService;
+    mProject = project;
   }
 
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory)
@@ -42,10 +41,11 @@ public:
     mListener = listener;
   }
 
-  void map(PBDev::ImageToPaperServiceId,
-           std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
-                              boost::hash<PBDev::ImageToPaperId>>
-               originalImages);
+  void toPaper(PBDev::ImageToPaperServiceId,
+               std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
+                                  boost::hash<PBDev::ImageToPaperId>>
+                             originalImages,
+               PaperSettings paperSettings);
 
   void copyImages(PBDev::ImageToPaperServiceId,
                   std::unordered_map<PBDev::ImageToPaperId, GenericImagePtr,
@@ -54,10 +54,10 @@ public:
   void removeTask(PBDev::ImageToPaperServiceId id);
 
 private:
-  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
-  std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  std::shared_ptr<ImageFactory>        mImageFactory = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>
       mTasks;

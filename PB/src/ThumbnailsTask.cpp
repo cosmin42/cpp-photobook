@@ -6,16 +6,14 @@
 namespace PB {
 
 // TODO: reconcile with the other createThumbnails
-std::string ThumbnailsTask::createThumbnails(
-    std::shared_ptr<cv::Mat>                  originalImage,
-    std::shared_ptr<PlatformInfo>             platformInfo,
-    std::shared_ptr<ProjectManagementService> projectManagementService,
-    std::string                               targetHash)
+std::string
+ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
+                                 std::shared_ptr<PlatformInfo> platformInfo,
+                                 std::shared_ptr<IdentifyableProject> project,
+                                 std::string targetHash)
 {
-  auto maybleProject = projectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybleProject != nullptr);
 
-  auto projectId = maybleProject->first;
+  auto projectId = project->first;
 
   if (targetHash.empty()) {
     targetHash = "wait";
@@ -29,8 +27,8 @@ std::string ThumbnailsTask::createThumbnails(
 
   auto [largeSize, mediumSize, smallSize] = Geometry::compute3SizesGeometry(
       cv::Size{(int)width, (int)height},
-      {(int)maybleProject->second.paperSettings.width,
-       (int)maybleProject->second.paperSettings.height});
+      {(int)project->second.paperSettings.width,
+       (int)project->second.paperSettings.height});
 
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);
@@ -95,17 +93,15 @@ void ThumbnailsTask::configurePlatformInfo(
   mPlatformInfo = platformInfo;
 }
 
-void ThumbnailsTask::configureProjectManagementService(
-    std::shared_ptr<ProjectManagementService> projectManagementService)
+void ThumbnailsTask::configureProject(
+    std::shared_ptr<IdentifyableProject> project)
 {
-  mProjectManagementService = projectManagementService;
+  mProject = project;
 }
 
 std::string ThumbnailsTask::createThumbnails()
 {
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-  return createThumbnailsByPath(mOriginalPath, mPlatformInfo, maybeProject);
+  return createThumbnailsByPath(mOriginalPath, mPlatformInfo, mProject);
 }
 
 } // namespace PB

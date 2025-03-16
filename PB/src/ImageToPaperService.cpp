@@ -2,19 +2,16 @@
 
 namespace PB::Service {
 
-void ImageToPaperService::map(
+void ImageToPaperService::toPaper(
     PBDev::ImageToPaperServiceId id,
     std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                        boost::hash<PBDev::ImageToPaperId>>
-        originalImages)
+                  originalImages,
+    PaperSettings paperSettings)
 {
 
-  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
-  PBDev::basicAssert(maybeProject != nullptr);
-
-  auto &&task =
-      ImageToPaperTask(mProjectManagementService,
-                       maybeProject->second.paperSettings, originalImages);
+  auto &&task = ImageToPaperTask(mProject, paperSettings,
+                                 originalImages);
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
   mTasks.emplace(id, task);

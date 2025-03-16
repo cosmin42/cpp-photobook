@@ -3,13 +3,13 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
+#include <pb/entities/RowProcessingData.h>
+#include <pb/infra/Error.h>
 #include <pb/infra/TaskCruncher.h>
 #include <pb/infra/ThreadScheduler.h>
-#include <pb/entities/RowProcessingData.h>
 #include <pb/jobs/PicturesSearchJob.h>
 #include <pb/jobs/ThumbnailsJob.h>
 #include <pb/services/ProjectManagementService.h>
-#include <pb/infra/Error.h>
 
 using namespace PB::Job;
 
@@ -49,10 +49,9 @@ public:
     mPlatformInfo = platformInfo;
   }
 
-  void configureProjectManagementService(
-      std::shared_ptr<ProjectManagementService> projectManagementService)
+  void configureProject(std::shared_ptr<IdentifyableProject> project)
   {
-    mProjectManagementService = projectManagementService;
+    mProject = project;
   }
 
   void addImportFolder(Path path);
@@ -68,11 +67,11 @@ public:
   bool isFinished(Path path);
 
 private:
-  ImportFoldersServiceListener             *mListener = nullptr;
-  PBDev::ThreadScheduler                   *mScheduler = nullptr;
-  std::shared_ptr<TaskCruncher>             mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  ImportFoldersServiceListener        *mListener = nullptr;
+  PBDev::ThreadScheduler              *mScheduler = nullptr;
+  std::shared_ptr<TaskCruncher>        mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
 
   std::unordered_map<PBDev::ThumbnailsJobId, Path,
                      boost::hash<PBDev::ThumbnailsJobId>>
@@ -87,4 +86,4 @@ private:
   void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
                                std::vector<Path>      searchResults);
 };
-} // namespace PB
+} // namespace PB::Service

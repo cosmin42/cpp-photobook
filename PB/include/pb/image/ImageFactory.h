@@ -12,8 +12,7 @@ public:
   ~ImageFactory() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureProjectManagementService(
-      std::shared_ptr<ProjectManagementService> projectManagementService);
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
   void configureDurableHashService(
       std::shared_ptr<DurableHashService> durableHashService);
 
@@ -39,7 +38,7 @@ public:
 
 private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  std::shared_ptr<IdentifyableProject>      mProject = nullptr;
   std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
   GenericImagePtr                           mDefaultRegularImage = nullptr;
 };

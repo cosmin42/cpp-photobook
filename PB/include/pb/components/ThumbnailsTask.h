@@ -7,17 +7,17 @@
 #pragma warning(pop)
 
 #include <pb/Platform.h>
-#include <pb/services/ProjectManagementService.h>
 #include <pb/infra/Traits.h>
+#include <pb/services/ProjectManagementService.h>
 
 namespace PB {
 class ThumbnailsTask final {
 public:
-  static std::string createThumbnails(
-      std::shared_ptr<cv::Mat>                  originalImage,
-      std::shared_ptr<PlatformInfo>             platformInfo,
-      std::shared_ptr<ProjectManagementService> projectManagementService,
-      std::string                               targetHash = "");
+  static std::string
+  createThumbnails(std::shared_ptr<cv::Mat>             originalImage,
+                   std::shared_ptr<PlatformInfo>        platformInfo,
+                   std::shared_ptr<IdentifyableProject> project,
+                   std::string                          targetHash = "");
 
   static std::string
   createThumbnailsByPath(Path                                 originalImage,
@@ -29,14 +29,13 @@ public:
   ~ThumbnailsTask() = default;
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureProjectManagementService(
-      std::shared_ptr<ProjectManagementService> projectManagementService);
+  void configureProject(std::shared_ptr<IdentifyableProject> project);
 
   std::string createThumbnails();
 
 private:
-  std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
-  Path                                      mOriginalPath;
+  std::shared_ptr<PlatformInfo>        mPlatformInfo = nullptr;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
+  Path                                 mOriginalPath;
 };
 } // namespace PB

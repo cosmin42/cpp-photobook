@@ -34,13 +34,11 @@ public:
 class ImageToPaperTask final : public MapReducer {
 public:
   explicit ImageToPaperTask(
-      std::shared_ptr<ProjectManagementService> projectManagementService,
-      PaperSettings                             paperSettings,
+      std::shared_ptr<IdentifyableProject> project, PaperSettings paperSettings,
       std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                          boost::hash<PBDev::ImageToPaperId>>
           originalImages)
-      : MapReducer(), mPaperSettings(paperSettings),
-        mProjectManagementService(projectManagementService),
+      : MapReducer(), mProject(project),
         mOriginalImages(originalImages)
   {
     for (const auto &[id, image] : originalImages) {
@@ -85,9 +83,8 @@ private:
   std::shared_ptr<PlatformInfo>      mPlatformInfo = nullptr;
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
-  PaperSettings                      mPaperSettings;
 
-  std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
+  std::shared_ptr<IdentifyableProject> mProject = nullptr;
 
   ImageToPaperServiceListener *mListener = nullptr;
 
@@ -128,18 +125,18 @@ private:
                                    cv::Scalar            backgroundColor,
                                    Geometry::OverlapType overlapType)
   {
-    auto maybeProjectInfo = mProjectManagementService->maybeLoadedProjectInfo();
-    PBDev::basicAssert(maybeProjectInfo != nullptr);
 
     auto imagePath =
-        mPlatformInfo->thumbnailByHash(maybeProjectInfo->first, image->hash());
+        mPlatformInfo->thumbnailByHash(mProject->first, image->hash());
 
     auto imageData = infra::loadImageToCvMat(imagePath);
     PBDev::basicAssert(imageData != nullptr);
 
+    auto paperSettings = mProject->second.paperSettings;
+
     auto newImageSize =
         Geometry::resizeBox({imageData->cols, imageData->rows},
-                            {mPaperSettings.width, mPaperSettings.height},
+                            {paperSettings.width, paperSettings.height},
                             overlapType, Geometry::ScalePolicy::OnlyDown);
 
     auto maybeNewImage = PB::Process::resize(imageData, newImageSize, false);
@@ -147,7 +144,7 @@ private:
     PBDev::basicAssert(maybeNewImage != nullptr);
 
     std::shared_ptr<cv::Mat> singleColorImage = PB::Process::singleColorImage(
-        mPaperSettings.width, mPaperSettings.height, backgroundColor)();
+        paperSettings.width, paperSettings.height, backgroundColor)();
 
     PBDev::basicAssert(imageData != nullptr);
 
@@ -171,7 +168,7 @@ private:
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
     auto maybeNewHash = ThumbnailsTask::createThumbnails(
-        singleColorImage, mPlatformInfo, mProjectManagementService, newHash);
+        singleColorImage, mPlatformInfo, mProject, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
     // TODO: Full is not original here, improve this
