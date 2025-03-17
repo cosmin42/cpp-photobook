@@ -100,8 +100,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State private var isPropertiesDetailsDialogVisible = false
     @State private var showLicenseDialog = false
     @State private var aboutDialogVisible = false
+    @State private var privatePolicyVisible = false
     @State private var lutGridModel: LutGridModel = LutGridModel()
     @State private var licenseModel: LicenseModel = LicenseModel()
+    @State private var privatePolicyModel: PrivacyPolicyModel = PrivacyPolicyModel()
     @State private var toOpenProjectId: String = ""
     
     init()
@@ -121,7 +123,8 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
             print("Bugsnag API Key NOT found in Info.plist")
         }
         
-        licenseModel.text = self.photobook.getText("license");
+        licenseModel.text = self.photobook.getText("license")
+        privatePolicyModel.text = self.photobook.getText("ppolicy")
     }
     
     var body: some Scene {
@@ -145,6 +148,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
             {
                 LicenseDialog(isPresented: $showLicenseDialog, model: licenseModel)
             }
+            .sheet(isPresented: $privatePolicyVisible)
+            {
+                PrivacyPolicyDialog(isPresented: $privatePolicyVisible, model: privatePolicyModel)
+            }
             .sheet(isPresented: $aboutDialogVisible)
             {
                 AboutDialog(isPresented: $aboutDialogVisible)
@@ -165,6 +172,9 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                 }
                 Button("License") {
                     showLicenseDialog = true
+                }
+                Button("Private Policy") {
+                    privatePolicyVisible = true
                 }
             }
         }
