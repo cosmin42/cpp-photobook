@@ -74,7 +74,7 @@ jobs:
         uses: azure/arm-deploy@v1
         with:
           resourceGroupName: pb-noir
-          template: webapp/WebAppResources.json
+          template: WebAppResources.json
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
