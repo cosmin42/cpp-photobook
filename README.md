@@ -6,6 +6,10 @@
 <img src="icons/pb-noir512.png" alt="icon" width="200"/>
 Photobook Noir is an app that helps you create elegant, minimalist photo books with a focus on storytelling and visual impact. It offers simple tools to organize, customize, and print your favorite memories in a sleek, high-quality format.
 
+[Website](https://blue-river-0d990a203.6.azurestaticapps.net/)
+
+## Acknowledgment
+Photo Book Noir is built on the shoulders of many great projects. It relies on a diverse range of tools, libraries, and frameworks developed by talented communities and individuals. Their contributions are integral to the success of our product, and I am deeply grateful for their hard work and innovation.
 
 ## Screenshot
 ![Dashboard preview](table.png)
