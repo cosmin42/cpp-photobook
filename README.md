@@ -7,8 +7,7 @@
 Photobook Noir is an app that helps you create elegant, minimalist photo books with a focus on storytelling and visual impact. It offers simple tools to organize, customize, and print your favorite memories in a sleek, high-quality format.
 
 
-<BR>
-
+## Screenshot
 ![Dashboard preview](table.png)
 
 ## Build and Run
