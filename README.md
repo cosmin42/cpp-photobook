@@ -5,7 +5,7 @@
 
 # Photobook cpp exercise
 
-This project should be able to generate a pdf photobook based on a folder structure filled with photos.
+![Icon](icons/pb-noir128.png) This project should be able to generate a pdf photobook based on a folder structure filled with photos.
 
 ![Dashboard preview](dashboard.png)
 
