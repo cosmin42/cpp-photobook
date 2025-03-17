@@ -34,7 +34,7 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
 - (PaperSettings*) paperSettings
 {
     auto project = projectManagementServiceCpp->maybeLoadedProjectInfo();
-    auto nativePaperSettings = project->second.paperSettings;
+    auto nativePaperSettings = project->value.paperSettings;
     
     return [[PaperSettings alloc] initWithCpp: nativePaperSettings];
 }
@@ -43,20 +43,20 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
 {
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
     
-    return [[UnstagedImagesRepo alloc] initWithCpp:maybeProject->second.imageMonitor()];
+    return [[UnstagedImagesRepo alloc] initWithCpp:maybeProject->value.imageMonitor()];
 }
 
 - (StagedImagesView*) stagedImages
 {
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
     
-    return [[StagedImagesView alloc] initWithCpp:maybeProject->second.stagedImages()];
+    return [[StagedImagesView alloc] initWithCpp:maybeProject->value.stagedImages()];
 }
 
 - (NSArray<FrontendImage*>*) draftPhotoLine:(NSString*)thumbnailsPath;
 {
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
-    auto& nativeImages = maybeProject->second.draftImages();
+    auto& nativeImages = maybeProject->value.draftImages();
     
     NSMutableArray<FrontendImage*>* result = [NSMutableArray new];
     
@@ -72,21 +72,21 @@ std::shared_ptr<PB::Service::ProjectManagementService> projectManagementServiceC
 {
     auto nativeImage = [image unwrap];
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
-    maybeProject->second.draftImages().push_back(nativeImage);
+    maybeProject->value.draftImages().push_back(nativeImage);
 }
 
 - (void) insertImage:(FrontendImage*)image atIndex:(unsigned)index
 {
     auto nativeImage = [image unwrap];
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
-    maybeProject->second.draftImages().insert(maybeProject->second.draftImages().begin() + index, nativeImage);
+    maybeProject->value.draftImages().insert(maybeProject->value.draftImages().begin() + index, nativeImage);
 }
 
 - (void) removeDraftImages:(NSArray<NSNumber*>*)indexes
 {
     auto maybeProject = projectManagementServiceCpp->maybeLoadedProjectInfo();
     
-    auto& images = maybeProject->second.draftImages();
+    auto& images = maybeProject->value.draftImages();
     
     std::vector<unsigned> nativeIndexes;
     for (NSNumber* index in indexes)

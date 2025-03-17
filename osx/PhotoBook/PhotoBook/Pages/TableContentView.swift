@@ -653,7 +653,7 @@ struct TableContentView: View, PhotobookUIListener {
                             let image = dplModel.list[index]
                             let uuidStr = UUID().uuidString
                             lutFromDpl[uuidStr] = UInt32(lutIndex)
-                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:true)
+                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, inplace:true)
                         }
                     }
                     else if self.photoLinesModel.currentPhotoLine == .Staged
@@ -663,7 +663,7 @@ struct TableContentView: View, PhotobookUIListener {
                             let image = splModel.list[index]
                             let uuidStr = UUID().uuidString
                             self.lutFromSpl[uuidStr] = UInt32(lutIndex)
-                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:true)
+                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, inplace:true)
                         }
                     }
                     else if self.photoLinesModel.currentPhotoLine == .Unstaged
@@ -673,7 +673,7 @@ struct TableContentView: View, PhotobookUIListener {
                             let image = uplModel.list[index]
                             let uuidStr = UUID().uuidString
                             self.lutFromUpl.insert(uuidStr)
-                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, saturation: basicTransformationModel.saturationValue, contrast: basicTransformationModel.contrastValue, brightness: basicTransformationModel.brightnessValue, inplace:false)
+                            self.photobook.applyTransformation(onDisk: uuidStr, lutIndex: UInt32(lutIndex), image: image, inplace:false)
                         }
                     }
                 }

@@ -379,7 +379,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
         }
     }
     
-    imageToPaperService->map(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
+    imageToPaperService->toPaper(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 
 - (void) copyImagesToDpl:(NSDictionary<NSString*, FrontendImage*>*)images
@@ -412,7 +412,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     auto maybeProject =
     mPhotobook->projectManagementService()->maybeLoadedProjectInfo();
     PBDev::basicAssert(maybeProject != nullptr);
-    auto nativeThumbnailsPath = mPhotobook->platformInfo()->projectSupportFolder(maybeProject->first) / "thumbnail-images";
+    auto nativeThumbnailsPath = mPhotobook->platformInfo()->projectSupportFolder(maybeProject->id) / "thumbnail-images";
     return [NSString stringWithUTF8String:nativeThumbnailsPath.string().c_str()];
 }
 
@@ -486,7 +486,7 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->projectManagementService()->save();
 }
 
-- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image, inplace:(BOOL)inplace
+- (void)applyTransformationOnDisk:(NSString*)transformationId lutIndex:(unsigned)lutIndex image:(FrontendImage*)image inplace:(BOOL)inplace
 {
     std::string uuidStr = [transformationId UTF8String];
     boost::uuids::uuid nativeUuid;
