@@ -47,8 +47,11 @@ jobs:
       - name: vcpkg integrate install
         run: ./vcpkg/vcpkg integrate install
 
-      - name: Build Noir Library
+      - name: Build Noir Library (Debug)
         run: ./build-pblib.sh
+
+      - name: Build Noir Library (Release)
+        run: ./build-pblib-release.sh
 
       - name: Lipo libraries
         run: python3 generate-lipo-commands.py
