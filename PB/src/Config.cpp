@@ -22,7 +22,9 @@ void basicAssert(int shouldBetrue, const std::source_location location)
 #if defined(_DEBUG)
   assert(shouldBetrue);
 #else
+if (!shouldBetrue) {
   std::terminate();
+}
 #endif
 }
 } // namespace PBDev
