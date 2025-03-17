@@ -17,8 +17,9 @@ struct PrivacyPolicyDialog: View {
             Text("Privacy Policy")
                 .font(.title)
                 .padding()
-            
-            Text("This app is a simple photo editing app.")
+            ScrollView {
+                Text(try! AttributedString(markdown: model.text, options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)))
+            }
             
             Button("Close") {
                 self.isPresented = false
