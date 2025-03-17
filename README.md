@@ -3,9 +3,9 @@
 ![iOS App](https://github.com/cosmin42/cpp-photobook/actions/workflows/ios-build.yml/badge.svg)
 ![Azure deployment](https://github.com/cosmin42/cpp-photobook/actions/workflows/main_pbnoirwebapp.yml/badge.svg)
 
-# Photobook cpp exercise
-
-![Icon](icons/pb-noir128.png) This project should be able to generate a pdf photobook based on a folder structure filled with photos.
+# Photo Book Noir
+<img src="icons/pb-noir512.png" alt="icon" width="200"/>
+Photobook Noir is an app that helps you create elegant, minimalist photo books with a focus on storytelling and visual impact. It offers simple tools to organize, customize, and print your favorite memories in a sleek, high-quality format.
 
 ![Dashboard preview](dashboard.png)
 
