@@ -67,6 +67,19 @@ public:
 
   MOCK_METHOD(void, onLutAppliedOnDiskInplace, (PBDev::LutApplicationId),
               (override));
+
+  MOCK_METHOD(void, onLutAppliedOnDisk,
+              (PBDev::LutApplicationId, PB::GenericImagePtr, PBDev::Path),
+              (override));
+
+  MOCK_METHOD(void, onEffectsApplied,
+              (PBDev::EffectId, PB::GenericImagePtr, PBDev::Path), (override));
+
+  MOCK_METHOD(void, onImageCopied,
+              (PBDev::ImageToPaperId, PB::GenericImagePtr, PBDev::Path),
+              (override));
+
+  MOCK_METHOD(void, onEffectsAppliedInplace, (PBDev::EffectId), (override));
 };
 
 class TestProjectManagementServiceListener final
@@ -86,6 +99,9 @@ public:
               (PBDev::LutApplicationId, std::shared_ptr<cv::Mat>), (override));
   MOCK_METHOD(void, onLutAppliedOnDiskInplace, (PBDev::LutApplicationId),
               (override));
+
+  MOCK_METHOD(void, onLutAppliedOnDisk,
+              (PBDev::LutApplicationId, PB::GenericImagePtr), (override));
 };
 
 class TestCollageMakerListener final : public CollageMakerListener {
