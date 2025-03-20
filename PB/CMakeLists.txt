@@ -88,6 +88,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/components/ImageMetadataInspector.h
     include/pb/components/ImageToPaperTask.h
     include/pb/components/ImportImageTask.h
+    include/pb/components/LinesOperationsHistory.h
     include/pb/components/MapReducer.h
     include/pb/components/OGLEngine.h
     include/pb/components/Project.h
@@ -173,6 +174,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/ImportFoldersService.cpp
     src/ImportImageTask.cpp
     src/Jpg.cpp
+    src/LinesOperationsHistory.cpp
     src/LutIconsPreprocessingJob.cpp
     src/LutService.cpp
     src/OGLEngine.cpp
@@ -261,6 +263,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
         tests/TestStagedImages.cpp
         tests/TestCollageLibraryAssistant.cpp
         tests/TestDrawingService.cpp
+        tests/TestLinesOperationsHistory.cpp
         tests/TestDatabaseService.cpp
         tests/TestLutService.cpp
         tests/TestMain.cpp
