@@ -246,7 +246,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
     imagesSet.push_back(image);
   }
 
-  maybeProject->value.imageMonitor()->addRow(root, imagesSet);
+  //maybeProject->value.imageMonitor()->addRow(root, imagesSet);
 
   mParent->onMappingFinished(root, (unsigned)newFiles.size());
 }
@@ -254,6 +254,7 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
 void Photobook::onImageProcessed(Path key, Path root,
                                  GenericImagePtr imageResources)
 {
+  /*
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   maybeProject->value.imageMonitor()->replaceImage(root, imageResources, -1);
@@ -265,6 +266,7 @@ void Photobook::onImageProcessed(Path key, Path root,
   }
 
   mParent->onImageUpdated(root, row, index);
+  */
 }
 
 void Photobook::onImageProcessingJobEnded(Path root) {}
