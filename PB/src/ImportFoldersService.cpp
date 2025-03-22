@@ -39,23 +39,6 @@ void ImportFoldersService::addImportFolder(Path path)
 
   UNUSED(stopSource);
 }
-/*
-void ImportFoldersService::startThumbnailsCreation(
-    PBDev::ThumbnailsJobId jobId, std::vector<Path> searchResults)
-{
-  mThumbnailsJobs.emplace(jobId, ThumbnailsJob(jobId, searchResults));
-
-  mThumbnailsJobs.at(jobId).configureListener(this);
-  mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
-  mThumbnailsJobs.at(jobId).configureProject(mProject);
-
-  auto stopSource =
-      mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
-                            PBDev::ProgressJobName{"thumbnails"});
-
-  UNUSED(stopSource);
-}
-*/
 
 std::unordered_map<PBDev::ImageId, GenericImagePtr, boost::hash<PBDev::ImageId>>
 ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
@@ -96,17 +79,13 @@ void ImportFoldersService::onPicturesSearchFinished(
 
           startThumbnailsCreation(jobId, placeholders);
 
-          // mListener->onMappingFinished(root, searchResults);
-          /*
-          std::vector<Path> onlyFilesResults(searchResults);
-          auto              it = std::remove_if(
-              onlyFilesResults.begin(), onlyFilesResults.end(),
-              [](Path path) { return std::filesystem::is_directory(path); });
+          // TODO: See if this is still needed
+          // std::vector<Path> onlyFilesResults(searchResults);
+          // auto              it = std::remove_if(
+          //    onlyFilesResults.begin(), onlyFilesResults.end(),
+          //    [](Path path) { return std::filesystem::is_directory(path); });
 
-          onlyFilesResults.erase(it, onlyFilesResults.end());
-
-          startThumbnailsCreation(jobId, onlyFilesResults);
-          */
+          // onlyFilesResults.erase(it, onlyFilesResults.end());
         });
   }
 }

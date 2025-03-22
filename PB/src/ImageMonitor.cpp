@@ -3,28 +3,7 @@
 #include <boost/bimap/support/lambda.hpp>
 
 namespace PB {
-/*
-void ImageMonitor::addRow(Path path, std::vector<GenericImagePtr> images)
-{
-  if (mRowIndexes.left.find(path) != mRowIndexes.left.end()) {
-    return;
-  }
-  mRowIndexes.insert({path, (int)mRowIndexes.size()});
 
-  mUnstagedImagesMatrix.push_back(std::vector<GenericImagePtr>());
-
-  for (auto i = 0; i < images.size(); ++i) {
-    // TODO: Investigate if hash can be used here instead of full
-    mPositions.insert({images.at(i)->full(),
-                       {(int)mUnstagedImagesMatrix.size() - 1, (int)i}});
-    mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1)
-        .push_back(images.at(i));
-  }
-
-  mPendingRows.insert((int)mRowIndexes.size() - 1);
-  log();
-}
-*/
 void ImageMonitor::addRow(Path path,
                           std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                              boost::hash<PBDev::ImageId>>
@@ -45,64 +24,12 @@ void ImageMonitor::addRow(Path path,
 
   mPendingRows.insert((int)mRowIndexes.size() - 1);
 }
-/*
-void ImageMonitor::replaceImage(Path root, GenericImagePtr image, int index)
-{
-  auto row = mRowIndexes.left.at(root);
-  if (index == -1) {
-    for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
-      if (mUnstagedImagesMatrix.at(row).at(i)->hash().starts_with(
-              "placeholder")) {
-        mUnstagedImagesMatrix[row][i] = image;
-        auto it = mPositions.right.find(std::pair<int, int>{row, i});
-        mPositions.right.modify_data(it, boost::bimaps::_data = image->full());
-        return;
-      }
-    }
-    PBDev::basicAssert(false);
-  }
-  else {
-    mUnstagedImagesMatrix[row][index] = image;
-    mPositions.right.modify_data(
-        mPositions.right.find(std::pair<int, int>{row, index}),
-        boost::bimaps::_data = image->full());
-  }
-}
-*/
+
 void ImageMonitor::updateImage(PBDev::ImageId imageId, GenericImagePtr image)
 {
   PBDev::basicAssert(mImages.find(imageId) != mImages.end());
   mImages[imageId] = image;
 }
-
-/*
-void ImageMonitor::removeRow(int row)
-{
-  PBDev::basicAssert(!mPendingRows.contains(row));
-
-  for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
-    mPositions.right.erase(std::pair<int, int>{row, i});
-  }
-  mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + row);
-  mRowIndexes.right.erase(row);
-
-  for (int i = row + 1; i < (int)mUnstagedImagesMatrix.size() + 1; ++i) {
-    for (int index = 0; index < (int)mUnstagedImagesMatrix.at(i - 1).size();
-         ++index) {
-      auto it = mPositions.right.find(std::pair<int, int>(i, index));
-      mPositions.right.modify_key(it, boost::bimaps::_key =
-                                          std::pair<int, int>(i - 1, index));
-    }
-  }
-
-  for (int i = row + 1; i < mRowIndexes.size() + 1; ++i) {
-    bool success =
-        mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
-    PBDev::basicAssert(success);
-  }
-  log();
-}
-*/
 
 void ImageMonitor::removeRow(int row)
 {
@@ -222,16 +149,7 @@ GenericImagePtr ImageMonitor::image(unsigned row, unsigned index) const
   auto imageId = mUnstagedImagesMatrix.at(row).at(index);
   return mImages.at(imageId);
 }
-/*
-GenericImagePtr ImageMonitor::image(Path full) const
-{
-  PBDev::basicAssert(mPositions.left.find(full) != mPositions.left.end());
 
-  auto &[row, index] = mPositions.left.at(full);
-
-  return mUnstagedImagesMatrix.at(row).at(index);
-}
-*/
 std::pair<int, int> ImageMonitor::position(PBDev::ImageId imageId) const
 {
   PBDev::basicAssert(mPositions.find(imageId) != mPositions.end());

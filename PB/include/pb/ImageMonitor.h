@@ -18,7 +18,6 @@ public:
   void addRow(Path path, std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                             boost::hash<PBDev::ImageId>>
                              images);
-  // void replaceImage(Path path, GenericImagePtr image, int index = -1);
   void updateImage(PBDev::ImageId imageId, GenericImagePtr image);
   void removeRow(int index);
   void removeRow(Path path);
@@ -38,8 +37,7 @@ public:
 
   std::vector<Path> rowList() const;
 
-  GenericImagePtr image(unsigned row, unsigned index) const;
-  // GenericImagePtr     image(Path full) const;
+  GenericImagePtr     image(unsigned row, unsigned index) const;
   std::pair<int, int> position(PBDev::ImageId) const;
 
   std::vector<std::vector<PBDev::ImageId>> const &unstaged() const;
@@ -52,13 +50,6 @@ public:
   void log() const;
 
 private:
-  /*
-  boost::bimaps::bimap<Path, int>                 mRowIndexes = {};
-  boost::bimaps::bimap<Path, std::pair<int, int>> mPositions = {};
-  std::vector<std::vector<GenericImagePtr>>       mUnstagedImagesMatrix;
-  std::unordered_set<int>                         mPendingRows;
-  */
-
   boost::bimaps::bimap<Path, int> mRowIndexes = {};
 
   std::unordered_map<std::pair<int, int>, PBDev::ImageId,
