@@ -6,12 +6,12 @@
 
 #include <boost/uuid/uuid_io.hpp>
 
+#include <pb/components/Project.h>
 #include <pb/entities/CollageImage.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/PaperSettings.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/entities/TextImageV2.h>
-#include <pb/components/Project.h>
 
 void to_json(Json &json, const boost::uuids::uuid &uuid);
 

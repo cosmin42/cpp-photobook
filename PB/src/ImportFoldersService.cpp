@@ -40,21 +40,23 @@ void ImportFoldersService::addImportFolder(Path path)
   UNUSED(stopSource);
 }
 
-void ImportFoldersService::startThumbnailsCreation(
-    PBDev::ThumbnailsJobId jobId, std::vector<Path> searchResults)
+std::unordered_map<PBDev::ImageId, GenericImagePtr, boost::hash<PBDev::ImageId>>
+ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
 {
-  mThumbnailsJobs.emplace(jobId, ThumbnailsJob(jobId, searchResults));
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>
+      placeholders;
 
-  mThumbnailsJobs.at(jobId).configureListener(this);
-  mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
-  mThumbnailsJobs.at(jobId).configureProject(
-      mProject);
+  for (auto &path : searchResults) {
+    PBDev::ImageId imageId(RuntimeUUID::newUUID());
 
-  auto stopSource =
-      mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
-                            PBDev::ProgressJobName{"thumbnails"});
+    GenericImagePtr placeholder =
+        std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
 
-  UNUSED(stopSource);
+    placeholders.emplace(imageId, placeholder);
+  }
+
+  return placeholders;
 }
 
 void ImportFoldersService::onPicturesSearchFinished(
@@ -70,35 +72,60 @@ void ImportFoldersService::onPicturesSearchFinished(
     mScheduler->post(
         [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
           mSearches.erase(jobId);
-          mListener->onMappingFinished(root, searchResults);
 
-          std::vector<Path> onlyFilesResults(searchResults);
-          auto              it = std::remove_if(
-              onlyFilesResults.begin(), onlyFilesResults.end(),
-              [](Path path) { return std::filesystem::is_directory(path); });
+          auto placeholders = createPlaceholders(searchResults);
 
-          onlyFilesResults.erase(it, onlyFilesResults.end());
+          mListener->onSearchingFinished(root, placeholders);
 
-          startThumbnailsCreation(jobId, onlyFilesResults);
+          startThumbnailsCreation(jobId, placeholders);
+
+          // TODO: See if this is still needed
+          // std::vector<Path> onlyFilesResults(searchResults);
+          // auto              it = std::remove_if(
+          //    onlyFilesResults.begin(), onlyFilesResults.end(),
+          //    [](Path path) { return std::filesystem::is_directory(path); });
+
+          // onlyFilesResults.erase(it, onlyFilesResults.end());
         });
   }
+}
+
+void ImportFoldersService::startThumbnailsCreation(
+    PBDev::ThumbnailsJobId jobId,
+    std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                       boost::hash<PBDev::ImageId>>
+        placeholders)
+{
+  mThumbnailsJobs.emplace(jobId, ThumbnailsJob(jobId, placeholders));
+
+  mThumbnailsJobs.at(jobId).configureListener(this);
+  mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
+  mThumbnailsJobs.at(jobId).configureProject(mProject);
+
+  auto stopSource =
+      mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
+                            PBDev::ProgressJobName{"thumbnails"});
+
+  UNUSED(stopSource);
 }
 
 void ImportFoldersService::onPicturesSearchAborted(Path root) {}
 
 void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
+                                          PBDev::ImageId         imageId,
                                           GenericImagePtr        image)
 {
   auto root = mRootPaths.at(jobId);
 
-  mScheduler->post([this, root{root}, image{image}, jobId{jobId}]() {
-    if (mThumbnailsJobs.at(jobId).isFinished()) {
-      mThumbnailsJobs.erase(jobId);
-      mRootPaths.erase(jobId);
-      mSearches.erase(jobId);
-    }
-    mListener->onImageProcessed(root, root, image);
-  });
+  mScheduler->post(
+      [this, root{root}, image{image}, jobId{jobId}, imageId{imageId}]() {
+        if (mThumbnailsJobs.at(jobId).isFinished()) {
+          mThumbnailsJobs.erase(jobId);
+          mRootPaths.erase(jobId);
+          mSearches.erase(jobId);
+        }
+        mListener->onImageProcessed(imageId, root, image);
+      });
 }
 
 bool ImportFoldersService::isFinished(Path path)

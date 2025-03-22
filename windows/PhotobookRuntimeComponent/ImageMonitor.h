@@ -90,7 +90,7 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       nativeUnstagedImages.push_back(nativeImagePtr);
     }
     PBDev::Path nativePath = winrt::to_string(path);
-    mImageMonitor->addRow(nativePath, nativeUnstagedImages);
+    //mImageMonitor->addRow(nativePath, nativeUnstagedImages);
   }
 
   void RemoveRowByIndex(int index) { mImageMonitor->removeRow(index); }
@@ -159,15 +159,15 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   Image(winrt::hstring full, winrt::hstring thumbnailsLocation)
   {
     auto nativeThumbnailsLocation = winrt::to_string(thumbnailsLocation);
-    auto imagePtr = mImageMonitor->image(winrt::to_string(full));
-    return winrt::make<VirtualImagePtr>(imagePtr, nativeThumbnailsLocation);
+    //auto imagePtr = mImageMonitor->image(winrt::to_string(full));
+    return winrt::make<VirtualImagePtr>(nullptr, nativeThumbnailsLocation);
   }
 
   PhotobookRuntimeComponent::Int32Pair Position(winrt::hstring full)
   {
     auto nativePath = winrt::to_string(full);
-    auto positionPair = mImageMonitor->position(nativePath);
-    return winrt::make<Int32Pair>(positionPair.first, positionPair.second);
+    //auto positionPair = mImageMonitor->position(nativePath);
+    return winrt::make<Int32Pair>(0, 0);
   }
 
   Windows::Foundation::Collections::IVector<
@@ -186,9 +186,9 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
       auto managedUnstagedImagesLine = winrt::single_threaded_vector<
           PhotobookRuntimeComponent::VirtualImagePtr>();
       for (int j = 0; j < (int)nativeUnstagedImages.at(i).size(); ++j) {
-        auto managedImage = winrt::make<VirtualImagePtr>(
-            nativeUnstagedImages.at(i).at(j), nativeThumbnailsLocation);
-        managedUnstagedImagesLine.Append(managedImage);
+        //auto managedImage = winrt::make<VirtualImagePtr>(
+        //    nativeUnstagedImages.at(i).at(j), nativeThumbnailsLocation);
+        //managedUnstagedImagesLine.Append(managedImage);
       }
       managedUnstagedImages.Append(managedUnstagedImagesLine);
     }
