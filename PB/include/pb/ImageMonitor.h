@@ -5,6 +5,8 @@
 
 #include <boost/bimap/bimap.hpp>
 
+#include <gtest/gtest.h>
+
 #include <pb/Config.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RowProcessingData.h>
@@ -57,6 +59,8 @@ private:
   std::unordered_map<PBDev::ImageId, GenericImagePtr,
                      boost::hash<PBDev::ImageId>>
       mImages;
+
+  FRIEND_TEST(TestImageMonitor, Test0);
 };
 
 } // namespace PB
