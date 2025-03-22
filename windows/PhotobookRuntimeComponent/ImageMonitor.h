@@ -103,17 +103,16 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
 
   void Clear() { mImageMonitor->clear(); }
 
-  void CompleteRow(int index) { mImageMonitor->completeRow(index); }
+  void CompleteRow(int index) {  }
 
   bool IsPendingByPath(winrt::hstring path)
   {
-    PBDev::Path nativePath = winrt::to_string(path);
-    return mImageMonitor->isPending(nativePath);
+    return false;
   }
 
-  bool IsPendingByIndex(int index) { return mImageMonitor->isPending(index); }
+  bool IsPendingByIndex(int index) { return false; }
 
-  unsigned ImportListSize() { return mImageMonitor->importListSize(); }
+  unsigned ImportListSize() { return false; }
 
   unsigned RowSize(unsigned row) { return mImageMonitor->rowSize(row); }
 
@@ -152,7 +151,7 @@ struct ImageMonitor : ImageMonitorT<ImageMonitor> {
   {
     auto nativeThumbnailsLocation = winrt::to_string(thumbnailsLocation);
     auto imagePtr = mImageMonitor->image(row, index);
-    return winrt::make<VirtualImagePtr>(imagePtr, nativeThumbnailsLocation);
+    return winrt::make<VirtualImagePtr>(imagePtr.second, nativeThumbnailsLocation);
   }
 
   PhotobookRuntimeComponent::VirtualImagePtr

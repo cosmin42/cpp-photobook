@@ -19,17 +19,14 @@ public:
                                             boost::hash<PBDev::ImageId>>
                              images);
   void updateImage(PBDev::ImageId imageId, GenericImagePtr image);
+
   void removeRow(int index);
   void removeRow(Path path);
 
   void clear();
 
-  void completeRow(int index);
-  void completeRowByPath(Path path);
-  bool isPending(Path path) const;
-  bool isPending(int index) const;
+  unsigned importsCount() const;
 
-  unsigned importListSize() const;
   unsigned rowSize(unsigned row);
   unsigned rowIndex(Path path) const;
   bool     containsRow(Path path, bool subPath = false) const;
@@ -37,10 +34,13 @@ public:
 
   std::vector<Path> rowList() const;
 
-  GenericImagePtr     image(unsigned row, unsigned index) const;
+  std::pair<PBDev::ImageId, GenericImagePtr> image(unsigned row,
+                                                   unsigned index) const;
+
   std::pair<int, int> position(PBDev::ImageId) const;
 
   std::vector<std::vector<PBDev::ImageId>> const &unstaged() const;
+
   std::unordered_map<PBDev::ImageId, GenericImagePtr,
                      boost::hash<PBDev::ImageId>> const &
   imagesSet() const;
@@ -50,8 +50,9 @@ public:
   void log() const;
 
 private:
-  boost::bimaps::bimap<Path, int> mRowIndexes = {};
+  boost::bimaps::bimap<Path, int> importedPathsIndices = {};
 
+  // TODO: Implement a wrapper over the maps to replace bimap
   std::unordered_map<std::pair<int, int>, PBDev::ImageId,
                      boost::hash<std::pair<int, int>>>
       mPositionsV2Reverse;
@@ -62,8 +63,7 @@ private:
   std::vector<std::vector<PBDev::ImageId>> mUnstagedImagesMatrix;
   std::unordered_map<PBDev::ImageId, GenericImagePtr,
                      boost::hash<PBDev::ImageId>>
-                          mImages;
-  std::unordered_set<int> mPendingRows;
+      mImages;
 };
 
 } // namespace PB

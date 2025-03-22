@@ -207,14 +207,14 @@ void Photobook::removeImportFolder(Path path)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-
-  if (maybeProject->value.imageMonitor()->isPending(path)) {
+  //TODO: Is pending should not be here, it should be in the import serv
+  /*if (maybeProject->value.imageMonitor()->isPending(path)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::WaitForLoadingCompletion);
   }
-  else {
+  else {*/
     Noir::inst().getLogger()->info("Remove imported folder {}", path.string());
     maybeProject->value.imageMonitor()->removeRow(path);
-  }
+  //}
 }
 
 void Photobook::onProjectRecalled() {}
@@ -266,10 +266,6 @@ void Photobook::onImageProcessed(PBDev::ImageId imageId, Path root,
   maybeProject->value.imageMonitor()->updateImage(imageId, image);
   
   auto [row, index] = maybeProject->value.imageMonitor()->position(imageId);
-
-  if (mImportLogic->isFinished(root)) {
-    maybeProject->value.imageMonitor()->completeRowByPath(root);
-  }
 
   mParent->onImageUpdated(root, row, index);
 }

@@ -9,20 +9,20 @@ void ImageMonitor::addRow(Path path,
                                              boost::hash<PBDev::ImageId>>
                               images)
 {
-  PBDev::basicAssert(mRowIndexes.left.find(path) == mRowIndexes.left.end());
-  mRowIndexes.insert({path, (int)mRowIndexes.size()});
+  PBDev::basicAssert(importedPathsIndices.left.find(path) ==
+                     importedPathsIndices.left.end());
+  importedPathsIndices.insert({path, (int)importedPathsIndices.size()});
 
   mUnstagedImagesMatrix.push_back(std::vector<PBDev::ImageId>());
 
   for (auto &[id, image] : images) {
-    mPositionsV2Reverse.emplace(std::pair<int, int>{(int)mRowIndexes.size(), 0},
-                                id);
-    mPositions.emplace(id, std::pair<int, int>{(int)mRowIndexes.size(), 0});
+    mPositionsV2Reverse.emplace(
+        std::pair<int, int>{(int)importedPathsIndices.size(), 0}, id);
+    mPositions.emplace(
+        id, std::pair<int, int>{(int)importedPathsIndices.size(), 0});
     mImages[id] = image;
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1).push_back(id);
   }
-
-  mPendingRows.insert((int)mRowIndexes.size() - 1);
 }
 
 void ImageMonitor::updateImage(PBDev::ImageId imageId, GenericImagePtr image)
@@ -33,8 +33,6 @@ void ImageMonitor::updateImage(PBDev::ImageId imageId, GenericImagePtr image)
 
 void ImageMonitor::removeRow(int row)
 {
-  PBDev::basicAssert(!mPendingRows.contains(row));
-
   for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
     mPositionsV2Reverse.erase(std::pair<int, int>{row, i});
     mPositions.erase(mPositionsV2Reverse.at(std::pair<int, int>{row, i}));
@@ -42,7 +40,7 @@ void ImageMonitor::removeRow(int row)
 
   mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + row);
 
-  mRowIndexes.right.erase(row);
+  importedPathsIndices.right.erase(row);
 
   for (int i = row + 1; i < (int)mUnstagedImagesMatrix.size() + 1; ++i) {
     for (int index = 0; index < (int)mUnstagedImagesMatrix.at(i - 1).size();
@@ -56,9 +54,9 @@ void ImageMonitor::removeRow(int row)
     }
   }
 
-  for (int i = row + 1; i < mRowIndexes.size() + 1; ++i) {
-    bool success =
-        mRowIndexes.right.replace_key(mRowIndexes.right.find(i), i - 1);
+  for (int i = row + 1; i < importedPathsIndices.size() + 1; ++i) {
+    bool success = importedPathsIndices.right.replace_key(
+        importedPathsIndices.right.find(i), i - 1);
     PBDev::basicAssert(success);
   }
   log();
@@ -66,42 +64,22 @@ void ImageMonitor::removeRow(int row)
 
 void ImageMonitor::removeRow(Path path)
 {
-  int index = mRowIndexes.left.at(path);
-  PBDev::basicAssert(!mPendingRows.contains(index));
+  int index = importedPathsIndices.left.at(path);
   removeRow(index);
 }
 
 void ImageMonitor::clear()
 {
-  PBDev::basicAssert(mPendingRows.empty());
-  mRowIndexes.clear();
+  importedPathsIndices.clear();
   mPositionsV2Reverse.clear();
   mPositions.clear();
   mUnstagedImagesMatrix.clear();
   log();
 }
 
-void ImageMonitor::completeRow(int index) { mPendingRows.erase(index); }
-
-void ImageMonitor::completeRowByPath(Path path)
+unsigned ImageMonitor::importsCount() const
 {
-  auto index = rowIndex(path);
-  completeRow(index);
-}
-
-bool ImageMonitor::isPending(Path path) const
-{
-  return isPending(mRowIndexes.left.at(path));
-}
-
-bool ImageMonitor::isPending(int index) const
-{
-  return mPendingRows.contains(index);
-}
-
-unsigned ImageMonitor::importListSize() const
-{
-  return (unsigned)mRowIndexes.size();
+  return (unsigned)importedPathsIndices.size();
 }
 
 unsigned ImageMonitor::rowSize(unsigned row)
@@ -112,42 +90,45 @@ unsigned ImageMonitor::rowSize(unsigned row)
 
 unsigned ImageMonitor::rowIndex(Path path) const
 {
-  return mRowIndexes.left.at(path);
+  return importedPathsIndices.left.at(path);
 }
 
 bool ImageMonitor::containsRow(Path path, bool subPath) const
 {
   if (subPath) {
-    for (auto it = mRowIndexes.begin(); it != mRowIndexes.end(); ++it) {
+    for (auto it = importedPathsIndices.begin();
+         it != importedPathsIndices.end(); ++it) {
       if (it->left == path) {
         return true;
       }
     }
   }
-  return mRowIndexes.left.find(path) != mRowIndexes.left.end();
+  return importedPathsIndices.left.find(path) !=
+         importedPathsIndices.left.end();
 }
 
 std::vector<Path> ImageMonitor::rowList() const
 {
   std::vector<Path> result;
-  for (int i = 0; i < mRowIndexes.size(); ++i) {
-    result.push_back(mRowIndexes.right.at(i));
+  for (int i = 0; i < importedPathsIndices.size(); ++i) {
+    result.push_back(importedPathsIndices.right.at(i));
   }
   return result;
 }
 
 Path ImageMonitor::rowPath(unsigned row) const
 {
-  return mRowIndexes.right.at(row);
+  return importedPathsIndices.right.at(row);
 }
 
-GenericImagePtr ImageMonitor::image(unsigned row, unsigned index) const
+std::pair<PBDev::ImageId, GenericImagePtr>
+ImageMonitor::image(unsigned row, unsigned index) const
 {
   PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
   PBDev::basicAssert(index < mUnstagedImagesMatrix.at(row).size());
 
   auto imageId = mUnstagedImagesMatrix.at(row).at(index);
-  return mImages.at(imageId);
+  return {imageId, mImages.at(imageId)};
 }
 
 std::pair<int, int> ImageMonitor::position(PBDev::ImageId imageId) const
