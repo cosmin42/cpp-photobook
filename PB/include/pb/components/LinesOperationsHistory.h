@@ -3,6 +3,8 @@
 #include <variant>
 #include <vector>
 
+#include <gtest/gtest.h>
+
 #include <pb/infra/Traits.h>
 
 namespace PB {
@@ -10,24 +12,36 @@ namespace PB {
 struct AddOperation {
   unsigned index;
   unsigned size;
+
+  std::string toString() const
+  {
+    return "AddOperation{index=" + std::to_string(index) +
+           ", size=" + std::to_string(size) + "}";
+  }
 };
 
 struct RemoveOperation {
   unsigned index;
   unsigned size;
+
+  std::string toString() const
+  {
+    return "RemoveOperation{index=" + std::to_string(index) +
+           ", size=" + std::to_string(size) + "}";
+  }
 };
 
-class LinesOperationsHistory {
+class LinesOperationsHistory final {
 public:
   LinesOperationsHistory() = default;
   ~LinesOperationsHistory() = default;
 
-  unsigned registerAddOperation(unsigned index, unsigned size);
+  void registerAddOperation(unsigned index, unsigned size);
 
-  unsigned registerRemoveOperation(unsigned index, unsigned size);
+  void registerRemoveOperation(unsigned index, unsigned size);
 
-  unsigned updateIndex(unsigned oldVersion, unsigned newVersion,
-                       unsigned oldIndex);
+  std::optional<unsigned> updateIndex(unsigned oldVersion, unsigned newVersion,
+                                      unsigned oldIndex);
 
   std::string toString() const;
 
@@ -37,5 +51,7 @@ private:
                                  unsigned size);
 
   std::vector<std::variant<AddOperation, RemoveOperation>> mRegister;
+
+  FRIEND_TEST(TestLinesOperationsHistory, Test0);
 };
 } // namespace PB

@@ -1,20 +1,17 @@
 #include <pb/components/LinesOperationsHistory.h>
 
 namespace PB {
-unsigned LinesOperationsHistory::registerAddOperation(unsigned index,
-                                                      unsigned size)
+void LinesOperationsHistory::registerAddOperation(unsigned index, unsigned size)
 {
   AddOperation addOperation = {index, size};
   mRegister.push_back(addOperation);
-  return (unsigned)mRegister.size();
 }
 
-unsigned LinesOperationsHistory::registerRemoveOperation(unsigned index,
-                                                         unsigned size)
+void LinesOperationsHistory::registerRemoveOperation(unsigned index,
+                                                     unsigned size)
 {
   RemoveOperation removeOperation = {index, size};
   mRegister.push_back(removeOperation);
-  return (unsigned)mRegister.size();
 }
 
 unsigned LinesOperationsHistory::add(unsigned oldIndex, unsigned index,
@@ -37,32 +34,36 @@ LinesOperationsHistory::remove(unsigned oldIndex, unsigned index, unsigned size)
   }
   PBDev::basicAssert(std::numeric_limits<unsigned>::max() - size > oldIndex);
 
-  if (oldIndex < index + size) {
-    return index;
+  if (oldIndex <= index + size) {
+    return std::nullopt;
   }
   PBDev::basicAssert(oldIndex > size);
   return oldIndex - size;
 }
 
-unsigned LinesOperationsHistory::updateIndex(unsigned oldVersion,
-                                             unsigned newVersion,
-                                             unsigned oldIndex)
+std::optional<unsigned> LinesOperationsHistory::updateIndex(unsigned oldVersion,
+                                                            unsigned newVersion,
+                                                            unsigned oldIndex)
 {
   unsigned updatedIndex = oldIndex;
-  
+  //std::cout << "Update index" << oldIndex << std::endl;
   for (auto i = oldVersion; i < newVersion; ++i) {
     if (auto addOperation = std::get_if<AddOperation>(&mRegister[i])) {
+      //std::cout << "addOperation: " << addOperation->toString() << std::endl;
       updatedIndex = add(updatedIndex, addOperation->index, addOperation->size);
     }
     else if (auto removeOperation =
                  std::get_if<RemoveOperation>(&mRegister[i])) {
+
       if (auto newIndex = remove(updatedIndex, removeOperation->index,
                                  removeOperation->size)) {
+        //std::cout << "removeOperation: " << removeOperation->toString()
+        //          << std::endl;
         updatedIndex = *newIndex;
       }
-      else
-      {
-        PBDev::basicAssert(false);
+      else {
+        //std::cout << "nullopt" << std::endl;
+        return std::nullopt;
       }
     }
   }
