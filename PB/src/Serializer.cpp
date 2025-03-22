@@ -216,7 +216,7 @@ void to_json(Json &json, PB::Project &project)
 {
   json["name"] = project.name;
   to_json(json["paperSettings"], project.paperSettings);
-  //to_json(json["imageMonitor"], project.imageMonitor()->unstaged());
+  to_json(json["imageMonitor"], project.imageMonitor()->imagesMatrix());
   to_json(json["stagedImages"], project.stagedImages()->stagedPhotos());
   to_json(json["draftImages"], project.draftImages());
   to_json(json["roots"], project.imageMonitor()->rowList());
@@ -237,7 +237,15 @@ void from_json(const Json &json, PB::Project &project)
   from_json(json["roots"], roots);
 
   for (auto i = 0; i < roots.size(); ++i) {
-    //project.imageMonitor()->addRow(roots[i], unstaged[i]);
+    std::unordered_map<PBDev::ImageId, PB::GenericImagePtr,
+                       boost::hash<PBDev::ImageId>>
+        unstagedRowFormat;
+    for (auto j = 0; j < unstaged[i].size(); ++j) {
+      PBDev::ImageId imageId =
+          PBDev::ImageId(boost::uuids::random_generator()());
+      unstagedRowFormat[imageId] = unstaged[i][j];
+    }
+    project.imageMonitor()->addRow(roots[i], unstagedRowFormat);
   }
 
   project.stagedImages()->addPictures(staged);

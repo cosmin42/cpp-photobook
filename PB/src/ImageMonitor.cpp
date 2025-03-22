@@ -25,8 +25,10 @@ void ImageMonitor::addRow(Path path, std::vector<GenericImagePtr> images)
   log();
 }
 */
-void ImageMonitor::addRow(
-    Path path, std::unordered_map<PBDev::ImageId, GenericImagePtr> images)
+void ImageMonitor::addRow(Path path,
+                          std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                             boost::hash<PBDev::ImageId>>
+                              images)
 {
   PBDev::basicAssert(mRowIndexes.left.find(path) == mRowIndexes.left.end());
   mRowIndexes.insert({path, (int)mRowIndexes.size()});
@@ -239,6 +241,26 @@ std::pair<int, int> ImageMonitor::position(PBDev::ImageId imageId) const
 std::vector<std::vector<PBDev::ImageId>> const &ImageMonitor::unstaged() const
 {
   return mUnstagedImagesMatrix;
+}
+
+GenericImagePtrMatrix ImageMonitor::imagesMatrix() const
+{
+  GenericImagePtrMatrix result;
+  for (auto &line : mUnstagedImagesMatrix) {
+    GenericImagePtrLine lineVector;
+    for (auto &imageId : line) {
+      lineVector.push_back(mImages.at(imageId));
+    }
+    result.push_back(lineVector);
+  }
+  return result;
+}
+
+std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                   boost::hash<PBDev::ImageId>> const &
+ImageMonitor::imagesSet() const
+{
+  return mImages;
 }
 
 void ImageMonitor::log() const

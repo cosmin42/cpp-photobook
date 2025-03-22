@@ -15,8 +15,9 @@ namespace PB {
 
 class ImageMonitor {
 public:
-  void addRow(Path                                                path,
-              std::unordered_map<PBDev::ImageId, GenericImagePtr> images);
+  void addRow(Path path, std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                            boost::hash<PBDev::ImageId>>
+                             images);
   // void replaceImage(Path path, GenericImagePtr image, int index = -1);
   void updateImage(PBDev::ImageId imageId, GenericImagePtr image);
   void removeRow(int index);
@@ -42,6 +43,11 @@ public:
   std::pair<int, int> position(PBDev::ImageId) const;
 
   std::vector<std::vector<PBDev::ImageId>> const &unstaged() const;
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>> const &
+  imagesSet() const;
+
+  GenericImagePtrMatrix imagesMatrix() const;
 
   void log() const;
 
