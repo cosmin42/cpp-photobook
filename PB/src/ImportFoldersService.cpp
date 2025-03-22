@@ -47,14 +47,32 @@ void ImportFoldersService::startThumbnailsCreation(
 
   mThumbnailsJobs.at(jobId).configureListener(this);
   mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
-  mThumbnailsJobs.at(jobId).configureProject(
-      mProject);
+  mThumbnailsJobs.at(jobId).configureProject(mProject);
 
   auto stopSource =
       mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),
                             PBDev::ProgressJobName{"thumbnails"});
 
   UNUSED(stopSource);
+}
+
+std::unordered_map<PBDev::ImageId, GenericImagePtr, boost::hash<PBDev::ImageId>>
+ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
+{
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>
+      placeholders;
+
+  for (auto &path : searchResults) {
+    PBDev::ImageId imageId(RuntimeUUID::newUUID());
+
+    GenericImagePtr placeholder =
+        std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
+
+    placeholders.emplace(imageId, placeholder);
+  }
+
+  return placeholders;
 }
 
 void ImportFoldersService::onPicturesSearchFinished(
@@ -70,7 +88,12 @@ void ImportFoldersService::onPicturesSearchFinished(
     mScheduler->post(
         [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
           mSearches.erase(jobId);
-          mListener->onMappingFinished(root, searchResults);
+
+          auto placeholders = createPlaceholders(searchResults);
+
+          mListener->onSearchingFinished(root, placeholders);
+
+          //mListener->onMappingFinished(root, searchResults);
 
           std::vector<Path> onlyFilesResults(searchResults);
           auto              it = std::remove_if(

@@ -70,6 +70,11 @@ public:
 
   void onMappingFinished(Path, std::vector<Path> newFolders) override;
 
+  void onSearchingFinished(Path root,
+                           std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                              boost::hash<PBDev::ImageId>>
+                               placeholders) override;
+
   void onImageProcessed(Path key, Path root, GenericImagePtr image) override;
 
   void onImageProcessingJobEnded(Path root);
@@ -107,10 +112,10 @@ public:
   void onLutAppliedOnDisk(PBDev::LutApplicationId, GenericImagePtr) override;
 
   void onEffectsApplied(PBDev::EffectId effectId,
-                       GenericImagePtr image) override;
+                        GenericImagePtr image) override;
 
   void onEffectsAppliedInplace(PBDev::EffectId effectId) override;
-  
+
   void onEffectsApplicationError(PBDev::EffectId effectId,
                                  PB::ErrorCode) override;
 

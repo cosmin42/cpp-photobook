@@ -20,6 +20,11 @@ public:
   virtual ~ImportFoldersServiceListener() = default;
 
   virtual void onMappingFinished(Path root, std::vector<Path> newFolders) = 0;
+  virtual void
+               onSearchingFinished(Path root,
+                                   std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                                      boost::hash<PBDev::ImageId>>
+                                       placeholders) = 0;
   virtual void onImageProcessed(Path key, Path root, GenericImagePtr image) = 0;
   virtual void onImportError(PBDev::Error error) = 0;
 };
@@ -82,5 +87,9 @@ private:
 
   void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
                                std::vector<Path>      searchResults);
+
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>
+  createPlaceholders(std::vector<Path> searchResults);
 };
 } // namespace PB::Service
