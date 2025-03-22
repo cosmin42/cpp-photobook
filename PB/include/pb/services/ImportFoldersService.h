@@ -86,9 +86,6 @@ private:
                      boost::hash<PBDev::ThumbnailsJobId>>
       mSearches;
 
-  // void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
-  //                              std::vector<Path>      searchResults);
-
   void
   startThumbnailsCreation(PBDev::ThumbnailsJobId,
                           std::unordered_map<PBDev::ImageId, GenericImagePtr,
