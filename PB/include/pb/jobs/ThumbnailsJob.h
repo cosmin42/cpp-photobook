@@ -27,7 +27,8 @@ public:
                          std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                             boost::hash<PBDev::ImageId>>
                              placeholders)
-      : mJobId(jobId), mPlaceholders(placeholders)
+      : mJobId(jobId), mPlaceholders(placeholders),
+        mIterator(mPlaceholders.begin())
   {
   }
   ~ThumbnailsJob() = default;
