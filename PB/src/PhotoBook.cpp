@@ -246,9 +246,16 @@ void Photobook::onMappingFinished(Path root, std::vector<Path> newFiles)
     imagesSet.push_back(image);
   }
 
-  //maybeProject->value.imageMonitor()->addRow(root, imagesSet);
+  // maybeProject->value.imageMonitor()->addRow(root, imagesSet);
 
   mParent->onMappingFinished(root, (unsigned)newFiles.size());
+}
+
+void Photobook::onSearchingFinished(
+    Path           root, std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                            boost::hash<PBDev::ImageId>>
+                   placeholders)
+{
 }
 
 void Photobook::onImageProcessed(Path key, Path root,
@@ -341,7 +348,7 @@ void Photobook::onCollageCreated(GenericImagePtr aggregatedImage)
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = platformInfo()->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, aggregatedImage{aggregatedImage},
         thumbnailsPath{thumbnailsPath}]() {
     mParent->onCollageCreated(aggregatedImage, thumbnailsPath);
@@ -357,7 +364,7 @@ void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = platformInfo()->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, id{id}, image{image}, thumbnailsPath{thumbnailsPath}]() {
     mParent->onImageMapped(id, image, thumbnailsPath);
   });
@@ -369,7 +376,7 @@ void Photobook::onImageCopied(PBDev::ImageToPaperId imageId,
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = platformInfo()->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, imageId, image, thumbnailsPath]() {
     mParent->onImageCopied(imageId, image, thumbnailsPath);
   });
@@ -388,7 +395,7 @@ void Photobook::onLutApplied(PBDev::LutApplicationId lutId,
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = platformInfo()->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, lutId, image, thumbnailsPath]() {
     mParent->onLutApplied(lutId, image, thumbnailsPath);
   });
@@ -413,7 +420,7 @@ void Photobook::onLutAppliedOnDisk(PBDev::LutApplicationId lutId,
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = mPlatformInfo->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, lutId, image, thumbnailsPath]() {
     mParent->onLutAppliedOnDisk(lutId, image, thumbnailsPath);
   });
@@ -425,7 +432,7 @@ void Photobook::onEffectsApplied(PBDev::EffectId effectId,
   auto maybeProject = projectManagementService()->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   auto thumbnailsPath = mPlatformInfo->projectSupportFolder(maybeProject->id) /
-      "thumbnail-images";
+                        "thumbnail-images";
   post([this, effectId, image, thumbnailsPath]() {
     mParent->onEffectsApplied(effectId, image, thumbnailsPath);
   });
