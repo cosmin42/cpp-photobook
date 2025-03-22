@@ -258,22 +258,20 @@ void Photobook::onSearchingFinished(
 {
 }
 
-void Photobook::onImageProcessed(Path key, Path root,
-                                 GenericImagePtr imageResources)
+void Photobook::onImageProcessed(PBDev::ImageId imageId, Path root,
+                                 GenericImagePtr image)
 {
-  /*
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-  maybeProject->value.imageMonitor()->replaceImage(root, imageResources, -1);
-  auto [row, index] =
-      maybeProject->value.imageMonitor()->position(imageResources->full());
+  maybeProject->value.imageMonitor()->updateImage(imageId, image);
+  
+  auto [row, index] = maybeProject->value.imageMonitor()->position(imageId);
 
   if (mImportLogic->isFinished(root)) {
     maybeProject->value.imageMonitor()->completeRowByPath(root);
   }
 
   mParent->onImageUpdated(root, row, index);
-  */
 }
 
 void Photobook::onImageProcessingJobEnded(Path root) {}

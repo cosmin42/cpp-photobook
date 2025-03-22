@@ -17,13 +17,17 @@ namespace PB::Job {
 class ThumbnailsJobListener {
 public:
   virtual void imageProcessed(PBDev::ThumbnailsJobId jobId,
+                              PBDev::ImageId         imageId,
                               GenericImagePtr        image) = 0;
 };
 
 class ThumbnailsJob : public MapReducer {
 public:
-  explicit ThumbnailsJob(PBDev::ThumbnailsJobId jobId, std::vector<Path> paths)
-      : mJobId(jobId), mPaths(paths)
+  explicit ThumbnailsJob(PBDev::ThumbnailsJobId jobId,
+                         std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                            boost::hash<PBDev::ImageId>>
+                             placeholders)
+      : mJobId(jobId), mPlaceholders(placeholders)
   {
   }
   ~ThumbnailsJob() = default;
@@ -43,64 +47,70 @@ public:
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
-    if (mIndex >= mPaths.size()) {
+    if (mIterator == mPlaceholders.end()) {
       return std::nullopt;
     }
 
-    auto path = mPaths[mIndex];
-    mIndex++;
-
     PBDev::MapReducerTaskId taskId(RuntimeUUID::newUUID());
 
-    return std::make_optional(
-        IdentifyableFunction{taskId, [this, path]() {
-                               auto thumbnails = process(path);
-                               mListener->imageProcessed(mJobId, thumbnails);
-                             }});
+    return std::make_optional(IdentifyableFunction{
+        taskId, [this, imageId{mIterator->first}, image{mIterator->second}]() {
+          auto processedImage = processDiscriminator(image);
+          mListener->imageProcessed(mJobId, imageId, processedImage);
+        }});
   }
 
   void onTaskFinished(PBDev::MapReducerTaskId) override {}
 
-  unsigned taskCount() const override { return (unsigned)mPaths.size(); }
+  unsigned taskCount() const override { return (unsigned)mPlaceholders.size(); }
 
 private:
   ThumbnailsJobListener        *mListener = nullptr;
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
   IdentifiableProject           mProject = nullptr;
   PBDev::ThumbnailsJobId        mJobId;
-  unsigned                      mIndex = 0;
-  std::vector<Path>             mPaths;
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>
+      mPlaceholders;
 
-  GenericImagePtr process(Path path)
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>::iterator mIterator;
+
+  GenericImagePtr processRegularImage(Path path)
   {
-    if (std::filesystem::is_regular_file(path)) {
-      ThumbnailsTask task(path);
-      task.configurePlatformInfo(mPlatformInfo);
-      task.configureProject(mProject);
-      auto hash = task.createThumbnails();
+    ThumbnailsTask task(path);
+    task.configurePlatformInfo(mPlatformInfo);
+    task.configureProject(mProject);
+    auto hash = task.createThumbnails();
+    return std::make_shared<RegularImageV2>(hash, path);
+  }
 
-      return std::make_shared<RegularImageV2>(hash, path);
+  GenericImagePtr processTextImage(Path path)
+  {
+    auto temporaryImagePath = mPlatformInfo->newTemporaryImage(mProject->id);
+    auto directoryName = path.filename().string();
+    auto image =
+        Process::createTextImage(mProject->value.paperSettings, directoryName);
+    PB::infra::writeImageOnDisk(image, temporaryImagePath);
+    ThumbnailsTask task(temporaryImagePath);
+    task.configurePlatformInfo(mPlatformInfo);
+    task.configureProject(mProject);
+    auto hash = task.createThumbnails();
+    std::filesystem::remove(temporaryImagePath);
+    return std::make_shared<TextImageV2>(hash, directoryName);
+  }
+
+  GenericImagePtr processDiscriminator(GenericImagePtr image)
+  {
+    if (image->type() == ImageType::Regular) {
+      auto regularImage = std::dynamic_pointer_cast<RegularImageV2>(image);
+      return processRegularImage(regularImage->original());
     }
-    else if (std::filesystem::is_directory(path)) {
-      auto temporaryImagePath = mPlatformInfo->newTemporaryImage(mProject->id);
-
-      auto directoryName = path.filename().string();
-      auto image = Process::createTextImage(mProject->value.paperSettings,
-                                            directoryName);
-      PB::infra::writeImageOnDisk(image, temporaryImagePath);
-
-      ThumbnailsTask task(temporaryImagePath);
-      task.configurePlatformInfo(mPlatformInfo);
-      task.configureProject(mProject);
-      auto hash = task.createThumbnails();
-
-      std::filesystem::remove(temporaryImagePath);
-
-      return std::make_shared<TextImageV2>(hash, directoryName);
+    else if (image->type() == ImageType::Text) {
+      auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
+      return processTextImage(textImage->text());
     }
-    else {
-      PBDev::basicAssert(false);
-    }
+    PBDev::basicAssert(false);
     return {};
   }
 };

@@ -39,7 +39,7 @@ public:
 
   GenericImagePtr image(unsigned row, unsigned index) const;
   // GenericImagePtr     image(Path full) const;
-  // std::pair<int, int> position(Path full) const;
+  std::pair<int, int> position(PBDev::ImageId) const;
 
   std::vector<std::vector<PBDev::ImageId>> const &unstaged() const;
 
@@ -58,6 +58,9 @@ private:
   std::unordered_map<std::pair<int, int>, PBDev::ImageId,
                      boost::hash<std::pair<int, int>>>
       mPositionsV2Reverse;
+  std::unordered_map<PBDev::ImageId, std::pair<int, int>,
+                     boost::hash<PBDev::ImageId>>
+      mPositions;
 
   std::vector<std::vector<PBDev::ImageId>> mUnstagedImagesMatrix;
   std::unordered_map<PBDev::ImageId, GenericImagePtr,

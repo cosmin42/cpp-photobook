@@ -75,7 +75,8 @@ public:
                                               boost::hash<PBDev::ImageId>>
                                placeholders) override;
 
-  void onImageProcessed(Path key, Path root, GenericImagePtr image) override;
+  void onImageProcessed(PBDev::ImageId imageId, Path root,
+                        GenericImagePtr image) override;
 
   void onImageProcessingJobEnded(Path root);
 
