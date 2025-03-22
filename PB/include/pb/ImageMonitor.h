@@ -15,27 +15,24 @@ namespace PB {
 
 class ImageMonitor {
 public:
-  void addRow(Path path, std::unordered_map<PBDev::ImageId, GenericImagePtr,
-                                            boost::hash<PBDev::ImageId>>
-                             images);
-  void updateImage(PBDev::ImageId imageId, GenericImagePtr image);
-
+  void addRow(Path importFolderPath,
+              std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                 boost::hash<PBDev::ImageId>>
+                  images);
   void removeRow(int index);
   void removeRow(Path path);
 
-  void clear();
-
-  unsigned importsCount() const;
-
-  unsigned rowSize(unsigned row);
-  unsigned rowIndex(Path path) const;
-  bool     containsRow(Path path, bool subPath = false) const;
-  Path     rowPath(unsigned row) const;
-
   std::vector<Path> rowList() const;
+  unsigned          rowSize(unsigned row);
+  Path              rowPathByIndex(unsigned row) const;
+  unsigned          rowIndexByPath(Path path) const;
+
+  void updateImage(PBDev::ImageId imageId, GenericImagePtr image);
 
   std::pair<PBDev::ImageId, GenericImagePtr> image(unsigned row,
                                                    unsigned index) const;
+
+  void clear();
 
   std::pair<int, int> position(PBDev::ImageId) const;
 

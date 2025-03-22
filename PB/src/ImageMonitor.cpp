@@ -4,14 +4,15 @@
 
 namespace PB {
 
-void ImageMonitor::addRow(Path path,
+void ImageMonitor::addRow(Path importFolderPath,
                           std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                              boost::hash<PBDev::ImageId>>
                               images)
 {
-  PBDev::basicAssert(importedPathsIndices.left.find(path) ==
+  PBDev::basicAssert(importedPathsIndices.left.find(importFolderPath) ==
                      importedPathsIndices.left.end());
-  importedPathsIndices.insert({path, (int)importedPathsIndices.size()});
+  importedPathsIndices.insert(
+      {importFolderPath, (int)importedPathsIndices.size()});
 
   mUnstagedImagesMatrix.push_back(std::vector<PBDev::ImageId>());
 
@@ -77,34 +78,15 @@ void ImageMonitor::clear()
   log();
 }
 
-unsigned ImageMonitor::importsCount() const
-{
-  return (unsigned)importedPathsIndices.size();
-}
-
 unsigned ImageMonitor::rowSize(unsigned row)
 {
   PBDev::basicAssert(row < mUnstagedImagesMatrix.size());
   return (unsigned)mUnstagedImagesMatrix.at(row).size();
 }
 
-unsigned ImageMonitor::rowIndex(Path path) const
+unsigned ImageMonitor::rowIndexByPath(Path path) const
 {
   return importedPathsIndices.left.at(path);
-}
-
-bool ImageMonitor::containsRow(Path path, bool subPath) const
-{
-  if (subPath) {
-    for (auto it = importedPathsIndices.begin();
-         it != importedPathsIndices.end(); ++it) {
-      if (it->left == path) {
-        return true;
-      }
-    }
-  }
-  return importedPathsIndices.left.find(path) !=
-         importedPathsIndices.left.end();
 }
 
 std::vector<Path> ImageMonitor::rowList() const
@@ -116,7 +98,7 @@ std::vector<Path> ImageMonitor::rowList() const
   return result;
 }
 
-Path ImageMonitor::rowPath(unsigned row) const
+Path ImageMonitor::rowPathByIndex(unsigned row) const
 {
   return importedPathsIndices.right.at(row);
 }
