@@ -25,7 +25,8 @@ public:
                                    std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                                       boost::hash<PBDev::ImageId>>
                                        placeholders) = 0;
-  virtual void onImageProcessed(Path key, Path root, GenericImagePtr image) = 0;
+  virtual void onImageProcessed(PBDev::ImageId imageId, Path root,
+                                GenericImagePtr image) = 0;
   virtual void onImportError(PBDev::Error error) = 0;
 };
 
@@ -63,8 +64,8 @@ public:
 
   void onPicturesSearchAborted(Path root) override;
 
-  void imageProcessed(PBDev::ThumbnailsJobId jobId,
-                      GenericImagePtr        image) override;
+  void imageProcessed(PBDev::ThumbnailsJobId jobId, PBDev::ImageId imageId,
+                      GenericImagePtr image) override;
 
   bool isFinished(Path path);
 
@@ -85,8 +86,14 @@ private:
                      boost::hash<PBDev::ThumbnailsJobId>>
       mSearches;
 
-  void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
-                               std::vector<Path>      searchResults);
+  // void startThumbnailsCreation(PBDev::ThumbnailsJobId jobId,
+  //                              std::vector<Path>      searchResults);
+
+  void
+  startThumbnailsCreation(PBDev::ThumbnailsJobId,
+                          std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                                             boost::hash<PBDev::ImageId>>
+                              placeholders);
 
   std::unordered_map<PBDev::ImageId, GenericImagePtr,
                      boost::hash<PBDev::ImageId>>
