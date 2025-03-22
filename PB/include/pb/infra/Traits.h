@@ -58,6 +58,7 @@ void basicAssert(int shouldBetrue, const std::source_location location =
 
 template <typename Tag> class StrongUuid final {
 public:
+  StrongUuid() = default;
   explicit StrongUuid(const boost::uuids::uuid &uuid) : mUuid(uuid) {}
   ~StrongUuid() = default;
 
