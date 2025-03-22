@@ -139,6 +139,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/services/ProjectManagementService.h
     include/pb/services/ProjectSerializerService.h
     include/pb/infra/Concepts.h
+    include/pb/infra/BijectiveUnorderedMap.h
     include/pb/infra/Error.h
     include/pb/infra/FileSupport.h
     include/pb/infra/ParallelTaskConsumer.h

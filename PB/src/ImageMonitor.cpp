@@ -17,10 +17,7 @@ void ImageMonitor::addRow(Path importFolderPath,
   mUnstagedImagesMatrix.push_back(std::vector<PBDev::ImageId>());
 
   for (auto &[id, image] : images) {
-    mPositionsV2Reverse.emplace(
-        std::pair<int, int>{(int)importedPathsIndices.size(), 0}, id);
-    mPositions.emplace(
-        id, std::pair<int, int>{(int)importedPathsIndices.size(), 0});
+    mPositionsV2.insert(id, {(int)importedPathsIndices.size(), 0});
     mImages[id] = image;
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1).push_back(id);
   }
@@ -35,8 +32,7 @@ void ImageMonitor::updateImage(PBDev::ImageId imageId, GenericImagePtr image)
 void ImageMonitor::removeRow(int row)
 {
   for (auto i = 0; i < mUnstagedImagesMatrix.at(row).size(); ++i) {
-    mPositionsV2Reverse.erase(std::pair<int, int>{row, i});
-    mPositions.erase(mPositionsV2Reverse.at(std::pair<int, int>{row, i}));
+    mPositionsV2.removeByValue({row, i});
   }
 
   mUnstagedImagesMatrix.erase(mUnstagedImagesMatrix.begin() + row);
@@ -46,12 +42,10 @@ void ImageMonitor::removeRow(int row)
   for (int i = row + 1; i < (int)mUnstagedImagesMatrix.size() + 1; ++i) {
     for (int index = 0; index < (int)mUnstagedImagesMatrix.at(i - 1).size();
          ++index) {
-      auto imageId = mPositionsV2Reverse.at(std::pair<int, int>{i, index});
-      mPositionsV2Reverse.emplace(std::pair<int, int>{i - 1, index}, imageId);
-      mPositions.emplace(imageId, std::pair<int, int>{i - 1, index});
 
-      mPositionsV2Reverse.erase({i, index});
-      mPositions.erase(imageId);
+      auto imageId = mPositionsV2.getKey({i, index});
+      mPositionsV2.insert(imageId, {i - 1, index});
+      mPositionsV2.removeByKey(imageId);
     }
   }
 
@@ -72,8 +66,7 @@ void ImageMonitor::removeRow(Path path)
 void ImageMonitor::clear()
 {
   importedPathsIndices.clear();
-  mPositionsV2Reverse.clear();
-  mPositions.clear();
+  mPositionsV2.clear();
   mUnstagedImagesMatrix.clear();
   log();
 }
@@ -115,8 +108,8 @@ ImageMonitor::image(unsigned row, unsigned index) const
 
 std::pair<int, int> ImageMonitor::position(PBDev::ImageId imageId) const
 {
-  PBDev::basicAssert(mPositions.find(imageId) != mPositions.end());
-  return mPositions.at(imageId);
+  PBDev::basicAssert(mPositionsV2.hasKey(imageId));
+  return mPositionsV2.getValue(imageId);
 }
 
 std::vector<std::vector<PBDev::ImageId>> const &ImageMonitor::unstaged() const

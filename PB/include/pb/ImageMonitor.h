@@ -8,6 +8,7 @@
 #include <pb/Config.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RowProcessingData.h>
+#include <pb/infra/BijectiveUnorderedMap.h>
 
 DECLARE_STRONG_UUID(ImageId)
 
@@ -49,13 +50,8 @@ public:
 private:
   boost::bimaps::bimap<Path, int> importedPathsIndices = {};
 
-  // TODO: Implement a wrapper over the maps to replace bimap
-  std::unordered_map<std::pair<int, int>, PBDev::ImageId,
-                     boost::hash<std::pair<int, int>>>
-      mPositionsV2Reverse;
-  std::unordered_map<PBDev::ImageId, std::pair<int, int>,
-                     boost::hash<PBDev::ImageId>>
-      mPositions;
+  infra::BijectiveUnorderedMap<PBDev::ImageId, std::pair<int, int>>
+      mPositionsV2;
 
   std::vector<std::vector<PBDev::ImageId>> mUnstagedImagesMatrix;
   std::unordered_map<PBDev::ImageId, GenericImagePtr,
