@@ -57,6 +57,11 @@ public:
   virtual void onEffectsApplied(PBDev::EffectId effectId,
                                 GenericImagePtr image, Path thumbnailsPath) = 0;
   virtual void onEffectsAppliedInplace(PBDev::EffectId effectId) = 0;
+
+  virtual void onSearchingFinished(Path root,
+    std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                       boost::hash<PBDev::ImageId>>
+        placeholders, Path) = 0;
 };
 
 } // namespace PB

@@ -161,6 +161,29 @@ public:
         [&mManagedListener onEffectsAppliedInplace: managedEffectId];
     }
     
+    void onSearchingFinished(Path root,
+                             std::unordered_map<PBDev::ImageId, PB::GenericImagePtr,
+                             boost::hash<PBDev::ImageId>>
+                             placeholders, Path thumbnailsLocation) override
+    {
+        NSString* managedRootPath = [NSString stringWithUTF8String:root.string().c_str()];
+        
+        NSMutableDictionary<NSString*, FrontendImage*>* managedPlaceholders = [[NSMutableDictionary alloc] init];
+        
+        NSString* managedThumbnailsLocation = [NSString stringWithUTF8String:thumbnailsLocation.string().c_str()];
+        
+        for (auto& [imageId, image]: placeholders)
+        {
+            std::string imageIdStr = boost::uuids::to_string(*imageId);
+            NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+            
+            auto managedImage = [[FrontendImage alloc] initWithCpp:image projectRoot:managedThumbnailsLocation];
+            managedPlaceholders[managedImageId] = managedImage;
+        }
+        
+        [&mManagedListener onSearchingFinished:managedRootPath placeholders:managedPlaceholders];
+    }
+    
 private:
     PhotobookListenerWrapperCLevel const& mManagedListener;
     

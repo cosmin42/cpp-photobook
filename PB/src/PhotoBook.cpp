@@ -260,8 +260,10 @@ void Photobook::onSearchingFinished(
 
   maybeProject->value.imageMonitor()->addRow(root, placeholders);
 
-  post([this, root, size{placeholders.size()}]() {
-    mParent->onMappingFinished(root, (unsigned)size);
+  auto thumbnailsPath = platformInfo()->projectSupportFolder(maybeProject->id) /
+  "thumbnail-images";
+  post([this, root, placeholders, thumbnailsPath]() {
+    mParent->onSearchingFinished(root, placeholders, thumbnailsPath);
   });
 }
 

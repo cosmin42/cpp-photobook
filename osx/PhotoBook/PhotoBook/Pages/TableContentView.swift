@@ -71,7 +71,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var effectsFromUpl:Set<String> = []
     @State private var effectsFromDpl:[String:UInt32] = [:]
     @State private var effectsFromSpl:[String:UInt32] = [:]
-        
+    
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -427,7 +427,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         StagedPhotoLine(frameSize: geometry.size, model: splModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
-                            
+                        
                             .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                                 guard let provider = providers.first else { return false}
                                 if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
@@ -521,7 +521,7 @@ struct TableContentView: View, PhotobookUIListener {
                     
                     DraftPhotoLine(frameSize: geometry.size, model: dplModel, photoLinesModel: photoLinesModel, multipleSelectionEnabled: $multipleSelectionEnabled, canvasImage: $canvasModel.mainImage)
                         .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
-  
+                            
                             guard let provider = providers.first else { return false}
                             if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
                                 provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
@@ -599,7 +599,7 @@ struct TableContentView: View, PhotobookUIListener {
                             }
                             
                             return true
-                        
+                            
                         }
                     
                     
@@ -643,7 +643,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                 }
-
+                
                 self.lutGridModel.onApply = { [self] lutIndex in
                     
                     if self.photoLinesModel.currentPhotoLine == .Draft
@@ -803,7 +803,7 @@ struct TableContentView: View, PhotobookUIListener {
                     break
                 }
             }
-
+            
             canvasModel.onRightClick = {
                 switch photoLinesModel.currentPhotoLine {
                 case .Unstaged:
@@ -837,7 +837,7 @@ struct TableContentView: View, PhotobookUIListener {
                     break
                 }
             }
-
+            
             if !toOpenProjectId.isEmpty
             {
                 self.photobook.loadProject(toOpenProjectId)
@@ -900,6 +900,13 @@ struct TableContentView: View, PhotobookUIListener {
     {
         let url = URL(fileURLWithPath: root)
         self.mediaListModel.list.append(MediaItem(root, displayName: url.lastPathComponent, imagesCount: imagesCount))
+        self.mediaListModel.selectedItem = self.mediaListModel.list.last
+    }
+    
+    func onSearchingFinished(importedFolderPath: String, placeholders: [String:FrontendImage])
+    {
+        let url = URL(fileURLWithPath: importedFolderPath)
+        self.mediaListModel.list.append(MediaItem(importedFolderPath, displayName: url.lastPathComponent, imagesCount: UInt32(placeholders.count)))
         self.mediaListModel.selectedItem = self.mediaListModel.list.last
     }
     

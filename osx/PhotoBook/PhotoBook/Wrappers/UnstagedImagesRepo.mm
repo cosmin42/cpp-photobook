@@ -26,7 +26,7 @@
 - (FrontendImage*) image:(unsigned)row index:(unsigned)index thumbnailsPath:(NSString*)thumbnailsPath
 {
     auto genericImage = cppImageMonitor->image(row, index);
-    return [[FrontendImage alloc] initWithCpp:genericImage projectRoot:thumbnailsPath];
+    return [[FrontendImage alloc] initWithCpp:genericImage.second projectRoot:thumbnailsPath];
 }
 
 - (NSArray<MediaItem*>*) rowList

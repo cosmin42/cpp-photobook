@@ -81,6 +81,11 @@ private var noirUIListener: [NoirUIListener] = []
     {
         photobookUIListener.last?.onError(message: message)
     }
+    
+    func onSearchingFinished(_ importedFolderPath: String, placeholders: [String:FrontendImage])
+    {
+        photobookUIListener.last?.onSearchingFinished(importedFolderPath: importedFolderPath, placeholders: placeholders)
+    }
 }
 
 @objc extension NoirListenerWrapperCLevel
@@ -184,6 +189,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onProjectRead() {}
     func onMetadataUpdated(focusedName: String) {}
     func onMappingFinished(root: String, imagesCount: UInt32) {}
+    func onSearchingFinished(importedFolderPath: String, placeholders: [String:FrontendImage]) {}
     func onImageUpdated(root: String, row:UInt, index:UInt){}
     func onCollageThumbnailsCreated(){}
     func onCollageCreated(image: FrontendImage){}

@@ -10,6 +10,7 @@ protocol PhotobookUIListener
     func onProjectRead()
     func onMetadataUpdated(focusedName: String)
     func onMappingFinished(root: String, imagesCount:UInt32)
+    func onSearchingFinished(importedFolderPath: String, placeholders: [String:FrontendImage])
     func onImageUpdated(root: String, row:UInt, index:UInt)
     func onCollageThumbnailsCreated()
     func onImageMapped(imageId: String, image: FrontendImage)
