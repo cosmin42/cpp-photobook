@@ -1,6 +1,7 @@
 #include <pb/ImageMonitor.h>
 
 #include <boost/bimap/support/lambda.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 namespace PB {
 
@@ -15,11 +16,12 @@ void ImageMonitor::addRow(Path importFolderPath,
       {importFolderPath, (int)importedPathsIndices.size()});
 
   mUnstagedImagesMatrix.push_back(std::vector<PBDev::ImageId>());
-
+  int index = 0;
   for (auto &[id, image] : images) {
-    mPositionsV2.insert(id, {(int)importedPathsIndices.size(), 0});
+    mPositionsV2.insert(id, {(int)(mUnstagedImagesMatrix.size() - 1), index});
     mImages[id] = image;
     mUnstagedImagesMatrix.at(mUnstagedImagesMatrix.size() - 1).push_back(id);
+      index++;
   }
 }
 
