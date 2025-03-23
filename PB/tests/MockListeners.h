@@ -124,6 +124,30 @@ public:
   MOCK_METHOD(void, onExportUpdate, (Path), (override));
 };
 
+typedef std::unordered_map<PBDev::ImageId, PB::GenericImagePtr,
+                           boost::hash<PBDev::ImageId>>
+    ImageMap;
+
+class TestImportFoldersServiceListener final
+    : public ImportFoldersServiceListener {
+public:
+  MOCK_METHOD(void, onMappingFinished, (Path, std::vector<Path>), (override));
+  MOCK_METHOD(void, onSearchingFinished, (Path, ImageMap), (override));
+
+  void onImageProcessed(PBDev::ImageId imageId, Path root,
+                        PB::GenericImagePtr image) override
+  {
+    Path base = Path("..") / Path("..") / "PB" / "test-data" /
+                "test-local-state" / "projects" /
+                "93a24d3d-edce-48fd-a361-b63ce675039d" / "thumbnail-images";
+    std::filesystem::remove(base / image->full());
+    std::filesystem::remove(base / image->medium());
+    std::filesystem::remove(base / image->smaLL());
+  }
+
+  MOCK_METHOD(void, onImportError, (PBDev::Error), (override));
+};
+
 /*
 class TestPersistenceProjectListener final
     : public PB::PersistenceProjectListener {
