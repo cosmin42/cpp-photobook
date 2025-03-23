@@ -9,7 +9,7 @@ void ImportFoldersService::addImportFolder(Path path)
   auto importedFoldersPaths = mProject->value.imageMonitor()->rowList();
 
   if (std::find(importedFoldersPaths.begin(), importedFoldersPaths.end(),
-                path) == importedFoldersPaths.end()) {
+                path) != importedFoldersPaths.end()) {
     mListener->onImportError(PBDev::Error()
                              << PB::ErrorCode::FolderAlreadyImported);
     return;
@@ -67,29 +67,24 @@ void ImportFoldersService::onPicturesSearchFinished(
 {
   // Improve this to take into consideration embedded empty folders
   if (searchResults.empty()) {
-    mScheduler->post([this, root{root}]() {
-      mListener->onImportError(PBDev::Error() << PB::ErrorCode::NoImages);
-    });
+    mListener->onImportError(PBDev::Error() << PB::ErrorCode::NoImages);
   }
   else {
-    mScheduler->post(
-        [this, root{root}, searchResults{searchResults}, jobId{jobId}]() {
-          mSearches.erase(jobId);
+    mSearches.erase(jobId);
 
-          auto placeholders = createPlaceholders(searchResults);
+    auto placeholders = createPlaceholders(searchResults);
 
-          mListener->onSearchingFinished(root, placeholders);
+    mListener->onSearchingFinished(root, placeholders);
 
-          startThumbnailsCreation(jobId, placeholders);
+    startThumbnailsCreation(jobId, placeholders);
 
-          // TODO: See if this is still needed
-          // std::vector<Path> onlyFilesResults(searchResults);
-          // auto              it = std::remove_if(
-          //    onlyFilesResults.begin(), onlyFilesResults.end(),
-          //    [](Path path) { return std::filesystem::is_directory(path); });
+    // TODO: See if this is still needed
+    // std::vector<Path> onlyFilesResults(searchResults);
+    // auto              it = std::remove_if(
+    //    onlyFilesResults.begin(), onlyFilesResults.end(),
+    //    [](Path path) { return std::filesystem::is_directory(path); });
 
-          // onlyFilesResults.erase(it, onlyFilesResults.end());
-        });
+    // onlyFilesResults.erase(it, onlyFilesResults.end());
   }
 }
 
@@ -120,15 +115,12 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
 {
   auto root = mRootPaths.at(jobId);
 
-  mScheduler->post(
-      [this, root{root}, image{image}, jobId{jobId}, imageId{imageId}]() {
-        if (mThumbnailsJobs.at(jobId).isFinished()) {
-          mThumbnailsJobs.erase(jobId);
-          mRootPaths.erase(jobId);
-          mSearches.erase(jobId);
-        }
-        mListener->onImageProcessed(imageId, root, image);
-      });
+  if (mThumbnailsJobs.at(jobId).isFinished()) {
+    mThumbnailsJobs.erase(jobId);
+    mRootPaths.erase(jobId);
+    mSearches.erase(jobId);
+  }
+  mListener->onImageProcessed(imageId, root, image);
 }
 
 bool ImportFoldersService::isFinished(Path path)

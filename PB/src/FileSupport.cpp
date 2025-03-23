@@ -157,7 +157,9 @@ loadImageToCvMatToFixedSize(Path const path, cv::Size size,
 
 bool isValidMediaFolder(Path const path)
 {
-  return std::filesystem::exists(path) && std::filesystem::is_directory(path);
+  bool exists = std::filesystem::exists(path);
+  bool isDir = std::filesystem::is_directory(path);
+  return exists && isDir;
 }
 
 } // namespace PB::infra

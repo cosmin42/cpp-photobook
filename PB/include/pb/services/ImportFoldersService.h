@@ -40,11 +40,6 @@ public:
     mListener = listener;
   }
 
-  void configureScheduler(PBDev::ThreadScheduler *scheduler)
-  {
-    mScheduler = scheduler;
-  }
-
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
   {
     mTaskCruncher = taskCruncher;
@@ -71,7 +66,6 @@ public:
 
 private:
   ImportFoldersServiceListener *mListener = nullptr;
-  PBDev::ThreadScheduler       *mScheduler = nullptr;
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
   IdentifiableProject           mProject = nullptr;

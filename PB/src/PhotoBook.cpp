@@ -89,7 +89,6 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureListener(importFoldersServiceListener);
-  mImportLogic->configureScheduler(threadScheduler);
 
   mExportService->configureTaskCruncher(mTaskCruncher);
   mExportService->configurePlatformInfo(mPlatformInfo);
@@ -207,13 +206,13 @@ void Photobook::removeImportFolder(Path path)
 {
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
-  //TODO: Is pending should not be here, it should be in the import serv
+  // TODO: Is pending should not be here, it should be in the import serv
   /*if (maybeProject->value.imageMonitor()->isPending(path)) {
     mParent->onError(PBDev::Error() << PB::ErrorCode::WaitForLoadingCompletion);
   }
   else {*/
-    Noir::inst().getLogger()->info("Remove imported folder {}", path.string());
-    maybeProject->value.imageMonitor()->removeRow(path);
+  Noir::inst().getLogger()->info("Remove imported folder {}", path.string());
+  maybeProject->value.imageMonitor()->removeRow(path);
   //}
 }
 
@@ -256,6 +255,14 @@ void Photobook::onSearchingFinished(
                                             boost::hash<PBDev::ImageId>>
                    placeholders)
 {
+  auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
+  PBDev::basicAssert(maybeProject != nullptr);
+
+  maybeProject->value.imageMonitor()->addRow(root, placeholders);
+
+  post([this, root, size{placeholders.size()}]() {
+    mParent->onMappingFinished(root, (unsigned)size);
+  });
 }
 
 void Photobook::onImageProcessed(PBDev::ImageId imageId, Path root,
@@ -264,10 +271,12 @@ void Photobook::onImageProcessed(PBDev::ImageId imageId, Path root,
   auto maybeProject = mProjectManagementService->maybeLoadedProjectInfo();
   PBDev::basicAssert(maybeProject != nullptr);
   maybeProject->value.imageMonitor()->updateImage(imageId, image);
-  
+
   auto [row, index] = maybeProject->value.imageMonitor()->position(imageId);
 
-  mParent->onImageUpdated(root, row, index);
+  post([this, root, row, index]() {
+    mParent->onImageUpdated(root, row, index);
+  });
 }
 
 void Photobook::onImageProcessingJobEnded(Path root) {}
@@ -351,7 +360,10 @@ void Photobook::onCollageCreated(GenericImagePtr aggregatedImage)
 
 void Photobook::onCollageMakerError() {}
 
-void Photobook::onImportError(PBDev::Error error) { mParent->onError(error); }
+void Photobook::onImportError(PBDev::Error error)
+{
+  post([this, error]() { mParent->onError(error); });
+}
 
 void Photobook::onImageMapped(PBDev::ImageToPaperId id, GenericImagePtr image)
 {
