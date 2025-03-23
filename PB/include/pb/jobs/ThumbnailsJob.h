@@ -11,6 +11,7 @@
 #include <pb/infra/FileSupport.h>
 #include <pb/infra/Traits.h>
 #include <pb/services/ProjectManagementService.h>
+#include <queue>
 
 namespace PB::Job {
 
@@ -27,9 +28,11 @@ public:
                          std::unordered_map<PBDev::ImageId, GenericImagePtr,
                                             boost::hash<PBDev::ImageId>>
                              placeholders)
-      : mJobId(jobId), mPlaceholders(placeholders),
-        mIterator(mPlaceholders.begin())
+      : mJobId(jobId), mPlaceholders(placeholders)
   {
+    for (auto &[imageId, image] : mPlaceholders) {
+      mImageIds.push(imageId);
+    }
   }
   ~ThumbnailsJob() = default;
 
@@ -48,14 +51,19 @@ public:
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
-    if (mIterator == mPlaceholders.end()) {
+    if (mImageIds.empty()) {
       return std::nullopt;
     }
 
     PBDev::MapReducerTaskId taskId(RuntimeUUID::newUUID());
 
+    auto imageId = mImageIds.front();
+    auto image = mPlaceholders.at(imageId);
+
+    mImageIds.pop();
+
     return std::make_optional(IdentifyableFunction{
-        taskId, [this, imageId{mIterator->first}, image{mIterator->second}]() {
+        taskId, [this, imageId, image]() {
           auto processedImage = processDiscriminator(image);
           mListener->imageProcessed(mJobId, imageId, processedImage);
         }});
@@ -70,12 +78,11 @@ private:
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
   IdentifiableProject           mProject = nullptr;
   PBDev::ThumbnailsJobId        mJobId;
-  std::unordered_map<PBDev::ImageId, GenericImagePtr,
-                     boost::hash<PBDev::ImageId>>
+  const std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                           boost::hash<PBDev::ImageId>>
       mPlaceholders;
 
-  std::unordered_map<PBDev::ImageId, GenericImagePtr,
-                     boost::hash<PBDev::ImageId>>::iterator mIterator;
+  std::queue<PBDev::ImageId> mImageIds;
 
   GenericImagePtr processRegularImage(Path path)
   {
