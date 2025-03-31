@@ -115,12 +115,18 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
 {
   auto root = mRootPaths.at(jobId);
 
-  if (mThumbnailsJobs.at(jobId).isFinished()) {
-    mThumbnailsJobs.erase(jobId);
-    mRootPaths.erase(jobId);
-    mSearches.erase(jobId);
-  }
   mListener->onImageProcessed(imageId, root, image);
+}
+
+void ImportFoldersService::taskEnded()
+{
+    // TODO: Do the mThumbnailsJobs cleanup
+  for (auto &[key, value] : mThumbnailsJobs) {
+    if (value.isFinished()) {
+      mRootPaths.erase(key);
+      mSearches.erase(key);
+    }
+  }
 }
 
 bool ImportFoldersService::isFinished(Path path)

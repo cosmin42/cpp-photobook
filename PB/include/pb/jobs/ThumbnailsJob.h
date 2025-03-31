@@ -20,6 +20,8 @@ public:
   virtual void imageProcessed(PBDev::ThumbnailsJobId jobId,
                               PBDev::ImageId         imageId,
                               GenericImagePtr        image) = 0;
+
+  virtual void taskEnded() = 0;
 };
 
 class ThumbnailsJob : public MapReducer {
@@ -69,7 +71,12 @@ public:
         }});
   }
 
-  void onTaskFinished(PBDev::MapReducerTaskId) override {}
+  void onTaskFinished(PBDev::MapReducerTaskId) override
+  {
+    if (mImageIds.empty()) {
+      mListener->taskEnded();
+    }
+  }
 
   unsigned taskCount() const override { return (unsigned)mPlaceholders.size(); }
 

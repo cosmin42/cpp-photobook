@@ -62,6 +62,8 @@ public:
   void imageProcessed(PBDev::ThumbnailsJobId jobId, PBDev::ImageId imageId,
                       GenericImagePtr image) override;
 
+  void taskEnded() override;
+
   bool isFinished(Path path);
 
 private:
