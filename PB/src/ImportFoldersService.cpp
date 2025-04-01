@@ -123,8 +123,11 @@ void ImportFoldersService::taskEnded()
     // TODO: Do the mThumbnailsJobs cleanup
   for (auto &[key, value] : mThumbnailsJobs) {
     if (value.isFinished()) {
-      mRootPaths.erase(key);
-      mSearches.erase(key);
+      mScheduler->post([this, key]() {
+          mRootPaths.erase(key);
+          mSearches.erase(key);
+          mThumbnailsJobs.erase(key);
+      });
     }
   }
 }

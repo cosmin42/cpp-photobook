@@ -50,6 +50,11 @@ public:
     mPlatformInfo = platformInfo;
   }
 
+  void configureScheduler(PBDev::ThreadScheduler* scheduler)
+  {
+    mScheduler = scheduler;
+  }
+
   void configureProject(IdentifiableProject project) { mProject = project; }
 
   void addImportFolder(Path path);
@@ -67,10 +72,11 @@ public:
   bool isFinished(Path path);
 
 private:
-  ImportFoldersServiceListener *mListener = nullptr;
-  std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
-  std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
-  IdentifiableProject           mProject = nullptr;
+  ImportFoldersServiceListener    *mListener = nullptr;
+  std::shared_ptr<TaskCruncher>   mTaskCruncher = nullptr;
+  std::shared_ptr<PlatformInfo>   mPlatformInfo = nullptr;
+  IdentifiableProject             mProject = nullptr;
+  PBDev::ThreadScheduler*         mScheduler = nullptr;
 
   std::unordered_map<PBDev::ThumbnailsJobId, Path,
                      boost::hash<PBDev::ThumbnailsJobId>>

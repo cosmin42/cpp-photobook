@@ -88,6 +88,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
+  mImportLogic->configureScheduler(threadScheduler);
   mImportLogic->configureListener(importFoldersServiceListener);
 
   mExportService->configureTaskCruncher(mTaskCruncher);
