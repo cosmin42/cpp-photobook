@@ -10,6 +10,19 @@ import SwiftUI
 class UnstagedPhotoLineModel: ObservableObject
 {
     @Published public var list: [FrontendImage] = []
+    {
+        didSet {
+            if list.isEmpty
+            {
+                selectedIndices = []
+            }
+            else
+            {
+                selectedIndices = [0]
+            }
+        }
+    }
+    
     @Published var selectedIndices: [Int] = []
     {
         didSet {

@@ -620,6 +620,14 @@ struct TableContentView: View, PhotobookUIListener {
                     self.basicTransformationModel.reset()
                     self.lutGridModel.selectedIndex = nil
                     self.canvasModel.processedImageInfo = ("", "")
+                    if let selectedIndex = selectedIndices.first
+                    {
+                        self.canvasModel.mainImage = uplModel.list[selectedIndex]
+                    }
+                    else
+                    {
+                        self.canvasModel.mainImage = nil
+                    }
                     self.canvasModel.maybeProcessedImage = nil
                 }
                 self.lutGridModel.onSelectedIndexChange = { [self] selectedIndex in
