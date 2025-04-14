@@ -416,7 +416,6 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .frame(alignment:.leading)
                         .scrollIndicators(.hidden)
-                        .border(Color.BorderColor, width: 1)
                     }
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * tabViewRatio)

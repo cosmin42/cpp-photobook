@@ -91,6 +91,5 @@ struct DraftPhotoLine: View
         }
         .frame(width: frameSize.width, height:82, alignment: .leading)
         .cornerRadius(10)
-        .border(Color.BorderColor, width: 1)
     }
 }

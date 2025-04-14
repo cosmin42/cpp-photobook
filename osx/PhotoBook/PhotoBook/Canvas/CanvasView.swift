@@ -92,6 +92,5 @@ struct CanvasView: View
             }
         }
         .frame(width: frameSize.width * 0.5)
-        .border(Color.BorderColor, width: 1)
     }
 }
