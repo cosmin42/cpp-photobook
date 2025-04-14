@@ -10,6 +10,7 @@
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/GenericImage.h>
 #include <pb/entities/RegularImageV2.h>
+#include <pb/entities/TextImageV2.h>
 #include <pb/infra/FileSupport.h>
 #include <pb/services/ProjectManagementService.h>
 
@@ -79,6 +80,22 @@ public:
   unsigned taskCount() const override { return (unsigned)mImageIds.size(); }
 
 private:
+  static std::string shortName(GenericImagePtr image)
+  {
+    if (image->type() == ImageType::Regular) {
+      auto regularImage = std::dynamic_pointer_cast<RegularImageV2>(image);
+      return regularImage->original().filename().string();
+    }
+    else if (image->type() == ImageType::Text) {
+      auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
+      return textImage->text();
+    }
+    else {
+      PBDev::basicAssert(false);
+      return "";
+    }
+  }
+
   std::shared_ptr<PlatformInfo>      mPlatformInfo = nullptr;
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
@@ -162,7 +179,7 @@ private:
       PB_UNREACHABLE;
     }
 
-    croppedSource.copyTo(
+  croppedSource.copyTo(
         singleColorImage->operator()(cv::Rect(dstOrigin, sizeToCopy)));
 
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
@@ -171,8 +188,10 @@ private:
         singleColorImage, mPlatformInfo, mProject, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
-    // TODO: Full is not original here, improve this
-    return std::make_shared<RegularImageV2>(newHash, image->full());
+
+    auto descriptiveShortName = shortName(image);
+    
+    return std::make_shared<RegularImageV2>(newHash, descriptiveShortName);
   }
 };
 } // namespace PB
