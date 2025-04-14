@@ -195,7 +195,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     func onCollageCreated(image: FrontendImage){}
     func onImageMapped(imageId: String, image: FrontendImage){}
     func onImageCopied(imageId: String, image: FrontendImage) {}
-
+    
     
     func onNoirLutAdded(item:LutItem) {
         lutGridModel.images.append(item)
@@ -249,12 +249,14 @@ struct PropertiesDetailsDialog: View {
         Text(details)
             .onAppear()
         {
-            var paperSettings = self.photobook.projectManagementService().paperSettings()
-            self.details = """
-            Paper Type: \(paperSettings?.paperType)
-            Paper Width: \(paperSettings?.width)
-            Paper Height: \(paperSettings?.height)
+            if let paperSettings = self.photobook.projectManagementService().paperSettings()
+            {
+                self.details = """
+            Paper Type: \(paperSettings.paperType.rawValue)
+            Paper Width: \(paperSettings.width)
+            Paper Height: \(paperSettings.height)
             """
+            }
         }
         .padding()
         Button(action:{isPropertiesDetailsDialogVisible = false;}){
