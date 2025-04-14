@@ -255,6 +255,7 @@ struct PropertiesDetailsDialog: View {
             Paper Type: \(paperSettings.paperType.rawValue)
             Paper Width: \(paperSettings.width)
             Paper Height: \(paperSettings.height)
+            PPI: \(paperSettings.ppi)
             """
             }
         }
