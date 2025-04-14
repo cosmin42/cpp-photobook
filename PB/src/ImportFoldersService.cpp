@@ -46,20 +46,30 @@ void ImportFoldersService::addImportFolder(Path path)
 std::unordered_map<PBDev::ImageId, GenericImagePtr, boost::hash<PBDev::ImageId>>
 ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
 {
-  std::unordered_map<PBDev::ImageId, GenericImagePtr,
-                     boost::hash<PBDev::ImageId>>
-      placeholders;
-
-  for (auto &path : searchResults) {
-    PBDev::ImageId imageId(RuntimeUUID::newUUID());
-
-    GenericImagePtr placeholder =
-        std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
-
-    placeholders.emplace(imageId, placeholder);
-  }
-
-  return placeholders;
+    std::unordered_map<PBDev::ImageId, GenericImagePtr,
+    boost::hash<PBDev::ImageId>>
+    placeholders;
+    
+    for (auto &path : searchResults) {
+        PBDev::ImageId imageId(RuntimeUUID::newUUID());
+        
+        GenericImagePtr placeholder;
+        if (std::filesystem::is_directory(path))
+        {
+            placeholder = std::make_shared<TextImageV2>(TextImageV2::defaultHash(), path.stem().string());
+        }
+        else if (std::filesystem::is_regular_file(path))
+        {
+            placeholder = std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
+        }
+        else
+        {
+            PBDev::basicAssert(false);
+        }
+        placeholders.emplace(imageId, placeholder);
+    }
+    
+    return placeholders;
 }
 
 void ImportFoldersService::onPicturesSearchFinished(
@@ -71,20 +81,9 @@ void ImportFoldersService::onPicturesSearchFinished(
   }
   else {
     mSearches.erase(jobId);
-
     auto placeholders = createPlaceholders(searchResults);
-
     mListener->onSearchingFinished(root, placeholders);
-
     startThumbnailsCreation(jobId, placeholders);
-
-    // TODO: See if this is still needed
-    // std::vector<Path> onlyFilesResults(searchResults);
-    // auto              it = std::remove_if(
-    //    onlyFilesResults.begin(), onlyFilesResults.end(),
-    //    [](Path path) { return std::filesystem::is_directory(path); });
-
-    // onlyFilesResults.erase(it, onlyFilesResults.end());
   }
 }
 
