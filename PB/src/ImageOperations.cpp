@@ -228,9 +228,10 @@ std::shared_ptr<cv::Mat> createTextImage(PaperSettings      paperSettings,
   auto blankImage = Process::singleColorImage(
       paperSettings.width, paperSettings.height, {255, 255, 255})();
 
+  auto fontSize = paperSettings.ppi * paperSettings.width / 300000;
   Process::CVFontInfo fontInfo;
   fontInfo.color = {0, 0, 0};
-  fontInfo.pixelSize = Process::pointsFromPixels(24, paperSettings.ppi);
+  fontInfo.pixelSize = Process::pointsFromPixels(fontSize, paperSettings.ppi);
   fontInfo.thickness = 8;
 
   auto image =
