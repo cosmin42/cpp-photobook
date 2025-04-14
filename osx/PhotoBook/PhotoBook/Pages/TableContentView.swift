@@ -925,9 +925,13 @@ struct TableContentView: View, PhotobookUIListener {
             if (row == selectedRowIndex)
             {
                 let image = self.photobook.projectManagementService().unstagedImagesRepo().image(UInt32(row), index:UInt32(index), thumbnailsPath: self.photobook.getThumbnailsPath())
-                if let unwrappedImage = image
+                
+                if row == self.mediaListModel.selectedIndex()
                 {
-                    self.uplModel.list[Int(index)] = unwrappedImage
+                    if let unwrappedImage = image
+                    {
+                        self.uplModel.list[Int(index)] = unwrappedImage
+                    }
                 }
             }
         }
