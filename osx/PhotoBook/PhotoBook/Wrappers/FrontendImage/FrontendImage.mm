@@ -9,6 +9,8 @@
 #import <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
 #include <pb/entities/RegularImageV2.h>
+#include <pb/entities/CollageImage.h>
+#include <pb/entities/TextImageV2.h>
 
 #include "FrontendImage.h"
 
@@ -23,11 +25,7 @@
 {
     cppImage = genericImage;
     projectRoot = path;
-    auto maybeRegularImage = std::dynamic_pointer_cast<PB::RegularImageV2>(genericImage);
-    if (maybeRegularImage)
-    {
-        originalImageName = [NSString stringWithUTF8String:maybeRegularImage->original().filename().string().c_str()];
-    }
+    originalImageName = [NSString stringWithUTF8String:genericImage->name().c_str()];
     return self;
 }
 

@@ -7,6 +7,7 @@
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/RegularImageV2.h>
 #include <pb/entities/TextImageV2.h>
+#include <pb/entities/CollageImage.h>
 #include <pb/image/ImageOperations.h>
 #include <pb/infra/FileSupport.h>
 #include <pb/infra/Traits.h>
@@ -123,7 +124,11 @@ private:
     }
     else if (image->type() == ImageType::Text) {
       auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
-      return processTextImage(textImage->text());
+      return processTextImage(textImage->name());
+    }
+    else if (image->type() == ImageType::Collage) {
+      auto collageImage = std::dynamic_pointer_cast<CollageImage>(image);
+      return processTextImage(collageImage->name());
     }
     PBDev::basicAssert(false);
     return {};

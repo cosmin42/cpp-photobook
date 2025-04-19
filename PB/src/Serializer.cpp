@@ -255,7 +255,8 @@ void from_json(const Json &json, PB::CollageImage &collageImage)
 {
   auto hash = json["hash"].get<std::string>();
   auto sources = json["images"].get<std::vector<PBDev::Path>>();
-  collageImage = PB::CollageImage(hash, sources);
+  auto name = json["name"].get<std::string>();
+  collageImage = PB::CollageImage(hash, sources, name);
 }
 
 void to_json(Json &json, const PB::CollageImage &collageImage)
@@ -263,6 +264,7 @@ void to_json(Json &json, const PB::CollageImage &collageImage)
   json["hash"] = collageImage.hash();
   json["images"] = collageImage.sources();
   json["type"] = collageImage.type();
+  json["name"] = collageImage.name();
 }
 
 void to_json(nlohmann::json &j, const std::shared_ptr<PB::CollageImage> &p)
@@ -279,7 +281,7 @@ void to_json(nlohmann::json &j, const std::shared_ptr<PB::CollageImage> &p)
 void from_json(const nlohmann::json &j, std::shared_ptr<PB::CollageImage> &p)
 {
   if (!j.is_null()) {
-    p = std::make_shared<PB::CollageImage>("", std::vector<PBDev::Path>{});
+    p = std::make_shared<PB::CollageImage>("", std::vector<PBDev::Path>{}, "");
     from_json(j, *p);
   }
   else {

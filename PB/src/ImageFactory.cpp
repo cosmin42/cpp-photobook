@@ -2,6 +2,7 @@
 
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/image/ImageOperations.h>
+#include <pb/entities/CollageImage.h>
 
 namespace PB {
 
@@ -107,7 +108,12 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   else if (image->type() == ImageType::Text) {
     auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
 
-    return std::make_shared<TextImageV2>(newHash, textImage->text());
+    return std::make_shared<TextImageV2>(newHash, textImage->name());
+  }
+  else if (image->type() == ImageType::Collage) {
+    auto collageImage = std::dynamic_pointer_cast<CollageImage>(image);
+    
+    return std::make_shared<CollageImage>(newHash, collageImage->sources(), collageImage->name());
   }
   else {
     PBDev::basicAssert(false);
@@ -141,7 +147,7 @@ GenericImagePtr ImageFactory::weakCopyImage(GenericImagePtr image)
   else if (image->type() == ImageType::Text) {
     auto textImage = std::dynamic_pointer_cast<TextImageV2>(image);
 
-    return std::make_shared<TextImageV2>(newHash, textImage->text());
+    return std::make_shared<TextImageV2>(newHash, textImage->name());
   }
   else {
     PBDev::basicAssert(false);

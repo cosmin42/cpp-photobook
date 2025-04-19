@@ -48,13 +48,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		734C64FE2CFBA4A700F8F9D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1E32C771B4E795FF82CAD210;
-			remoteInfo = sources;
-		};
 		73C4ECB02AA0C0E3006C4108 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 73C4EC962AA0C0E0006C4108 /* Project object */;
@@ -101,7 +94,6 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Photobook.mm; sourceTree = "<group>"; };
-		734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = all.xcodeproj; path = "/Users/cosminmihai/cpp-exercise-photobook/PB/third-party/osx/skia/x86_64/all.xcodeproj"; sourceTree = "<absolute>"; };
 		7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirUIListener.swift; sourceTree = "<group>"; };
 		737EEE7D2D4E4090003C342E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
@@ -121,7 +113,6 @@
 		73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		73F364082D7CB40B00108765 /* PhotoLinesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLinesModel.swift; sourceTree = "<group>"; };
 		73F93E702D87055000C388A1 /* PhotoBook-Release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PhotoBook-Release.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		73F93E7D2D87055100C388A1 /* PhotoBook copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PhotoBook copy-Info.plist"; path = "/Users/cosminmihai/cpp-exercise-photobook/osx/PhotoBook/PhotoBook copy-Info.plist"; sourceTree = "<absolute>"; };
 		73F9476F2D870B4000C388A1 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
 		73F948E92D870F1C00C388A1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -296,14 +287,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		734C64E02CFBA4A500F8F9D6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				734C64FF2CFBA4A700F8F9D6 /* sources */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		73C4EC952AA0C0E0006C4108 = {
 			isa = PBXGroup;
 			children = (
@@ -317,8 +300,6 @@
 				73C4ECBC2AA0C0E3006C4108 /* PhotoBookUITests */,
 				73C4EC9F2AA0C0E1006C4108 /* Products */,
 				73049E222C16271C009EA667 /* Frameworks */,
-				734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */,
-				73F93E7D2D87055100C388A1 /* PhotoBook copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -533,12 +514,6 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 73C4EC9F2AA0C0E1006C4108 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 734C64E02CFBA4A500F8F9D6 /* Products */;
-					ProjectRef = 734C64DD2CFBA4A400F8F9D6 /* all.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				73C4EC9D2AA0C0E1006C4108 /* PhotoBook */,
@@ -548,16 +523,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		734C64FF2CFBA4A700F8F9D6 /* sources */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = sources;
-			remoteRef = 734C64FE2CFBA4A700F8F9D6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		73C4EC9C2AA0C0E1006C4108 /* Resources */ = {

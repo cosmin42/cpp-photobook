@@ -83,7 +83,12 @@ void CollageService::combineImages(unsigned          templateIndex,
 {
   auto templatePaths = mThumbnailsJob->getSourceTemplates();
 
-  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
+  std::string accumulatedName;
+  for (const auto &imagePath : imagesPaths) {
+    accumulatedName += imagePath.filename().string() + ";";
+  }
+
+  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths, accumulatedName);
   mCollageMakerStopSource =
       mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
                             PBDev::ProgressJobName{"collage-combine"});
@@ -94,10 +99,20 @@ void CollageService::combineImages(unsigned                     templateIndex,
 {
   auto              templatePaths = mThumbnailsJob->getSourceTemplates();
   std::vector<Path> imagesPaths;
+  std::vector<std::string> imagesNames;
+  for (const auto &image : images) {
+    imagesNames.push_back(image->name());
+  }
   for (const auto &image : images) {
     imagesPaths.push_back(Path("thumbnail-images") / image->full());
   }
-  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths);
+
+  std::string accumulatedName;
+  for (const auto &image : images) {
+    accumulatedName += image->name() + ";";
+  }
+
+  mCollageMakerJob->mapJobs(templatePaths.at(templateIndex).path, imagesPaths, accumulatedName);
   mCollageMakerStopSource =
       mTaskCruncher->crunch("collage-thumbnails", *mCollageMakerJob,
                             PBDev::ProgressJobName{"collage-combine"});

@@ -5,8 +5,8 @@
 namespace PB {
 class CollageImage : public GenericImage {
 public:
-  explicit CollageImage(std::string hash, std::vector<Path> sources)
-      : GenericImage(hash), mSources(sources)
+  explicit CollageImage(std::string hash, std::vector<Path> sources, std::string name)
+      : GenericImage(hash), mSources(sources), mName(name)
   {
   }
 
@@ -33,9 +33,15 @@ public:
 
   std::vector<Path> sources() const { return mSources; }
 
+  std::string name() const override
+  {
+    return mName;
+  }
+
   ImageType type() const override { return ImageType::Collage; }
 
 private:
   std::vector<Path> mSources;
+  std::string mName;
 };
 } // namespace PB

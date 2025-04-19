@@ -2,6 +2,7 @@
 
 #include <pb/components/ImportImageTask.h>
 #include <pb/components/ThumbnailsTask.h>
+#include <pb/entities/CollageImage.h>
 
 namespace PB::Job {
 
@@ -48,9 +49,16 @@ void CollageMakerJob::configureVulkanManager(
   mDrawingService.configureVulkanManager(vulkanManager);
 }
 
-void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths)
+void CollageMakerJob::mapJobs(Path templatePath, std::vector<Path> imagesPaths, std::string accumulatedName)
 {
   PBDev::basicAssert(mProject != nullptr);
+
+  for(auto const &imagePath : imagesPaths) {
+    mSources.push_back(imagePath);
+  }
+  
+  mNewImageName = accumulatedName;
+
   cv::Size imageSize = {mProject->value.paperSettings.width,
                         mProject->value.paperSettings.height};
 
@@ -110,26 +118,25 @@ CollageMakerJob::getTask(std::stop_token stopToken)
 
 void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
 {
-  if (mCollagePath.find(reducerTaskId) != mCollagePath.end()) {
-    PBDev::basicAssert(mProject != nullptr);
+  PBDev::basicAssert(mCollagePath.find(reducerTaskId) != mCollagePath.end());
+  PBDev::basicAssert(mProject != nullptr);
 
-    auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
+  auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
-    auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
-        mCollagePath.at(reducerTaskId), mPlatformInfo, mProject, newHash);
+  auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
+      mCollagePath.at(reducerTaskId), mPlatformInfo, mProject, newHash);
 
-    PBDev::basicAssert(maybeNewHash == newHash);
-    auto newImage = mImageFactory->createRegularImage(newHash);
+  PBDev::basicAssert(maybeNewHash == newHash);
+  auto newImage = std::make_shared<CollageImage>(newHash, mSources, mNewImageName);
 
-    std::filesystem::remove(mCollagePath.at(reducerTaskId));
+  std::filesystem::remove(mCollagePath.at(reducerTaskId));
 
-    auto newImagePath =
-        mPlatformInfo->thumbnailByHash(mProject->id, newImage->hash());
+  auto newImagePath =
+      mPlatformInfo->thumbnailByHash(mProject->id, newImage->hash());
 
-    spdlog::info("Collage created {}", newImagePath.string());
+  spdlog::info("Collage created {}", newImagePath.string());
 
-    mListener->onCollageCreated(newImage);
-  }
+  mListener->onCollageCreated(newImage);
 }
 
 } // namespace PB::Job

@@ -32,7 +32,15 @@ public:
 
   ~RegularImageV2() = default;
 
-  Path original() const { return maybeOriginal; }
+  std::string name() const override
+  {
+    return maybeOriginal.filename().string();
+  }
+
+  Path original() const
+  {
+    return maybeOriginal;
+  }
 
   ImageType type() const override { return ImageType::Regular; }
 

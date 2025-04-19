@@ -32,7 +32,7 @@ public:
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
   void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
-  void mapJobs(Path templatePath, std::vector<Path> imagesPaths);
+  void mapJobs(Path templatePath, std::vector<Path> imagesPaths, std::string newImageName);
 
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override;
@@ -60,6 +60,9 @@ private:
   std::unordered_map<PBDev::MapReducerTaskId, Path,
                      boost::hash<PBDev::MapReducerTaskId>>
       mCollagePath;
+
+  std::vector<Path> mSources;
+  std::string mNewImageName;
 
   unsigned mIndex = 0;
 };

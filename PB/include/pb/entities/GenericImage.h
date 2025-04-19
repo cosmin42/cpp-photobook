@@ -20,6 +20,8 @@ public:
 
   virtual ImageType type() const = 0;
 
+  virtual std::string name() const = 0;
+
 private:
   std::string mHash;
 

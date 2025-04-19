@@ -31,7 +31,15 @@ public:
 
   ~TextImageV2() = default;
 
-  std::string text() const { return mText; }
+  std::string name() const override
+  {
+    return mText;
+  }
+
+  std::string text() const
+  {
+    return mText;
+  }
 
   ImageType type() const override { return ImageType::Text; }
 
