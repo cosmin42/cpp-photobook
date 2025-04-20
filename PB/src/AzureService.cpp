@@ -2,8 +2,11 @@
 
 namespace PB
 {
-AzureService::AzureService(const std::string& host)
-    : mHost(host){}
+AzureService::AzureService(const std::string &host)
+    : mHost(host), mClient(mHost)
+{
+
+}
 
 void AzureService::configureListener(AzureServiceListener* listener)
 {

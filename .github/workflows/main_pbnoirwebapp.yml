@@ -18,6 +18,10 @@ jobs:
     permissions:
       contents: read #This is required for actions/checkout
 
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
     steps:
       - uses: actions/checkout@v4
 

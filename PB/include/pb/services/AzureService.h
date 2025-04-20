@@ -2,28 +2,30 @@
 
 #include <string>
 
-namespace PB
-{
-class AzureServiceListener
-{
-public:
-    virtual ~AzureServiceListener() = default;
+#include <httplib.h>
 
-    virtual void onSubscriptionSuccess() = 0;
-    virtual void onSubscriptionFailure(const std::string& error) = 0;
+namespace PB {
+class AzureServiceListener {
+public:
+  virtual ~AzureServiceListener() = default;
+
+  virtual void onSubscriptionSuccess() = 0;
+  virtual void onSubscriptionFailure(const std::string &error) = 0;
 };
 
-class AzureService
-{
+class AzureService {
 public:
-    AzureService(const std::string& host);
-    ~AzureService() = default;
+  AzureService(const std::string &host);
+  ~AzureService() = default;
 
-    void configureListener(AzureServiceListener* listener);
+  void configureListener(AzureServiceListener *listener);
 
-    void subscribeAsync(const std::string& userEmail, const std::string& functionKey);
+  void subscribeAsync(const std::string &userEmail,
+                      const std::string &functionKey);
+
 private:
-    AzureServiceListener* mListener = nullptr;
-    std::string mHost;
+  AzureServiceListener *mListener = nullptr;
+  std::string           mHost;
+  httplib::Client       mClient;
 };
-}
+} // namespace PB
