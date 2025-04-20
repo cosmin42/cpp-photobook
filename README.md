@@ -1,7 +1,8 @@
 ![Windows App](https://github.com/cosmin42/cpp-photobook/actions/workflows/msbuild.yml/badge.svg)
 ![macOS App](https://github.com/cosmin42/cpp-photobook/actions/workflows/objective-c-xcode.yml/badge.svg)
 ![iOS App](https://github.com/cosmin42/cpp-photobook/actions/workflows/ios-build.yml/badge.svg)
-![Azure deployment](https://github.com/cosmin42/cpp-photobook/actions/workflows/main_pbnoirwebapp.yml/badge.svg)
+![](https://github.com/cosmin42/cpp-photobook/actions/workflows/main_pbnoirwebapp.yml/badge.svg)
+![](https://github.com/cosmin42/cpp-photobook/actions/workflows/main_functionapp.yml/badge.svg)
 
 <img src="icons/pb-noir512.png" alt="icon" width="200"/>
 Photobook Noir is an app that helps you create elegant, minimalist photo books with a focus on storytelling and visual impact. It offers simple tools to organize, customize, and print your favorite memories in a sleek, high-quality format.
