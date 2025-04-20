@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Bugsnag
+import Security
 
 private var photobookUIListener: [PhotobookUIListener] = [];
 private var noirUIListener: [NoirUIListener] = []
@@ -119,10 +120,11 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
         self.photobook.setNoirListener(noirListenerWrapperCLevel)
         navigationPath = ["Dashboard"]
         
-        if let apiKey = Bundle.main.object(forInfoDictionaryKey: "BugsnagApiKey") as? String {
+        // TODO: In Github this key will have to be retrieved in other ways
+        if let bugsnagApiKey = SecurityUtils.getApiKey(service: "com.photobook-noir.bugsnag-api-key", account: "apikey") {
             let config = BugsnagConfiguration.loadConfig()
             config.appVersion = "0.0.0-alpha"
-            config.apiKey = apiKey
+            config.apiKey = bugsnagApiKey
             Bugsnag.start(with: config).notifyError(NSError(domain:"com.example", code:408, userInfo:nil))
         } else {
             print("Bugsnag API Key NOT found in Info.plist")
