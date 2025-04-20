@@ -170,6 +170,14 @@ public:
   void onEffectsApplied(PBDev::EffectId effectId, PB::GenericImagePtr image, Path thumbnailsPath) {}
   void onEffectsAppliedInplace(PBDev::EffectId effectId) {}
 
+  void onSearchingFinished(Path root,
+                           std::unordered_map<PBDev::ImageId, PB::GenericImagePtr,
+                                              boost::hash<PBDev::ImageId>>
+                               placeholders,
+                           Path)
+  {
+  }
+
 private:
   PhotobookRuntimeComponent::PhotobookListener mManagedListener;
 };
