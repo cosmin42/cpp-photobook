@@ -1,0 +1,19 @@
+{
+    "version": "2.0",
+    "logging": {
+      "applicationInsights": {
+        "samplingSettings": {
+          "isEnabled": true,
+          "maxTelemetryItemsPerSecond": 5
+        }
+      }
+    },
+    "functionTimeout": "00:05:00", 
+    "extensions": {
+      "http": {
+        "maxConcurrentRequests": 50,
+        "maxOutstandingRequests": 100
+      }
+    }
+  }
+  

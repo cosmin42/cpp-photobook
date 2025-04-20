@@ -69,5 +69,5 @@ jobs:
         with:
           app-name: 'newsletterfunction'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: functionapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A4B46B5C2C91413AB15861B76417964F }}
