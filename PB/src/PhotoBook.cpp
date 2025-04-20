@@ -29,7 +29,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mLutService(std::make_shared<LutService>()),
       mVulkanManager(std::make_shared<VulkanManager>()),
       mOGLEngine(std::make_shared<OGLEngine>()),
-      mEffectsService(std::make_shared<EffectsService>())
+      mEffectsService(std::make_shared<EffectsService>()),
+      mAzureService(std::make_shared<AzureService>(""))
 {
 
   initLogger();
@@ -124,6 +125,11 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mCollageTemplateManager->configureCollageMakerListener(collageMakerListener);
 
   mProjectManagementService->configureDatabaseService(mDatabaseService);
+
+  auto azureFunctionListener =
+      dynamic_cast<AzureServiceListener *>(this);
+  PBDev::basicAssert(azureFunctionListener != nullptr);
+  mAzureService->configureListener(azureFunctionListener);
 
   mEffectsService->configurePlatformInfo(mPlatformInfo);
   mEffectsService->configureImageFactory(mImageFactory);
@@ -497,6 +503,16 @@ std::string Photobook::help(std::string name) const
 std::shared_ptr<EffectsService> Photobook::effectsService() const
 {
   return mEffectsService;
+}
+
+void Photobook::onSubscriptionSuccess()
+{
+
+}
+  
+void Photobook::onSubscriptionFailure(const std::string& error)
+{
+
 }
 
 } // namespace PB

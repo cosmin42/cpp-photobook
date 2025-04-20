@@ -19,6 +19,7 @@
 #include <pb/image/ImageFactory.h>
 #include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/PicturesSearchJob.h>
+#include <pb/services/AzureService.h>
 #include <pb/services/CollageService.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/DirectoryInspectionService.h>
@@ -42,7 +43,8 @@ class Photobook final : public ImportFoldersServiceListener,
                         public CollageMakerListener,
                         public LutServiceListener,
                         public ProjectManagementServiceListener,
-                        public EffectsServiceListener {
+                        public EffectsServiceListener,
+                        public AzureServiceListener {
 public:
   explicit Photobook(Path localStatePath, Path installationPath,
                      std::pair<unsigned, unsigned> screenSize);
@@ -120,6 +122,10 @@ public:
   void onEffectsApplicationError(PBDev::EffectId effectId,
                                  PB::ErrorCode) override;
 
+  void onSubscriptionSuccess() override;
+  
+  void onSubscriptionFailure(const std::string& error) override;
+
   std::vector<Path> pendingMappingPathList() const;
 
   std::string projectName() const;
@@ -161,5 +167,6 @@ private:
   std::shared_ptr<VulkanManager>        mVulkanManager = nullptr;
   std::shared_ptr<OGLEngine>            mOGLEngine = nullptr;
   std::shared_ptr<EffectsService>       mEffectsService = nullptr;
+  std::shared_ptr<AzureService>         mAzureService = nullptr;
 };
 } // namespace PB
