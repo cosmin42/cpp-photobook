@@ -30,7 +30,7 @@ jobs:
         uses: lukka/run-vcpkg@v11.5
         with:
           # Specify the full SHA-1 hash of a Git commit (not a branch name, nor a tag!) that establishes which version of vcpkg needs to be used. When using vcpkg as a Git submodule, this input is *not* needed as implicitly specified by the submodule.
-          vcpkgGitCommitId: 'b322364f06308bdd24823f9d8f03fe0cc86fd46f'
+          vcpkgGitCommitId: 'ce613c41372b23b1f51333815feb3edd87ef8a8b'
           # Run the installation of packages by running `vcpkg install` on the directory of the discovered 'vcpkg.json' file. Default is false.
           runVcpkgInstall: true
           # Enable the caching of the vcpkg executable and its data files (e.g. ports) by setting it to false. Default is true. Set this input to false when the vcpkg's executable is not delivered as a prebuilt file upon bootstrapping vcpkg. This does not disable vcpkg's binary cache which is always on and can be controlled by the user with the env var VCPKG_BINARY_SOURCES.
