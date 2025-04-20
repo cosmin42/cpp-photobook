@@ -133,7 +133,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     }
     
     var body: some Scene {
-        WindowGroup {
+        Window("Photo Book Noir", id:"main") {
             NavigationStack (path: $navigationPath) {
                 DashboardView(navigationPath:$navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
                     .navigationDestination(for: String.self) { value in
