@@ -77,6 +77,8 @@ jobs:
           template: webapp/WebAppResources.json
 
       - name: 'Deploy to Azure Web App'
+        env:
+          DISABLE_HUGO_BUILD: true
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
