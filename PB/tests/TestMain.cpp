@@ -5,7 +5,7 @@
 int main(int argc, char **argv)
 {
   PB::Noir::inst();
-  ::testing::GTEST_FLAG(filter) = "TestExportService.*";
+  ::testing::GTEST_FLAG(filter) = "TestFolderImport.*";
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

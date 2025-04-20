@@ -53,6 +53,7 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(inja CONFIG REQUIRED)
 find_package(Vulkan REQUIRED)
 find_package(podofo CONFIG REQUIRED)
+find_package(httplib CONFIG REQUIRED)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     find_package(podofo CONFIG REQUIRED)
@@ -225,7 +226,8 @@ target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
     nlohmann_json::nlohmann_json
     spdlog::spdlog
     pantor::inja
-    Vulkan::Vulkan)
+    Vulkan::Vulkan
+    httplib::httplib)
 else()
     target_link_libraries(${PBLIB_LIBRARY_NAME} PRIVATE
         opencv_core
@@ -239,7 +241,8 @@ else()
         spdlog::spdlog
         pantor::inja
         $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
-        Vulkan::Vulkan)
+        Vulkan::Vulkan
+        httplib::httplib)
 endif()
 
 set_target_properties(${PBLIB_LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
@@ -323,7 +326,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
             pantor::inja
             $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
             ${PLATFORM_SKIA}
-            ${PBLIB_LIBRARY_NAME})
+            ${PBLIB_LIBRARY_NAME}
+            httplib::httplib)
     else()
         target_link_libraries(${PBLIB_TESTS_LIBRARY_NAME} PRIVATE
             opencv_core
@@ -342,7 +346,8 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "iOS")
             pantor::inja
             $<IF:$<TARGET_EXISTS:podofo_shared>,podofo_shared,podofo_static>
             ${PLATFORM_SKIA}
-            ${PBLIB_LIBRARY_NAME})
+            ${PBLIB_LIBRARY_NAME}
+            httplib::httplib)
     endif()
 
     if (WIN32)

@@ -19,6 +19,7 @@
     "podofo",
     "expat",
     "inih",
-    "vulkan"
+    "vulkan",
+    "cpp-httplib"
   ]
 }
