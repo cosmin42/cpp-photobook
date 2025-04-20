@@ -67,7 +67,7 @@ jobs:
         uses: Azure/functions-action@v1
         id: deploy-to-function
         with:
-          app-name: 'newsletterfunction'
+          app-name: ${{ secrets.AZURE_FUNCTION_APP_NAME }}
           slot-name: 'Production'
           package: functionapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A4B46B5C2C91413AB15861B76417964F }}
