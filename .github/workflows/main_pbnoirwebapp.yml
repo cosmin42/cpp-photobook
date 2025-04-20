@@ -75,12 +75,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy ARM Template
-        uses: azure/arm-deploy@v1
-        with:
-          resourceGroupName: pb-noir
-          template: webapp/WebAppResources.json
-
       - name: 'Deploy to Azure Web App'
         env:
           DISABLE_HUGO_BUILD: true
