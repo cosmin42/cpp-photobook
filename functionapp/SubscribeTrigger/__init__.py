@@ -22,12 +22,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             status_code=400
         )
 
+    logging.info('Email param found')
+
     # Check if the email is provided
     if not email:
         return func.HttpResponse(
             "Please provide an email address in the 'email' field.",
             status_code=400
         )
+    
+    logging.info('Email not null')
 
     # Validate the email format
     if not is_valid_email(email):
@@ -35,21 +39,24 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "Invalid email address format.",
             status_code=400
         )
-    
 
+    logging.info('Email valid)
+    
     CONNECTION_STRING = os.getenv("AzureEmailSettings")
 
     table_client = TableClient.from_connection_string(conn_str=CONNECTION_STRING, table_name="EmailsList")
 
     email_entity = {
-    "PartitionKey": "Emails",
-    "RowKey": email,
-    "EmailAddress": email,
-    "DateAdded": str(func.datetime.datetime.utcnow())
+        "PartitionKey": "Emails",
+        "RowKey": email,
+        "EmailAddress": email,
+        "DateAdded": str(func.datetime.datetime.utcnow())
     }
 
     # Insert the entity into the table
     table_client.create_entity(entity=email_entity)
+
+    logging.info('Email inserted into database')
 
     # If everything is fine, send a success response
     return func.HttpResponse(
