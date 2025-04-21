@@ -2,6 +2,8 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure Functions: https://aka.ms/python-webapps-actions
 
+#The deployment is not working properly, use this command instead func azure functionapp publish newsletterfunction  --build remote --python
+
 name: Build & Deploy Azure Function App
 
 on:
