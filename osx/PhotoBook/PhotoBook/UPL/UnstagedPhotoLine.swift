@@ -45,7 +45,6 @@ struct UnstagedPhotoLine: View
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                
                 VStack{
                     Text("Disk")
                         .padding(2)
@@ -123,7 +122,7 @@ struct UnstagedPhotoLine: View
                 }
             }
         }
-        .frame(width: frameSize.width, height: 82, alignment: .leading)
+        .frame(height: 82, alignment: .leading)
         .cornerRadius(10)
         .padding(.bottom, 2)
     }

@@ -160,7 +160,7 @@ struct StagedPhotoLine: View
                 model.itemFrames = frames.sorted(by: { $0.index < $1.index }).map { $0.frame }
             }
         }
-        .frame(width: frameSize.width, height:82, alignment: .leading)
+        .frame(height:82)
         .cornerRadius(10)
     }
 }

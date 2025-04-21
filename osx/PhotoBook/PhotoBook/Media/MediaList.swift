@@ -35,7 +35,7 @@ struct MediaList: View
     @State private var frameSize:CGSize
     @ObservedObject var model: MediaListModel
     
-    private var tabViewRatio = 0.5
+    private var tabViewRatio = 0.38
     
     init(frameSize: CGSize, model: MediaListModel)
     {
@@ -47,17 +47,25 @@ struct MediaList: View
         VStack(alignment:.leading, spacing: 0)
         {
             ForEach(self.model.list.indices, id: \.self) { index in
-                VStack(alignment:.leading)
-                {
-                    Text("\(model.list[index].displayName)")
-                        .listRowBackground(Color.PrimaryColor)
-                        .font(.headline)
-                    Text("\(model.list[index].imagesCount) images")
-                        .font(.subheadline)
+                HStack{
+                    VStack(alignment:.leading)
+                    {
+                        Text("\(model.list[index].displayName)")
+                            .listRowBackground(Color.PrimaryColor)
+                            .font(.headline)
+                        Text("\(model.list[index].imagesCount) images")
+                            .font(.subheadline)
+                    }
+                    .background(Color.PrimaryColor)
+                    .padding(8)
+                    .frame(height: 36, alignment: .leading)
+                    
+                    .padding(8)
+                    .onTapGesture(perform: {
+                        model.selectedItem = model.list[index]
+                    })
+                    Spacer()
                 }
-                .background(Color.PrimaryColor)
-                .padding(8)
-                .frame(width: frameSize.width * tabViewRatio * 0.98,  height: 36, alignment: .leading)
                 .overlay(content: {
                     if model.selectedItem?.path == model.list[index].path
                     {
@@ -65,14 +73,9 @@ struct MediaList: View
                             .stroke(Color.ButtonPointerOverWhenSelected, lineWidth: 1)
                     }
                 })
-                .padding(8)
-                .onTapGesture(perform: {
-                    model.selectedItem = model.list[index]
-                })
             }
-            .frame(width: frameSize.width * tabViewRatio, alignment: .topLeading)
             .scrollIndicators(.hidden)
-            .background(Color.PrimaryColor)
+            .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
             Spacer()
         }
         .frame(alignment: .top)

@@ -26,7 +26,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
     
-    @State var tabViewRatio = 0.5
+    @State var tabViewRatio = 0.38
     @State var selectedTab: Int = 0
     
     @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
@@ -419,14 +419,16 @@ struct TableContentView: View, PhotobookUIListener {
                     }
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * tabViewRatio)
+                    .border(Color.BorderColor, width: 1)
+                    .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                     
                     CanvasView(model: canvasModel, basicTransformationModel: basicTransformationModel, lutsModel: lutGridModel, frameSize: geometry.size)
+                        .border(Color.BorderColor, width: 1)
                 }
                 
                 VStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
+                    VStack {
                         StagedPhotoLine(frameSize: geometry.size, model: splModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
-                        
                             .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                                 guard let provider = providers.first else { return false}
                                 if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
@@ -611,6 +613,8 @@ struct TableContentView: View, PhotobookUIListener {
                     }
                 }
                 .frame(height: 268)
+                .border(Color.BorderColor, width: 1)
+                .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
             }
             .onAppear()
             {
