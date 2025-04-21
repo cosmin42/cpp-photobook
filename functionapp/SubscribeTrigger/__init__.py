@@ -1,6 +1,7 @@
 import logging
 import re
 import os
+from datetime import datetime, timezone
 import azure.functions as func
 from azure.data.tables import TableClient
 
@@ -46,11 +47,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     table_client = TableClient.from_connection_string(conn_str=CONNECTION_STRING, table_name="EmailsList")
 
+    utc_now_str = datetime.now(timezone.utc).isoformat()
+
     email_entity = {
         "PartitionKey": "Emails",
         "RowKey": email,
         "EmailAddress": email,
-        "DateAdded": str(func.datetime.datetime.utcnow())
+        "DateAdded": utc_now_str)
     }
 
     # Insert the entity into the table
