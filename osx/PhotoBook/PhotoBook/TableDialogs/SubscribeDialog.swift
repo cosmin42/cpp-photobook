@@ -15,6 +15,8 @@ struct SubscribeDialog: View {
     @State private var email: String = ""
     @State private var showInvalidEmailAlert: Bool = false
     
+    let onSubscribe: (String) -> Void
+    
     var body: some View {
         VStack {
             Text("Subscribe")
@@ -32,6 +34,7 @@ struct SubscribeDialog: View {
                     showInvalidEmailAlert = !validEmail
                     if validEmail
                     {
+                        onSubscribe(email)
                         self.isPresented = false
                     }
                 }

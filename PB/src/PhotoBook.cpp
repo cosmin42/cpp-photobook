@@ -516,4 +516,9 @@ void Photobook::onSubscriptionFailure(const std::string& error)
 
 }
 
+std::shared_ptr<AzureService> Photobook::azureService() const
+{
+  return mAzureService;
+}
+
 } // namespace PB

@@ -732,6 +732,16 @@ struct TableContentView: View, PhotobookUIListener {
         .sheet(isPresented: $subscribeDialogVisible)
         {
             SubscribeDialog(isPresented: $subscribeDialogVisible)
+            {
+                email in
+                if let azureApiKey = SecurityUtils.getApiKey(service: "com.photobook-noir.newsletter-api-key", account: "apikey") {
+                    self.photobook.subscribe(byEmail: email, apiKey: azureApiKey)
+                }
+                else
+                {
+                    assert(false)
+                }
+            }
         }
         .sheet(isPresented: $errorDialogVisible)
         {

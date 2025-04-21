@@ -551,7 +551,6 @@ cv::Mat NSImageToMat(NSImage *image) {
     std::string uuidStr = [effectIdStr UTF8String];
     boost::uuids::uuid nativeUuid;
     try {
-        
         boost::uuids::string_generator gen;
         nativeUuid = gen(uuidStr);
     }
@@ -563,6 +562,13 @@ cv::Mat NSImageToMat(NSImage *image) {
     PB::GenericImagePtr nativeImage = [image unwrap];
     
     mPhotobook->effectsService()->apply(effectId, nativeImage, saturation, brightness, contrast, true);
+}
+
+- (void) subscribeByEmail:(NSString*)email apiKey:(NSString*)apiKey
+{
+    std::string emailNative = [email UTF8String];
+    std::string apiKeyNative = [apiKey UTF8String];
+    mPhotobook->azureService()->subscribeAsync(emailNative, apiKeyNative);
 }
 
 @end

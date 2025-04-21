@@ -146,6 +146,8 @@ public:
 
   std::shared_ptr<EffectsService> effectsService() const;
 
+  std::shared_ptr<AzureService> azureService() const;
+
 private:
   PhotobookListener                        *mParent = nullptr;
   NoirListener                             *mNoirListener = nullptr;
