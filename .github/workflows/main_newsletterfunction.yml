@@ -46,7 +46,7 @@ jobs:
       # Optional: Add step to run tests here
 
       - name: Zip artifact for deployment
-        run: zip release.zip functionapp -r
+        run: zip release.zip functionapp/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -67,8 +67,13 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip release.zip; cp functionapp/requirements.txt requirements.txt
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt; pip list
+        
       - name: 'Deploy to Azure Functions'
         uses: Azure/functions-action@v1
         id: deploy-to-function
