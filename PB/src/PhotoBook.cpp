@@ -30,7 +30,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mVulkanManager(std::make_shared<VulkanManager>()),
       mOGLEngine(std::make_shared<OGLEngine>()),
       mEffectsService(std::make_shared<EffectsService>()),
-      mAzureService(std::make_shared<AzureService>(""))
+      mAzureService(std::make_shared<AzureService>())
 {
 
   initLogger();

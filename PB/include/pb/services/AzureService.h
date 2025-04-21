@@ -1,5 +1,7 @@
 #pragma once
 
+#define CPPHTTPLIB_OPENSSL_SUPPORT
+
 #include <string>
 
 #include <httplib.h>
@@ -15,7 +17,7 @@ public:
 
 class AzureService {
 public:
-  AzureService(const std::string &host);
+  AzureService();
   ~AzureService() = default;
 
   void configureListener(AzureServiceListener *listener);
@@ -25,7 +27,7 @@ public:
 
 private:
   AzureServiceListener *mListener = nullptr;
-  std::string           mHost;
-  httplib::Client       mClient;
+  std::string           mHost = "newsletterfunction.azurewebsites.net";
+  httplib::SSLClient    mClient;
 };
 } // namespace PB
