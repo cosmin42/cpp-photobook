@@ -18,8 +18,21 @@ void AzureService::configureListener(AzureServiceListener *listener)
   mListener = listener;
 }
 
+void AzureService::configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher)
+{
+  mTaskCruncher = taskCruncher;
+}
+
 void AzureService::subscribeAsync(const std::string &userEmail,
                                   const std::string &functionKey)
+{
+  mTaskCruncher->crunch(
+      [this, userEmail, functionKey]() {
+        subscribe(userEmail, functionKey);
+      });
+}
+
+void AzureService::subscribe(const std::string &userEmail, const std::string &functionKey)
 {
   std::string path =
       std::string() + "/api/SubscribeTrigger" + "?code=" + functionKey;
@@ -44,4 +57,5 @@ void AzureService::subscribeAsync(const std::string &userEmail,
                                      magic_enum::enum_name(res.error()).data());
   }
 }
+
 } // namespace PB

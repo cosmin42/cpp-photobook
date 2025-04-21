@@ -130,6 +130,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       dynamic_cast<AzureServiceListener *>(this);
   PBDev::basicAssert(azureFunctionListener != nullptr);
   mAzureService->configureListener(azureFunctionListener);
+  mAzureService->configureTaskCruncher(mTaskCruncher);
 
   mEffectsService->configurePlatformInfo(mPlatformInfo);
   mEffectsService->configureImageFactory(mImageFactory);
