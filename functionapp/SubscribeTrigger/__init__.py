@@ -53,7 +53,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "PartitionKey": "Emails",
         "RowKey": email,
         "EmailAddress": email,
-        "DateAdded": utc_now_str)
+        "DateAdded": utc_now_str
     }
 
     # Insert the entity into the table
