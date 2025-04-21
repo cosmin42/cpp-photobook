@@ -134,6 +134,8 @@ const std::vector<std::string> HAPPY_WORDS = {
     "Spry",         "Snug",       "Jovial",        "Untroubled"};
 #endif
 
+static constexpr const char *SERIALIZATION_VERSION="1.0.0";
+
 } // namespace OneConfig
 
 class Noir {

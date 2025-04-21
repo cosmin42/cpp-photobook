@@ -93,6 +93,7 @@ void ProjectSerializerService::saveProject(Project project)
                      (project.name + OneConfig::BOOK_EXTENSION);
 
   Json json;
+  json["version"] = OneConfig::SERIALIZATION_VERSION;
   to_json(json, project);
 
   // TODO: Separate this save to an infrastructure class, add DiskOperations
