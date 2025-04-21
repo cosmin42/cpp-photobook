@@ -67,7 +67,7 @@ jobs:
           name: python-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip; mv functionapp/requirements.txt requirements.txt
+        run: unzip release.zip; cp functionapp/requirements.txt requirements.txt
 
       - name: Install dependencies
         run: |
