@@ -57,7 +57,6 @@ struct MediaList: View
                     .background(Color.PrimaryColor)
                     .padding(8)
                     .frame(height: 36, alignment: .leading)
-                    
                     .padding(8)
                     .onTapGesture(perform: {
                         model.selectedItem = model.list[index]

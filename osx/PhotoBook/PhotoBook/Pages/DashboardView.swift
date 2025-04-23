@@ -129,7 +129,6 @@ struct DashboardView: View, PhotobookUIListener {
         }
     }
     
-    
     func onProjectRead(){
         
     }
@@ -159,7 +158,7 @@ struct DashboardView: View, PhotobookUIListener {
     func onSearchingFinished(importedFolderPath: String, placeholders: [String:FrontendImage])
     {
     }
-
+    
     
     func onImageUpdated(root: String, row:UInt, index:UInt){}
     

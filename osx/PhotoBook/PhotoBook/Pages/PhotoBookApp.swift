@@ -147,6 +147,7 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                         }
                     }
             }
+            .frame(minWidth: 600, minHeight: 400)
             .sheet(isPresented: $isPropertiesDetailsDialogVisible)
             {
                 PropertiesDetailsDialog(isPropertiesDetailsDialogVisible: $isPropertiesDetailsDialogVisible, photobook: $photobook)
