@@ -46,7 +46,7 @@ struct CollagesGrid: View
                     }
                 }
             }
-            .frame(width: frameSize.width * 0.38)
+            .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentHead)
             .padding(4)
         }
         .frame(alignment:.leading)

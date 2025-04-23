@@ -91,6 +91,6 @@ struct CanvasView: View
                 .buttonStyle(PlainButtonStyle())
             }
         }
-        .frame(width: frameSize.width * 0.62)
+        .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentBody)
     }
 }

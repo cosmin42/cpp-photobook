@@ -72,7 +72,7 @@ struct DashboardView: View, PhotobookUIListener {
                         NewProjectDialog(isVisible: $isNewProjectDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
                     }
                 }
-                .frame(width: geometry.size.width * 0.38)
+                .frame(width: geometry.size.width * NoirConstants.GoldenRatioPercentHead)
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: columns, alignment: .center, spacing: 10) {
                         ForEach(projectsList, id: \.self) { item in

@@ -29,6 +29,8 @@
 		73C4ECC02AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */; };
 		73E1818A2DB529F300612938 /* SecurityUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E181892DB529ED00612938 /* SecurityUtils.swift */; };
 		73E1818B2DB529F300612938 /* SecurityUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E181892DB529ED00612938 /* SecurityUtils.swift */; };
+		73E18FFA2DB9479B00612938 /* NoirConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E18FF92DB9479100612938 /* NoirConstants.swift */; };
+		73E18FFB2DB9479B00612938 /* NoirConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E18FF92DB9479100612938 /* NoirConstants.swift */; };
 		73F364092D7CB41000108765 /* PhotoLinesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F364082D7CB40B00108765 /* PhotoLinesModel.swift */; };
 		73F93E592D87055000C388A1 /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
 		73F93E5A2D87055000C388A1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DA5E22CDA98A100CB0B58 /* ColorExtension.swift */; };
@@ -114,6 +116,7 @@
 		73C4ECBD2AA0C0E3006C4108 /* PhotoBookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITests.swift; sourceTree = "<group>"; };
 		73C4ECBF2AA0C0E3006C4108 /* PhotoBookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBookUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		73E181892DB529ED00612938 /* SecurityUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityUtils.swift; sourceTree = "<group>"; };
+		73E18FF92DB9479100612938 /* NoirConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirConstants.swift; sourceTree = "<group>"; };
 		73F364082D7CB40B00108765 /* PhotoLinesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLinesModel.swift; sourceTree = "<group>"; };
 		73F93E702D87055000C388A1 /* PhotoBook-Release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PhotoBook-Release.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73F9476F2D870B4000C388A1 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/usr/lib/libiconv.tbd; sourceTree = DEVELOPER_DIR; };
@@ -320,6 +323,7 @@
 		73C4ECA02AA0C0E1006C4108 /* PhotoBook */ = {
 			isa = PBXGroup;
 			children = (
+				73E18FF92DB9479100612938 /* NoirConstants.swift */,
 				73E181892DB529ED00612938 /* SecurityUtils.swift */,
 				73F364082D7CB40B00108765 /* PhotoLinesModel.swift */,
 				73F363912D7C977600108765 /* DPL */,
@@ -579,6 +583,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */,
+				73E18FFA2DB9479B00612938 /* NoirConstants.swift in Sources */,
 				739DA5E32CDA98A800CB0B58 /* ColorExtension.swift in Sources */,
 				73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */,
 				7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */,
@@ -610,6 +615,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73F93E592D87055000C388A1 /* Photobook.mm in Sources */,
+				73E18FFB2DB9479B00612938 /* NoirConstants.swift in Sources */,
 				73F93E5A2D87055000C388A1 /* ColorExtension.swift in Sources */,
 				73F93E5B2D87055000C388A1 /* PhotoBook-Bridging-Header.m in Sources */,
 				73F93E5C2D87055000C388A1 /* NoirUIListener.swift in Sources */,

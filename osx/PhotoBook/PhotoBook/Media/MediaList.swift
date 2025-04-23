@@ -35,8 +35,6 @@ struct MediaList: View
     @State private var frameSize:CGSize
     @ObservedObject var model: MediaListModel
     
-    private var tabViewRatio = 0.38
-    
     init(frameSize: CGSize, model: MediaListModel)
     {
         self.frameSize = frameSize

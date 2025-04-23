@@ -12,8 +12,6 @@ struct LutGrid: View
     @State private var frameSize:CGSize
     @ObservedObject var model: LutGridModel
     
-    private var tabViewRatio = 0.38
-    
     init(frameSize: CGSize, model: LutGridModel)
     {
         self.frameSize = frameSize
@@ -94,7 +92,7 @@ struct LutGrid: View
                         }
                     }
                 }
-                .frame(width: frameSize.width * tabViewRatio)
+                .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentHead)
             }
         }
         .frame(alignment:.leading)

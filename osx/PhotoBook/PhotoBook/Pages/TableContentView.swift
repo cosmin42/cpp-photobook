@@ -26,7 +26,6 @@ struct TableContentView: View, PhotobookUIListener {
     @State var photobook: Photobook
     @Binding var navigationPath: [String]
     
-    @State var tabViewRatio = 0.38
     @State var selectedTab: Int = 0
     
     @State private var uplModel: UnstagedPhotoLineModel = UnstagedPhotoLineModel()
@@ -418,7 +417,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .scrollIndicators(.hidden)
                     }
                     .scrollIndicators(.hidden)
-                    .frame(width: geometry.size.width * tabViewRatio)
+                    .frame(width: geometry.size.width * NoirConstants.GoldenRatioPercentHead)
                     .border(Color.BorderColor, width: 1)
                     .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                     
