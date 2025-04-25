@@ -44,6 +44,12 @@ std::optional<std::string> SVGInflater::inflate(BasicSVGModel svgModel,
   try {
     return inja::render(content, model);
   }
+  catch (const inja::ParserError &ex) {
+#ifndef _CLANG_UML_
+    spdlog::error("Error rendering SVG: {}", ex.what());
+#endif
+    return std::nullopt;
+  }
   catch (const std::exception ex) {
 #ifndef _CLANG_UML_
     spdlog::error("Error rendering SVG: {}", ex.what());

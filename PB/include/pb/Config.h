@@ -71,7 +71,7 @@ const std::unordered_map<std::string, PB::AspectRatio> ASPECT_RATIO_PRESET = {
     {"16:9", AspectRatio{16, 9}},
     {"1:1", AspectRatio{1, 1}}};
 
-static constexpr unsigned NUMBER_OF_COLLAGE_NUMBERED_IMAGES = 10;
+static constexpr unsigned NUMBER_OF_COLLAGE_NUMBERED_IMAGES = 24;
 
 static constexpr const char *DATABASE_CACHE_TABLE = "CACHE_REGISTER";
 static constexpr const char *DATABASE_PROJECT_METADATA_TABLE =
@@ -99,8 +99,8 @@ static constexpr const char *PROCESSED_LUTS_FOLDER_NAME = "processed-luts";
 static constexpr bool SHOW_VULKAN_DEBUG_INFO = false;
 
 const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
-    {"image-search-job", 1}, {"export-logic", 1}, {"collage-thumbnails", 1},
-    {"upl-to-spl-map", 4},   {"search-files", 1}, {"lut-icons", 1},
+    {"image-search-job", 4}, {"export-logic", 1}, {"collage-thumbnails", 4},
+    {"upl-to-spl-map", 4},   {"search-files", 4}, {"lut-icons", 4},
     {"thumbnails-job", 1},   {"default", 1}};
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
