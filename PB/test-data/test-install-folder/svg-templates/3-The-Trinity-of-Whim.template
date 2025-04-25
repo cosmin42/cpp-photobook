@@ -1,0 +1,14 @@
+<svg width="{{width}}" height="{{height}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <mask id="svgmask0">
+    <polygon fill="#ffffff" points="{{0 * width / 3}} {{0 * height / 1}}, {{1 * width / 3}} {{0 * height / 1}}, {{1 * width / 3}} {{1 * height / 1}}, {{0 * width / 3}} {{1 * height / 1}}"></polygon>
+  </mask>
+  <mask id="svgmask1">
+    <polygon fill="#ffffff" points="{{1 * width / 3}} {{0 * height / 1}}, {{2 * width / 3}} {{0 * height / 1}}, {{2 * width / 3}} {{1 * height / 1}}, {{1 * width / 3}} {{1 * height / 1}}"></polygon>
+  </mask>
+  <mask id="svgmask2">
+    <polygon fill="#ffffff" points="{{2 * width / 3}} {{0 * height / 1}}, {{3 * width / 3}} {{0 * height / 1}}, {{3 * width / 3}} {{1 * height / 1}}, {{2 * width / 3}} {{1 * height / 1}}"></polygon>
+  </mask>
+  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 3}}" height="{{1 * height / 1}}" x="{{0 * width / 3}}" y="{{0 * height / 1}}"></image>
+  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 3}}" height="{{1 * height / 1}}" x="{{1 * width / 3}}" y="{{0 * height / 1}}"></image>
+  <image xlink:href="{{image_2}}" mask="url(#svgmask2)" width="{{1 * width / 3}}" height="{{1 * height / 1}}" x="{{2 * width / 3}}" y="{{0 * height / 1}}"></image>
+</svg>
