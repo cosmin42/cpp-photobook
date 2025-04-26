@@ -14,9 +14,9 @@
   <mask id="svgmask4">
     <polygon fill="#ffffff" points="{{0 * width / 1}} {{4 * height / 5}}, {{1 * width / 1}} {{4 * height / 5}}, {{1 * width / 1}} {{5 * height / 5}}, {{0 * width / 1}} {{5 * height / 5}}"></polygon>
   </mask>
-  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{0 * height / 5}}"></image>
-  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{1 * height / 5}}"></image>
-  <image xlink:href="{{image_2}}" mask="url(#svgmask2)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{2 * height / 5}}"></image>
-  <image xlink:href="{{image_3}}" mask="url(#svgmask3)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{3 * height / 5}}"></image>
-  <image xlink:href="{{image_4}}" mask="url(#svgmask4)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{4 * height / 5}}"></image>
+  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{0 * height / 5}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{1 * height / 5}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_2}}" mask="url(#svgmask2)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{2 * height / 5}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_3}}" mask="url(#svgmask3)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{3 * height / 5}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_4}}" mask="url(#svgmask4)" width="{{1 * width / 1}}" height="{{1 * height / 5}}" x="{{0 * width / 1}}" y="{{4 * height / 5}}"  preserveAspectRatio="xMidYMid slice"></image>
 </svg>

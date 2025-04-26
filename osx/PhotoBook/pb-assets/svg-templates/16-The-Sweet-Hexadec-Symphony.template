@@ -47,20 +47,20 @@
   <mask id="svgmask15">
     <polygon fill="#ffffff" points="{{3 * width / 4}} {{3 * height / 4}}, {{4 * width / 4}} {{3 * height / 4}}, {{4 * width / 4}} {{4 * height / 4}}, {{3 * width / 4}} {{4 * height / 4}}"></polygon>
   </mask>
-  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{0 * height / 4}}"></image>
-  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{0 * height / 4}}"></image>
-  <image xlink:href="{{image_2}}" mask="url(#svgmask2)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{0 * height / 4}}"></image>
-  <image xlink:href="{{image_3}}" mask="url(#svgmask3)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{0 * height / 4}}"></image>
-  <image xlink:href="{{image_4}}" mask="url(#svgmask4)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{1 * height / 4}}"></image>
-  <image xlink:href="{{image_5}}" mask="url(#svgmask5)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{1 * height / 4}}"></image>
-  <image xlink:href="{{image_6}}" mask="url(#svgmask6)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{1 * height / 4}}"></image>
-  <image xlink:href="{{image_7}}" mask="url(#svgmask7)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{1 * height / 4}}"></image>
-  <image xlink:href="{{image_8}}" mask="url(#svgmask8)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{2 * height / 4}}"></image>
-  <image xlink:href="{{image_9}}" mask="url(#svgmask9)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{2 * height / 4}}"></image>
-  <image xlink:href="{{image_10}}" mask="url(#svgmask10)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{2 * height / 4}}"></image>
-  <image xlink:href="{{image_11}}" mask="url(#svgmask11)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{2 * height / 4}}"></image>
-  <image xlink:href="{{image_12}}" mask="url(#svgmask12)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{3 * height / 4}}"></image>
-  <image xlink:href="{{image_13}}" mask="url(#svgmask13)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{3 * height / 4}}"></image>
-  <image xlink:href="{{image_14}}" mask="url(#svgmask14)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{3 * height / 4}}"></image>
-  <image xlink:href="{{image_15}}" mask="url(#svgmask15)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{3 * height / 4}}"></image>
+  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{0 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{0 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_2}}" mask="url(#svgmask2)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{0 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_3}}" mask="url(#svgmask3)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{0 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_4}}" mask="url(#svgmask4)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{1 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_5}}" mask="url(#svgmask5)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{1 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_6}}" mask="url(#svgmask6)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{1 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_7}}" mask="url(#svgmask7)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{1 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_8}}" mask="url(#svgmask8)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{2 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_9}}" mask="url(#svgmask9)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{2 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_10}}" mask="url(#svgmask10)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{2 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_11}}" mask="url(#svgmask11)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{2 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_12}}" mask="url(#svgmask12)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{0 * width / 4}}" y="{{3 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_13}}" mask="url(#svgmask13)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{1 * width / 4}}" y="{{3 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_14}}" mask="url(#svgmask14)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{2 * width / 4}}" y="{{3 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_15}}" mask="url(#svgmask15)" width="{{1 * width / 4}}" height="{{1 * height / 4}}" x="{{3 * width / 4}}" y="{{3 * height / 4}}"  preserveAspectRatio="xMidYMid slice"></image>
 </svg>

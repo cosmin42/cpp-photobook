@@ -5,6 +5,6 @@
   <mask id="svgmask1">
     <polygon fill="#ffffff" points="{{0 * width / 1}} {{1 * height / 2}}, {{1 * width / 1}} {{1 * height / 2}}, {{1 * width / 1}} {{2 * height / 2}}, {{0 * width / 1}} {{2 * height / 2}}"></polygon>
   </mask>
-  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 1}}" height="{{1 * height / 2}}" x="{{0 * width / 1}}" y="{{0 * height / 2}}"></image>
-  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 1}}" height="{{1 * height / 2}}" x="{{0 * width / 1}}" y="{{1 * height / 2}}"></image>
+  <image xlink:href="{{image_0}}" mask="url(#svgmask0)" width="{{1 * width / 1}}" height="{{1 * height / 2}}" x="{{0 * width / 1}}" y="{{0 * height / 2}}"  preserveAspectRatio="xMidYMid slice"></image>
+  <image xlink:href="{{image_1}}" mask="url(#svgmask1)" width="{{1 * width / 1}}" height="{{1 * height / 2}}" x="{{0 * width / 1}}" y="{{1 * height / 2}}"  preserveAspectRatio="xMidYMid slice"></image>
 </svg>

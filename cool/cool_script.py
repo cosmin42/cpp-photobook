@@ -101,10 +101,10 @@ def get_image_str(name, cols, rows, rectangles):
     polygon_string = ""
     print(name)
     for i in range(len(rectangles)):
-        if "(fill)" in name:
-            polygon_string = polygon_string + "  <image xlink:href=\"{{image_" + str(i) + "}}\" mask=\"url(#svgmask" + str(i) + ")\" width=\"{{" + str(rectangles[i][2]) + " * width / " + str(cols) + "}}\" height=\"{{" + str(rectangles[i][3]) + " * height / " + str(rows) + "}}\" x=\"{{" + str(rectangles[i][0]) + " * width / " + str(cols) + "}}\" y=\"{{" + str(rectangles[i][1]) + " * height / " + str(rows) + "}}\"  preserveAspectRatio=\"xMidYMid slice\"></image>\n"
-        else:
-            polygon_string = polygon_string + "  <image xlink:href=\"{{image_" + str(i) + "}}\" mask=\"url(#svgmask" + str(i) + ")\" width=\"{{" + str(rectangles[i][2]) + " * width / " + str(cols) + "}}\" height=\"{{" + str(rectangles[i][3]) + " * height / " + str(rows) + "}}\" x=\"{{" + str(rectangles[i][0]) + " * width / " + str(cols) + "}}\" y=\"{{" + str(rectangles[i][1]) + " * height / " + str(rows) + "}}\"></image>\n"
+        #if "(fill)" in name:
+        polygon_string = polygon_string + "  <image xlink:href=\"{{image_" + str(i) + "}}\" mask=\"url(#svgmask" + str(i) + ")\" width=\"{{" + str(rectangles[i][2]) + " * width / " + str(cols) + "}}\" height=\"{{" + str(rectangles[i][3]) + " * height / " + str(rows) + "}}\" x=\"{{" + str(rectangles[i][0]) + " * width / " + str(cols) + "}}\" y=\"{{" + str(rectangles[i][1]) + " * height / " + str(rows) + "}}\"  preserveAspectRatio=\"xMidYMid slice\"></image>\n"
+        #else:
+        #    polygon_string = polygon_string + "  <image xlink:href=\"{{image_" + str(i) + "}}\" mask=\"url(#svgmask" + str(i) + ")\" width=\"{{" + str(rectangles[i][2]) + " * width / " + str(cols) + "}}\" height=\"{{" + str(rectangles[i][3]) + " * height / " + str(rows) + "}}\" x=\"{{" + str(rectangles[i][0]) + " * width / " + str(cols) + "}}\" y=\"{{" + str(rectangles[i][1]) + " * height / " + str(rows) + "}}\"></image>\n"
     return polygon_string
 
 if __name__ == "__main__":
