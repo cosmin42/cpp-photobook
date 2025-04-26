@@ -95,46 +95,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .padding(.horizontal)
                         .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
                         .foregroundColor(Color.BorderColor)
-                    
-                    Button(action: {
-                        openImportMediaBrowser()
-                    }) {
-                        Image(systemName: "plus")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .help("Add Folder")
-                    
-                    // Remove media button
-                    Button(action: {
-                        print("Remove media tapped")
-                        let maybeIndex = mediaListModel.selectedIndex()
-                        if let index = maybeIndex
-                        {
-                            mediaListModel.removeSelected()
-                            uplModel.selectedIndices.removeAll()
-                            uplModel.list.removeAll()
-                            self.photobook.projectManagementService().unstagedImagesRepo().removeRow(UInt32(index))
-                        }
-                    }) {
-                        Image(systemName: "trash")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .disabled(mediaListModel.list.isEmpty)
-                    .help("Remove Group")
-                    
-                    
+
                     Button(action: {
                         self.photobook.saveProject()
                     }) {
@@ -846,6 +807,15 @@ struct TableContentView: View, PhotobookUIListener {
             }
             self.photobook.makeCollages()
             
+            self.mediaListModel.onImportImages = { folderPath in
+                self.photobook.addImportFolder(folderPath)
+            }
+            self.mediaListModel.onRemoveImages = { imagesSetIndex in
+                uplModel.selectedIndices.removeAll()
+                uplModel.list.removeAll()
+                self.photobook.projectManagementService().unstagedImagesRepo().removeRow(imagesSetIndex)
+            }
+            
             self.mediaListModel.list = self.photobook.projectManagementService().unstagedImagesRepo().rowList()
             self.mediaListModel.selectedItem = self.mediaListModel.list.first
             
@@ -1031,23 +1001,6 @@ struct TableContentView: View, PhotobookUIListener {
     {
         errorModel.description = message
         errorDialogVisible = true
-    }
-    
-    private func openImportMediaBrowser() {
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = false
-        panel.canChooseDirectories = true
-        panel.allowsMultipleSelection = false
-        
-        panel.begin { response in
-            if response == .OK, let url = panel.url {
-                print("Selected folder URL (macOS): \(url)")
-                self.photobook.addImportFolder(url.absoluteString)
-            }
-            else if response == .cancel {
-                print("Folder picker was cancelled")
-            }
-        }
     }
     
     private func leftIndex(index: UInt32, size: UInt32) -> Int {
