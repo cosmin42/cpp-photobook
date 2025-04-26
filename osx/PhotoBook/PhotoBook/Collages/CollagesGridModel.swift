@@ -14,12 +14,19 @@ class CollagesGridModel: ObservableObject
     @Published public var images:[CollageItem] = []
     @Published public var selectedIndex: Int? = nil
     
+    @Published public var filterText: String = ""
+    
+    @Published public var previewDisabled: Bool = true
+    @Published public var makeCollageDisabled: Bool = true
+    
     // TODO: Do a flexible calculation here
     @Published public var columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    @Published public var onApply: (Int) -> Void = { _ in }
     
     init(splSelectedIndices:Binding<[Int]>, uplSelectedIndices:Binding<[Int]>)
     {

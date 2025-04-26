@@ -41,8 +41,6 @@ struct LutGrid: View
                 .buttonStyle(PlainButtonStyle())
                 .frame(alignment:.leading)
                 
-                Spacer()
-                
                 Button(action: {
                     if let selectedIndex = model.selectedIndex {
                         model.onApply(selectedIndex)
@@ -56,6 +54,8 @@ struct LutGrid: View
                 .cornerRadius(5)
                 .padding(5)
                 .disabled(model.selectedIndex == nil)
+                
+                Spacer()
             }
             .frame(alignment:.leading)
             .padding(4)

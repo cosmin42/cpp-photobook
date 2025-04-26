@@ -35,7 +35,6 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var collagesGridModel: CollagesGridModel
     
     @StateObject private var canvasModel: CanvasModel = CanvasModel()
-    @StateObject private var collagesCommandModel: CollagesCommandModel = CollagesCommandModel()
     
     @Binding private var lutGridModel: LutGridModel
     
@@ -162,55 +161,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                    .disabled(collagesCommandModel.previewDisabled)
                     .help("Preview")
-                    
-                    Button(action: {
-                        var imagesIndices:[Int] = []
-                        var imagesList: [FrontendImage] = []
-                        if !self.splModel.selectedIndices.isEmpty
-                        {
-                            imagesIndices = self.splModel.selectedIndices
-                            
-                            imagesList = imagesIndices.compactMap { index in
-                                guard index >= 0, index < splModel.list.count else { return nil }
-                                return splModel.list[index]
-                            }
-                        }
-                        else if !self.uplModel.selectedIndices.isEmpty
-                        {
-                            imagesIndices = self.uplModel.selectedIndices
-                            imagesList = imagesIndices.compactMap { index in
-                                guard index >= 0, index < uplModel.list.count else { return nil }
-                                return uplModel.list[index]
-                            }
-                        }
-                        else
-                        {
-                            // TODO: Show error here
-                            return
-                        }
-                        if let selectedCollageIndex = self.collagesGridModel.selectedIndex
-                        {
-                            self.photobook.createCollage(UInt32(selectedCollageIndex), images: imagesList)
-                        }
-                        else
-                        {
-                            // TODO: Show error
-                            return
-                        }
-                    }) {
-                        Image(systemName: "square.grid.2x2")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .disabled(collagesCommandModel.makeCollageDisabled)
-                    .help("Make Collage")
                     
                     Divider()
                         .frame(height: 32)
@@ -409,7 +360,7 @@ struct TableContentView: View, PhotobookUIListener {
                                 }
                             }
                             
-                            CollagesGrid(model: self.collagesGridModel, frameSize: geometry.size, makeCollageDisabled: $collagesCommandModel.makeCollageDisabled, previewDisabled: $collagesCommandModel.previewDisabled)
+                            CollagesGrid(model: self.collagesGridModel, frameSize: geometry.size)
                             
                             LutGrid(frameSize: geometry.size, model: self.lutGridModel)
                         }
@@ -515,8 +466,8 @@ struct TableContentView: View, PhotobookUIListener {
                     .onChange(of: splModel.selectedIndices)
                     {
                         _ in
-                        self.collagesCommandModel.previewDisabled = !self.collagesGridModel.collagePossible()
-                        self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
+                        self.collagesGridModel.previewDisabled = !self.collagesGridModel.collagePossible()
+                        self.collagesGridModel.makeCollageDisabled = self.collagesGridModel.previewDisabled
                     }
                     
                     DraftPhotoLine(frameSize: geometry.size, model: dplModel, photoLinesModel: photoLinesModel, multipleSelectionEnabled: $multipleSelectionEnabled, canvasImage: $canvasModel.mainImage)
@@ -607,8 +558,8 @@ struct TableContentView: View, PhotobookUIListener {
                         .onChange(of: uplModel.selectedIndices)
                     {
                         _ in
-                        self.collagesCommandModel.previewDisabled = !self.collagesGridModel.collagePossible()
-                        self.collagesCommandModel.makeCollageDisabled = self.collagesCommandModel.previewDisabled
+                        self.collagesGridModel.previewDisabled = !self.collagesGridModel.collagePossible()
+                        self.collagesGridModel.makeCollageDisabled = self.collagesGridModel.previewDisabled
                     }
                 }
                 .frame(height: 268)
@@ -784,6 +735,37 @@ struct TableContentView: View, PhotobookUIListener {
                 return event
             }
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
+            
+            collagesGridModel.onApply = { selectedCollageIndex in
+                var imagesIndices:[Int] = []
+                var imagesList: [FrontendImage] = []
+                if !self.splModel.selectedIndices.isEmpty
+                {
+                    imagesIndices = self.splModel.selectedIndices
+                    
+                    imagesList = imagesIndices.compactMap { index in
+                        guard index >= 0, index < splModel.list.count else { return nil }
+                        return splModel.list[index]
+                    }
+                }
+                else if !self.uplModel.selectedIndices.isEmpty
+                {
+                    imagesIndices = self.uplModel.selectedIndices
+                    imagesList = imagesIndices.compactMap { index in
+                        guard index >= 0, index < uplModel.list.count else { return nil }
+                        return uplModel.list[index]
+                    }
+                }
+                else
+                {
+                    // TODO: Show error here
+                    return
+                }
+
+                self.photobook.createCollage(UInt32(selectedCollageIndex), images: imagesList)
+
+            }
+            
             PhotoBookApp.pushListener(listener: self)
             exportModel.onExport = {
                 name, path, exportPdf, exportPdfOpt, exportJpg in
