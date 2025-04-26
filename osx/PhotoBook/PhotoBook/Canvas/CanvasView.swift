@@ -73,47 +73,50 @@ struct CanvasView: View
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Saturation
                     }) {
-                        Text("𑗘").font(.system(size: 16))
+                        Text("𑗘").font(.system(size: 20))
                     }
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                     .overlay(
-                     RoundedRectangle(cornerRadius: 12)
-                     .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                     .frame(width: 24, height:24)
-                     )
-                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
+                    )
+                    .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Saturation")
+                    .padding()
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Brightness
                     }) {
-                        Text("☼").font(.system(size: 16))
+                        Text("☼").font(.system(size: 20))
                     }
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                     .overlay(
-                     RoundedRectangle(cornerRadius: 12)
-                     .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                     .frame(width: 24, height:24)
-                     )
-                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
+                    )
+                    .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Brightness")
+                    .padding()
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Contrast
                     }) {
-                        Text("◑").font(.system(size: 16))
+                        Text("◑").font(.system(size: 20))
                     }
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
-                     .overlay(
-                     RoundedRectangle(cornerRadius: 12)
-                     .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                     .frame(width: 24, height:24)
-                     )
-                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .frame(width: 24, height:24)
+                    )
+                    .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Contrast")
+                    .padding()
                 }
                 
                 Spacer()

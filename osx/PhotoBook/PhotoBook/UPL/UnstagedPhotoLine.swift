@@ -43,80 +43,82 @@ struct UnstagedPhotoLine: View
     @Binding var multipleSelectionEnabled: Bool
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                VStack{
-                    Text("Disk")
-                        .padding(2)
-                    Spacer()
-                }
-                ForEach(self.model.list.indices, id: \.self) { index in
-                    if let fileName = self.model.list[index].resources().small
-                    {
-                        if let nsImage = NSImage(contentsOfFile: fileName) {
-                            Image(nsImage: nsImage)
-                                .cornerRadius(10)
-                                .frame(height: 80)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
-                                )
-                                .padding(4)
-                                .background(GeometryReader { geo in
-                                    Color.clear.preference(
-                                        key: ItemFramesKey.self,
-                                        value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
+        HStack{
+            VStack{
+                Text("Disk")
+                    .padding(2)
+                Spacer()
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(self.model.list.indices, id: \.self) { index in
+                        if let fileName = self.model.list[index].resources().small
+                        {
+                            if let nsImage = NSImage(contentsOfFile: fileName) {
+                                Image(nsImage: nsImage)
+                                    .cornerRadius(10)
+                                    .frame(height: 80)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
                                     )
-                                })
-                                .onTapGesture {
-                                    photoLinesModel.updatePhotoLineFocus(PhotoLineType.Unstaged)
-                                    
-                                    if model.selectedIndices.contains(index)
-                                    {
-                                        if multipleSelectionEnabled
+                                    .padding(4)
+                                    .background(GeometryReader { geo in
+                                        Color.clear.preference(
+                                            key: ItemFramesKey.self,
+                                            value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
+                                        )
+                                    })
+                                    .onTapGesture {
+                                        photoLinesModel.updatePhotoLineFocus(PhotoLineType.Unstaged)
+                                        
+                                        if model.selectedIndices.contains(index)
                                         {
-                                            model.selectedIndices.removeAll { $0 == index }
-                                        }
-                                        else if model.selectedIndices.count == 1
-                                        {
-                                            model.selectedIndices.removeAll()
+                                            if multipleSelectionEnabled
+                                            {
+                                                model.selectedIndices.removeAll { $0 == index }
+                                            }
+                                            else if model.selectedIndices.count == 1
+                                            {
+                                                model.selectedIndices.removeAll()
+                                            }
+                                            else
+                                            {
+                                                model.selectedIndices.removeAll { $0 != index }
+                                            }
                                         }
                                         else
                                         {
-                                            model.selectedIndices.removeAll { $0 != index }
+                                            if multipleSelectionEnabled
+                                            {
+                                                model.selectedIndices.append(index)
+                                            }
+                                            else
+                                            {
+                                                model.selectedIndices.removeAll()
+                                                model.selectedIndices.append(index)
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        if multipleSelectionEnabled
+                                        
+                                        if model.selectedIndices.isEmpty
                                         {
-                                            model.selectedIndices.append(index)
+                                            self.canvasImage = nil
+                                        }
+                                        else if model.selectedIndices.contains(index)
+                                        {
+                                            self.canvasImage = model.list[index]
                                         }
                                         else
                                         {
-                                            model.selectedIndices.removeAll()
-                                            model.selectedIndices.append(index)
+                                            self.canvasImage = model.list.first
                                         }
                                     }
-                                    
-                                    if model.selectedIndices.isEmpty
-                                    {
-                                        self.canvasImage = nil
+                                    .onDrag {
+                                        NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))
                                     }
-                                    else if model.selectedIndices.contains(index)
-                                    {
-                                        self.canvasImage = model.list[index]
-                                    }
-                                    else
-                                    {
-                                        self.canvasImage = model.list.first
-                                    }
-                                }
-                                .onDrag {
-                                    NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))
-                                }
-                        } else {
-                            Text("Image not found")
+                            } else {
+                                Text("Image not found")
+                            }
                         }
                     }
                 }
