@@ -12,6 +12,9 @@ struct CanvasView: View
     @ObservedObject var model: CanvasModel
     @ObservedObject var basicTransformationModel: BasicTransformationModel
     @ObservedObject var lutsModel: LutGridModel
+    @ObservedObject var stagedPhotoLineModel: StagedPhotoLineModel
+    @ObservedObject var unstagedPhotoLineModel: UnstagedPhotoLineModel
+    @ObservedObject var draftPhotoLineModel: DPLModel
     @State var frameSize: CGSize
     @State var pendingPath: String = ""
     
@@ -65,31 +68,85 @@ struct CanvasView: View
             }
             Spacer()
             HStack {
-                Button(action:{
-                    model.onLeftClick()
-                }){
-                    Image(systemName: "arrow.left")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                        .background(Color.PrimaryColor)
+                Spacer().frame(width: 30)
+                HStack{
+                    Button(action: {
+                        basicTransformationModel.imageProcessingType = .Saturation
+                    }) {
+                        Text("𑗘").font(.system(size: 16))
+                    }
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                     .overlay(
+                     RoundedRectangle(cornerRadius: 12)
+                     .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                     .frame(width: 24, height:24)
+                     )
+                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .help("Saturation")
+                    
+                    Button(action: {
+                        basicTransformationModel.imageProcessingType = .Brightness
+                    }) {
+                        Text("☼").font(.system(size: 16))
+                    }
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                     .overlay(
+                     RoundedRectangle(cornerRadius: 12)
+                     .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                     .frame(width: 24, height:24)
+                     )
+                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .help("Brightness")
+                    
+                    Button(action: {
+                        basicTransformationModel.imageProcessingType = .Contrast
+                    }) {
+                        Text("◑").font(.system(size: 16))
+                    }
+                    .background(Color.PrimaryColor)
+                    .buttonStyle(PlainButtonStyle())
+                     .overlay(
+                     RoundedRectangle(cornerRadius: 12)
+                     .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
+                     .frame(width: 24, height:24)
+                     )
+                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
+                    .help("Contrast")
                 }
-                .buttonStyle(PlainButtonStyle())
                 
-                Text(model.mainImage?.maybeOriginalName() ?? "")
-                    .foregroundColor(Color.MainFontColor)
-                    .font(.headline)
-                    .padding()
+                Spacer()
                 
-                Button(action:{
-                    model.onRightClick()
-                }){
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                        .background(Color.PrimaryColor)
-                }
-                .buttonStyle(PlainButtonStyle())
+                HStack{
+                    Button(action:{
+                        model.onLeftClick()
+                    }){
+                        Image(systemName: "arrow.left")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                            .background(Color.PrimaryColor)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Text(model.mainImage?.maybeOriginalName() ?? "")
+                        .foregroundColor(Color.MainFontColor)
+                        .font(.headline)
+                        .padding()
+                    
+                    Button(action:{
+                        model.onRightClick()
+                    }){
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                            .background(Color.PrimaryColor)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }.padding(4)
+                Spacer()
             }
+            Spacer()
         }
         .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentBody)
     }

@@ -129,58 +129,6 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color.gray)
                     
                     Button(action: {
-                        basicTransformationModel.imageProcessingType = .Saturation
-                    }) {
-                        Text("𑗘")
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(basicTransformationModel.imageProcessingType == .Saturation ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                            .frame(width: 24, height:24)
-                    )
-                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
-                    .help("Saturation")
-                    
-                    Button(action: {
-                        basicTransformationModel.imageProcessingType = .Brightness
-                    }) {
-                        Text("☼")
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                            .frame(width: 24, height:24)
-                    )
-                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
-                    .help("Brightness")
-                    
-                    Button(action: {
-                        basicTransformationModel.imageProcessingType = .Contrast
-                    }) {
-                        Text("◑")
-                    }
-                    .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
-                    .buttonStyle(PlainButtonStyle())
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(basicTransformationModel.imageProcessingType == .Contrast ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
-                            .frame(width: 24, height:24)
-                    )
-                    .disabled((splModel.selectedIndices.isEmpty && uplModel.selectedIndices.isEmpty && dplModel.selectedIndices.isEmpty) || selectedTab != 0)
-                    .help("Contrast")
-                    
-                    Divider()
-                        .frame(height: 32)
-                        .background(Color.gray)
-                    
-                    Button(action: {
                         exportDialogVisible = true
                     }) {
                         Text("📖")
@@ -333,7 +281,13 @@ struct TableContentView: View, PhotobookUIListener {
                     .border(Color.BorderColor, width: 1)
                     .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                     
-                    CanvasView(model: canvasModel, basicTransformationModel: basicTransformationModel, lutsModel: lutGridModel, frameSize: geometry.size)
+                    CanvasView(model: canvasModel,
+                               basicTransformationModel: basicTransformationModel,
+                               lutsModel: lutGridModel,
+                               stagedPhotoLineModel: splModel,
+                               unstagedPhotoLineModel: uplModel,
+                               draftPhotoLineModel: dplModel,
+                               frameSize: geometry.size)
                         .border(Color.BorderColor, width: 1)
                 }
                 
