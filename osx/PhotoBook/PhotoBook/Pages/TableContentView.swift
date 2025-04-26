@@ -106,10 +106,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .help("Save")
                     
-                    Divider()
-                        .frame(height: 32)
-                        .background(Color.gray)
-                    
                     Button(action: {
                         print("Preview tapped")
                     }) {
@@ -123,10 +119,6 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Preview")
-                    
-                    Divider()
-                        .frame(height: 32)
-                        .background(Color.gray)
                     
                     Button(action: {
                         exportDialogVisible = true
