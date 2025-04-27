@@ -99,7 +99,15 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         self.photobook.saveProject()
                     }) {
-                        Text("💾")
+                        VStack{
+                            Image(systemName: "square.and.arrow.down")
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(Color.MainFontColor)
+                                .background(Color.clear)
+                                .padding(0)
+                            Text("Save").font(.system(size: 10)).padding(0)
+                        }
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -109,11 +117,15 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         print("Preview tapped")
                     }) {
-                        Image(systemName: "eye")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
+                        VStack{
+                            Image(systemName: "eye")
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(Color.MainFontColor)
+                                .background(Color.clear)
+                                .padding(0)
+                            Text("View").font(.system(size: 10)).padding(0)
+                        }
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -123,7 +135,15 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         exportDialogVisible = true
                     }) {
-                        Text("📖")
+                        VStack{
+                            Image(systemName: "books.vertical.fill")
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(Color.MainFontColor)
+                                .background(Color.clear)
+                                .padding(0)
+                            Text("Export").font(.system(size: 10)).padding(0)
+                        }
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
@@ -134,11 +154,15 @@ struct TableContentView: View, PhotobookUIListener {
                     Button(action: {
                         subscribeDialogVisible = true
                     }) {
-                        Image(systemName: "bell.fill")
-                            .scaledToFit()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color.MainFontColor)
-                            .background(Color.clear)
+                        VStack{
+                            Image(systemName: "bell.fill")
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
+                                .foregroundColor(Color.MainFontColor)
+                                .background(Color.clear)
+                                .padding(0)
+                            Text("Subscribe").font(.system(size: 10)).padding(-2)
+                        }
                     }
                     .frame(alignment: .leading)
                     .background(Color.PrimaryColor)
