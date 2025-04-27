@@ -70,6 +70,8 @@ struct CanvasView: View
             HStack {
                 Spacer().frame(width: 30)
                 HStack{
+#if EFFECTS_ENABLED
+                    
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Saturation
                     }) {
@@ -85,6 +87,7 @@ struct CanvasView: View
                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Saturation")
                     .padding()
+#endif
                     
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Brightness
@@ -102,6 +105,8 @@ struct CanvasView: View
                     .help("Brightness")
                     .padding()
                     
+#if EFFECTS_ENABLED
+                    
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Contrast
                     }) {
@@ -117,6 +122,7 @@ struct CanvasView: View
                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Contrast")
                     .padding()
+#endif
                 }
                 
                 Spacer()
