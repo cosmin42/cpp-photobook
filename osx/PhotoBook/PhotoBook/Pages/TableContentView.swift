@@ -65,10 +65,7 @@ struct TableContentView: View, PhotobookUIListener {
     @State private var lutFromDpl:[String:UInt32] = [:]
     @State private var lutFromSpl:[String:UInt32] = [:]
     
-    
-    @State private var effectsFromUpl:Set<String> = []
-    @State private var effectsFromDpl:[String:UInt32] = [:]
-    @State private var effectsFromSpl:[String:UInt32] = [:]
+    @State private var effectsSBC:[String:(Double, Double, Double)] = [:]
     
     private var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -95,7 +92,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .padding(.horizontal)
                         .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
                         .foregroundColor(Color.BorderColor)
-
+                    
                     Button(action: {
                         self.photobook.saveProject()
                     }) {
@@ -190,31 +187,59 @@ struct TableContentView: View, PhotobookUIListener {
                                 for index in dplModel.selectedIndices
                                 {
                                     let image = dplModel.list[index]
-                                    let uuidStr = UUID().uuidString
-                                    print("Applying effects to \(uuidStr)")
-                                    self.effectsFromDpl[uuidStr] = UInt32(index)
-                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
+                                    if let resources = image.resources()
+                                    {
+                                        self.applySaturationAndSave(imagePath: resources.full,
+                                                                    saturation: Float(basicTransformationModel.saturationValue),
+                                                                    contrast: Float(basicTransformationModel.contrastValue),
+                                                                    brightness: Float(basicTransformationModel.brightnessValue))
+                                        self.applySaturationAndSave(imagePath: resources.medium,
+                                                                    saturation: Float(basicTransformationModel.saturationValue),
+                                                                    contrast: Float(basicTransformationModel.contrastValue),
+                                                                    brightness: Float(basicTransformationModel.brightnessValue))
+                                        self.applySaturationAndSave(imagePath: resources.small,
+                                                                    saturation: Float(basicTransformationModel.saturationValue),
+                                                                    contrast: Float(basicTransformationModel.contrastValue),
+                                                                    brightness: Float(basicTransformationModel.brightnessValue))
+                                    }
                                 }
                             }
                             else if self.photoLinesModel.currentPhotoLine == .Staged
                             {
                                 for index in splModel.selectedIndices
                                 {
-                                    let image = splModel.list[index]
-                                    let uuidStr = UUID().uuidString
-                                    self.effectsFromSpl[uuidStr] = UInt32(index)
-                                    self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
+                                    if abs(basicTransformationModel.saturationValue - 1.0) < 0.0001 {
+                                        let image = splModel.list[index]
+                                        if let resources = image.resources()
+                                        {
+                                            self.applySaturationAndSave(imagePath: resources.full,
+                                                                        saturation: Float(basicTransformationModel.saturationValue),
+                                                                        contrast: Float(basicTransformationModel.contrastValue),
+                                                                        brightness: Float(basicTransformationModel.brightnessValue))
+                                            self.applySaturationAndSave(imagePath: resources.medium,
+                                                                        saturation: Float(basicTransformationModel.saturationValue),
+                                                                        contrast: Float(basicTransformationModel.contrastValue),
+                                                                        brightness: Float(basicTransformationModel.brightnessValue))
+                                            self.applySaturationAndSave(imagePath: resources.small,
+                                                                        saturation: Float(basicTransformationModel.saturationValue),
+                                                                        contrast: Float(basicTransformationModel.contrastValue),
+                                                                        brightness: Float(basicTransformationModel.brightnessValue))
+                                        }
+                                    }
                                 }
                             }
                             else if self.photoLinesModel.currentPhotoLine == .Unstaged
                             {
+                                var imagesMap: [String:FrontendImage] = [:]
                                 for index in uplModel.selectedIndices
                                 {
-                                    let image = uplModel.list[index]
                                     let uuidStr = UUID().uuidString
-                                    self.effectsFromUpl.insert(uuidStr)
-                                    self.photobook.applyEffects(uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
+                                    self.effectsSBC[uuidStr] = (basicTransformationModel.saturationValue,
+                                                                basicTransformationModel.brightnessValue,
+                                                                basicTransformationModel.contrastValue)
+                                    imagesMap[uuidStr] = uplModel.list[index]
                                 }
+                                self.photobook.copyImages(toDpl: imagesMap)
                             }
                         }) {
                             Text("Apply")
@@ -280,7 +305,7 @@ struct TableContentView: View, PhotobookUIListener {
                                unstagedPhotoLineModel: uplModel,
                                draftPhotoLineModel: dplModel,
                                frameSize: geometry.size)
-                        .border(Color.BorderColor, width: 1)
+                    .border(Color.BorderColor, width: 1)
                 }
                 
                 VStack {
@@ -455,11 +480,8 @@ struct TableContentView: View, PhotobookUIListener {
                                     }
                                 }
                             }
-                            
                             return true
-                            
                         }
-                    
                     
                     UnstagedPhotoLine(frameSize: geometry.size, model: uplModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, mediaListModel: $mediaListModel, stagedPhotoLineModel: $splModel, multipleSelectionEnabled: $multipleSelectionEnabled)
                         .onChange(of: uplModel.selectedIndices)
@@ -668,9 +690,9 @@ struct TableContentView: View, PhotobookUIListener {
                     // TODO: Show error here
                     return
                 }
-
+                
                 self.photobook.createCollage(UInt32(selectedCollageIndex), images: imagesList)
-
+                
             }
             
             PhotoBookApp.pushListener(listener: self)
@@ -877,6 +899,24 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onImageCopied(imageId: String, image: FrontendImage)
     {
+        // print effectsSBC keys
+        for key in effectsSBC.keys
+        {
+            print(key)
+        }
+        if self.effectsSBC.keys.contains(imageId.uppercased())
+        {
+            if let (saturation, brightness, contrast) = self.effectsSBC[imageId.uppercased()]
+            {
+                if let resources = image.resources()
+                {
+                    self.applySaturationAndSave(imagePath: resources.full, saturation: Float(saturation), contrast: Float(contrast), brightness: Float(brightness))
+                    self.applySaturationAndSave(imagePath: resources.medium, saturation: Float(saturation), contrast: Float(contrast), brightness: Float(brightness))
+                    self.applySaturationAndSave(imagePath: resources.small, saturation: Float(saturation), contrast: Float(contrast), brightness: Float(brightness))
+                }
+            }
+            self.effectsSBC.removeValue(forKey: imageId)
+        }
         self.dplModel.insert(image: image, position: self.dplDropIndex)
         self.photobook.projectManagementService().insert(image, at: UInt32(self.dplDropIndex ?? 0))
     }
@@ -921,26 +961,10 @@ struct TableContentView: View, PhotobookUIListener {
     
     func onEffectsApplied(imageId: String, image: FrontendImage)
     {
-        print("\(image.resources().full)")
-        self.effectsFromUpl.remove(imageId)
-        self.dplModel.list.append(image)
-        self.photobook.projectManagementService().append(image)
     }
     
     func onEffectsAppliedInplace(imageId: String)
     {
-        let imageId = imageId.uppercased()
-        
-        if self.effectsFromDpl.keys.contains(imageId)
-        {
-            self.dplModel.list[Int(effectsFromDpl[imageId]!)] = self.photobook.projectManagementService().draftPhotoLine(self.photobook.getThumbnailsPath())![Int(effectsFromDpl[imageId]!)]
-            effectsFromDpl.removeValue(forKey: imageId)
-        }
-        else if self.effectsFromSpl.keys.contains(imageId)
-        {
-            self.splModel.list[Int(effectsFromSpl[imageId]!)] = self.photobook.projectManagementService().stagedImages().images(self.photobook.getThumbnailsPath())[Int(effectsFromSpl[imageId]!)]
-            effectsFromSpl.removeValue(forKey: imageId)
-        }
     }
     
     func onError(message: String)
@@ -977,6 +1001,103 @@ struct TableContentView: View, PhotobookUIListener {
             dplModel.list.remove(atOffsets: IndexSet(tmpSelectedIndices))
             let nsNumberSet: [NSNumber] = tmpSelectedIndices.map({ NSNumber(value:$0) })
             self.photobook.projectManagementService().removeDraftImages(nsNumberSet)
+        }
+    }
+    
+    // Function to apply saturation and save image
+    func applySaturationAndSave(imagePath: String, saturation: Float, contrast: Float, brightness: Float) {
+        // 1. Load the image from the file path
+        guard let image = NSImage(contentsOfFile: imagePath) else {
+            print("Failed to load image.")
+            return
+        }
+        
+        // 2. Apply saturation
+        if let saturatedImage = applySaturation(to: image, saturation: saturation, contrast: contrast, brightness: brightness) {
+            // 3. Save the modified image
+            let fileURL = URL(fileURLWithPath: imagePath) // Specify the save path
+            if saveImage(saturatedImage, to: fileURL) {
+                print("Image saved successfully at \(fileURL.path)")
+            } else {
+                print("Failed to save the image.")
+            }
+        } else {
+            print("Failed to apply saturation.")
+        }
+    }
+    
+    func applySaturation(to image: NSImage, saturation: Float, contrast: Float, brightness: Float) -> NSImage? {
+        guard let tiffData = image.tiffRepresentation,
+              let ciImage = CIImage(data: tiffData) else {
+            print("Failed to convert NSImage to CIImage.")
+            return nil
+        }
+        
+        // Apply the saturation filter
+        guard let saturationFilter = CIFilter(name: "CIColorControls") else {
+            print("Failed to create CIFilter.")
+            return nil
+        }
+        guard let contrastFilter = CIFilter(name: "CIColorControls") else {
+            print("Failed to create CIFilter.")
+            return nil
+        }
+        guard let brightnessFilter = CIFilter(name: "CIColorControls") else {
+            print("Failed to create CIFilter.")
+            return nil
+        }
+        
+        saturationFilter.setValue(ciImage, forKey: kCIInputImageKey)
+        saturationFilter.setValue(saturation, forKey: kCIInputSaturationKey)
+        
+        
+        // Get the output image from the filter
+        guard let outputImage = saturationFilter.outputImage else {
+            print("Failed to apply saturation filter.")
+            return nil
+        }
+        
+        contrastFilter.setValue(outputImage, forKey: kCIInputImageKey)
+        contrastFilter.setValue(contrast, forKey: kCIInputContrastKey)
+        
+        
+        guard let  outputImage2 = contrastFilter.outputImage else {
+            print("Failed to apply saturation filter.")
+            return nil
+        }
+        
+        brightnessFilter.setValue(outputImage2, forKey: kCIInputImageKey)
+        brightnessFilter.setValue(brightness, forKey: kCIInputBrightnessKey)
+        
+        guard let outputImage3 = brightnessFilter.outputImage else {
+            print("Failed to apply saturation filter.")
+            return nil
+        }
+        
+        // Convert the output CIImage back to NSImage
+        let context = CIContext()
+        if let cgImage = context.createCGImage(outputImage3, from: outputImage3.extent) {
+            let resultImage = NSImage(cgImage: cgImage, size: image.size)
+            return resultImage
+        }
+        
+        return nil
+    }
+    
+    func saveImage(_ image: NSImage, to url: URL, as fileType: NSBitmapImageRep.FileType = .png) -> Bool {
+        guard let tiffData = image.tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData),
+              let data = bitmap.representation(using: fileType, properties: [:]) else {
+            print("Failed to create image data")
+            return false
+        }
+        
+        do {
+            try data.write(to: url)
+            return true
+        } catch {
+            print("Error saving image: \(error)")
+            return false
         }
     }
 }
