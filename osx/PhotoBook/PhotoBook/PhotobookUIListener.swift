@@ -16,7 +16,11 @@ protocol PhotobookUIListener
     func onImageMapped(imageId: String, image: FrontendImage)
     func onImageCopied(imageId: String, image: FrontendImage)
     func onCollageCreated(image: FrontendImage)
+#if os(macOS)
     func onLutAppliedInMemory(imageId: String, image: NSImage)
+#else
+    func onLutAppliedInMemory(imageId: String, image: UIImage)
+#endif
     func onLutAppliedOnDiskInplace(imageId: String)
     func onLutAppliedOnDisk(imageId: String, image: FrontendImage)
     func onEffectsApplied(imageId: String, image: FrontendImage)

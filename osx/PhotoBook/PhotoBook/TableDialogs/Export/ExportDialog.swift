@@ -101,6 +101,7 @@ struct ExportDialog: View {
     }
     
     private func openFileBrowser() {
+#if os(macOS)
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
         panel.canChooseDirectories = true
@@ -109,6 +110,7 @@ struct ExportDialog: View {
         if panel.runModal() == .OK {
             model.exportPath = panel.url?.path ?? ""
         }
+#endif
     }
 }
 

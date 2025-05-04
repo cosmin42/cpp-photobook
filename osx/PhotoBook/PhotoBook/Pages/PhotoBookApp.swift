@@ -53,10 +53,18 @@ private var noirUIListener: [NoirUIListener] = []
         photobookUIListener.last?.onCollageCreated(image: image)
     }
     
+#if os(macOS)
     func onLutAppliedInMemory(_ imageId: String, image: NSImage)
     {
         photobookUIListener.last?.onLutAppliedInMemory(imageId:imageId, image:image)
     }
+    
+#else
+    func onLutAppliedInMemory(_ imageId: String, image: UIImage)
+    {
+        photobookUIListener.last?.onLutAppliedInMemory(imageId:imageId, image:image)
+    }
+#endif
     
     func onLutAppliedOnDiskInplace(_ imageId: String)
     {
@@ -112,6 +120,38 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     @State private var privatePolicyModel: PrivacyPolicyModel = PrivacyPolicyModel()
     @State private var toOpenProjectId: String = ""
     
+    private var MainNavigationView: some View
+    {
+        NavigationStack (path: $navigationPath) {
+            DashboardView(navigationPath:$navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
+                .navigationDestination(for: String.self) { value in
+                    if value == "Dashboard" {
+                        DashboardView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
+                    }
+                    else if value == "Table" {
+                        TableContentView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId,  lutGridModel:$lutGridModel, photobook:self.photobook)
+                    }
+                }
+        }
+        .frame(minWidth: 600, minHeight: 400)
+        .sheet(isPresented: $isPropertiesDetailsDialogVisible)
+        {
+            PropertiesDetailsDialog(isPropertiesDetailsDialogVisible: $isPropertiesDetailsDialogVisible, photobook: $photobook)
+        }
+        .sheet(isPresented: $showLicenseDialog)
+        {
+            LicenseDialog(isPresented: $showLicenseDialog, model: licenseModel)
+        }
+        .sheet(isPresented: $privatePolicyVisible)
+        {
+            PrivacyPolicyDialog(isPresented: $privatePolicyVisible, model: privatePolicyModel)
+        }
+        .sheet(isPresented: $aboutDialogVisible)
+        {
+            AboutDialog(isPresented: $aboutDialogVisible)
+        }
+    }
+    
     init()
     {
         photobookUIListener = [self]
@@ -135,35 +175,10 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
     }
     
     var body: some Scene {
-        Window("Photo Book Noir", id:"main") {
-            NavigationStack (path: $navigationPath) {
-                DashboardView(navigationPath:$navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
-                    .navigationDestination(for: String.self) { value in
-                        if value == "Dashboard" {
-                            DashboardView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId, photobook:self.photobook)
-                        }
-                        else if value == "Table" {
-                            TableContentView(navigationPath: $navigationPath, toOpenProjectId: $toOpenProjectId,  lutGridModel:$lutGridModel, photobook:self.photobook)
-                        }
-                    }
-            }
-            .frame(minWidth: 600, minHeight: 400)
-            .sheet(isPresented: $isPropertiesDetailsDialogVisible)
-            {
-                PropertiesDetailsDialog(isPropertiesDetailsDialogVisible: $isPropertiesDetailsDialogVisible, photobook: $photobook)
-            }
-            .sheet(isPresented: $showLicenseDialog)
-            {
-                LicenseDialog(isPresented: $showLicenseDialog, model: licenseModel)
-            }
-            .sheet(isPresented: $privatePolicyVisible)
-            {
-                PrivacyPolicyDialog(isPresented: $privatePolicyVisible, model: privatePolicyModel)
-            }
-            .sheet(isPresented: $aboutDialogVisible)
-            {
-                AboutDialog(isPresented: $aboutDialogVisible)
-            }
+#if os(macOS)
+        Window("Photo Book Noir", id:"main")
+        {
+            MainNavigationView
         }
         .commands {
             CommandGroup(after: .newItem) {
@@ -186,6 +201,33 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
                 }
             }
         }
+#else
+        WindowGroup
+        {
+            MainNavigationView
+        }
+        .commands {
+            CommandGroup(after: .newItem) {
+                if navigationPath.last == "Table" {
+                    Button("Properties") {
+                        isPropertiesDetailsDialogVisible = true;
+                    }
+                    .keyboardShortcut("P", modifiers: [.command, .shift])
+                }
+            }
+            CommandGroup(replacing: CommandGroupPlacement.help) {
+                Button("About") {
+                    aboutDialogVisible = true
+                }
+                Button("License") {
+                    showLicenseDialog = true
+                }
+                Button("Private Policy") {
+                    privatePolicyVisible = true
+                }
+            }
+        }
+#endif
     }
     
     // TODO: We don't need PhotobookUIListener here
@@ -204,10 +246,17 @@ struct PhotoBookApp: App, PhotobookUIListener, NoirUIListener {
         lutGridModel.images.append(item)
     }
     
+#if os(macOS)
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     {
         
     }
+#else
+    func onLutAppliedInMemory(imageId: String, image: UIImage)
+    {
+        
+    }
+#endif
     
     func onLutAppliedOnDiskInplace(imageId: String)
     {

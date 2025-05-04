@@ -522,6 +522,7 @@ struct TableContentView: View, PhotobookUIListener {
                             let imagePath = mainImageFrontend.resources().full
                             if self.canvasModel.processedImageInfo.1 != imagePath
                             {
+#if os(macOS)
                                 let image = NSImage(contentsOfFile: mainImageFrontend.resources().full)
                                 if let image = image, let imagePath = imagePath
                                 {
@@ -531,6 +532,7 @@ struct TableContentView: View, PhotobookUIListener {
                                         self.canvasModel.processedImageInfo = (lutId, imagePath)
                                     }
                                 }
+#endif
                             }
                         }
                     }
@@ -571,6 +573,7 @@ struct TableContentView: View, PhotobookUIListener {
                 }
                 
                 self.toPaperModel.onOk = { [self] in
+#if os(macOS)
                     let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
                     let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
                     let colors: [String:NSColor] = toPaperModel.images.mapValues { NSColor($0.backgroundColor) }
@@ -578,6 +581,7 @@ struct TableContentView: View, PhotobookUIListener {
                     self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
                     
                     toPaperModel.images.removeAll()
+#endif
                 }
                 
                 self.photoLinesModel.onPhotoLineFocusChanged = { photoLineType in
@@ -638,6 +642,7 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .onAppear()
         {
+#if os(macOS)
             NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { event in
                 self.multipleSelectionEnabled = event.modifierFlags.contains(.control)
                 return event
@@ -665,6 +670,7 @@ struct TableContentView: View, PhotobookUIListener {
                 }
                 return event
             }
+#endif
             self.collagesGridModel = CollagesGridModel(splSelectedIndices: $splModel.selectedIndices, uplSelectedIndices: $uplModel.selectedIndices)
             
             collagesGridModel.onApply = { selectedCollageIndex in
@@ -911,6 +917,7 @@ struct TableContentView: View, PhotobookUIListener {
         self.photobook.projectManagementService().append(_:image)
     }
     
+#if os(macOS)
     func onLutAppliedInMemory(imageId: String, image: NSImage)
     {
         if self.canvasModel.processedImageInfo.0 == imageId
@@ -920,6 +927,17 @@ struct TableContentView: View, PhotobookUIListener {
             self.canvasModel.maybeProcessedImage = image
         }
     }
+#else
+    func onLutAppliedInMemory(imageId: String, image: UIImage)
+    {
+        if self.canvasModel.processedImageInfo.0 == imageId
+        {
+            self.canvasModel.pendingLUT = false
+            self.canvasModel.processedImageInfo = ("", "")
+            self.canvasModel.maybeProcessedImage = image
+        }
+    }
+#endif
     
     func onLutAppliedOnDiskInplace(imageId: String)
     {

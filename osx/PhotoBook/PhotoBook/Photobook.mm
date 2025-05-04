@@ -35,7 +35,7 @@ public:
         auto item = [[LutItem alloc] initWithCpp:iconInfo];
         [&mManagedListener onNoirLutAdded:item];
     }
-    void onNoirError(PBDev::Error) {}
+    void onNoirError(PBDev::Error) override {}
     
 private:
     NoirListenerWrapperCLevel const& mManagedListener;
@@ -113,14 +113,17 @@ public:
     void onLutAdded(PB::LutIconInfo iconInfo) override {}
     
     void onLutApplied(PBDev::LutApplicationId, PB::GenericImagePtr,
-                      Path thumbnailsLocation) {}
+                      Path thumbnailsLocation) override {}
     
     void onLutAppliedInMemory(PBDev::LutApplicationId imageId,
                               std::shared_ptr<cv::Mat> image) override {
         std::string imageIdStr = boost::uuids::to_string(*imageId);
         NSString* managedImageId = [NSString stringWithUTF8String:imageIdStr.c_str()];
+#if TARGET_OS_OSX
         NSImage* managedImage = MatToNSImage(*image);
         [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
+#else
+#endif
     }
 
     void onLutAppliedOnDiskInplace(PBDev::LutApplicationId applicationId) override
@@ -212,7 +215,7 @@ private:
         
         return imageRef;
     }
-    
+#if TARGET_OS_OSX
     NSImage* MatToNSImage(const cv::Mat& mat) {
         CGImageRef imageRef = MatToCGImage(mat);
         if (!imageRef) return nil;
@@ -222,6 +225,11 @@ private:
         
         return image;
     }
+#else
+    UIImage* MatToNSImage(const cv::Mat& mat) {
+        return nullptr;
+    }
+#endif
     
     
 };
@@ -375,8 +383,8 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     }
     return PB::Geometry::OverlapType::Inscribed;
 }
-
-- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
+#if TARGET_OS_OSX
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes
 {
     auto imageToPaperService = mPhotobook->imageToPaperService();
     
@@ -404,6 +412,12 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
     
     imageToPaperService->toPaper(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
+
+#else
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, UIColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes
+{
+}
+#endif
 
 - (void) copyImagesToDpl:(NSDictionary<NSString*, FrontendImage*>*)images
 {
@@ -456,7 +470,7 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
         mPhotobook->exportService()->exportJPGAlbum(nativeName, nativePath);
     }
 }
-
+#if TARGET_OS_OSX
 cv::Mat NSImageToMat(NSImage *image) {
     if (!image) return cv::Mat();
     
@@ -481,7 +495,13 @@ cv::Mat NSImageToMat(NSImage *image) {
     
     return mat;
 }
+#else
+cv::Mat NSImageToMat(UIImage *image) {
+    return cv::Mat();
+}
+#endif
 
+#if TARGET_OS_OSX
 - (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex
 {
     PBDev::LutApplicationId lutId = PBDev::LutApplicationId(PB::RuntimeUUID::newUUID());
@@ -489,6 +509,12 @@ cv::Mat NSImageToMat(NSImage *image) {
     mPhotobook->lutService()->applyLutInMemory(lutId, lutIndex, nativeImage);
     return [NSString stringWithUTF8String:boost::uuids::to_string(*lutId).c_str()];
 }
+#else
+- (NSString*) applyLuInMemory:(UIImage*)image lutIndex:(unsigned)lutIndex
+{
+    return nullptr;
+}
+#endif
 
 - (NSString*) getText:(NSString*)key
 {

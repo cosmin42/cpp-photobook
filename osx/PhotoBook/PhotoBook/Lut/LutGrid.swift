@@ -30,7 +30,7 @@ struct LutGrid: View
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 100)
                     .padding(.leading, 4)
-
+                
                 Button(action: {
                     model.filterText.removeAll()
                 }) {
@@ -68,6 +68,7 @@ struct LutGrid: View
                     ForEach(filteredImages.indices, id: \.self) { index in
                         if let fileName = filteredImages[index].path
                         {
+#if os(macOS)
                             if let nsImage = NSImage(contentsOfFile: fileName) {
                                 VStack
                                 {
@@ -89,6 +90,7 @@ struct LutGrid: View
                             } else {
                                 Text("Image not found")
                             }
+#endif
                         }
                     }
                 }

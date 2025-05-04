@@ -34,17 +34,20 @@ struct CanvasView: View
             }
             else if let processedImage = model.maybeProcessedImage
             {
+#if os(macOS)
                 Image(nsImage: processedImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .saturation(basicTransformationModel.saturationValue)
                     .brightness(basicTransformationModel.brightnessValue)
                     .contrast(basicTransformationModel.contrastValue)
+#endif
             }
             else if let selectedImage = model.mainImage
             {
                 if let fileName = selectedImage.resources().full
                 {
+#if os(macOS)
                     if let nsImage = NSImage(contentsOfFile: fileName) {
                         Image(nsImage: nsImage)
                             .resizable()
@@ -53,6 +56,7 @@ struct CanvasView: View
                             .contrast(basicTransformationModel.contrastValue)
                             .brightness(basicTransformationModel.brightnessValue)
                     }
+#endif
                 }
             }
             else

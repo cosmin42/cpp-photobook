@@ -11,12 +11,195 @@
 		73049E212C160EA9009EA667 /* PhotoBook-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 73049E202C160EA9009EA667 /* PhotoBook-Bridging-Header.m */; };
 		73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73049EB62C162BDB009EA667 /* OpenCL.framework */; platformFilters = (macos, ); };
 		7321EB862C18B8E800B3D27F /* Photobook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7321EB852C18B8E800B3D27F /* Photobook.mm */; };
+		732B8D362DC7B22300182545 /* libabsl_bad_any_cast_impl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0A2DC7B1FC00182545 /* libabsl_bad_any_cast_impl.a */; platformFilter = ios; };
+		732B8D372DC7B22300182545 /* libabsl_bad_optional_access.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D352DC7B20600182545 /* libabsl_bad_optional_access.a */; platformFilter = ios; };
+		732B8D382DC7B22400182545 /* libabsl_bad_variant_access.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBD2DC7B1F000182545 /* libabsl_bad_variant_access.a */; platformFilter = ios; };
+		732B8D392DC7B22400182545 /* libabsl_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCD2DC7B1F200182545 /* libabsl_base.a */; platformFilter = ios; };
+		732B8D3A2DC7B22400182545 /* libabsl_city.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA62DC7B1ED00182545 /* libabsl_city.a */; platformFilter = ios; };
+		732B8D3B2DC7B22400182545 /* libabsl_civil_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1B2DC7B20200182545 /* libabsl_civil_time.a */; platformFilter = ios; };
+		732B8D3C2DC7B22500182545 /* libabsl_cord_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD62DC7B1F300182545 /* libabsl_cord_internal.a */; platformFilter = ios; };
+		732B8D3D2DC7B22500182545 /* libabsl_cord.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE72DC7B1F600182545 /* libabsl_cord.a */; platformFilter = ios; };
+		732B8D3E2DC7B22500182545 /* libabsl_cordz_functions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDA2DC7B1F400182545 /* libabsl_cordz_functions.a */; platformFilter = ios; };
+		732B8D3F2DC7B22600182545 /* libabsl_cordz_handle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA12DC7B1EC00182545 /* libabsl_cordz_handle.a */; platformFilter = ios; };
+		732B8D402DC7B22600182545 /* libabsl_cordz_info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA32DC7B1ED00182545 /* libabsl_cordz_info.a */; platformFilter = ios; };
+		732B8D412DC7B22600182545 /* libabsl_cordz_sample_token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D282DC7B20400182545 /* libabsl_cordz_sample_token.a */; platformFilter = ios; };
+		732B8D422DC7B22700182545 /* libabsl_crc_cord_state.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2B2DC7B20400182545 /* libabsl_crc_cord_state.a */; platformFilter = ios; };
+		732B8D432DC7B22700182545 /* libabsl_crc_cpu_detect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA92DC7B1ED00182545 /* libabsl_crc_cpu_detect.a */; platformFilter = ios; };
+		732B8D442DC7B22700182545 /* libabsl_crc_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2C2DC7B20500182545 /* libabsl_crc_internal.a */; platformFilter = ios; };
+		732B8D452DC7B22800182545 /* libabsl_crc32c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE62DC7B1F600182545 /* libabsl_crc32c.a */; platformFilter = ios; };
+		732B8D462DC7B22800182545 /* libabsl_debugging_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1F2DC7B20200182545 /* libabsl_debugging_internal.a */; platformFilter = ios; };
+		732B8D472DC7B22800182545 /* libabsl_decode_rust_punycode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D042DC7B1FA00182545 /* libabsl_decode_rust_punycode.a */; platformFilter = ios; };
+		732B8D482DC7B22800182545 /* libabsl_demangle_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCC2DC7B1F200182545 /* libabsl_demangle_internal.a */; platformFilter = ios; };
+		732B8D492DC7B22900182545 /* libabsl_demangle_rust.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAB2DC7B1EE00182545 /* libabsl_demangle_rust.a */; platformFilter = ios; };
+		732B8D4A2DC7B22900182545 /* libabsl_die_if_null.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D182DC7B20100182545 /* libabsl_die_if_null.a */; platformFilter = ios; };
+		732B8D4B2DC7B22900182545 /* libabsl_examine_stack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2A2DC7B20400182545 /* libabsl_examine_stack.a */; platformFilter = ios; };
+		732B8D4C2DC7B22A00182545 /* libabsl_exponential_biased.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFF2DC7B1FA00182545 /* libabsl_exponential_biased.a */; platformFilter = ios; };
+		732B8D4D2DC7B22A00182545 /* libabsl_failure_signal_handler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCE2DC7B1F200182545 /* libabsl_failure_signal_handler.a */; platformFilter = ios; };
+		732B8D4E2DC7B22A00182545 /* libabsl_flags_commandlineflag_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8C9E2DC7B1EC00182545 /* libabsl_flags_commandlineflag_internal.a */; platformFilter = ios; };
+		732B8D4F2DC7B22B00182545 /* libabsl_flags_commandlineflag.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D032DC7B1FA00182545 /* libabsl_flags_commandlineflag.a */; platformFilter = ios; };
+		732B8D502DC7B22B00182545 /* libabsl_flags_config.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1E2DC7B20200182545 /* libabsl_flags_config.a */; platformFilter = ios; };
+		732B8D512DC7B22B00182545 /* libabsl_flags_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE92DC7B1F600182545 /* libabsl_flags_internal.a */; platformFilter = ios; };
+		732B8D522DC7B22C00182545 /* libabsl_flags_marshalling.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB32DC7B1EF00182545 /* libabsl_flags_marshalling.a */; platformFilter = ios; };
+		732B8D532DC7B22C00182545 /* libabsl_flags_parse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D002DC7B1FA00182545 /* libabsl_flags_parse.a */; platformFilter = ios; };
+		732B8D542DC7B22C00182545 /* libabsl_flags_private_handle_accessor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD22DC7B1F300182545 /* libabsl_flags_private_handle_accessor.a */; platformFilter = ios; };
+		732B8D552DC7B22D00182545 /* libabsl_flags_program_name.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D162DC7B1FE00182545 /* libabsl_flags_program_name.a */; platformFilter = ios; };
+		732B8D562DC7B22D00182545 /* libabsl_flags_reflection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBC2DC7B1F000182545 /* libabsl_flags_reflection.a */; platformFilter = ios; };
+		732B8D572DC7B22D00182545 /* libabsl_flags_usage_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D112DC7B1FD00182545 /* libabsl_flags_usage_internal.a */; platformFilter = ios; };
+		732B8D582DC7B22E00182545 /* libabsl_flags_usage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB42DC7B1EF00182545 /* libabsl_flags_usage.a */; platformFilter = ios; };
+		732B8D592DC7B22E00182545 /* libabsl_graphcycles_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D052DC7B1FB00182545 /* libabsl_graphcycles_internal.a */; platformFilter = ios; };
+		732B8D5A2DC7B22E00182545 /* libabsl_hash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC92DC7B1F200182545 /* libabsl_hash.a */; platformFilter = ios; };
+		732B8D5B2DC7B22F00182545 /* libabsl_hashtablez_sampler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAE2DC7B1EE00182545 /* libabsl_hashtablez_sampler.a */; platformFilter = ios; };
+		732B8D5C2DC7B22F00182545 /* libabsl_int128.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAC2DC7B1EE00182545 /* libabsl_int128.a */; platformFilter = ios; };
+		732B8D5D2DC7B23000182545 /* libabsl_kernel_timeout_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D132DC7B1FD00182545 /* libabsl_kernel_timeout_internal.a */; platformFilter = ios; };
+		732B8D5E2DC7B23000182545 /* libabsl_leak_check.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD42DC7B1F300182545 /* libabsl_leak_check.a */; platformFilter = ios; };
+		732B8D5F2DC7B23000182545 /* libabsl_log_entry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC32DC7B1F100182545 /* libabsl_log_entry.a */; platformFilter = ios; };
+		732B8D602DC7B23100182545 /* libabsl_log_flags.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D062DC7B1FB00182545 /* libabsl_log_flags.a */; platformFilter = ios; };
+		732B8D612DC7B23100182545 /* libabsl_log_globals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF82DC7B1F800182545 /* libabsl_log_globals.a */; platformFilter = ios; };
+		732B8D622DC7B23100182545 /* libabsl_log_initialize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE52DC7B1F500182545 /* libabsl_log_initialize.a */; platformFilter = ios; };
+		732B8D632DC7B23200182545 /* libabsl_log_internal_check_op.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD32DC7B1F300182545 /* libabsl_log_internal_check_op.a */; platformFilter = ios; };
+		732B8D642DC7B23200182545 /* libabsl_log_internal_conditions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0B2DC7B1FC00182545 /* libabsl_log_internal_conditions.a */; platformFilter = ios; };
+		732B8D652DC7B23300182545 /* libabsl_log_internal_fnmatch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE12DC7B1F500182545 /* libabsl_log_internal_fnmatch.a */; platformFilter = ios; };
+		732B8D662DC7B23300182545 /* libabsl_log_internal_format.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D072DC7B1FB00182545 /* libabsl_log_internal_format.a */; platformFilter = ios; };
+		732B8D672DC7B23300182545 /* libabsl_log_internal_globals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE22DC7B1F500182545 /* libabsl_log_internal_globals.a */; platformFilter = ios; };
+		732B8D682DC7B23400182545 /* libabsl_log_internal_log_sink_set.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDF2DC7B1F400182545 /* libabsl_log_internal_log_sink_set.a */; platformFilter = ios; };
+		732B8D692DC7B23400182545 /* libabsl_log_internal_message.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE02DC7B1F500182545 /* libabsl_log_internal_message.a */; platformFilter = ios; };
+		732B8D6A2DC7B23400182545 /* libabsl_log_internal_nullguard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D122DC7B1FD00182545 /* libabsl_log_internal_nullguard.a */; platformFilter = ios; };
+		732B8D6B2DC7B23500182545 /* libabsl_log_internal_proto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF12DC7B1F700182545 /* libabsl_log_internal_proto.a */; platformFilter = ios; };
+		732B8D6C2DC7B23500182545 /* libabsl_log_severity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D232DC7B20300182545 /* libabsl_log_severity.a */; platformFilter = ios; };
+		732B8D6D2DC7B23600182545 /* libabsl_log_sink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE82DC7B1F600182545 /* libabsl_log_sink.a */; platformFilter = ios; };
+		732B8D6E2DC7B23600182545 /* libabsl_low_level_hash.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDE2DC7B1F400182545 /* libabsl_low_level_hash.a */; platformFilter = ios; };
+		732B8D6F2DC7B23600182545 /* libabsl_malloc_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D212DC7B20300182545 /* libabsl_malloc_internal.a */; platformFilter = ios; };
+		732B8D702DC7B23700182545 /* libabsl_periodic_sampler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAA2DC7B1EE00182545 /* libabsl_periodic_sampler.a */; platformFilter = ios; };
+		732B8D712DC7B23700182545 /* libabsl_poison.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D242DC7B20300182545 /* libabsl_poison.a */; platformFilter = ios; };
+		732B8D722DC7B23700182545 /* libabsl_random_distributions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFB2DC7B1F900182545 /* libabsl_random_distributions.a */; platformFilter = ios; };
+		732B8D732DC7B23800182545 /* libabsl_random_internal_distribution_test_util.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8C9F2DC7B1EC00182545 /* libabsl_random_internal_distribution_test_util.a */; platformFilter = ios; };
+		732B8D742DC7B23800182545 /* libabsl_random_internal_platform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFC2DC7B1F900182545 /* libabsl_random_internal_platform.a */; platformFilter = ios; };
+		732B8D752DC7B23900182545 /* libabsl_random_internal_pool_urbg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF72DC7B1F800182545 /* libabsl_random_internal_pool_urbg.a */; platformFilter = ios; };
+		732B8D762DC7B23900182545 /* libabsl_random_internal_randen_hwaes_impl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA02DC7B1EC00182545 /* libabsl_random_internal_randen_hwaes_impl.a */; platformFilter = ios; };
+		732B8D772DC7B23900182545 /* libabsl_random_internal_randen_hwaes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CED2DC7B1F600182545 /* libabsl_random_internal_randen_hwaes.a */; platformFilter = ios; };
+		732B8D782DC7B23A00182545 /* libabsl_random_internal_randen_slow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC42DC7B1F100182545 /* libabsl_random_internal_randen_slow.a */; platformFilter = ios; };
+		732B8D792DC7B23A00182545 /* libabsl_random_internal_randen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D012DC7B1FA00182545 /* libabsl_random_internal_randen.a */; platformFilter = ios; };
+		732B8D7A2DC7B23B00182545 /* libabsl_random_internal_seed_material.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB12DC7B1EE00182545 /* libabsl_random_internal_seed_material.a */; platformFilter = ios; };
+		732B8D7B2DC7B23B00182545 /* libabsl_random_seed_gen_exception.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE42DC7B1F500182545 /* libabsl_random_seed_gen_exception.a */; platformFilter = ios; };
+		732B8D7C2DC7B23B00182545 /* libabsl_random_seed_sequences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD92DC7B1F400182545 /* libabsl_random_seed_sequences.a */; platformFilter = ios; };
+		732B8D7D2DC7B23C00182545 /* libabsl_raw_hash_set.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D022DC7B1FA00182545 /* libabsl_raw_hash_set.a */; platformFilter = ios; };
+		732B8D7E2DC7B23C00182545 /* libabsl_raw_logging_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB72DC7B1EF00182545 /* libabsl_raw_logging_internal.a */; platformFilter = ios; };
+		732B8D7F2DC7B23D00182545 /* libabsl_scoped_set_env.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0D2DC7B1FC00182545 /* libabsl_scoped_set_env.a */; platformFilter = ios; };
+		732B8D802DC7B23D00182545 /* libabsl_spinlock_wait.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC22DC7B1F100182545 /* libabsl_spinlock_wait.a */; platformFilter = ios; };
+		732B8D812DC7B23D00182545 /* libabsl_stacktrace.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D142DC7B1FE00182545 /* libabsl_stacktrace.a */; platformFilter = ios; };
+		732B8D822DC7B23E00182545 /* libabsl_status.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D292DC7B20400182545 /* libabsl_status.a */; platformFilter = ios; };
+		732B8D832DC7B23E00182545 /* libabsl_statusor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDC2DC7B1F400182545 /* libabsl_statusor.a */; platformFilter = ios; };
+		732B8D842DC7B23F00182545 /* libabsl_str_format_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCA2DC7B1F200182545 /* libabsl_str_format_internal.a */; platformFilter = ios; };
+		732B8D852DC7B23F00182545 /* libabsl_strerror.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D262DC7B20300182545 /* libabsl_strerror.a */; platformFilter = ios; };
+		732B8D862DC7B24000182545 /* libabsl_string_view.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBE2DC7B1F000182545 /* libabsl_string_view.a */; platformFilter = ios; };
+		732B8D872DC7B24000182545 /* libabsl_strings_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB02DC7B1EE00182545 /* libabsl_strings_internal.a */; platformFilter = ios; };
+		732B8D882DC7B24100182545 /* libabsl_strings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFD2DC7B1F900182545 /* libabsl_strings.a */; platformFilter = ios; };
+		732B8D892DC7B24100182545 /* libabsl_symbolize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC82DC7B1F100182545 /* libabsl_symbolize.a */; platformFilter = ios; };
+		732B8D8A2DC7B24200182545 /* libabsl_synchronization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC72DC7B1F100182545 /* libabsl_synchronization.a */; platformFilter = ios; };
+		732B8D8B2DC7B24200182545 /* libabsl_throw_delegate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFE2DC7B1FA00182545 /* libabsl_throw_delegate.a */; platformFilter = ios; };
+		732B8D8C2DC7B24200182545 /* libabsl_time_zone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF52DC7B1F800182545 /* libabsl_time_zone.a */; platformFilter = ios; };
+		732B8D8D2DC7B24300182545 /* libabsl_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D252DC7B20300182545 /* libabsl_time.a */; platformFilter = ios; };
+		732B8D8E2DC7B24300182545 /* libabsl_utf8_for_code_point.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CEC2DC7B1F600182545 /* libabsl_utf8_for_code_point.a */; platformFilter = ios; };
+		732B8D8F2DC7B24400182545 /* libabsl_vlog_config_internal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF62DC7B1F800182545 /* libabsl_vlog_config_internal.a */; platformFilter = ios; };
+		732B8D902DC7B24400182545 /* libboost_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CEF2DC7B1F700182545 /* libboost_container.a */; platformFilter = ios; };
+		732B8D912DC7B24500182545 /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0C2DC7B1FC00182545 /* libboost_program_options.a */; platformFilter = ios; };
+		732B8D922DC7B24500182545 /* libboost_random.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D312DC7B20500182545 /* libboost_random.a */; platformFilter = ios; };
+		732B8D932DC7B24600182545 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2D2DC7B20500182545 /* libboost_regex.a */; platformFilter = ios; };
+		732B8D942DC7B24600182545 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCB2DC7B1F200182545 /* libboost_system.a */; platformFilter = ios; };
+		732B8D952DC7B24700182545 /* libbrotlicommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D272DC7B20400182545 /* libbrotlicommon.a */; platformFilter = ios; };
+		732B8D962DC7B24700182545 /* libbrotlidec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2E2DC7B20500182545 /* libbrotlidec.a */; platformFilter = ios; };
+		732B8D972DC7B24700182545 /* libbrotlienc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAF2DC7B1EE00182545 /* libbrotlienc.a */; platformFilter = ios; };
+		732B8D982DC7B24800182545 /* libbz2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1A2DC7B20200182545 /* libbz2d.a */; platformFilter = ios; };
+		732B8D992DC7B24800182545 /* libcharset.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D2F2DC7B20500182545 /* libcharset.a */; platformFilter = ios; };
+		732B8D9A2DC7B24900182545 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D302DC7B20500182545 /* libcrypto.a */; platformFilter = ios; };
+		732B8D9B2DC7B24900182545 /* libexiv2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDB2DC7B1F400182545 /* libexiv2.a */; platformFilter = ios; };
+		732B8D9C2DC7B24A00182545 /* libexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBF2DC7B1F000182545 /* libexpat.a */; platformFilter = ios; };
+		732B8D9D2DC7B24A00182545 /* libflatbuffers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D332DC7B20600182545 /* libflatbuffers.a */; platformFilter = ios; };
+		732B8D9E2DC7B24B00182545 /* libfmtd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA22DC7B1ED00182545 /* libfmtd.a */; platformFilter = ios; };
+		732B8D9F2DC7B24B00182545 /* libfontconfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF92DC7B1F900182545 /* libfontconfig.a */; platformFilter = ios; };
+		732B8DA02DC7B24C00182545 /* libfreetyped.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D222DC7B20300182545 /* libfreetyped.a */; platformFilter = ios; };
+		732B8DA12DC7B24C00182545 /* libgmock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA52DC7B1ED00182545 /* libgmock.a */; platformFilter = ios; };
+		732B8DA22DC7B24D00182545 /* libgtest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA42DC7B1ED00182545 /* libgtest.a */; platformFilter = ios; };
+		732B8DA32DC7B24D00182545 /* libhpdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBB2DC7B1F000182545 /* libhpdf.a */; platformFilter = ios; };
+		732B8DA42DC7B24E00182545 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF02DC7B1F700182545 /* libiconv.a */; platformFilter = ios; };
+		732B8DA52DC7B24E00182545 /* libinih.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA72DC7B1ED00182545 /* libinih.a */; platformFilter = ios; };
+		732B8DA62DC7B24F00182545 /* libINIReader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CFA2DC7B1F900182545 /* libINIReader.a */; platformFilter = ios; };
+		732B8DA72DC7B24F00182545 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF42DC7B1F800182545 /* libjpeg.a */; platformFilter = ios; };
+		732B8DA82DC7B24F00182545 /* liblzma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D082DC7B1FB00182545 /* liblzma.a */; platformFilter = ios; };
+		732B8DA92DC7B25000182545 /* libopencv_calib3d4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC02DC7B1F000182545 /* libopencv_calib3d4d.a */; platformFilter = ios; };
+		732B8DAA2DC7B25000182545 /* libopencv_core4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CEA2DC7B1F600182545 /* libopencv_core4d.a */; platformFilter = ios; };
+		732B8DAB2DC7B25100182545 /* libopencv_dnn4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB52DC7B1EF00182545 /* libopencv_dnn4d.a */; platformFilter = ios; };
+		732B8DAC2DC7B25100182545 /* libopencv_features2d4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0F2DC7B1FD00182545 /* libopencv_features2d4d.a */; platformFilter = ios; };
+		732B8DAD2DC7B25200182545 /* libopencv_flann4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CEE2DC7B1F700182545 /* libopencv_flann4d.a */; platformFilter = ios; };
+		732B8DAE2DC7B25200182545 /* libopencv_highgui4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CA82DC7B1ED00182545 /* libopencv_highgui4d.a */; platformFilter = ios; };
+		732B8DAF2DC7B25300182545 /* libopencv_imgcodecs4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF22DC7B1F700182545 /* libopencv_imgcodecs4d.a */; platformFilter = ios; };
+		732B8DB02DC7B25300182545 /* libopencv_imgproc4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D0E2DC7B1FD00182545 /* libopencv_imgproc4d.a */; platformFilter = ios; };
+		732B8DB12DC7B25400182545 /* libopencv_ml4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CDD2DC7B1F400182545 /* libopencv_ml4d.a */; platformFilter = ios; };
+		732B8DB22DC7B25400182545 /* libopencv_objdetect4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB22DC7B1EF00182545 /* libopencv_objdetect4d.a */; platformFilter = ios; };
+		732B8DB32DC7B25500182545 /* libopencv_photo4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD72DC7B1F300182545 /* libopencv_photo4d.a */; platformFilter = ios; };
+		732B8DB42DC7B25500182545 /* libopencv_stitching4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB62DC7B1EF00182545 /* libopencv_stitching4d.a */; platformFilter = ios; };
+		732B8DB52DC7B25500182545 /* libopencv_video4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC52DC7B1F100182545 /* libopencv_video4d.a */; platformFilter = ios; };
+		732B8DB62DC7B25600182545 /* libopencv_videoio4d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CCF2DC7B1F200182545 /* libopencv_videoio4d.a */; platformFilter = ios; };
+		732B8DB72DC7B25600182545 /* libpng16d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D092DC7B1FB00182545 /* libpng16d.a */; platformFilter = ios; };
+		732B8DB82DC7B25700182545 /* libpng16d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D092DC7B1FB00182545 /* libpng16d.a */; platformFilter = ios; };
+		732B8DB92DC7B25700182545 /* libpodofo_private.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D172DC7B20100182545 /* libpodofo_private.a */; platformFilter = ios; };
+		732B8DBA2DC7B25800182545 /* libpodofo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D152DC7B1FE00182545 /* libpodofo.a */; platformFilter = ios; };
+		732B8DBB2DC7B25800182545 /* libprotobuf-lited.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD02DC7B1F200182545 /* libprotobuf-lited.a */; platformFilter = ios; };
+		732B8DBC2DC7B25900182545 /* libprotobufd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D102DC7B1FD00182545 /* libprotobufd.a */; platformFilter = ios; };
+		732B8DBD2DC7B25900182545 /* libprotocd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D192DC7B20100182545 /* libprotocd.a */; platformFilter = ios; };
+		732B8DBE2DC7B25A00182545 /* libquirc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD82DC7B1F400182545 /* libquirc.a */; platformFilter = ios; };
+		732B8DBF2DC7B25A00182545 /* libsharpyuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CF32DC7B1F700182545 /* libsharpyuv.a */; platformFilter = ios; };
+		732B8DC02DC7B25B00182545 /* libspdlogd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1C2DC7B20200182545 /* libspdlogd.a */; platformFilter = ios; };
+		732B8DC12DC7B25B00182545 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CAD2DC7B1EE00182545 /* libsqlite3.a */; platformFilter = ios; };
+		732B8DC22DC7B25C00182545 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CE32DC7B1F500182545 /* libssl.a */; platformFilter = ios; };
+		732B8DC32DC7B25C00182545 /* libtiffd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC62DC7B1F100182545 /* libtiffd.a */; platformFilter = ios; };
+		732B8DC42DC7B25D00182545 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD12DC7B1F300182545 /* libturbojpeg.a */; platformFilter = ios; };
+		732B8DC52DC7B25D00182545 /* libutf8_range.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D322DC7B20600182545 /* libutf8_range.a */; platformFilter = ios; };
+		732B8DC62DC7B25E00182545 /* libutf8_validity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D1D2DC7B20200182545 /* libutf8_validity.a */; platformFilter = ios; };
+		732B8DC72DC7B25E00182545 /* libuuid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB82DC7B1EF00182545 /* libuuid.a */; platformFilter = ios; };
+		732B8DC82DC7B25F00182545 /* libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CB92DC7B1EF00182545 /* libwebp.a */; platformFilter = ios; };
+		732B8DC92DC7B25F00182545 /* libwebpdecoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CC12DC7B1F000182545 /* libwebpdecoder.a */; platformFilter = ios; };
+		732B8DCA2DC7B26000182545 /* libwebpdemux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D342DC7B20600182545 /* libwebpdemux.a */; platformFilter = ios; };
+		732B8DCB2DC7B26000182545 /* libwebpmux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CD52DC7B1F300182545 /* libwebpmux.a */; platformFilter = ios; };
+		732B8DCC2DC7B26100182545 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8CBA2DC7B1F000182545 /* libxml2.a */; platformFilter = ios; };
+		732B8DCD2DC7B26100182545 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B8D202DC7B20300182545 /* libz.a */; platformFilter = ios; };
+		732B91562DC7B74100182545 /* libbentleyottmann.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91502DC7B72200182545 /* libbentleyottmann.a */; platformFilter = ios; };
+		732B91572DC7B74100182545 /* libcompression_utils_portable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91402DC7B71E00182545 /* libcompression_utils_portable.a */; platformFilter = ios; };
+		732B91582DC7B74100182545 /* libdng_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91452DC7B71F00182545 /* libdng_sdk.a */; platformFilter = ios; };
+		732B91592DC7B74200182545 /* libharfbuzz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91472DC7B72000182545 /* libharfbuzz.a */; platformFilter = ios; };
+		732B915A2DC7B74200182545 /* libicu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91532DC7B72400182545 /* libicu.a */; platformFilter = ios; };
+		732B915B2DC7B74200182545 /* libpathkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91422DC7B71F00182545 /* libpathkit.a */; platformFilter = ios; };
+		732B915C2DC7B74300182545 /* libpiex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B914C2DC7B72100182545 /* libpiex.a */; platformFilter = ios; };
+		732B915D2DC7B74300182545 /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91462DC7B71F00182545 /* libpng.a */; platformFilter = ios; };
+		732B915E2DC7B74300182545 /* libskcms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91442DC7B71F00182545 /* libskcms.a */; platformFilter = ios; };
+		732B915F2DC7B74300182545 /* libskia.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91432DC7B71F00182545 /* libskia.a */; platformFilter = ios; };
+		732B91602DC7B74400182545 /* libskottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B913F2DC7B71E00182545 /* libskottie.a */; platformFilter = ios; };
+		732B91612DC7B74400182545 /* libskparagraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B914B2DC7B72100182545 /* libskparagraph.a */; platformFilter = ios; };
+		732B91622DC7B74400182545 /* libskresources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91512DC7B72200182545 /* libskresources.a */; platformFilter = ios; };
+		732B91632DC7B74500182545 /* libsksg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B913E2DC7B71E00182545 /* libsksg.a */; platformFilter = ios; };
+		732B91642DC7B74500182545 /* libskshaper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91542DC7B72500182545 /* libskshaper.a */; platformFilter = ios; };
+		732B91652DC7B74500182545 /* libskunicode_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91412DC7B71F00182545 /* libskunicode_core.a */; platformFilter = ios; };
+		732B91662DC7B74600182545 /* libskunicode_icu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B914A2DC7B72100182545 /* libskunicode_icu.a */; platformFilter = ios; };
+		732B91672DC7B74600182545 /* libsvg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91482DC7B72000182545 /* libsvg.a */; platformFilter = ios; };
+		732B91682DC7B74600182545 /* libwebp_sse41.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91552DC7B72500182545 /* libwebp_sse41.a */; platformFilter = ios; };
+		732B91692DC7B74700182545 /* libwuffs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B914F2DC7B72100182545 /* libwuffs.a */; platformFilter = ios; };
+		732B916A2DC7B74700182545 /* libzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B914D2DC7B72100182545 /* libzlib.a */; platformFilter = ios; };
+		732B917B2DC7C79800182545 /* libvulkan.1.3.296.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91782DC7C79800182545 /* libvulkan.1.3.296.xcframework */; };
+		732B917C2DC7C79900182545 /* libvulkan.1.3.296.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91782DC7C79800182545 /* libvulkan.1.3.296.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		732B917D2DC7C79900182545 /* libvulkan.1.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91792DC7C79800182545 /* libvulkan.1.xcframework */; };
+		732B917E2DC7C79900182545 /* libvulkan.1.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91792DC7C79800182545 /* libvulkan.1.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		732B917F2DC7C79A00182545 /* libvulkan.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B917A2DC7C79800182545 /* libvulkan.xcframework */; };
+		732B91802DC7C79A00182545 /* libvulkan.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 732B917A2DC7C79800182545 /* libvulkan.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		732B91812DC7C7B200182545 /* libvulkan.1.3.296.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91782DC7C79800182545 /* libvulkan.1.3.296.xcframework */; };
+		732B91822DC7C7B300182545 /* libvulkan.1.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B91792DC7C79800182545 /* libvulkan.1.xcframework */; };
+		732B91832DC7C7B300182545 /* libvulkan.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B917A2DC7C79800182545 /* libvulkan.xcframework */; };
 		7356B06B2D16D12A0019FAEB /* NoirUIListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */; };
-		737EEE7E2D4E4090003C342E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; };
+		7361F35A2DC7A8890099913A /* libpblib-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7361F3592DC7A86A0099913A /* libpblib-iOS.a */; platformFilter = ios; };
+		737EEE7E2D4E4090003C342E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; platformFilters = (macos, ); };
 		737EEEE32D4FBF95003C342E /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE22D4FBF95003C342E /* Bugsnag */; };
 		737EEEE52D4FBF95003C342E /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE42D4FBF95003C342E /* BugsnagNetworkRequestPlugin */; };
-		737EEEE72D4FC16C003C342E /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE62D4FC16C003C342E /* Bugsnag */; };
-		737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 737EEEE82D4FC16C003C342E /* BugsnagNetworkRequestPlugin */; };
+		737EEEE72D4FC16C003C342E /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = 737EEEE62D4FC16C003C342E /* Bugsnag */; };
+		737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; platformFilters = (macos, ); productRef = 737EEEE82D4FC16C003C342E /* BugsnagNetworkRequestPlugin */; };
 		7391647E2CC4F7E200703394 /* svg-templates in Resources */ = {isa = PBXBuildFile; fileRef = 7391647A2CC4F7E200703394 /* svg-templates */; };
 		7391647F2CC4F7E200703394 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = 7391647B2CC4F7E200703394 /* shaders */; };
 		739164802CC4F7E200703394 /* film-luts in Resources */ = {isa = PBXBuildFile; fileRef = 7391647C2CC4F7E200703394 /* film-luts */; };
@@ -45,7 +228,7 @@
 		73F93E6A2D87055000C388A1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA92AA0C0E3006C4108 /* Preview Assets.xcassets */; };
 		73F93E6B2D87055000C388A1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737EEE7D2D4E4090003C342E /* Info.plist */; };
 		73F93E6C2D87055000C388A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73C4ECA52AA0C0E3006C4108 /* Assets.xcassets */; };
-		73F947702D870B5300C388A1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F9476F2D870B4000C388A1 /* libiconv.tbd */; };
+		73F947702D870B5300C388A1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F9476F2D870B4000C388A1 /* libiconv.tbd */; platformFilters = (macos, ); };
 		73F948E62D870EB100C388A1 /* Bugsnag in Frameworks */ = {isa = PBXBuildFile; productRef = 73F948E52D870EB100C388A1 /* Bugsnag */; };
 		73F948E82D870EB100C388A1 /* BugsnagNetworkRequestPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 73F948E72D870EB100C388A1 /* BugsnagNetworkRequestPlugin */; };
 		73F949362D8710FE00C388A1 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 73F9476F2D870B4000C388A1 /* libiconv.tbd */; };
@@ -69,6 +252,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		732B91762DC7C57A00182545 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				732B917C2DC7C79900182545 /* libvulkan.1.3.296.xcframework in Embed Frameworks */,
+				732B917E2DC7C79900182545 /* libvulkan.1.xcframework in Embed Frameworks */,
+				732B91802DC7C79A00182545 /* libvulkan.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		73F948EC2D870F1C00C388A1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -77,16 +273,6 @@
 			files = (
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		73F949382D8711D300C388A1 /* Embed Libraries */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -98,7 +284,187 @@
 		73049EB62C162BDB009EA667 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		7321EB842C18B7F800B3D27F /* Photobook.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = Photobook.h; sourceTree = "<group>"; };
 		7321EB852C18B8E800B3D27F /* Photobook.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = Photobook.mm; sourceTree = "<group>"; };
+		732B8C9E2DC7B1EC00182545 /* libabsl_flags_commandlineflag_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_commandlineflag_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_commandlineflag_internal.a"; sourceTree = "<group>"; };
+		732B8C9F2DC7B1EC00182545 /* libabsl_random_internal_distribution_test_util.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_distribution_test_util.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_distribution_test_util.a"; sourceTree = "<group>"; };
+		732B8CA02DC7B1EC00182545 /* libabsl_random_internal_randen_hwaes_impl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_hwaes_impl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_hwaes_impl.a"; sourceTree = "<group>"; };
+		732B8CA12DC7B1EC00182545 /* libabsl_cordz_handle.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_handle.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_handle.a"; sourceTree = "<group>"; };
+		732B8CA22DC7B1ED00182545 /* libfmtd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfmtd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfmtd.a"; sourceTree = "<group>"; };
+		732B8CA32DC7B1ED00182545 /* libabsl_cordz_info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_info.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_info.a"; sourceTree = "<group>"; };
+		732B8CA42DC7B1ED00182545 /* libgtest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgtest.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libgtest.a"; sourceTree = "<group>"; };
+		732B8CA52DC7B1ED00182545 /* libgmock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmock.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libgmock.a"; sourceTree = "<group>"; };
+		732B8CA62DC7B1ED00182545 /* libabsl_city.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_city.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_city.a"; sourceTree = "<group>"; };
+		732B8CA72DC7B1ED00182545 /* libinih.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libinih.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libinih.a"; sourceTree = "<group>"; };
+		732B8CA82DC7B1ED00182545 /* libopencv_highgui4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_highgui4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_highgui4d.a"; sourceTree = "<group>"; };
+		732B8CA92DC7B1ED00182545 /* libabsl_crc_cpu_detect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_cpu_detect.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_cpu_detect.a"; sourceTree = "<group>"; };
+		732B8CAA2DC7B1EE00182545 /* libabsl_periodic_sampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_periodic_sampler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_periodic_sampler.a"; sourceTree = "<group>"; };
+		732B8CAB2DC7B1EE00182545 /* libabsl_demangle_rust.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_demangle_rust.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_demangle_rust.a"; sourceTree = "<group>"; };
+		732B8CAC2DC7B1EE00182545 /* libabsl_int128.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_int128.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_int128.a"; sourceTree = "<group>"; };
+		732B8CAD2DC7B1EE00182545 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libsqlite3.a"; sourceTree = "<group>"; };
+		732B8CAE2DC7B1EE00182545 /* libabsl_hashtablez_sampler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_hashtablez_sampler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_hashtablez_sampler.a"; sourceTree = "<group>"; };
+		732B8CAF2DC7B1EE00182545 /* libbrotlienc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlienc.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlienc.a"; sourceTree = "<group>"; };
+		732B8CB02DC7B1EE00182545 /* libabsl_strings_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strings_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strings_internal.a"; sourceTree = "<group>"; };
+		732B8CB12DC7B1EE00182545 /* libabsl_random_internal_seed_material.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_seed_material.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_seed_material.a"; sourceTree = "<group>"; };
+		732B8CB22DC7B1EF00182545 /* libopencv_objdetect4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_objdetect4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_objdetect4d.a"; sourceTree = "<group>"; };
+		732B8CB32DC7B1EF00182545 /* libabsl_flags_marshalling.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_marshalling.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_marshalling.a"; sourceTree = "<group>"; };
+		732B8CB42DC7B1EF00182545 /* libabsl_flags_usage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_usage.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_usage.a"; sourceTree = "<group>"; };
+		732B8CB52DC7B1EF00182545 /* libopencv_dnn4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_dnn4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_dnn4d.a"; sourceTree = "<group>"; };
+		732B8CB62DC7B1EF00182545 /* libopencv_stitching4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_stitching4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_stitching4d.a"; sourceTree = "<group>"; };
+		732B8CB72DC7B1EF00182545 /* libabsl_raw_logging_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_raw_logging_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_raw_logging_internal.a"; sourceTree = "<group>"; };
+		732B8CB82DC7B1EF00182545 /* libuuid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libuuid.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libuuid.a"; sourceTree = "<group>"; };
+		732B8CB92DC7B1EF00182545 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebp.a"; sourceTree = "<group>"; };
+		732B8CBA2DC7B1F000182545 /* libxml2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libxml2.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libxml2.a"; sourceTree = "<group>"; };
+		732B8CBB2DC7B1F000182545 /* libhpdf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhpdf.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libhpdf.a"; sourceTree = "<group>"; };
+		732B8CBC2DC7B1F000182545 /* libabsl_flags_reflection.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_reflection.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_reflection.a"; sourceTree = "<group>"; };
+		732B8CBD2DC7B1F000182545 /* libabsl_bad_variant_access.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_variant_access.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_variant_access.a"; sourceTree = "<group>"; };
+		732B8CBE2DC7B1F000182545 /* libabsl_string_view.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_string_view.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_string_view.a"; sourceTree = "<group>"; };
+		732B8CBF2DC7B1F000182545 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libexpat.a"; sourceTree = "<group>"; };
+		732B8CC02DC7B1F000182545 /* libopencv_calib3d4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_calib3d4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_calib3d4d.a"; sourceTree = "<group>"; };
+		732B8CC12DC7B1F000182545 /* libwebpdecoder.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdecoder.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpdecoder.a"; sourceTree = "<group>"; };
+		732B8CC22DC7B1F100182545 /* libabsl_spinlock_wait.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_spinlock_wait.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_spinlock_wait.a"; sourceTree = "<group>"; };
+		732B8CC32DC7B1F100182545 /* libabsl_log_entry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_entry.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_entry.a"; sourceTree = "<group>"; };
+		732B8CC42DC7B1F100182545 /* libabsl_random_internal_randen_slow.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_slow.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_slow.a"; sourceTree = "<group>"; };
+		732B8CC52DC7B1F100182545 /* libopencv_video4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_video4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_video4d.a"; sourceTree = "<group>"; };
+		732B8CC62DC7B1F100182545 /* libtiffd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtiffd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libtiffd.a"; sourceTree = "<group>"; };
+		732B8CC72DC7B1F100182545 /* libabsl_synchronization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_synchronization.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_synchronization.a"; sourceTree = "<group>"; };
+		732B8CC82DC7B1F100182545 /* libabsl_symbolize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_symbolize.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_symbolize.a"; sourceTree = "<group>"; };
+		732B8CC92DC7B1F200182545 /* libabsl_hash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_hash.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_hash.a"; sourceTree = "<group>"; };
+		732B8CCA2DC7B1F200182545 /* libabsl_str_format_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_str_format_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_str_format_internal.a"; sourceTree = "<group>"; };
+		732B8CCB2DC7B1F200182545 /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_system.a"; sourceTree = "<group>"; };
+		732B8CCC2DC7B1F200182545 /* libabsl_demangle_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_demangle_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_demangle_internal.a"; sourceTree = "<group>"; };
+		732B8CCD2DC7B1F200182545 /* libabsl_base.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_base.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_base.a"; sourceTree = "<group>"; };
+		732B8CCE2DC7B1F200182545 /* libabsl_failure_signal_handler.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_failure_signal_handler.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_failure_signal_handler.a"; sourceTree = "<group>"; };
+		732B8CCF2DC7B1F200182545 /* libopencv_videoio4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_videoio4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_videoio4d.a"; sourceTree = "<group>"; };
+		732B8CD02DC7B1F200182545 /* libprotobuf-lited.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libprotobuf-lited.a"; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotobuf-lited.a"; sourceTree = "<group>"; };
+		732B8CD12DC7B1F300182545 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libturbojpeg.a"; sourceTree = "<group>"; };
+		732B8CD22DC7B1F300182545 /* libabsl_flags_private_handle_accessor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_private_handle_accessor.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_private_handle_accessor.a"; sourceTree = "<group>"; };
+		732B8CD32DC7B1F300182545 /* libabsl_log_internal_check_op.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_check_op.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_check_op.a"; sourceTree = "<group>"; };
+		732B8CD42DC7B1F300182545 /* libabsl_leak_check.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_leak_check.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_leak_check.a"; sourceTree = "<group>"; };
+		732B8CD52DC7B1F300182545 /* libwebpmux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpmux.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpmux.a"; sourceTree = "<group>"; };
+		732B8CD62DC7B1F300182545 /* libabsl_cord_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cord_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cord_internal.a"; sourceTree = "<group>"; };
+		732B8CD72DC7B1F300182545 /* libopencv_photo4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_photo4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_photo4d.a"; sourceTree = "<group>"; };
+		732B8CD82DC7B1F400182545 /* libquirc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libquirc.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libquirc.a"; sourceTree = "<group>"; };
+		732B8CD92DC7B1F400182545 /* libabsl_random_seed_sequences.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_seed_sequences.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_seed_sequences.a"; sourceTree = "<group>"; };
+		732B8CDA2DC7B1F400182545 /* libabsl_cordz_functions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_functions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_functions.a"; sourceTree = "<group>"; };
+		732B8CDB2DC7B1F400182545 /* libexiv2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexiv2.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libexiv2.a"; sourceTree = "<group>"; };
+		732B8CDC2DC7B1F400182545 /* libabsl_statusor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_statusor.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_statusor.a"; sourceTree = "<group>"; };
+		732B8CDD2DC7B1F400182545 /* libopencv_ml4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_ml4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_ml4d.a"; sourceTree = "<group>"; };
+		732B8CDE2DC7B1F400182545 /* libabsl_low_level_hash.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_low_level_hash.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_low_level_hash.a"; sourceTree = "<group>"; };
+		732B8CDF2DC7B1F400182545 /* libabsl_log_internal_log_sink_set.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_log_sink_set.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_log_sink_set.a"; sourceTree = "<group>"; };
+		732B8CE02DC7B1F500182545 /* libabsl_log_internal_message.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_message.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_message.a"; sourceTree = "<group>"; };
+		732B8CE12DC7B1F500182545 /* libabsl_log_internal_fnmatch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_fnmatch.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_fnmatch.a"; sourceTree = "<group>"; };
+		732B8CE22DC7B1F500182545 /* libabsl_log_internal_globals.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_globals.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_globals.a"; sourceTree = "<group>"; };
+		732B8CE32DC7B1F500182545 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libssl.a"; sourceTree = "<group>"; };
+		732B8CE42DC7B1F500182545 /* libabsl_random_seed_gen_exception.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_seed_gen_exception.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_seed_gen_exception.a"; sourceTree = "<group>"; };
+		732B8CE52DC7B1F500182545 /* libabsl_log_initialize.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_initialize.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_initialize.a"; sourceTree = "<group>"; };
+		732B8CE62DC7B1F600182545 /* libabsl_crc32c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc32c.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc32c.a"; sourceTree = "<group>"; };
+		732B8CE72DC7B1F600182545 /* libabsl_cord.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cord.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cord.a"; sourceTree = "<group>"; };
+		732B8CE82DC7B1F600182545 /* libabsl_log_sink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_sink.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_sink.a"; sourceTree = "<group>"; };
+		732B8CE92DC7B1F600182545 /* libabsl_flags_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_internal.a"; sourceTree = "<group>"; };
+		732B8CEA2DC7B1F600182545 /* libopencv_core4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_core4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_core4d.a"; sourceTree = "<group>"; };
+		732B8CEB2DC7B1F600182545 /* libvulkan.1.3.296.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvulkan.1.3.296.dylib; path = "../../vcpkg/installed/arm64-ios/debug/lib/libvulkan.1.3.296.dylib"; sourceTree = "<group>"; };
+		732B8CEC2DC7B1F600182545 /* libabsl_utf8_for_code_point.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_utf8_for_code_point.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_utf8_for_code_point.a"; sourceTree = "<group>"; };
+		732B8CED2DC7B1F600182545 /* libabsl_random_internal_randen_hwaes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen_hwaes.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen_hwaes.a"; sourceTree = "<group>"; };
+		732B8CEE2DC7B1F700182545 /* libopencv_flann4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_flann4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_flann4d.a"; sourceTree = "<group>"; };
+		732B8CEF2DC7B1F700182545 /* libboost_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_container.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_container.a"; sourceTree = "<group>"; };
+		732B8CF02DC7B1F700182545 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libiconv.a"; sourceTree = "<group>"; };
+		732B8CF12DC7B1F700182545 /* libabsl_log_internal_proto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_proto.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_proto.a"; sourceTree = "<group>"; };
+		732B8CF22DC7B1F700182545 /* libopencv_imgcodecs4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgcodecs4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_imgcodecs4d.a"; sourceTree = "<group>"; };
+		732B8CF32DC7B1F700182545 /* libsharpyuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsharpyuv.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libsharpyuv.a"; sourceTree = "<group>"; };
+		732B8CF42DC7B1F800182545 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libjpeg.a"; sourceTree = "<group>"; };
+		732B8CF52DC7B1F800182545 /* libabsl_time_zone.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_time_zone.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_time_zone.a"; sourceTree = "<group>"; };
+		732B8CF62DC7B1F800182545 /* libabsl_vlog_config_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_vlog_config_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_vlog_config_internal.a"; sourceTree = "<group>"; };
+		732B8CF72DC7B1F800182545 /* libabsl_random_internal_pool_urbg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_pool_urbg.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_pool_urbg.a"; sourceTree = "<group>"; };
+		732B8CF82DC7B1F800182545 /* libabsl_log_globals.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_globals.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_globals.a"; sourceTree = "<group>"; };
+		732B8CF92DC7B1F900182545 /* libfontconfig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfontconfig.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfontconfig.a"; sourceTree = "<group>"; };
+		732B8CFA2DC7B1F900182545 /* libINIReader.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libINIReader.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libINIReader.a"; sourceTree = "<group>"; };
+		732B8CFB2DC7B1F900182545 /* libabsl_random_distributions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_distributions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_distributions.a"; sourceTree = "<group>"; };
+		732B8CFC2DC7B1F900182545 /* libabsl_random_internal_platform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_platform.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_platform.a"; sourceTree = "<group>"; };
+		732B8CFD2DC7B1F900182545 /* libabsl_strings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strings.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strings.a"; sourceTree = "<group>"; };
+		732B8CFE2DC7B1FA00182545 /* libabsl_throw_delegate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_throw_delegate.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_throw_delegate.a"; sourceTree = "<group>"; };
+		732B8CFF2DC7B1FA00182545 /* libabsl_exponential_biased.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_exponential_biased.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_exponential_biased.a"; sourceTree = "<group>"; };
+		732B8D002DC7B1FA00182545 /* libabsl_flags_parse.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_parse.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_parse.a"; sourceTree = "<group>"; };
+		732B8D012DC7B1FA00182545 /* libabsl_random_internal_randen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_random_internal_randen.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_random_internal_randen.a"; sourceTree = "<group>"; };
+		732B8D022DC7B1FA00182545 /* libabsl_raw_hash_set.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_raw_hash_set.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_raw_hash_set.a"; sourceTree = "<group>"; };
+		732B8D032DC7B1FA00182545 /* libabsl_flags_commandlineflag.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_commandlineflag.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_commandlineflag.a"; sourceTree = "<group>"; };
+		732B8D042DC7B1FA00182545 /* libabsl_decode_rust_punycode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_decode_rust_punycode.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_decode_rust_punycode.a"; sourceTree = "<group>"; };
+		732B8D052DC7B1FB00182545 /* libabsl_graphcycles_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_graphcycles_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_graphcycles_internal.a"; sourceTree = "<group>"; };
+		732B8D062DC7B1FB00182545 /* libabsl_log_flags.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_flags.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_flags.a"; sourceTree = "<group>"; };
+		732B8D072DC7B1FB00182545 /* libabsl_log_internal_format.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_format.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_format.a"; sourceTree = "<group>"; };
+		732B8D082DC7B1FB00182545 /* liblzma.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblzma.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/liblzma.a"; sourceTree = "<group>"; };
+		732B8D092DC7B1FB00182545 /* libpng16d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng16d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpng16d.a"; sourceTree = "<group>"; };
+		732B8D0A2DC7B1FC00182545 /* libabsl_bad_any_cast_impl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_any_cast_impl.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_any_cast_impl.a"; sourceTree = "<group>"; };
+		732B8D0B2DC7B1FC00182545 /* libabsl_log_internal_conditions.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_conditions.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_conditions.a"; sourceTree = "<group>"; };
+		732B8D0C2DC7B1FC00182545 /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_program_options.a"; sourceTree = "<group>"; };
+		732B8D0D2DC7B1FC00182545 /* libabsl_scoped_set_env.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_scoped_set_env.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_scoped_set_env.a"; sourceTree = "<group>"; };
+		732B8D0E2DC7B1FD00182545 /* libopencv_imgproc4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_imgproc4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_imgproc4d.a"; sourceTree = "<group>"; };
+		732B8D0F2DC7B1FD00182545 /* libopencv_features2d4d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopencv_features2d4d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libopencv_features2d4d.a"; sourceTree = "<group>"; };
+		732B8D102DC7B1FD00182545 /* libprotobufd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotobufd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotobufd.a"; sourceTree = "<group>"; };
+		732B8D112DC7B1FD00182545 /* libabsl_flags_usage_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_usage_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_usage_internal.a"; sourceTree = "<group>"; };
+		732B8D122DC7B1FD00182545 /* libabsl_log_internal_nullguard.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_internal_nullguard.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_internal_nullguard.a"; sourceTree = "<group>"; };
+		732B8D132DC7B1FD00182545 /* libabsl_kernel_timeout_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_kernel_timeout_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_kernel_timeout_internal.a"; sourceTree = "<group>"; };
+		732B8D142DC7B1FE00182545 /* libabsl_stacktrace.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_stacktrace.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_stacktrace.a"; sourceTree = "<group>"; };
+		732B8D152DC7B1FE00182545 /* libpodofo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpodofo.a"; sourceTree = "<group>"; };
+		732B8D162DC7B1FE00182545 /* libabsl_flags_program_name.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_program_name.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_program_name.a"; sourceTree = "<group>"; };
+		732B8D172DC7B20100182545 /* libpodofo_private.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpodofo_private.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libpodofo_private.a"; sourceTree = "<group>"; };
+		732B8D182DC7B20100182545 /* libabsl_die_if_null.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_die_if_null.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_die_if_null.a"; sourceTree = "<group>"; };
+		732B8D192DC7B20100182545 /* libprotocd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libprotocd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libprotocd.a"; sourceTree = "<group>"; };
+		732B8D1A2DC7B20200182545 /* libbz2d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbz2d.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbz2d.a"; sourceTree = "<group>"; };
+		732B8D1B2DC7B20200182545 /* libabsl_civil_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_civil_time.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_civil_time.a"; sourceTree = "<group>"; };
+		732B8D1C2DC7B20200182545 /* libspdlogd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspdlogd.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libspdlogd.a"; sourceTree = "<group>"; };
+		732B8D1D2DC7B20200182545 /* libutf8_validity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libutf8_validity.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libutf8_validity.a"; sourceTree = "<group>"; };
+		732B8D1E2DC7B20200182545 /* libabsl_flags_config.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_flags_config.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_flags_config.a"; sourceTree = "<group>"; };
+		732B8D1F2DC7B20200182545 /* libabsl_debugging_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_debugging_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_debugging_internal.a"; sourceTree = "<group>"; };
+		732B8D202DC7B20300182545 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libz.a"; sourceTree = "<group>"; };
+		732B8D212DC7B20300182545 /* libabsl_malloc_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_malloc_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_malloc_internal.a"; sourceTree = "<group>"; };
+		732B8D222DC7B20300182545 /* libfreetyped.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetyped.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libfreetyped.a"; sourceTree = "<group>"; };
+		732B8D232DC7B20300182545 /* libabsl_log_severity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_log_severity.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_log_severity.a"; sourceTree = "<group>"; };
+		732B8D242DC7B20300182545 /* libabsl_poison.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_poison.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_poison.a"; sourceTree = "<group>"; };
+		732B8D252DC7B20300182545 /* libabsl_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_time.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_time.a"; sourceTree = "<group>"; };
+		732B8D262DC7B20300182545 /* libabsl_strerror.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_strerror.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_strerror.a"; sourceTree = "<group>"; };
+		732B8D272DC7B20400182545 /* libbrotlicommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlicommon.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlicommon.a"; sourceTree = "<group>"; };
+		732B8D282DC7B20400182545 /* libabsl_cordz_sample_token.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_cordz_sample_token.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_cordz_sample_token.a"; sourceTree = "<group>"; };
+		732B8D292DC7B20400182545 /* libabsl_status.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_status.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_status.a"; sourceTree = "<group>"; };
+		732B8D2A2DC7B20400182545 /* libabsl_examine_stack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_examine_stack.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_examine_stack.a"; sourceTree = "<group>"; };
+		732B8D2B2DC7B20400182545 /* libabsl_crc_cord_state.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_cord_state.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_cord_state.a"; sourceTree = "<group>"; };
+		732B8D2C2DC7B20500182545 /* libabsl_crc_internal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_crc_internal.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_crc_internal.a"; sourceTree = "<group>"; };
+		732B8D2D2DC7B20500182545 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_regex.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_regex.a"; sourceTree = "<group>"; };
+		732B8D2E2DC7B20500182545 /* libbrotlidec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbrotlidec.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libbrotlidec.a"; sourceTree = "<group>"; };
+		732B8D2F2DC7B20500182545 /* libcharset.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcharset.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libcharset.a"; sourceTree = "<group>"; };
+		732B8D302DC7B20500182545 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libcrypto.a"; sourceTree = "<group>"; };
+		732B8D312DC7B20500182545 /* libboost_random.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_random.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libboost_random.a"; sourceTree = "<group>"; };
+		732B8D322DC7B20600182545 /* libutf8_range.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libutf8_range.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libutf8_range.a"; sourceTree = "<group>"; };
+		732B8D332DC7B20600182545 /* libflatbuffers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libflatbuffers.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libflatbuffers.a"; sourceTree = "<group>"; };
+		732B8D342DC7B20600182545 /* libwebpdemux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebpdemux.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libwebpdemux.a"; sourceTree = "<group>"; };
+		732B8D352DC7B20600182545 /* libabsl_bad_optional_access.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libabsl_bad_optional_access.a; path = "../../vcpkg/installed/arm64-ios/debug/lib/libabsl_bad_optional_access.a"; sourceTree = "<group>"; };
+		732B913E2DC7B71E00182545 /* libsksg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsksg.a; path = ios/libsksg.a; sourceTree = "<group>"; };
+		732B913F2DC7B71E00182545 /* libskottie.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskottie.a; path = ios/libskottie.a; sourceTree = "<group>"; };
+		732B91402DC7B71E00182545 /* libcompression_utils_portable.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcompression_utils_portable.a; path = ios/libcompression_utils_portable.a; sourceTree = "<group>"; };
+		732B91412DC7B71F00182545 /* libskunicode_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_core.a; path = ios/libskunicode_core.a; sourceTree = "<group>"; };
+		732B91422DC7B71F00182545 /* libpathkit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpathkit.a; path = ios/libpathkit.a; sourceTree = "<group>"; };
+		732B91432DC7B71F00182545 /* libskia.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskia.a; path = ios/libskia.a; sourceTree = "<group>"; };
+		732B91442DC7B71F00182545 /* libskcms.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskcms.a; path = ios/libskcms.a; sourceTree = "<group>"; };
+		732B91452DC7B71F00182545 /* libdng_sdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdng_sdk.a; path = ios/libdng_sdk.a; sourceTree = "<group>"; };
+		732B91462DC7B71F00182545 /* libpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng.a; path = ios/libpng.a; sourceTree = "<group>"; };
+		732B91472DC7B72000182545 /* libharfbuzz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libharfbuzz.a; path = ios/libharfbuzz.a; sourceTree = "<group>"; };
+		732B91482DC7B72000182545 /* libsvg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsvg.a; path = ios/libsvg.a; sourceTree = "<group>"; };
+		732B91492DC7B72000182545 /* libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp.a; path = ios/libwebp.a; sourceTree = "<group>"; };
+		732B914A2DC7B72100182545 /* libskunicode_icu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskunicode_icu.a; path = ios/libskunicode_icu.a; sourceTree = "<group>"; };
+		732B914B2DC7B72100182545 /* libskparagraph.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskparagraph.a; path = ios/libskparagraph.a; sourceTree = "<group>"; };
+		732B914C2DC7B72100182545 /* libpiex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpiex.a; path = ios/libpiex.a; sourceTree = "<group>"; };
+		732B914D2DC7B72100182545 /* libzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzlib.a; path = ios/libzlib.a; sourceTree = "<group>"; };
+		732B914E2DC7B72100182545 /* libexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libexpat.a; path = ios/libexpat.a; sourceTree = "<group>"; };
+		732B914F2DC7B72100182545 /* libwuffs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwuffs.a; path = ios/libwuffs.a; sourceTree = "<group>"; };
+		732B91502DC7B72200182545 /* libbentleyottmann.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbentleyottmann.a; path = ios/libbentleyottmann.a; sourceTree = "<group>"; };
+		732B91512DC7B72200182545 /* libskresources.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskresources.a; path = ios/libskresources.a; sourceTree = "<group>"; };
+		732B91522DC7B72200182545 /* libjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjpeg.a; path = ios/libjpeg.a; sourceTree = "<group>"; };
+		732B91532DC7B72400182545 /* libicu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libicu.a; path = ios/libicu.a; sourceTree = "<group>"; };
+		732B91542DC7B72500182545 /* libskshaper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libskshaper.a; path = ios/libskshaper.a; sourceTree = "<group>"; };
+		732B91552DC7B72500182545 /* libwebp_sse41.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwebp_sse41.a; path = ios/libwebp_sse41.a; sourceTree = "<group>"; };
+		732B91782DC7C79800182545 /* libvulkan.1.3.296.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libvulkan.1.3.296.xcframework; path = "common-debug/libvulkan.1.3.296.xcframework"; sourceTree = "<group>"; };
+		732B91792DC7C79800182545 /* libvulkan.1.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libvulkan.1.xcframework; path = "common-debug/libvulkan.1.xcframework"; sourceTree = "<group>"; };
+		732B917A2DC7C79800182545 /* libvulkan.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libvulkan.xcframework; path = "common-debug/libvulkan.xcframework"; sourceTree = "<group>"; };
 		7356B06A2D16D11D0019FAEB /* NoirUIListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoirUIListener.swift; sourceTree = "<group>"; };
+		7361F3592DC7A86A0099913A /* libpblib-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libpblib-iOS.a"; path = "../../PB/Debug/arm64-ios/libpblib-iOS.a"; sourceTree = "<group>"; };
 		737EEE7D2D4E4090003C342E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7391647A2CC4F7E200703394 /* svg-templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "svg-templates"; path = "../../PB/pb-assets/svg-templates"; sourceTree = "<group>"; };
 		7391647B2CC4F7E200703394 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = "../../PB/pb-assets/shaders"; sourceTree = "<group>"; };
@@ -123,21 +489,209 @@
 		73F948E92D870F1C00C388A1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		73F97C462D88B41C00C388A1 /* Exceptions for "macos-debug" folder in "Embed Libraries" phase from "PhotoBook" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			attributesByRelativePath = {
-				libvulkan.1.3.296.dylib = (CodeSignOnCopy, );
-				libvulkan.1.dylib = (CodeSignOnCopy, );
-				libvulkan.dylib = (CodeSignOnCopy, );
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7361F3572DC7A7760099913A /* Exceptions for "macos" folder in "PhotoBook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			platformFiltersByRelativePath = {
+				"libbentleyottmann-macos.a" = (macos, );
+				"libcompression_utils_portable-macos.a" = (macos, );
+				"libdng_sdk-macos.a" = (macos, );
+				"libexpat-macos.a" = (macos, );
+				"libharfbuzz-macos.a" = (macos, );
+				"libicu-macos.a" = (macos, );
+				"libjpeg-macos.a" = (macos, );
+				"libpathkit-macos.a" = (macos, );
+				"libpiex-macos.a" = (macos, );
+				"libpng-macos.a" = (macos, );
+				"libskcms-macos.a" = (macos, );
+				"libskia-macos.a" = (macos, );
+				"libskottie-macos.a" = (macos, );
+				"libskparagraph-macos.a" = (macos, );
+				"libskresources-macos.a" = (macos, );
+				"libsksg-macos.a" = (macos, );
+				"libskshaper-macos.a" = (macos, );
+				"libskunicode_core-macos.a" = (macos, );
+				"libskunicode_icu-macos.a" = (macos, );
+				"libsvg-macos.a" = (macos, );
+				"libwebp-macos.a" = (macos, );
+				"libwebp_sse41-macos.a" = (macos, );
+				"libwuffs-macos.a" = (macos, );
+				"libzlib-macos.a" = (macos, );
 			};
-			buildPhase = 73F949382D8711D300C388A1 /* Embed Libraries */;
+			target = 73C4EC9D2AA0C0E1006C4108 /* PhotoBook */;
+		};
+		7361F3582DC7A7840099913A /* Exceptions for "macos-debug" folder in "PhotoBook" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				libvulkan.1.3.296.dylib,
 				libvulkan.1.dylib,
 				libvulkan.dylib,
 			);
+			platformFiltersByRelativePath = {
+				"libINIReader-macos.a" = (macos, );
+				"libabsl_bad_any_cast_impl-macos.a" = (macos, );
+				"libabsl_bad_optional_access-macos.a" = (macos, );
+				"libabsl_bad_variant_access-macos.a" = (macos, );
+				"libabsl_base-macos.a" = (macos, );
+				"libabsl_city-macos.a" = (macos, );
+				"libabsl_civil_time-macos.a" = (macos, );
+				"libabsl_cord-macos.a" = (macos, );
+				"libabsl_cord_internal-macos.a" = (macos, );
+				"libabsl_cordz_functions-macos.a" = (macos, );
+				"libabsl_cordz_handle-macos.a" = (macos, );
+				"libabsl_cordz_info-macos.a" = (macos, );
+				"libabsl_cordz_sample_token-macos.a" = (macos, );
+				"libabsl_crc32c-macos.a" = (macos, );
+				"libabsl_crc_cord_state-macos.a" = (macos, );
+				"libabsl_crc_cpu_detect-macos.a" = (macos, );
+				"libabsl_crc_internal-macos.a" = (macos, );
+				"libabsl_debugging_internal-macos.a" = (macos, );
+				"libabsl_decode_rust_punycode-macos.a" = (macos, );
+				"libabsl_demangle_internal-macos.a" = (macos, );
+				"libabsl_demangle_rust-macos.a" = (macos, );
+				"libabsl_die_if_null-macos.a" = (macos, );
+				"libabsl_examine_stack-macos.a" = (macos, );
+				"libabsl_exponential_biased-macos.a" = (macos, );
+				"libabsl_failure_signal_handler-macos.a" = (macos, );
+				"libabsl_flags_commandlineflag-macos.a" = (macos, );
+				"libabsl_flags_commandlineflag_internal-macos.a" = (macos, );
+				"libabsl_flags_config-macos.a" = (macos, );
+				"libabsl_flags_internal-macos.a" = (macos, );
+				"libabsl_flags_marshalling-macos.a" = (macos, );
+				"libabsl_flags_parse-macos.a" = (macos, );
+				"libabsl_flags_private_handle_accessor-macos.a" = (macos, );
+				"libabsl_flags_program_name-macos.a" = (macos, );
+				"libabsl_flags_reflection-macos.a" = (macos, );
+				"libabsl_flags_usage-macos.a" = (macos, );
+				"libabsl_flags_usage_internal-macos.a" = (macos, );
+				"libabsl_graphcycles_internal-macos.a" = (macos, );
+				"libabsl_hash-macos.a" = (macos, );
+				"libabsl_hashtablez_sampler-macos.a" = (macos, );
+				"libabsl_int128-macos.a" = (macos, );
+				"libabsl_kernel_timeout_internal-macos.a" = (macos, );
+				"libabsl_leak_check-macos.a" = (macos, );
+				"libabsl_log_entry-macos.a" = (macos, );
+				"libabsl_log_flags-macos.a" = (macos, );
+				"libabsl_log_globals-macos.a" = (macos, );
+				"libabsl_log_initialize-macos.a" = (macos, );
+				"libabsl_log_internal_check_op-macos.a" = (macos, );
+				"libabsl_log_internal_conditions-macos.a" = (macos, );
+				"libabsl_log_internal_fnmatch-macos.a" = (macos, );
+				"libabsl_log_internal_format-macos.a" = (macos, );
+				"libabsl_log_internal_globals-macos.a" = (macos, );
+				"libabsl_log_internal_log_sink_set-macos.a" = (macos, );
+				"libabsl_log_internal_message-macos.a" = (macos, );
+				"libabsl_log_internal_nullguard-macos.a" = (macos, );
+				"libabsl_log_internal_proto-macos.a" = (macos, );
+				"libabsl_log_severity-macos.a" = (macos, );
+				"libabsl_log_sink-macos.a" = (macos, );
+				"libabsl_low_level_hash-macos.a" = (macos, );
+				"libabsl_malloc_internal-macos.a" = (macos, );
+				"libabsl_periodic_sampler-macos.a" = (macos, );
+				"libabsl_poison-macos.a" = (macos, );
+				"libabsl_random_distributions-macos.a" = (macos, );
+				"libabsl_random_internal_distribution_test_util-macos.a" = (macos, );
+				"libabsl_random_internal_platform-macos.a" = (macos, );
+				"libabsl_random_internal_pool_urbg-macos.a" = (macos, );
+				"libabsl_random_internal_randen-macos.a" = (macos, );
+				"libabsl_random_internal_randen_hwaes-macos.a" = (macos, );
+				"libabsl_random_internal_randen_hwaes_impl-macos.a" = (macos, );
+				"libabsl_random_internal_randen_slow-macos.a" = (macos, );
+				"libabsl_random_internal_seed_material-macos.a" = (macos, );
+				"libabsl_random_seed_gen_exception-macos.a" = (macos, );
+				"libabsl_random_seed_sequences-macos.a" = (macos, );
+				"libabsl_raw_hash_set-macos.a" = (macos, );
+				"libabsl_raw_logging_internal-macos.a" = (macos, );
+				"libabsl_scoped_set_env-macos.a" = (macos, );
+				"libabsl_spinlock_wait-macos.a" = (macos, );
+				"libabsl_stacktrace-macos.a" = (macos, );
+				"libabsl_status-macos.a" = (macos, );
+				"libabsl_statusor-macos.a" = (macos, );
+				"libabsl_str_format_internal-macos.a" = (macos, );
+				"libabsl_strerror-macos.a" = (macos, );
+				"libabsl_string_view-macos.a" = (macos, );
+				"libabsl_strings-macos.a" = (macos, );
+				"libabsl_strings_internal-macos.a" = (macos, );
+				"libabsl_symbolize-macos.a" = (macos, );
+				"libabsl_synchronization-macos.a" = (macos, );
+				"libabsl_throw_delegate-macos.a" = (macos, );
+				"libabsl_time-macos.a" = (macos, );
+				"libabsl_time_zone-macos.a" = (macos, );
+				"libabsl_utf8_for_code_point-macos.a" = (macos, );
+				"libabsl_vlog_config_internal-macos.a" = (macos, );
+				"libboost_container-macos.a" = (macos, );
+				"libboost_program_options-macos.a" = (macos, );
+				"libboost_random-macos.a" = (macos, );
+				"libboost_regex-macos.a" = (macos, );
+				"libboost_system-macos.a" = (macos, );
+				"libbrotlicommon-macos.a" = (macos, );
+				"libbrotlidec-macos.a" = (macos, );
+				"libbrotlienc-macos.a" = (macos, );
+				"libbz2d-macos.a" = (macos, );
+				"libcrypto-macos.a" = (macos, );
+				"libexiv2-macos.a" = (macos, );
+				"libexpat-macos.a" = (macos, );
+				"libflatbuffers-macos.a" = (macos, );
+				"libfmtd-macos.a" = (macos, );
+				"libfontconfig-macos.a" = (macos, );
+				"libfreetyped-macos.a" = (macos, );
+				"libgmock-macos.a" = (macos, );
+				"libgtest-macos.a" = (macos, );
+				"libharfbuzz-macos.a" = (macos, );
+				"libharfbuzz-subset-macos.a" = (macos, );
+				"libhpdf-macos.a" = (macos, );
+				"libicudata-macos.a" = (macos, );
+				"libicui18n-macos.a" = (macos, );
+				"libicuio-macos.a" = (macos, );
+				"libicuuc-macos.a" = (macos, );
+				"libinih-macos.a" = (macos, );
+				"libintl-macos.a" = (macos, );
+				"libjpeg-macos.a" = (macos, );
+				"liblzma-macos.a" = (macos, );
+				"libopencv_calib3d4d-macos.a" = (macos, );
+				"libopencv_core4d-macos.a" = (macos, );
+				"libopencv_dnn4d-macos.a" = (macos, );
+				"libopencv_features2d4d-macos.a" = (macos, );
+				"libopencv_flann4d-macos.a" = (macos, );
+				"libopencv_highgui4d-macos.a" = (macos, );
+				"libopencv_imgcodecs4d-macos.a" = (macos, );
+				"libopencv_imgproc4d-macos.a" = (macos, );
+				"libopencv_ml4d-macos.a" = (macos, );
+				"libopencv_objdetect4d-macos.a" = (macos, );
+				"libopencv_photo4d-macos.a" = (macos, );
+				"libopencv_stitching4d-macos.a" = (macos, );
+				"libopencv_video4d-macos.a" = (macos, );
+				"libopencv_videoio4d-macos.a" = (macos, );
+				"libpblib-Darwin-macos.a" = (macos, );
+				"libpkgconf-macos.a" = (macos, );
+				"libpng-macos.a" = (macos, );
+				"libpng16d-macos.a" = (macos, );
+				"libpodofo-macos.a" = (macos, );
+				"libpodofo_private-macos.a" = (macos, );
+				"libprotobuf-lited-macos.a" = (macos, );
+				"libprotobufd-macos.a" = (macos, );
+				"libprotocd-macos.a" = (macos, );
+				"libquirc-macos.a" = (macos, );
+				"libsharpyuv-macos.a" = (macos, );
+				"libspdlogd-macos.a" = (macos, );
+				"libsqlite3-macos.a" = (macos, );
+				"libssl-macos.a" = (macos, );
+				"libtiffd-macos.a" = (macos, );
+				"libturbojpeg-macos.a" = (macos, );
+				"libutf8_range-macos.a" = (macos, );
+				"libutf8_validity-macos.a" = (macos, );
+				"libwebp-macos.a" = (macos, );
+				"libwebpdecoder-macos.a" = (macos, );
+				"libwebpdemux-macos.a" = (macos, );
+				"libwebpmux-macos.a" = (macos, );
+				"libxml2-macos.a" = (macos, );
+				"libz-macos.a" = (macos, );
+			};
+			target = 73C4EC9D2AA0C0E1006C4108 /* PhotoBook */;
 		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 		73F97C4A2D88B43100C388A1 /* Exceptions for "macos-release" folder in "Embed Frameworks" phase from "PhotoBook-Release" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
@@ -217,13 +771,16 @@
 		};
 		73F93FC32D87079C00C388A1 /* macos */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7361F3572DC7A7760099913A /* Exceptions for "macos" folder in "PhotoBook" target */,
+			);
 			path = macos;
 			sourceTree = "<group>";
 		};
 		73F97A5E2D88B3C900C388A1 /* macos-debug */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				73F97C462D88B41C00C388A1 /* Exceptions for "macos-debug" folder in "Embed Libraries" phase from "PhotoBook" target */,
+				7361F3582DC7A7840099913A /* Exceptions for "macos-debug" folder in "PhotoBook" target */,
 			);
 			path = "macos-debug";
 			sourceTree = "<group>";
@@ -243,12 +800,192 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				732B8D702DC7B23700182545 /* libabsl_periodic_sampler.a in Frameworks */,
+				732B8DAB2DC7B25100182545 /* libopencv_dnn4d.a in Frameworks */,
+				732B8D4A2DC7B22900182545 /* libabsl_die_if_null.a in Frameworks */,
+				732B8DA62DC7B24F00182545 /* libINIReader.a in Frameworks */,
+				732B8DBC2DC7B25900182545 /* libprotobufd.a in Frameworks */,
+				732B915A2DC7B74200182545 /* libicu.a in Frameworks */,
+				732B8D9D2DC7B24A00182545 /* libflatbuffers.a in Frameworks */,
+				732B8D652DC7B23300182545 /* libabsl_log_internal_fnmatch.a in Frameworks */,
+				732B8DB22DC7B25400182545 /* libopencv_objdetect4d.a in Frameworks */,
+				732B8D7F2DC7B23D00182545 /* libabsl_scoped_set_env.a in Frameworks */,
+				732B8DA72DC7B24F00182545 /* libjpeg.a in Frameworks */,
+				732B8D9E2DC7B24B00182545 /* libfmtd.a in Frameworks */,
+				732B8D642DC7B23200182545 /* libabsl_log_internal_conditions.a in Frameworks */,
+				732B8D462DC7B22800182545 /* libabsl_debugging_internal.a in Frameworks */,
+				732B8DC62DC7B25E00182545 /* libutf8_validity.a in Frameworks */,
+				732B8DAA2DC7B25000182545 /* libopencv_core4d.a in Frameworks */,
+				732B8D562DC7B22D00182545 /* libabsl_flags_reflection.a in Frameworks */,
+				732B8DB72DC7B25600182545 /* libpng16d.a in Frameworks */,
+				732B8DB92DC7B25700182545 /* libpodofo_private.a in Frameworks */,
+				732B8D492DC7B22900182545 /* libabsl_demangle_rust.a in Frameworks */,
+				732B8DA52DC7B24E00182545 /* libinih.a in Frameworks */,
+				732B8D532DC7B22C00182545 /* libabsl_flags_parse.a in Frameworks */,
+				732B8D7C2DC7B23B00182545 /* libabsl_random_seed_sequences.a in Frameworks */,
+				732B8DA02DC7B24C00182545 /* libfreetyped.a in Frameworks */,
+				732B8D9B2DC7B24900182545 /* libexiv2.a in Frameworks */,
+				732B91692DC7B74700182545 /* libwuffs.a in Frameworks */,
+				732B91662DC7B74600182545 /* libskunicode_icu.a in Frameworks */,
+				732B915C2DC7B74300182545 /* libpiex.a in Frameworks */,
+				732B91812DC7C7B200182545 /* libvulkan.1.3.296.xcframework in Frameworks */,
+				732B8DA82DC7B24F00182545 /* liblzma.a in Frameworks */,
+				732B8D4F2DC7B22B00182545 /* libabsl_flags_commandlineflag.a in Frameworks */,
+				732B8DAF2DC7B25300182545 /* libopencv_imgcodecs4d.a in Frameworks */,
+				732B8D802DC7B23D00182545 /* libabsl_spinlock_wait.a in Frameworks */,
+				732B8D432DC7B22700182545 /* libabsl_crc_cpu_detect.a in Frameworks */,
+				732B8DB42DC7B25500182545 /* libopencv_stitching4d.a in Frameworks */,
+				732B8DA12DC7B24C00182545 /* libgmock.a in Frameworks */,
+				732B8D7A2DC7B23B00182545 /* libabsl_random_internal_seed_material.a in Frameworks */,
+				732B8D5A2DC7B22E00182545 /* libabsl_hash.a in Frameworks */,
+				732B8DA22DC7B24D00182545 /* libgtest.a in Frameworks */,
+				732B8D772DC7B23900182545 /* libabsl_random_internal_randen_hwaes.a in Frameworks */,
+				732B8D692DC7B23400182545 /* libabsl_log_internal_message.a in Frameworks */,
+				732B8DBD2DC7B25900182545 /* libprotocd.a in Frameworks */,
+				732B8D3D2DC7B22500182545 /* libabsl_cord.a in Frameworks */,
+				732B8DC12DC7B25B00182545 /* libsqlite3.a in Frameworks */,
+				732B8D8A2DC7B24200182545 /* libabsl_synchronization.a in Frameworks */,
+				732B8DBF2DC7B25A00182545 /* libsharpyuv.a in Frameworks */,
+				732B8D962DC7B24700182545 /* libbrotlidec.a in Frameworks */,
+				732B8DCC2DC7B26100182545 /* libxml2.a in Frameworks */,
+				732B8D3C2DC7B22500182545 /* libabsl_cord_internal.a in Frameworks */,
+				732B8D7D2DC7B23C00182545 /* libabsl_raw_hash_set.a in Frameworks */,
+				732B8D602DC7B23100182545 /* libabsl_log_flags.a in Frameworks */,
+				732B8D5F2DC7B23000182545 /* libabsl_log_entry.a in Frameworks */,
+				732B8D372DC7B22300182545 /* libabsl_bad_optional_access.a in Frameworks */,
+				732B8D882DC7B24100182545 /* libabsl_strings.a in Frameworks */,
+				732B8D422DC7B22700182545 /* libabsl_crc_cord_state.a in Frameworks */,
+				732B8D3F2DC7B22600182545 /* libabsl_cordz_handle.a in Frameworks */,
+				732B8D822DC7B23E00182545 /* libabsl_status.a in Frameworks */,
+				732B8D7B2DC7B23B00182545 /* libabsl_random_seed_gen_exception.a in Frameworks */,
+				732B8DC52DC7B25D00182545 /* libutf8_range.a in Frameworks */,
+				732B8DB12DC7B25400182545 /* libopencv_ml4d.a in Frameworks */,
+				732B8D392DC7B22400182545 /* libabsl_base.a in Frameworks */,
+				732B8D902DC7B24400182545 /* libboost_container.a in Frameworks */,
+				732B8D3E2DC7B22500182545 /* libabsl_cordz_functions.a in Frameworks */,
+				732B91562DC7B74100182545 /* libbentleyottmann.a in Frameworks */,
+				732B8D912DC7B24500182545 /* libboost_program_options.a in Frameworks */,
+				732B8D842DC7B23F00182545 /* libabsl_str_format_internal.a in Frameworks */,
+				732B8D982DC7B24800182545 /* libbz2d.a in Frameworks */,
+				732B8D872DC7B24000182545 /* libabsl_strings_internal.a in Frameworks */,
+				732B91592DC7B74200182545 /* libharfbuzz.a in Frameworks */,
+				732B8D6B2DC7B23500182545 /* libabsl_log_internal_proto.a in Frameworks */,
+				732B8D402DC7B22600182545 /* libabsl_cordz_info.a in Frameworks */,
+				732B8D502DC7B22B00182545 /* libabsl_flags_config.a in Frameworks */,
+				732B8DC92DC7B25F00182545 /* libwebpdecoder.a in Frameworks */,
+				732B91682DC7B74600182545 /* libwebp_sse41.a in Frameworks */,
+				732B8DB02DC7B25300182545 /* libopencv_imgproc4d.a in Frameworks */,
+				732B8D852DC7B23F00182545 /* libabsl_strerror.a in Frameworks */,
+				732B8D4C2DC7B22A00182545 /* libabsl_exponential_biased.a in Frameworks */,
+				732B8DAD2DC7B25200182545 /* libopencv_flann4d.a in Frameworks */,
+				732B8D452DC7B22800182545 /* libabsl_crc32c.a in Frameworks */,
+				732B8D9F2DC7B24B00182545 /* libfontconfig.a in Frameworks */,
+				732B8D552DC7B22D00182545 /* libabsl_flags_program_name.a in Frameworks */,
+				732B8D622DC7B23100182545 /* libabsl_log_initialize.a in Frameworks */,
+				732B8DA42DC7B24E00182545 /* libiconv.a in Frameworks */,
+				732B8D4B2DC7B22900182545 /* libabsl_examine_stack.a in Frameworks */,
+				732B8D582DC7B22E00182545 /* libabsl_flags_usage.a in Frameworks */,
+				732B8D8C2DC7B24200182545 /* libabsl_time_zone.a in Frameworks */,
+				732B8DB62DC7B25600182545 /* libopencv_videoio4d.a in Frameworks */,
+				732B8DB82DC7B25700182545 /* libpng16d.a in Frameworks */,
+				732B8D792DC7B23A00182545 /* libabsl_random_internal_randen.a in Frameworks */,
+				732B8DC72DC7B25E00182545 /* libuuid.a in Frameworks */,
+				732B8D5B2DC7B22F00182545 /* libabsl_hashtablez_sampler.a in Frameworks */,
+				732B8DB52DC7B25500182545 /* libopencv_video4d.a in Frameworks */,
+				732B8D482DC7B22800182545 /* libabsl_demangle_internal.a in Frameworks */,
+				732B8D672DC7B23300182545 /* libabsl_log_internal_globals.a in Frameworks */,
+				732B91572DC7B74100182545 /* libcompression_utils_portable.a in Frameworks */,
+				732B91632DC7B74500182545 /* libsksg.a in Frameworks */,
+				732B91612DC7B74400182545 /* libskparagraph.a in Frameworks */,
+				732B91822DC7C7B300182545 /* libvulkan.1.xcframework in Frameworks */,
+				732B91642DC7B74500182545 /* libskshaper.a in Frameworks */,
+				732B917B2DC7C79800182545 /* libvulkan.1.3.296.xcframework in Frameworks */,
+				732B91582DC7B74100182545 /* libdng_sdk.a in Frameworks */,
+				732B91622DC7B74400182545 /* libskresources.a in Frameworks */,
+				732B91652DC7B74500182545 /* libskunicode_core.a in Frameworks */,
+				732B91832DC7C7B300182545 /* libvulkan.xcframework in Frameworks */,
+				732B915E2DC7B74300182545 /* libskcms.a in Frameworks */,
+				732B917D2DC7C79900182545 /* libvulkan.1.xcframework in Frameworks */,
+				732B8D542DC7B22C00182545 /* libabsl_flags_private_handle_accessor.a in Frameworks */,
+				732B8D9A2DC7B24900182545 /* libcrypto.a in Frameworks */,
+				732B8D742DC7B23800182545 /* libabsl_random_internal_platform.a in Frameworks */,
+				732B8D5E2DC7B23000182545 /* libabsl_leak_check.a in Frameworks */,
+				732B91672DC7B74600182545 /* libsvg.a in Frameworks */,
+				732B8DC42DC7B25D00182545 /* libturbojpeg.a in Frameworks */,
+				732B8D712DC7B23700182545 /* libabsl_poison.a in Frameworks */,
+				732B8DCD2DC7B26100182545 /* libz.a in Frameworks */,
+				732B8D512DC7B22B00182545 /* libabsl_flags_internal.a in Frameworks */,
+				732B8D942DC7B24600182545 /* libboost_system.a in Frameworks */,
+				732B8D812DC7B23D00182545 /* libabsl_stacktrace.a in Frameworks */,
+				732B8D5D2DC7B23000182545 /* libabsl_kernel_timeout_internal.a in Frameworks */,
+				732B8D5C2DC7B22F00182545 /* libabsl_int128.a in Frameworks */,
+				732B8D442DC7B22700182545 /* libabsl_crc_internal.a in Frameworks */,
+				732B8DBB2DC7B25800182545 /* libprotobuf-lited.a in Frameworks */,
+				732B8D9C2DC7B24A00182545 /* libexpat.a in Frameworks */,
+				732B8D8B2DC7B24200182545 /* libabsl_throw_delegate.a in Frameworks */,
+				732B8D8E2DC7B24300182545 /* libabsl_utf8_for_code_point.a in Frameworks */,
+				732B8D862DC7B24000182545 /* libabsl_string_view.a in Frameworks */,
+				732B8D572DC7B22D00182545 /* libabsl_flags_usage_internal.a in Frameworks */,
+				732B8D522DC7B22C00182545 /* libabsl_flags_marshalling.a in Frameworks */,
+				732B8D732DC7B23800182545 /* libabsl_random_internal_distribution_test_util.a in Frameworks */,
+				732B915F2DC7B74300182545 /* libskia.a in Frameworks */,
+				732B915B2DC7B74200182545 /* libpathkit.a in Frameworks */,
+				732B8D722DC7B23700182545 /* libabsl_random_distributions.a in Frameworks */,
+				732B8D682DC7B23400182545 /* libabsl_log_internal_log_sink_set.a in Frameworks */,
+				732B8DB32DC7B25500182545 /* libopencv_photo4d.a in Frameworks */,
+				732B8D4D2DC7B22A00182545 /* libabsl_failure_signal_handler.a in Frameworks */,
+				732B8D6F2DC7B23600182545 /* libabsl_malloc_internal.a in Frameworks */,
+				732B8D8D2DC7B24300182545 /* libabsl_time.a in Frameworks */,
+				732B8DAE2DC7B25200182545 /* libopencv_highgui4d.a in Frameworks */,
+				732B8D752DC7B23900182545 /* libabsl_random_internal_pool_urbg.a in Frameworks */,
+				732B8D922DC7B24500182545 /* libboost_random.a in Frameworks */,
+				732B8D992DC7B24800182545 /* libcharset.a in Frameworks */,
+				732B8DCB2DC7B26000182545 /* libwebpmux.a in Frameworks */,
+				732B8D412DC7B22600182545 /* libabsl_cordz_sample_token.a in Frameworks */,
+				732B916A2DC7B74700182545 /* libzlib.a in Frameworks */,
+				732B8D382DC7B22400182545 /* libabsl_bad_variant_access.a in Frameworks */,
+				732B8D832DC7B23E00182545 /* libabsl_statusor.a in Frameworks */,
+				732B8D8F2DC7B24400182545 /* libabsl_vlog_config_internal.a in Frameworks */,
+				732B8D972DC7B24700182545 /* libbrotlienc.a in Frameworks */,
+				732B8DA32DC7B24D00182545 /* libhpdf.a in Frameworks */,
+				732B8D932DC7B24600182545 /* libboost_regex.a in Frameworks */,
+				732B8D362DC7B22300182545 /* libabsl_bad_any_cast_impl.a in Frameworks */,
+				732B8D6E2DC7B23600182545 /* libabsl_low_level_hash.a in Frameworks */,
+				732B8DAC2DC7B25100182545 /* libopencv_features2d4d.a in Frameworks */,
+				732B8DC02DC7B25B00182545 /* libspdlogd.a in Frameworks */,
+				732B8DC22DC7B25C00182545 /* libssl.a in Frameworks */,
+				732B8D3B2DC7B22400182545 /* libabsl_civil_time.a in Frameworks */,
+				732B8DBE2DC7B25A00182545 /* libquirc.a in Frameworks */,
+				732B8D662DC7B23300182545 /* libabsl_log_internal_format.a in Frameworks */,
+				732B8D472DC7B22800182545 /* libabsl_decode_rust_punycode.a in Frameworks */,
+				732B8D6C2DC7B23500182545 /* libabsl_log_severity.a in Frameworks */,
+				732B8D612DC7B23100182545 /* libabsl_log_globals.a in Frameworks */,
+				732B917F2DC7C79A00182545 /* libvulkan.xcframework in Frameworks */,
+				732B8D892DC7B24100182545 /* libabsl_symbolize.a in Frameworks */,
+				732B8DA92DC7B25000182545 /* libopencv_calib3d4d.a in Frameworks */,
+				732B8D6A2DC7B23400182545 /* libabsl_log_internal_nullguard.a in Frameworks */,
+				732B8DC32DC7B25C00182545 /* libtiffd.a in Frameworks */,
+				732B8D952DC7B24700182545 /* libbrotlicommon.a in Frameworks */,
+				732B8D4E2DC7B22A00182545 /* libabsl_flags_commandlineflag_internal.a in Frameworks */,
+				732B8DC82DC7B25F00182545 /* libwebp.a in Frameworks */,
+				732B8D7E2DC7B23C00182545 /* libabsl_raw_logging_internal.a in Frameworks */,
+				732B8D762DC7B23900182545 /* libabsl_random_internal_randen_hwaes_impl.a in Frameworks */,
+				732B8D592DC7B22E00182545 /* libabsl_graphcycles_internal.a in Frameworks */,
+				732B8DCA2DC7B26000182545 /* libwebpdemux.a in Frameworks */,
+				732B915D2DC7B74300182545 /* libpng.a in Frameworks */,
+				732B8D3A2DC7B22400182545 /* libabsl_city.a in Frameworks */,
 				737EEEE72D4FC16C003C342E /* Bugsnag in Frameworks */,
+				7361F35A2DC7A8890099913A /* libpblib-iOS.a in Frameworks */,
 				737EEEE92D4FC16C003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
+				732B91602DC7B74400182545 /* libskottie.a in Frameworks */,
+				732B8D632DC7B23200182545 /* libabsl_log_internal_check_op.a in Frameworks */,
 				73049EB72C162BDB009EA667 /* OpenCL.framework in Frameworks */,
 				737EEEE52D4FBF95003C342E /* BugsnagNetworkRequestPlugin in Frameworks */,
+				732B8D782DC7B23A00182545 /* libabsl_random_internal_randen_slow.a in Frameworks */,
 				73F947702D870B5300C388A1 /* libiconv.tbd in Frameworks */,
+				732B8DBA2DC7B25800182545 /* libpodofo.a in Frameworks */,
 				737EEEE32D4FBF95003C342E /* Bugsnag in Frameworks */,
+				732B8D6D2DC7B23600182545 /* libabsl_log_sink.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +1019,186 @@
 		73049E222C16271C009EA667 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				732B917A2DC7C79800182545 /* libvulkan.xcframework */,
+				732B91792DC7C79800182545 /* libvulkan.1.xcframework */,
+				732B91782DC7C79800182545 /* libvulkan.1.3.296.xcframework */,
+				732B91502DC7B72200182545 /* libbentleyottmann.a */,
+				732B91402DC7B71E00182545 /* libcompression_utils_portable.a */,
+				732B91452DC7B71F00182545 /* libdng_sdk.a */,
+				732B914E2DC7B72100182545 /* libexpat.a */,
+				732B91472DC7B72000182545 /* libharfbuzz.a */,
+				732B91532DC7B72400182545 /* libicu.a */,
+				732B91522DC7B72200182545 /* libjpeg.a */,
+				732B91422DC7B71F00182545 /* libpathkit.a */,
+				732B914C2DC7B72100182545 /* libpiex.a */,
+				732B91462DC7B71F00182545 /* libpng.a */,
+				732B91442DC7B71F00182545 /* libskcms.a */,
+				732B91432DC7B71F00182545 /* libskia.a */,
+				732B913F2DC7B71E00182545 /* libskottie.a */,
+				732B914B2DC7B72100182545 /* libskparagraph.a */,
+				732B91512DC7B72200182545 /* libskresources.a */,
+				732B913E2DC7B71E00182545 /* libsksg.a */,
+				732B91542DC7B72500182545 /* libskshaper.a */,
+				732B91412DC7B71F00182545 /* libskunicode_core.a */,
+				732B914A2DC7B72100182545 /* libskunicode_icu.a */,
+				732B91482DC7B72000182545 /* libsvg.a */,
+				732B91492DC7B72000182545 /* libwebp.a */,
+				732B91552DC7B72500182545 /* libwebp_sse41.a */,
+				732B914F2DC7B72100182545 /* libwuffs.a */,
+				732B914D2DC7B72100182545 /* libzlib.a */,
+				732B8D0A2DC7B1FC00182545 /* libabsl_bad_any_cast_impl.a */,
+				732B8D352DC7B20600182545 /* libabsl_bad_optional_access.a */,
+				732B8CBD2DC7B1F000182545 /* libabsl_bad_variant_access.a */,
+				732B8CCD2DC7B1F200182545 /* libabsl_base.a */,
+				732B8CA62DC7B1ED00182545 /* libabsl_city.a */,
+				732B8D1B2DC7B20200182545 /* libabsl_civil_time.a */,
+				732B8CE72DC7B1F600182545 /* libabsl_cord.a */,
+				732B8CD62DC7B1F300182545 /* libabsl_cord_internal.a */,
+				732B8CDA2DC7B1F400182545 /* libabsl_cordz_functions.a */,
+				732B8CA12DC7B1EC00182545 /* libabsl_cordz_handle.a */,
+				732B8CA32DC7B1ED00182545 /* libabsl_cordz_info.a */,
+				732B8D282DC7B20400182545 /* libabsl_cordz_sample_token.a */,
+				732B8D2B2DC7B20400182545 /* libabsl_crc_cord_state.a */,
+				732B8CA92DC7B1ED00182545 /* libabsl_crc_cpu_detect.a */,
+				732B8D2C2DC7B20500182545 /* libabsl_crc_internal.a */,
+				732B8CE62DC7B1F600182545 /* libabsl_crc32c.a */,
+				732B8D1F2DC7B20200182545 /* libabsl_debugging_internal.a */,
+				732B8D042DC7B1FA00182545 /* libabsl_decode_rust_punycode.a */,
+				732B8CCC2DC7B1F200182545 /* libabsl_demangle_internal.a */,
+				732B8CAB2DC7B1EE00182545 /* libabsl_demangle_rust.a */,
+				732B8D182DC7B20100182545 /* libabsl_die_if_null.a */,
+				732B8D2A2DC7B20400182545 /* libabsl_examine_stack.a */,
+				732B8CFF2DC7B1FA00182545 /* libabsl_exponential_biased.a */,
+				732B8CCE2DC7B1F200182545 /* libabsl_failure_signal_handler.a */,
+				732B8D032DC7B1FA00182545 /* libabsl_flags_commandlineflag.a */,
+				732B8C9E2DC7B1EC00182545 /* libabsl_flags_commandlineflag_internal.a */,
+				732B8D1E2DC7B20200182545 /* libabsl_flags_config.a */,
+				732B8CE92DC7B1F600182545 /* libabsl_flags_internal.a */,
+				732B8CB32DC7B1EF00182545 /* libabsl_flags_marshalling.a */,
+				732B8D002DC7B1FA00182545 /* libabsl_flags_parse.a */,
+				732B8CD22DC7B1F300182545 /* libabsl_flags_private_handle_accessor.a */,
+				732B8D162DC7B1FE00182545 /* libabsl_flags_program_name.a */,
+				732B8CBC2DC7B1F000182545 /* libabsl_flags_reflection.a */,
+				732B8CB42DC7B1EF00182545 /* libabsl_flags_usage.a */,
+				732B8D112DC7B1FD00182545 /* libabsl_flags_usage_internal.a */,
+				732B8D052DC7B1FB00182545 /* libabsl_graphcycles_internal.a */,
+				732B8CC92DC7B1F200182545 /* libabsl_hash.a */,
+				732B8CAE2DC7B1EE00182545 /* libabsl_hashtablez_sampler.a */,
+				732B8CAC2DC7B1EE00182545 /* libabsl_int128.a */,
+				732B8D132DC7B1FD00182545 /* libabsl_kernel_timeout_internal.a */,
+				732B8CD42DC7B1F300182545 /* libabsl_leak_check.a */,
+				732B8CC32DC7B1F100182545 /* libabsl_log_entry.a */,
+				732B8D062DC7B1FB00182545 /* libabsl_log_flags.a */,
+				732B8CF82DC7B1F800182545 /* libabsl_log_globals.a */,
+				732B8CE52DC7B1F500182545 /* libabsl_log_initialize.a */,
+				732B8CD32DC7B1F300182545 /* libabsl_log_internal_check_op.a */,
+				732B8D0B2DC7B1FC00182545 /* libabsl_log_internal_conditions.a */,
+				732B8CE12DC7B1F500182545 /* libabsl_log_internal_fnmatch.a */,
+				732B8D072DC7B1FB00182545 /* libabsl_log_internal_format.a */,
+				732B8CE22DC7B1F500182545 /* libabsl_log_internal_globals.a */,
+				732B8CDF2DC7B1F400182545 /* libabsl_log_internal_log_sink_set.a */,
+				732B8CE02DC7B1F500182545 /* libabsl_log_internal_message.a */,
+				732B8D122DC7B1FD00182545 /* libabsl_log_internal_nullguard.a */,
+				732B8CF12DC7B1F700182545 /* libabsl_log_internal_proto.a */,
+				732B8D232DC7B20300182545 /* libabsl_log_severity.a */,
+				732B8CE82DC7B1F600182545 /* libabsl_log_sink.a */,
+				732B8CDE2DC7B1F400182545 /* libabsl_low_level_hash.a */,
+				732B8D212DC7B20300182545 /* libabsl_malloc_internal.a */,
+				732B8CAA2DC7B1EE00182545 /* libabsl_periodic_sampler.a */,
+				732B8D242DC7B20300182545 /* libabsl_poison.a */,
+				732B8CFB2DC7B1F900182545 /* libabsl_random_distributions.a */,
+				732B8C9F2DC7B1EC00182545 /* libabsl_random_internal_distribution_test_util.a */,
+				732B8CFC2DC7B1F900182545 /* libabsl_random_internal_platform.a */,
+				732B8CF72DC7B1F800182545 /* libabsl_random_internal_pool_urbg.a */,
+				732B8D012DC7B1FA00182545 /* libabsl_random_internal_randen.a */,
+				732B8CED2DC7B1F600182545 /* libabsl_random_internal_randen_hwaes.a */,
+				732B8CA02DC7B1EC00182545 /* libabsl_random_internal_randen_hwaes_impl.a */,
+				732B8CC42DC7B1F100182545 /* libabsl_random_internal_randen_slow.a */,
+				732B8CB12DC7B1EE00182545 /* libabsl_random_internal_seed_material.a */,
+				732B8CE42DC7B1F500182545 /* libabsl_random_seed_gen_exception.a */,
+				732B8CD92DC7B1F400182545 /* libabsl_random_seed_sequences.a */,
+				732B8D022DC7B1FA00182545 /* libabsl_raw_hash_set.a */,
+				732B8CB72DC7B1EF00182545 /* libabsl_raw_logging_internal.a */,
+				732B8D0D2DC7B1FC00182545 /* libabsl_scoped_set_env.a */,
+				732B8CC22DC7B1F100182545 /* libabsl_spinlock_wait.a */,
+				732B8D142DC7B1FE00182545 /* libabsl_stacktrace.a */,
+				732B8D292DC7B20400182545 /* libabsl_status.a */,
+				732B8CDC2DC7B1F400182545 /* libabsl_statusor.a */,
+				732B8CCA2DC7B1F200182545 /* libabsl_str_format_internal.a */,
+				732B8D262DC7B20300182545 /* libabsl_strerror.a */,
+				732B8CBE2DC7B1F000182545 /* libabsl_string_view.a */,
+				732B8CFD2DC7B1F900182545 /* libabsl_strings.a */,
+				732B8CB02DC7B1EE00182545 /* libabsl_strings_internal.a */,
+				732B8CC82DC7B1F100182545 /* libabsl_symbolize.a */,
+				732B8CC72DC7B1F100182545 /* libabsl_synchronization.a */,
+				732B8CFE2DC7B1FA00182545 /* libabsl_throw_delegate.a */,
+				732B8D252DC7B20300182545 /* libabsl_time.a */,
+				732B8CF52DC7B1F800182545 /* libabsl_time_zone.a */,
+				732B8CEC2DC7B1F600182545 /* libabsl_utf8_for_code_point.a */,
+				732B8CF62DC7B1F800182545 /* libabsl_vlog_config_internal.a */,
+				732B8CEF2DC7B1F700182545 /* libboost_container.a */,
+				732B8D0C2DC7B1FC00182545 /* libboost_program_options.a */,
+				732B8D312DC7B20500182545 /* libboost_random.a */,
+				732B8D2D2DC7B20500182545 /* libboost_regex.a */,
+				732B8CCB2DC7B1F200182545 /* libboost_system.a */,
+				732B8D272DC7B20400182545 /* libbrotlicommon.a */,
+				732B8D2E2DC7B20500182545 /* libbrotlidec.a */,
+				732B8CAF2DC7B1EE00182545 /* libbrotlienc.a */,
+				732B8D1A2DC7B20200182545 /* libbz2d.a */,
+				732B8D2F2DC7B20500182545 /* libcharset.a */,
+				732B8D302DC7B20500182545 /* libcrypto.a */,
+				732B8CDB2DC7B1F400182545 /* libexiv2.a */,
+				732B8CBF2DC7B1F000182545 /* libexpat.a */,
+				732B8D332DC7B20600182545 /* libflatbuffers.a */,
+				732B8CA22DC7B1ED00182545 /* libfmtd.a */,
+				732B8CF92DC7B1F900182545 /* libfontconfig.a */,
+				732B8D222DC7B20300182545 /* libfreetyped.a */,
+				732B8CA52DC7B1ED00182545 /* libgmock.a */,
+				732B8CA42DC7B1ED00182545 /* libgtest.a */,
+				732B8CBB2DC7B1F000182545 /* libhpdf.a */,
+				732B8CF02DC7B1F700182545 /* libiconv.a */,
+				732B8CA72DC7B1ED00182545 /* libinih.a */,
+				732B8CFA2DC7B1F900182545 /* libINIReader.a */,
+				732B8CF42DC7B1F800182545 /* libjpeg.a */,
+				732B8D082DC7B1FB00182545 /* liblzma.a */,
+				732B8CC02DC7B1F000182545 /* libopencv_calib3d4d.a */,
+				732B8CEA2DC7B1F600182545 /* libopencv_core4d.a */,
+				732B8CB52DC7B1EF00182545 /* libopencv_dnn4d.a */,
+				732B8D0F2DC7B1FD00182545 /* libopencv_features2d4d.a */,
+				732B8CEE2DC7B1F700182545 /* libopencv_flann4d.a */,
+				732B8CA82DC7B1ED00182545 /* libopencv_highgui4d.a */,
+				732B8CF22DC7B1F700182545 /* libopencv_imgcodecs4d.a */,
+				732B8D0E2DC7B1FD00182545 /* libopencv_imgproc4d.a */,
+				732B8CDD2DC7B1F400182545 /* libopencv_ml4d.a */,
+				732B8CB22DC7B1EF00182545 /* libopencv_objdetect4d.a */,
+				732B8CD72DC7B1F300182545 /* libopencv_photo4d.a */,
+				732B8CB62DC7B1EF00182545 /* libopencv_stitching4d.a */,
+				732B8CC52DC7B1F100182545 /* libopencv_video4d.a */,
+				732B8CCF2DC7B1F200182545 /* libopencv_videoio4d.a */,
+				732B8D092DC7B1FB00182545 /* libpng16d.a */,
+				732B8D152DC7B1FE00182545 /* libpodofo.a */,
+				732B8D172DC7B20100182545 /* libpodofo_private.a */,
+				732B8CD02DC7B1F200182545 /* libprotobuf-lited.a */,
+				732B8D102DC7B1FD00182545 /* libprotobufd.a */,
+				732B8D192DC7B20100182545 /* libprotocd.a */,
+				732B8CD82DC7B1F400182545 /* libquirc.a */,
+				732B8CF32DC7B1F700182545 /* libsharpyuv.a */,
+				732B8D1C2DC7B20200182545 /* libspdlogd.a */,
+				732B8CAD2DC7B1EE00182545 /* libsqlite3.a */,
+				732B8CE32DC7B1F500182545 /* libssl.a */,
+				732B8CC62DC7B1F100182545 /* libtiffd.a */,
+				732B8CD12DC7B1F300182545 /* libturbojpeg.a */,
+				732B8D322DC7B20600182545 /* libutf8_range.a */,
+				732B8D1D2DC7B20200182545 /* libutf8_validity.a */,
+				732B8CB82DC7B1EF00182545 /* libuuid.a */,
+				732B8CEB2DC7B1F600182545 /* libvulkan.1.3.296.dylib */,
+				732B8CB92DC7B1EF00182545 /* libwebp.a */,
+				732B8CC12DC7B1F000182545 /* libwebpdecoder.a */,
+				732B8D342DC7B20600182545 /* libwebpdemux.a */,
+				732B8CD52DC7B1F300182545 /* libwebpmux.a */,
+				732B8CBA2DC7B1F000182545 /* libxml2.a */,
+				732B8D202DC7B20300182545 /* libz.a */,
+				7361F3592DC7A86A0099913A /* libpblib-iOS.a */,
 				73F948E92D870F1C00C388A1 /* XCTest.framework */,
 				73F9476F2D870B4000C388A1 /* libiconv.tbd */,
 				73F93FC32D87079C00C388A1 /* macos */,
@@ -387,7 +1304,7 @@
 				73C4EC9A2AA0C0E1006C4108 /* Sources */,
 				73C4EC9B2AA0C0E1006C4108 /* Frameworks */,
 				73C4EC9C2AA0C0E1006C4108 /* Resources */,
-				73F949382D8711D300C388A1 /* Embed Libraries */,
+				732B91762DC7C57A00182545 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -711,7 +1628,7 @@
 					"../../vcpkg/installed/x64-osx/include/opencv4",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
-					"../../pb/arm64-ios",
+					"../../pb/Debug/arm64-ios",
 					"../../vcpkg/installed/x64-ios/debug/lib",
 					"../../pb/third-party/ios/skia/x86_64",
 				);
@@ -837,11 +1754,13 @@
 					"$(PROJECT_DIR)/macos-release",
 					"$(PROJECT_DIR)/macos",
 					"$(PROJECT_DIR)/macos-debug",
+					"$(PROJECT_DIR)/ios",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = (
-					"$(PROJECT_DIR)/macos",
+					"$(PROJECT_DIR)../../../vcpkg/installed/arm64-ios/debug/lib/",
+					"$(PROJECT_DIR)/ios",
 					"$(SDKROOT)/usr/lib/i18n",
-					"$(PROJECT_DIR)/macos-debug",
+					"$(PROJECT_DIR)/ios-debug",
 				);
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=arm64]" = "";
 				"LIBRARY_SEARCH_PATHS[sdk=macosx*][arch=x86_64]" = (
@@ -903,6 +1822,7 @@
 					"$(PROJECT_DIR)/macos-release",
 					"$(PROJECT_DIR)/macos",
 					"$(PROJECT_DIR)/macos-debug",
+					"$(PROJECT_DIR)/ios",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "";
 				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "";

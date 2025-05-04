@@ -54,6 +54,7 @@ struct UnstagedPhotoLine: View
                     ForEach(self.model.list.indices, id: \.self) { index in
                         if let fileName = self.model.list[index].resources().small
                         {
+#if os(macOS)
                             if let nsImage = NSImage(contentsOfFile: fileName) {
                                 Image(nsImage: nsImage)
                                     .cornerRadius(10)
@@ -119,6 +120,7 @@ struct UnstagedPhotoLine: View
                             } else {
                                 Text("Image not found")
                             }
+#endif
                         }
                     }
                 }

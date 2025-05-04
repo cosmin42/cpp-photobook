@@ -169,8 +169,11 @@ struct DashboardView: View, PhotobookUIListener {
     func onImageCopied(imageId: String, image: FrontendImage){}
     
     func onCollageCreated(image: FrontendImage){}
-    
+#if os(macOS)
     func onLutAppliedInMemory(imageId: String, image: NSImage) {}
+#else
+    func onLutAppliedInMemory(imageId: String, image: UIImage) {}
+#endif
     
     func onLutAppliedOnDiskInplace(imageId: String) {}
     

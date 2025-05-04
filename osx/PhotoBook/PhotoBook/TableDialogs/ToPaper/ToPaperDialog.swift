@@ -30,7 +30,7 @@ struct ToPaperDialog: View {
                     Text("Image")
                     Text("Resize type")
                     Text("Background Color")
-                    
+#if os(macOS)
                     ForEach(Array(model.images.keys), id: \.self) { key in
                         if let currentImage = model.images[key],
                            let fileName = currentImage.image.resources().small,
@@ -74,6 +74,7 @@ struct ToPaperDialog: View {
                             ))
                         }
                     }
+#endif
                 }
             }
             HStack {

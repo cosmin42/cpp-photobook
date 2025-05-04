@@ -8,7 +8,12 @@
 #ifndef Photobook_h
 #define Photobook_h
 
+#if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#else
+#import <UIKit/UIKit.h>
+#endif
+
 
 #include "PaperSettings.h"
 #include "CollageItem.h"
@@ -27,7 +32,11 @@
 - (void)onImageMapped:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onImageCopied:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onCollageCreated:(FrontendImage*)image;
+#if TARGET_OS_OSX
 - (void)onLutAppliedInMemory:(NSString*)imageId image:(NSImage*)image;
+#else
+- (void)onLutAppliedInMemory:(NSString*)imageId image:(UIImage*)image;
+#endif
 - (void)onLutAppliedOnDiskInplace:(NSString*)imageId;
 - (void)onLutAppliedOnDisk:(NSString*)imageId image:(FrontendImage*)image;
 - (void)onEffectsApplied:(NSString*)imageId image:(FrontendImage*)image;
@@ -59,11 +68,19 @@
 - (void) addImportFolder:(NSString*)root;
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
+#if TARGET_OS_OSX
 - (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, NSColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
+#else
+- (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, UIColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes;
+#endif
 - (void) copyImagesToDpl:(NSDictionary<NSString*, FrontendImage*>*)images;
 - (NSString*) getThumbnailsPath;
 - (void) exportAlbum:(NSString*)path name:(NSString*)name exportPdf:(BOOL)exportPdf exportPdfOptimized:(BOOL)exportPdfOptimized exportJpg:(BOOL)exportJpg;
+#if TARGET_OS_OSX
 - (NSString*) applyLuInMemory:(NSImage*)image lutIndex:(unsigned)lutIndex;
+#else
+- (NSString*) applyLuInMemory:(UIImage*)image lutIndex:(unsigned)lutIndex;
+#endif
 - (NSString*) getText:(NSString*)key;
 - (void) loadProject:(NSString*)projectId;
 - (void) saveProject;

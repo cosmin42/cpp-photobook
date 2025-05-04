@@ -66,7 +66,7 @@ struct MediaList: View
                 // Remove media button
                 Button(action: {
                     print("Remove media tapped")
-
+                    
                     let maybeIndex = model.selectedIndex()
                     if let index = maybeIndex
                     {
@@ -130,6 +130,7 @@ struct MediaList: View
     }
     
     private func openImportMediaBrowser() {
+#if os(macOS)
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
@@ -144,5 +145,6 @@ struct MediaList: View
                 print("Folder picker was cancelled")
             }
         }
+#endif
     }
 }

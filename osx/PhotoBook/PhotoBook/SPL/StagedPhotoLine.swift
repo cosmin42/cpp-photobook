@@ -26,7 +26,7 @@ class StagedPhotoLineModel: ObservableObject
     @Published public var list: [FrontendImage] = []
     @Published public var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
-
+    
     public func move(fromOffsets:IndexSet, toOffset:UInt?)
     {
         if let toOffset = toOffset
@@ -99,6 +99,7 @@ struct StagedPhotoLine: View
                     ForEach(self.model.list.indices, id: \.self) { index in
                         if let fileName = self.model.list[index].resources().small
                         {
+#if os(macOS)
                             if let nsImage = NSImage(contentsOfFile: fileName) {
                                 Image(nsImage: nsImage)
                                     .cornerRadius(10)
@@ -155,6 +156,7 @@ struct StagedPhotoLine: View
                             } else {
                                 Text("Image not found")
                             }
+#endif
                         }
                     }
                 }
