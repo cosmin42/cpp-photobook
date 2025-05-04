@@ -88,3 +88,7 @@ ninja.png
 
 *.xcsettings
 osx/PhotoBook/PhotoBook.xcodeproj/xcuserdata/cosminmihai.xcuserdatad/xcdebugger/
+
+osx/PhotoBook/common-debug/*
+osx/PhotoBook/ios-debug/*
+osx/PhotoBook/ios/*
