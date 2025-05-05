@@ -86,6 +86,30 @@ struct CollagesGrid: View
                             } else {
                                 Text("Image not found")
                             }
+#else
+                            if let uiImage = UIImage(contentsOfFile: fileName) {
+                                VStack
+                                {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 80)
+                                        .cornerRadius(10)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(model.selectedIndex == index ? Color.white : Color.clear, lineWidth: 1)
+                                        )
+                                        .padding(4)
+                                        .onTapGesture {
+                                            self.model.selectedIndex = index
+                                            self.model.makeCollageDisabled = !self.model.collagePossible()
+                                            self.model.previewDisabled = self.model.makeCollageDisabled
+                                        }
+                                    Text(self.model.images[index].name)
+                                }
+                            } else {
+                                Text("Image not found")
+                            }
 #endif
                         }
                     }

@@ -39,7 +39,8 @@ struct MediaList: View
     @State private var frameSize:CGSize
     @ObservedObject var model: MediaListModel
     
-#if os(ipadOS)
+#if os(macOS)
+#else
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
 #endif
@@ -70,6 +71,28 @@ struct MediaList: View
                 .frame(alignment: .leading)
                 .buttonStyle(PlainButtonStyle())
                 .help("Add Folder")
+                
+                // Remove media button
+                Button(action: {
+                    print("Remove media tapped")
+                    
+                    let maybeIndex = model.selectedIndex()
+                    if let index = maybeIndex
+                    {
+                        model.removeSelected()
+                        model.onRemoveImages(UInt32(index))
+                    }
+                }) {
+                    Image(systemName: "trash")
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(Color.MainFontColor)
+                        .background(Color.clear)
+                }
+                .frame(alignment: .leading)
+                .buttonStyle(PlainButtonStyle())
+                .disabled(model.list.isEmpty)
+                .help("Remove Group")
 #else
                 PhotosPicker(
                     selection: $selectedItems,
@@ -78,11 +101,12 @@ struct MediaList: View
                     photoLibrary: .shared()) {
                         Image(systemName: "plus")
                             .scaledToFit()
-                            .frame(width: 64, height: 64)
+                            .frame(width: 56, height: 56)
                             .foregroundColor(Color.MainFontColor)
+                            .background(Color.ButtonBackgroundColor)
+                            .cornerRadius(8)
                     }
                     .padding()
-#endif
                 
                 // Remove media button
                 Button(action: {
@@ -99,15 +123,23 @@ struct MediaList: View
                         .scaledToFit()
                         .frame(width: 56, height: 56)
                         .foregroundColor(Color.MainFontColor)
-                        .background(Color.clear)
+                        .background(Color.RemoveButtonBackground)
+                        .cornerRadius(8)
                 }
                 .frame(alignment: .leading)
                 .buttonStyle(PlainButtonStyle())
                 .disabled(model.list.isEmpty)
                 .help("Remove Group")
+#endif
                 
                 Spacer()
             }
+#if os(macOS)
+#else
+            Divider()
+                .background(Color.BorderColor)
+                .padding(.horizontal, 50)
+#endif
             ScrollView {
                 ForEach(self.model.list.indices, id: \.self) { index in
                     HStack{
