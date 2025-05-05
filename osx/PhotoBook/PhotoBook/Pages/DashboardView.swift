@@ -51,11 +51,10 @@ struct DashboardView: View, PhotobookUIListener {
         _paperPpiText = State(initialValue: String(self.paperSetting.ppi))
     }
     
-    //var photobook: Photobook
     var body: some View {
         GeometryReader { geometry in
             HStack {
-                HStack {
+                ZStack {
                     Button(action: {
                         isNewProjectDialogVisible = true
                     }) {
@@ -69,7 +68,11 @@ struct DashboardView: View, PhotobookUIListener {
                     .cornerRadius(8)
                     .sheet(isPresented: $isNewProjectDialogVisible) {
                         // Dialog content
+#if os(macOS)
                         NewProjectDialog(isVisible: $isNewProjectDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
+#else
+                        NewProjectDialogIpad(isVisible: $isNewProjectDialogVisible, selectedOption: $selectedOption, paperWidthText: $paperWidthText, paperHeightText: $paperHeightText, paperPpiText:$paperPpiText, paperSettings: $paperSetting, photobook: $photobook, options: options)
+#endif
                     }
                 }
                 .frame(width: geometry.size.width * NoirConstants.GoldenRatioPercentHead)
