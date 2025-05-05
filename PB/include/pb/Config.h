@@ -32,7 +32,7 @@ static constexpr int MEDIUM_THUMBNAIL_HEIGHT = 530;
 static constexpr int CANVAS_MIN_MAX_WIDTH = 438;
 static constexpr int CANVAS_MIN_MAX_HEIGHT = 310;
 
-static constexpr unsigned    THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
+static constexpr unsigned THUMBNAIL_THREADPOOL_THREAD_COUNT = 4;
 
 // Fix separator
 static constexpr const char *PHOTO_TIMELINE_DEFAULT_IMAGE =
@@ -134,7 +134,17 @@ const std::vector<std::string> HAPPY_WORDS = {
     "Spry",         "Snug",       "Jovial",        "Untroubled"};
 #endif
 
-static constexpr const char *SERIALIZATION_VERSION="1.0.0";
+const std::vector<std::string> RANDOM_FOLDERS_NAMES = {
+    "CrimsonOrbit",  "ZebraNotes",      "QuantumSoup",    "EchoMist",
+    "VelvetCircuit", "DustyLighthouse", "GlitchGarden",   "FrostedPixel",
+    "TurboMango",    "WhisperNest",     "BlanketRadar",   "MarbleTune",
+    "SilentForge",   "NimbusBox",       "JellyVector",    "WaffleEngine",
+    "NeonTundra",    "CactusDrive",     "OrbitMoss",      "SnailSync",
+    "PlasmaCrate",   "BambooMaze",      "CrookedLantern", "TangoFog",
+    "PixelHatch",    "SoapBinary",      "MossyAnchor",    "CherryByte",
+    "EchoCabin",     "PaperVortex"};
+
+static constexpr const char *SERIALIZATION_VERSION = "1.0.0";
 
 } // namespace OneConfig
 

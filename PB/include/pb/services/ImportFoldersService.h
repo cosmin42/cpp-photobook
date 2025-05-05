@@ -59,6 +59,8 @@ public:
 
   void addImportFolder(Path path);
 
+  void importImagesByIndiviaulPaths(std::vector<Path> paths);
+
   void onPicturesSearchFinished(PBDev::ThumbnailsJobId jobId, Path root,
                                 std::vector<Path> searchResults) override;
 

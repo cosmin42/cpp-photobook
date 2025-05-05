@@ -43,33 +43,49 @@ void ImportFoldersService::addImportFolder(Path path)
   UNUSED(stopSource);
 }
 
+// TODO: check for duplicates names
+void ImportFoldersService::importImagesByIndiviaulPaths(std::vector<Path> paths)
+{
+  PBDev::ThumbnailsJobId jobId(RuntimeUUID::newUUID());
+
+  std::random_device              rd;
+  std::mt19937                    gen(rd());
+  std::uniform_int_distribution<> dis(
+      0, OneConfig::RANDOM_FOLDERS_NAMES.size() - 1);
+  int   randomIndex = dis(gen);
+  auto &randomName = OneConfig::RANDOM_FOLDERS_NAMES[randomIndex];
+
+  mRootPaths[jobId] = randomName;
+
+  onPicturesSearchFinished(jobId, randomName, paths);
+}
+
 std::unordered_map<PBDev::ImageId, GenericImagePtr, boost::hash<PBDev::ImageId>>
 ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
 {
-    std::unordered_map<PBDev::ImageId, GenericImagePtr,
-    boost::hash<PBDev::ImageId>>
-    placeholders;
-    
-    for (auto &path : searchResults) {
-        PBDev::ImageId imageId(RuntimeUUID::newUUID());
-        
-        GenericImagePtr placeholder;
-        if (std::filesystem::is_directory(path))
-        {
-            placeholder = std::make_shared<TextImageV2>(TextImageV2::defaultHash(), path.stem().string());
-        }
-        else if (std::filesystem::is_regular_file(path))
-        {
-            placeholder = std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
-        }
-        else
-        {
-            PBDev::basicAssert(false);
-        }
-        placeholders.emplace(imageId, placeholder);
+  std::unordered_map<PBDev::ImageId, GenericImagePtr,
+                     boost::hash<PBDev::ImageId>>
+      placeholders;
+
+  for (auto &path : searchResults) {
+    PBDev::ImageId imageId(RuntimeUUID::newUUID());
+
+    GenericImagePtr placeholder;
+    if (std::filesystem::is_directory(path)) {
+      placeholder = std::make_shared<TextImageV2>(TextImageV2::defaultHash(),
+                                                  path.stem().string());
     }
-    
-    return placeholders;
+    else if (std::filesystem::is_regular_file(path)) {
+      placeholder =
+          std::make_shared<RegularImageV2>(RegularImageV2::defaultHash(), path);
+    }
+    else {
+      PBDev::basicAssert(false);
+    }
+    placeholders.emplace(imageId, placeholder);
+  }
+
+  return placeholders;
 }
 
 void ImportFoldersService::onPicturesSearchFinished(
@@ -80,7 +96,10 @@ void ImportFoldersService::onPicturesSearchFinished(
     mListener->onImportError(PBDev::Error() << PB::ErrorCode::NoImages);
   }
   else {
-    mSearches.erase(jobId);
+    if (mSearches.contains(jobId)) {
+      mSearches.erase(jobId);
+    }
+
     auto placeholders = createPlaceholders(searchResults);
     mListener->onSearchingFinished(root, placeholders);
     startThumbnailsCreation(jobId, placeholders);
@@ -112,20 +131,20 @@ void ImportFoldersService::imageProcessed(PBDev::ThumbnailsJobId jobId,
                                           PBDev::ImageId         imageId,
                                           GenericImagePtr        image)
 {
-  auto root = mRootPaths.at(jobId);
+  auto &root = mRootPaths.at(jobId);
 
   mListener->onImageProcessed(imageId, root, image);
 }
 
 void ImportFoldersService::taskEnded()
 {
-    // TODO: Do the mThumbnailsJobs cleanup
+  // TODO: Do the mThumbnailsJobs cleanup
   for (auto &[key, value] : mThumbnailsJobs) {
     if (value.isFinished()) {
       mScheduler->post([this, key]() {
-          mRootPaths.erase(key);
-          mSearches.erase(key);
-          mThumbnailsJobs.erase(key);
+        mRootPaths.erase(key);
+        mSearches.erase(key);
+        mThumbnailsJobs.erase(key);
       });
     }
   }
