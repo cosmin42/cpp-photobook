@@ -244,6 +244,30 @@ struct TableContentView: View, PhotobookUIListener {
                             Text("Apply")
                         }
                     }
+                    
+                    HStack {
+                        Button("Media") { selectedTab = 0 }
+                            .font(.system(size: 14))
+                            .frame(height: 24)
+                            .padding(4)
+                            .background(selectedTab == 0 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .cornerRadius(8)
+                            .buttonStyle(PlainButtonStyle())
+                        Button("Collages") { selectedTab = 1 }
+                            .font(.system(size: 14))
+                            .frame(height: 24)
+                            .padding(4)
+                            .background(selectedTab == 1 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .cornerRadius(8)
+                            .buttonStyle(PlainButtonStyle())
+                        Button("Look Up Tables") { selectedTab = 2 }
+                            .font(.system(size: 14))
+                            .frame(height: 24)
+                            .padding(4)
+                            .background(selectedTab == 2 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .cornerRadius(8)
+                            .buttonStyle(PlainButtonStyle())
+                    }
                     Spacer()
                 }
                 .frame(alignment: .leading)
@@ -291,6 +315,10 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .frame(alignment:.leading)
                         .scrollIndicators(.hidden)
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+#if os(ipadOS)
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+#endif
                     }
                     .scrollIndicators(.hidden)
                     .frame(width: geometry.size.width * NoirConstants.GoldenRatioPercentHead)
@@ -304,8 +332,9 @@ struct TableContentView: View, PhotobookUIListener {
                                unstagedPhotoLineModel: uplModel,
                                draftPhotoLineModel: dplModel,
                                frameSize: geometry.size)
-                        .border(Color.BorderColor, width: 1)
+                    .frame(width: geometry.size.width * NoirConstants.GoldenRatioPercentBody)
                 }
+                .border(Color.BorderColor, width: 1)
                 
                 VStack {
                     VStack {

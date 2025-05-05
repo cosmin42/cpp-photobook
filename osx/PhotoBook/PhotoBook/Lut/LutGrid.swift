@@ -99,8 +99,5 @@ struct LutGrid: View
         }
         .frame(alignment:.leading)
         .tag(2)
-        .tabItem {
-            Label("Look Up Tables", systemImage: "house.fill")
-        }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 class MediaListModel: ObservableObject
 {
@@ -38,6 +39,11 @@ struct MediaList: View
     @State private var frameSize:CGSize
     @ObservedObject var model: MediaListModel
     
+#if os(ipadOS)
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedImages: [UIImage] = []
+#endif
+    
     init(frameSize: CGSize, model: MediaListModel)
     {
         self.frameSize = frameSize
@@ -49,7 +55,10 @@ struct MediaList: View
         {
             HStack
             {
+                
+#if os(macOS)
                 Button(action: {
+                    print("pressed")
                     openImportMediaBrowser()
                 }) {
                     Image(systemName: "plus")
@@ -59,9 +68,21 @@ struct MediaList: View
                         .background(Color.clear)
                 }
                 .frame(alignment: .leading)
-                .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                 .buttonStyle(PlainButtonStyle())
                 .help("Add Folder")
+#else
+                PhotosPicker(
+                    selection: $selectedItems,
+                    maxSelectionCount: 10, // You can adjust this
+                    matching: .images,
+                    photoLibrary: .shared()) {
+                        Image(systemName: "plus")
+                            .scaledToFit()
+                            .frame(width: 64, height: 64)
+                            .foregroundColor(Color.MainFontColor)
+                    }
+                    .padding()
+#endif
                 
                 // Remove media button
                 Button(action: {
@@ -76,12 +97,11 @@ struct MediaList: View
                 }) {
                     Image(systemName: "trash")
                         .scaledToFit()
-                        .frame(width: 32, height: 32)
+                        .frame(width: 56, height: 56)
                         .foregroundColor(Color.MainFontColor)
                         .background(Color.clear)
                 }
                 .frame(alignment: .leading)
-                .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                 .buttonStyle(PlainButtonStyle())
                 .disabled(model.list.isEmpty)
                 .help("Remove Group")
@@ -121,16 +141,15 @@ struct MediaList: View
                 Spacer()
             }
         }
+        .background(Color.PrimaryColor)
         .frame(alignment: .top)
         .tag(0)
-        .tabItem {
-            Label("Media List", systemImage: "house.fill")
-        }
         .scrollIndicators(.hidden)
     }
     
-    private func openImportMediaBrowser() {
 #if os(macOS)
+    private func openImportMediaBrowser() {
+        
         let panel = NSOpenPanel()
         panel.canChooseFiles = false
         panel.canChooseDirectories = true
@@ -145,6 +164,6 @@ struct MediaList: View
                 print("Folder picker was cancelled")
             }
         }
-#endif
     }
+#endif
 }

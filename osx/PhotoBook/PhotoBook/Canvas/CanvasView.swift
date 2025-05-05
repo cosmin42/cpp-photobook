@@ -72,7 +72,6 @@ struct CanvasView: View
             }
             Spacer()
             HStack {
-                Spacer().frame(width: 30)
                 HStack{
 #if EFFECTS_ENABLED
                     
@@ -128,9 +127,6 @@ struct CanvasView: View
                     .padding()
 #endif
                 }
-                
-                Spacer()
-                
                 HStack{
                     Button(action:{
                         model.onLeftClick()
@@ -157,10 +153,7 @@ struct CanvasView: View
                     }
                     .buttonStyle(PlainButtonStyle())
                 }.padding(4)
-                Spacer()
             }
-            Spacer()
         }
-        .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentBody)
     }
 }
