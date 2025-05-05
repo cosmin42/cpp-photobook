@@ -56,6 +56,15 @@ struct CanvasView: View
                             .contrast(basicTransformationModel.contrastValue)
                             .brightness(basicTransformationModel.brightnessValue)
                     }
+#else
+                    if let uiImage = UIImage(contentsOfFile: fileName) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .saturation(basicTransformationModel.saturationValue)
+                            .contrast(basicTransformationModel.contrastValue)
+                            .brightness(basicTransformationModel.brightnessValue)
+                    }
 #endif
                 }
             }

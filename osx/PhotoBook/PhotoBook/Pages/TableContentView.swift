@@ -561,6 +561,16 @@ struct TableContentView: View, PhotobookUIListener {
                                         self.canvasModel.processedImageInfo = (lutId, imagePath)
                                     }
                                 }
+#else
+                                let image = UIImage(contentsOfFile: mainImageFrontend.resources().full)
+                                if let image = image, let imagePath = imagePath
+                                {
+                                    let lutId = self.photobook.applyLu(inMemory: image, lutIndex: UInt32(selectedIndex))
+                                    if let lutId = lutId
+                                    {
+                                        self.canvasModel.processedImageInfo = (lutId, imagePath)
+                                    }
+                                }
 #endif
                             }
                         }
@@ -606,6 +616,14 @@ struct TableContentView: View, PhotobookUIListener {
                     let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
                     let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
                     let colors: [String:NSColor] = toPaperModel.images.mapValues { NSColor($0.backgroundColor) }
+                    
+                    self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
+                    
+                    toPaperModel.images.removeAll()
+#else
+                    let images: [String: FrontendImage] = toPaperModel.images.mapValues { $0.image }
+                    let overlapTypes: [String:String] = toPaperModel.images.mapValues { $0.resizeType }
+                    let colors: [String:UIColor] = toPaperModel.images.mapValues { UIColor($0.backgroundColor) }
                     
                     self.photobook.mapImages(toSPL: images, backgroundColors: colors, overlapTypes: overlapTypes)
                     

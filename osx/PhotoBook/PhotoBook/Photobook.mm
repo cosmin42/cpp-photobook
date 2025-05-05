@@ -123,6 +123,8 @@ public:
         NSImage* managedImage = MatToNSImage(*image);
         [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
 #else
+        UIImage* managedImage = MatToUIImage(*image);
+        [&mManagedListener onLutAppliedInMemory: managedImageId image:managedImage];
 #endif
     }
 
@@ -226,8 +228,31 @@ private:
         return image;
     }
 #else
-    UIImage* MatToNSImage(const cv::Mat& mat) {
-        return nullptr;
+    UIImage* MatToUIImage(const cv::Mat& rgbMat) {
+        // Create CGImage from raw data
+        NSData* data = [NSData dataWithBytes:rgbMat.data length:rgbMat.total() * rgbMat.elemSize()];
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        
+        CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+        CGImageRef imageRef = CGImageCreate(rgbMat.cols,
+                                            rgbMat.rows,
+                                            8,
+                                            8 * rgbMat.elemSize() / rgbMat.channels(),
+                                            rgbMat.step[0],
+                                            colorSpace,
+                                            kCGBitmapByteOrderDefault | kCGImageAlphaNoneSkipLast,
+                                            provider,
+                                            NULL,
+                                            false,
+                                            kCGRenderingIntentDefault);
+        
+        UIImage* image = [UIImage imageWithCGImage:imageRef];
+        
+        // Cleanup
+        CGImageRelease(imageRef);
+        CGDataProviderRelease(provider);
+        CGColorSpaceRelease(colorSpace);
+        return image;
     }
 #endif
     
@@ -416,6 +441,34 @@ PB::Geometry::OverlapType overlayTypeFromString(NSString* overlayType)
 #else
 - (void) mapImagesToSPL:(NSDictionary<NSString*, FrontendImage*>*)images backgroundColors:(NSDictionary<NSString*, UIColor*>*)backgroundColors overlapTypes:(NSDictionary<NSString*, NSString*>*)overlapTypes
 {
+    auto imageToPaperService = mPhotobook->imageToPaperService();
+    
+    std::unordered_map<PBDev::ImageToPaperId, PB::ImageToPaperData,
+    boost::hash<PBDev::ImageToPaperId>>
+    backendMap;
+    
+    for (NSString *key in images) {
+        std::string uuidStr = [key UTF8String];
+        try {
+            boost::uuids::string_generator gen;
+            boost::uuids::uuid nativeUuid = gen(uuidStr);
+            
+            PBDev::ImageToPaperId imageId = PBDev::ImageToPaperId(nativeUuid);
+            
+            CGFloat red, green, blue, alpha;
+            BOOL success = [backgroundColors[key] getRed:&red green:&green blue:&blue alpha:&alpha];
+            
+            cv::Scalar backgroundColor = {blue* 255, green * 255, red * 255};
+            
+            PB::Geometry::OverlapType overlapType = overlayTypeFromString(overlapTypes[key]);
+            
+            backendMap[imageId] = {[images[key] unwrap], backgroundColor, overlapType};
+            
+        } catch (const std::exception& e) {
+        }
+    }
+    
+    imageToPaperService->toPaper(PBDev::ImageToPaperServiceId(PB::RuntimeUUID::newUUID()), backendMap);
 }
 #endif
 
@@ -497,7 +550,37 @@ cv::Mat NSImageToMat(NSImage *image) {
 }
 #else
 cv::Mat NSImageToMat(UIImage *image) {
-    return cv::Mat();
+    CGImageRef imageRef = image.CGImage;
+        if (!imageRef) return cv::Mat();
+
+        const size_t width = CGImageGetWidth(imageRef);
+        const size_t height = CGImageGetHeight(imageRef);
+        const size_t bytesPerPixel = 4;
+        const size_t bytesPerRow = bytesPerPixel * width;
+        const size_t bitsPerComponent = 8;
+
+        // Create a buffer to hold RGBA pixels
+        std::vector<uchar> buffer(height * bytesPerRow);
+
+        CGContextRef context = CGBitmapContextCreate(buffer.data(),
+                                                     width,
+                                                     height,
+                                                     bitsPerComponent,
+                                                     bytesPerRow,
+                                                     CGImageGetColorSpace(imageRef),
+                                                     kCGImageAlphaPremultipliedLast | kCGBitmapByteOrderDefault);
+
+        if (!context) return cv::Mat();
+
+        // Draw image into context
+        CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+        CGContextRelease(context);
+
+        // Create cv::Mat from buffer
+        cv::Mat mat(height, width, CV_8UC4, buffer.data());
+
+        // Clone to ensure memory safety outside of buffer scope
+        return mat.clone();
 }
 #endif
 
@@ -512,7 +595,10 @@ cv::Mat NSImageToMat(UIImage *image) {
 #else
 - (NSString*) applyLuInMemory:(UIImage*)image lutIndex:(unsigned)lutIndex
 {
-    return nullptr;
+    PBDev::LutApplicationId lutId = PBDev::LutApplicationId(PB::RuntimeUUID::newUUID());
+    cv::Mat nativeImage = NSImageToMat(image);
+    mPhotobook->lutService()->applyLutInMemory(lutId, lutIndex, nativeImage);
+    return [NSString stringWithUTF8String:boost::uuids::to_string(*lutId).c_str()];
 }
 #endif
 

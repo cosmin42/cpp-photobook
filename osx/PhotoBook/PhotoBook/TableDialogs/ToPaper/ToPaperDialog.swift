@@ -74,6 +74,50 @@ struct ToPaperDialog: View {
                             ))
                         }
                     }
+#else
+                    ForEach(Array(model.images.keys), id: \.self) { key in
+                        if let currentImage = model.images[key],
+                           let fileName = currentImage.image.resources().small,
+                           let uiImage = UIImage(contentsOfFile: fileName)
+                        {
+                            
+                            Image(uiImage: uiImage)
+                                .cornerRadius(10)
+                                .frame(height: 80)
+                                .padding(4)
+                            
+                            VStack {
+                                let selection = Binding<String>(
+                                    
+                                    get: {
+                                        return currentImage.resizeType
+                                    },
+                                    
+                                    set: { newValue in
+                                        currentImage.resizeType = newValue
+                                        model.images = model.images
+                                    }
+                                )
+                                
+                                Picker("", selection: selection) {
+                                    ForEach(options, id: \.self) { option in
+                                        Text(option).tag(option)
+                                    }
+                                }
+                                .pickerStyle(SegmentedPickerStyle())
+                            }
+                            
+                            ColorPicker("", selection: Binding<Color>(
+                                get: {
+                                    return currentImage.backgroundColor
+                                },
+                                set: { newValue in
+                                    currentImage.backgroundColor = newValue
+                                    model.images = model.images
+                                }
+                            ))
+                        }
+                    }
 #endif
                 }
             }

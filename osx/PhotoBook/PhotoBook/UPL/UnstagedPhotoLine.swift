@@ -120,6 +120,72 @@ struct UnstagedPhotoLine: View
                             } else {
                                 Text("Image not found")
                             }
+#else
+                            if let uiImage = UIImage(contentsOfFile: fileName) {
+                                Image(uiImage: uiImage)
+                                    .cornerRadius(10)
+                                    .frame(height: 80)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(model.selectedIndices.contains(index) ? Color.white : Color.clear, lineWidth: 1)
+                                    )
+                                    .padding(4)
+                                    .background(GeometryReader { geo in
+                                        Color.clear.preference(
+                                            key: ItemFramesKey.self,
+                                            value: [IndexedFrame(index: index, frame: geo.frame(in: .global))]
+                                        )
+                                    })
+                                    .onTapGesture {
+                                        photoLinesModel.updatePhotoLineFocus(PhotoLineType.Unstaged)
+                                        
+                                        if model.selectedIndices.contains(index)
+                                        {
+                                            if multipleSelectionEnabled
+                                            {
+                                                model.selectedIndices.removeAll { $0 == index }
+                                            }
+                                            else if model.selectedIndices.count == 1
+                                            {
+                                                model.selectedIndices.removeAll()
+                                            }
+                                            else
+                                            {
+                                                model.selectedIndices.removeAll { $0 != index }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if multipleSelectionEnabled
+                                            {
+                                                model.selectedIndices.append(index)
+                                            }
+                                            else
+                                            {
+                                                model.selectedIndices.removeAll()
+                                                model.selectedIndices.append(index)
+                                            }
+                                        }
+                                        
+                                        if model.selectedIndices.isEmpty
+                                        {
+                                            self.canvasImage = nil
+                                        }
+                                        else if model.selectedIndices.contains(index)
+                                        {
+                                            self.canvasImage = model.list[index]
+                                        }
+                                        else
+                                        {
+                                            self.canvasImage = model.list.first
+                                        }
+                                    }
+                                    .onDrag {
+                                        NSItemProvider(object: UPLIdentifier(row:mediaListModel.selectedIndex(), indices:model.selectedIndices.map { UInt($0) }))
+                                    }
+                            } else {
+                                Text("Image not found")
+                            }
 #endif
                         }
                     }
