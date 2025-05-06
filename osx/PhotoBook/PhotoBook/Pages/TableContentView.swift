@@ -315,7 +315,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                         .frame(alignment:.leading)
                         .scrollIndicators(.hidden)
-#if os(ipadOS)
+#if !os(macOS)
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 #endif
                     }

@@ -114,8 +114,8 @@ struct CollagesGrid: View
                         }
                     }
                 }
-                .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentHead)
             }
+            .background(Color.PrimaryColor)
         }
         .frame(alignment:.leading)
         .tag(1)

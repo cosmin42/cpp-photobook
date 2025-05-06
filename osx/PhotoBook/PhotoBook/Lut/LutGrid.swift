@@ -65,6 +65,7 @@ struct LutGrid: View
                         if model.filterText.isEmpty { return true }
                         return $0.name.contains(model.filterText)
                     }
+
                     ForEach(filteredImages.indices, id: \.self) { index in
                         if let fileName = filteredImages[index].path
                         {
@@ -108,17 +109,22 @@ struct LutGrid: View
                                             self.model.selectedIndex = index
                                         }
                                     Text(filteredImages[index].name)
+#if !os(macOS)
+                                    .font(.system(size: 12))
+#endif
                                 }
+                                
                             } else {
-                                Text("Image not found")
+                                Text("Image not found \(fileName)")
                             }
                             
 #endif
                         }
                     }
+                     
                 }
-                .frame(width: frameSize.width * NoirConstants.GoldenRatioPercentHead)
             }
+            .background(Color.PrimaryColor)
         }
         .frame(alignment:.leading)
         .tag(2)
