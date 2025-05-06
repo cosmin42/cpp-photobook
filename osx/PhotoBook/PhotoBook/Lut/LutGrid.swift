@@ -28,7 +28,7 @@ struct LutGrid: View
                     .frame(alignment:.leading)
                 TextField("", text: $model.filterText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(width: 100)
+                    .frame(width: 150)
                     .padding(.leading, 4)
                 
                 Button(action: {
@@ -47,7 +47,9 @@ struct LutGrid: View
                     }
                 }) {
                     Text("Apply")
-                        .background(Color.clear)
+                        .padding(.horizontal)
+                        .padding(.vertical, 2)
+                        .background(Color.ButtonBackgroundColor)
                 }
                 .background(Color.ButtonBackgroundColor)
                 .foregroundColor(.white)
