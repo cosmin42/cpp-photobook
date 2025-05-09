@@ -192,8 +192,9 @@ struct TableContentView: View, PhotobookUIListener {
                         HStack {
                             Text("\(basicTransformationModel.imageProcessingType.rawValue):")
                             TextField("", value: selectedAdjustment, formatter: numberFormatter)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width:100)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .background(Color.TextFieldBackgroundColor)
                         }
                         
                         Slider(value:selectedAdjustment, in: selectedRange, step: 0.1)
@@ -646,6 +647,12 @@ struct TableContentView: View, PhotobookUIListener {
                     }
                 }
                 
+                self.mediaListModel.thumbnailsLocation = photobook.getThumbnailsPath()
+                
+                self.mediaListModel.onImagesImported = { listOfImages in
+                    photobook.addImportImages(listOfImages)
+                }
+                
                 if toOpenProjectId.isEmpty
                 {
                     print("No project has to be opened")
@@ -872,6 +879,7 @@ struct TableContentView: View, PhotobookUIListener {
                 
             }
         }
+        .ignoresSafeArea(.keyboard)
         
     }
     func decodeData(_ data: Data) throws -> UPLIdentifier {

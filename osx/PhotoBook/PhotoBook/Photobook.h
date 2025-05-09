@@ -66,6 +66,7 @@
 - (NSArray<ProjectMetadataEntry*>*) projectsList;
 - (ProjectManagementServiceWrapper*) projectManagementService;
 - (void) addImportFolder:(NSString*)root;
+- (void) addImportImages:(NSArray<NSString*>*)paths;
 - (void) removeImportFolder:(NSString*)root;
 - (NSArray<CollageItem*>*) collageTemplatesThumbnailsList;
 #if TARGET_OS_OSX

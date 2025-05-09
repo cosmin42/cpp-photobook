@@ -115,7 +115,7 @@ struct CollagesGrid: View
                     }
                 }
             }
-            .background(Color.PrimaryColor)
+            .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
         }
         .frame(alignment:.leading)
         .tag(1)

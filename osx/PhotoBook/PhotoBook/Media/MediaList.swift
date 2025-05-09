@@ -16,6 +16,10 @@ class MediaListModel: ObservableObject
     @Published public var onImportImages: (String) -> Void = { _ in }
     @Published public var onRemoveImages: (UInt32) -> Void = { _ in }
     
+    @Published public var thumbnailsLocation: String = ""
+    
+    @Published public var onImagesImported: ([String]) -> Void = { _ in }
+    
     public func removeSelected()
     {
         if let index = list.firstIndex(where: {$0.path == selectedItem?.path})
@@ -42,7 +46,6 @@ struct MediaList: View
 #if os(macOS)
 #else
     @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var selectedImages: [UIImage] = []
 #endif
     
     init(frameSize: CGSize, model: MediaListModel)
@@ -107,6 +110,23 @@ struct MediaList: View
                             .cornerRadius(8)
                     }
                     .padding()
+                    .onChange(of: selectedItems) { newItems in
+                        Task {
+                            var imagesPaths: [String] = []
+                            for item in newItems {
+                                if let data = try? await item.loadTransferable(type: Data.self),
+                                   let image = UIImage(data: data) {
+                                    let base = URL(fileURLWithPath: self.model.thumbnailsLocation)
+                                    let combined = base.appendingPathComponent(UUID().uuidString + ".jpg")
+                                    
+                                    saveUIImageAsJPEG(image, fileURL: combined, quality: 1.0)
+                                    
+                                    imagesPaths.append(combined.path)
+                                }
+                            }
+                            model.onImagesImported(imagesPaths)
+                        }
+                    }
                 
                 // Remove media button
                 Button(action: {
@@ -173,7 +193,7 @@ struct MediaList: View
                 Spacer()
             }
         }
-        .background(Color.PrimaryColor)
+        .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
         .frame(alignment: .top)
         .tag(0)
         .scrollIndicators(.hidden)
@@ -197,5 +217,38 @@ struct MediaList: View
             }
         }
     }
+#else
+    func saveImageToDisk(image: UIImage, fileURL: URL) -> Bool {
+        guard let imageData = image.pngData() else {
+            print("Failed to convert UIImage to PNG data")
+            return false
+        }
+
+        do {
+            try imageData.write(to: fileURL)
+            print("Image saved at: \(fileURL)")
+            return true
+        } catch {
+            print("Error saving image: \(error)")
+            return false
+        }
+    }
+    
+    func saveUIImageAsJPEG(_ image: UIImage, fileURL: URL, quality: CGFloat = 1.0) {
+        guard let data = image.jpegData(compressionQuality: quality) else {
+            print("Failed to convert UIImage to JPEG data.")
+            return
+        }
+        
+        do {
+            try data.write(to: fileURL)
+            print("Image saved to: \(fileURL)")
+        } catch {
+            print("Error saving image: \(error)")
+        }
+    }
+
+    
+    
 #endif
 }

@@ -371,6 +371,17 @@ NoirListenerManaged* mNoirListener = nullptr;
     mPhotobook->importFoldersService()->addImportFolder(nativeRoot);
 }
 
+- (void) addImportImages:(NSArray<NSString*>*)paths
+{
+    std::vector<Path> nativePaths;
+    
+    for (NSString* nsString in paths) {
+        const char* cstr = [nsString UTF8String];
+        nativePaths.push_back(Path(cstr));
+    }
+    mPhotobook->importFoldersService()->importImagesByIndiviaulPaths(nativePaths);
+}
+
 - (void) removeImportFolder:(NSString*)root
 {
     NSURL *url = [NSURL URLWithString:root];
