@@ -11,6 +11,8 @@ cmake -B PB/Debug/arm64-ios \
 
 make -j4 -C pb/Debug/arm64-ios/
 
+cp ./PB/Debug/arm64-ios/libpblib-iOS.a ./osx/PhotoBook/ios-debug/libpblib-iOS.a
+
 rm -rf tmp_libvukan
 mkdir tmp_libvukan
 mkdir tmp_libvukan/macos
