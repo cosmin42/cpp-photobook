@@ -107,9 +107,11 @@ struct LutGrid: View
                                                 .stroke(model.selectedIndex == index ? Color.white : Color.clear, lineWidth: 1)
                                         )
                                         .padding(4)
-                                        .onTapGesture {
-                                            self.model.selectedIndex = index
-                                        }
+                                        .simultaneousGesture(
+                                            TapGesture().onEnded {
+                                                self.model.selectedIndex = index
+                                            }
+                                        )
                                     Text(filteredImages[index].name)
 #if !os(macOS)
                                     .font(.system(size: 12))
