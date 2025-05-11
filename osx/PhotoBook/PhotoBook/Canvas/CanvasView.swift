@@ -71,6 +71,16 @@ struct CanvasView: View
                             .saturation(basicTransformationModel.saturationValue)
                             .contrast(basicTransformationModel.contrastValue)
                             .brightness(basicTransformationModel.brightnessValue)
+                            .gesture(
+                                DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                                    .onEnded { value in
+                                        if value.translation.width < -50 {
+                                            model.onLeftClick()
+                                        } else if value.translation.width > 50 {
+                                            model.onRightClick()
+                                        }
+                                    }
+                            )
                     }
 #endif
                 }
@@ -143,6 +153,7 @@ struct CanvasView: View
                     .padding()
 #endif
                 }
+#if os(macOS)
                 HStack{
                     Button(action:{
                         model.onLeftClick()
@@ -156,7 +167,7 @@ struct CanvasView: View
                     
                     Text(model.mainImage?.maybeOriginalName() ?? "")
                         .foregroundColor(Color.MainFontColor)
-                        .font(.headline)
+                        .font(.subheadline)
                         .padding()
                     
                     Button(action:{
@@ -169,6 +180,7 @@ struct CanvasView: View
                     }
                     .buttonStyle(PlainButtonStyle())
                 }.padding(4)
+#endif
             }
         }
     }
