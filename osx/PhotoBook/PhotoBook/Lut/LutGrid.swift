@@ -27,8 +27,12 @@ struct LutGrid: View
                 Text("Filter:")
                     .frame(alignment:.leading)
                 TextField("", text: $model.filterText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(width: 150)
+#if !os(macOS)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .background(Color.TextFieldBackgroundColor)
+                
+#endif
                     .padding(.leading, 4)
                 
                 Button(action: {
@@ -47,14 +51,18 @@ struct LutGrid: View
                     }
                 }) {
                     Text("Apply")
-                        .padding(.horizontal)
-                        .padding(.vertical, 2)
-                        .background(Color.ButtonBackgroundColor)
+                        .background(Color.clear)
                 }
-                .background(Color.ButtonBackgroundColor)
+#if os(macOS)
                 .foregroundColor(.white)
                 .cornerRadius(5)
                 .padding(5)
+#else
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.PrimaryColorIPad)
+                .cornerRadius(5)
+#endif
                 .disabled(model.selectedIndex == nil)
                 
                 Spacer()

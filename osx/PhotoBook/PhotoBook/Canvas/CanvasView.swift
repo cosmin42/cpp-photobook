@@ -41,6 +41,13 @@ struct CanvasView: View
                     .saturation(basicTransformationModel.saturationValue)
                     .brightness(basicTransformationModel.brightnessValue)
                     .contrast(basicTransformationModel.contrastValue)
+#else
+                Image(uiImage: processedImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .saturation(basicTransformationModel.saturationValue)
+                    .brightness(basicTransformationModel.brightnessValue)
+                    .contrast(basicTransformationModel.contrastValue)
 #endif
             }
             else if let selectedImage = model.mainImage

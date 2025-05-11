@@ -194,7 +194,10 @@ struct TableContentView: View, PhotobookUIListener {
                             TextField("", value: selectedAdjustment, formatter: numberFormatter)
                                 .frame(width:100)
                                 .textFieldStyle(PlainTextFieldStyle())
+#if !os(macOS)
                                 .background(Color.TextFieldBackgroundColor)
+                            
+#endif
                         }
                         
                         Slider(value:selectedAdjustment, in: selectedRange, step: 0.1)
@@ -216,7 +219,6 @@ struct TableContentView: View, PhotobookUIListener {
                                 {
                                     let image = dplModel.list[index]
                                     let uuidStr = UUID().uuidString
-                                    print("Applying effects to \(uuidStr)")
                                     self.effectsFromDpl[uuidStr] = UInt32(index)
                                     self.photobook.applyEffects(inPlace: uuidStr, image: image, saturation: basicTransformationModel.saturationValue, brightness: basicTransformationModel.brightnessValue, contrast: basicTransformationModel.contrastValue)
                                 }
@@ -244,6 +246,9 @@ struct TableContentView: View, PhotobookUIListener {
                         }) {
                             Text("Apply")
                         }
+#if !os(macOS)
+                        .background(Color.ButtonBackgroundColor)
+#endif
                     }
                     
                     HStack {

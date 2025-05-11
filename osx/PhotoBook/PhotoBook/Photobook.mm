@@ -229,6 +229,7 @@ private:
     }
 #else
     UIImage* MatToUIImage(const cv::Mat& rgbMat) {
+        
         // Create CGImage from raw data
         NSData* data = [NSData dataWithBytes:rgbMat.data length:rgbMat.total() * rgbMat.elemSize()];
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -237,10 +238,10 @@ private:
         CGImageRef imageRef = CGImageCreate(rgbMat.cols,
                                             rgbMat.rows,
                                             8,
-                                            8 * rgbMat.elemSize() / rgbMat.channels(),
+                                            8 * rgbMat.elemSize(),
                                             rgbMat.step[0],
                                             colorSpace,
-                                            kCGBitmapByteOrderDefault | kCGImageAlphaNoneSkipLast,
+                                            kCGBitmapByteOrder32Big | kCGImageAlphaLast,
                                             provider,
                                             NULL,
                                             false,

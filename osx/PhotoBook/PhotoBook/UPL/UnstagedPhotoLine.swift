@@ -44,7 +44,7 @@ struct UnstagedPhotoLine: View
     
     var body: some View {
         HStack{
-            VStack{
+            VStack(alignment: .leading) {
                 Text("Disk")
                     .padding(2)
                 Spacer()

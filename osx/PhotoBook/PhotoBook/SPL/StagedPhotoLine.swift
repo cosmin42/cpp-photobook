@@ -221,6 +221,35 @@ struct StagedPhotoLine: View
                     model.itemFrames = frames.sorted(by: { $0.index < $1.index }).map { $0.frame }
                 }
             }
+#if !os(macOS)
+            VStack{
+                Button(action: {
+                    multipleSelectionEnabled = !multipleSelectionEnabled
+                }) {
+                    if multipleSelectionEnabled
+                    {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 10, height: 10)
+                    }
+                    else
+                    {
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: 10, height: 10)
+                    }
+                    
+                    Text("Select").font(.system(size: 16))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(4)
+                .background(multipleSelectionEnabled ? Color.ButtonBackgroundColor : Color.ButtonPointerOverWhenSelected)
+                .cornerRadius(4)
+                .padding(4)
+                
+                Spacer()
+            }
+#endif
         }
         .frame(height:82)
         .cornerRadius(10)
