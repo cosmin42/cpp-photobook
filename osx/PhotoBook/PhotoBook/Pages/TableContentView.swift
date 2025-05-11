@@ -192,9 +192,10 @@ struct TableContentView: View, PhotobookUIListener {
                         HStack {
                             Text("\(basicTransformationModel.imageProcessingType.rawValue):")
                             TextField("", value: selectedAdjustment, formatter: numberFormatter)
-                                .frame(width:100)
+                                .frame(width:50)
                                 .textFieldStyle(PlainTextFieldStyle())
 #if !os(macOS)
+                                .keyboardType(.numberPad)
                                 .background(Color.TextFieldBackgroundColor)
                             
 #endif
@@ -246,8 +247,12 @@ struct TableContentView: View, PhotobookUIListener {
                         }) {
                             Text("Apply")
                         }
+                        
 #if !os(macOS)
-                        .background(Color.ButtonBackgroundColor)
+                        .padding(4)
+                        .background(Color.PrimaryColorIPad)
+                        .cornerRadius(8)
+                        .buttonStyle(PlainButtonStyle())
 #endif
                     }
                     
@@ -344,6 +349,7 @@ struct TableContentView: View, PhotobookUIListener {
                 VStack {
                     VStack {
                         StagedPhotoLine(frameSize: geometry.size, model: splModel, photoLinesModel: photoLinesModel, canvasImage: $canvasModel.mainImage, unstagedPhotoLineModel: $uplModel, multipleSelectionEnabled: $multipleSelectionEnabled)
+                            .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                             .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
                                 guard let provider = providers.first else { return false}
                                 if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
@@ -436,8 +442,8 @@ struct TableContentView: View, PhotobookUIListener {
                     }
                     
                     DraftPhotoLine(frameSize: geometry.size, model: dplModel, photoLinesModel: photoLinesModel, multipleSelectionEnabled: $multipleSelectionEnabled, canvasImage: $canvasModel.mainImage)
+                        .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                         .onDrop(of: [.uplDragType, .splDragType], isTargeted: nil) { providers, location in
-                            
                             guard let provider = providers.first else { return false}
                             if provider.hasItemConformingToTypeIdentifier(UTType.uplDragType.identifier) {
                                 provider.loadDataRepresentation(forTypeIdentifier: UTType.uplDragType.identifier) { data, error in
@@ -472,7 +478,7 @@ struct TableContentView: View, PhotobookUIListener {
                                             
                                             var toDplList: [String:FrontendImage] = [:]
                                             for (key, value) in images {
-                                                toDplList[key] = value
+                                                    toDplList[key] = value
                                             }
                                             
                                             self.photobook.copyImages(toDpl: toDplList)
@@ -513,9 +519,7 @@ struct TableContentView: View, PhotobookUIListener {
                                     }
                                 }
                             }
-                            
                             return true
-                            
                         }
                     
                     
@@ -678,6 +682,7 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .sheet(isPresented: $subscribeDialogVisible)
         {
+#if os(macOS)
             SubscribeDialog(isPresented: $subscribeDialogVisible)
             {
                 email in
@@ -689,6 +694,19 @@ struct TableContentView: View, PhotobookUIListener {
                     assert(false)
                 }
             }
+#else
+            SubscribeDialogIos(isPresented: $subscribeDialogVisible)
+            {
+                email in
+                if let azureApiKey = SecurityUtils.getApiKey(service: "com.photobook-noir.newsletter-api-key", account: "apikey") {
+                    self.photobook.subscribe(byEmail: email, apiKey: azureApiKey)
+                }
+                else
+                {
+                    assert(false)
+                }
+            }
+#endif
         }
         .sheet(isPresented: $errorDialogVisible)
         {
@@ -696,7 +714,11 @@ struct TableContentView: View, PhotobookUIListener {
         }
         .sheet(isPresented: $saveAreYouSureModel.showDialog)
         {
+#if os(macOS)
             AreYouSureDialog(model: saveAreYouSureModel)
+#else
+            AreYouSureDialogIos(model: saveAreYouSureModel)
+#endif
         }
         .onAppear()
         {
@@ -856,6 +878,33 @@ struct TableContentView: View, PhotobookUIListener {
             let thumbnailsPath = self.photobook.getThumbnailsPath()
             
             self.splModel.list = self.photobook.projectManagementService().stagedImages().images(thumbnailsPath)
+            
+#if !os(macOS)
+            splModel.onRemoveImage = { selection in
+                // TODO: Probably the check is not needed. There is some stupidity in this code
+                if !splModel.selectedIndices.isEmpty || !dplModel.selectedIndices.isEmpty
+                {
+                    saveAreYouSureModel.message = "Do you want to remove the images?"
+                    saveAreYouSureModel.title = "Remove Images"
+                    saveAreYouSureModel.onYes = {
+                        self.removeImage()
+                    }
+                    saveAreYouSureModel.showDialog = true
+                }
+            }
+            
+            dplModel.onRemoveImage = { selection in
+                if !splModel.selectedIndices.isEmpty || !dplModel.selectedIndices.isEmpty
+                {
+                    saveAreYouSureModel.message = "Do you want to remove the images?"
+                    saveAreYouSureModel.title = "Remove Images"
+                    saveAreYouSureModel.onYes = {
+                        self.removeImage()
+                    }
+                    saveAreYouSureModel.showDialog = true
+                }
+            }
+#endif
         }
         .onDisappear()
         {

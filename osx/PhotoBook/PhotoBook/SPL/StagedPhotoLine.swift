@@ -27,6 +27,9 @@ class StagedPhotoLineModel: ObservableObject
     @Published public var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
     
+    
+    @Published var onRemoveImage: ([Int]) -> Void = {_ in}
+    
     public func move(fromOffsets:IndexSet, toOffset:UInt?)
     {
         if let toOffset = toOffset
@@ -92,6 +95,18 @@ struct StagedPhotoLine: View
             VStack{
                 Text("Album")
                     .padding(2)
+#if !os(macOS)
+                Button(action: {
+                    model.onRemoveImage(model.selectedIndices)
+                }) {
+                    Image(systemName: "trash")
+                        .buttonStyle(PlainButtonStyle())
+                        .padding()
+                        .background(Color.RemoveButtonBackground)
+                        .disabled(model.selectedIndices.isEmpty)
+                        .help("Remove Group")
+                }
+#endif
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false) {
@@ -223,6 +238,7 @@ struct StagedPhotoLine: View
             }
 #if !os(macOS)
             VStack{
+                
                 Button(action: {
                     multipleSelectionEnabled = !multipleSelectionEnabled
                 }) {

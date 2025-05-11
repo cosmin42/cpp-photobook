@@ -97,80 +97,9 @@ struct MediaList: View
                 .buttonStyle(PlainButtonStyle())
                 .disabled(model.list.isEmpty)
                 .help("Remove Group")
-#else
-                
-                    Image(systemName: "plus")
-                        .scaledToFit()
-                        .frame(width: 56, height: 56)
-                        .foregroundColor(Color.MainFontColor)
-                        .background(Color.ButtonBackgroundColor)
-                        .cornerRadius(8)
-                        .padding()
-                .frame(alignment: .leading)
-                .buttonStyle(PlainButtonStyle())
-                .help("Add Folder")
-                .photosPicker(isPresented: $isPickerPresented,
-                              selection: $selectedItems,
-                              matching: .images,
-                              photoLibrary: .shared())
-                .simultaneousGesture(
-                    TapGesture().onEnded {
-                        isPickerPresented = true
-                    }
-                )
-                .onChange(of: selectedItems) { newItems in
-                    Task {
-                        var imagesPaths: [String] = []
-                        for item in newItems {
-                            if let data = try? await item.loadTransferable(type: Data.self),
-                               let image = UIImage(data: data) {
-                                let base = URL(fileURLWithPath: self.model.thumbnailsLocation)
-                                // TODO: Remove this image after it is resized
-                                let combined = base.appendingPathComponent(UUID().uuidString + ".jpg")
-                                
-                                saveUIImageAsJPEG(image, fileURL: combined, quality: 1.0)
-                                
-                                imagesPaths.append(combined.path)
-                            }
-                        }
-                        model.onImagesImported(imagesPaths)
-                    }
-                }
-                
-
-                // Remove media button
-                Button(action: {
-                    print("Remove media tapped")
-                    
-                    let maybeIndex = model.selectedIndex()
-                    if let index = maybeIndex
-                    {
-                        model.removeSelected()
-                        model.onRemoveImages(UInt32(index))
-                    }
-                }) {
-                    Image(systemName: "trash")
-                        .scaledToFit()
-                        .frame(width: 56, height: 56)
-                        .foregroundColor(Color.MainFontColor)
-                        .background(Color.RemoveButtonBackground)
-                        .cornerRadius(8)
-                }
-                .frame(alignment: .leading)
-                .buttonStyle(PlainButtonStyle())
-                .disabled(model.list.isEmpty)
-                .help("Remove Group")
-                .padding()
-#endif
-                
                 Spacer()
-            }
-#if os(macOS)
-#else
-            Divider()
-                .background(Color.BorderColor)
-                .padding(.horizontal, 50)
 #endif
+            }
             ScrollView {
                 ForEach(self.model.list.indices, id: \.self) { index in
                     HStack{
@@ -205,6 +134,75 @@ struct MediaList: View
                 .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
                 Spacer()
             }
+#if !os(macOS)
+            HStack
+            {
+                Image(systemName: "plus")
+                    .scaledToFit()
+                    .frame(width: 56, height: 56)
+                    .foregroundColor(Color.MainFontColor)
+                    .background(Color.PrimaryColorIPad)
+                    .cornerRadius(8)
+                    .padding()
+                    .frame(alignment: .leading)
+                    .buttonStyle(PlainButtonStyle())
+                    .help("Add Folder")
+                    .photosPicker(isPresented: $isPickerPresented,
+                                  selection: $selectedItems,
+                                  matching: .images,
+                                  photoLibrary: .shared())
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            isPickerPresented = true
+                        }
+                    )
+                    .onChange(of: selectedItems) { newItems in
+                        Task {
+                            var imagesPaths: [String] = []
+                            for item in newItems {
+                                if let data = try? await item.loadTransferable(type: Data.self),
+                                   let image = UIImage(data: data) {
+                                    let base = URL(fileURLWithPath: self.model.thumbnailsLocation)
+                                    // TODO: Remove this image after it is resized
+                                    let combined = base.appendingPathComponent(UUID().uuidString + ".jpg")
+                                    
+                                    saveUIImageAsJPEG(image, fileURL: combined, quality: 1.0)
+                                    
+                                    imagesPaths.append(combined.path)
+                                }
+                            }
+                            model.onImagesImported(imagesPaths)
+                        }
+                    }
+                
+                // Remove media button
+                Button(action: {
+                    print("Remove media tapped")
+                    
+                    let maybeIndex = model.selectedIndex()
+                    if let index = maybeIndex
+                    {
+                        model.removeSelected()
+                        model.onRemoveImages(UInt32(index))
+                    }
+                }) {
+                    Image(systemName: "trash")
+                        .scaledToFit()
+                        .frame(width: 56, height: 56)
+                        .foregroundColor(Color.MainFontColor)
+                        .background(Color.RemoveButtonBackground)
+                        .cornerRadius(8)
+                }
+                .frame(alignment: .leading)
+                .buttonStyle(PlainButtonStyle())
+                .disabled(model.list.isEmpty)
+                .help("Remove Group")
+                .padding()
+                
+                Spacer()
+            }
+            
+#endif
         }
         .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
         .frame(alignment: .top)
@@ -236,7 +234,7 @@ struct MediaList: View
             print("Failed to convert UIImage to PNG data")
             return false
         }
-
+        
         do {
             try imageData.write(to: fileURL)
             print("Image saved at: \(fileURL)")
@@ -260,7 +258,7 @@ struct MediaList: View
             print("Error saving image: \(error)")
         }
     }
-
+    
     
     
 #endif

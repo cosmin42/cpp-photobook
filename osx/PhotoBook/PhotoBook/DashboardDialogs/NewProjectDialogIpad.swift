@@ -25,7 +25,7 @@ struct NewProjectDialogIpad: View {
     
     private let LABEL_MAX_WIDTH: CGFloat = 200
     private let FIELD_MAX_WIDTH: CGFloat = 200
-    private let FIELD_HEIGHT: CGFloat = 60
+    private let FIELD_HEIGHT: CGFloat = 40
     
     let options: [String]
     
@@ -85,9 +85,15 @@ struct NewProjectDialogIpad: View {
                             }
                         }
                         .frame(width: FIELD_MAX_WIDTH, height: FIELD_HEIGHT)
-                        .cornerRadius(8)
                         .textFieldStyle(PlainTextFieldStyle())
-                        .background(Color.TextFieldBackgroundColor)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.TextFieldBackgroundColor) // Background color
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.BorderColor, lineWidth: 1) // Border
+                        )
                     Text("px")
                     Spacer()
                 }
@@ -107,9 +113,15 @@ struct NewProjectDialogIpad: View {
                             }
                         }
                         .frame(width: FIELD_MAX_WIDTH, height: FIELD_HEIGHT)
-                        .cornerRadius(8)
                         .textFieldStyle(PlainTextFieldStyle())
-                        .background(Color.TextFieldBackgroundColor)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.TextFieldBackgroundColor) // Background color
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.BorderColor, lineWidth: 1) // Border
+                        )
                     Text("px")
                     Spacer()
                 }
@@ -129,15 +141,20 @@ struct NewProjectDialogIpad: View {
                             }
                         }
                         .frame(width: FIELD_MAX_WIDTH, height: FIELD_HEIGHT)
-                        .cornerRadius(8)
                         .textFieldStyle(PlainTextFieldStyle())
-                        .background(Color.TextFieldBackgroundColor)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.TextFieldBackgroundColor) // Background color
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.BorderColor, lineWidth: 1) // Border
+                        )
+                        
                     Text("ppi")
                 }
             }
-            Spacer()
             HStack {
-                Spacer()
                 Spacer()
                 Button(action: {
                     // Close the dialog
@@ -147,20 +164,11 @@ struct NewProjectDialogIpad: View {
                 }) {
                     Text("Create")
                 }
-                .padding(16)
+                .padding(8)
                 .padding(.horizontal, 8)
                 .background(Color.PrimaryColorIPad)
                 .cornerRadius(8)
-                Spacer()
-                
-                Button("Cancel") {
-                    isVisible = false
-                }
-                .padding(16)
-                .padding(.horizontal, 8)
-                .background(Color.RemoveButtonBackgroundIPad)
-                .cornerRadius(8)
-                Spacer()
+                .padding()
                 Spacer()
             }
             Spacer()
@@ -169,7 +177,10 @@ struct NewProjectDialogIpad: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(2)
-        .background(Color.PrimaryColor)
+        .background(Image("new_project") // Name of your image in Assets
+            .resizable()
+            .scaledToFill()
+            .clipped())
     }
 }
 

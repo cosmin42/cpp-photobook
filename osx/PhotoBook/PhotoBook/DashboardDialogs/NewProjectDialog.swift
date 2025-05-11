@@ -110,7 +110,6 @@ struct NewProjectDialog: View {
                 .background(Color.PrimaryColor)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
-                
                 Button("Cancel") {
                     isVisible = false
                 }

@@ -133,6 +133,8 @@ struct ToPaperDialog: View {
                     Text("Fit")
                         .foregroundColor(Color.MainFontColor)
                 }
+                .padding()
+                .background(Color.ButtonBackgroundColor)
                 .frame(alignment: .leading)
                 
                 Button(action: {
@@ -144,6 +146,8 @@ struct ToPaperDialog: View {
                     Text("Fill")
                         .foregroundColor(Color.MainFontColor)
                 }
+                .padding()
+                .background(Color.ButtonBackgroundColor)
                 .frame(alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -155,8 +159,10 @@ struct ToPaperDialog: View {
                 }) {
                     Text("Ok")
                 }
-                .background(Color.PrimaryColor)
+                .padding()
+                .background(Color.PrimaryColorIPad)
                 .foregroundColor(Color.MainFontColor)
+                .cornerRadius(8)
                 
                 Button(action: {
                     self.model.images.removeAll()
@@ -164,12 +170,13 @@ struct ToPaperDialog: View {
                 }) {
                     Text("Cancel")
                 }
-                .background(Color.RemoveButtonBackground)
+                .padding()
+                .background(Color.RemoveButtonBackgroundIPad)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
             }
         }
-        .padding()
-        .frame(maxHeight: 0.5 * model.frameSize.height)
+        .padding(12)
+        .background(Color.PrimaryColor)
     }
 }

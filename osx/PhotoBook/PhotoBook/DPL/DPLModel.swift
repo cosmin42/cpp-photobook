@@ -13,6 +13,8 @@ class DPLModel: ObservableObject
     @Published public var selectedIndices: [Int] = []
     @Published public var itemFrames: [CGRect] = []
     
+    @Published public var onRemoveImage: ([Int]) -> Void = {_ in}
+    
     public func insert(image: FrontendImage, position:UInt?)
     {
         if let position = position

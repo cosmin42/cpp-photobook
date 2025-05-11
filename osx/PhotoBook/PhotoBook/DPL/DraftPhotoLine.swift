@@ -22,6 +22,18 @@ struct DraftPhotoLine: View
             VStack{
                 Text("Draft")
                     .padding(2)
+#if !os(macOS)
+                Button(action: {
+                    model.onRemoveImage(model.selectedIndices)
+                }) {
+                    Image(systemName: "trash")
+                        .padding()
+                        .background(Color.RemoveButtonBackground)
+                        .disabled(model.selectedIndices.isEmpty)
+                        .help("Remove Group")
+                }
+                .buttonStyle(PlainButtonStyle())
+#endif
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false) {
