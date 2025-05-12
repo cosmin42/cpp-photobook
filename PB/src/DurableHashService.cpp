@@ -6,91 +6,117 @@
 
 namespace PB::Service {
 
-const PBDev::ProjectId DurableHashService::DEFAULT_PROJECT_ID = PBDev::ProjectId(RuntimeUUID::zero());
+const PBDev::ProjectId DurableCache::DEFAULT_PROJECT_ID =
+    PBDev::ProjectId(RuntimeUUID::zero());
 
-std::string DurableHashService::computeHash(std::string key)
-{
-  return std::to_string(std::hash<std::string>{}(key));
-}
-
-void DurableHashService::configureDatabaseService(
+void DurableCache::configureDatabaseService(
     std::shared_ptr<DatabaseService> databaseService)
 {
   mDatabaseService = databaseService;
 }
 
-void DurableHashService::createLink(std::string key, std::string value)
+void DurableCache::loadDataForProject(PBDev::ProjectId projectId)
 {
-  auto defaultProjectName = boost::uuids::to_string(*DEFAULT_PROJECT_ID);
+  auto projectIdStr = boost::uuids::to_string(*projectId);
+  auto rawData = mDatabaseService->selectData(
+      OneConfig::DATABASE_CACHE_TABLE, "uuid='" + projectIdStr + "'",
+      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
+
+  for (const auto &entry : rawData) {
+    PBDev::basicAssert(entry.size() == 3);
+    std::string projectId = entry[0];
+    std::string key = entry[1];
+    std::string value = entry[2];
+    mHashCache[{projectId, key}] = value;
+  }
+
+  auto defaultIdStr = boost::uuids::to_string(*DEFAULT_PROJECT_ID);
+  auto defaultRawData = mDatabaseService->selectData(
+      OneConfig::DATABASE_CACHE_TABLE, "uuid='" + defaultIdStr + "'",
+      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
+
+  for (const auto &entry : defaultRawData) {
+    PBDev::basicAssert(entry.size() == 3);
+    std::string projectId = entry[0];
+    std::string key = entry[1];
+    std::string value = entry[2];
+    mHashCache[{projectId, key}] = value;
+  }
+}
+
+void DurableCache::linkData(PBDev::ProjectId projectId, std::string key,
+                            std::string value)
+{
+  auto projectIdStr = boost::uuids::to_string(*projectId);
+  mHashCache[{projectIdStr, key}] = value;
   mDatabaseService->insert<3>(
       OneConfig::DATABASE_CACHE_TABLE, OneConfig::DATABASE_CACHE_HEADER,
-      {defaultProjectName.c_str(), key.c_str(), value.c_str()});
+      {projectIdStr.c_str(), key.c_str(), value.c_str()});
 }
 
-bool DurableHashService::containsHash(std::string key)
+void DurableCache::linkData(std::string key, std::string value)
 {
-  std::string predicate = "cache_path='" + key + "'";
-  auto        hashFound = mDatabaseService->selectData(
-      OneConfig::DATABASE_CACHE_TABLE, predicate,
-      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
-  return !hashFound.empty();
+  auto idStr = boost::uuids::to_string(*DEFAULT_PROJECT_ID);
+  mHashCache[{idStr, key}] = value;
+  mDatabaseService->insert<3>(OneConfig::DATABASE_CACHE_TABLE,
+                              OneConfig::DATABASE_CACHE_HEADER,
+                              {idStr.c_str(), key.c_str(), value.c_str()});
 }
 
-bool DurableHashService::containsKey(std::string key) {
-  std::string predicate = "path='" + key + "'";
-  auto        hashFound = mDatabaseService->selectData(
-      OneConfig::DATABASE_CACHE_TABLE, predicate,
-      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
-  return !hashFound.empty();
-
-}
-
-std::string DurableHashService::getHash(PBDev::ProjectId projectId, Path path)
+void DurableCache::deleteHash(std::string key)
 {
-  auto projectIdStr = boost::uuids::to_string(*projectId);
-
-  // TODO: Change this to select also by project id
-  auto rawData = mDatabaseService->selectData(
-      OneConfig::DATABASE_CACHE_TABLE, "path='" + path.string() + "'",
-      (unsigned)OneConfig::DATABASE_CACHE_HEADER.size());
-  auto cacheEntry = DatabaseService::deserializeCacheEntry(rawData);
-
-  if (cacheEntry.empty()) {
-    auto hash = computeHash(path.string());
-    hash = saltHash(hash);
-
-    mDatabaseService->insert<3>(
-        OneConfig::DATABASE_CACHE_TABLE, OneConfig::DATABASE_CACHE_HEADER,
-        {projectIdStr.c_str(), path.string().c_str(), hash.c_str()});
-    return hash;
-  }
-
-  PBDev::basicAssert(cacheEntry.left.find(path) != cacheEntry.left.end());
-
-  return cacheEntry.left.at(path);
+  auto idStr = boost::uuids::to_string(*DEFAULT_PROJECT_ID);
+  mHashCache.erase({idStr, key});
+  mDatabaseService->deleteData(OneConfig::DATABASE_CACHE_TABLE,
+                               "path='" + key + "'");
 }
 
-std::string DurableHashService::getHash(Path path)
+void DurableCache::deleteByProjectId(std::string projectId)
 {
-  return getHash(DEFAULT_PROJECT_ID, path);
-}
-
-std::string DurableHashService::saltHash(std::string hash)
-{
-  for (int i = 0; i < OneConfig::MAX_HASH_CONFLICTS; ++i) {
-    std::string hashAttempt = hash + std::to_string(i);
-    if (!containsHash(hashAttempt)) {
-      return hashAttempt;
+  for (auto it = mHashCache.begin(); it != mHashCache.end();) {
+    if (it->first.first == projectId) {
+      it = mHashCache.erase(it);
+    }
+    else {
+      ++it;
     }
   }
-  PBDev::basicAssert(false);
-  return "";
+
+  mDatabaseService->deleteData(OneConfig::DATABASE_CACHE_TABLE,
+                               "uuid='" + projectId + "'");
 }
 
-void DurableHashService::deleteHashByProjectId(PBDev::ProjectId projectId)
+std::string DurableCache::createOrRetrieve(PBDev::ProjectId projectId,
+                                           std::string      key)
 {
   auto projectIdStr = boost::uuids::to_string(*projectId);
-  mDatabaseService->deleteData(OneConfig::DATABASE_CACHE_TABLE,
-                               "uuid='" + projectIdStr + "'");
+  if (mHashCache.find({projectIdStr, key}) != mHashCache.end()) {
+    return mHashCache[{projectIdStr, key}];
+  }
+  auto newValue = boost::uuids::to_string(boost::uuids::random_generator()());
+  linkData(projectId, key, newValue);
+  return newValue;
 }
+
+std::string DurableCache::createOrRetrieve(std::string key)
+{
+  return createOrRetrieve(DEFAULT_PROJECT_ID, key);
+}
+
+std::optional<std::string>
+DurableCache::maybeRetrieve(PBDev::ProjectId projectId, std::string key) const
+{
+  auto projectIdStr = boost::uuids::to_string(*projectId);
+  auto it = mHashCache.find({projectIdStr, key});
+  if (it != mHashCache.end()) {
+    return it->second;
+  }
+  return std::nullopt;
+}
+
+std::optional<std::string> DurableCache::maybeRetrieve(std::string key) const
+{
+  return maybeRetrieve(DEFAULT_PROJECT_ID, key);
+}
+
 } // namespace PB::Service

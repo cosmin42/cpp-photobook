@@ -155,7 +155,7 @@ private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
   std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
-  std::shared_ptr<DurableHashService>       mDurableHashService = nullptr;
+  std::shared_ptr<DurableCache>             mDurableHashService = nullptr;
   std::shared_ptr<ProjectManagementService> mProjectManagementService = nullptr;
   std::shared_ptr<ImageFactory>             mImageFactory = nullptr;
 

@@ -46,12 +46,6 @@ void CollageService::configureTaskCruncher(
   mTaskCruncher = taskCruncher;
 }
 
-void CollageService::configureDurableHashService(
-    std::shared_ptr<DurableHashService> durableHashService)
-{
-  mCollageMakerJob->configureDurableHashService(durableHashService);
-}
-
 void CollageService::configureImageFactory(
     std::shared_ptr<ImageFactory> imageFactory)
 {

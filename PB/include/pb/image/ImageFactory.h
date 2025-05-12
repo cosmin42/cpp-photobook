@@ -13,8 +13,7 @@ public:
 
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureProject(IdentifiableProject project);
-  void configureDurableHashService(
-      std::shared_ptr<DurableHashService> durableHashService);
+  void configureDurableHashService(std::shared_ptr<DurableCache> durableHashService);
 
   std::shared_ptr<RegularImageV2> createRegularImage(Path path);
   std::shared_ptr<RegularImageV2> createRegularImage(std::string hash);
@@ -39,7 +38,7 @@ public:
 private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
   IdentifiableProject                 mProject = nullptr;
-  std::shared_ptr<DurableHashService> mDurableHashService = nullptr;
+  std::shared_ptr<DurableCache>       mDurableHashService = nullptr;
   GenericImagePtr                     mDefaultRegularImage = nullptr;
 };
 } // namespace PB

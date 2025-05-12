@@ -37,12 +37,6 @@ void CollageMakerJob::configurePlatformInfo(
       std::make_shared<CollageLibraryAssistant>(mPlatformInfo->localStatePath);
 }
 
-void CollageMakerJob::configureDurableHashService(
-    std::shared_ptr<DurableHashService> durableHashService)
-{
-  mDurableHashService = durableHashService;
-}
-
 void CollageMakerJob::configureVulkanManager(
     std::shared_ptr<VulkanManager> vulkanManager)
 {

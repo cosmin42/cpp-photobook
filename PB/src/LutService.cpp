@@ -105,7 +105,9 @@ void LutService::onInspectionFinished(PBDev::DirectoryInspectionJobId id,
   UNUSED(id);
   for (auto &path : searchResults) {
     if (lutExists(path)) {
-      Path iconPath = mDurableHashService->getHash(path.string());
+      PBDev::basicAssert(
+          mDurableHashService->maybeRetrieve(path.string()).has_value());
+      Path iconPath = mDurableHashService->maybeRetrieve(path.string()).value();
       auto lutName = Job::LutIconsPreprocessingJob::extractNameFromPath(path);
       onLutIconsPreprocessingFinished(lutName, path, iconPath);
     }
@@ -130,7 +132,7 @@ void LutService::onLutIconsPreprocessingFinished(std::string lutName,
   lutIconInfo.path = icon;
   lutIconInfo.name = lutName;
   mLutsIconsInfo.push_back(lutIconInfo);
-  mDurableHashService->createLink(cubeFile.string(), icon.string());
+  mDurableHashService->linkData(cubeFile.string(), icon.string());
   mLutServiceListener->onLutAdded(lutIconInfo);
 }
 
@@ -204,11 +206,11 @@ Path LutService::lutAssetsPath() const
 
 bool LutService::lutExists(const Path &path) const
 {
-  if (!mDurableHashService->containsKey(path.string())) {
+  if (!mDurableHashService->maybeRetrieve(path.string()).has_value()) {
     return false;
   }
 
-  auto correspondingPath = mDurableHashService->getHash(path.string());
+  auto correspondingPath = Path(mDurableHashService->maybeRetrieve(path.string()).value());
 
   if (!std::filesystem::exists(correspondingPath)) {
     return false;

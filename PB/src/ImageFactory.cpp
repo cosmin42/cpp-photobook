@@ -1,8 +1,8 @@
 #include <pb/image/ImageFactory.h>
 
 #include <pb/components/ThumbnailsTask.h>
-#include <pb/image/ImageOperations.h>
 #include <pb/entities/CollageImage.h>
+#include <pb/image/ImageOperations.h>
 
 namespace PB {
 
@@ -18,7 +18,7 @@ void ImageFactory::configureProject(IdentifiableProject project)
 }
 
 void ImageFactory::configureDurableHashService(
-    std::shared_ptr<DurableHashService> durableHashService)
+    std::shared_ptr<DurableCache> durableHashService)
 {
   mDurableHashService = durableHashService;
 }
@@ -68,7 +68,10 @@ GenericImagePtr ImageFactory::createImage(Path path)
     return createRegularImage(path);
   }
   else if (std::filesystem::is_directory(path)) {
-    auto coreHash = mDurableHashService->getHash(projectId, path);
+    auto coreHash =
+        boost::uuids::to_string(RuntimeUUID::newUUID());
+
+    mDurableHashService->linkData(projectId, path.string(), coreHash);
 
     return createTextImage(path, coreHash);
   }
@@ -112,8 +115,9 @@ GenericImagePtr ImageFactory::copyImage(GenericImagePtr image)
   }
   else if (image->type() == ImageType::Collage) {
     auto collageImage = std::dynamic_pointer_cast<CollageImage>(image);
-    
-    return std::make_shared<CollageImage>(newHash, collageImage->sources(), collageImage->name());
+
+    return std::make_shared<CollageImage>(newHash, collageImage->sources(),
+                                          collageImage->name());
   }
   else {
     PBDev::basicAssert(false);

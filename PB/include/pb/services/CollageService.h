@@ -24,8 +24,6 @@ public:
   void configureProject(IdentifiableProject project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureTaskCruncher(std::shared_ptr<TaskCruncher> taskCruncher);
-  void configureDurableHashService(
-      std::shared_ptr<DurableHashService> durableHashService);
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
   void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
@@ -49,6 +47,5 @@ private:
   std::shared_ptr<CollageMakerJob>           mCollageMakerJob = nullptr;
   std::shared_ptr<TaskCruncher>              mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>              mPlatformInfo = nullptr;
-  std::shared_ptr<DurableHashService>        mDurableHashService = nullptr;
 };
 } // namespace PB::Service

@@ -40,8 +40,7 @@ public:
     mLutIconsPreprocessingJob.configureOGLEngine(oglEngine);
   }
 
-  void configureDurableHashService(
-      std::shared_ptr<DurableHashService> durableHashService)
+  void configureDurableHashService(std::shared_ptr<DurableCache> durableHashService)
   {
     mDurableHashService = durableHashService;
   }
@@ -85,7 +84,7 @@ private:
   static constexpr const char *IMAGE_NAME = "singapore.png";
   static constexpr const char *FOLDER_NAME = "others";
 
-  std::shared_ptr<DurableHashService>         mDurableHashService = nullptr;
+  std::shared_ptr<DurableCache>               mDurableHashService = nullptr;
   std::shared_ptr<PlatformInfo>               mPlatformInfo = nullptr;
   std::shared_ptr<DirectoryInspectionService> mDirectoryInspectionService =
       nullptr;

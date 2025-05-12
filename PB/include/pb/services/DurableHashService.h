@@ -5,31 +5,36 @@
 #include <pb/infra/Traits.h>
 
 namespace PB::Service {
-class DurableHashService final {
+
+class DurableCache final {
 public:
-  ~DurableHashService() = default;
+  ~DurableCache() = default;
 
   void
   configureDatabaseService(std::shared_ptr<DatabaseService> databaseService);
 
-  void createLink(std::string key, std::string value);
+  void loadDataForProject(PBDev::ProjectId projectId);
 
-  bool containsHash(std::string key);
+  void linkData(PBDev::ProjectId projectId, std::string key, std::string value);
+  void linkData(std::string key, std::string value);
 
-  bool containsKey(std::string key);
+  void deleteHash(std::string key);
+  void deleteByProjectId(std::string projectId);
 
-  std::string getHash(PBDev::ProjectId projectId, Path path);
-  std::string getHash(Path path);
+  std::string createOrRetrieve(PBDev::ProjectId projectId, std::string key);
+  std::string createOrRetrieve(std::string key);
 
-  void deleteHashByProjectId(PBDev::ProjectId projectId);
+  std::optional<std::string> maybeRetrieve(PBDev::ProjectId projectId,
+                                           std::string      key) const;
+  std::optional<std::string> maybeRetrieve(std::string key) const;
 
 private:
   static const PBDev::ProjectId DEFAULT_PROJECT_ID;
 
-  static std::string computeHash(std::string key);
+  std::map<std::pair<std::string, std::string>, std::string>
+      mHashCache; // key = (projectId, path), value = string
 
   std::shared_ptr<DatabaseService> mDatabaseService = nullptr;
-
-  std::string saltHash(std::string hash);
 };
+
 } // namespace PB::Service

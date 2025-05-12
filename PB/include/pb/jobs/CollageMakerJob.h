@@ -6,7 +6,6 @@
 #include <pb/components/SkiaResources.h>
 #include <pb/image/ImageFactory.h>
 #include <pb/services/DrawingService.h>
-#include <pb/services/DurableHashService.h>
 
 namespace PB::Job {
 class CollageMakerListener {
@@ -27,8 +26,6 @@ public:
   void configureListener(CollageMakerListener *listener);
   void configureProject(IdentifiableProject project);
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
-  void configureDurableHashService(
-      std::shared_ptr<DurableHashService> durableHashService);
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
   void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
 
@@ -51,7 +48,6 @@ private:
   std::shared_ptr<CollageLibraryAssistant> mAssistant = nullptr;
   IdentifiableProject                      mProject = nullptr;
   std::shared_ptr<SkiaResources>           mResources = nullptr;
-  std::shared_ptr<DurableHashService>      mDurableHashService = nullptr;
   std::shared_ptr<ImageFactory>            mImageFactory = nullptr;
   Service::DrawingService                  mDrawingService;
   PBDev::SkiaResourcesId                   mResourcesProviderId;
