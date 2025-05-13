@@ -85,6 +85,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     include/pb/PhotobookListener.h
     include/pb/Platform.h
     include/pb/StagedImages.h
+    include/pb/NoirMonitor.h
     include/pb/components/CollageLibraryAssistant.h
     include/pb/components/ImageMetadataInspector.h
     include/pb/components/ImageToPaperTask.h
@@ -181,6 +182,7 @@ add_library(${PBLIB_LIBRARY_NAME} STATIC
     src/LinesOperationsHistory.cpp
     src/LutIconsPreprocessingJob.cpp
     src/LutService.cpp
+    src/NoirMonitor.cpp
     src/OGLEngine.cpp
     src/PaperSettings.cpp
     src/Pdf.cpp
