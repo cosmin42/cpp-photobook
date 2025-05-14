@@ -38,9 +38,11 @@ private:
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
   std::unordered_map<
       std::pair<std::string, std::string>,
-      std::chrono::time_point<std::chrono::high_resolution_clock>>
+      std::chrono::time_point<std::chrono::high_resolution_clock>,
+      boost::hash<std::pair<std::string, std::string>>>
       mStartTimes;
 
-  std::unordered_map<std::pair<std::string, std::string>, double> mDurations;
+  std::unordered_map<std::pair<std::string, std::string>, double,
+    boost::hash<std::pair<std::string, std::string>>> mDurations;
 };
 } // namespace PB

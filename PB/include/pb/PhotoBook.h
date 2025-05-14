@@ -16,6 +16,7 @@
 #include <pb/export/Html.h>
 #include <pb/export/Jpg.h>
 #include <pb/export/Pdf.h>
+#include <pb/NoirMonitor.h>
 #include <pb/image/ImageFactory.h>
 #include <pb/infra/TaskCruncher.h>
 #include <pb/jobs/PicturesSearchJob.h>
@@ -170,5 +171,6 @@ private:
   std::shared_ptr<OGLEngine>            mOGLEngine = nullptr;
   std::shared_ptr<EffectsService>       mEffectsService = nullptr;
   std::shared_ptr<AzureService>         mAzureService = nullptr;
+  std::shared_ptr<NoirMonitor>          mNoirMonitor = nullptr;
 };
 } // namespace PB

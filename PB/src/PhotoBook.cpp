@@ -30,7 +30,8 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
       mVulkanManager(std::make_shared<VulkanManager>()),
       mOGLEngine(std::make_shared<OGLEngine>()),
       mEffectsService(std::make_shared<EffectsService>()),
-      mAzureService(std::make_shared<AzureService>())
+      mAzureService(std::make_shared<AzureService>()),
+      mNoirMonitor(std::make_shared<NoirMonitor>())
 {
 
   initLogger();
@@ -87,10 +88,13 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mProjectSerializerService->configurePlatformInfo(mPlatformInfo);
 
+  mNoirMonitor->configurePlatformInfo(mPlatformInfo);
+
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
   mImportLogic->configureScheduler(threadScheduler);
   mImportLogic->configureListener(importFoldersServiceListener);
+  mImportLogic->configureNoirMonitor(mNoirMonitor);
 
   mExportService->configureTaskCruncher(mTaskCruncher);
   mExportService->configurePlatformInfo(mPlatformInfo);

@@ -35,6 +35,7 @@ void ImportFoldersService::addImportFolder(Path path)
   mSearches.at(jobId).setPicturesSearchJobListener(this);
   mSearches.at(jobId).assignUuid(
       PBDev::MapReducerTaskId(RuntimeUUID::newUUID()));
+  mSearches.at(jobId).configureNoirMonitor(mNoirMonitor);
 
   auto stopSource =
       mTaskCruncher->crunch("image-search-job", mSearches.at(jobId),
@@ -99,8 +100,9 @@ void ImportFoldersService::onPicturesSearchFinished(
     if (mSearches.contains(jobId)) {
       mSearches.erase(jobId);
     }
-
+    mNoirMonitor->start("Placeholders", boost::uuids::to_string(jobId.raw()));
     auto placeholders = createPlaceholders(searchResults);
+    mNoirMonitor->stop("Placeholders", boost::uuids::to_string(jobId.raw()));
     mListener->onSearchingFinished(root, placeholders);
     startThumbnailsCreation(jobId, placeholders);
   }
@@ -117,6 +119,7 @@ void ImportFoldersService::startThumbnailsCreation(
   mThumbnailsJobs.at(jobId).configureListener(this);
   mThumbnailsJobs.at(jobId).configurePlatformInfo(mPlatformInfo);
   mThumbnailsJobs.at(jobId).configureProject(mProject);
+  mThumbnailsJobs.at(jobId).configureNoirMonitor(mNoirMonitor);
 
   auto stopSource =
       mTaskCruncher->crunch("thumbnails-job", mThumbnailsJobs.at(jobId),

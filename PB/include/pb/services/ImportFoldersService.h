@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include <pb/Config.h>
+#include <pb/NoirMonitor.h>
 #include <pb/entities/RowProcessingData.h>
 #include <pb/infra/Error.h>
 #include <pb/infra/TaskCruncher.h>
@@ -55,6 +56,11 @@ public:
     mScheduler = scheduler;
   }
 
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+  {
+    mNoirMonitor = noirMonitor;
+  }
+
   void configureProject(IdentifiableProject project) { mProject = project; }
 
   void addImportFolder(Path path);
@@ -77,6 +83,7 @@ private:
   ImportFoldersServiceListener    *mListener = nullptr;
   std::shared_ptr<TaskCruncher>   mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>   mPlatformInfo = nullptr;
+  std::shared_ptr<NoirMonitor>    mNoirMonitor = nullptr;
   IdentifiableProject             mProject = nullptr;
   PBDev::ThreadScheduler*         mScheduler = nullptr;
 

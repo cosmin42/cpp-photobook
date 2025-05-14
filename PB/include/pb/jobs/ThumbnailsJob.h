@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <pb/Platform.h>
+#include <pb/NoirMonitor.h>
 #include <pb/components/MapReducer.h>
 #include <pb/components/ThumbnailsTask.h>
 #include <pb/entities/RegularImageV2.h>
@@ -51,6 +52,11 @@ public:
 
   void configureProject(IdentifiableProject project) { mProject = project; }
 
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+  {
+    mNoirMonitor = noirMonitor;
+  }
+
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
@@ -67,7 +73,9 @@ public:
 
     return std::make_optional(IdentifyableFunction{
         taskId, [this, imageId, image]() {
+          mNoirMonitor->start("Thumbnails creation", boost::uuids::to_string(imageId.raw()));
           auto processedImage = processDiscriminator(image);
+          mNoirMonitor->stop("Thumbnails creation", boost::uuids::to_string(imageId.raw()));
           mListener->imageProcessed(mJobId, imageId, processedImage);
         }});
   }
@@ -84,6 +92,7 @@ public:
 private:
   ThumbnailsJobListener        *mListener = nullptr;
   std::shared_ptr<PlatformInfo> mPlatformInfo = nullptr;
+  std::shared_ptr<NoirMonitor>  mNoirMonitor = nullptr;
   IdentifiableProject           mProject = nullptr;
   PBDev::ThumbnailsJobId        mJobId;
   const std::unordered_map<PBDev::ImageId, GenericImagePtr,

@@ -53,9 +53,10 @@ public:
     }
 
     mStopToken = stopToken;
-
+    auto newId = RuntimeUUID::newUUID();
     IdentifyableFunction f{
-        RuntimeUUID::newUUID(), [this, stopToken{stopToken}]() {
+      newId, [this, stopToken{stopToken}, noirMonitor{mNoirMonitor}, newId{newId}]() {
+          noirMonitor->start("Pictures Search", boost::uuids::to_string(newId));
           auto recursiveIterator =
               std::filesystem::recursive_directory_iterator(
                   mRoot,
@@ -73,6 +74,7 @@ public:
               std::this_thread::sleep_for(std::chrono::milliseconds(3000));
             }
           }
+          noirMonitor->stop("Pictures Search", boost::uuids::to_string(newId));
         }};
     mCrunchedFlag = true;
     return f;

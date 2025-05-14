@@ -9,6 +9,7 @@
 #include <boost/uuid/uuid.hpp>
 
 #include <pb/infra/Traits.h>
+#include <pb/NoirMonitor.h>
 
 DECLARE_STRONG_UUID(MapReducerTaskId)
 
@@ -22,6 +23,11 @@ public:
   virtual ~MapReducer() = default;
 
   void assignUuid(PBDev::MapReducerTaskId id) { mId = id; }
+  
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+  {
+    mNoirMonitor = noirMonitor;
+  }
 
   bool isFinished() const
   {
@@ -45,6 +51,8 @@ public:
 
 protected:
   PBDev::MapReducerTaskId mId;
+
+  std::shared_ptr<NoirMonitor> mNoirMonitor = nullptr;
 
 private:
   // TODO: Check why shared_ptr is needed
