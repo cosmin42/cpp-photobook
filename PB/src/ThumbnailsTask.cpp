@@ -9,6 +9,7 @@ namespace PB {
 std::string
 ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
                                  std::shared_ptr<PlatformInfo> platformInfo,
+                                 std::shared_ptr<NoirMonitor> noirMonitor,
                                  IdentifiableProject           project,
                                  std::string                   targetHash)
 {
@@ -18,7 +19,7 @@ ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
   if (targetHash.empty()) {
     targetHash = "wait";
   }
-
+  noirMonitor->start("Thumbnails Stage 1", targetHash);
   auto [large, medium, small, hash] =
       platformInfo->newThumbnailPaths(projectId, targetHash);
 
@@ -30,25 +31,38 @@ ThumbnailsTask::createThumbnails(std::shared_ptr<cv::Mat>      originalImage,
       {(int)project->value.paperSettings.width,
        (int)project->value.paperSettings.height});
 
+  noirMonitor->stop("Thumbnails Stage 1", targetHash);
+  noirMonitor->start("Thumbnails Stage 2", targetHash);
+
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);
   auto largeImage = PB::Process::clone(originalImage);
+
+  noirMonitor->stop("Thumbnails Stage 2", targetHash);
+  noirMonitor->start("Thumbnails Stage 3", targetHash);
 
   cv::resize(*smallImage, *smallImage, smallSize);
   cv::resize(*mediumImage, *mediumImage, mediumSize);
   cv::resize(*largeImage, *largeImage, largeSize);
 
+  noirMonitor->stop("Thumbnails Stage 3", targetHash);
+  noirMonitor->start("Thumbnails Stage 4", targetHash);
+
   PB::infra::writeImageOnDisk(smallImage, small);
   PB::infra::writeImageOnDisk(mediumImage, medium);
   PB::infra::writeImageOnDisk(largeImage, large);
+
+  noirMonitor->stop("Thumbnails Stage 4", targetHash);
 
   return hash;
 }
 
 std::string ThumbnailsTask::createThumbnailsByPath(
     Path originalPath, std::shared_ptr<PlatformInfo> platformInfo,
+    std::shared_ptr<NoirMonitor> noirMonitor,
     IdentifiableProject project, std::string targetHash)
 {
+  noirMonitor->start("Thumbnails Stage 1", targetHash);
   auto projectId = project->id;
 
   auto [large, medium, small, hash] =
@@ -66,19 +80,30 @@ std::string ThumbnailsTask::createThumbnailsByPath(
       {(int)project->value.paperSettings.width,
        (int)project->value.paperSettings.height});
 
+  noirMonitor->stop("Thumbnails Stage 1", targetHash);
+  noirMonitor->start("Thumbnails Stage 2", targetHash);
+
   auto originalImage = infra::loadImageToCvMat(originalPath);
 
   auto smallImage = PB::Process::clone(originalImage);
   auto mediumImage = PB::Process::clone(originalImage);
   auto largeImage = PB::Process::clone(originalImage);
 
+  noirMonitor->stop("Thumbnails Stage 2", targetHash);
+  noirMonitor->start("Thumbnails Stage 3", targetHash);
+
   cv::resize(*smallImage, *smallImage, smallSize);
   cv::resize(*mediumImage, *mediumImage, mediumSize);
   cv::resize(*largeImage, *largeImage, largeSize);
 
+  noirMonitor->stop("Thumbnails Stage 3", targetHash);
+  noirMonitor->start("Thumbnails Stage 4", targetHash);
+
   PB::infra::writeImageOnDisk(smallImage, small);
   PB::infra::writeImageOnDisk(mediumImage, medium);
   PB::infra::writeImageOnDisk(largeImage, large);
+
+  noirMonitor->stop("Thumbnails Stage 4", targetHash);
 
   return hash;
 }
@@ -98,9 +123,15 @@ void ThumbnailsTask::configureProject(IdentifiableProject project)
   mProject = project;
 }
 
+void ThumbnailsTask::configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+{
+  mNoirMonitor = noirMonitor;
+}
+
 std::string ThumbnailsTask::createThumbnails()
 {
-  return createThumbnailsByPath(mOriginalPath, mPlatformInfo, mProject);
+  return createThumbnailsByPath(mOriginalPath, mPlatformInfo, mNoirMonitor,
+                                mProject);
 }
 
 } // namespace PB

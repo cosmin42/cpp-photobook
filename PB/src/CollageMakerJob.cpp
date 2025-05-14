@@ -118,7 +118,7 @@ void CollageMakerJob::onTaskFinished(PBDev::MapReducerTaskId reducerTaskId)
   auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
   auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
-      mCollagePath.at(reducerTaskId), mPlatformInfo, mProject, newHash);
+      mCollagePath.at(reducerTaskId), mPlatformInfo, mNoirMonitor, mProject, newHash);
 
   PBDev::basicAssert(maybeNewHash == newHash);
   auto newImage = std::make_shared<CollageImage>(newHash, mSources, mNewImageName);

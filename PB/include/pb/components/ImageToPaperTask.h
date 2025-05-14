@@ -14,6 +14,7 @@
 #include <pb/entities/CollageImage.h>
 #include <pb/infra/FileSupport.h>
 #include <pb/services/ProjectManagementService.h>
+#include <pb/NoirMonitor.h>
 
 DECLARE_STRONG_UUID(ImageToPaperId)
 
@@ -59,6 +60,11 @@ public:
     mListener = listener;
   }
 
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+  {
+    mNoirMonitor = noirMonitor;
+  }
+
   std::optional<IdentifyableFunction>
   getTask(std::stop_token stopToken) override
   {
@@ -82,6 +88,7 @@ public:
 
 private:
   std::shared_ptr<PlatformInfo>      mPlatformInfo = nullptr;
+  std::shared_ptr<NoirMonitor>       mNoirMonitor = nullptr;
   std::vector<PBDev::ImageToPaperId> mImageIds;
   unsigned                           mImageIndex = 0;
 
@@ -170,7 +177,7 @@ private:
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
     auto maybeNewHash = ThumbnailsTask::createThumbnails(
-        singleColorImage, mPlatformInfo, mProject, newHash);
+        singleColorImage, mPlatformInfo, mNoirMonitor, mProject, newHash);
 
     PBDev::basicAssert(maybeNewHash == newHash);
     

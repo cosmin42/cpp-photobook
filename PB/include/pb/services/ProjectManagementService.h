@@ -9,6 +9,7 @@
 #include <pb/infra/Traits.h>
 #include <pb/services/DatabaseService.h>
 #include <pb/services/ProjectSerializerService.h>
+#include <pb/NoirMonitor.h>
 
 namespace PB::Service {
 
@@ -32,6 +33,7 @@ public:
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureProjectSerializerService(
       std::shared_ptr<ProjectSerializerService> projectSerializerService);
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor);
 
   void recallMetadata();
 
@@ -62,7 +64,7 @@ private:
   std::shared_ptr<PlatformInfo>             mPlatformInfo = nullptr;
   std::shared_ptr<DatabaseService>          mDatabaseService = nullptr;
   std::shared_ptr<ProjectSerializerService> mProjectSerializerService = nullptr;
-
+  std::shared_ptr<NoirMonitor>              mNoirMonitor = nullptr;
   boost::bimaps::bimap<boost::uuids::uuid, std::string> mProjectsMetadata;
 
   IdentifiableProject maybeLoadedProject = nullptr;

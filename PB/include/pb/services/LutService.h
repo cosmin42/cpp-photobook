@@ -9,6 +9,7 @@
 #include <pb/jobs/LutIconsPreprocessingJob.h>
 #include <pb/services/DirectoryInspectionService.h>
 #include <pb/services/DurableHashService.h>
+#include <pb/NoirMonitor.h>
 
 DECLARE_STRONG_STRING(LutName)
 
@@ -51,6 +52,8 @@ public:
 
   void configureLutServiceListener(LutServiceListener *listener);
 
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor);
+
   void startLutService();
   void detectLuts();
 
@@ -90,6 +93,8 @@ private:
       nullptr;
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
   std::shared_ptr<OGLEngine>    mOglEngine = nullptr;
+
+  std::shared_ptr<NoirMonitor> mNoirMonitor = nullptr;
   PBDev::ThreadScheduler       *mThreadScheduler = nullptr;
   LutServiceListener           *mLutServiceListener = nullptr;
 

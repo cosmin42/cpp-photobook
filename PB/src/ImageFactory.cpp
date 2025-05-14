@@ -23,6 +23,11 @@ void ImageFactory::configureDurableHashService(
   mDurableHashService = durableHashService;
 }
 
+void ImageFactory::configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+{
+  mNoirMonitor = noirMonitor;
+}
+
 std::shared_ptr<RegularImageV2> ImageFactory::createRegularImage(Path path)
 {
   auto regularImage =
@@ -54,7 +59,7 @@ std::shared_ptr<TextImageV2> ImageFactory::createTextImage(Path        path,
       {project.paperSettings.width / 2, project.paperSettings.height / 2},
       path.stem().string(), fontInfo)(image);
 
-  ThumbnailsTask::createThumbnails(image, mPlatformInfo, mProject, hash);
+  ThumbnailsTask::createThumbnails(image, mPlatformInfo, mNoirMonitor, mProject, hash);
 
   auto textImage = std::make_shared<TextImageV2>(hash, path.stem().string());
   return textImage;

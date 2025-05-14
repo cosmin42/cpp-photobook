@@ -63,6 +63,11 @@ void LutService::configureLutServiceListener(LutServiceListener *listener)
   mLutServiceListener = listener;
 }
 
+void LutService::configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+{
+  mNoirMonitor = noirMonitor;
+}
+
 void LutService::startLutService()
 {
   if (!std::filesystem::exists(mPlatformInfo->processedLutsPath())) {
@@ -164,7 +169,7 @@ void LutService::applyLut(PBDev::LutApplicationId lutId, unsigned lutIndex,
     auto newHash = boost::uuids::to_string(boost::uuids::random_generator()());
 
     auto maybeNewHash = ThumbnailsTask::createThumbnailsByPath(
-        imageProcessingData.outImage, mPlatformInfo, mProject, newHash);
+        imageProcessingData.outImage, mPlatformInfo, mNoirMonitor,  mProject, newHash);
     PBDev::basicAssert(maybeNewHash == newHash);
     auto newImage = mImageFactory->createRegularImage(newHash);
 

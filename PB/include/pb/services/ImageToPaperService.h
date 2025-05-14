@@ -38,6 +38,11 @@ public:
     mListener = listener;
   }
 
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+  {
+    mNoirMonitor = noirMonitor;
+  }
+
   void toPaper(PBDev::ImageToPaperServiceId,
                std::unordered_map<PBDev::ImageToPaperId, ImageToPaperData,
                                   boost::hash<PBDev::ImageToPaperId>>
@@ -53,6 +58,7 @@ private:
   std::shared_ptr<TaskCruncher> mTaskCruncher = nullptr;
   IdentifiableProject           mProject = nullptr;
   std::shared_ptr<ImageFactory> mImageFactory = nullptr;
+  std::shared_ptr<NoirMonitor>  mNoirMonitor = nullptr;
   std::unordered_map<PBDev::ImageToPaperServiceId, ImageToPaperTask,
                      boost::hash<PBDev::ImageToPaperServiceId>>
       mTasks;

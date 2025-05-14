@@ -99,9 +99,9 @@ static constexpr const char *PROCESSED_LUTS_FOLDER_NAME = "processed-luts";
 static constexpr bool SHOW_VULKAN_DEBUG_INFO = false;
 
 const std::unordered_map<std::string, unsigned> TASK_CRUNCHER_POOLS_INFO = {
-    {"image-search-job", 4}, {"export-logic", 1}, {"collage-thumbnails", 4},
-    {"upl-to-spl-map", 4},   {"search-files", 4}, {"lut-icons", 4},
-    {"thumbnails-job", 1},   {"default", 1}};
+    {"image-search-job", 1}, {"export-logic", 1}, {"collage-thumbnails", 4},
+    {"upl-to-spl-map", 4},   {"search-files", 1}, {"lut-icons", 4},
+    {"thumbnails-job", 4},   {"default", 1}};
 
 #ifdef SIMULATE_FEW_HAPPY_WORDS
 const std::vector<std::string> HAPPY_WORDS = {"Joyful", "Blissful"};

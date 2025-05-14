@@ -106,6 +106,7 @@ private:
     ThumbnailsTask task(path);
     task.configurePlatformInfo(mPlatformInfo);
     task.configureProject(mProject);
+    task.configureNoirMonitor(mNoirMonitor);
     auto hash = task.createThumbnails();
     return std::make_shared<RegularImageV2>(hash, path);
   }
@@ -120,6 +121,7 @@ private:
     ThumbnailsTask task(temporaryImagePath);
     task.configurePlatformInfo(mPlatformInfo);
     task.configureProject(mProject);
+    task.configureNoirMonitor(mNoirMonitor);
     auto hash = task.createThumbnails();
     std::filesystem::remove(temporaryImagePath);
     return std::make_shared<TextImageV2>(hash, directoryName);

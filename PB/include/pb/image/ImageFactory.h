@@ -5,6 +5,7 @@
 #include <pb/entities/TextImageV2.h>
 #include <pb/services/DurableHashService.h>
 #include <pb/services/ProjectManagementService.h>
+#include <pb/NoirMonitor.h>
 
 namespace PB {
 class ImageFactory final {
@@ -14,6 +15,7 @@ public:
   void configurePlatformInfo(std::shared_ptr<PlatformInfo> platformInfo);
   void configureProject(IdentifiableProject project);
   void configureDurableHashService(std::shared_ptr<DurableCache> durableHashService);
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor);
 
   std::shared_ptr<RegularImageV2> createRegularImage(Path path);
   std::shared_ptr<RegularImageV2> createRegularImage(std::string hash);
@@ -37,6 +39,7 @@ public:
 
 private:
   std::shared_ptr<PlatformInfo>       mPlatformInfo = nullptr;
+  std::shared_ptr<NoirMonitor>        mNoirMonitor = nullptr;
   IdentifiableProject                 mProject = nullptr;
   std::shared_ptr<DurableCache>       mDurableHashService = nullptr;
   GenericImagePtr                     mDefaultRegularImage = nullptr;

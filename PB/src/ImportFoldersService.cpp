@@ -83,7 +83,7 @@ ImportFoldersService::createPlaceholders(std::vector<Path> searchResults)
     else {
       PBDev::basicAssert(false);
     }
-    placeholders.emplace(imageId, placeholder);
+    placeholders[imageId] = placeholder;
   }
 
   return placeholders;

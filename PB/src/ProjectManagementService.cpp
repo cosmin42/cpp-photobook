@@ -46,6 +46,11 @@ void ProjectManagementService::configureProjectSerializerService(
   mProjectSerializerService = projectSerializerService;
 }
 
+void ProjectManagementService::configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+{
+  mNoirMonitor = noirMonitor;
+}
+
 void ProjectManagementService::recallMetadata()
 {
   auto metadata = mDatabaseService->selectData(
@@ -154,7 +159,7 @@ void ProjectManagementService::preprocessDefaultWaitingImage()
   auto waitImagePath = mPlatformInfo->waitImage();
 
   auto hash = ThumbnailsTask::createThumbnailsByPath(
-      waitImagePath, mPlatformInfo, maybeLoadedProjectInfo(), "wait");
+      waitImagePath, mPlatformInfo, mNoirMonitor, maybeLoadedProjectInfo(), "wait");
 
   Noir::inst().getLogger()->info(
       "Wait image processed to {}",

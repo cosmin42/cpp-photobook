@@ -12,6 +12,7 @@ void ImageToPaperService::toPaper(
   auto &&task = ImageToPaperTask(mProject, originalImages);
   task.configurePlatformInfo(mPlatformInfo);
   task.setImageToPaperServiceListener(mListener);
+  task.configureNoirMonitor(mNoirMonitor);
   mTasks.emplace(id, task);
   auto stopSource = mTaskCruncher->crunch("upl-to-spl-map", mTasks.at(id),
                                           PBDev::ProgressJobName{"to-paper"});

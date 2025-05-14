@@ -51,11 +51,14 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   PBDev::basicAssert(effectsServiceListener != nullptr);
   mEffectsService->configureEffectsServiceListener(effectsServiceListener);
 
+  mNoirMonitor->configurePlatformInfo(mPlatformInfo);
+
   auto imageToPaperServiceListener =
       dynamic_cast<PB::ImageToPaperServiceListener *>(this);
   PBDev::basicAssert(imageToPaperServiceListener != nullptr);
   mImageToPaperService->setImageToPaperServiceListener(
       imageToPaperServiceListener);
+  mImageToPaperService->configureNoirMonitor(mNoirMonitor);
 
   mDatabaseService->configurePlatformInfo(mPlatformInfo);
 
@@ -85,10 +88,9 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mProjectManagementService->configurePlatformInfo(mPlatformInfo);
   mProjectManagementService->configureProjectSerializerService(
       mProjectSerializerService);
+  mProjectManagementService->configureNoirMonitor(mNoirMonitor);
 
   mProjectSerializerService->configurePlatformInfo(mPlatformInfo);
-
-  mNoirMonitor->configurePlatformInfo(mPlatformInfo);
 
   mImportLogic->configureTaskCruncher(mTaskCruncher);
   mImportLogic->configurePlatformInfo(mPlatformInfo);
@@ -103,6 +105,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
 
   mImageFactory->configurePlatformInfo(mPlatformInfo);
   mImageFactory->configureDurableHashService(mDurableHashService);
+  mImageFactory->configureNoirMonitor(mNoirMonitor);
 
   mImageToPaperService->configurePlatformInfo(mPlatformInfo);
   mImageToPaperService->configureTaskCruncher(mTaskCruncher);
@@ -114,6 +117,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mLutService->configureOGLEngine(mOGLEngine);
   mLutService->configureDurableHashService(mDurableHashService);
   mLutService->configureImageFactory(mImageFactory);
+  mLutService->configureNoirMonitor(mNoirMonitor);
 
   mCollageTemplateManager->configurePlatformInfo(mPlatformInfo);
   mCollageTemplateManager->configureVulkanManager(mVulkanManager);
