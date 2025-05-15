@@ -9,6 +9,7 @@
 #include <pb/jobs/CollageMakerJob.h>
 #include <pb/jobs/CollageThumbnailsMakerJob.h>
 #include <pb/services/DrawingService.h>
+#include <pb/NoirMonitor.h>
 
 using namespace PB::Job;
 
@@ -27,6 +28,7 @@ public:
   void configureImageFactory(std::shared_ptr<ImageFactory> imageFactory);
 
   void configureVulkanManager(std::shared_ptr<VulkanManager> vulkanManager);
+  void configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor);
 
   void generateTemplatesImages();
   void combineImages(unsigned templateIndex, std::vector<Path> imagesPaths);
@@ -47,5 +49,6 @@ private:
   std::shared_ptr<CollageMakerJob>           mCollageMakerJob = nullptr;
   std::shared_ptr<TaskCruncher>              mTaskCruncher = nullptr;
   std::shared_ptr<PlatformInfo>              mPlatformInfo = nullptr;
+  std::shared_ptr<NoirMonitor>               mNoirMonitor = nullptr;
 };
 } // namespace PB::Service

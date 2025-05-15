@@ -59,6 +59,12 @@ void CollageService::configureVulkanManager(
   mCollageMakerJob->configureVulkanManager(vulkanManager);
 }
 
+void CollageService::configureNoirMonitor(std::shared_ptr<NoirMonitor> noirMonitor)
+{
+  mThumbnailsJob->configureNoirMonitor(noirMonitor);
+  mCollageMakerJob->configureNoirMonitor(noirMonitor);
+}
+
 void CollageService::generateTemplatesImages()
 {
   mThumbnailsJob->mapJobs();

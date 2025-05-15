@@ -102,6 +102,7 @@ Photobook::Photobook(Path localStatePath, Path installationPath,
   mExportService->configurePlatformInfo(mPlatformInfo);
 
   mCollageTemplateManager->configureTaskCruncher(mTaskCruncher);
+  mCollageTemplateManager->configureNoirMonitor(mNoirMonitor);
 
   mImageFactory->configurePlatformInfo(mPlatformInfo);
   mImageFactory->configureDurableHashService(mDurableHashService);
