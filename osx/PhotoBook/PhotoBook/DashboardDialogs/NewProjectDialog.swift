@@ -107,7 +107,7 @@ struct NewProjectDialog: View {
                     
                     photobook.newProject(paperSettings)
                 }
-                .background(Color.PrimaryColor)
+                .background(Color.PrimaryBackgroundColor)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
                 Button("Cancel") {

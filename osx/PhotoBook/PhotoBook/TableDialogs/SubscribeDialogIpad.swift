@@ -47,7 +47,7 @@ struct SubscribeDialogIos: View {
                 }
                 .padding(8)
                 .padding(.horizontal, 8)
-                .background(Color.PrimaryColorIPad)
+                .background(Color.ConfirmationButtonBackground)
                 .cornerRadius(8)
                 .padding()
             }

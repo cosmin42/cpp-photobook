@@ -259,7 +259,7 @@ struct StagedPhotoLine: View
                 }
                 .buttonStyle(PlainButtonStyle())
                 .padding(4)
-                .background(multipleSelectionEnabled ? Color.ButtonBackgroundColor : Color.ButtonPointerOverWhenSelected)
+                .background(multipleSelectionEnabled ? Color.NeutralButtonBackgroundColor : Color.NeutralButtonPointerOverWhenSelected)
                 .cornerRadius(4)
                 .padding(4)
                 

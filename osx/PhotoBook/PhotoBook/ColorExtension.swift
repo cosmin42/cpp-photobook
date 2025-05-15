@@ -35,16 +35,31 @@ extension Color {
         
         return Color(red: red, green: green, blue: blue, opacity: alpha)
     }
-    
-    static let PrimaryColor = parseColor(hex: "#1A2224")
-    static let PrimaryColorIPad = parseColor(hex: "#B37C1C")
-    static let BorderColor = parseColor(hex: "#504D4D")
-    static let TextFieldBackgroundColor = parseColor(hex: "#000000")
-    static let ButtonBackgroundColor = parseColor(hex: "#374346")
-    static let ButtonPointerOverWhenSelected = parseColor(hex: "#516165")
+#if os(macOS)
+// Generated for SwiftUI
+    static let PrimaryBackgroundColor = parseColor(hex: "#1A2224")
+    static let BorderColor = parseColor(hex: "#09191D")
+    static let NeutralButtonBackgroundColor = parseColor(hex: "#374346")
+    static let NeutralButtonPointerOverWhenSelected = parseColor(hex: "#516165")
+    static let ConfirmationButtonBackground = parseColor(hex: "#374346")
     static let RemoveButtonBackground = parseColor(hex: "#541C1C")
-    static let RemoveButtonBackgroundIPad = parseColor(hex: "#1D3A78")
+    static let AppBarButtonDisabled = parseColor(hex: "#696969")
+    static let TextFieldBackgroundColor = parseColor(hex: "#000000")
     static let MainFontColor = parseColor(hex: "#FFFFFF")
     static let CommandBarMainColor = parseColor(hex: "#D3D3D3")
     static let DialogTextColor = parseColor(hex: "#808080")
+#else
+// Generated for SwiftUI
+    static let PrimaryBackgroundColor = parseColor(hex: "#1A2224")
+    static let BorderColor = parseColor(hex: "#09191D")
+    static let NeutralButtonBackgroundColor = parseColor(hex: "#374346")
+    static let NeutralButtonPointerOverWhenSelected = parseColor(hex: "#516165")
+    static let ConfirmationButtonBackground = parseColor(hex: "#374346")
+    static let RemoveButtonBackground = parseColor(hex: "#541C1C")
+    static let AppBarButtonDisabled = parseColor(hex: "#696969")
+    static let TextFieldBackgroundColor = parseColor(hex: "#000000")
+    static let MainFontColor = parseColor(hex: "#FFFFFF")
+    static let CommandBarMainColor = parseColor(hex: "#D3D3D3")
+    static let DialogTextColor = parseColor(hex: "#808080")
+#endif
 }

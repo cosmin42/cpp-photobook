@@ -60,7 +60,7 @@ struct DashboardView: View, PhotobookUIListener {
                     }) {
                         Text("+").frame(minWidth: 100, minHeight: 100)
                             .padding()
-                            .background(Color.ButtonBackgroundColor)
+                            .background(Color.NeutralButtonBackgroundColor)
                             .frame(alignment:.leading)
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -86,7 +86,7 @@ struct DashboardView: View, PhotobookUIListener {
                             }){
                                 Text("\(item.name)")
                                     .frame(width: 100, height: 100)
-                                    .background(Color.ButtonBackgroundColor)
+                                    .background(Color.NeutralButtonBackgroundColor)
                             }
                             .frame(width: 100, height: 100, alignment:.center)
                             .buttonStyle(PlainButtonStyle())
@@ -128,7 +128,7 @@ struct DashboardView: View, PhotobookUIListener {
                 self.photobook.recallMetadata()
             }
             .foregroundColor(Color.MainFontColor)
-            .background(Color.PrimaryColor)
+            .background(Color.PrimaryBackgroundColor)
         }
     }
     

@@ -134,7 +134,7 @@ struct ToPaperDialog: View {
                         .foregroundColor(Color.MainFontColor)
                 }
                 .padding()
-                .background(Color.ButtonBackgroundColor)
+                .background(Color.NeutralButtonBackgroundColor)
                 .frame(alignment: .leading)
                 
                 Button(action: {
@@ -147,7 +147,7 @@ struct ToPaperDialog: View {
                         .foregroundColor(Color.MainFontColor)
                 }
                 .padding()
-                .background(Color.ButtonBackgroundColor)
+                .background(Color.NeutralButtonBackgroundColor)
                 .frame(alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -160,7 +160,7 @@ struct ToPaperDialog: View {
                     Text("Ok")
                 }
                 .padding()
-                .background(Color.PrimaryColorIPad)
+                .background(Color.ConfirmationButtonBackground)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
                 
@@ -171,12 +171,12 @@ struct ToPaperDialog: View {
                     Text("Cancel")
                 }
                 .padding()
-                .background(Color.RemoveButtonBackgroundIPad)
+                .background(Color.RemoveButtonBackground)
                 .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
             }
         }
         .padding(12)
-        .background(Color.PrimaryColor)
+        .background(Color.PrimaryBackgroundColor)
     }
 }

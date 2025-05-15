@@ -110,7 +110,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Save")
                     
@@ -128,7 +128,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Preview")
                     
@@ -146,7 +146,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .disabled(splModel.list.isEmpty)
                     .help("Export")
@@ -165,7 +165,7 @@ struct TableContentView: View, PhotobookUIListener {
                         }
                     }
                     .frame(alignment: .leading)
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Subscribe")
                     
@@ -250,7 +250,7 @@ struct TableContentView: View, PhotobookUIListener {
                         
 #if !os(macOS)
                         .padding(4)
-                        .background(Color.PrimaryColorIPad)
+                        .background(Color.ConfirmationButtonBackground)
                         .cornerRadius(8)
                         .buttonStyle(PlainButtonStyle())
 #endif
@@ -261,28 +261,28 @@ struct TableContentView: View, PhotobookUIListener {
                             .font(.system(size: 14))
                             .frame(height: 24)
                             .padding(4)
-                            .background(selectedTab == 0 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .background(selectedTab == 0 ? Color.NeutralButtonPointerOverWhenSelected : Color.clear)
                             .cornerRadius(8)
                             .buttonStyle(PlainButtonStyle())
                         Button("Collages") { selectedTab = 1 }
                             .font(.system(size: 14))
                             .frame(height: 24)
                             .padding(4)
-                            .background(selectedTab == 1 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .background(selectedTab == 1 ? Color.NeutralButtonPointerOverWhenSelected : Color.clear)
                             .cornerRadius(8)
                             .buttonStyle(PlainButtonStyle())
                         Button("Look Up Tables") { selectedTab = 2 }
                             .font(.system(size: 14))
                             .frame(height: 24)
                             .padding(4)
-                            .background(selectedTab == 2 ? Color.ButtonPointerOverWhenSelected : Color.clear)
+                            .background(selectedTab == 2 ? Color.NeutralButtonPointerOverWhenSelected : Color.clear)
                             .cornerRadius(8)
                             .buttonStyle(PlainButtonStyle())
                     }
                     Spacer()
                 }
                 .frame(alignment: .leading)
-                .background(Color.PrimaryColor)
+                .background(Color.PrimaryBackgroundColor)
                 HStack(alignment: .top) {
                     VStack(alignment:.leading) {
                         TabView(selection: $selectedTab) {
@@ -915,7 +915,7 @@ struct TableContentView: View, PhotobookUIListener {
             PhotoBookApp.popListener()
         }
         .foregroundColor(Color.MainFontColor)
-        .background(Color.PrimaryColor)
+        .background(Color.PrimaryBackgroundColor)
         .onTapGesture{
             basicTransformationModel.imageProcessingType = .None
         }

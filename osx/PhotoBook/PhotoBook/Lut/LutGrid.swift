@@ -60,7 +60,7 @@ struct LutGrid: View
 #else
                 .foregroundColor(.white)
                 .padding(5)
-                .background(Color.PrimaryColorIPad)
+                .background(Color.ConfirmationButtonBackground)
                 .cornerRadius(5)
 #endif
                 .disabled(model.selectedIndex == nil)

@@ -24,7 +24,7 @@ struct CanvasView: View
             if model.pendingLUT
             {
                 Rectangle()
-                    .fill(Color.PrimaryColor)
+                    .fill(Color.PrimaryBackgroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
                         ProgressView()
@@ -88,7 +88,7 @@ struct CanvasView: View
             else
             {
                 Rectangle()
-                    .fill(Color.PrimaryColor)
+                    .fill(Color.PrimaryBackgroundColor)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .overlay(
                         Text("Canvas")
@@ -108,7 +108,7 @@ struct CanvasView: View
                     }) {
                         Text("𑗘").font(.system(size: 20))
                     }
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
@@ -126,7 +126,7 @@ struct CanvasView: View
                         Text("☼").font(.system(size: 24))
                     }
                     .padding(.horizontal, 12)
-                    .background(Color.PrimaryColorIPad)
+                    .background(Color.ConfirmationButtonBackground)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -143,7 +143,7 @@ struct CanvasView: View
                     }) {
                         Text("◑").font(.system(size: 20))
                     }
-                    .background(Color.PrimaryColor)
+                    .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
@@ -163,7 +163,7 @@ struct CanvasView: View
                         Image(systemName: "arrow.left")
                             .font(.system(size: 24))
                             .foregroundColor(.white)
-                            .background(Color.PrimaryColor)
+                            .background(Color.PrimaryBackgroundColor)
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -178,7 +178,7 @@ struct CanvasView: View
                         Image(systemName: "arrow.right")
                             .font(.system(size: 24))
                             .foregroundColor(.white)
-                            .background(Color.PrimaryColor)
+                            .background(Color.PrimaryBackgroundColor)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }.padding(4)

@@ -54,7 +54,7 @@ struct CollagesGrid: View
 #else
                 .foregroundColor(.white)
                 .padding(5)
-                .background(model.makeCollageDisabled ? Color.gray: Color.PrimaryColorIPad)
+                .background(model.makeCollageDisabled ? Color.gray: Color.ConfirmationButtonBackground)
                 .cornerRadius(5)
 #endif
                 

@@ -106,12 +106,12 @@ struct MediaList: View
                         VStack(alignment:.leading)
                         {
                             Text("\(model.list[index].displayName)")
-                                .listRowBackground(Color.PrimaryColor)
+                                .listRowBackground(Color.PrimaryBackgroundColor)
                                 .font(.headline)
                             Text("\(model.list[index].imagesCount) images")
                                 .font(.subheadline)
                         }
-                        .background(Color.PrimaryColor)
+                        .background(Color.PrimaryBackgroundColor)
                         .padding(8)
                         .frame(height: 36, alignment: .leading)
                         .padding(8)
@@ -126,7 +126,7 @@ struct MediaList: View
                         if model.selectedItem?.path == model.list[index].path
                         {
                             RoundedRectangle(cornerRadius: 0)
-                                .stroke(Color.ButtonPointerOverWhenSelected, lineWidth: 1)
+                                .stroke(Color.NeutralButtonPointerOverWhenSelected, lineWidth: 1)
                         }
                     })
                 }
@@ -141,7 +141,7 @@ struct MediaList: View
                     .scaledToFit()
                     .frame(width: 56, height: 56)
                     .foregroundColor(Color.MainFontColor)
-                    .background(Color.PrimaryColorIPad)
+                    .background(Color.ConfirmationButtonBackground)
                     .cornerRadius(8)
                     .padding()
                     .frame(alignment: .leading)
