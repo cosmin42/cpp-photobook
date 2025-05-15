@@ -535,6 +535,9 @@ struct TableContentView: View, PhotobookUIListener {
                 .border(Color.BorderColor, width: 1)
                 .background(Color.black.mix(with: Color.BorderColor, by: 0.5))
             }
+#if os(macOS)
+            .navigationBarBackButtonHidden(true)
+#endif
             .onAppear()
             {
                 toPaperModel.frameSize = geometry.size

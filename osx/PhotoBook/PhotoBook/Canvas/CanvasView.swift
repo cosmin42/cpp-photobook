@@ -96,7 +96,9 @@ struct CanvasView: View
                             .font(.headline)
                     )
             }
+#if os(macOS)
             Spacer()
+#endif
             HStack {
                 HStack{
 #if EFFECTS_ENABLED
@@ -121,18 +123,18 @@ struct CanvasView: View
                     Button(action: {
                         basicTransformationModel.imageProcessingType = .Brightness
                     }) {
-                        Text("☼").font(.system(size: 20))
+                        Text("☼").font(.system(size: 24))
                     }
-                    .background(Color.PrimaryColor)
+                    .padding(.horizontal, 12)
+                    .background(Color.PrimaryColorIPad)
                     .buttonStyle(PlainButtonStyle())
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: 8)
                             .stroke(basicTransformationModel.imageProcessingType == .Brightness ? Color.white.opacity(0.5) : Color.clear, lineWidth: 2)
                             .frame(width: 24, height:24)
                     )
                     .disabled(stagedPhotoLineModel.selectedIndices.isEmpty && unstagedPhotoLineModel.selectedIndices.isEmpty && draftPhotoLineModel.selectedIndices.isEmpty)
                     .help("Brightness")
-                    .padding()
                     
 #if EFFECTS_ENABLED
                     
@@ -182,6 +184,9 @@ struct CanvasView: View
                 }.padding(4)
 #endif
             }
+#if !os(macOS)
+            Spacer()
+#endif
         }
     }
 }
