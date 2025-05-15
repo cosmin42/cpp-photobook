@@ -169,7 +169,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .buttonStyle(PlainButtonStyle())
                     .help("Subscribe")
                     
-                    if basicTransformationModel.imageProcessingType != .None && selectedTab == 0
+                    if basicTransformationModel.imageProcessingType != .None
                     {
                         var selectedAdjustment: Binding<Double> {
                             switch basicTransformationModel.imageProcessingType {
