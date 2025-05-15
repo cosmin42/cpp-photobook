@@ -430,5 +430,41 @@
         "DialogTextColor": "#7A7A7A"
       }
     }
+  },
+  "original-improved-palette": {
+    "macos": {
+      "ui": {
+  "PrimaryBackgroundColor": "#1E2527",
+  "BorderColor": "#2E3A3D",
+  "NeutralButtonBackgroundColor": "#3C4A4D",
+  "NeutralButtonPointerOverWhenSelected": "#5B6B6F",
+  "ConfirmationButtonBackground": "#2E6B57",
+  "RemoveButtonBackground": "#8B2C2C",
+  "AppBarButtonDisabled": "#555F60",
+  "TextFieldBackgroundColor": "#111617"
+},
+"fonts": {
+  "MainFontColor": "#E4E4E4",
+  "CommandBarMainColor": "#C0C0C0",
+  "DialogTextColor": "#A0A0A0"
+}
+    },
+    "ios": {
+      "ui": {
+  "PrimaryBackgroundColor": "#1E2527",
+  "BorderColor": "#2E3A3D",
+  "NeutralButtonBackgroundColor": "#3C4A4D",
+  "NeutralButtonPointerOverWhenSelected": "#5B6B6F",
+  "ConfirmationButtonBackground": "#2E6B57",
+  "RemoveButtonBackground": "#8B2C2C",
+  "AppBarButtonDisabled": "#555F60",
+  "TextFieldBackgroundColor": "#111617"
+},
+"fonts": {
+  "MainFontColor": "#E4E4E4",
+  "CommandBarMainColor": "#C0C0C0",
+  "DialogTextColor": "#A0A0A0"
+}
+    }
   }
 }
