@@ -1,17 +1,434 @@
 {
   "original-palette": {
-    "ui": {
-      "PrimaryColor": "#1A2224",
-      "BorderColor": "#09191D",
-      "ButtonBackgroundColor": "#374346",
-      "ButtonPointerOverWhenSelected": "#516165",
-      "RemoveButtonBackground": "#541C1C",
-      "AppBarButtonDisabled": "#696969"
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#1A2224",
+        "BorderColor": "#09191D",
+        "NeutralButtonBackgroundColor": "#374346",
+        "NeutralButtonPointerOverWhenSelected": "#516165",
+        "ConfirmationButtonBackground": "#374346",
+        "RemoveButtonBackground": "#541C1C",
+        "AppBarButtonDisabled": "#696969",
+        "TextFieldBackgroundColor": "#000000"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#D3D3D3",
+        "DialogTextColor": "#808080"
+      }
     },
-    "fonts": {
-      "MainFontColor": "#FFFFFF",
-      "CommandBarMainColor": "#D3D3D3",
-      "DialogTextColor": "#808080"
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#1A2224",
+        "BorderColor": "#09191D",
+        "NeutralButtonBackgroundColor": "#374346",
+        "NeutralButtonPointerOverWhenSelected": "#516165",
+        "ConfirmationButtonBackground": "#374346",
+        "RemoveButtonBackground": "#541C1C",
+        "AppBarButtonDisabled": "#696969",
+        "TextFieldBackgroundColor": "#000000"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#D3D3D3",
+        "DialogTextColor": "#808080"
+      }
+    }
+  },
+  "light-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#1A2224",
+        "BorderColor": "#09191D",
+        "NeutralButtonBackgroundColor": "#374346",
+        "NeutralButtonPointerOverWhenSelected": "#516165",
+        "ConfirmationButtonBackground": "#374346",
+        "RemoveButtonBackground": "#541C1C",
+        "AppBarButtonDisabled": "#696969",
+        "TextFieldBackgroundColor": "#000000"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#D3D3D3",
+        "DialogTextColor": "#808080"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#FFFCE8",
+        "BorderColor": "#09191D",
+        "NeutralButtonBackgroundColor": "#715091",
+        "NeutralButtonPointerOverWhenSelected": "#4C2D73",
+        "ConfirmationButtonBackground": "#55AA55",
+        "RemoveButtonBackground": "#55AA55",
+        "AppBarButtonDisabled": "#696969",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#7A7979",
+        "DialogTextColor": "#7A7979"
+      }
+    }
+  },
+  "impressionist-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F3F0E8",
+        "BorderColor": "#C2D1C8",
+        "NeutralButtonBackgroundColor": "#D6EAF8",
+        "NeutralButtonPointerOverWhenSelected": "#A9CCE3",
+        "ConfirmationButtonBackground": "#FADBD8",
+        "RemoveButtonBackground": "#F5B7B1",
+        "AppBarButtonDisabled": "#D5DBDB",
+        "TextFieldBackgroundColor": "#FEF9E7"
+      },
+      "fonts": {
+        "MainFontColor": "#2C3E50",
+        "CommandBarMainColor": "#5D6D7E",
+        "DialogTextColor": "#85929E"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F3F0E8",
+        "BorderColor": "#C2D1C8",
+        "NeutralButtonBackgroundColor": "#D6EAF8",
+        "NeutralButtonPointerOverWhenSelected": "#A9CCE3",
+        "ConfirmationButtonBackground": "#FADBD8",
+        "RemoveButtonBackground": "#F5B7B1",
+        "AppBarButtonDisabled": "#D5DBDB",
+        "TextFieldBackgroundColor": "#FEF9E7"
+      },
+      "fonts": {
+        "MainFontColor": "#2C3E50",
+        "CommandBarMainColor": "#5D6D7E",
+        "DialogTextColor": "#85929E"
+      }
+    }
+  },
+  "flauvist-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#FF5E5B",
+        "BorderColor": "#FFD800",
+        "NeutralButtonBackgroundColor": "#00CECB",
+        "NeutralButtonPointerOverWhenSelected": "#FFED66",
+        "ConfirmationButtonBackground": "#7AEB9E",
+        "RemoveButtonBackground": "#9C27B0",
+        "AppBarButtonDisabled": "#FF9E00",
+        "TextFieldBackgroundColor": "#F72585"
+      },
+      "fonts": {
+        "MainFontColor": "#0A0A0A",
+        "CommandBarMainColor": "#5F0F40",
+        "DialogTextColor": "#7C0F38"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#FF5E5B",
+        "BorderColor": "#FFD800",
+        "NeutralButtonBackgroundColor": "#00CECB",
+        "NeutralButtonPointerOverWhenSelected": "#FFED66",
+        "ConfirmationButtonBackground": "#7AEB9E",
+        "RemoveButtonBackground": "#9C27B0",
+        "AppBarButtonDisabled": "#FF9E00",
+        "TextFieldBackgroundColor": "#F72585"
+      },
+      "fonts": {
+        "MainFontColor": "#0A0A0A",
+        "CommandBarMainColor": "#5F0F40",
+        "DialogTextColor": "#7C0F38"
+      }
+    }
+  },
+  "baroque-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#2E1A14",
+        "BorderColor": "#3D2C29",
+        "NeutralButtonBackgroundColor": "#705442",
+        "NeutralButtonPointerOverWhenSelected": "#B68D6B",
+        "ConfirmationButtonBackground": "#8C5E3C",
+        "RemoveButtonBackground": "#601C1C",
+        "AppBarButtonDisabled": "#9E8C78",
+        "TextFieldBackgroundColor": "#1C0D07"
+      },
+      "fonts": {
+        "MainFontColor": "#FDF6EC",
+        "CommandBarMainColor": "#D9C9A3",
+        "DialogTextColor": "#BFAE98"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#2E1A14",
+        "BorderColor": "#3D2C29",
+        "NeutralButtonBackgroundColor": "#705442",
+        "NeutralButtonPointerOverWhenSelected": "#B68D6B",
+        "ConfirmationButtonBackground": "#8C5E3C",
+        "RemoveButtonBackground": "#601C1C",
+        "AppBarButtonDisabled": "#9E8C78",
+        "TextFieldBackgroundColor": "#1C0D07"
+      },
+      "fonts": {
+        "MainFontColor": "#FDF6EC",
+        "CommandBarMainColor": "#D9C9A3",
+        "DialogTextColor": "#BFAE98"
+      }
+    }
+  },
+  "color-field-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#7C83FD",
+        "BorderColor": "#96BAFF",
+        "NeutralButtonBackgroundColor": "#D5AAFF",
+        "NeutralButtonPointerOverWhenSelected": "#FFABAB",
+        "ConfirmationButtonBackground": "#FFD6A5",
+        "RemoveButtonBackground": "#FF758F",
+        "AppBarButtonDisabled": "#CCCCCC",
+        "TextFieldBackgroundColor": "#FFF5BA"
+      },
+      "fonts": {
+        "MainFontColor": "#111111",
+        "CommandBarMainColor": "#333333",
+        "DialogTextColor": "#666666"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#7C83FD",
+        "BorderColor": "#96BAFF",
+        "NeutralButtonBackgroundColor": "#D5AAFF",
+        "NeutralButtonPointerOverWhenSelected": "#FFABAB",
+        "ConfirmationButtonBackground": "#FFD6A5",
+        "RemoveButtonBackground": "#FF758F",
+        "AppBarButtonDisabled": "#CCCCCC",
+        "TextFieldBackgroundColor": "#FFF5BA"
+      },
+      "fonts": {
+        "MainFontColor": "#111111",
+        "CommandBarMainColor": "#333333",
+        "DialogTextColor": "#666666"
+      }
+    }
+  },
+  "surrealist-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#3E3B6F",
+        "BorderColor": "#726DA8",
+        "NeutralButtonBackgroundColor": "#A1A5D2",
+        "NeutralButtonPointerOverWhenSelected": "#E3E4FA",
+        "ConfirmationButtonBackground": "#CFBFF7",
+        "RemoveButtonBackground": "#6E355E",
+        "AppBarButtonDisabled": "#A8A8B8",
+        "TextFieldBackgroundColor": "#2F2B4A"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#D0CFE1",
+        "DialogTextColor": "#9B9BBE"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#3E3B6F",
+        "BorderColor": "#726DA8",
+        "NeutralButtonBackgroundColor": "#A1A5D2",
+        "NeutralButtonPointerOverWhenSelected": "#E3E4FA",
+        "ConfirmationButtonBackground": "#CFBFF7",
+        "RemoveButtonBackground": "#6E355E",
+        "AppBarButtonDisabled": "#A8A8B8",
+        "TextFieldBackgroundColor": "#2F2B4A"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#D0CFE1",
+        "DialogTextColor": "#9B9BBE"
+      }
+    }
+  },
+  "neo-expressionist-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#000000",
+        "BorderColor": "#FF0000",
+        "NeutralButtonBackgroundColor": "#FFFF00",
+        "NeutralButtonPointerOverWhenSelected": "#00FF00",
+        "ConfirmationButtonBackground": "#00BFFF",
+        "RemoveButtonBackground": "#FF1493",
+        "AppBarButtonDisabled": "#808080",
+        "TextFieldBackgroundColor": "#121212"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#FFA500",
+        "DialogTextColor": "#CCCCCC"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#000000",
+        "BorderColor": "#FF0000",
+        "NeutralButtonBackgroundColor": "#FFFF00",
+        "NeutralButtonPointerOverWhenSelected": "#00FF00",
+        "ConfirmationButtonBackground": "#00BFFF",
+        "RemoveButtonBackground": "#FF1493",
+        "AppBarButtonDisabled": "#808080",
+        "TextFieldBackgroundColor": "#121212"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#FFA500",
+        "DialogTextColor": "#CCCCCC"
+      }
+    }
+  },
+  "psychedelic-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#1B0036",
+        "BorderColor": "#FF00FF",
+        "NeutralButtonBackgroundColor": "#00FFFF",
+        "NeutralButtonPointerOverWhenSelected": "#39FF14",
+        "ConfirmationButtonBackground": "#FF6EC7",
+        "RemoveButtonBackground": "#FF2400",
+        "AppBarButtonDisabled": "#8B00FF",
+        "TextFieldBackgroundColor": "#0F0F0F"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#FFFF33",
+        "DialogTextColor": "#FF69B4"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#1B0036",
+        "BorderColor": "#FF00FF",
+        "NeutralButtonBackgroundColor": "#00FFFF",
+        "NeutralButtonPointerOverWhenSelected": "#39FF14",
+        "ConfirmationButtonBackground": "#FF6EC7",
+        "RemoveButtonBackground": "#FF2400",
+        "AppBarButtonDisabled": "#8B00FF",
+        "TextFieldBackgroundColor": "#0F0F0F"
+      },
+      "fonts": {
+        "MainFontColor": "#FFFFFF",
+        "CommandBarMainColor": "#FFFF33",
+        "DialogTextColor": "#FF69B4"
+      }
+    }
+  },
+  "easy-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F4F6F8",
+        "BorderColor": "#D6D9DD",
+        "NeutralButtonBackgroundColor": "#E0E6EB",
+        "NeutralButtonPointerOverWhenSelected": "#CAD5DF",
+        "ConfirmationButtonBackground": "#B0D8C5",
+        "RemoveButtonBackground": "#E6B0AA",
+        "AppBarButtonDisabled": "#BFC5CA",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#2E3A45",
+        "CommandBarMainColor": "#4B5A68",
+        "DialogTextColor": "#6D7C88"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F4F6F8",
+        "BorderColor": "#D6D9DD",
+        "NeutralButtonBackgroundColor": "#E0E6EB",
+        "NeutralButtonPointerOverWhenSelected": "#CAD5DF",
+        "ConfirmationButtonBackground": "#B0D8C5",
+        "RemoveButtonBackground": "#E6B0AA",
+        "AppBarButtonDisabled": "#BFC5CA",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#2E3A45",
+        "CommandBarMainColor": "#4B5A68",
+        "DialogTextColor": "#6D7C88"
+      }
+    }
+  },
+  "soft-teal-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F3F6F5",
+        "BorderColor": "#A8C1BC",
+        "NeutralButtonBackgroundColor": "#C4D7D2",
+        "NeutralButtonPointerOverWhenSelected": "#A3C6BF",
+        "ConfirmationButtonBackground": "#6CA299",
+        "RemoveButtonBackground": "#C48F8F",
+        "AppBarButtonDisabled": "#D3D9D7",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#2E3E3B",
+        "CommandBarMainColor": "#4F6F6A",
+        "DialogTextColor": "#6D817D"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F3F6F5",
+        "BorderColor": "#A8C1BC",
+        "NeutralButtonBackgroundColor": "#C4D7D2",
+        "NeutralButtonPointerOverWhenSelected": "#A3C6BF",
+        "ConfirmationButtonBackground": "#6CA299",
+        "RemoveButtonBackground": "#C48F8F",
+        "AppBarButtonDisabled": "#D3D9D7",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#2E3E3B",
+        "CommandBarMainColor": "#4F6F6A",
+        "DialogTextColor": "#6D817D"
+      }
+    }
+  },
+  "soft-neutral-palette": {
+    "macos": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F5F5F5",
+        "BorderColor": "#CCCCCC",
+        "NeutralButtonBackgroundColor": "#E0E0E0",
+        "NeutralButtonPointerOverWhenSelected": "#D1D1D1",
+        "ConfirmationButtonBackground": "#8FB6A2",
+        "RemoveButtonBackground": "#D39C9C",
+        "AppBarButtonDisabled": "#B3B3B3",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#333333",
+        "CommandBarMainColor": "#666666",
+        "DialogTextColor": "#7A7A7A"
+      }
+    },
+    "ios": {
+      "ui": {
+        "PrimaryBackgroundColor": "#F5F5F5",
+        "BorderColor": "#CCCCCC",
+        "NeutralButtonBackgroundColor": "#E0E0E0",
+        "NeutralButtonPointerOverWhenSelected": "#D1D1D1",
+        "ConfirmationButtonBackground": "#8FB6A2",
+        "RemoveButtonBackground": "#D39C9C",
+        "AppBarButtonDisabled": "#B3B3B3",
+        "TextFieldBackgroundColor": "#FFFFFF"
+      },
+      "fonts": {
+        "MainFontColor": "#333333",
+        "CommandBarMainColor": "#666666",
+        "DialogTextColor": "#7A7A7A"
+      }
     }
   }
 }
