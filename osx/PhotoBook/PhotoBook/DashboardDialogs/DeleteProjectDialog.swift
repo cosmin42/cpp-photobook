@@ -19,7 +19,16 @@ struct DeleteProjectDialog: View {
             HStack {
                 Text("Type DELETE:")
                 TextField("", text: $projectDeleteText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(width: 200, height: 40)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.TextFieldBackgroundColor) // Background color
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.BorderColor, lineWidth: 1) // Border
+                    )
             }
             HStack {
                 Button("Delete")
@@ -32,17 +41,19 @@ struct DeleteProjectDialog: View {
                     // TODO: Add delete validation
                     isDeleteDialogVisible = false
                 }
-                
-                Button("Cancel")
-                {
-                    isDeleteDialogVisible = false
-                }
+                .padding(8)
+                .padding(.horizontal, 8)
                 .background(Color.RemoveButtonBackground)
-                .foregroundColor(Color.MainFontColor)
                 .cornerRadius(8)
+                .padding()
             }
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(2)
+        .background(Image("delete_project") // Name of your image in Assets
+        .resizable()
+        .scaledToFill()
+        .clipped())
     }
 }
 

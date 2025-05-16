@@ -92,6 +92,23 @@ struct DashboardView: View, PhotobookUIListener {
                             .buttonStyle(PlainButtonStyle())
                             .foregroundColor(Color.MainFontColor)
                             .cornerRadius(8)
+                            .onLongPressGesture {
+                                Button(action: {
+                                    toRenameProjectName = item.name
+                                    isRenameDialogVisible = true
+                                }) {
+                                    Text("Rename")
+                                    Image(systemName: "pencil")
+                                }
+                                Button(action: {
+                                    toDeleteProjectName = item.name
+                                    isDeleteDialogVisible = true
+                                    print("Pressed delete")
+                                }) {
+                                    Text("Delete")
+                                    Image(systemName: "trash")
+                                }
+                                        }
                             .contextMenu {
                                 Button(action: {
                                     toRenameProjectName = item.name

@@ -26,11 +26,20 @@ struct RenameProjectDialog: View {
             HStack {
                 Text("New Name:")
                 TextField("Project placeholder name", text: $projectName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(width: 200, height: 40)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.TextFieldBackgroundColor) // Background color
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.BorderColor, lineWidth: 1) // Border
+                    )
                     .onAppear()
-                {
-                    self.oldProjectName = projectName
-                }
+                    {
+                        self.oldProjectName = projectName
+                    }
             }
             
             HStack {
@@ -43,16 +52,18 @@ struct RenameProjectDialog: View {
                     }
                     isRenameDialogVisible = false
                 }
-                
-                Button("Cancel")
-                {
-                    isRenameDialogVisible = false
-                }
-                .background(Color.RemoveButtonBackground)
-                .foregroundColor(Color.MainFontColor)
+                .padding(8)
+                .padding(.horizontal, 8)
+                .background(Color.ConfirmationButtonBackground)
                 .cornerRadius(8)
+                .padding()
             }
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(2)
+        .background(Image("rename_project") // Name of your image in Assets
+        .resizable()
+        .scaledToFill()
+        .clipped())
     }
 }

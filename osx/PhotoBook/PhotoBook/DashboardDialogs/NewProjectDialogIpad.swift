@@ -178,9 +178,9 @@ struct NewProjectDialogIpad: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(2)
         .background(Image("new_project") // Name of your image in Assets
-            .resizable()
-            .scaledToFill()
-            .clipped())
+        .resizable()
+        .scaledToFill()
+        .clipped())
     }
 }
 
