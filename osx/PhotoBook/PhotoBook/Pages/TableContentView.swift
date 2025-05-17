@@ -96,6 +96,7 @@ struct TableContentView: View, PhotobookUIListener {
                         .background(Color(red: 0xD4/0xFF, green: 0x9F/0xFF, blue: 0x6A/0xFF))
                         .foregroundColor(Color.BorderColor)
 
+#if os(macOS)
                     Button(action: {
                         self.photobook.saveProject()
                     }) {
@@ -113,7 +114,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Save")
-                    
+
                     Button(action: {
                         print("Preview tapped")
                     }) {
@@ -131,7 +132,7 @@ struct TableContentView: View, PhotobookUIListener {
                     .background(Color.PrimaryBackgroundColor)
                     .buttonStyle(PlainButtonStyle())
                     .help("Preview")
-                    
+#endif
                     Button(action: {
                         exportDialogVisible = true
                     }) {
