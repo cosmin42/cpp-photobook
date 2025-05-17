@@ -131,24 +131,43 @@ void ProjectManagementService::newProject(PaperSettings paperSettings)
 
   auto newProjectId = boost::uuids::random_generator()();
 
+  mNoirMonitor->start("New Project Creating Folder Structure", boost::uuids::to_string(newProjectId));
+
   mProjectSerializerService->createProjectFolderStructure(newProjectId);
 
+  mNoirMonitor->stop("New Project Creating Folder Structure", boost::uuids::to_string(newProjectId));
+
+  mNoirMonitor->start("New project Generating New Name", boost::uuids::to_string(newProjectId));
   Project project;
   project.name = newAlbumName();
   project.paperSettings = paperSettings;
+  mNoirMonitor->stop("New project Generating New Name", boost::uuids::to_string(newProjectId));
 
   Noir::inst().getLogger()->info("New project {}, {}, {}", project.name,
                                  boost::uuids::to_string(newProjectId),
                                  std::string(paperSettings));
 
+  mNoirMonitor->start("New Project Save Metadata", boost::uuids::to_string(newProjectId));
+
   maybeLoadedProject = makeIdentifiable(newProjectId, project);
 
   saveMetadata();
+  
+  mNoirMonitor->stop("New Project Save Metadata", boost::uuids::to_string(newProjectId));
+
+  mNoirMonitor->start("New Project Save Project", boost::uuids::to_string(newProjectId));
+
   mProjectSerializerService->saveProject(maybeLoadedProject->value);
+
+  mNoirMonitor->stop("New Project Save Project", boost::uuids::to_string(newProjectId));
 
   mProjectsMetadata.insert({newProjectId, project.name});
 
+  mNoirMonitor->start("New Project Preprocess Default Waiting Image", boost::uuids::to_string(newProjectId));
+
   preprocessDefaultWaitingImage();
+
+  mNoirMonitor->stop("New Project Preprocess Default Waiting Image", boost::uuids::to_string(newProjectId));
 
   mListener->onProjectMetadataRecalled(project.name);
 }
